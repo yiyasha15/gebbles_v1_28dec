@@ -1,0 +1,201 @@
+[
+  {
+    "name": "about_us",
+    "path": "/about_us",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/about_us.vue",
+    "chunkName": "pages/about_us"
+  },
+  {
+    "name": "artists",
+    "path": "/artists",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/artists/index.vue",
+    "chunkName": "pages/artists/index"
+  },
+  {
+    "name": "blogs",
+    "path": "/blogs",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/blogs.vue",
+    "chunkName": "pages/blogs"
+  },
+  {
+    "name": "blogs.vue",
+    "path": "/blogs.vue",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/blogs.vue/index.vue",
+    "chunkName": "pages/blogs.vue/index"
+  },
+  {
+    "name": "contact",
+    "path": "/contact",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/contact.vue",
+    "chunkName": "pages/contact"
+  },
+  {
+    "name": "create",
+    "path": "/create",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/create/index.vue",
+    "chunkName": "pages/create/index"
+  },
+  {
+    "name": "e1t1",
+    "path": "/e1t1",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/e1t1/index.vue",
+    "chunkName": "pages/e1t1/index"
+  },
+  {
+    "name": "help",
+    "path": "/help",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/help.vue",
+    "chunkName": "pages/help"
+  },
+  {
+    "name": "login",
+    "path": "/login",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/login.vue",
+    "chunkName": "pages/login"
+  },
+  {
+    "name": "logout",
+    "path": "/logout",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/logout.vue",
+    "chunkName": "pages/logout"
+  },
+  {
+    "name": "notificationss",
+    "path": "/notificationss",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/notificationss.vue",
+    "chunkName": "pages/notificationss"
+  },
+  {
+    "name": "onboarding",
+    "path": "/onboarding",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/onboarding.vue",
+    "chunkName": "pages/onboarding"
+  },
+  {
+    "name": "passwordrenew",
+    "path": "/passwordrenew",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/passwordrenew.vue",
+    "chunkName": "pages/passwordrenew"
+  },
+  {
+    "name": "register",
+    "path": "/register",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/register.vue",
+    "chunkName": "pages/register"
+  },
+  {
+    "name": "setpassword",
+    "path": "/setpassword",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/setpassword.vue",
+    "chunkName": "pages/setpassword"
+  },
+  {
+    "name": "settings",
+    "path": "/settings",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/settings.vue",
+    "chunkName": "pages/settings"
+  },
+  {
+    "name": "test",
+    "path": "/test",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/test.vue",
+    "chunkName": "pages/test"
+  },
+  {
+    "name": "write_blog",
+    "path": "/write_blog",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/write_blog.vue",
+    "chunkName": "pages/write_blog"
+  },
+  {
+    "name": "create-e1t1index",
+    "path": "/create/e1t1index",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/create/e1t1index.vue",
+    "chunkName": "pages/create/e1t1index"
+  },
+  {
+    "name": "create-each1teach1",
+    "path": "/create/each1teach1",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/create/each1teach1.vue",
+    "chunkName": "pages/create/each1teach1"
+  },
+  {
+    "name": "create-journey",
+    "path": "/create/journey",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/create/journey.vue",
+    "chunkName": "pages/create/journey"
+  },
+  {
+    "name": "create-journeyindex",
+    "path": "/create/journeyindex",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/create/journeyindex.vue",
+    "chunkName": "pages/create/journeyindex"
+  },
+  {
+    "name": "create-learning",
+    "path": "/create/learning",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/create/learning.vue",
+    "chunkName": "pages/create/learning"
+  },
+  {
+    "name": "create-website",
+    "path": "/create/website",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/create/website.vue",
+    "chunkName": "pages/create/website"
+  },
+  {
+    "name": "blogs.vue-id",
+    "path": "/blogs.vue/:id",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/blogs.vue/_id.vue",
+    "chunkName": "pages/blogs.vue/_id"
+  },
+  {
+    "name": "e1t1-id",
+    "path": "/e1t1/:id",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/e1t1/_id.vue",
+    "chunkName": "pages/e1t1/_id"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/index.vue",
+    "chunkName": "pages/index"
+  },
+  {
+    "path": "/:username",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/_username.vue",
+    "chunkName": "pages/_username",
+    "children": [
+      {
+        "name": "username",
+        "path": "",
+        "component": "/Users/yiyasha/Desktop/inmygroove/pages/_username/index.vue",
+        "chunkName": "pages/_username/index"
+      },
+      {
+        "name": "username-each1teach1",
+        "path": "each1teach1",
+        "component": "/Users/yiyasha/Desktop/inmygroove/pages/_username/each1teach1/index.vue",
+        "chunkName": "pages/_username/each1teach1/index"
+      },
+      {
+        "name": "username-journey",
+        "path": "journey",
+        "component": "/Users/yiyasha/Desktop/inmygroove/pages/_username/journey.vue",
+        "chunkName": "pages/_username/journey"
+      },
+      {
+        "name": "username-myhood",
+        "path": "myhood",
+        "component": "/Users/yiyasha/Desktop/inmygroove/pages/_username/myhood.vue",
+        "chunkName": "pages/_username/myhood"
+      },
+      {
+        "name": "username-notifications",
+        "path": "notifications",
+        "component": "/Users/yiyasha/Desktop/inmygroove/pages/_username/notifications.vue",
+        "chunkName": "pages/_username/notifications"
+      }
+    ]
+  }
+]
