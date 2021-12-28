@@ -1,29 +1,31 @@
 <template>
     <v-app>
-    <v-row>
-      <v-col cols="12" md="8"  class="justify-center">
-        <h2 class ="pl-6 font-weight-bold xs12 d-inline">Our Community</h2>
-        <v-btn v-if="isAuthenticated" small icon outlined color="indigo" class="mb-2 ml-2" to="/create/website/">
-        <v-icon small>mdi-plus</v-icon>
-        </v-btn>
-      </v-col>
-      <v-col cols="12" md="4" class= "pr-6 justify-end px-6" >
-          <v-text-field
-            label="Search artists"
-            rounded
-            solo
-            prepend-inner-icon="mdi-magnify"
-            v-model="search"
-          ></v-text-field>
-      </v-col>
-    </v-row>
-      <v-layout row justify-center>
-        <div v-for="artist in filteredArtists" :key ="artist.index">
-          <v-flex sm6 xs6> 
-            <ArtistCard :artist="artist" ></ArtistCard> 
-          </v-flex>
-          </div>
-    </v-layout>
+      <v-container>
+      <v-row>
+        <v-col cols="12" md="8"  class="justify-center">
+          <h2 class ="pl-6 font-weight-bold xs12 d-inline">Our Community</h2>
+          <v-btn v-if="isAuthenticated" small icon outlined color="indigo" class="mb-2 ml-2" to="/create/website/">
+          <v-icon small>mdi-plus</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col cols="12" md="4" class= "pr-6 justify-end px-6" >
+            <v-text-field
+              label="Search artists"
+              rounded
+              solo
+              prepend-inner-icon="mdi-magnify"
+              v-model="search"
+            ></v-text-field>
+        </v-col>
+      </v-row>
+        <v-layout wrap row justify-center>
+          <div v-for="artist in filteredArtists" :key ="artist.index">
+            <v-flex sm6 xs6> 
+              <ArtistCard :artist="artist" ></ArtistCard> 
+            </v-flex>
+            </div>
+      </v-layout>
+      </v-container>
     </v-app>
 </template>
 

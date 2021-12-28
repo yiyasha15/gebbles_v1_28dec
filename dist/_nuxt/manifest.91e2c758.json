@@ -1,0 +1,10 @@
+{
+  "name": "gebbles",
+  "short_name": "gebbles",
+  "description": "a thread connecting music, movement and artists.",
+  "icons": [],
+  "start_url": "/?standalone=true",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "lang": "en"
+}
