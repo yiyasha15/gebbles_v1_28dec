@@ -50,7 +50,7 @@
       align="center" justify="center" align-content="center" class="ma-md-12 my-8 hidden-sm-and-down " grey >
         <h1 class="text-center">
           "connecting the groove worldwide<br>
-          celebrating<span style="color:red;"> Each one Teach one.</span>"
+          celebrating<span style="color:red;"> Each one Teach one bro.</span>"
         </h1>
         <!-- <v-btn :to= "`/test/`">test</v-btn> -->
       </v-row>
