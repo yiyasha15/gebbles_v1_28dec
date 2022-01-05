@@ -1,5 +1,6 @@
 <template>
     <v-app class="ma-2">
+        <v-container>
         <div v-if="upcoming.length >0">
         <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Upcoming events</h3>
         <div class="d-flex flex-wrap pa-0 my-4" >
@@ -39,6 +40,7 @@
                 <img class="mt-12" src="@/assets/no_posts.png" height="auto" width="30%">
             </center>
         </div>
+        </v-container>
     </v-app>
 </template>
 <script>

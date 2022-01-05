@@ -28,7 +28,7 @@
 export default {
   methods: {
     openig(){
-      var url = 'https://www.instagram.com/inmygroove.dance/';
+      var url = 'https://www.instagram.com/gebbles.io/';
       var win = window.open(url, '_blank');
       win.focus();
     },

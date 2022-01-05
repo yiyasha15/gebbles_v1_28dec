@@ -6,7 +6,7 @@
       <v-row class="mt-2">
         <v-col cols="12" sm="6">
           <v-row>
-            <div class="mb-2">&copy; InMyGroove {{ new Date().getFullYear() }}</div><br>
+            <div class="mb-2">&copy; gebbles {{ new Date().getFullYear() }}</div><br>
           </v-row>
           <v-row>
             <p class="caption">developed by the dancers for the dancers.</p>
@@ -30,7 +30,7 @@
 export default {
   methods: {
     openig(){
-            var url = 'https://www.instagram.com/inmygroove.dance/';
+            var url = 'https://www.instagram.com/gebbles.io/';
             var win = window.open(url, '_blank');
             win.focus();
         },

@@ -67,13 +67,13 @@ import { mapGetters} from 'vuex'
 export default {
   head() {  //head function (a property of vue-meta), returns an object
     return {
-      title: 'Each One Teach One -InMyGroove',
+      title: 'Each One Teach One -gebbles',
       meta: [ 
         {
           hid: 'description',
           name: 'description',
           content: 
-              'List of teachers tagged - InMyGroove Community'
+              'List of teachers tagged - gebbles community'
         }
       ]
     }

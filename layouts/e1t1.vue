@@ -16,13 +16,13 @@ export default {
   },
   head() {  //head function (a property of vue-meta), returns an object
     return {
-      titleTemplate: 'E1T1 - InMyGroove',
+      titleTemplate: 'E1T1 - gebbles',
       meta: [
         {
           hid: 'description', //create page overrides the description, hid helps to stop redundancy
           name: 'description',
           content: 
-            'InMyGroove - The thread connecting music, movement and artists, connecting HipHop Elements'
+            'gebbles - The thread connecting music, movement and artists, connecting HipHop Elements'
         }
       ]
     }

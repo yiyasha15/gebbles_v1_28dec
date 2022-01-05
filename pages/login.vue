@@ -25,7 +25,7 @@
 		</v-card-actions>
 		<v-divider></v-divider>
 		<p class="text-center ma-0 py-4"><v-btn to='/passwordrenew' class=" text-decoration-none" small text color="primary" >I forgot my password</v-btn></p>
-		<!-- <p class="text-center pa-4">Inmygroove is currently a community of {{img_artists}} dancers.</p> -->
+		<!-- <p class="text-center pa-4">gebbles is currently a community of {{img_artists}} dancers.</p> -->
 	</v-card>
 </template>
 

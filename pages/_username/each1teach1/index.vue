@@ -1,6 +1,6 @@
 <template>
     <v-app class="ma-2">
-        <!-- <v-container> -->
+        <v-container>
         <nuxt-child :sharing="sharing"/>
         <div v-if="sharing.length">
         <h3 class="font-weight-light mt-4 ml-2 d-inline">My Teachers</h3>
@@ -32,7 +32,7 @@
                 <img class="mt-12" src="@/assets/no_posts.png" height="auto" width="30%">
             </center>
         </div>
-        <!-- </v-container> -->
+        </v-container>
     </v-app>
 </template>
 

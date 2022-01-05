@@ -147,7 +147,7 @@
                         <template v-slot:activator="{ on, attrs }">
                             <v-text-field
                             v-model= "journey.jodate"
-                            label="Date"
+                            label="Date(if the date is in the future it will become an upcoming event.)"
                             prepend-icon="mdi-calendar"        
                             readonly
                             v-bind="attrs"

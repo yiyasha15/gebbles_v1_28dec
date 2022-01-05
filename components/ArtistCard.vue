@@ -50,7 +50,7 @@ import CountryFlag from 'vue-country-flag'
     export default {
       head() {  //head function (a property of vue-meta), returns an object
       return {
-          title: 'InMyGroove Community',
+          title: 'Gebbles Community',
           }
       },
       name: 'ArtistCard',

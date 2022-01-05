@@ -22,7 +22,7 @@
                     <span>Share about yourself. Who you are. What you like.<br> 
                         The dance styles/crew that you represent along with your social handles.<br>
                         You can preview it while uploading the information. <br>
-                        Time to upload contents, let's go.</span>
+                        Time to upload, let's go.</span>
                     </v-tooltip>
                     </v-row>
                 </v-col>
@@ -56,7 +56,7 @@
                                 hide-selected
                                 clearable
                                 deletable-chips
-                                label="Dance Style" 
+                                label="Style you represent" 
                                 @input="makeString"
                                 multiple>
                             </v-autocomplete>
@@ -109,7 +109,7 @@
                                 v-show="yt || bio.vid1"
                                 color="red"
                                 v-model= "bio.vid1"
-                                label="Youtube link"
+                                label="Add upto four YouTube links"
                                 prepend-icon="mdi-plus"
                                 append-icon="mdi-close"
                                 @input="showYoutubeVideo(1)"
