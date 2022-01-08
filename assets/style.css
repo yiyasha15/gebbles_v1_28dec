@@ -1,7 +1,5 @@
-h1, h2, h3, h4, h5, h6, p {
-    /* font-family: 'Poiret One', cursive; */
+/* h1, h2, h3, h4, h5, h6, p {
     font-family: 'Poiret One',  cursive, sans-serif;
-    /* font-family: 'Sacramento', cursive; */
 }
 @font-face{
   font-family: 'Poiret One',  cursive sans-serif !important;
@@ -9,10 +7,18 @@ h1, h2, h3, h4, h5, h6, p {
 }
 .v-application {
   font-family: 'Poiret One',  cursive sans-serif !important;
-}
-/* h3, h4, h5, h6{
-  font-family: 'Poppins', sans-serif;
 } */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+h1, h2, h3, h4, h5, h6, p {
+  font-family: 'Poppins', sans-serif;
+}
+@font-face{
+font-family: 'Poppins',  cursive sans-serif !important;
+src: url('Poppins/Poppins-Regular.ttf') format('truetype')
+}
+.v-application {
+font-family: 'Poppins',  cursive sans-serif !important;
+}
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.4s;

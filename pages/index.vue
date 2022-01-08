@@ -57,7 +57,7 @@
       <v-row class="justify-center align-center mt-12">
         <v-col cols="12" md="6">
           <div align="center" justify="center">
-          <img src = "~/assets/e1t11.jpeg"  width="70%" alt="portfolio logo">
+          <img src = "~/assets/e1t11.jpeg"  width="60%" alt="portfolio logo">
           </div>
           <h2 class="text-center hidden-md-and-up my-6 mx-4">
           "connecting the groove worldwide <br>
@@ -66,8 +66,8 @@
         </v-col>
         <v-col cols="12" md="6">
           <div class="caption mx-8" align-content="left" align="left" justify="center">
-              <h1 style="font-size:32px" >Gebbles</h1><br>
-              <h1 class="mr-16 font-weight-light" style="line-height: 1.6;">Gebbles is a platform for the artists of the hiphop culture. At gebbles, you can make a dance portfolio, document your HipHop journey & stay connected
+              <h1 style="font-size:28px" >Gebbles</h1><br>
+              <h1 class="mr-16 font-weight-light" style="line-height: 1.6; font-size:20px">Gebbles is a platform for the artists of the hiphop culture. At gebbles, you can make a dance portfolio, document your HipHop journey & stay connected
               to some of the people who matter the most.
               </h1>
               <v-btn outlined dark color="#BD3D30" 
