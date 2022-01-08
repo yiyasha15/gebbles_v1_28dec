@@ -67,7 +67,7 @@
         <v-col cols="12" md="6">
           <div class="caption mx-8" align-content="left" align="left" justify="center">
               <!-- <h1 style="font-size:28px" >Gebbles</h1><br> -->
-              <h1 class="mr-16 font-weight-light" style="line-height: 1.6; font-size:20px">At gebbles, people share the stories about how you touched their lives through your art. You get to tell your story to the world, connect and grow with your community.
+              <h1 class="mr-16 font-weight-light" style="line-height: 1.6; font-size:20px">At gebbles, people share the stories about how you touched their lives through your art. <br> <h1  style="line-height: 1.6; font-size:20px">Share your story to the world.</h1>
               </h1>
               <v-btn outlined dark color="#BD3D30" 
               class="text-decoration-none elevation-none mt-4 px-4 justify-end" 

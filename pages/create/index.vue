@@ -28,7 +28,7 @@
               </div>
             </div>
             <div v-else class="ma-2 px-2">
-              <h2 class=" mb-4 font-weight-light">Hi {{loggedInUser.user.username}}, You can edit the form to update your portfolio.
+              <h2 class=" mb-4 font-weight-light">Hi {{loggedInUser.user.username}}, <br>You can edit the form to update your portfolio.
               </h2>
               <nuxt-link :to="'/create/website/'" class="text-decoration-none"><h2 class="icon">Edit Portfolio <v-icon dense class="icon">mdi-chevron-right</v-icon></h2></nuxt-link>
               

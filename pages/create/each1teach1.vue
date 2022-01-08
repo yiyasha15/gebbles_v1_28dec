@@ -5,13 +5,13 @@
                 <v-container>
                     <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
                     <h2 align="center" justify="center">Each One Teach One</h2>
-                    <h3 class="text-xs-center ma-6" align = "center">
+                    <!-- <h3 class="text-xs-center ma-6" align = "center">
                         Here we can acknowledge all those HipHop artists who passed their knowledge,
                         skill and experience to make us better at our own craft. You can tag and appreciate 
                         your teachers and peers and let them know how much their words and teachings meant to 
                         you in your own journey. Similarly you will have a complete database of all your 
                         students and peers who learned something from you when they tag you.
-                    </h3>
+                    </h3> -->
                 </v-container>
                 <!-- {{sharing}} <br><br>
                 {{share_obj}} -->
