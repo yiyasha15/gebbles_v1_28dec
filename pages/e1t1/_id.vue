@@ -153,7 +153,7 @@
             </v-row>
     </v-container>
     <v-container v-if="videoId" class="rounded-lg grey lighten-5 pa-4">
-            <h3 class="font-weight-light">
+            <h3 class="font-weight-light pl-6">
                 The video which inspired me
             </h3>
             <center class="my-6 hidden-xs-only">
@@ -166,7 +166,7 @@
     <v-container class="rounded-lg grey lighten-5 pa-4 mt-4">
         <v-row v-if="loggedInUser && loggedInUser.user.username == e1t1.username">
             <v-col cols="12" md="8"  class="justify-center">
-                <h2 class ="pl-6 font-weight-light xs12 d-inline">Dedicated to {{e1t1.teacher}}</h2>
+                <h2 class ="pl-6 font-weight-light xs12 d-inline">Dedicated to {{e1t1.s_teacher_name}}</h2>
                 <v-btn small icon outlined color="indigo" class="mb-2 ml-2" @click="addLearning = true">
                 <v-icon small>mdi-plus</v-icon>
                 </v-btn>

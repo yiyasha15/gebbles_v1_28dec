@@ -111,7 +111,7 @@
         <h4>{{learn_obj.lesson}}</h4>
         </div>
           <div class="my-4">
-            <v-btn icon @click="react_like()" class="mx-1">
+            <v-btn icon @click="react_like()" class="mr-1">
               <v-icon color="black" v-if="!learn_has_like">mdi-heart-outline</v-icon>
               <v-icon color="red" v-else>mdi-heart</v-icon>
               <div v-if="like.length">{{like.length}}</div>
