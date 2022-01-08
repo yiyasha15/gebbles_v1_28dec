@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <h3 class="font-weight-light mt-8 pl-4 ">My Students</h3>
+        <h3 class="font-weight-light mt-8 ml-2">My Students</h3>
         <div class="d-flex flex-wrap my-4 ">
             <div v-for = "share in sharing" :key = "share.index">
                 <StudentsCard v-if="share.teacher === artist.username" :share="share" ></StudentsCard>

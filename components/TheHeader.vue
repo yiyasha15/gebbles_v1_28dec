@@ -4,7 +4,7 @@
             <nuxt-link :to="'/'" class="text-decoration-none">
             <v-layout align-center>
                 <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 52"
+                :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
                 class="ml-2 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
                 <v-toolbar-title><h2 style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2></v-toolbar-title>
@@ -33,7 +33,7 @@
                     class="text-decoration-none pl-5"
                     >
                     <img
-                    height="42"
+                    height="38"
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     >
