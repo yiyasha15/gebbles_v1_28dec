@@ -7,6 +7,9 @@
           At gebbles, you can document your HipHop journey & stay connected
           to some of the people who matter the most, your teachers and students in this culture,
           the people who show you the way and the people whom you show it.
+
+          <!-- Gebbles is a platform for the artists of the hiphop culture. At gebbles, you can make a dance portfolio, document your HipHop journey & stay connected
+              to some of the people who matter the most. -->
           </h3>
           <h3 class="mt-6">happy sharing,<br>
           -gebbles team.</h3>

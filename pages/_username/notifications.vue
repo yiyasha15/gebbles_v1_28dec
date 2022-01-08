@@ -117,31 +117,22 @@ export default {
                 //for all notifications with filternotification whose e1t1 matches
                 try {
                     const config = {
-                        headers: {
-                            // "Authorization": "Bearer" + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM4NDIwMDUxLCJpYXQiOjE2Mzc1NTYwNTEsImp0aSI6IjcwMjYxZTQ4NDdlNDRkOTFhZjgxM2EzMjJjYjllZDU1IiwidXNlcl9pZCI6NH0.5SgKfkuwavrILqD7sAgkaTqVospgRfcoIFVugbcLExg'
-                            "Authorization": "Bearer" + this.$store.state.auth.user.access_token
+                        headers: { "Authorization": "Bearer" + this.$store.state.auth.user.access_token
                         }
                     };
+                    console.log("token: ",this.$store.state.auth.user.access_token);
                     let form= new FormData();
-                        form.append('is_seen', 'true');
-                        form.append('sender', obj.sender);
-                        form.append('receiver', obj.receiver);
-                        form.append('notification_type', obj.notification_type);
-                        form.append('notification_context', obj.notification_context);
-                        console.log(obj);
-                        let res = await this.$axios.$put("/v1/notifications/e1t1/"+obj.id, form, config);
-                        console.log(res);
-                    // for(var i=0; i<temp.length; i++) {
-                    //     let form= new FormData();
-                    //     form.append('is_seen', 'true');
-                    //     form.append('sender', temp[i].sender);
-                    //     form.append('receiver', temp[i].receiver);
-                    //     form.append('notification_type', temp[i].notification_type);
-                    //     form.append('notification_context', temp[i].notification_context);
-                    //     console.log(temp[i]);
-                    //     let res = await this.$axios.$put("/v1/notifications/e1t1/"+temp[i].id, form, config);
-                    //     console.log(res);
-                    // }
+                    form.append('is_seen', 'true');
+                    form.append('sender', obj.sender);
+                    form.append('receiver', obj.receiver);
+                    form.append('notification_type', obj.notification_type);
+                    form.append('notification_context', obj.notification_context);
+                    console.log(obj);
+                    for (var value of form.values()) {
+                        console.log(value);
+                    }
+                    let res = await this.$axios.$put("/v1/notifications/e1t1/"+obj.id, form, config);
+                    console.log(res);
                     
                 } catch (error) {
                     console.log("error..",error.response.data);
