@@ -8,7 +8,7 @@
                 <v-col cols="12" md="6" align="center" justify="center">
                     <v-img :src = "e1t1.s_photo" width="80%" class="centerImage" maxHeight="520px"></v-img>
                 </v-col>
-                <v-col cols="12" md="6" class="pl-6">
+                <v-col cols="12" md="6" >
                     <v-row>
                         <v-col class="ma-0">
                         <h5 class="caption">Posted on {{e1t1.s_date}}</h5>
@@ -52,7 +52,7 @@
                     </v-row>
                     <v-row>
                         <v-col class="ma-0">
-                        <v-row class="rounded-lg lighten-2 d-inline-flex mb-2">
+                        <v-row class="rounded-lg lighten-2 d-inline-flex">
                             <v-col class="ma-0">
                                 <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
                                 <h2 class="font-weight-light">{{e1t1.teacher}}</h2> 
@@ -67,7 +67,7 @@
                         </v-row>
                         </v-col>
                         <v-col class="ma-0">
-                            <v-row class="rounded-lg lighten-2 d-inline-flex mb-2">
+                            <v-row class="rounded-lg lighten-2 d-inline-flex">
                             <v-col class="ma-0">
                                 <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
                                 <h2 class="font-weight-light">{{e1t1.username}}</h2> 
@@ -80,22 +80,23 @@
                         </v-col>
                     </v-row>
                     <v-row>
-                        <v-col>
-                        <h4 class="font-weight-light">{{e1t1.s_appreciation}}</h4>
-                        <!-- <h4 class="font-weight-light">{{e1t1.s_appreciation}}</h4> -->
-                        <div class="my-2">
-                        <v-btn icon @click="react_love" class="mx-1">
-                        <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
-                        <v-icon color="red" v-else>mdi-heart</v-icon>
-                        <div v-if="love.length">{{love.length}}</div>
-                        </v-btn>
-                        <v-btn icon class="mx-1" @click="$vuetify.goTo('#scroll_comments')">
-                        <v-icon color="black">mdi-comment-outline</v-icon><span v-if="share_comments_list.length" >{{share_comments_list.length}}</span>
-                        </v-btn>
-                        </div>
+                        <v-col class="ma-0">
+                        <v-row class="d-inline-flex mb-2">
+                            <v-col class="ma-0">
+                                <v-btn icon @click="react_love">
+                                <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
+                                <v-icon color="red" v-else>mdi-heart</v-icon>
+                                <div v-if="love.length">{{love.length}}</div>
+                                </v-btn>
+                                <v-btn icon class="mx-1" @click="$vuetify.goTo('#scroll_comments')">
+                                <v-icon color="black">mdi-comment-outline</v-icon><span v-if="share_comments_list.length" >{{share_comments_list.length}}</span>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                        <h4 class="font-weight-light my-2">{{e1t1.s_appreciation}}</h4>
                         </v-col>
                     </v-row>
-                    <v-dialog v-model="personalDialog" width="800px" v-if="isAuthenticated && userHasPortfolio && isYourRoom">
+                    <!-- <v-dialog v-model="personalDialog" width="800px" v-if="isAuthenticated && userHasPortfolio && isYourRoom">
                         <template v-slot:activator="{ on, attrs }">
                             <v-badge color="error" overlap :content='0' >
                             <v-btn class="my-2" small outlined 
@@ -147,7 +148,7 @@
                                     <personal-messages-card :messages="personalMessages"></personal-messages-card>
                                 </v-row>
                         </v-container>
-                    </v-dialog>
+                    </v-dialog> -->
                 </v-col>
             </v-row>
     </v-container>
@@ -188,7 +189,6 @@
             </h3>
         </v-row>
         <v-row
-        no-gutters
         style="flex-wrap: nowrap;"
         >
         <v-col
@@ -210,7 +210,7 @@
             cols="5"
             style="min-width: 100px; max-width: 100%;"
             class="flex-grow-1 flex-shrink-0">
-            <v-textarea v-if="isAuthenticated && userHasPortfolio" class="mx-4"
+            <v-textarea v-if="isAuthenticated && userHasPortfolio"
                 v-model= "comments.comment"
                 outlined
                 auto-grow
@@ -219,7 +219,7 @@
                 max-width= "200"
                 label="Share your thoughts">
             </v-textarea>
-            <v-textarea v-else class="mx-4"
+            <v-textarea v-else
                 @click="logindialog=true"
                 outlined
                 rows="1"
@@ -338,7 +338,7 @@ import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 import CommentsCard from '~/components/CommentsCard.vue'
 import LearningCard from '~/components/LearningCard.vue'
-import PersonalMessagesCard from '~/components/PersonalMessagesCard.vue'
+// import PersonalMessagesCard from '~/components/PersonalMessagesCard.vue'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 export default {
@@ -363,7 +363,7 @@ export default {
         CountryFlag,
         CommentsCard,
         LearningCard,
-        PersonalMessagesCard,
+        // PersonalMessagesCard,
         Youtube
     },
     data(){
@@ -377,7 +377,7 @@ export default {
             dialog: false,
             sizeExceed:false,
             logindialog: false,
-            personalDialog: false,
+            // personalDialog: false,
             valid_snackbar1: false,
             valid_snackbar2: false,
             login_snackbar: false,
@@ -391,11 +391,11 @@ export default {
                 username: "",
                 shareidobj: ""
             },
-            personal:{
-                shareid: null,
-                username: null,
-                messagetext: ""
-            },
+            // personal:{
+            //     shareid: null,
+            //     username: null,
+            //     messagetext: ""
+            // },
             learningForm: {
                 username: "",
                 lesson: "",
@@ -425,20 +425,20 @@ export default {
         month = month.replaceAll(regex, "");
         let monthtype = months[month-1]
         this.e1t1.s_date = datetype+" "+monthtype +" "+yeartpye;
-        if(this.isAuthenticated)
-        {
-        if(this.loggedInUser.user.username == this.e1t1.teacher || this.loggedInUser.user.username ==this.e1t1.username){
-            this.isYourRoom = true
-            this.$store.dispatch("check_personal_room", this.e1t1.id);
-            this.items = this.personalMessages;
-            // this.dynamic_height = this.$refs.infoBox.clientHeight;
-        }
-        }
+        // if(this.isAuthenticated)
+        // {
+        // if(this.loggedInUser.user.username == this.e1t1.teacher || this.loggedInUser.user.username ==this.e1t1.username){
+        //     this.isYourRoom = true
+        //     this.$store.dispatch("check_personal_room", this.e1t1.id);
+        //     this.items = this.personalMessages;
+        // }
+        // }
 	},
 	computed: {
         ...mapGetters(['artists', 'userHasPortfolio', 'isAuthenticated',
         'loggedInUser', 'usersPortfolio', 'share_comments_list', 'love',
-        'personalMessages','personalMessagesNotifications', 'learnings', 'share_has_love', 'share_has_love_id']),
+        // 'personalMessages','personalMessagesNotifications', 
+        'learnings', 'share_has_love', 'share_has_love_id']),
 	},
     async asyncData({error, params}) {
       try {
@@ -598,31 +598,30 @@ export default {
                 this.login_snackbar = true
             }
         },
-        async post_personal_text(){
-            this.personal.username = this.$store.state.auth.user.user.username
-            this.personal.shareid = this.e1t1.id
+        // async post_personal_text(){
+        //     this.personal.username = this.$store.state.auth.user.user.username
+        //     this.personal.shareid = this.e1t1.id
 
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
-            let formData = new FormData();
-            for (let data in this.personal) {
-                formData.append(data, this.personal[data]);
-            }
-            try {
-                await this.$axios.$post("/v1/e1t1/qna/", formData, config)
-                this.personal.messagetext = ''
-                this.personal.shareid = null
-                this.personal.username = null
-                this.thankyou_snackbar = true
-                this.$store.dispatch("check_personal_room", this.e1t1.id);
-            } catch (e) {
-                console.log(e);
-            }
-
-        },
+        //     const config = {
+        //         headers: {"content-type": "multipart/form-data",
+        //             "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //         }
+        //     };
+        //     let formData = new FormData();
+        //     for (let data in this.personal) {
+        //         formData.append(data, this.personal[data]);
+        //     }
+        //     try {
+        //         await this.$axios.$post("/v1/e1t1/qna/", formData, config)
+        //         this.personal.messagetext = ''
+        //         this.personal.shareid = null
+        //         this.personal.username = null
+        //         this.thankyou_snackbar = true
+        //         this.$store.dispatch("check_personal_room", this.e1t1.id);
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        // },
         async submitLearning(){
             if(this.putVideo!=''){
                 if(this.learningForm.lesson){

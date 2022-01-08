@@ -12,4 +12,7 @@ export default function({store, redirect }) {
   if (!isAuthenticated) {
     redirect("/login")
   }
+  else{
+    console.log("stay on the same page");
+  }
 }

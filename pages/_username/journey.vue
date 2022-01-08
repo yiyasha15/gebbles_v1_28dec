@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div >
-                <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Journey</h3>
+                <h3 class="font-weight-light mb-4 ml-2 mt-4 d-inline">Journey</h3>
                 <div class="d-flex flex-wrap" >
                     <div v-for = "journey in journey" :key = "journey.index" >
                         <journey-card :journey = "journey" v-if="!journey.ishighlight"></journey-card>

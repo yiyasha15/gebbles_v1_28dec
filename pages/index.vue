@@ -49,7 +49,7 @@
       <v-row
       align="center" justify="center" align-content="center" class="ma-md-12 my-8 hidden-sm-and-down " grey >
         <h1 class="text-center">
-          "connecting the groove<br>
+          "connecting the groove worldwide<br>
           celebrating<span style="color:red;"> Each one Teach one.</span>"
         </h1>
         <!-- <v-btn :to= "`/test/`">test</v-btn> -->
@@ -60,15 +60,15 @@
           <img src = "~/assets/e1t11.jpeg"  width="70%" alt="portfolio logo">
           </div>
           <h2 class="text-center hidden-md-and-up my-6 mx-4">
-          "connecting teachers and students worldwide <br>
+          "connecting the groove worldwide <br>
           celebrating<span style="color:red;" > Each one Teach one.</span>"
         </h2>
         </v-col>
         <v-col cols="12" md="6">
           <div class="caption mx-8" align-content="left" align="left" justify="center">
               <h1 style="font-size:32px" >Gebbles</h1><br>
-              <h1 class="mr-16 font-weight-light" style="line-height: 1.6;">Gebbles, is a platform for the street dancers of the hiphop culture. At gebbles, you can make a dance portfolio, document your HipHop journey & stay connected
-              to some of the people who matter the most, your teachers and students in this culture.
+              <h1 class="mr-16 font-weight-light" style="line-height: 1.6;">Gebbles is a platform for the artists of the hiphop culture. At gebbles, you can make a dance portfolio, document your HipHop journey & stay connected
+              to some of the people who matter the most.
               </h1>
               <v-btn outlined dark color="#BD3D30" 
               class="text-decoration-none elevation-none mt-4 px-4 justify-end" 
@@ -97,7 +97,7 @@
           <v-card
           outlined
           :to="'/create'" 
-          :elevation="hover ? 6 : 0"
+          :elevation="hover ? 6 : 2"
           class="mx-auto"
           max-width="244"
           max-height="200"
@@ -119,7 +119,7 @@
           <v-card
           outlined
           :to="'/create/journeyindex'" 
-          :elevation="hover ? 6 : 0"
+          :elevation="hover ? 6 : 2"
           class="mx-auto"
           max-width="244"
           max-height="200"
@@ -140,7 +140,7 @@
           <v-hover v-slot:default="{ hover }">
           <v-card
           :to="'/create/e1t1index'" 
-          :elevation="hover ? 6 : 0"
+          :elevation="hover ? 6 : 2"
           class="mx-auto"
           max-width="244"
           max-height="200"

@@ -8,12 +8,14 @@
           to some of the people who matter the most, your teachers and students in this culture,
           the people who show you the way and the people whom you show it.
           </h3>
-          <div>
+          <h3 class="mt-6">happy sharing,<br>
+          -gebbles team.</h3>
+          <!-- <div>
           <h1 class="mt-6 font-weight-black">team</h1>
           <h3><span style="cursor:pointer;" @click="openig('r')">river</span> and <span style="cursor:pointer;"  @click="openig('y')">yiyasha </span> </h3>
           <h3 class="mt-6">happy sharing,<br>
           -inmygroove team.</h3>
-          </div>
+          </div> -->
         </v-row>
       <!-- Connecting students and teachers, worldwide. -->
           <!-- At inmygroove, you can document your HipHop journey & stay connected

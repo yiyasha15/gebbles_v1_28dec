@@ -1,5 +1,5 @@
 <template>
-  <v-container class="ma-2 px-8">
+  <v-container class="px-4">
     <section>
       <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start">
         <div v-for="artist in artists" :key ="artist.index">
@@ -36,7 +36,7 @@
                     </v-list-item>
                     <v-list-item
                     v-else
-                    class="text-decoration-none pl -6 pr-12"
+                    class="text-decoration-none pl-6 pr-12"
                     @click="reported(comment)"
                     >
                     <v-list-item-title>Report</v-list-item-title>

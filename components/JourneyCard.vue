@@ -217,8 +217,6 @@ export default {
           this.snackbar = true;
           //send event to parent component i.e journey page
           // this.$emit('delete',this.journey.username)
-          this.$router.push("/create/journey");
-          // this.$router.push("/"+this.journey.username+"/journey");
       } 
       catch (e) {
           console.log(e);

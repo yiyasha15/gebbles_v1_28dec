@@ -147,58 +147,58 @@
         <v-container>
         <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6">
             <template>
-                <v-row class="hidden-xs-only">
+                <v-row>
                     <v-col
                     v-if="videoId"
                     class="d-flex child-flex"
-                    cols="6">
+                    cols="12" md="6">
                     <youtube aspect-ratio="1" :video-id= 'videoId'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId1"
                     class="d-flex child-flex"
-                    cols="6">
+                    cols="12" md="6">
                     <youtube  aspect-ratio="1" :video-id= 'videoId1'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId2"
                     class="d-flex child-flex"
-                    cols="6">
+                    cols="12" md="6">
                     <youtube aspect-ratio="1" :video-id= 'videoId2'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId3"
                     class="d-flex child-flex"
-                    cols="6">
+                    cols="12" md="6">
                     <youtube aspect-ratio="1" :video-id= 'videoId3'></youtube>
                     </v-col>
                 </v-row>
-                <v-row class="hidden-sm-and-up">
+                <!-- <v-row class="hidden-sm-and-up">
                     <v-col
                     v-if="videoId"
                     class="d-flex child-flex"
-                    cols="6">
+                    cols="12" md="6">
                     <youtube width="auto" height="100%" :video-id= 'videoId'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId1"
                     class="d-flex child-flex"
-                    cols="6">
+                    cols="12" md="6">
                     <youtube width="auto" height="100%" :video-id= 'videoId1'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId2"
                     class="d-flex child-flex"
-                    cols="6">
+                    cols="12" md="6">
                     <youtube width="auto" height="100%" :video-id= 'videoId2'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId3"
                     class="d-flex child-flex"
-                    cols="6">
+                    cols="12" md="6">
                     <youtube width="auto" height="100%" :video-id= 'videoId3'></youtube>
                     </v-col>
-                </v-row>
+                </v-row> -->
             </template>
         </v-row>
         <v-row >

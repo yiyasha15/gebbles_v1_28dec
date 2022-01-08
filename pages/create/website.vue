@@ -28,6 +28,18 @@
                 </v-col>
                 </v-row>
                 <v-form v-on:submit.prevent="submit_about">
+                    <v-row class="py-4 justify-center text-center hidden-md-and-up">
+                            <croppa
+                                v-model="cropImage"
+                                canvas-color="transparent"
+                                :width="600"
+                                :height="340"
+                                :show-loading="true"
+                                :initial-image="initialImage"
+                                :prevent-white-space="true"
+                                :remove-button-color="'black'"
+                            ></croppa>
+                        </v-row>
                         <v-row>
                             <v-col cols="12" md="9">
                                 <v-text-field
@@ -103,17 +115,16 @@
                                 @click:append="bio.site=''; inputMail=!inputMail"
                                 >
                             </v-text-field>
-                            <v-btn v-show="!bio.vid1 && !yt" icon color=red @click="yt=true"><v-icon>mdi-youtube</v-icon></v-btn>
+                            <!-- <v-btn v-show="!bio.vid1 && !yt" icon color=red @click="yt=true"><v-icon>mdi-youtube</v-icon></v-btn> -->
                             <v-text-field
                                 :error-messages="ytLinkError1"
-                                v-show="yt || bio.vid1"
                                 color="red"
                                 v-model= "bio.vid1"
                                 label="Add upto four YouTube links"
                                 prepend-icon="mdi-plus"
                                 append-icon="mdi-close"
                                 @input="showYoutubeVideo(1)"
-                                @click:append="bio.vid1 =''; yt=!yt;showYoutubeVideo(1)"
+                                @click:append="bio.vid1 ='';showYoutubeVideo(1)"
                                 @click:prepend="yt1=true"
                                 >
                             </v-text-field>
@@ -265,8 +276,8 @@
                         <v-btn v-if="artist_data.country " icon class="text-decoration-none" >
                             <country-flag :country= artist_data.country />
                         </v-btn>
-                    </v-row>
-                    <v-row class="pb-6 justify-center text-center">
+                    </v-row> 
+                    <v-row class="pb-6 justify-center text-center hidden-sm-only">
                         <croppa
                             v-model="cropImage"
                             canvas-color="transparent"
@@ -429,7 +440,6 @@ export default {
             imageData2: "",
             imageData3: "",
             imageData4: "",
-            yt: false,
             yt1: false,
             yt2: false,
             yt3: false,
@@ -1020,7 +1030,6 @@ export default {
                 this.imageData2 = ''
                 this.imageData1 = ''
                 this.imageData3 = ''
-                this.yt= false,
                 this.yt1= false,
                 this.yt2= false,
                 this.yt3= false,
