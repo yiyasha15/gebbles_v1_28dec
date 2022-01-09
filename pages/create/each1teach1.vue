@@ -22,7 +22,7 @@
         <v-col>
         <v-stepper v-model="e6" vertical>
         <div>
-            <v-stepper-step :complete="e6 > 1" step="1">
+            <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
             Mention your teacher
             <!-- <small>Summarize if needed</small> -->
             </v-stepper-step>
@@ -88,12 +88,12 @@
                 label= "Teacher's country"
                 clearable>
                 </v-select>
-            <v-btn color="primary" text outlined @click="e6 = 2">Continue</v-btn>
+            <v-btn color="primary" text outlined @click="e6 = 2">Next</v-btn>
             <v-btn color="primary" text @click="goback">Cancel</v-btn>
             </v-stepper-content>
         </div>
     
-        <v-stepper-step :complete="e6 > 2" step="2">Do you have a click with your teacher?
+        <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Do you have a click with your teacher?
             <small>(if not, you can add their image.)</small>
         </v-stepper-step>
         <v-stepper-content step="2" style="border-left: none;">
@@ -114,12 +114,12 @@
                 <v-btn v-else outlined color="error" class="ma-2" @click="imageData=''; sharing.s_photo = ''" >
                     Remove<v-icon right dark> mdi-close</v-icon>
                 </v-btn>
-            <v-btn color="primary" text outlined @click="e6 = 3">Continue</v-btn>
-            <v-btn color="primary" text @click="e6 = 1">Previous</v-btn>
+            <v-btn color="primary" text outlined @click="e6 = 3">Next</v-btn>
+            <v-btn color="error" text @click="e6 = 1">Previous</v-btn>
             <v-btn text @click="goback">Cancel</v-btn>
         </v-stepper-content>
     
-        <v-stepper-step :complete="e6 > 3" step="3">Each One Teach One</v-stepper-step>
+        <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One</v-stepper-step>
         <v-stepper-content step="3" style="border-left: none;">
             <v-textarea
                 v-model = "sharing.s_appreciation"
@@ -132,17 +132,17 @@
                 :maxlength="50"
                 clearable>
             </v-text-field>
-            <v-textarea
+            <!-- <v-textarea
                 v-model = "sharing.s_learnings"
                 label= "Share about what you learnt from them."
                 clearable>
-            </v-textarea>
-            <v-btn color="primary" text outlined @click="e6 = 4">Continue</v-btn>
-            <v-btn color="primary" text @click="e6 = 2">Previous</v-btn>
+            </v-textarea> -->
+            <v-btn color="primary" text outlined @click="e6 = 4">Next</v-btn>
+            <v-btn color="error" text @click="e6 = 2">Previous</v-btn>
             <v-btn text @click="goback">Cancel</v-btn>
         </v-stepper-content>
     
-        <v-stepper-step step="4">Share a video</v-stepper-step>
+        <v-stepper-step step="4"  @click.native="e6 = 4" style="cursor:pointer">Share a video</v-stepper-step>
         <v-stepper-content step="4" style="border-left: none;">
             <v-text-field
                 :error-messages="ytLinkError" 
@@ -158,7 +158,7 @@
             @click="submit">Submit</v-btn>
             <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark
             @click="update">Update</v-btn>
-            <v-btn color="indigo" text @click="e6 = 3">Previous</v-btn>
+            <v-btn color="error" text @click="e6 = 3">Previous</v-btn>
             <v-btn text @click="goback">Cancel</v-btn>
         </v-stepper-content>
         </v-stepper>
@@ -167,7 +167,7 @@
                 <v-row class="pb-6 pa-4 justify-center text-center">
                     <h2> {{sharing.s_teacher_name}}</h2>
                     <v-spacer></v-spacer>
-                    <h5>{{sharing.s_location}}</h5>
+                    <h5 class="pt-2">{{sharing.s_location}}</h5>
                     <v-btn icon class="text-decoration-none" >
                         <country-flag :country= sharing.s_teacher_country />
                     </v-btn>
