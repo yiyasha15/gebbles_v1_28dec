@@ -2,7 +2,7 @@
     <v-app class="ma-2">
         <v-container>
         <div v-if="upcoming.length >0">
-        <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Upcoming events</h3>
+        <h3 class="font-weight-light my-4 ml-2 d-inline">Upcoming events</h3>
         <div class="d-flex flex-wrap pa-0 my-4" >
             <div v-for = "upcoming in upcoming" :key = "upcoming.index" class="pa-0">
                 <journey-card :journey = "upcoming" ></journey-card>
@@ -10,7 +10,7 @@
         </div>
         </div>
         <div v-if="journey.length">
-            <h3 class="font-weight-light mb-4 ml-2 mt-4 d-inline">Highlights</h3>
+            <h3 class="font-weight-light my-4 ml-2 d-inline">Highlights</h3>
             <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" 
             icon outlined color="indigo" class="ml-2" @click="createJourney">
                 <v-icon >mdi-plus</v-icon>
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div >
-                <h3 class="font-weight-light mb-4 ml-2 mt-4 d-inline">Journey</h3>
+                <h3 class="font-weight-light my-4 ml-2 d-inline">Journey</h3>
                 <div class="d-flex flex-wrap" >
                     <div v-for = "journey in journey" :key = "journey.index" >
                         <journey-card :journey = "journey" v-if="!journey.ishighlight"></journey-card>
@@ -31,7 +31,7 @@
         </div>
         <div v-else >
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
-            <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Share your journey</h3>
+            <h3 class="font-weight-light my-4 pl-4 d-inline">Share your journey</h3>
             <v-btn x-small icon outlined color="indigo" class="ml-2" @click="createJourney">
                 <v-icon >mdi-plus</v-icon>
             </v-btn>

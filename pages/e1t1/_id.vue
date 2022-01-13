@@ -81,7 +81,7 @@
                     </v-row>
                     <v-row>
                         <v-col class="ma-0">
-                        <v-row class="d-inline-flex mb-2">
+                        <v-row class="d-inline-flex">
                             <v-col class="ma-0">
                                 <v-btn icon @click="react_love">
                                 <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
@@ -93,7 +93,14 @@
                                 </v-btn>
                             </v-col>
                         </v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                        <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
                         <h4 class="font-weight-light my-2">{{e1t1.s_appreciation}}</h4>
+                        <h4 v-if="e1t1.s_learnings">Learning</h4>
+                        <h4 class="font-weight-light my-2">{{e1t1.s_learnings}}</h4>
                         </v-col>
                     </v-row>
                     <!-- <v-dialog v-model="personalDialog" width="800px" v-if="isAuthenticated && userHasPortfolio && isYourRoom">
@@ -163,11 +170,11 @@
                 <youtube width="auto" height="100%" :video-id= 'videoId'></youtube>
             </center>
     </v-container>
-    <v-container class="rounded-lg grey lighten-5 pa-4 mt-4" v-show=" loggedInUser && loggedInUser.user.username == e1t1.username && learnings.length>0">
-        <v-row v-if="loggedInUser && loggedInUser.user.username == e1t1.username">
+    <v-container class="rounded-lg grey lighten-5 pa-4 mt-4" >
+        <v-row>
             <v-col cols="12" md="8"  class="justify-center">
-                <h2 class ="pl-6 font-weight-light xs12 d-inline">Dedicated to {{e1t1.s_teacher_name}}</h2>
-                <v-btn small icon outlined color="indigo" class="mb-2 ml-2" @click="addLearning = true">
+                <h3 class ="pl-6 font-weight-light xs12 d-inline">Dedicated to {{e1t1.s_teacher_name}}</h3>
+                <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="indigo" class="mb-2 ml-2" @click="addLearning = true">
                 <v-icon small>mdi-plus</v-icon>
                 </v-btn>
             </v-col>

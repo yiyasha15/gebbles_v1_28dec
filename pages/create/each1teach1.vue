@@ -88,8 +88,8 @@
                 label= "Teacher's country"
                 clearable>
                 </v-select>
-            <v-btn color="primary" text outlined @click="e6 = 2">Next</v-btn>
-            <v-btn color="primary" text @click="goback">Cancel</v-btn>
+            <v-btn color="primary" small text outlined @click="e6 = 2">Next</v-btn>
+            <v-btn color="primary" small text @click="goback">Cancel</v-btn>
             </v-stepper-content>
         </div>
     
@@ -108,15 +108,15 @@
                 <template v-if="imageData">
                 <v-img :src="imageData" height="300px" width="350px"></v-img>
                 </template>
-                <v-btn v-if="!imageData" outlined color="blue-grey" class="ma-2 white--text" @click="onPick" >
+                <v-btn small v-if="!imageData" outlined color="blue-grey" class="ma-2 white--text" @click="onPick" >
                     Upload<v-icon right dark> mdi-cloud-upload </v-icon>
                 </v-btn>
-                <v-btn v-else outlined color="error" class="ma-2" @click="imageData=''; sharing.s_photo = ''" >
+                <v-btn small v-else outlined color="error" class="ma-2" @click="imageData=''; sharing.s_photo = ''" >
                     Remove<v-icon right dark> mdi-close</v-icon>
                 </v-btn>
-            <v-btn color="primary" text outlined @click="e6 = 3">Next</v-btn>
-            <v-btn color="error" text @click="e6 = 1">Previous</v-btn>
-            <v-btn text @click="goback">Cancel</v-btn>
+            <v-btn color="primary" text outlined @click="e6 = 3" small>Next</v-btn>
+            <v-btn color="error" text @click="e6 = 1" small>Previous</v-btn>
+            <v-btn text @click="goback" small>Cancel</v-btn>
         </v-stepper-content>
     
         <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One</v-stepper-step>
@@ -132,14 +132,14 @@
                 :maxlength="50"
                 clearable>
             </v-text-field>
-            <!-- <v-textarea
+            <v-textarea
                 v-model = "sharing.s_learnings"
                 label= "Share about what you learnt from them."
                 clearable>
-            </v-textarea> -->
-            <v-btn color="primary" text outlined @click="e6 = 4">Next</v-btn>
-            <v-btn color="error" text @click="e6 = 2">Previous</v-btn>
-            <v-btn text @click="goback">Cancel</v-btn>
+            </v-textarea>
+            <v-btn color="primary" small text outlined @click="e6 = 4">Next</v-btn>
+            <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+            <v-btn text small @click="goback">Cancel</v-btn>
         </v-stepper-content>
     
         <v-stepper-step step="4"  @click.native="e6 = 4" style="cursor:pointer">Share a video</v-stepper-step>
@@ -158,8 +158,8 @@
             @click="submit">Submit</v-btn>
             <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark
             @click="update">Update</v-btn>
-            <v-btn color="error" text @click="e6 = 3">Previous</v-btn>
-            <v-btn text @click="goback">Cancel</v-btn>
+            <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
+            <v-btn text small @click="goback">Cancel</v-btn>
         </v-stepper-content>
         </v-stepper>
         </v-col>

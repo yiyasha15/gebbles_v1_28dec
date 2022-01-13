@@ -11,8 +11,8 @@
       <div class="caption pa-2">{{e1t1.username}}
         <country-flag :country= 'e1t1.s_student_country' size='small'/>
       </div>
-      <div v-if = "e1t1.s_photo">
-        <v-img :src = "e1t1.s_photo" width="160px" height="100px"></v-img>
+      <div v-if = "e1t1.sp_thumb">
+        <v-img :src = "e1t1.sp_thumb" width="160px" height="100px"></v-img>
       </div>
         <div class="caption pa-2">
           {{e1t1.s_teacher_name}}

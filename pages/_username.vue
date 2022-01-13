@@ -6,7 +6,7 @@
             <v-layout align-center>
                 <nuxt-link :to="'/'" class="text-decoration-none">
                 <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 52"
+                :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
                 class="ml-2 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
                 <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
@@ -160,8 +160,8 @@
                     :to="'/'"
                     class="text-decoration-none pl-5"
                     >
-                    <img
-                    height="42"
+                    <img 
+                    height="38"
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     >

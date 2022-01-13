@@ -9,8 +9,8 @@
       min-width="160" 
     >
       <v-img
-        v-if = journey.jophoto1 :src = "journey.jophoto1" 
-        :lazy-src= "journey.jophoto1" 
+        v-if = journey.jp1thumb :src = "journey.jp1thumb" 
+        :lazy-src= "journey.jp1thumb" 
         class="grey lighten-2 white--text"
         height="100"
         width="160"
@@ -34,10 +34,10 @@
                       width="600px"
                       height="500px">
                       <div v-if="fullJourney">
-                      <div v-if="fullJourney.jophoto1 !=null">
+                      <div v-if="fullJourney.jp1thumb !=null">
                       <SliderItem>
                       <v-img
-                            :src="fullJourney.jophoto1"
+                            :src="fullJourney.jp1thumb"
                             contain
                             height="500px"
                             width="800px"

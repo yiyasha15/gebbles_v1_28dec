@@ -1,5 +1,5 @@
 <template>
-    <v-app class="ma-2">
+    <v-app>
         <v-container>
         <nuxt-child :sharing="sharing"/>
         <div v-if="sharing.length">

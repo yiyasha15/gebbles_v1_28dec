@@ -79,11 +79,12 @@
 			</v-card-text>
 			<v-card-actions class="mb-3 justify-center">
 				<v-btn @click="registerUser(registrationInfo)" small  class="px-4" color="yellow" :loading="progressbar" :disabled="!formIsValid">Register</v-btn>
-				<v-btn to='/login' class="ml-4 text-decoration-none px-4" small  color="primary" >Already registered</v-btn>
+				<!-- <v-btn to='/login' class="ml-4 text-decoration-none px-4" small  color="primary" >Already registered</v-btn> -->
 				<!-- <v-spacer></v-spacer>
 				<v-btn class="mr-4" color="info">Login</v-btn> -->
 			</v-card-actions>
 			<v-divider></v-divider>
+     <center> <p class="pt-2">Already have an account? <nuxt-link :to="'/login'" style="text-decoration:none">Log in. </nuxt-link></p></center>
 			<v-dialog v-model="terms" width="70%">
 			<v-card>
 			<v-card-title class="title">

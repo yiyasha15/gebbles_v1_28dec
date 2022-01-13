@@ -47,7 +47,7 @@ export default {
         return apiClient1.get('/e1t1/qna/?shareid=' + id)
     },
     getEach1Teach1_user(username) {
-        return apiClient1.get('/e1t1/sharing/?username=' + username)
+        return apiClient1.get('/e1t1/sharing/list/?username=' + username)
     },
     getShareLove(id){
         return apiClient1.get('/e1t1/sharing/love/?shareidobj=' + id)
