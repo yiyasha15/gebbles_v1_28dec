@@ -212,6 +212,7 @@ export default {
       };
       try {
           await this.$axios.$delete("/v1/artist/journey/"+id , config);
+          this.$store.dispatch("check_user_journey");
           this.dialogDelete =false;
           this.dialog = false
           this.snackbar = true;

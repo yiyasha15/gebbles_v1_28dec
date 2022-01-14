@@ -5,12 +5,92 @@
         || bio.introduction || bio.crew || bio.ig || bio.fb || bio.site
         || bio.gallery1|| bio.gallery2 || bio.gallery3 || bio.gallery4 
         || bio.vid1 || bio.vid2 || bio.vid3 || bio.vid4">
+        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
+        <center v-if="usersPortfolio.cover">
+            <v-img
+            class="hidden-md-and-up"
+                height="300"
+                :src = "usersPortfolio.cover"></v-img>
+            <v-img
+            class="hidden-sm-and-down"
+                height="700"
+                :src = "usersPortfolio.cover"></v-img>
+        </center>
+        <br>
+        <v-container>
+        <v-row v-if="usersBio.introduction">
+            <v-col cols="12" style="margin:auto; max-width:750px" class="my-md-6 pa-4">
+                <h2 style="font-size: 2.5rem;" >about</h2><br>
+                <h2 class="mb-5 font-weight-light" style="line-height:2;">
+                    {{ usersBio.introduction }}
+                </h2>
+                <v-row >
+                <v-col v-if="usersBio.crew" style="margin:auto; max-width:750px">
+                    <h2 class="mb-2 " >
+                        Representing: {{usersBio.crew}}
+                    </h2>
+                </v-col>
+            </v-row>
+            <v-row v-if="usersBio.quote" class="mt-16 mb-6">
+                <v-col align="center">
+                <h3 class="font-weight-light font-italic">
+                "{{ usersBio.quote }}" - {{usersPortfolio.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
+                </h3> </v-col>
+            </v-row>
+            </v-col>
+        </v-row>
+        </v-container>
+        <v-container>
+        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6">
+            <template>
+                <v-row>
+                    <v-col
+                    v-if="videoId"
+                    class="d-flex child-flex"
+                    cols="12" md="6">
+                    <youtube aspect-ratio="1" :video-id= 'videoId'></youtube>
+                    </v-col>
+                    <v-col
+                    v-if="videoId1"
+                    class="d-flex child-flex"
+                    cols="12" md="6">
+                    <youtube  aspect-ratio="1" :video-id= 'videoId1'></youtube>
+                    </v-col>
+                    <v-col
+                    v-if="videoId2"
+                    class="d-flex child-flex"
+                    cols="12" md="6">
+                    <youtube aspect-ratio="1" :video-id= 'videoId2'></youtube>
+                    </v-col>
+                    <v-col
+                    v-if="videoId3"
+                    class="d-flex child-flex"
+                    cols="12" md="6">
+                    <youtube aspect-ratio="1" :video-id= 'videoId3'></youtube>
+                    </v-col>
+                </v-row>
+            </template>
+        </v-row>
+        <v-row >
+            <v-col cols="12" class="my-6" style="margin:auto; max-width:650px">
+                <h2 v-if="usersBio.ig || usersBio.fb|| usersBio.site" align="center" justify="center" style="font-size: 5rem;" >contact</h2>
+            </v-col>
+        </v-row>
+        <v-row class="mt-4" align="center" justify="center">
+            <v-btn v-if="usersBio.ig" icon class="text-decoration-none mx-4" color="indigo"  @click="openig" >
+                <v-icon>mdi-instagram</v-icon>
+            </v-btn>
+            <v-btn v-if="usersBio.fb" icon class="text-decoration-none mx-4" color="indigo"  @click="openfb" >
+                <v-icon>mdi-facebook</v-icon>
+            </v-btn>
+            <v-btn v-if="usersBio.site" icon class="text-decoration-none mx-4" color="indigo"  @click="openpersonal" >
+                <v-icon>mdi-email</v-icon>
+            </v-btn>
+        </v-row>
+        </v-container>
+        </div>
+        <div v-else>
         <center v-if="artist.cover">
-            <!-- <v-parallax
-                class="hidden-md-and-up "
-                height="200"
-                :src = "artist.cover"
-            ></v-parallax> -->
             <v-img
             class="hidden-md-and-up"
                 height="300"
@@ -30,23 +110,81 @@
                 </h2>
                 <v-row >
                 <v-col v-if="bio.crew" style="margin:auto; max-width:750px">
-                    <h2 class="mb-2 font-weight-light" >
+                    <h2 class="mb-2 " >
                         Representing: {{bio.crew}}
                     </h2>
                 </v-col>
             </v-row>
+            <v-row v-if="bio.quote" class="mt-16 mb-6">
+                <v-col align="center">
+                <h3 class="font-weight-light font-italic">
+                "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
+                </h3> </v-col>
+            </v-row>
             </v-col>
         </v-row>
         </v-container>
-        <v-row v-if="bio.quote &&bio.gallery1" align="center" class="my-6">
+        <v-container>
+        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6">
+            <template>
+                <v-row>
+                    <v-col
+                    v-if="videoId"
+                    class="d-flex child-flex"
+                    cols="12" md="6">
+                    <youtube aspect-ratio="1" :video-id= 'videoId'></youtube>
+                    </v-col>
+                    <v-col
+                    v-if="videoId1"
+                    class="d-flex child-flex"
+                    cols="12" md="6">
+                    <youtube  aspect-ratio="1" :video-id= 'videoId1'></youtube>
+                    </v-col>
+                    <v-col
+                    v-if="videoId2"
+                    class="d-flex child-flex"
+                    cols="12" md="6">
+                    <youtube aspect-ratio="1" :video-id= 'videoId2'></youtube>
+                    </v-col>
+                    <v-col
+                    v-if="videoId3"
+                    class="d-flex child-flex"
+                    cols="12" md="6">
+                    <youtube aspect-ratio="1" :video-id= 'videoId3'></youtube>
+                    </v-col>
+                </v-row>
+            </template>
+        </v-row>
+        <v-row >
+            <v-col cols="12" class="my-6" style="margin:auto; max-width:650px">
+                <h2 v-if="bio.ig || bio.fb|| bio.site" align="center" justify="center" style="font-size: 5rem;" >contact</h2>
+            </v-col>
+        </v-row>
+        <v-row class="mt-4" align="center" justify="center">
+            <v-btn v-if="bio.ig" icon class="text-decoration-none mx-4" color="indigo"  @click="openig" >
+                <v-icon>mdi-instagram</v-icon>
+            </v-btn>
+            <v-btn v-if="bio.fb" icon class="text-decoration-none mx-4" color="indigo"  @click="openfb" >
+                <v-icon>mdi-facebook</v-icon>
+            </v-btn>
+            <v-btn v-if="bio.site" icon class="text-decoration-none mx-4" color="indigo"  @click="openpersonal" >
+                <v-icon>mdi-email</v-icon>
+            </v-btn>
+        </v-row>
+        </v-container>
+        </div>
+        <!-- <v-row v-if="bio.quote  &&bio.gallery1 " align="center" class="my-6">
             <v-col align="center" justify="center"
             cols="12">
             <v-container >
+                <h2 class="mb-2 " >
+                        How hiphop empowers me?
+                    </h2>
                 <h3 class="font-weight-light font-italic">
                 "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
                 </h3>    
             </v-container>
-            </v-col>
+            </v-col> -->
             <!-- :class="{'ma-0': $vuetify.breakpoint.smAndDown, 'ma-4': $vuetify.breakpoint.mdAndUp}" -->
             <!-- <v-col cols="12" md="6" >
                 <v-row>
@@ -92,7 +230,7 @@
                     </v-col>
                 </v-row>
             </v-col> -->
-        </v-row>
+        <!-- </v-row> -->
         <!-- <center class="my-6">
             <v-col cols="12" md="6" v-if="!bio.quote && bio.gallery1">
                 <v-row>
@@ -144,80 +282,6 @@
                 </h3>    
             </v-container>
         </center> -->
-        <v-container>
-        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6">
-            <template>
-                <v-row>
-                    <v-col
-                    v-if="videoId"
-                    class="d-flex child-flex"
-                    cols="12" md="6">
-                    <youtube aspect-ratio="1" :video-id= 'videoId'></youtube>
-                    </v-col>
-                    <v-col
-                    v-if="videoId1"
-                    class="d-flex child-flex"
-                    cols="12" md="6">
-                    <youtube  aspect-ratio="1" :video-id= 'videoId1'></youtube>
-                    </v-col>
-                    <v-col
-                    v-if="videoId2"
-                    class="d-flex child-flex"
-                    cols="12" md="6">
-                    <youtube aspect-ratio="1" :video-id= 'videoId2'></youtube>
-                    </v-col>
-                    <v-col
-                    v-if="videoId3"
-                    class="d-flex child-flex"
-                    cols="12" md="6">
-                    <youtube aspect-ratio="1" :video-id= 'videoId3'></youtube>
-                    </v-col>
-                </v-row>
-                <!-- <v-row class="hidden-sm-and-up">
-                    <v-col
-                    v-if="videoId"
-                    class="d-flex child-flex"
-                    cols="12" md="6">
-                    <youtube width="auto" height="100%" :video-id= 'videoId'></youtube>
-                    </v-col>
-                    <v-col
-                    v-if="videoId1"
-                    class="d-flex child-flex"
-                    cols="12" md="6">
-                    <youtube width="auto" height="100%" :video-id= 'videoId1'></youtube>
-                    </v-col>
-                    <v-col
-                    v-if="videoId2"
-                    class="d-flex child-flex"
-                    cols="12" md="6">
-                    <youtube width="auto" height="100%" :video-id= 'videoId2'></youtube>
-                    </v-col>
-                    <v-col
-                    v-if="videoId3"
-                    class="d-flex child-flex"
-                    cols="12" md="6">
-                    <youtube width="auto" height="100%" :video-id= 'videoId3'></youtube>
-                    </v-col>
-                </v-row> -->
-            </template>
-        </v-row>
-        <v-row >
-            <v-col cols="12" class="my-6" style="margin:auto; max-width:650px">
-                <h2 v-if="bio.ig || bio.fb|| bio.site" align="center" justify="center" style="font-size: 5rem;" >contact</h2>
-            </v-col>
-        </v-row>
-        <v-row class="mt-4" align="center" justify="center">
-            <v-btn v-if="bio.ig" icon class="text-decoration-none mx-4" color="indigo"  @click="openig" >
-                <v-icon>mdi-instagram</v-icon>
-            </v-btn>
-            <v-btn v-if="bio.fb" icon class="text-decoration-none mx-4" color="indigo"  @click="openfb" >
-                <v-icon>mdi-facebook</v-icon>
-            </v-btn>
-            <v-btn v-if="bio.site" icon class="text-decoration-none mx-4" color="indigo"  @click="openpersonal" >
-                <v-icon>mdi-email</v-icon>
-            </v-btn>
-        </v-row>
-        </v-container>
         </div>
         <div v-else class="mt-16">
             <div v-if="loggedInUser && loggedInUser.user.username == artist.username" >
@@ -262,7 +326,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['isAuthenticated', 'loggedInUser'])
+        ...mapGetters(['isAuthenticated', 'loggedInUser', 'usersBio','usersPortfolio',])
     },
     scrollToTop: true,
     data () {

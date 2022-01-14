@@ -13,13 +13,13 @@ export const state = () => ({
   portfolio: null, //store portfolio data of the logged in user
   bio: null, //store bio data of the logged in user
   fullJourney: null, //store currrently selected journey card
-  highlights: [], //store Highlights data of the logged in user
-  journey: [], //store Highlights data of the logged in user
+  upcoming: [], //store upcoming data of the logged in user
+  journey: [], //store journey data of the logged in user
   list_of_artists: [],
   personalMessages: [],
   notifications:[],
   notifications_notseen:0,
-  hasHighlights: false, //if user has highlights data
+  hasUpcoming: false, //if user has upcoming data
   hasJourney: false, 
   hasPortfolio: false, //if user has portfolio data
   hasBio: false, //if user has bio data
@@ -126,6 +126,9 @@ export const getters = {
   },
   usersJourney(state){
     return state.journey
+  },
+  usersUpcoming(state){
+    return state.upcoming
   },
   userHasJourney(state){
     return state.hasJourney
@@ -270,14 +273,6 @@ export const actions = {
         })
       }  
   },
-  check_user_highlights({commit, state}){
-    if(state.auth.loggedIn) {
-      EventService.getHighlights(state.auth.user.user.username).then(res =>
-      {
-        commit('usersHighlights',res.data)
-      })
-    }
-  },
   check_user_journey({commit, state}){
     if(state.auth.loggedIn) {
       const config = {
@@ -288,6 +283,10 @@ export const actions = {
       {
         commit('usersJourney',res.data)
       })
+      EventService.getUpcomingEvents(state.auth.user.user.username,config).then(res =>
+        {
+          commit('usersUpcoming',res.data)
+        })
     }
   },
   check_personal_room({commit, state}, id)
@@ -317,10 +316,10 @@ export const actions = {
         commit('clearBio')
       }
   },
-  remove_highlights({commit, state})
+  remove_upcoming({commit, state})
   {
     if(state.auth.loggedIn){
-      commit('clearHighlights')
+      commit('clearupcoming')
     }
   },
   remove_journey({commit, state})
@@ -533,6 +532,13 @@ export const mutations = {
       state.journey = journey
       state.hasJourney = true}
   },
+  usersUpcoming(state, upcoming)
+  {
+    if(upcoming.length)
+    {
+      state.upcoming = upcoming
+      state.hasUpcoming = true}
+  },
   fullJourney(state, fullJourney){
     if(fullJourney)
     {
@@ -558,10 +564,10 @@ export const mutations = {
     state.bio = null
     state.hasBio = false
   },
-  clearHighlights(state) //if user has portfolio change state to true
+  clearupcoming(state) //if user has portfolio change state to true
   {
-    state.highlights =[]
-    state.hasHighlights = false
+    state.upcoming =[]
+    state.hasUpcoming = false
   },
   clearJourney(state) //if user has portfolio change state to true
   {

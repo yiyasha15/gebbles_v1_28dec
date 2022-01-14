@@ -339,7 +339,6 @@ import { mapGetters } from 'vuex'
         //remove likes and comments for particular opened learning id
         this.$store.dispatch("remove_learn_reactions");
         this.$store.dispatch("remove_learn_obj");
-        // this.$store.dispatch("remove_learnings")
         this.videoDialog =false;
         this.learndate =""
         if(video){

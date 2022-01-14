@@ -120,17 +120,16 @@ export default {
                         headers: { "Authorization": "Bearer" + this.$store.state.auth.user.access_token
                         }
                     };
-                    console.log("token: ",this.$store.state.auth.user.access_token);
                     let form= new FormData();
                     form.append('is_seen', 'true');
                     form.append('sender', obj.sender);
                     form.append('receiver', obj.receiver);
                     form.append('notification_type', obj.notification_type);
                     form.append('notification_context', obj.notification_context);
-                    console.log(obj);
-                    for (var value of form.values()) {
-                        console.log(value);
-                    }
+                    // console.log(obj);
+                    // for (var value of form.values()) {
+                    //     console.log(value);
+                    // }
                     let res = await this.$axios.$put("/v1/notifications/e1t1/"+obj.id, form, config);
                     console.log(res);
                     

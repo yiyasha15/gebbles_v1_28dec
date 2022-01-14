@@ -3,7 +3,12 @@
         <v-container>
         <div v-if="upcoming.length >0">
         <h3 class="font-weight-light my-4 ml-2 d-inline">Upcoming events</h3>
-        <div class="d-flex flex-wrap pa-0 my-4" >
+        <div class="d-flex flex-wrap pa-0 my-4" v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
+            <div v-for = "upcoming in usersUpcoming" :key = "upcoming.index" class="pa-0">
+                <journey-card :journey = "upcoming" ></journey-card>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap pa-0 my-4" v-else >
             <div v-for = "upcoming in upcoming" :key = "upcoming.index" class="pa-0">
                 <journey-card :journey = "upcoming" ></journey-card>
             </div>
@@ -15,12 +20,25 @@
             icon outlined color="indigo" class="ml-2" @click="createJourney">
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
+            <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
+            <div class="d-flex flex-wrap pa-0 my-4" >
+                <div v-for = "journey in usersJourney" :key = "journey.index" class="pa-0">
+                    <journey-card :journey = "journey" v-if="journey.ishighlight" ></journey-card>
+                </div>
+            </div>
+                <h3 class="font-weight-light my-4 ml-2 d-inline">Journey</h3>
+                <div class="d-flex flex-wrap" >
+                    <div v-for = "journey in usersJourney" :key = "journey.index" >
+                        <journey-card :journey = "journey" v-if="!journey.ishighlight"></journey-card>
+                    </div>
+                </div>
+            </div>
+            <div v-else >
             <div class="d-flex flex-wrap pa-0 my-4" >
                 <div v-for = "journey in journey" :key = "journey.index" class="pa-0">
                     <journey-card :journey = "journey" v-if="journey.ishighlight" ></journey-card>
                 </div>
             </div>
-            <div >
                 <h3 class="font-weight-light my-4 ml-2 d-inline">Journey</h3>
                 <div class="d-flex flex-wrap" >
                     <div v-for = "journey in journey" :key = "journey.index" >
@@ -64,28 +82,19 @@ export default {
         JourneyCard
     },
     computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser']),
+    ...mapGetters(['isAuthenticated', 'loggedInUser', 'usersJourney', 'usersUpcoming']),
     },
     props: ["artist"],
     async asyncData({error, params, store}) {
-        if(store.state.auth.user ){ //if user is logged in
-            if(store.state.auth.user.user.username == params.username){ //if user is checking own data
-                const config = {
-                headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + store.state.auth.user.access_token}
-                };
-                try {
-                let journey_response = await EventService.getJourney(params.username, config)
-                let upcoming_events = await EventService.getUpcomingEvents(params.username, config)
-                return {
-                        journey: journey_response.data,
-                        upcoming: upcoming_events.data
-                    }
-                } catch (err) {
-                    console.log(err);
-                    error({statusCode:503,  message: err.message})
-                    } 
-            }}
+        if( store.state.auth.loggedIn && params.username == store.state.portfolio.username){ //if user is checking own data
+            // done in store
+            // console.log("got from store ze journey");
+            return {
+                journey: store.state.journey,
+                upcoming: store.state.upcoming
+            }
+        }
+        else{
         try {
         let journey_response = await EventService.getJourney(params.username)
         let upcoming_events = await EventService.getUpcomingEvents(params.username)
@@ -96,6 +105,7 @@ export default {
         } catch (err) {
             console.log(err);
             error({statusCode:503,  message: err.message})
+        }
         }
     },
     methods: {

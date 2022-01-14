@@ -10,8 +10,15 @@
                 class="ml-2 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
                 <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
-                <h1 v-if="artist.artist_name" class="xs12" style="color:black;">{{artist.artist_name}}</h1>
-                <h1 v-else class="xs12" style="color:black; ">{{artist.username}}</h1></nuxt-link>
+                <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
+                    <h1 v-if="usersPortfolio.artist_name" class="xs12" style="color:black;">{{usersPortfolio.artist_name}}</h1>
+                    <h1 v-else class="xs12" style="color:black; ">{{usersPortfolio.username}}</h1>
+                </div>
+                <div v-else>
+                    <h1 v-if="artist.artist_name" class="xs12" style="color:black;">{{artist.artist_name}}</h1>
+                    <h1 v-else class="xs12" style="color:black; ">{{artist.username}} </h1>
+                </div>
+                </nuxt-link>
                 <v-spacer></v-spacer>
                 <div class= "hidden-sm-and-up">
                 <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen.length>0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
@@ -277,18 +284,28 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen'])
+        ...mapGetters(['isAuthenticated','usersBio', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen'])
     },
-    async asyncData({error, params}) {
-      try {
+    async asyncData({error, params, store}) {
+        if(store.state.auth.loggedIn && params.username == store.state.portfolio.username) //save api call for loggged in page
+        {
+            // console.log("got it on the store"); 
+            //send store value
+            return{
+                artist: store.state.portfolio,
+                bio: store.state.bio,
+            }
+        }
+        else{
+          try {
           let artist_response = await EventService.getArtist(params.username)
           let bio_response = await EventService.getBio(params.username)
-        // let artist_response = await EventService.getArtist(params.username)
         return {
             artist: artist_response.data,
             bio: bio_response.data,
         }} catch (err) {
         error({statusCode:503,  message: err.message})
+        }
         }
     },
     layout: 'username'

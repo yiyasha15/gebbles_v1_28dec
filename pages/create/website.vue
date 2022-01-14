@@ -794,17 +794,17 @@ export default {
             {
                 this.bio.style= ""
                 this.dummy_style=[]
-                console.log("empty the style");
-                console.log("style",this.bio.style);
-                console.log(this.bio);
+                // console.log("empty the style");
+                // console.log("style",this.bio.style);
+                // console.log(this.bio);
                 }
             else{
                 let arr = this.dummy_style;
-                console.log(this.dummy_style);
-                console.log(this.bio.style);
+                // console.log(this.dummy_style);
+                // console.log(this.bio.style);
                 this.bio.style= arr.join();
-                console.log(this.bio.style);
-                console.log("style after JOIN",this.bio.style);
+                // console.log(this.bio.style);
+                // console.log("style after JOIN",this.bio.style);
             }
         },
         toShowImage(){

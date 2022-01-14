@@ -2,11 +2,11 @@
   <v-container>
     <v-col align="center" justify="center">
       <h1 v-if="error.statusCode === 404">
-        Oops! Sorry. {{ pageNotFound }}
+        Oops! {{ pageNotFound }}
         <img src="@/assets/vivi.png" width="150px">
       </h1>
       <h1 v-else>
-        Oops! Sorry. {{ otherError }}
+        Oops! {{ otherError }}
         <img src="@/assets/vivi.png"  width="150px">
       </h1>
       <h1> <NuxtLink to="/">Let's return to the home page.</NuxtLink></h1>

@@ -419,7 +419,7 @@ export default {
             }
     },
     mounted() {
-        this.$store.dispatch("check_artists");
+        // this.$store.dispatch("check_artists");
         this.$store.dispatch("check_share_love", this.e1t1.id)
         this.$store.dispatch("check_share_comments", this.e1t1.id)
         this.$store.dispatch("check_learnings", this.e1t1.id)
