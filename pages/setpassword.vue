@@ -64,8 +64,9 @@ export default {
     },
     mounted(){
         let token = window.location.search; 
-        token = token.substring(1);
         console.log(token);
+        token = token.substring(1);
+        console.log('token',token);
         this.token = token;
     },
     methods: {

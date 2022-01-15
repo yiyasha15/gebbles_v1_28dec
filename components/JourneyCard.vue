@@ -34,10 +34,10 @@
                       width="600px"
                       height="500px">
                       <div v-if="fullJourney">
-                      <div v-if="fullJourney.jp1thumb !=null">
+                      <div v-if="fullJourney.jophoto1 !=null">
                       <SliderItem>
                       <v-img
-                            :src="fullJourney.jp1thumb"
+                            :src="fullJourney.jophoto1"
                             contain
                             height="500px"
                             width="800px"

@@ -5,9 +5,12 @@
             <v-layout align-center>
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
-                class="ml-2 clickable"
+                class="clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
-                <v-toolbar-title><h2 style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2></v-toolbar-title>
+                <v-toolbar-title>
+                    <h2 class=" hidden-sm-and-down" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2>
+                    <h3 class=" hidden-md-and-up" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h3>
+                </v-toolbar-title>
             </v-layout>
             </nuxt-link>
              <v-spacer></v-spacer>

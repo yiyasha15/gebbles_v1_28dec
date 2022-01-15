@@ -1,7 +1,8 @@
 <template>
+<v-app>
 	<v-card width="500" class="mx-auto mt-6 ">
 		<v-card-title class="justify-center">
-			<h2 class="font-weight-black">Welcome to Gebbles</h2>
+			<h2 class="font-weight-black">Welcome</h2>
 		</v-card-title>
 		<v-card-text>
 			<v-form
@@ -149,6 +150,7 @@
 			</v-card>
 			</v-dialog>
 	</v-card>
+</v-app>
 </template>
 
 <script>

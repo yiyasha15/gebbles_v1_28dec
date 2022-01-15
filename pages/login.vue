@@ -1,7 +1,8 @@
 <template>
+<v-app>
 	<v-card width="500" class="mx-auto mt-6 ">
 		<v-card-title class="justify-center my-4">
-			<h2>Welcome to Gebbles</h2>
+			<h2>Welcome</h2>
 		</v-card-title>
 		<v-card-text>
 			<v-text-field 
@@ -27,6 +28,7 @@
 		<p class="text-center ma-0 py-4"><v-btn to='/passwordrenew' class=" text-decoration-none" small text color="primary" >I forgot my password</v-btn></p>
 		<!-- <p class="text-center pa-4">gebbles is currently a community of {{img_artists}} dancers.</p> -->
 	</v-card>
+		  </v-app>
 </template>
 
 <script>
