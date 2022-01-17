@@ -18,7 +18,7 @@
             </div>
         </v-layout>
         </div>
-        <div v-if="journey.length">
+        <div v-if="journey.length || usersJourney">
             <h3 class="font-weight-light my-4 d-inline">Highlights</h3>
             <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" 
             icon outlined color="indigo" class="ml-2" @click="createJourney">
@@ -49,7 +49,7 @@
                     </v-flex>
                     </div>
             </v-layout>
-            <h3 class="font-weight-light my-4 ml-2 d-inline">Journey</h3>
+            <h3 class="font-weight-light my-4 d-inline">Journey</h3>
             <v-layout wrap row class="mt-2">
                 <div v-for="journey in journey" :key ="journey.index">
                     <v-flex> 
@@ -67,8 +67,11 @@
             </v-btn>
             </div>
             <center>
-                <img class="mt-12" src="@/assets/no_posts.png" height="auto" width="30%">
-            </center>
+                    <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo.png')"/>
+                <h3>No posts yet. </h3></center>
         </div>
         </v-container>
     </v-app>

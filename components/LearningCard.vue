@@ -43,7 +43,7 @@
     <v-dialog
         :retain-focus="false"
         v-model="videoDialog"
-        width="860px"
+        width="700px"
         persistent>
         <v-container class="rounded-lg white pa-2">
         <v-col cols="12" align="end" justify="end">
@@ -94,11 +94,11 @@
             <source src="https://presignedurl1.s3.us-east-2.amazonaws.com/c8e4e77b-96b5-47c6-ab04-0936555b351a" type="video/mp4">
             Your browser does not support the video tag.
         </video> -->
-        <video id="videoId" max-width="300px" height="300px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-xs-only">
+        <video id="videoId" width="100%" height="300px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-xs-only">
             <source :src="learn_obj.video" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <video id="videoId" height="150px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-sm-and-up">
+        <video id="videoId" width="100%" height="150px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-sm-and-up">
             <source :src="learn_obj.video" type="video/mp4">
             Your browser does not support the video tag.
         </video>

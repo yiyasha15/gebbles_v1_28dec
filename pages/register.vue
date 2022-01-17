@@ -463,10 +463,10 @@ export default {
     this.progressbar =true
     const config = {
       headers: {"content-type": "multipart/form-data"},
-      onDownloadProgress: (progressEvent) => {
-        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        console.log(percentCompleted);
-      }
+      // onDownloadProgress: (progressEvent) => {
+      //   var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+      //   console.log(percentCompleted);
+      // }
     };
     var form = new FormData();
     for (let data in registrationInfo) //append

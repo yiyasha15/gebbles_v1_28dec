@@ -52,7 +52,7 @@
           Connecting the groove, <br>
           celebrating<span style="color:red;"> Each one Teach one.</span>
         </h1>
-        <!-- <v-btn :to= "`/test/`">test</v-btn> -->
+        <v-btn :to= "`/test/`">test</v-btn>
       </v-row>
       <v-row class="justify-center align-center mt-12">
         <v-col cols="12" md="6">
@@ -89,8 +89,8 @@
           </div> -->
         </v-col>
       </v-row>
-      <v-container class="my-16">
-      <v-row >
+      <v-container>
+      <v-row class="my-16">
         <v-col>
           <v-hover v-slot:default="{ hover }">
           <v-card
@@ -158,6 +158,7 @@
           </v-hover>
         </v-col>
       </v-row>
+      <v-divider></v-divider>
       </v-container>
       <!-- <v-row class="justify-center align-center mt-16">
         <v-col cols="12">

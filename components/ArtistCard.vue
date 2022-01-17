@@ -22,25 +22,19 @@
         height="100"
         width="160"
       />
-    <!-- <v-card-subtitle>
-      {{ artist.artist_name }} <country-flag size=small :country= 'artist.country' />
-    </v-card-subtitle> -->
       <v-card-actions height="32px">
-        <div v-if="artist.artist_name" width="100" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;
+        <div v-if="artist.artist_name" width="100" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p>{{ artist.artist_name }} </p>
+        <p style="max-width:126px;">{{ artist.artist_name }} </p>
         </div>
-        <div v-else width="100" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;
+        <div v-else width="100" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p>{{ artist.username }} </p>
+        <p style="max-width:126px;">{{ artist.username }} </p>
         </div>
         <v-spacer></v-spacer>
         <country-flag size=small  :country= 'artist.country' />
-        <!-- <v-btn icon class="text-decoration-none" >
-          <country-flag size=small  :country= 'artist.country' />
-        </v-btn> -->
       </v-card-actions>
     </v-card>
   </v-hover>

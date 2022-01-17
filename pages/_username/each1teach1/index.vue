@@ -31,9 +31,12 @@
             <v-icon>mdi-plus</v-icon>
             </v-btn>
             </div>
-            <center>  
-                <img class="mt-12" src="@/assets/no_posts.png" height="auto" width="30%">
-            </center>
+            <center>
+                    <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo.png')"/>
+                <h3>No posts yet. </h3></center>
         </div>
         </v-container>
     </v-app>

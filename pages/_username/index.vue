@@ -4,8 +4,14 @@
         artist.thumb|| artist.country || bio.style || bio.quote
         || bio.introduction || bio.crew || bio.ig || bio.fb || bio.site
         || bio.gallery1|| bio.gallery2 || bio.gallery3 || bio.gallery4 
-        || bio.vid1 || bio.vid2 || bio.vid3 || bio.vid4">
-        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="mb-6">
+        || bio.vid1 || bio.vid2 || bio.vid3 || bio.vid4 || 
+        usersPortfolio.artist_name || usersPortfolio.cover|| 
+        usersPortfolio.thumb|| usersPortfolio.country || usersBio.style || usersBio.quote
+        || usersBio.introduction || usersBio.crew || usersBio.ig || usersBio.fb || usersBio.site
+        || usersBio.gallery1|| usersBio.gallery2 || usersBio.gallery3 || usersBio.gallery4 
+        || usersBio.vid1 || usersBio.vid2 || usersBio.vid3 || usersBio.vid4">
+        <!-- {{usersPortfolio}} -->
+        <div v-if="isAuthenticated && loggedInUser.user.username==usersPortfolio.username" class="mb-6">
         <center v-if="usersPortfolio.cover">
             <v-img
             class="hidden-md-and-up"
@@ -91,6 +97,7 @@
         </v-container>
         </div>
         <div v-else class="mb-4">
+            
         <center v-if="artist.cover">
             <v-img
             class="hidden-md-and-up"
@@ -284,7 +291,7 @@
             </v-container>
         </center> -->
         </div>
-        <div v-else class="mt-16">
+        <div v-else class="mt-16 px-2">
             <div v-if="loggedInUser && loggedInUser.user.username == artist.username" >
             <!-- <img src = "~/assets/make_portfolio.png"  width="50%" alt="team"><br> -->
             <center>
@@ -293,7 +300,7 @@
                 class="ml-2 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
                 <h3 class="mt-8 mb-2">hi {{artist.username}}, let's make your portfolio.</h3>
-                <nuxt-link :to="'/create/website/'" class="text-decoration-none"><h2 class="icon">Edit Portfolio <v-icon dense class="icon">mdi-chevron-right</v-icon></h2></nuxt-link>
+                <nuxt-link :to="'/create/website/'" class="text-decoration-none"><h3 class="icon">Edit Portfolio <v-icon dense class="icon">mdi-chevron-right</v-icon></h3></nuxt-link>
             </center>
             </div>
             <div v-else >

@@ -30,10 +30,10 @@
                 <v-form v-on:submit.prevent="submit_about">
                     <v-row class="py-4 justify-center text-center hidden-md-and-up">
                             <croppa
-                                v-model="cropImage"
+                                v-model="cropImage1"
                                 canvas-color="transparent"
-                                :width="600"
-                                :height="340"
+                                :width="320"
+                                :height="200"
                                 :show-loading="true"
                                 :initial-image="initialImage"
                                 :prevent-white-space="true"
@@ -432,6 +432,7 @@ export default {
             rm:"",
             dummy_style:[], //keep style in string from array
             cropImage: null, //imagecropper
+            cropImage1: null, 
             initialImage:'',
             dialog: false,
             styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
@@ -899,12 +900,19 @@ export default {
         async submit(){
             this.progressbar =true
             //generating a file object from cropedimage url
-            // console.log(this.cropImage);
+            // console.log(this.cropImage); 
                 let url = this.cropImage.generateDataUrl(); 
+                let url1 = this.cropImage1.generateDataUrl(); 
                 if (!url){
                     console.log("no image");}
                 else{
                     var fileData = this.dataURLtoFile(url, "coverimage.png");
+                    this.artist_data.cover = fileData;
+                }
+                if (!url1){
+                    console.log("no image");}
+                else{
+                    var fileData = this.dataURLtoFile(url1, "coverimage.png");
                     this.artist_data.cover = fileData;
                 }
              // style is taken as array and made into a string
@@ -948,10 +956,17 @@ export default {
                 }
             };
             let url = this.cropImage.generateDataUrl(); 
+            let url1 = this.cropImage1.generateDataUrl(); 
                 if (!url){
                     console.log("no image");}
                 else{
                     var fileData = this.dataURLtoFile(url, "coverimage.png");
+                    this.artist_data.cover = fileData;
+                }
+                if (!url1){
+                    console.log("no image");}
+                else{
+                    var fileData = this.dataURLtoFile(url1, "coverimage.png");
                     this.artist_data.cover = fileData;
                 }
             let myObj1 = this.usersPortfolio 
@@ -1043,6 +1058,7 @@ export default {
                 this.ytLinkError4='',
                 this.dummy_style =[],
                 this.cropImage.remove()
+                this.cropImage1.remove()
                 this.dialog =false,
                 this.snackbar = true;
                 this.$router.push("/create/website");
