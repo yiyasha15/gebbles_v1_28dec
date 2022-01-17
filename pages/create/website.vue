@@ -277,7 +277,7 @@
                             <country-flag :country= artist_data.country />
                         </v-btn>
                     </v-row> 
-                    <v-row class="pb-6 justify-center text-center hidden-sm-only">
+                    <v-row class="pb-6 justify-center text-center hidden-sm-and-down">
                         <croppa
                             v-model="cropImage"
                             canvas-color="transparent"

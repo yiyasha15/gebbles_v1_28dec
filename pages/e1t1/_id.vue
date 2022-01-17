@@ -50,32 +50,31 @@
                         </v-col>
                         </div>
                     </v-row>
-                    <v-row>
+                    <v-row class="pa-3">
                         <v-col class="ma-0">
-                        <v-row class="rounded-lg lighten-2 d-inline-flex">
-                            <v-col class="ma-0">
+                        <v-row >
                                 <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
-                                <h2 class="font-weight-light">{{e1t1.teacher}}</h2> 
+                                <h3 class=" hidden-md-and-up ">{{e1t1.teacher}}</h3> 
+                                <h2 class="hidden-sm-and-down ">{{e1t1.teacher}}</h2> 
                                 </nuxt-link>
                                 <div v-else>
-                                <h2 class="font-weight-light text-decoration-none">{{e1t1.s_teacher_name}}</h2> 
+                                    <h3 class=" hidden-md-and-up text-decoration-none">{{e1t1.s_teacher_name}}</h3> 
+                                <h2 class="hidden-sm-and-down text-decoration-none">{{e1t1.s_teacher_name}}</h2> 
                                 </div>
-                            </v-col>
-                            <v-col class="mt-2">
+                                <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
                                 <country-flag :country= 'e1t1.s_teacher_country' />
-                            </v-col>
+                                </div>
                         </v-row>
                         </v-col>
                         <v-col class="ma-0">
-                            <v-row class="rounded-lg lighten-2 d-inline-flex">
-                            <v-col class="ma-0">
+                            <v-row >
                                 <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
-                                <h2 class="font-weight-light">{{e1t1.username}}</h2> 
+                                 <h3 class=" hidden-md-and-up ">{{e1t1.username}}</h3> 
+                                <h2 class="hidden-sm-and-down ">{{e1t1.username}}</h2> 
                                 </nuxt-link>
-                            </v-col>
-                            <v-col class="mt-2">
+                                <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
                                 <country-flag :country= 'e1t1.s_student_country' />
-                            </v-col>
+                                </div>
                         </v-row>
                         </v-col>
                     </v-row>
@@ -170,38 +169,31 @@
                 <youtube width="auto" height="100%" :video-id= 'videoId'></youtube>
             </center>
     </v-container>
-    <v-container class="rounded-lg grey lighten-5 pa-4 mt-4" >
+    <v-container class="rounded-lg grey lighten-5 mt-4 py-4" >
         <v-row>
             <v-col cols="12" md="8"  class="justify-center">
-                <h3 class ="pl-6 font-weight-light xs12 d-inline">Dedicated to {{e1t1.s_teacher_name}}</h3>
+                <h3 class =" font-weight-light pl-3 xs12 d-inline">Dedicated to {{e1t1.s_teacher_name}}</h3>
                 <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="indigo" class="mb-2 ml-2" @click="addLearning = true">
                 <v-icon small>mdi-plus</v-icon>
                 </v-btn>
             </v-col>
         </v-row>
         <v-row class="ma-md-4 ma-2" v-if="learnings.length>0 ">
-            <v-layout row wrap>
+            <v-layout row wrap class="mt-1">
             <div v-for="learning in learnings" :key ="learning.index">
-            <!-- <v-flex sm6 xs6>  -->
+            <v-flex > 
             <learning-card :learning = "learning"></learning-card>
-            <!-- </v-flex> -->
+            </v-flex>
             </div>   
             </v-layout>     
         </v-row>
     </v-container>
-    <v-container class="rounded-lg grey lighten-5 pa-4 mt-4">
-        <v-row class="ma-md-4 ma-2">
-            <h3 class="font-weight-light" id="scroll_comments">
+    <v-container class="rounded-lg grey lighten-5 mt-4 py-4">
+            <h3 class="font-weight-light pa-3" id="scroll_comments">
                 Comments <span v-if="share_comments_list.length">{{share_comments_list.length}}</span>
             </h3>
-        </v-row>
-        <v-row
-        style="flex-wrap: nowrap;"
-        >
-        <v-col
-            align="end"
-            cols="1"
-            class="flex-grow-0 flex-shrink-0 mt-2">
+        <v-row class="mt-3">
+          <div class="d-inline pl-2 pt-2">
             <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
             <img
                 :src = "usersPortfolio.thumb" 
@@ -211,12 +203,8 @@
             <v-icon dark>
                 mdi-account-circle
             </v-icon>
-            </v-avatar>
-        </v-col>
-        <v-col
-            cols="5"
-            style="min-width: 100px; max-width: 100%;"
-            class="flex-grow-1 flex-shrink-0">
+            </v-avatar></div>
+            <div class="d-inline pl-2">
             <v-textarea v-if="isAuthenticated && userHasPortfolio"
                 v-model= "comments.comment"
                 outlined
@@ -227,24 +215,20 @@
                 label="Share your thoughts">
             </v-textarea>
             <v-textarea v-else
-                @click="logindialog=true"
+                @click="login_snackbar=true"
                 outlined
                 rows="1"
                 row-height="15"
                 max-width= "200"
                 label="Share your thoughts">
             </v-textarea>
-        </v-col>
-        <v-col
-            cols="3"
-            style="min-width: 100px;"
-            class="flex-grow-0 flex-shrink-1">
-            <v-btn v-if="isAuthenticated && userHasPortfolio"
-                small class="text-decoration-none mt-2" 
+            </div>
+            <div class="pl-2 pt-3">
+            <v-btn v-if="isAuthenticated && userHasPortfolio" small 
                 @click="post_comment"
                 color="indigo" dark >Post
             </v-btn>
-        </v-col>
+            </div>
         </v-row>
         <v-row class="px-4" v-if="share_comments_list.length">
             <!-- <div v-for = "comments in comments" :key = "comments.index" > -->
@@ -266,13 +250,13 @@
                 <v-col cols="12">
                     <h3 class ="font-weight-light xs12 pb-4">Dedicating a dance for {{e1t1.teacher}}</h3>
                     <input style="display:none" ref="fileInputVideo" type="file" accept="video/*" @change="onFileChange"> 
-                    <video width="320" height="240" controls id="videoPreview">
+                    <video width="210" height="240" controls id="videoPreview">
                     Your browser does not support the video tag.
                     </video><br>
-                    <v-btn outlined color="blue-grey" class="my-2 white--text" @click="onPick" >
-                        <!-- <p class="pt-4"> -->
+                    <v-btn outlined  class="my-2 " @click="onPick" >
+                        <h5>
                             Upload a video
-                        <!-- </p> -->
+                        </h5>
                         <v-icon right dark> mdi-cloud-upload </v-icon>
                     </v-btn>
                     <!-- <video id="videoPreview" width="300" height="300" controls></video> -->
@@ -294,33 +278,7 @@
         </v-form>
       </v-card>
     </v-dialog>
-    <v-dialog
-      v-model="logindialog"
-      width="500" >
-      <v-card class="pa-4">
-        <v-card-title>
-          Log in and make your portfolio to continue.
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            class="ml-4 px-4" text 
-            @click="create_portfolio"
-          >
-            Okay
-          </v-btn>
-          <v-btn
-            color="error"
-            class="ml-4 px-4" text 
-            @click="logindialog = false"
-          >
-            Maybe, later
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    
     <v-snackbar v-model="sizeExceed">
         Size exceeded.
     </v-snackbar>
@@ -383,7 +341,6 @@ export default {
             video2Dialog: false,
             dialog: false,
             sizeExceed:false,
-            logindialog: false,
             // personalDialog: false,
             valid_snackbar1: false,
             valid_snackbar2: false,

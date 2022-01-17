@@ -3,23 +3,26 @@
         <v-container>
         <nuxt-child :sharing="sharing"/>
         <div v-if="sharing.length">
-        <h3 class="font-weight-light mt-4 ml-2 d-inline">My Teachers</h3>
+        <h3 class="font-weight-light mt-4 d-inline">My Teachers</h3>
         <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
         <v-icon>mdi-plus</v-icon>
         </v-btn>
-        <div class="d-flex flex-wrap my-4 ">
-            <div v-for = "share in sharing" :key = "share.index">
-                <div v-if="share.username === artist.username">
-                    <TeachersCard :e1t1="share" ></TeachersCard>
+        <v-layout wrap row class="mt-2">
+            <div v-for="share in sharing" :key ="share.index">
+                <v-flex v-if="share.username === artist.username"> 
+                <TeachersCard :e1t1="share" ></TeachersCard>
+                </v-flex>
                 </div>
-            </div>
-        </div>
-        <h3 class="font-weight-light mt-8 ml-2">My Students</h3>
-        <div class="d-flex flex-wrap my-4 ">
-            <div v-for = "share in sharing" :key = "share.index">
-                <StudentsCard v-if="share.teacher === artist.username" :share="share" ></StudentsCard>
-            </div>
-        </div>
+        </v-layout>
+
+        <h3 class="font-weight-light mt-8">My Students</h3>
+        <v-layout wrap row class="mt-2">
+            <div v-for="share in sharing" :key ="share.index">
+                <v-flex > 
+                    <StudentsCard v-if="share.s_teacher_name === artist.username" :share="share" ></StudentsCard>
+                </v-flex>
+                </div>
+        </v-layout>
         </div>
         <div v-else >
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" >

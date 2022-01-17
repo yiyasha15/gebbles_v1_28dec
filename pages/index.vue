@@ -89,7 +89,7 @@
           </div> -->
         </v-col>
       </v-row>
-      <v-container class="mt-16">
+      <v-container class="my-16">
       <v-row >
         <v-col>
           <v-hover v-slot:default="{ hover }">

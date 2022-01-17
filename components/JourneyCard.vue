@@ -1,12 +1,13 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card
-      class="ma-1"
+      class="ma-1 overflow-hidden"
       data-view
       @click="openDialog(journey.id)" 
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="160" 
+      max-width="160" 
+      max-height="135"
     >
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
@@ -161,8 +162,10 @@
           </v-row>
         </div>
       </v-dialog>
-      <v-card-actions >
-        <div width="100" class="text-decoration-none caption" style="max-width: fit-content; height:2em; overflow:hidden">
+      <v-card-actions max-height="35">
+        <!-- style="max-width: fit-content; height:2em; overflow:hidden" -->
+        <div width="100" class="text-decoration-none caption"
+        >
         <p class="font-weight-bold">{{ journey.joevent }} </p>
         </div>
         <v-spacer></v-spacer>

@@ -5,7 +5,7 @@
         || bio.introduction || bio.crew || bio.ig || bio.fb || bio.site
         || bio.gallery1|| bio.gallery2 || bio.gallery3 || bio.gallery4 
         || bio.vid1 || bio.vid2 || bio.vid3 || bio.vid4">
-        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
+        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="mb-6">
         <center v-if="usersPortfolio.cover">
             <v-img
             class="hidden-md-and-up"
@@ -41,7 +41,7 @@
         </v-row>
         </v-container>
         <v-container>
-        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6">
+        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="mb-6">
             <template>
                 <v-row>
                     <v-col
@@ -73,7 +73,8 @@
         </v-row>
         <v-row >
             <v-col cols="12" class="my-6" style="margin:auto; max-width:650px">
-                <h2 v-if="usersBio.ig || usersBio.fb|| usersBio.site" align="center" justify="center" style="font-size: 5rem;" >contact</h2>
+                <h2 v-if="usersBio.ig || usersBio.fb|| usersBio.site" align="center" class="hidden-sm-and-down" style="font-size: 5rem;" >contact</h2>
+                <h2 v-if="usersBio.ig || usersBio.fb|| usersBio.site" align="center" class="hidden-md-and-up" style="font-size: 2.5rem;" >contact</h2>
             </v-col>
         </v-row>
         <v-row class="mt-4" align="center" justify="center">
@@ -89,7 +90,7 @@
         </v-row>
         </v-container>
         </div>
-        <div v-else>
+        <div v-else class="mb-4">
         <center v-if="artist.cover">
             <v-img
             class="hidden-md-and-up"

@@ -1,7 +1,6 @@
 <template>
-<v-container>
+<div>
     <v-card
-      
       class="ma-1"
       data-view
       @click="openDialog(learning.id,learning.timestamp)"
@@ -46,7 +45,7 @@
         v-model="videoDialog"
         width="860px"
         persistent>
-        <v-container class="rounded-lg white pa-8">
+        <v-container class="rounded-lg white pa-2">
         <v-col cols="12" align="end" justify="end">
           <v-btn icon color="error" @click="closeDialog(learn_obj.video)">
             <v-icon>mdi-close</v-icon>
@@ -156,7 +155,7 @@
                   label="Share your thoughts">
               </v-textarea>
               <v-textarea v-else class="mx-4"
-                  @click="logindialog=true"
+                  @click="login_snackbar=true"
                   outlined
                   rows="1"
                   row-height="15"
@@ -176,33 +175,6 @@
         </v-col>
     </v-container>
     </v-dialog> 
-    <v-dialog
-    v-model="logindialog"
-    width="500" >
-    <v-card class="pa-4">
-      <v-card-title>
-        Log in and make your portfolio to continue.
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          color="primary"
-          class="ml-4 px-4" text 
-          @click="create_portfolio"
-        >
-          Okay
-        </v-btn>
-        <v-btn
-          color="error"
-          class="ml-4 px-4" text 
-          @click="logindialog = false"
-        >
-          Maybe, later
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-    </v-dialog>
     <v-dialog
       v-model="updateLearning"
       width="800">
@@ -245,8 +217,7 @@
     <v-snackbar v-model="thankyou_snackbar">
           Thank you for sharing.
     </v-snackbar>
-  
-</v-container>
+</div>
 </template>
 <script>
 import LearningCommentsCard from '~/components/LearningCommentsCard.vue'
@@ -266,7 +237,6 @@ import { mapGetters } from 'vuex'
         timeLearn:'',
         valid_snackbar: false,
         login_snackbar: false,
-        logindialog: false,
         thankyou_snackbar: false,
         videoDialog: false,
         learndate:'',

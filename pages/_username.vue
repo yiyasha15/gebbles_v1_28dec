@@ -1,15 +1,16 @@
 <template>
   <v-app>
     <!-- <v-container> -->
-    <v-row class="ma-1">
+    <v-row class="ma-0">
         <v-col cols="12" sm="6" >
             <v-layout align-center>
                 <nuxt-link :to="'/'" class="text-decoration-none">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
-                class="ml-2 clickable"
+                class="ml-1 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
                 <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
+                <div class="hidden-sm-and-down">
                 <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
                     <h1 v-if="usersPortfolio.artist_name" class="xs12" style="color:black;">{{usersPortfolio.artist_name}}</h1>
                     <h1 v-else class="xs12" style="color:black; ">{{usersPortfolio.username}}</h1>
@@ -17,6 +18,17 @@
                 <div v-else>
                     <h1 v-if="artist.artist_name" class="xs12" style="color:black;">{{artist.artist_name}}</h1>
                     <h1 v-else class="xs12" style="color:black; ">{{artist.username}} </h1>
+                </div>
+                </div>
+                <div class="hidden-md-and-up ">
+                <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
+                    <h2 v-if="usersPortfolio.artist_name" class="xs12" style="color:black; ">{{usersPortfolio.artist_name}}</h2>
+                    <h2 v-else class="xs12" style="color:black; ">{{usersPortfolio.username}}</h2>
+                </div>
+                <div v-else>
+                    <h2 v-if="artist.artist_name" class="xs12" style="color:black;">{{artist.artist_name}}</h2>
+                    <h2 v-else class="xs12" style="color:black; ">{{artist.username}} </h2>
+                </div>
                 </div>
                 </nuxt-link>
                 <v-spacer></v-spacer>
