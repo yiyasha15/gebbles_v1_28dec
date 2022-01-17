@@ -17,7 +17,7 @@
         </v-row>
       </v-col>
       </v-row>
-      <v-row class="mt-2 hidden-sd-and-up justify-center">
+      <v-row class="mt-2 hidden-md-and-up justify-center">
         <v-col cols="12" >
           <v-row class="justify-center">
             <p class="ma-2">&copy; gebbles {{ new Date().getFullYear() }}</p><br>
