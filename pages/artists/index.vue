@@ -3,7 +3,7 @@
       <v-container>
       <v-row>
         <v-col cols="12" md="8"  class="justify-center">
-          <h2 class ="pl-6 font-weight-bold xs12 d-inline">Our Community</h2>
+          <h2 class ="pl-6 xs12 d-inline">Our Community</h2>
           <v-btn v-if="isAuthenticated" small icon outlined color="indigo" class="mb-2 ml-2" to="/create/website/">
           <v-icon small>mdi-plus</v-icon>
           </v-btn>

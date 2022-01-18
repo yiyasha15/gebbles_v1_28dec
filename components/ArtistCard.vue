@@ -6,32 +6,32 @@
       :to="'/' + artist.username" 
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="160" 
-      max-height="160"
+      min-width="92" 
+      max-height="92"
     >
       <v-img
         v-if = artist.thumb :src = "artist.thumb" 
         :lazy-src= "artist.thumb" 
         class="grey lighten-2 white--text"
-        height="100"
-        width="160"
+        height="60"
+        width="92"
       />
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"
         contain
-        height="100"
-        width="160"
+        height="60"
+        width="92"
       />
       <v-card-actions height="32px">
-        <div v-if="artist.artist_name" width="100" class="text-decoration-none caption" style=" height: 1.3em;
+        <div v-if="artist.artist_name" width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p style="max-width:126px;">{{ artist.artist_name }} </p>
+        <p style="max-width:76px; font-size:0.6rem!important;">{{ artist.artist_name }} </p>
         </div>
-        <div v-else width="100" class="text-decoration-none caption" style=" height: 1.3em;
+        <div v-else width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p style="max-width:126px;">{{ artist.username }} </p>
+        <p style="max-width:76px; font-size:0.6rem!important;">{{ artist.username }} </p>
         </div>
         <v-spacer></v-spacer>
         <country-flag size=small  :country= 'artist.country' />

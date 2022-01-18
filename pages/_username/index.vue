@@ -26,14 +26,14 @@
         <v-row v-if="usersBio.introduction">
             <v-col cols="12" style="margin:auto; max-width:750px" class="my-md-6 pa-4">
                 <h2 style="font-size: 2.5rem;" >about</h2><br>
-                <h2 class="mb-5 font-weight-light" style="line-height:2;">
+                <h3 class="mb-5 font-weight-light" style="line-height:2;">
                     {{ usersBio.introduction }}
-                </h2>
+                </h3>
                 <v-row >
                 <v-col v-if="usersBio.crew" style="margin:auto; max-width:750px">
-                    <h2 class="mb-2 " >
+                    <h3 class="mb-2 " >
                         Representing: {{usersBio.crew}}
-                    </h2>
+                    </h3>
                 </v-col>
             </v-row>
             <v-row v-if="usersBio.quote" class="mt-16 mb-6">
@@ -111,14 +111,14 @@
         <v-row v-if="bio.introduction">
             <v-col cols="12" style="margin:auto; max-width:750px" class="my-md-6 pa-4">
                 <h2 style="font-size: 2.5rem;" >about</h2><br>
-                <h2 class="mb-5 font-weight-light" style="line-height:2;">
+                <h3 class="mb-5 font-weight-light" style="line-height:2;">
                     {{ bio.introduction }}
-                </h2>
+                </h3>
                 <v-row >
                 <v-col v-if="bio.crew" style="margin:auto; max-width:750px">
-                    <h2 class="mb-2 " >
+                    <h3 class="mb-2 " >
                         Representing: {{bio.crew}}
-                    </h2>
+                    </h3>
                 </v-col>
             </v-row>
             <v-row v-if="bio.quote" class="mt-16 mb-6">

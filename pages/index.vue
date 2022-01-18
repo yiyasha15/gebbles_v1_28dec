@@ -96,7 +96,7 @@
           <v-card
           outlined
           :to="'/create'" 
-          :elevation="hover ? 6 : 2"
+          :elevation="hover ? 8 : 4"
           class="mx-auto"
           max-width="244"
           max-height="200"
@@ -105,13 +105,13 @@
               :src="require('@/assets/bboys.jpeg')"
               height="150px"
               position="top"
-              style="background-size: contain;"
+              contain
             ></v-img>
-            <v-card-subtitle>
-              <h3>Create your Portfolio</h3>
-            </v-card-subtitle>
           </v-card>
           </v-hover>
+          <center>
+            <h4 class="font-weight-light mt-4">Create your Portfolio</h4>
+          </center>
         </v-col>
         <v-col>
           <v-hover v-slot:default="{ hover }">
@@ -124,16 +124,16 @@
           max-height="200"
           >
             <v-img
+            contain
               :src="require('@/assets/each1teach1.jpeg')"
               height="150px"
               position="top"
-              style="background-size: contain;"
             ></v-img>
-            <v-card-subtitle>
-             <h3> Your dance journey</h3>
-            </v-card-subtitle>
           </v-card>
           </v-hover>
+          <center>
+            <h4 class="font-weight-light mt-4">Your dance journey</h4>
+          </center>
         </v-col>
         <v-col>
           <v-hover v-slot:default="{ hover }">
@@ -145,17 +145,16 @@
           max-height="200"
           outlined
           >
-            <v-img
+            <v-img contain
               :src="require('@/assets/e1t11.jpeg')"
               height="150px"
               position="top"
-              style="background-size: contain;"
             ></v-img>
-            <v-card-subtitle>
-              <h3>Each One Teach One</h3>
-            </v-card-subtitle>
           </v-card>
           </v-hover>
+          <center>
+          <h4 class="font-weight-light mt-4">Each One Teach One</h4>
+          </center>
         </v-col>
       </v-row>
       <v-divider></v-divider>

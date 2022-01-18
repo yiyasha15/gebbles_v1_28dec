@@ -5,17 +5,17 @@
       data-view
       @click="openDialog(learning.id,learning.timestamp)"
       outlined
-      width="160" 
-      height="145"
+      width="92" 
+      height="92"
     >
     <v-img
         :src="require('@/assets/play_button1.png')"
         class="grey lighten-2 white--text"
-        height="100"
-        width="160"
+        height="55"
+        width="92"
       />
-      <v-card-actions height="24px">
-        <div  width="100" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;
+      <v-card-actions height="37px">
+        <div width="70" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;
           line-height: initial;
           overflow: hidden">
         <p>{{ learning.lesson }} </p>
@@ -25,7 +25,7 @@
           <template v-slot:activator="{ on, attrs }">
               <div v-bind="attrs"
               v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-icon small>mdi-dots-vertical</v-icon>
               </div>
           </template>
           <v-list>
