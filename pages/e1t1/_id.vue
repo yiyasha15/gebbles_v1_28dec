@@ -220,7 +220,7 @@
             </v-col>
         </v-row>
         <v-row class="ma-md-4 ma-2" v-if="learnings.length>0 ">
-            <v-layout row wrap class="mt-1">
+            <v-layout row wrap :class="{'mt-1 justify-center': $vuetify.breakpoint.smAndDown, 'mt-1': $vuetify.breakpoint.mdAndUp}">
             <div v-for="learning in learnings" :key ="learning.index">
             <v-flex > 
             <learning-card :learning = "learning"></learning-card>

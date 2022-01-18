@@ -6,12 +6,12 @@
       :to="'/e1t1/' + share.id" 
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="92" 
-      max-height="92">
+      min-width="96" 
+      max-height="96">
           <div v-for = "artist in artists" :key = "artist.index">
             <v-img v-if="share.username === artist.username"
               :src = "artist.thumb"
-              height="60" width="92"/>
+              height="60" width="96"/>
           </div>
           <v-card-actions height="32px">
           <div width="70" class="text-decoration-none caption" style=" height: 1.4em;

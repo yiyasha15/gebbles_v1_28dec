@@ -5,14 +5,14 @@
       data-view
       @click="openDialog(learning.id,learning.timestamp)"
       outlined
-      width="92" 
-      height="92"
+      width="96" 
+      height="96"
     >
     <v-img
         :src="require('@/assets/play_button1.png')"
         class="grey lighten-2 white--text"
         height="55"
-        width="92"
+        width="96"
       />
       <v-card-actions height="37px">
         <div width="70" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;

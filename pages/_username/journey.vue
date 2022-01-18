@@ -3,14 +3,14 @@
         <v-container>
         <div v-if="upcoming.length >0"><div class="my-4">
         <h3 class="font-weight-light d-inline">Upcoming events</h3></div>
-        <v-layout wrap row class="my-2" v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
+        <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}" v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
             <div v-for="upcoming in usersUpcoming" :key ="upcoming.index">
                 <v-flex> 
                 <journey-card :journey = "upcoming" ></journey-card>
                 </v-flex>
             </div>
         </v-layout>
-        <v-layout wrap row class="my-2" v-else>
+        <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}" v-else>
             <div v-for="upcoming in upcoming" :key ="upcoming.index">
                 <v-flex> 
                 <journey-card :journey = "upcoming" ></journey-card>
@@ -26,7 +26,7 @@
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
             </div>
-            <v-layout wrap row class="my-2">
+            <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
                 <div v-for="journey in usersJourney" :key ="journey.index">
                     <v-flex> 
                     <journey-card :journey = "journey" v-if="journey.ishighlight"></journey-card>
@@ -36,7 +36,7 @@
             <div class="my-4">
                 <h3 class="font-weight-light d-inline">Journey</h3>
             </div>
-            <v-layout wrap row class="mt-2">
+            <v-layout wrap row :class="{'mt-2 justify-center': $vuetify.breakpoint.smAndDown, 'mt-2': $vuetify.breakpoint.mdAndUp}">
                 <div v-for="journey in usersJourney" :key ="journey.index">
                     <v-flex> 
                     <journey-card :journey = "journey" v-if="!journey.ishighlight"></journey-card>
@@ -46,14 +46,14 @@
         </div>
         <div v-else-if=" journey.length">
             <div class="my-4" >
-        <h3 class="font-weight-light d-inline">Highlights</h3>
-        <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" 
-        icon outlined color="indigo" class="ml-2" @click="createJourney">
-            <v-icon >mdi-plus</v-icon>
-        </v-btn>
+            <h3 class="font-weight-light d-inline">Highlights</h3>
+            <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" 
+            icon outlined color="indigo" class="ml-2" @click="createJourney">
+                <v-icon >mdi-plus</v-icon>
+            </v-btn>
             </div>
             <div>
-            <v-layout wrap row class="mt-2">
+            <v-layout wrap row :class="{'mt-2 justify-center': $vuetify.breakpoint.smAndDown, 'mt-2': $vuetify.breakpoint.mdAndUp}">
                 <div v-for="journey in journey" :key ="journey.index">
                     <v-flex> 
                     <journey-card :journey = "journey" v-if="journey.ishighlight"></journey-card>
@@ -62,7 +62,7 @@
             </v-layout>
             <div class="my-4">
             <h3 class="font-weight-light d-inline">Journey</h3></div>
-            <v-layout wrap row class="mt-2">
+            <v-layout wrap row :class="{'mt-2 justify-center': $vuetify.breakpoint.smAndDown, 'mt-2': $vuetify.breakpoint.mdAndUp}">
                 <div v-for="journey in journey" :key ="journey.index">
                     <v-flex> 
                     <journey-card :journey = "journey" v-if="!journey.ishighlight"></journey-card>

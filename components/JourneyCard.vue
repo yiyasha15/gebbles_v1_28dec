@@ -6,17 +6,17 @@
       @click="openDialog(journey.id)" 
       :elevation="hover ? 12 : 0"
       outlined
-      max-width="92" 
-      max-height="92"
+      max-width="96" 
+      max-height="96"
     >
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
         :lazy-src= "journey.jp1thumb" 
         class="grey lighten-2 white--text"
         height="60"
-        width="92"
+        width="96"
       />
-      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="60" width="92" contain/>
+      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="60" width="96" contain/>
       <v-dialog
         v-model="dialog"
         persistent

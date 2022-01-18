@@ -3,20 +3,22 @@
         <v-container>
         <nuxt-child :sharing="sharing"/>
         <div v-if="sharing.length">
+            <div class="mb-4">
         <h3 class="font-weight-light mt-4 d-inline">My Teachers</h3>
         <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
         <v-icon>mdi-plus</v-icon>
-        </v-btn>
-        <v-layout wrap row class="mt-2">
+        </v-btn></div>
+        <!-- responsive -->
+        <v-layout wrap row :class="{'mt-4 justify-center': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}">
             <div v-for="share in sharing" :key ="share.index">
                 <v-flex v-if="share.username === artist.username"> 
                 <TeachersCard :e1t1="share" ></TeachersCard>
                 </v-flex>
                 </div>
         </v-layout>
-
+        <!-- responsive -->
         <h3 class="font-weight-light mt-8">My Students</h3>
-        <v-layout wrap row class="mt-2">
+        <v-layout wrap row :class="{'mt-2 justify-center': $vuetify.breakpoint.smAndDown, 'mt-2': $vuetify.breakpoint.mdAndUp}" >
             <div v-for="share in sharing" :key ="share.index">
                 <v-flex > 
                     <StudentsCard v-if="share.s_teacher_name === artist.username" :share="share" ></StudentsCard>
