@@ -199,7 +199,7 @@
                 </v-col>
             </v-row>
     </v-container>
-    <v-container v-if="videoId" class="rounded-lg grey lighten-5 mt-4" style="margin:auto; max-width:750px" >
+    <v-container v-if="videoId" class="rounded-lg grey lighten-5 mt-2" style="margin:auto; max-width:750px" >
             <h3 class="font-weight-light pl-6">
                 The video which inspired me
             </h3>
@@ -210,7 +210,7 @@
                 <youtube width="auto" height="100%" :video-id= 'videoId'></youtube>
             </center>
     </v-container>
-    <v-container class="rounded-lg grey lighten-5 mt-4 py-4" style="margin:auto; max-width:750px"  >
+    <v-container class="rounded-lg grey lighten-5 mt-2 py-4" style="margin:auto; max-width:750px"  >
         <v-row>
             <v-col cols="12"  class="justify-center">
                 <h3 class =" font-weight-light pl-3 xs12 d-inline">Dedicated to {{e1t1.s_teacher_name}}</h3>
@@ -229,7 +229,7 @@
             </v-layout>     
         </v-row>
     </v-container>
-    <v-container class="rounded-lg grey lighten-5 mt-4 py-4" style="margin:auto; max-width:750px" >
+    <v-container class="rounded-lg grey lighten-5 mt-2 py-4" style="margin:auto; max-width:750px" >
             <h3 class="font-weight-light pa-3" id="scroll_comments">
                 Comments <span v-if="share_comments_list.length">{{share_comments_list.length}}</span>
             </h3>

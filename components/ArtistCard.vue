@@ -17,8 +17,8 @@
         width="160"
       />
       <v-img
-        v-else :src="require('@/assets/each1teach1.jpeg')"
-        class="grey lighten-2 white--text"
+        v-else :src="require('@/assets/gebbleslogo3.png')"
+        contain
         height="100"
         width="160"
       />

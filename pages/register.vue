@@ -2,7 +2,7 @@
 <v-app>
 	<v-card width="500" class="mx-auto mt-6 ">
 		<v-card-title class="justify-center">
-			<h2 class="font-weight-black">Welcome</h2>
+			<h3 class="font-weight-black">Sign up to gebbles</h3>
 		</v-card-title>
 		<v-card-text>
 			<v-form
@@ -79,13 +79,13 @@
 			</v-form>
 			</v-card-text>
 			<v-card-actions class="mb-3 justify-center">
-				<v-btn @click="registerUser(registrationInfo)" small  class="px-4" color="yellow" :loading="progressbar" :disabled="!formIsValid">Register</v-btn>
+				<v-btn @click="registerUser(registrationInfo)" small  class="px-8" color="yellow" :loading="progressbar" :disabled="!formIsValid">Create Account</v-btn>
 				<!-- <v-btn to='/login' class="ml-4 text-decoration-none px-4" small  color="primary" >Already registered</v-btn> -->
 				<!-- <v-spacer></v-spacer>
 				<v-btn class="mr-4" color="info">Login</v-btn> -->
 			</v-card-actions>
 			<v-divider></v-divider>
-     <center> <p class="pt-2">Already have an account? <nuxt-link :to="'/login'" style="text-decoration:none">Log in. </nuxt-link></p></center>
+     <center> <h5 class="py-4 font-weight-light">Already have an account? <nuxt-link :to="'/login'" style="text-decoration:none">Sign in. </nuxt-link></h5></center>
 			<v-dialog v-model="terms" width="70%">
 			<v-card>
 			<v-card-title class="title">
@@ -135,7 +135,7 @@
 				</v-card-title>
 				<v-card-text
 				>
-				Please verify your registered email {{this.tempemail}}, by clicking on the link we sent you and log in to continue.
+				Please verify your registered email {{this.tempemail}}, by clicking on the link we sent you and sign in to continue.
 				</v-card-text>
 				<v-card-actions>
 				<v-spacer></v-spacer>

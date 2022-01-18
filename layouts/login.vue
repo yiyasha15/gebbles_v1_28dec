@@ -2,17 +2,17 @@
   <v-app>
     <the-header/>
       <nuxt/>
-    <login-footer/>
+    <the-footer/>
   </v-app>
 </template>
 
 <script>
 import TheHeader from '@/components/TheHeader'
-import LoginFooter from '@/components/LoginFooter'
+import TheFooter from '@/components/TheFooter'
 export default {
   components:{
     TheHeader,
-    LoginFooter
+    TheFooter
   },
   head() {  //head function (a property of vue-meta), returns an object
     return {

@@ -10,9 +10,9 @@
       max-height="160"
     >
     <v-img v-if = e1t1.sp_thumb  :src = "e1t1.sp_thumb" :lazy-src= "e1t1.sp_thumb" width="160px" height="100px"></v-img>
-    <v-img v-else :src="require('@/assets/e1t11.jpeg')" height="100" width="160" contain/>
+    <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="100" width="160" contain/>
       <v-card-actions height="32px">
-        <div width="100" class="text-decoration-none caption" style=" height: 1.3em;
+        <div width="100" class="text-decoration-none caption" style=" height: 1.4em;
           line-height: initial;
           overflow: hidden">
         <p style="max-width:126px;">{{e1t1.s_teacher_name}}</p>

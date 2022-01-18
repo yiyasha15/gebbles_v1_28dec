@@ -52,7 +52,7 @@
           Connecting the groove, <br>
           celebrating<span style="color:red;"> Each one Teach one.</span>
         </h1>
-        <v-btn :to= "`/test/`">test</v-btn>
+        <!-- <v-btn :to= "`/test/`">test</v-btn> -->
       </v-row>
       <v-row class="justify-center align-center mt-12">
         <v-col cols="12" md="6">

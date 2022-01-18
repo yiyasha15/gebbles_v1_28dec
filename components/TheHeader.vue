@@ -104,12 +104,12 @@
                 </v-list>
             </v-menu>
         <div v-if="!isAuthenticated" class=" hidden-sm-and-down">
-            <v-btn small dark color="#ccbf4d" class="mr-2 text-decoration-none" to="/login">Log in</v-btn>
-            <v-btn small outlined  color="indigo" class="mr-2 text-decoration-none" to="/register">Register</v-btn>
+            <v-btn small dark color="#ccbf4d" class="mr-2 text-decoration-none" to="/login">Sign In</v-btn>
+            <v-btn small outlined  color="indigo" class="mr-2 text-decoration-none" to="/register">Sign Up</v-btn>
         </div>
         <div v-if="!isAuthenticated" class=" hidden-md-and-up">
-            <v-btn x-small dark color="#ccbf4d" class="mr-2 text-decoration-none" to="/login">Log in</v-btn>
-            <v-btn x-small outlined  color="indigo" class="mr-2 text-decoration-none" to="/register">Register</v-btn>
+            <v-btn x-small dark color="#ccbf4d" class="mr-2 text-decoration-none" to="/login">Sign In</v-btn>
+            <v-btn x-small outlined  color="indigo" class="mr-2 text-decoration-none" to="/register">Sign Up</v-btn>
         </div>
         </v-toolbar>
     <!-- </v-container> -->

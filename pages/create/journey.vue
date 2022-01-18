@@ -9,7 +9,7 @@
         </div>
             <!-- <v-divider class="ma-4" ></v-divider> -->
             <!-- <h4 class="ma-4">Share your journey</h4> -->
-        <v-row class="mx-2">
+        <v-row >
         <v-col cols="12" md="6" class="pa-0">
              <h3 class="ma-4">Share your journey</h3>
             <v-stepper v-model="e6" vertical >
@@ -233,15 +233,15 @@
             <client-only>
                   <Slider v-if="imageData1"
                       :autoplay = false
-                      width="520px"
-                      height="500px">
+                      width="320px"
+                      height="200px">
                       <div v-if="imageData1">
                       <SliderItem >
                       <v-img
                             :src="imageData1"
                             contain
-                            height="500px"
-                            width="800px"
+                            height="200px"
+                            width="320px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -250,8 +250,8 @@
                       <v-img
                             :src="imageData2"
                             contain
-                            height="500px"
-                            width="800px"
+                            height="200px"
+                            width="320px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -260,8 +260,8 @@
                       <v-img
                             :src="imageData3"
                             contain
-                            height="500px"
-                            width="800px"
+                            height="200px"
+                            width="320px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -270,8 +270,8 @@
                       <v-img
                             :src="imageData4"
                             contain
-                            height="500px"
-                            width="800px"
+                            height="200px"
+                            width="320px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -280,8 +280,8 @@
                       <v-img
                             :src="imageData5"
                             contain
-                            height="500px"
-                            width="800px"
+                            height="200px"
+                            width="320px"
                           ></v-img>
                       </SliderItem>
                       </div> -->
@@ -843,7 +843,7 @@ export default {
                 this.refresh();
                 this.progressbar =false;
                 this.snackbar = true;
-                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
+                this.$router.push("/"+this.$store.state.auth.user.user.username);
             } catch (e) {
                 this.progressbar =false;
                 console.log(e);

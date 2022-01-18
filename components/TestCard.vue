@@ -22,26 +22,27 @@
         persistent
         class="ma-12 ma-md-24">
         <div class="rounded-lg white">
-          <v-row align="end" justify="end" class="pa-4" >
-          <v-btn icon color="error" @click="closeDialog"  align="end" justify="end" >
+          <v-col cols="12" align="end" justify="end" >
+          <v-btn icon color="error" @click="closeDialog" >
             <v-icon >mdi-close</v-icon>
           </v-btn>
-          </v-row>
-              <v-row align="center" justify="center" class="ma-0">
+          </v-col>
+          <v-row class="ma-0">
+            <v-col cols="12" md="6" align="center" justify="center">
+              <v-row>
                 <client-only>
-                  <Slider 
-                  class="hidden-sm-and-down"
+                  <Slider
                       :autoplay = false
-                      width="768px" height="510px"
-                      >
+                      width="600px"
+                      height="500px">
                       <div v-if="fullJourney">
                       <div v-if="fullJourney.jophoto1 !=null">
                       <SliderItem>
                       <v-img
                             :src="fullJourney.jophoto1"
                             contain
-                            max-height="510px"
-                            max-width="768px"
+                            height="500px"
+                            width="800px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -50,8 +51,8 @@
                       <v-img
                             :src="fullJourney.jophoto2"
                             contain
-                            height="510px"
-                            width="768px"
+                            height="500px"
+                            width="800px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -60,8 +61,8 @@
                       <v-img
                             :src="fullJourney.jophoto3"
                             contain
-                            height="510px"
-                            width="768px"
+                            height="500px"
+                            width="800px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -70,8 +71,8 @@
                       <v-img
                             :src="fullJourney.jophoto4"
                             contain
-                            height="510px"
-                            width="768px"
+                            height="500px"
+                            width="800px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -80,66 +81,8 @@
                       <v-img
                             :src="fullJourney.jophoto5"
                             contain
-                            height="510px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      </div>
-                  </Slider>
-                  <Slider 
-                  class="hidden-md-and-up"
-                      :autoplay = false
-                      width="768px" height="310px"
-                      >
-                      <div v-if="fullJourney">
-                      <div v-if="fullJourney.jophoto1 !=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto1"
-                            contain
-                            max-height="310px"
-                            max-width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto2!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto2"
-                            contain
-                            height="310px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto3!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto3"
-                            contain
-                            height="310px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto4!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto4"
-                            contain
-                            height="310px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto5!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto5"
-                            contain
-                            height="310px"
-                            width="768px"
+                            height="500px"
+                            width="800px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -147,9 +90,10 @@
                   </Slider>
                 </client-only>
               </v-row>
-              <v-container style="margin:auto; max-width:768px; " >
+            </v-col>
+            <v-col cols="12" md="6">
               <div v-if="loggedInUser">
-              <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="pt-2">
+              <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="px-7 pt-2">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon small>
@@ -183,10 +127,10 @@
                 </v-dialog>
               </v-row>
               </div>
-              <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}">
+              <v-row class="px-4">
                 <h5 class="font-weight-light">{{journey.jodate}}</h5>
               </v-row>
-              <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}" v-if="fullJourney">
+              <v-row class="px-4 pt-4" v-if="fullJourney">
                 <!-- {{fullJourney}} -->
                   <h4>{{fullJourney.joevent}}</h4> 
                   <v-spacer></v-spacer>
@@ -197,7 +141,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs"
                         v-on="on">
-                        <v-icon class="pl-2 float-right" color="orange" small>mdi-star</v-icon>
+                        <v-icon class="pl-2 float-right" yellow small>mdi-star</v-icon>
                     </v-btn>
                   </template>
                   <span>This is a highlighted post.</span>
@@ -212,10 +156,11 @@
                   <span>This is your private post.</span>
                 </v-tooltip>
               </v-row>
-              <v-row :class="{'my-8 px-2': $vuetify.breakpoint.smAndDown, 'my-8': $vuetify.breakpoint.mdAndUp}">
+              <v-row class="pa-4">
                 <p><nuxt-link :to="'/'+ journey.username"><b>{{journey.username}}</b> </nuxt-link> <span v-if="fullJourney">{{fullJourney.jocontent}}</span></p>
               </v-row>
-              </v-container>
+            </v-col>
+          </v-row>
         </div>
       </v-dialog>
       <v-card-actions max-height="32">
@@ -284,16 +229,12 @@ export default {
     },
     computed: {
         ...mapGetters(['loggedInUser','fullJourney']),
-    },
-    
+	  },
     data() {
       return {
         dialog: false,
         dialogDelete:false,
-        rm:"",
-        list: [
-        { width: '100%', height: '100%' },
-      ],
+        rm:""
         }
     }
   }

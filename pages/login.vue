@@ -2,7 +2,7 @@
 <v-app>
 	<v-card width="500" class="mx-auto mt-6 ">
 		<v-card-title class="justify-center my-4">
-			<h2>Welcome</h2>
+			<h3>Sign in to gebbles</h3>
 		</v-card-title>
 		<v-card-text>
 			<v-text-field 
@@ -21,7 +21,7 @@
 				/>
 		</v-card-text>
 		<v-card-actions class="mb-3 justify-center">
-			<v-btn @click="submitForm()" class="px-4" small  color="yellow">Log in</v-btn>
+			<v-btn @click="submitForm()" class="px-8 py-4" small  color="yellow">Sign in</v-btn>
 			<!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
 		</v-card-actions>
 		<v-divider></v-divider>

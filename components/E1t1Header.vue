@@ -87,8 +87,8 @@
                 </v-list>
             </v-menu>
         <div v-if="!isAuthenticated">
-            <v-btn rounded color="yellow" class="mr-2 text-decoration-none" to="/login">Log in</v-btn>
-            <v-btn rounded color="indigo" dark class="mr-2 text-decoration-none" to="/register">Register</v-btn>
+            <v-btn rounded color="yellow" class="mr-2 text-decoration-none" to="/login">Sign In</v-btn>
+            <v-btn rounded color="indigo" dark class="mr-2 text-decoration-none" to="/register">Sign Up</v-btn>
         </div>
         </v-toolbar>
     </v-container>

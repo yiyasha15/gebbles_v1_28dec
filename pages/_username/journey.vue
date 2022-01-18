@@ -1,8 +1,8 @@
 <template>
     <v-app >
         <v-container>
-        <div v-if="upcoming.length >0">
-        <h3 class="font-weight-light my-4 d-inline">Upcoming events</h3>
+        <div v-if="upcoming.length >0"><div class="my-4">
+        <h3 class="font-weight-light d-inline">Upcoming events</h3></div>
         <v-layout wrap row class="my-2" v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
             <div v-for="upcoming in usersUpcoming" :key ="upcoming.index">
                 <v-flex> 
@@ -18,30 +18,41 @@
             </div>
         </v-layout>
         </div>
-        <div v-if="journey.length || usersJourney">
-            <h3 class="font-weight-light my-4 d-inline">Highlights</h3>
+        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username && usersJourney.length">
+            <div class="my-4" >
+            <h3 class="font-weight-light d-inline">Highlights</h3>
             <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" 
             icon outlined color="indigo" class="ml-2" @click="createJourney">
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
-            <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
-                <v-layout wrap row class="my-2">
-                    <div v-for="journey in usersJourney" :key ="journey.index">
-                        <v-flex> 
-                        <journey-card :journey = "journey" v-if="journey.ishighlight"></journey-card>
-                        </v-flex>
-                    </div>
-                </v-layout>
-                <h3 class="font-weight-light my-4 d-inline">Journey</h3>
-                <v-layout wrap row class="mt-2">
-                    <div v-for="journey in usersJourney" :key ="journey.index">
-                        <v-flex> 
-                        <journey-card :journey = "journey" v-if="!journey.ishighlight"></journey-card>
-                        </v-flex>
-                        </div>
-                </v-layout>
             </div>
-            <div v-else >
+            <v-layout wrap row class="my-2">
+                <div v-for="journey in usersJourney" :key ="journey.index">
+                    <v-flex> 
+                    <journey-card :journey = "journey" v-if="journey.ishighlight"></journey-card>
+                    </v-flex>
+                </div>
+            </v-layout>
+            <div class="my-4">
+                <h3 class="font-weight-light d-inline">Journey</h3>
+            </div>
+            <v-layout wrap row class="mt-2">
+                <div v-for="journey in usersJourney" :key ="journey.index">
+                    <v-flex> 
+                    <journey-card :journey = "journey" v-if="!journey.ishighlight"></journey-card>
+                    </v-flex>
+                    </div>
+            </v-layout>
+        </div>
+        <div v-else-if=" journey.length">
+            <div class="my-4" >
+        <h3 class="font-weight-light d-inline">Highlights</h3>
+        <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" 
+        icon outlined color="indigo" class="ml-2" @click="createJourney">
+            <v-icon >mdi-plus</v-icon>
+        </v-btn>
+            </div>
+            <div>
             <v-layout wrap row class="mt-2">
                 <div v-for="journey in journey" :key ="journey.index">
                     <v-flex> 
@@ -49,7 +60,8 @@
                     </v-flex>
                     </div>
             </v-layout>
-            <h3 class="font-weight-light my-4 d-inline">Journey</h3>
+            <div class="my-4">
+            <h3 class="font-weight-light d-inline">Journey</h3></div>
             <v-layout wrap row class="mt-2">
                 <div v-for="journey in journey" :key ="journey.index">
                     <v-flex> 

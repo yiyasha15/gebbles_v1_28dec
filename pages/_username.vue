@@ -137,13 +137,13 @@
                                 :to="'/login'"
                                 class="text-decoration-none pl-6 pr-12"
                                 >
-                                <v-list-item-title>Login</v-list-item-title>
+                                <v-list-item-title>Sign In</v-list-item-title>
                                 </v-list-item>
                                 <v-list-item
                                 :to="'/register'"
                                 class="text-decoration-none pl-6 pr-12"
                                 >
-                                <v-list-item-title>Register</v-list-item-title>
+                                <v-list-item-title>Sign up</v-list-item-title>
                                 </v-list-item>
                             </v-list>
                         </v-menu>
@@ -260,13 +260,13 @@
                         :to="'/login'"
                         class="text-decoration-none pl-6 pr-12"
                         >
-                        <v-list-item-title>Login</v-list-item-title>
+                        <v-list-item-title>Sign In</v-list-item-title>
                         </v-list-item>
                         <v-list-item
                         :to="'/register'"
                         class="text-decoration-none pl-6 pr-12"
                         >
-                        <v-list-item-title>Register</v-list-item-title>
+                        <v-list-item-title>Sign Up</v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-menu>

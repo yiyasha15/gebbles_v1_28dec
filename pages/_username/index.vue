@@ -10,8 +10,7 @@
         || usersBio.introduction || usersBio.crew || usersBio.ig || usersBio.fb || usersBio.site
         || usersBio.gallery1|| usersBio.gallery2 || usersBio.gallery3 || usersBio.gallery4 
         || usersBio.vid1 || usersBio.vid2 || usersBio.vid3 || usersBio.vid4">
-        <!-- {{usersPortfolio}} -->
-        <div v-if="isAuthenticated && loggedInUser.user.username==usersPortfolio.username" class="mb-6">
+        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="mb-6">
         <center v-if="usersPortfolio.cover">
             <v-img
             class="hidden-md-and-up"
@@ -96,8 +95,7 @@
         </v-row>
         </v-container>
         </div>
-        <div v-else class="mb-4">
-            
+        <div v-else class="mb-4"> 
         <center v-if="artist.cover">
             <v-img
             class="hidden-md-and-up"
@@ -131,8 +129,6 @@
             </v-row>
             </v-col>
         </v-row>
-        </v-container>
-        <v-container>
         <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6">
             <template>
                 <v-row>

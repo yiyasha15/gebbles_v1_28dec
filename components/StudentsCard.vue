@@ -13,13 +13,15 @@
               :src = "artist.thumb"
               height="100" width="160"/>
           </div>
-          <v-card-actions>
-        <div width="100" class="text-decoration-none caption">
-        {{share.username}}
-        </div>
-        <v-spacer></v-spacer>
-        <country-flag size=small :country= 'share.s_student_country' />
-          </v-card-actions>
+          <v-card-actions height="32px">
+          <div width="100" class="text-decoration-none caption" style=" height: 1.4em;
+            line-height: initial;
+            overflow: hidden">
+          <p style="max-width:126px;">{{share.username}}</p>
+          </div>
+          <v-spacer></v-spacer>
+        <country-flag :country= 'share.s_student_country' size='small'/>
+      </v-card-actions>
     </v-card>
   </v-hover>
 </template>
