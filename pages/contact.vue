@@ -3,10 +3,10 @@
     <v-app> 
         <v-container>
             <div class="ma-6">
-                <h2 class="my-4">We would love to hear from you.</h2>
-                <h3 class="py-2">Email us at <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</h3>
-                <h3 class="py-2"> Instagram <a href="https://instagram.com/gebbles.io/" target="_blank">@gebbles.io.</a></h3>
-                <h3 class="py-2">To report a bug or suggest any additional features for the platform.</h3>
+                <h3 class="my-4">We would love to hear from you.</h3>
+                <h4 class="py-2">Email us at <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</h4>
+                <h4 class="py-2"> Instagram <a href="https://instagram.com/gebbles.io/" target="_blank">@gebbles.io.</a></h4>
+                <h4 class="py-2">To report a bug or suggest any additional features for the platform.</h4>
                 <v-text-field
                 label="Name"
                 :error-messages="errorName"
@@ -27,7 +27,7 @@
                     v-model="report.question"
                     :error-messages="errorQuestion">
                 </v-textarea>
-                <v-btn outlined small class="text-decoration-none"  color="indigo" dark
+                <v-btn outlined small class="text-decoration-none px-6"  color="indigo" dark
                      @click="submit">Send</v-btn>
             </div>
         </v-container>

@@ -121,7 +121,7 @@
                     </v-slide-group>
                 <v-btn color="indigo" text small outlined @click="e6 = 2">Next</v-btn>
                 <!-- <v-btn color="indigo" text @click="e6 = 1">Previous</v-btn> -->
-                <v-btn text @click="goback" small>Cancel</v-btn>
+                <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Caption</v-stepper-step>
@@ -175,7 +175,7 @@
                     </v-text-field>
                     <v-btn color="indigo" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
-                    <v-btn text @click="goback" small>Cancel</v-btn>
+                    <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Privacy</v-stepper-step>
@@ -213,7 +213,7 @@
                     <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark
                     @click="update" :loading="progressbar">Update</v-btn>
                     <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
-                    <v-btn text small @click="goback">Cancel</v-btn>
+                    <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>
         </v-col>

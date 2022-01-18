@@ -320,7 +320,6 @@
         </v-form>
       </v-card>
     </v-dialog>
-    
     <v-snackbar v-model="sizeExceed">
         Size exceeded.
     </v-snackbar>

@@ -3,7 +3,7 @@
 	<v-container>
 	<v-card width="500" class="mx-auto mt-16 ">
 		<v-card-title class="justify-center align-center">
-            <h3>Are you sure you want to sign out?</h3>
+            <h5>Are you sure you want to sign out?</h5>
 		</v-card-title>
 		<v-card-actions class="pb-6 justify-center">
 			<v-btn class="ml-4 px-4" small dark color="error" @click="signout">Sign Out</v-btn>
