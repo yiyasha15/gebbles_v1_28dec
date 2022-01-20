@@ -951,7 +951,8 @@ export default {
         async update() {
             this.progressbar =true
             const config = {
-                headers: {"content-type": "multipart/form-data",
+                headers: {
+                    "content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                 }
             };

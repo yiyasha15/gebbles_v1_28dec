@@ -4,31 +4,33 @@
         <v-container>
             <div class="ma-6">
                 <h3 class="my-4">We would love to hear from you.</h3>
-                <h4 class="py-2">Email us at <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</h4>
+                <h5 class="my-4 font-weight-light">Gebbles is an entirely homegrown community platform, hence in this version we apologize if you find bugs or error during your use.
+                    Simply contact us using any of the below addresses and send us your queries/issues and we will try and solve it for you.
+                    <!-- Thankyou. -->
+                    </h5>
+                <h4 class="py-2">Email <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</h4>
                 <h4 class="py-2"> Instagram <a href="https://instagram.com/gebbles.io/" target="_blank">@gebbles.io.</a></h4>
                 <h4 class="py-2">To report a bug or suggest any additional features for the platform.</h4>
+                <v-card max-width="540" elevation="0" outlined class="mt-2">
+                    <v-card-text>
                 <v-text-field
-                label="Name"
+                label="Name" color="#cead8f"
                 :error-messages="errorName"
-                    max-width="100px"
-                    class="py-2"
-                    v-model="report.name"
-                    ></v-text-field>
-                    <v-text-field
-                label="Email"
-                    max-width="100px"
-                    class="py-2"
-                    v-model="report.email"
-                    :error-messages="errorEmail"></v-text-field>
+                v-model="report.name"
+                ></v-text-field>
+                <v-text-field
+                label="Email" color="#cead8f"
+                v-model="report.email"
+                :error-messages="errorEmail"></v-text-field>
                 <v-textarea
-                label="Message"
-                    max-width="70%"
-                    class="py-2"
+                label="Message" color="#cead8f"
                     v-model="report.question"
                     :error-messages="errorQuestion">
                 </v-textarea>
-                <v-btn outlined small class="text-decoration-none px-6"  color="indigo" dark
+                <v-btn outlined small class="text-decoration-none px-6"  color="black" dark
                      @click="submit">Send</v-btn>
+                    </v-card-text>
+                </v-card>
             </div>
         </v-container>
         <v-snackbar v-model="snackbar">Thankyou for your feedback</v-snackbar>

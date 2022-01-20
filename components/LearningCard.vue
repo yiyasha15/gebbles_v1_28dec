@@ -104,7 +104,7 @@
         </video>
         <div align="left" justify="left">
         <div class="my-4">
-          <h5 class="caption">Posted on {{learndate}}</h5>
+          <h5 class="caption"> {{learndate}}</h5>
         </div>
         <div class="my-4" >
         <h4>{{learn_obj.lesson}}</h4>

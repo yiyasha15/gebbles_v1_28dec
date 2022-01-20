@@ -1,240 +1,159 @@
 <template>
   <v-app>
-    <v-container class="rounded-lg grey lighten-5 mt-4" style="margin:auto; max-width:750px" >
-            <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()">
-                <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
-            <v-row class="pa-4">
-                <v-col cols="12" md="6" align="center" justify="center">
-                    <v-img :src = "e1t1.s_photo" width="80%" class="centerImage" maxHeight="520px"></v-img>
-                </v-col>
-                <v-col cols="12" md="6" >
-                    <v-row>
-                        <v-col class="ma-0 px-0">
-                        <h5 class="caption">Posted on {{e1t1.s_date}}</h5>
-                        </v-col>
-                        <div v-if="loggedInUser">
-                        <v-col class="ma-0 px-0" v-if="loggedInUser.user.username == e1t1.username" >
-                        <v-tooltip top>
+       <v-container class=" mx-auto" fluid style="max-width:750px" >
+        <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
+            <v-icon class="float-left">mdi-arrow-left</v-icon>
+        </v-btn>
+       </v-container>
+    <v-container class="mx-auto" fluid style="max-width:750px" >
+        <v-row>
+            <v-col cols="12" md="6" align="center" justify="center">
+                <v-img :src = "e1t1.s_photo" class="centerImage" maxHeight="520px"></v-img>
+            </v-col>
+            <v-col cols="12" md="6" >
+                <v-row>
+                    <v-col >
+                    <h5 class="caption"> {{e1t1.s_date}}</h5>
+                    </v-col>
+                    <div v-if="loggedInUser">
+                    <v-col v-if="loggedInUser.user.username == e1t1.username" >
+                    <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn small icon v-bind="attrs"
+                        v-on="on">
+                        <v-icon small color="indigo" @click="editE1t1">mdi-circle-edit-outline</v-icon>
+                    </v-btn>
+                    </template>
+                    <span>Edit</span>
+                    </v-tooltip>
+                    <v-dialog v-if="loggedInUser" v-model="dialog" width="500">
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-tooltip top v-bind="attrs" v-on="on">
                         <template v-slot:activator="{ on, attrs }">
-                            <v-btn small icon v-bind="attrs"
-                            v-on="on">
-                            <v-icon small color="indigo" @click="editE1t1">mdi-circle-edit-outline</v-icon>
-                        </v-btn>
+                            <v-btn small icon >
+                            <v-icon small color="error" @click="dialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
+                            </v-btn>
                         </template>
-                        <span>Edit</span>
+                        <span>Delete</span>
                         </v-tooltip>
-                        <v-dialog v-if="loggedInUser" v-model="dialog" width="500">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-tooltip top v-bind="attrs" v-on="on">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn small icon >
-                                <v-icon small color="error" @click="dialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                                </v-btn>
-                            </template>
-                            <span>Delete</span>
-                            </v-tooltip>
-                        </template>
-                        <v-card class="pa-4">
-                            <p>Are you sure you want to delete this experience?</p>
-                            <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn small class="px-4 text-decoration-none" color="error" dark
-                                @click="deleted">Delete</v-btn>
-                            <v-btn small color="indigo" class="px-4text-decoration-none" outlined  @click="dialog = false">
-                                Cancel
-                            </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                        </v-dialog>
-                        </v-col>
-                        </div>
-                    </v-row>
-                    <!-- <v-row class="pa-3">
-                        <v-col class="ma-0">
-                        <v-row >
-                                <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
-                                <h3 class=" hidden-md-and-up ">{{e1t1.teacher}}</h3> 
-                                <h2 class="hidden-sm-and-down ">{{e1t1.teacher}}</h2> 
-                                </nuxt-link>
-                                <div v-else>
-                                    <h3 class=" hidden-md-and-up text-decoration-none">{{e1t1.s_teacher_name}}</h3> 
-                                <h2 class="hidden-sm-and-down text-decoration-none">{{e1t1.s_teacher_name}}</h2> 
-                                </div>
-                                <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
-                                <country-flag :country= 'e1t1.s_teacher_country' />
-                                </div>
-                        </v-row>
-                        </v-col>
-                        <v-col class="ma-0">
-                            <v-row >
-                                <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
-                                 <h3 class=" hidden-md-and-up ">{{e1t1.username}}</h3> 
-                                <h2 class="hidden-sm-and-down ">{{e1t1.username}}</h2> 
-                                </nuxt-link>
-                                <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
-                                <country-flag :country= 'e1t1.s_student_country' />
-                                </div>
-                        </v-row>
-                        </v-col>
-                    </v-row> -->
-                    <!-- //testing -->
-                    <v-layout row wrap justify-space-between class="my-3">
-                        <v-flex xs10 md4 class="overflow-hidden">
-                            <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
-                                <h3 >{{e1t1.teacher}}</h3> 
-                                </nuxt-link>
-                                <div v-else>
-                                    <h3>{{e1t1.s_teacher_name}}</h3> 
-                                </div>
-                        </v-flex>
-                        <v-flex xs2 md2>
-                            <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
-                                <country-flag :country= 'e1t1.s_teacher_country' />
+                    </template>
+                    <v-card class="pa-4">
+                        <p>Are you sure you want to delete this experience?</p>
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn small class="px-4 text-decoration-none" color="error" dark
+                            @click="deleted">Delete</v-btn>
+                        <v-btn small color="indigo" class="px-4text-decoration-none" outlined  @click="dialog = false">
+                            Cancel
+                        </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                    </v-dialog>
+                    </v-col>
+                    </div>
+                </v-row>
+                <div>
+                <v-layout row wrap justify-space-between class="my-3 mx-0">
+                    <v-flex xs10 md4 class="overflow-hidden">
+                        <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
+                            <h3 >{{e1t1.teacher}}</h3> 
+                            </nuxt-link>
+                            <div v-else>
+                                <h3>{{e1t1.s_teacher_name}}</h3> 
                             </div>
-                        </v-flex>
-                        <v-flex xs10 md4 class="overflow-hidden">
-                            <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
-                                 <h3 >{{e1t1.username}}</h3> 
-                                </nuxt-link>
-                        </v-flex>
-                        <v-flex xs2 md2>
-                             <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
-                                <country-flag :country= 'e1t1.s_student_country' />
-                                </div>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row wrap justify-start>
-                        <v-flex md2 xs2>
-                            <v-btn icon @click="react_love">
-                                <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
-                                <v-icon color="red" v-else>mdi-heart</v-icon>
-                                <div v-if="love.length">{{love.length}}</div>
+                    </v-flex>
+                    <v-flex xs2 md2>
+                        <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
+                            <country-flag :country= 'e1t1.s_teacher_country' />
+                        </div>
+                    </v-flex>
+                    <v-flex xs10 md4 class="overflow-hidden">
+                        <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
+                                <h3 >{{e1t1.username}}</h3> 
+                            </nuxt-link>
+                    </v-flex>
+                    <v-flex xs2 md2>
+                            <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
+                            <country-flag :country= 'e1t1.s_student_country' />
+                            </div>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap justify-start class="mx-0 mb-3">
+                    <v-flex md2 xs2>
+                        <v-btn icon @click="react_love">
+                            <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
+                            <v-icon color="red" v-else>mdi-heart</v-icon>
+                            <div v-if="love.length">{{love.length}}</div>
+                        </v-btn>
+                    </v-flex>
+                    <v-flex md2 xs2>
+                        <v-btn icon class="mx-1" @click="$vuetify.goTo('#scroll_comments')">
+                            <v-icon color="black">mdi-comment-outline</v-icon><span v-if="share_comments_list.length" >{{share_comments_list.length}}</span>
                             </v-btn>
-                        </v-flex>
-                        <v-flex md2 xs2>
-                            <v-btn icon class="mx-1" @click="$vuetify.goTo('#scroll_comments')">
-                                <v-icon color="black">mdi-comment-outline</v-icon><span v-if="share_comments_list.length" >{{share_comments_list.length}}</span>
-                                </v-btn>
-                        </v-flex>
-                    </v-layout>
-
-                    <!-- <v-row>
-                        <v-col class="ma-0">
-                        <v-row class="d-inline-flex">
-                            <v-col class="ma-0">
-                                <v-btn icon @click="react_love">
-                                <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
-                                <v-icon color="red" v-else>mdi-heart</v-icon>
-                                <div v-if="love.length">{{love.length}}</div>
-                                </v-btn>
-                                <v-btn icon class="mx-1" @click="$vuetify.goTo('#scroll_comments')">
-                                <v-icon color="black">mdi-comment-outline</v-icon><span v-if="share_comments_list.length" >{{share_comments_list.length}}</span>
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-                        </v-col>
-                    </v-row> -->
-                    <v-row>
-                        <v-col class=" px-0">
-                        <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
-                        <h4 class="font-weight-light my-2">{{e1t1.s_appreciation}}</h4>
-                        <h4 v-if="e1t1.s_learnings">Learning</h4>
-                        <h4 class="font-weight-light my-2">{{e1t1.s_learnings}}</h4>
-                        </v-col>
-                    </v-row>
-                    <!-- <v-dialog v-model="personalDialog" width="800px" v-if="isAuthenticated && userHasPortfolio && isYourRoom">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-badge color="error" overlap :content='0' >
-                            <v-btn class="my-2" small outlined 
-                            v-if="loggedInUser.user.username == e1t1.username"
-                                v-bind="attrs"
-                                v-on="on">
-                            <h5 class="caption">Talk to my teacher </h5><v-icon class="pl-2" x-small>mdi-lock</v-icon>
-                            </v-btn>
-                            <v-btn v-else class="my-2" small outlined
-                                v-bind="attrs"
-                                v-on="on">
-                            <h5 class="caption">Talk to my student</h5> <v-icon class="pl-2" x-small>mdi-lock</v-icon>
-                            </v-btn></v-badge>
-                        </template>
-                        <v-container class="rounded-lg grey lighten-5" >
-                                <v-row class="ma-4">
-                                    <h3 v-if="loggedInUser.user.username == e1t1.username"
-                                        class="font-weight-light">{{e1t1.s_teacher_name}}</h3>
-                                        <h3 v-else
-                                        class="font-weight-light">{{e1t1.username}}</h3>
-                                        <v-spacer></v-spacer>
-                                        <v-icon small>mdi-lock</v-icon>
-                                        <v-btn icon color="error" @click="personalDialog = false">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                </v-row>
-                                <v-row 
-                                class="ma-2">
-                                    <v-avatar size="36">
-                                    <img
-                                        :src = "usersPortfolio.thumb" 
-                                        alt="img"
-                                    >
-                                    </v-avatar>
-                                    <v-textarea
-                                    class="mx-4"
-                                        v-model= "personal.messagetext"
-                                        outlined
-                                        auto-grow
-                                        rows="1"
-                                        row-height="15"
-                                        max-width= "200"
-                                        label="Teacher student discussion">
-                                    </v-textarea>
-                                    <v-btn small class="text-decoration-none mr-2 ml-12 ml-sm-2" 
-                                        @click="post_personal_text"
-                                            color="indigo" dark>Send
-                                    </v-btn>
-                                    <personal-messages-card :messages="personalMessages"></personal-messages-card>
-                                </v-row>
-                        </v-container>
-                    </v-dialog> -->
+                    </v-flex>
+                </v-layout>
+                </div>
+                <v-row>
+                    <v-col >
+                    <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
+                    <h4 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h4>
+                    <v-btn small color="error" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
+                    </v-col>
+                </v-row>
+                <v-dialog
+                :retain-focus="false"
+                v-model="learntDialog"
+                width="700px"
+                persistent>
+                <v-container class="rounded-lg white pa-2">
+                <!-- <v-col cols="12" align="end" justify="end"> -->
+                <v-btn icon color="error" class="float-right" @click="learntDialog=false">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <!-- </v-col> -->
+                <v-col cols="12" >
+                <h4 >Learning</h4>
+                <h4 class="font-weight-light my-2">{{e1t1.s_learnings}}</h4>
                 </v-col>
-            </v-row>
-    </v-container>
-    <v-container v-if="videoId" class="rounded-lg grey lighten-5 mt-2" style="margin:auto; max-width:750px" >
-            <h3 class="font-weight-light pl-6">
+                </v-container>
+                </v-dialog> 
+                </v-col>
+        </v-row>
+    <div v-if="videoId" >
+            <h3  :class="{'font-weight-light pt-4': $vuetify.breakpoint.smAndDown, 'font-weight-light pt-12': $vuetify.breakpoint.mdAndUp}">
                 The video which inspired me
             </h3>
-            <center class="my-6 hidden-xs-only">
-                <youtube aspect-ratio="1" :video-id= 'videoId'></youtube>
+            <center class="py-6 hidden-xs-only">
+                <youtube width="100%" height="408" :video-id= 'videoId'></youtube>
             </center>
             <center class="my-6 hidden-sm-and-up">
-                <youtube width="auto" height="100%" :video-id= 'videoId'></youtube>
+                <youtube width="100%" height="220" :video-id= 'videoId'></youtube>
             </center>
-    </v-container>
-    <v-container class="rounded-lg grey lighten-5 mt-2 py-4" style="margin:auto; max-width:750px"  >
-        <v-row>
-            <v-col cols="12"  class="justify-center">
-                <h3 class =" font-weight-light pl-3 xs12 d-inline">Dedicated to {{e1t1.s_teacher_name}}</h3>
+    </div>
+        <v-row class="mt-2">
+            <v-col cols="12" class="justify-center">
+                <h3 class ="font-weight-light xs12 d-inline ">Dedicated to {{e1t1.s_teacher_name}}</h3>
                 <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="indigo" class="mb-2 ml-2" @click="addLearning = true">
                 <v-icon small>mdi-plus</v-icon>
                 </v-btn>
             </v-col>
         </v-row>
-        <v-row class="ma-md-4 ma-2" v-if="learnings.length>0 ">
-            <v-layout row wrap :class="{'mt-1 justify-center': $vuetify.breakpoint.smAndDown, 'mt-1': $vuetify.breakpoint.mdAndUp}">
+        <v-row class="mx-0" v-if="learnings.length>0 ">
+            <v-layout row wrap :class="{' justify-center': $vuetify.breakpoint.smAndDown, 'ma-0': $vuetify.breakpoint.mdAndUp}">
             <div v-for="learning in learnings" :key ="learning.index">
             <v-flex > 
             <learning-card :learning = "learning"></learning-card>
             </v-flex>
             </div>   
-            </v-layout>     
+            </v-layout>   
         </v-row>
-    </v-container>
-    <v-container class="rounded-lg grey lighten-5 mt-2 py-4" style="margin:auto; max-width:750px" >
-            <h3 class="font-weight-light pa-3" id="scroll_comments">
-                Comments <span v-if="share_comments_list.length">{{share_comments_list.length}}</span>
-            </h3>
-        <v-layout>
-            <v-flex md1 xs2><center>
+        <v-row class="mt-8">
+            <v-col cols="12" class="justify-center " id="scroll_comments">
+                <h3 class ="font-weight-light">Comments <span v-if="share_comments_list.length">{{share_comments_list.length}}</span></h3>
+            </v-col>
+        </v-row> 
+        <v-layout class="pt-6">
+            <v-flex md1 sm2><center>
                 <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
                 <img
                 :src = "usersPortfolio.thumb" 
@@ -246,7 +165,7 @@
                 </v-icon>
                 </v-avatar></center>
             </v-flex>
-            <v-flex md8 xs8>
+            <v-flex md9 sm8>
                 <v-textarea v-if="isAuthenticated && userHasPortfolio"
                 v-model= "comments.comment"
                 outlined
@@ -265,14 +184,14 @@
                     label="Share your thoughts">
                 </v-textarea>
             </v-flex>
-            <v-flex md2 xs3><center>
+            <v-flex md2 sm3><center>
                 <v-btn v-if="isAuthenticated && userHasPortfolio" small 
-                @click="post_comment"
+                @click="post_comment" :class="{'px-4': $vuetify.breakpoint.xsAndDown, 'px-8': $vuetify.breakpoint.smAndUp}"
                 color="indigo" dark >Post
             </v-btn></center>
             </v-flex>
         </v-layout>
-        <v-row class="px-4" v-if="share_comments_list.length">
+        <v-row  v-if="share_comments_list.length">
             <!-- <div v-for = "comments in comments" :key = "comments.index" > -->
                 <comments-card :comments = "share_comments_list"></comments-card>
             <!-- </div> -->
@@ -280,8 +199,8 @@
     </v-container>
     <v-dialog
       v-model="addLearning"
-      width="500">
-      <v-card class="pa-8">
+      max-width="500">
+      <v-card :class="{'pa-6': $vuetify.breakpoint.smAndDown, 'pa-8': $vuetify.breakpoint.mdAndUp}">
           <v-form v-on:submit.prevent="submit">
             <v-row>
                 <v-col cols="12" align="end" justify="end" class="pa-0">
@@ -296,9 +215,9 @@
                     Your browser does not support the video tag.
                     </video><br>
                     <v-btn outlined  class="my-2 " @click="onPick" >
-                        <h5>
+                        <!-- <h5> -->
                             Upload a video
-                        </h5>
+                        <!-- </h5> -->
                         <v-icon right dark> mdi-cloud-upload </v-icon>
                     </v-btn>
                     <!-- <video id="videoPreview" width="300" height="300" controls></video> -->
@@ -329,7 +248,7 @@
     <v-snackbar v-model="valid_snackbar2">
         Write something to post.
     </v-snackbar>
-    <v-snackbar v-model="login_snackbar">
+    <v-snackbar v-model="login_snackbar" centered>
         Please login first.
     </v-snackbar>
     <v-snackbar v-model="thankyou_snackbar">
@@ -382,6 +301,7 @@ export default {
             video2Dialog: false,
             dialog: false,
             sizeExceed:false,
+            learntDialog:false,
             // personalDialog: false,
             valid_snackbar1: false,
             valid_snackbar2: false,

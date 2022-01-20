@@ -78,6 +78,12 @@
     "chunkName": "pages/passwordrenew"
   },
   {
+    "name": "referencefore1t1",
+    "path": "/referencefore1t1",
+    "component": "/Users/yiyasha/Desktop/inmygroove/pages/referencefore1t1.vue",
+    "chunkName": "pages/referencefore1t1"
+  },
+  {
     "name": "register",
     "path": "/register",
     "component": "/Users/yiyasha/Desktop/inmygroove/pages/register.vue",

@@ -2,7 +2,6 @@
 <v-app>
     <v-container>
         <h2 class="my-2">Notifications</h2>
-        <!-- {{notifications}} -->
         <v-list two-line>
             <v-subheader
             >New</v-subheader>
@@ -103,7 +102,7 @@ export default {
     methods:{
         async seen(obj){
             {
-                let temp = this.filteredNotifications;
+                // let temp = this.filteredNotifications;
                 // let tempe;
                 // if(obj.chatobject)
                 // {tempe = temp.filter(temp => temp.chatobject == obj.chatobject);
@@ -115,11 +114,12 @@ export default {
                 // {tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);}
                 // console.log("e1t1tempe",tempe);
                 //for all notifications with filternotification whose e1t1 matches
-                try {
-                    const config = {
-                        headers: { "Authorization": "Bearer" + this.$store.state.auth.user.access_token
+                const config = {
+                        "content-type": "multipart/form-data",
+                        headers: { "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                         }
                     };
+                try {
                     let form= new FormData();
                     form.append('is_seen', 'true');
                     form.append('sender', obj.sender);
@@ -130,9 +130,8 @@ export default {
                     // for (var value of form.values()) {
                     //     console.log(value);
                     // }
-                    let res = await this.$axios.$put("/v1/notifications/e1t1/"+obj.id, form, config);
-                    console.log(res);
-                    
+
+                    await this.$axios.$put("/v1/notifications/e1t1/"+obj.id , form, config)
                 } catch (error) {
                     console.log("error..",error.response.data);
                 }

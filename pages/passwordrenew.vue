@@ -1,14 +1,14 @@
 <template>
     <v-app> 
         <v-container>
-        <v-card width="490" class="mx-auto mt-16 ">
+        <v-card width="450" elevation="0" outlined class="mx-auto mt-16 ">
             <v-card-title class="justify-center align-center">
                 <h3>Forgot your password</h3>
             </v-card-title>
             <v-text-field :error-messages="resetError"  class="mx-6"  v-model="email" label="Email" prepend-icon="mdi-account-circle" />
             <v-card-actions class="mb-3 pb-6 justify-center">
                 <v-btn small class="text-decoration-none" outlined :loading="progressbar" color="indigo" dark
-                    @click="reset">Send me password reset instructions</v-btn>
+                    @click="reset">Send password reset instructions</v-btn>
             </v-card-actions>
 	    </v-card>
             <v-snackbar v-model="snackbar"> 

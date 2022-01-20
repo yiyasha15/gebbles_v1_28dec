@@ -17,6 +17,7 @@ const _6887a303 = () => interopDefault(import('../pages/logout.vue' /* webpackCh
 const _146286f8 = () => interopDefault(import('../pages/notificationss.vue' /* webpackChunkName: "pages/notificationss" */))
 const _46903a94 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
 const _4a7c9369 = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
+const _4e1bf800 = () => interopDefault(import('../pages/referencefore1t1.vue' /* webpackChunkName: "pages/referencefore1t1" */))
 const _52e9d948 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
 const _6c20f5d4 = () => interopDefault(import('../pages/setpassword.vue' /* webpackChunkName: "pages/setpassword" */))
 const _5c2ee0dc = () => interopDefault(import('../pages/settings.vue' /* webpackChunkName: "pages/settings" */))
@@ -106,6 +107,10 @@ export const routerOptions = {
     path: "/passwordrenew",
     component: _4a7c9369,
     name: "passwordrenew"
+  }, {
+    path: "/referencefore1t1",
+    component: _4e1bf800,
+    name: "referencefore1t1"
   }, {
     path: "/register",
     component: _52e9d948,

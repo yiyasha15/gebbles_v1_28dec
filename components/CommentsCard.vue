@@ -1,9 +1,10 @@
 <template>
-  <v-container class="px-4">
-    <section>
-      <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start">
+  <v-container >
+    <section >
+      <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start mb-4 ">
         <div v-for="artist in artists" :key ="artist.index">
           <nuxt-link :to="'/'+ comment.username">
+          <center>
               <v-list-item-avatar size="36" v-if=" comment.username == artist.username && artist.thumb">
                 <img :src = "artist.thumb" alt="img">
               </v-list-item-avatar>
@@ -12,11 +13,13 @@
                       mdi-account-circle
                   </v-icon>
               </v-list-item-avatar>
+          </center>
           </nuxt-link>
         </div>
         <div>
-          <div class="subtitle grey--text text-decoration-none"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none">{{comment.username}} </nuxt-link> <template> <p class="caption">{{comment.timestamp}}</p></template></div>
-          <p class="commentFormat">{{comment.comment}}</p></div>
+          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{comment.timestamp}}</p>
+          <h5 class="mr-4"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}} </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span></h5>
+        </div>
             <v-spacer></v-spacer>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">

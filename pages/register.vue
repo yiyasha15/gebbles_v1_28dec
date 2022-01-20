@@ -1,155 +1,167 @@
 <template>
 <v-app>
-	<v-card width="500" class="mx-auto mt-6 ">
+	<center>
+		<v-card max-width="450" class="mx-2 mt-6 " elevation="0" outlined>
+    <center class="mt-8"><nuxt-link :to="'/'" class="text-decoration-none">
+      <img
+    :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
+    class="clickable"
+    :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+    </center>
 		<v-card-title class="justify-center">
 			<h3 class="font-weight-black">Sign up to gebbles</h3>
 		</v-card-title>
 		<v-card-text>
-			<v-form
-			ref="form" v-model="valid">
-                <v-text-field :maxlength="30" 
-					:rules="usernameRules" 
-					v-model="registrationInfo.username" 
-					label="Username" 
-					prepend-icon="mdi-account-circle" 
-					:error-messages="errorUsername"/>
-				<v-text-field v-model="registrationInfo.email" 
-					:rules=" emailRules" 
-					:error-messages="errorEmail"
-					label="Email" 
-					prepend-icon="mdi-account-circle" 
-					autocomplete="email"/>
-				<v-text-field     
-					:error-messages="errorPassword"
-					:rules="[rules.required, passwordRules.min]"   
-                    v-model="registrationInfo.password1"
-					:type="showPassword ? 'text' : 'password'"
-					label="Password"
-					prepend-icon="mdi-lock"
-					:append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-					@click:append="showPassword = !showPassword"
-				/>
-				<v-text-field   
-				:error-messages="errorPassword2" 
-                    v-model="registrationInfo.password2"
-					:type="showPassword2 ? 'text' : 'password'"
-					label="Confirm Password"
-					prepend-icon="mdi-lock"
-					:append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
-					@click:append="showPassword2 = !showPassword2"
-				/>
-				<v-select label="Representing" v-model= "registrationInfo.country"
-					:items="countries"
-					item-text="name"
-					item-value="code"
-					required
-				></v-select>
-				Gender
-				<v-radio-group v-model="registrationInfo.gender" :mandatory="true" row>
-					<v-radio 
-							label="Male" 
-							value="M"
-							color="info">
-					</v-radio>
-					<v-radio 
-							label="Female" 
-							value="F"
-							color="info">
-					</v-radio>
-					<v-radio 
-							label="Custom" 
-							value="NS"
-							color="info">
-					</v-radio>
-					<v-text-field
-						v-if="registrationInfo.gender == 'NS'"
-						label="What's your gender">
-					</v-text-field>
-				</v-radio-group>
-			<v-checkbox color="green" v-model="checkbox">
-              <template v-slot:label>
-                <div class="mt-2" @click.stop="">
-                  Do you accept the
-                  <a href="#" class="text-decoration-none" @click="terms = true">terms</a>
-                  and
-                  <a href="#" class="text-decoration-none" @click.prevent="conditions = true">conditions?</a>
-                </div>
-              </template>
-            </v-checkbox>
-			</v-form>
-			</v-card-text>
-			<v-card-actions class="mb-3 justify-center">
-				<v-btn @click="registerUser(registrationInfo)" small  class="px-8" color="yellow" :loading="progressbar" :disabled="!formIsValid">Create Account</v-btn>
-				<!-- <v-btn to='/login' class="ml-4 text-decoration-none px-4" small  color="primary" >Already registered</v-btn> -->
-				<!-- <v-spacer></v-spacer>
-				<v-btn class="mr-4" color="info">Login</v-btn> -->
-			</v-card-actions>
-			<v-divider></v-divider>
-     <center> <h5 class="py-4 font-weight-light">Already have an account? <nuxt-link :to="'/login'" style="text-decoration:none">Sign in. </nuxt-link></h5></center>
-			<v-dialog v-model="terms" width="70%">
-			<v-card>
-			<v-card-title class="title">
-			Terms
-			</v-card-title>
-			<v-card-text>
-			{{ termsContent }}
-			</v-card-text>
-			<v-card-actions>
-			<v-spacer></v-spacer>
-			<v-btn text color="purple" @click="terms = false">
-				Ok
-			</v-btn>
-			</v-card-actions>
-			</v-card>
-			</v-dialog>
-			<v-dialog
-			v-model="conditions"
-			width="70%"
-			>
-			<v-card>
-				<v-card-title class="title">
-				Conditions
-				</v-card-title>
-				<v-card-text
-				>
-				{{ conditionContent }} 
-				</v-card-text>
-				<v-card-actions>
-				<v-spacer></v-spacer>
-				<v-btn
-					text
-					color="purple"
-					@click="conditions = false"
-				>
-					Ok
-				</v-btn>
-				</v-card-actions>
-			</v-card>
-			</v-dialog>
-			<v-dialog
-			v-model="verify"
-			width="50%"
-			>
-			<v-card>
-				<v-card-title class="title">Hi, {{this.tempusername}}
-				</v-card-title>
-				<v-card-text
-				>
-				Please verify your registered email {{this.tempemail}}, by clicking on the link we sent you and sign in to continue.
-				</v-card-text>
-				<v-card-actions>
-				<v-spacer></v-spacer>
-				<v-btn
-					text
-					color="purple"
-					to="/login"
-				>
-					Ok
-				</v-btn>
-				</v-card-actions>
-			</v-card>
-			</v-dialog>
+    <v-form
+    ref="form" v-model="valid">
+              <v-text-field :maxlength="30" 
+        :rules="usernameRules" 
+        v-model="registrationInfo.username" 
+        label="Username" 
+        prepend-icon="mdi-account-circle" 
+        :error-messages="errorUsername"
+        color="#cead8f"/>
+      <v-text-field v-model="registrationInfo.email" 
+        :rules=" emailRules" 
+        :error-messages="errorEmail"
+        label="Email" 
+        prepend-icon="mdi-account-circle" 
+        autocomplete="email"
+        color="#cead8f"/>
+      <v-text-field     
+        :error-messages="errorPassword"
+        :rules="[rules.required, passwordRules.min]"   
+                  v-model="registrationInfo.password1"
+        :type="showPassword ? 'text' : 'password'"
+        label="Password"
+        prepend-icon="mdi-lock"
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="showPassword = !showPassword"
+        color="#cead8f"
+      />
+      <v-text-field   
+      :error-messages="errorPassword2" 
+                  v-model="registrationInfo.password2"
+        :type="showPassword2 ? 'text' : 'password'"
+        label="Confirm Password"
+        prepend-icon="mdi-lock"
+        :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="showPassword2 = !showPassword2"
+        color="#cead8f"
+      />
+      <v-select label="Representing" v-model= "registrationInfo.country"
+        :items="countries"
+        item-text="name"
+        item-value="code"
+        color="#cead8f"
+        required
+      ></v-select>
+      <v-radio-group v-model="registrationInfo.gender" :mandatory="true" row>
+        <v-radio 
+            label="Male" 
+            value="M"
+            color="#cead8f"> 
+        </v-radio>
+        <v-radio 
+            label="Female" 
+            value="F"
+            color="#cead8f">
+        </v-radio>
+        <v-radio 
+            label="Custom" 
+            value="NS"
+            color="#cead8f">
+        </v-radio>
+        <v-text-field color="#cead8f"
+          v-if="registrationInfo.gender == 'NS'"
+          label="What's your gender">
+        </v-text-field>
+      </v-radio-group>
+      <v-checkbox color="#cead8f" v-model="checkbox">
+      <template v-slot:label>
+        <div class="mt-2" >
+          Do you accept the
+          <a href="#" class="text-decoration-none" @click="terms = true">terms</a>
+          and
+          <a href="#" class="text-decoration-none" @click.prevent="conditions = true">conditions?</a>
+        </div>
+      </template>
+    </v-checkbox>
+      <v-card-actions class="mb-3 justify-center">
+      <v-btn @click="registerUser(registrationInfo)" outlined small elevation="4" class="px-8" color="black" :loading="progressbar" :disabled="!formIsValid">Create Account</v-btn>
+    </v-card-actions>
+    </v-form>
+    </v-card-text>
+    <v-divider></v-divider>
+    <center> <h5 class="py-4 font-weight-light">Already have an account? <nuxt-link :to="'/login'" style="text-decoration:none">Sign in. </nuxt-link></h5></center>
+    <v-dialog v-model="terms" width="70%">
+    <v-card>
+    <v-card-title class="title">
+    Terms
+    </v-card-title>
+    <v-card-text>
+    {{ termsContent }}
+    </v-card-text>
+    <v-card-actions>
+    <v-spacer></v-spacer>
+    <v-btn text color="purple" @click="terms = false">
+      Ok
+    </v-btn>
+    </v-card-actions>
+    </v-card>
+    </v-dialog>
+    <v-dialog
+    v-model="conditions"
+    width="70%"
+    >
+    <v-card>
+      <v-card-title class="title">
+      Conditions
+      </v-card-title>
+      <v-card-text
+      >
+      {{ conditionContent }} 
+      </v-card-text>
+      <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn
+        text
+        color="purple"
+        @click="conditions = false"
+      >
+        Ok
+      </v-btn>
+      </v-card-actions>
+    </v-card>
+    </v-dialog>
+    <v-dialog persistent
+    v-model="verify"
+    max-width="500px"
+    >
+    <v-card>
+      <v-card-title class="py-4" >
+        <h4>Instruction is sent.</h4>
+      </v-card-title>
+      <v-divider class="mx-6"></v-divider>
+      <v-card-text class="py-4"
+      >
+      <p>Please verify your registered email <span class="font-weight-bold">{{this.tempemail}}</span>, by clicking on the link we sent you and sign in to continue.</p>
+      <!-- {{this.tempemail}} -->
+      </v-card-text>
+      <v-card-actions class="px-6 pt-0 pb-4">
+      <!-- <v-spacer></v-spacer> -->
+      <v-btn 
+         outlined small
+        color="black"
+        to="/login"
+      >
+        Ok
+      </v-btn>
+      </v-card-actions>
+    </v-card>
+    </v-dialog>
 	</v-card>
+  </center>
 </v-app>
 </template>
 
@@ -186,7 +198,7 @@ export default {
       termsContent: 'Terms content',
       terms: false,
       conditions: false,
-      verify:false,
+      verify:true,
       checkbox: false,
       tempusername:'',
       tempemail:'',
@@ -517,7 +529,7 @@ export default {
       )
 	  }
 	},
-	layout: 'login'
+	layout: 'register'
 }
 </script>
 <style scoped>

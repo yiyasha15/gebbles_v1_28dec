@@ -1,38 +1,48 @@
 <template>
-<v-app>
-	<v-card width="500" class="mx-auto mt-6 ">
-		<v-card-title class="justify-center my-4">
-			<h3>Sign in to gebbles</h3>
-		</v-card-title>
-		<v-card-text>
-			<v-text-field 
+	<v-app>
+		<center>
+		<v-card max-width="450" class="mx-2 mt-6 " elevation="0" outlined>
+				<nuxt-link :to="'/'" class="text-decoration-none">
+			<img
+			:height="$vuetify.breakpoint.smAndDown ? 38 : 48"
+			class="clickable mt-8"
+			:src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+			<v-card-title class="justify-center">
+				<h3>Sign in to gebbles</h3>
+			</v-card-title>
+			<v-card-text>
+				<v-text-field 
 					:error-messages="errorEmail"
 					v-model="userInfo.email" 
 					label="Email" 
-					prepend-icon="mdi-account-circle" />
+					prepend-icon="mdi-account-circle"
+					color="#cead8f" />
 				<v-text-field  
 					:error-messages="errorPassword"    
-                    v-model="userInfo.password"
+					v-model="userInfo.password"
 					:type="showPassword ? 'text' : 'password'"
 					label="Password"
 					prepend-icon="mdi-lock"
 					:append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
 					@click:append="showPassword = !showPassword"
-				/>
-		</v-card-text>
-		<v-card-actions class="mb-3 justify-center">
-			<v-btn @click="submitForm()" class="px-8 py-4" small  color="yellow">Sign in</v-btn>
-			<!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
-		</v-card-actions>
-		<v-divider></v-divider>
-		<p class="text-center ma-0 py-4"><v-btn to='/passwordrenew' class=" text-decoration-none" small text color="primary" >I forgot my password</v-btn></p>
-		<!-- <p class="text-center pa-4">gebbles is currently a community of {{img_artists}} dancers.</p> -->
-	</v-card>
-		  </v-app>
+					color="#cead8f"/>
+			</v-card-text>
+			<v-card-actions class="mb-3 justify-center">
+				<v-btn @click="submitForm()" class="px-8 py-4" small outlined color="black" dark>Sign in</v-btn>
+				<!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
+			</v-card-actions>
+
+			<center> <h5 class="py-4 font-weight-light"> <nuxt-link :to="'/passwordrenew'" style="text-decoration:none">I forgot my password. </nuxt-link></h5></center>
+			<v-divider></v-divider>
+			<center> <h5 class="py-4 font-weight-light">Don't have an account? <nuxt-link :to="'/register'" style="text-decoration:none">Sign up. </nuxt-link></h5></center>
+			<!-- <p class="text-center pa-4">gebbles is currently a community of {{img_artists}} dancers.</p> -->
+		</v-card>
+		</center>
+	</v-app>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 export default {
 	methods:{
 		async submitForm(){

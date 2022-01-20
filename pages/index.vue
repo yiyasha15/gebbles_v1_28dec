@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
       <!-- for mobile -->
        <!-- <v-img
         class="hidden-md-and-up "
@@ -159,18 +159,6 @@
       </v-row>
       <v-divider></v-divider>
       </v-container>
-      <!-- <v-row class="justify-center align-center mt-16">
-        <v-col cols="12">
-            <div data-aos="fade-up" data-aos-duration="1200" class="caption mx-8 mt-8" align-content="center" align="center" justify="center">
-              <h1 align="center" justify="center" >Our Vision</h1><br>
-            <h2 class=" font-weight-light mb-12">The vision is to document the flow of knowledge from the origin to the 
-              future so that the history stays true and the people are given due credits 
-              for their sharing and passing the knowledge. In the process, we hope that 
-              together we can strengthen our bonds with our fellow artists and empower 
-              the culture even more.</h2>
-            </div>
-          </v-col>
-      </v-row> -->
   </div>
 </template>
 
@@ -186,7 +174,6 @@ export default {
   mounted() {
     if(this.isAuthenticated){
       this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
-    // console.log("check not2 index page");
     }
   },
   computed: {
@@ -195,29 +182,6 @@ export default {
   data(){
     return {
       model: null,
-  //     slides: [
-  //     {
-  //       image: require('@/assets/comm.png'),
-  //       cap: " Check out the community of dancers around the world."
-  //     },
-  //     {
-  //       image: require('@/assets/rr.png'),
-  //       cap: " Represent yourself!"
-  //     },
-  //     {
-  //       image: require('@/assets/portfolio.png'),
-  //       cap: " Share your dance journey and highlights. "
-  //     },
-  //     {
-  //       image: require('@/assets/highlights.png'),
-  //       cap: " Mention your teachers and let them know you've learnt from them."
-  //     },
-  //     {
-  //       image: require('@/assets/e1t1.png'),
-  //       cap: " Let's build the community stronger."
-  //     }
-    
-  // ]
   }
   }
 }

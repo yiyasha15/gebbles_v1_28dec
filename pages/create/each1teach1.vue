@@ -20,13 +20,12 @@
         </v-row>
         <v-row>
         <v-col>
-        <v-stepper v-model="e6" vertical>
-        <div>
+        <v-stepper  v-model="e6" vertical>
+        <!-- <div> -->
             <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
             Mention your teacher
             <!-- <small>Summarize if needed</small> -->
             </v-stepper-step>
-
             <v-stepper-content step="1">
                 <v-combobox
                     v-model="teacher_obj"
@@ -91,7 +90,7 @@
             <v-btn color="primary" small text outlined @click="e6 = 2">Next</v-btn>
             <v-btn color="primary" small text @click="goback">Cancel</v-btn>
             </v-stepper-content>
-        </div>
+        <!-- </div> -->
     
         <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Do you have a click with your teacher?
             <small>(if not, you can add their image.)</small>
