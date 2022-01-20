@@ -198,7 +198,7 @@ export default {
       termsContent: 'Terms content',
       terms: false,
       conditions: false,
-      verify:true,
+      verify:false,
       checkbox: false,
       tempusername:'',
       tempemail:'',
