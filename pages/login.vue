@@ -28,7 +28,7 @@
 					color="#cead8f"/>
 			</v-card-text>
 			<v-card-actions class="mb-3 justify-center">
-				<v-btn @click="submitForm()" class="px-8 py-4" small outlined color="black" dark>Sign in</v-btn>
+				<v-btn @click="submitForm()" class="px-8" small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
 				<!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
 			</v-card-actions>
 
@@ -46,6 +46,7 @@
 export default {
 	methods:{
 		async submitForm(){
+			this.progressbar1 = true;
 			try{
 				const config = {
 					headers: {"content-type": "multipart/form-data"}
@@ -64,8 +65,10 @@ export default {
 				this.$store.dispatch("check_user_bio");
 				this.$store.dispatch("check_user_journey");
 				this.$store.dispatch("check_notifications",res.data.user.username);
-				this.$router.push('/'+res.data.user.username)})
+				this.progressbar1 = false;
+				this.$router.push('/')})
 			}catch(error){
+				this.progressbar1 = false;
 				if(error.response.data.non_field_errors){
 					this.errorEmail = `${error.response.data.non_field_errors}`
 				}
@@ -79,7 +82,8 @@ export default {
       return {
 		errorEmail:'',
 		errorPassword:'',
-        showPassword: false,
+		showPassword: false,
+		progressbar1:false,
 		hasName: false,
         userInfo: {
           email: '',
@@ -94,6 +98,6 @@ export default {
 	// computed: {
 	// 	...mapGetters(['img_artists'])
 	// },
-	layout: 'login'
+	layout: 'signup'
 }
 </script>

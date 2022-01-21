@@ -169,6 +169,12 @@ export default {
   head() {  //head function (a property of vue-meta), returns an object
     return {
         title: 'Gebbles',
+        meta: [{
+          hid: 'description', //create page overrides the description, hid helps to stop redundancy
+          name: 'description',
+          content: 
+              'gebbles - The thread connecting music, movement and artists.'
+        }]
         }
       },
   mounted() {

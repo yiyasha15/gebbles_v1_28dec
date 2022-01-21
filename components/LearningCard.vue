@@ -271,15 +271,6 @@ import { mapGetters } from 'vuex'
       async updateLearningBtn(){
           
       },
-      create_portfolio()
-        {
-            if(this.loggedInUser){
-                this.$router.push("/create/about");
-            }
-            else{
-                this.$router.push("/login");
-            }
-      },
       editLearning(){
         // this.$store.dispatch("check_learn_obj",id);
         console.log(this.learn_obj);

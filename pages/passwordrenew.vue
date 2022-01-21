@@ -34,10 +34,11 @@ export default {
                 this.progressbar = true
             try {
                 let response = await this.$axios.$post("v1/auth/passwordreset/",resetForm)
-                console.log(response.data);
+                // console.log(response.data);
                 this.snackbar = true;
                 this.email=''
                 this.progressbar = false
+                this.$router.push('/');
             } catch (err) {
                 if(err.response.data){
                     let er = err.response.data
@@ -47,6 +48,7 @@ export default {
                         this.resetError = `${er[key]}`
                         }
                     }
+                    this.progressbar = false
                 }
             }
             

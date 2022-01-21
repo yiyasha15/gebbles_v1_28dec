@@ -26,7 +26,7 @@
                 </div>
         </v-layout>
         </div>
-        <div v-else >
+        <div v-else>
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
             <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Add Each One Teach One</h3>
             <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">

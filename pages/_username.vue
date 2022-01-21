@@ -134,13 +134,13 @@
                             </template>
                             <v-list>
                                 <v-list-item
-                                :to="'/login'"
+                                @click="loginDialog=true"
                                 class="text-decoration-none pl-6 pr-12"
                                 >
                                 <v-list-item-title>Sign In</v-list-item-title>
                                 </v-list-item>
                                 <v-list-item
-                                :to="'/register'"
+                                @click="registerDialog=true"
                                 class="text-decoration-none pl-6 pr-12"
                                 >
                                 <v-list-item-title>Sign up</v-list-item-title>

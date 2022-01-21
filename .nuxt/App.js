@@ -12,12 +12,10 @@ import '../layouts/global.css'
 import '../node_modules/vuetify/dist/vuetify.css'
 
 import _6f6c098b from '../layouts/default.vue'
-import _2d22509f from '../layouts/e1t1.vue'
-import _77a66d33 from '../layouts/login.vue'
-import _2e8a6499 from '../layouts/register.vue'
+import _ee76a6e4 from '../layouts/signup.vue'
 import _47d7becc from '../layouts/username.vue'
 
-const layouts = { "_default": sanitizeComponent(_6f6c098b),"_e1t1": sanitizeComponent(_2d22509f),"_login": sanitizeComponent(_77a66d33),"_register": sanitizeComponent(_2e8a6499),"_username": sanitizeComponent(_47d7becc) }
+const layouts = { "_default": sanitizeComponent(_6f6c098b),"_signup": sanitizeComponent(_ee76a6e4),"_username": sanitizeComponent(_47d7becc) }
 
 export default {
   render (h, props) {

@@ -516,15 +516,6 @@ export default {
             var vid = document.getElementById("video2"); 
             vid.pause();
         },
-        create_portfolio()
-        {
-            if(this.loggedInUser){
-                this.$router.push("/create/about");
-            }
-            else{
-                this.$router.push("/login");
-            }
-        },
         goback(){
             this.$store.dispatch("remove_share_obj")
             this.$store.dispatch("remove_learnings")
