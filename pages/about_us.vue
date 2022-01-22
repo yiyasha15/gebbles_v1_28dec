@@ -1,9 +1,10 @@
 <template>
   <v-app>
     <v-container >
-        <v-row class="ma-8 ">
+      <div class="my-6 mx-auto" style="max-width:540px;">
+        <!-- <v-row class="ma-8 "> -->
           <!-- <h3 class="my-4 font-weight-black">gebbles</h3> -->
-          <h4 class="font-weight-light">*groove pebbles, is a community platform <b>to celebrate the each one teach one legacy of the hiphop culture. </b><br>
+          <h4 class="font-weight-light my-4"><span class="font-weight-bold">*groove pebbles</span>, is a community platform <b>to celebrate the each one teach one legacy of the hiphop culture. </b><br>
           At gebbles, you can document your HipHop journey & stay connected
           to some of the people who matter the most, your teachers and students in this culture,
           the people who show you the way and the people whom you show it to.
@@ -11,8 +12,7 @@
           <!-- Gebbles is a platform for the artists of the hiphop culture. At gebbles, you can make a dance portfolio, document your HipHop journey & stay connected
               to some of the people who matter the most. -->
           </h4>
-          <h3 class="my-4 ">vision</h3>
-          <h4 class="font-weight-light">to empower the street dance community both culturally and economically by bringing fresh ideas to life with the help of computing technology.</h4>
+          <h4 class="font-weight-light my-4"><span class="font-weight-bold">vision</span>, to empower the street dance community both culturally and economically by bringing fresh ideas to life with the help of computing technology.</h4>
           <h4 class="mt-6">happy sharing,<br>
           -gebbles team.</h4>
           <!-- <div>
@@ -21,7 +21,7 @@
           <h4 class="mt-6">happy sharing,<br>
           -inmygroove team.</h4>
           </div> -->
-        </v-row>
+        <!-- </v-row> -->
       <!-- Connecting students and teachers, worldwide. -->
           <!-- At inmygroove, you can document your HipHop journey & stay connected
           to some of the people who matter the most, your teachers and students in this culture,
@@ -33,6 +33,7 @@
           The past, present and future of each one teach one becomes one right here. You see it right. Let's make the culture even more meaningfully connected than it is today. 
           We feel that together we can acheive this hence the initiative <b>'Inmygroove', where you represent yourself, your journey and your teachers/friends/brothers/sisters
           who passed a part of their groove, a part of their soul to you.</b> -->
+      </div>
     </v-container>
   </v-app>
 </template>
