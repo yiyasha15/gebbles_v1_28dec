@@ -101,41 +101,41 @@ export default {
     methods:{
         async seen(obj){
             {
-                // let temp = this.filteredNotifications;
-                // let tempe;
+                this.$router.push('/e1t1/'+ obj.e1t1object);
+                let temp = this.filteredNotifications;
+                let tempe;
                 // if(obj.chatobject)
                 // {tempe = temp.filter(temp => temp.chatobject == obj.chatobject);
                 // console.log("chatobj",tempe);}
                 // if(obj.learningobject)
                 // {tempe = temp.filter(temp => temp.learningobject == obj.learningobject);
                 // console.log("learnobj",tempe);}
-                // if(obj.e1t1object)
-                // {tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);}
+                if(obj.e1t1object)
+                {tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);}
                 // console.log("e1t1tempe",tempe);
-                //for all notifications with filternotification whose e1t1 matches
+                // for all notifications with filternotification whose e1t1 matches
                 const config = {
                         "content-type": "multipart/form-data",
                         headers: { "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                         }
                     };
                 try {
+                    for (var i = 0; i < tempe.length; i++)
+                    {
                     let form= new FormData();
                     form.append('is_seen', 'true');
-                    form.append('sender', obj.sender);
-                    form.append('receiver', obj.receiver);
-                    form.append('notification_type', obj.notification_type);
-                    form.append('notification_context', obj.notification_context);
-                    // console.log(obj);
-                    // for (var value of form.values()) {
-                    //     console.log(value);
-                    // }
-
-                    await this.$axios.$put("/v1/notifications/e1t1/"+obj.id , form, config)
+                    form.append('sender', tempe[i].sender);
+                    form.append('receiver', tempe[i].receiver);
+                    form.append('notification_type', tempe[i].notification_type);
+                    form.append('notification_context', tempe[i].notification_context);
+                    await this.$axios.$put("/v1/notifications/e1t1/"+tempe[i].id , form, config)
+                    // console.log("put for", tempe[i].id );
+                    }
                 } catch (error) {
                     console.log("error..",error.response.data);
                 }
                 this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
-                this.$router.push('/e1t1/'+ obj.e1t1object);
+                // this.$router.push('/e1t1/'+ obj.e1t1object);
             }
         },
         opene1t1(obj){

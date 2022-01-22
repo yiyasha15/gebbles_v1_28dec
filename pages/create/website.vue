@@ -989,7 +989,7 @@ export default {
         // now compare their keys and values  
         for(var i=0; i<keyObj1.length; i++) { 
             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
             } else { 
                 // it prints keys have different values 
                 let formName = new FormData();
@@ -1028,8 +1028,8 @@ export default {
             try {
                 if(this.usersBio) await this.$axios.$delete("/v1/artist/bios/"+this.usersBio.username, config)
                 if(this.usersPortfolio) await this.$axios.$delete("/v1/artist/portfolios/"+this.usersPortfolio.username, config)
-                console.log("Artist Bio deleted.");
-                console.log("Artist portfolio deleted.");
+                // console.log("Artist Bio deleted.");
+                // console.log("Artist portfolio deleted.");
                 //update store
                 this.$store.dispatch("remove_portfolio")
                 this.$store.dispatch("remove_bio")
