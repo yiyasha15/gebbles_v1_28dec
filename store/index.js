@@ -527,6 +527,7 @@ export const mutations = {
   },
   usersJourney(state, journey)
   {
+    state.journey = []
     if(journey.length)
     {
       state.journey = journey
@@ -534,6 +535,7 @@ export const mutations = {
   },
   usersUpcoming(state, upcoming)
   {
+    state.upcoming=[]
     if(upcoming.length)
     {
       state.upcoming = upcoming

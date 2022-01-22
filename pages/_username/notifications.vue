@@ -3,8 +3,7 @@
     <v-container>
         <h2 class="my-2">Notifications</h2>
         <v-list two-line>
-            <v-subheader
-            >New</v-subheader>
+        <v-subheader>New</v-subheader>
         <template v-for="(item) in filteredNotifications">
             <v-list-item :key="item.index" @click="seen(item)" v-show="loggedInUser.user.username != item.sender" >
             <div v-for="artist in artists" :key ="artist.index">
@@ -40,7 +39,7 @@
         </v-list>
         <v-divider></v-divider>
         <v-list two-line>
-            <v-subheader>Earlier</v-subheader>
+        <v-subheader>Earlier</v-subheader>
         <template v-for="(item) in filteredNotificationsOld">
             <v-list-item :key="item.index" @click="opene1t1(item)" v-show="loggedInUser.user.username != item.sender">
                 <div v-for="artist in artists" :key ="artist.index">
