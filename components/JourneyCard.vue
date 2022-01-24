@@ -218,14 +218,15 @@
               </v-container>
         </div>
       </v-dialog>
-      <v-card-actions max-height="32">
-        <div width="70" class="text-decoration-none caption" style=" height: 1.2em;
+      <v-card-actions max-height="32" class="pa-1">
+        <div width="70" class="text-decoration-none caption" style=" height: 1em;
           line-height: initial;
           overflow: hidden">
-        <p style="max-width:76px; font-size:0.6rem!important;">{{ journey.joevent }} </p>
+        <p style="max-width:76px; font-size:0.5rem!important;">{{ journey.joevent }} </p>
         </div>
         <v-spacer></v-spacer>
-        <v-icon v-if="journey.isprivate" class="pl-2 float-right" x-small>mdi-lock</v-icon>
+         <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
+        <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
       </v-card-actions>
     </v-card>
   </v-hover>

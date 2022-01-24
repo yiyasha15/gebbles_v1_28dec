@@ -24,21 +24,21 @@
                 <h3 class="mb-5 font-weight-light" style="line-height:2;">
                     {{ bio.introduction }}
                 </h3>
-                <v-row >
-                <v-col v-if="bio.crew" style="margin:auto; max-width:750px">
-                    <h3 class="mb-2 " >
-                        Representing: {{bio.crew}}
-                    </h3>
                 </v-col>
-            </v-row>
-            <v-row v-if="bio.quote" class="mt-16 mb-6">
-                <v-col align="center">
+        </v-row>
+                <v-row v-if="bio.crew" >
+                    <v-col v-if="bio.crew" style="margin:auto; max-width:750px">
+                        <h3 class="mb-2 " >
+                            Representing: {{bio.crew}}
+                        </h3>
+                    </v-col>
+                </v-row>
+            <v-row v-if="bio.quote" class="mt-12 mb-6">
+                <v-col align="center" style="margin:auto; max-width:750px">
                 <h3 class="font-weight-light font-italic">
                 "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
                 </h3> </v-col>
             </v-row>
-            </v-col>
-        </v-row>
         <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6">
             <template>
                 <v-row>
@@ -299,13 +299,13 @@
         </div>
         </div>
         <div v-else class="mt-16 px-2">
-                <center>
-                    <img
+            <center>
+                <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
-                <h3>{{artist.username}} has not updated the portfolio yet. </h3></center>
-                
+                <h3>{{artist.username}} has not updated the portfolio yet. </h3>
+            </center>   
         </div>
     </v-app>
 </template>

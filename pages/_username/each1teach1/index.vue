@@ -1,42 +1,46 @@
 <template>
     <v-app>
         <v-container>
+            <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 " >
+            <h3 class="font-weight-light d-inline">Share about your teacher</h3>
+            <v-btn x-small icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
+            <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            </div>
         <nuxt-child :sharing="sharing"/>
         <div v-if="sharing.length">
-            <div class="mb-4">
-        <h3 class="font-weight-light mt-4 d-inline">My Teachers</h3>
-        <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
-        <v-icon>mdi-plus</v-icon>
-        </v-btn></div>
+        <div v-if="filteredTeacher.length">
+            <div class="mb-5">
+            <h3 class="font-weight-light">My Teachers</h3>
+            </div>
         <!-- responsive -->
-        <v-layout wrap row :class="{'mt-4 justify-center': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}">
-            <div v-for="share in sharing" :key ="share.index">
-                <v-flex v-if="share.username === artist.username"> 
-                <TeachersCard :e1t1="share" ></TeachersCard>
-                </v-flex>
+            <v-layout wrap row :class="{'mb-4 justify-center': $vuetify.breakpoint.smAndDown, 'mb-4': $vuetify.breakpoint.mdAndUp}">
+                <div v-for="share in sharing" :key ="share.index">
+                    <v-flex v-if="share.username === artist.username"> 
+                    <TeachersCard :e1t1="share" ></TeachersCard>
+                    </v-flex>
                 </div>
-        </v-layout>
+            </v-layout>
+        </div>
+        <div v-if="filteredStudent.length">
         <!-- responsive -->
-        <h3 class="font-weight-light mt-8">My Students</h3>
-        <v-layout wrap row :class="{'mt-2 justify-center': $vuetify.breakpoint.smAndDown, 'mt-2': $vuetify.breakpoint.mdAndUp}" >
+        <div class="mb-5">
+        <h3 class="font-weight-light">My Students</h3>
+        </div>
+        <v-layout wrap row :class="{'mb-4  justify-center': $vuetify.breakpoint.smAndDown, 'mb-4 ': $vuetify.breakpoint.mdAndUp}" >
             <div v-for="share in sharing" :key ="share.index">
-                <v-flex > 
-                    <StudentsCard v-if="share.s_teacher_name === artist.username" :share="share" ></StudentsCard>
+                <v-flex v-if="share.s_teacher_name === artist.username"> 
+                    <StudentsCard :share="share" ></StudentsCard>
                 </v-flex>
                 </div>
         </v-layout>
         </div>
+        </div>
         <div v-else>
-            <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
-            <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Add Each One Teach One</h3>
-            <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
-            <v-icon>mdi-plus</v-icon>
-            </v-btn>
-            </div>
             <center>
                     <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
+                class="mt-6 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
                 <h3>No posts yet. </h3></center>
         </div>
@@ -58,6 +62,16 @@ export default {
     }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
+    filteredTeacher: function(){
+      return this.sharing.filter((share) => {
+        return share.username === this.artist.username;
+      });
+    },
+    filteredStudent: function(){
+      return this.sharing.filter((share) => {
+        return share.s_teacher_name === this.artist.username;
+      });
+    },
     },
     head() {
         return {

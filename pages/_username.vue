@@ -3,6 +3,8 @@
     <!-- <v-container> -->
     <v-row class="ma-0">
         <v-col cols="12" sm="6" >
+            <!-- {{usersPortfolio}}
+            {{artist}} -->
             <v-layout align-center>
                 <nuxt-link :to="'/'" class="text-decoration-none">
                 <img

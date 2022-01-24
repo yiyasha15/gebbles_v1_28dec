@@ -96,6 +96,7 @@
                 <v-row>
                     <v-col >
                     <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
+                    <read-more more-str="read more" :text="msg" link="#" less-str="read less" :max-chars="50"></read-more>
                     <h4 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h4>
                     <v-btn small color="error" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
                     </v-col>
@@ -273,6 +274,7 @@ import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 import CommentsCard from '~/components/CommentsCard.vue'
 import LearningCard from '~/components/LearningCard.vue'
+import ReadMore from 'vue-read-more';
 // import PersonalMessagesCard from '~/components/PersonalMessagesCard.vue'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
@@ -344,6 +346,7 @@ export default {
             isYourRoom: false,
             items: [],
             dynamic_height: 50,
+            msg: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
             }
     },
     mounted() {

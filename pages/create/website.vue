@@ -904,7 +904,7 @@ export default {
                 let url = this.cropImage.generateDataUrl(); 
                 let url1 = this.cropImage1.generateDataUrl(); 
                 if (!url){
-                    console.log("no image");}
+                    console.log("no image1");}
                 else{
                     var fileData = this.dataURLtoFile(url, "coverimage.png");
                     this.artist_data.cover = fileData;

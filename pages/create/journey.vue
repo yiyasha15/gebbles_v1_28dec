@@ -746,6 +746,7 @@ export default {
                 }
         },
         onFileChange1(e) {
+            console.log("click");
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
@@ -843,7 +844,7 @@ export default {
                 this.refresh();
                 this.progressbar =false;
                 this.snackbar = true;
-                this.$router.push("/"+this.$store.state.auth.user.user.username);
+                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
             } catch (e) {
                 this.progressbar =false;
                 console.log(e);

@@ -11,11 +11,11 @@
     >
     <v-img v-if = e1t1.sp_thumb  :src = "e1t1.sp_thumb" :lazy-src= "e1t1.sp_thumb" width="96" height="60"></v-img>
     <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="60" width="96" contain/>
-      <v-card-actions height="32px">
-        <div width="70" class="text-decoration-none caption" style=" height: 1.4em;
+      <v-card-actions max-height="32px" class="pa-1">
+        <div width="80" class="text-decoration-none caption" style=" height: 1em;
           line-height: initial;
           overflow: hidden">
-        <p style="max-width:60px;">{{e1t1.s_teacher_name}}</p>
+        <p style="max-width:72px; font-size:0.5rem!important;">{{e1t1.s_teacher_name}}</p>
         </div>
         <v-spacer></v-spacer>
         <country-flag :country= 'e1t1.s_teacher_country' size='small'/>
