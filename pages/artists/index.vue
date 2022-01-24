@@ -19,13 +19,15 @@
         </v-col>
       </v-row>
         <v-layout wrap row justify-center>
-          <div v-for="artist in filteredArtists" :key ="artist.index">
+          <div v-for="artist in artists" :key ="artist.index">
             <v-flex sm6 xs6> 
               <ArtistCard :artist="artist" ></ArtistCard> 
             </v-flex>
             </div>
       </v-layout>
       </v-container>
+      <!-- <v-divider></v-divider> -->
+      <v-card color="red" height="20px" v-intersect="infiniteScrolling"></v-card>
     </v-app>
 </template>
 
@@ -48,14 +50,40 @@ export default {
       ]
     }
   },
-  async asyncData({error}) {
-    try {
+  created(){
+    this.getartists();
+    // this.$store.dispatch("check_artists");
+  },
+  methods:{
+    async getartists(){
+      try {
       const response = await EventService.getArtists()
-      return {
-        artists: response.data
-      }
+      this.artists = response.data.results
+      this.page = response.data.next
     } catch (e) {
         error({statusCode:503, message: "unable to fetch artist data at this point"})
+    }
+    },
+    infiniteScrolling(entries, observer, isIntersecting) {
+      // setTimeout(() => {
+      //   console.log(entries[0], observer, isIntersecting);
+      //   console.log("settimeout", this.page);
+        // this.page++;
+        const key = 'username';
+        this.$axios.get(this.page).then(response => {
+            if (response.data.results.length > 1) {
+              this.page= response.data.next;
+              response.data.results.forEach(item => this.artists.push(item));
+              // filter array so no duplicates
+              this.artists = [...new Map(this.artists.map(item =>
+                [item[key], item])).values()];
+            } else {
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      // }, 500);
     }
   },
   components: {
@@ -63,17 +91,18 @@ export default {
   },
   data() {
     return {
-      search: ""
+      search: "",
+      page:"",
+      artists:[],
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'userHasPortfolio', 'loggedInUser']),
-    filteredArtists: function(){
-      return this.artists.filter((artist) => {
-        return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
-      });
-      
-    }
+    ...mapGetters(['isAuthenticated', 'userHasPortfolio', 'loggedInUser', 'page_artists']),
+    // filteredArtists: function(){
+    //   return this.artists.filter((artist) => {
+    //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
+    //   });
+    // }
   }
 }
 </script>

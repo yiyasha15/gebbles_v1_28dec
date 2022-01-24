@@ -41,6 +41,10 @@ export const state = () => ({
   dope: '',
   info:'',
   learnings:[],
+  page_notification:'',
+  page_artists:'',
+  page_journey:'',
+  page_e1t1:'',
 })
 export const getters = {
   learn_obj(state){
@@ -75,9 +79,6 @@ export const getters = {
   },
   learnings(state){
     return state.learnings
-  },
-  notifications(state){
-    return state.notifications
   },
   notifications(state){
     return state.notifications
@@ -179,7 +180,8 @@ export const actions = {
         };
       EventService.getNotificationsSharing(state.auth.user.user.username,config).then(res =>
       {
-        commit('check_notifications',res.data)
+        commit('check_notifications',res.data.results)
+        commit('check_notifications_page',res.data.next)
         return;
       })
     }
@@ -281,11 +283,11 @@ export const actions = {
         };
       EventService.getJourney(state.auth.user.user.username,config).then(res =>
       {
-        commit('usersJourney',res.data)
+        commit('usersJourney',res.data.results)
       })
       EventService.getUpcomingEvents(state.auth.user.user.username,config).then(res =>
         {
-          commit('usersUpcoming',res.data)
+          commit('usersUpcoming',res.data.results)
         })
     }
   },
@@ -406,6 +408,11 @@ export const mutations = {
       state.notifications_notseen = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.user.username);
     }
   },
+  check_notifications_page(state, page){
+    if(page){
+      state.page_notification = page
+    }
+  },
   check_share_love(state, love){
     if(love){
       state.love = love
@@ -502,7 +509,8 @@ export const mutations = {
   get_artists(state, artists) 
   {
     if(artists)
-    {state.artists = artists}
+    {state.artists = artists.results
+    state.page_artists= artists.next}
   },
   get_sharing(state, sharing) 
   {

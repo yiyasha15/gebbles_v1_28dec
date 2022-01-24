@@ -667,10 +667,10 @@ export default {
 				this.$auth.setUser(res.data)
 				this.$auth.setUserToken(res.data.access_token)
 				this.$auth.setRefreshToken('local', res.data.refresh_token);
-				this.$store.dispatch("check_artists");
+				// this.$store.dispatch("check_artists");
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
-				this.$store.dispatch("check_user_journey");
+                this.$store.dispatch("check_user_journey");
 				this.$store.dispatch("check_notifications",res.data.user.username);
                 this.$router.push('/');
                 this.progressbar1 = false;

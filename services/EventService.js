@@ -64,6 +64,9 @@ export default {
     getNotificationsSharing(username,config){
         return apiClient1.get('/notifications/e1t1/?receiver=' + username, config)
     },
+    // getPageNotification(url, config){
+    //     return 
+    // },
     getLearnings(id){
         return apiClient1.get('/e1t1/learnings/list/?shareidobj=' + id)
     },

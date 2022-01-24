@@ -108,6 +108,7 @@
 
             </div>
         </v-container>
+        <v-card color="red" height="20px" v-intersect="infiniteScrolling"></v-card>
     </v-app>
 </template>
 <script>
@@ -154,30 +155,69 @@ export default {
     },
     },
     props: ["artist"],
-    async asyncData({error, params, store}) {
-        if( store.state.auth.loggedIn && params.username == store.state.portfolio.username){ //if user is checking own data
-            // done in store
-            // console.log("got from store ze journey");
-            // return {
-            //     journey: store.state.journey,
-            //     upcoming: store.state.upcoming
-            // }
-        }
-        else{
-        try {
-        let journey_response = await EventService.getJourney(params.username)
-        let upcoming_events = await EventService.getUpcomingEvents(params.username)
+    // async asyncData({error, params, store}) {
+    //     if( store.state.auth.loggedIn && params.username == store.state.portfolio.username){ 
+    //     }
+    //     else{
+    //     try {
+    //     let journey_response = await EventService.getJourney(params.username)
+    //     let upcoming_events = await EventService.getUpcomingEvents(params.username)
+    //     return {
+    //             journey: journey_response.data.results,
+    //             upcoming: upcoming_events.data.results
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //         error({statusCode:503,  message: err.message})
+    //     }
+    //     }
+    // },
+    created(){
+        this.getJourney(this.$route.params);
+    },
+    data() {
         return {
-                journey: journey_response.data,
-                upcoming: upcoming_events.data
-            }
-        } catch (err) {
-            console.log(err);
-            error({statusCode:503,  message: err.message})
-        }
+        search: "",
+        page:"",
+        journey:[],
+        upcoming:[]
         }
     },
     methods: {
+    async getJourney(params){
+        try {
+        let journey_response = await EventService.getJourney(params.username)
+        let upcoming_events = await EventService.getUpcomingEvents(params.username)
+        this.journey= journey_response.data.results;
+        this.upcoming= upcoming_events.data.results;
+        console.log(journey_response.data);
+        this.page = journey_response.data.next;
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    infiniteScrolling(entries, observer, isIntersecting) {
+      // setTimeout(() => {
+        // this.page++;
+        if(this.page)
+        {
+            const key = 'id';
+            this.$axios.get(this.page).then(response => {
+            if (response.data.results.length > 1) {
+                // console.log(response.data.next);
+              this.page= response.data.next;
+              response.data.results.forEach(item => this.journey.push(item));
+              // filter array so no duplicates
+              this.journey = [...new Map(this.journey.map(item =>
+                [item[key], item])).values()];
+            } else {
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });}
+      // }, 500);
+    },
     goback(){
         window.history.back();
     },

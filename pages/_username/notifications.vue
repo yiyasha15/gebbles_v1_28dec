@@ -53,10 +53,11 @@
                 </v-list-item-avatar>
             </div>
             <v-list-item-content v-if="item.notification_context == 1">
+                <v-list-item-subtitle> {{item.time}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you as a teacher.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your post.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your post.</v-list-item-title>
-                <v-list-item-subtitle> {{item.time}}</v-list-item-subtitle>
+                
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 2">
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has added a video.</v-list-item-title>
