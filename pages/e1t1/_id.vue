@@ -83,7 +83,7 @@
                         <v-btn icon @click="react_love">
                             <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
                             <v-icon color="red" v-else>mdi-heart</v-icon>
-                            <div v-if="love.length">{{love.length}}</div>
+                            <div v-if="love">{{love}}</div>
                         </v-btn>
                     </v-flex>
                     <v-flex md2 xs2>
@@ -300,6 +300,7 @@ export default {
         CountryFlag,
         CommentsCard,
         LearningCard,
+        ReadMore,
         // PersonalMessagesCard,
         Youtube
     },

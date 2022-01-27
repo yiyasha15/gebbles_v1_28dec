@@ -41,10 +41,9 @@ export const state = () => ({
   dope: '',
   info:'',
   learnings:[],
-  page_notification:'',
-  page_artists:'',
   page_journey:'',
-  page_e1t1:'',
+  page_teachers:'',
+  page_students:'',
 })
 export const getters = {
   learn_obj(state){
@@ -172,20 +171,19 @@ export const actions = {
       commit('get_e1t1',res.data)
     })
   },
-  check_notifications({commit, state}){
-    if(state.auth.user ){
-        const config = {
-        headers: {"content-type": "multipart/form-data",
-            "Authorization": "Bearer " + state.auth.user.access_token}
-        };
-      EventService.getNotificationsSharing(state.auth.user.user.username,config).then(res =>
-      {
-        commit('check_notifications',res.data.results)
-        commit('check_notifications_page',res.data.next)
-        return;
-      })
-    }
-  },
+  // check_notifications({commit, state}){
+  //   if(state.auth.user ){
+  //       const config = {
+  //       headers: {"content-type": "multipart/form-data",
+  //           "Authorization": "Bearer " + state.auth.user.access_token}
+  //       };
+  //     EventService.getNotificationsSharing(state.auth.user.user.username,config).then(res =>
+  //     {
+  //       commit('check_notifications',res.data.results)
+  //       return;
+  //     })
+  //   }
+  // },
   check_full_journey({commit, state}, id, username){
     if(state.auth.user ){
       if(state.auth.user.user.username == username){ //check if logged in user is checking its private journey
@@ -209,7 +207,7 @@ export const actions = {
   check_share_love({commit}, id){
     EventService.getShareLove(id).then(res =>
       {
-        commit('check_share_love',res.data)
+        commit('check_share_love',res.data.count)
       })
   },
   check_share_comments({commit}, id){
@@ -246,13 +244,13 @@ export const actions = {
       commit('check_learn_obj',res.data)
     })
   },
-  check_artists({commit}){
-    EventService.getArtists().then(res =>
-    {
-      commit('get_artists',res.data)
-      commit('img_community',res.data.length)
-    })
-  },
+  // check_artists({commit}){
+  //   EventService.getArtists().then(res =>
+  //   {
+  //     commit('get_artists',res.data)
+  //     commit('img_community',res.data.length)
+  //   })
+  // },
   check_sharing({commit},username){
       EventService.getEach1Teach1_user(username).then(res =>
       {
@@ -278,17 +276,33 @@ export const actions = {
   check_user_journey({commit, state}){
     if(state.auth.loggedIn) {
       const config = {
-        headers: {"content-type": "multipart/form-data",
-            "Authorization": "Bearer " + state.auth.user.access_token}
-        };
+      headers: {"content-type": "multipart/form-data",
+        "Authorization": "Bearer " + state.auth.user.access_token}
+      };
       EventService.getJourney(state.auth.user.user.username,config).then(res =>
       {
-        commit('usersJourney',res.data.results)
+        commit('usersJourney',res.data)
       })
       EventService.getUpcomingEvents(state.auth.user.user.username,config).then(res =>
-        {
-          commit('usersUpcoming',res.data.results)
-        })
+      {
+        commit('usersUpcoming',res.data)
+      })
+    }
+  },
+  update_user_journey({commit, state}){
+    if(state.page_journey) {
+      // checking if page_journey was not null then call api
+      const config = {
+      headers: {"content-type": "multipart/form-data",
+        "Authorization": "Bearer " + state.auth.user.access_token}
+      };
+      //push the results to state.journey and update the page_journey url
+      this.$axios.get(state.page_journey,config).then(res => {
+        commit('updateUserJourney',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
     }
   },
   check_personal_room({commit, state}, id)
@@ -352,6 +366,12 @@ export const actions = {
       commit('clear_learn_obj',state.learn_obj)
     }
   },
+  remove_page({commit, state})
+  {
+    if(state.auth.loggedIn){
+      commit('clear_page')
+    }
+  },
   remove_editing_obj({commit, state})
   {
     if(state.auth.loggedIn && state.editing_obj){
@@ -372,12 +392,12 @@ export const actions = {
       commit('clear_comments')
     }
   },
-  remove_notifications({commit, state})
-  {
-    if(state.auth.loggedIn){
-      commit('clear_notifications')
-    }
-  },
+  // remove_notifications({commit, state})
+  // {
+  //   if(state.auth.loggedIn){
+  //     commit('clear_notifications')
+  //   }
+  // },
   remove_personal_messages({commit, state})
   {
     if(state.auth.loggedIn && state.personalMessages){
@@ -400,32 +420,29 @@ export const mutations = {
   get_learnings(state,learnings){
     state.learnings = learnings;
   },
-  check_notifications(state, notifications){
-    if(notifications){
-      state.notifications = []
-      state.notifications_notseen =[]
-      state.notifications = notifications
-      state.notifications_notseen = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.user.username);
-    }
-  },
-  check_notifications_page(state, page){
-    if(page){
-      state.page_notification = page
-    }
-  },
+  // check_notifications(state, notifications){
+  //   if(notifications){
+  //     state.notifications = []
+  //     state.notifications_notseen =0
+  //     state.notifications = notifications
+  //     let n = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.user.username);
+  //     state.notifications_notseen = n;
+  //   }
+  // },
   check_share_love(state, love){
     if(love){
       state.love = love
       if(state.auth.loggedIn){
       state.share_has_love = false
       state.share_has_love_id = ''
-        let check_love = love.filter(love => love.username == state.auth.user.user.username);
-        if(check_love[0]){
-          state.share_has_love_id = check_love[0].id
-        }
-        if(check_love.length>0){
-          state.share_has_love = true
-        }
+      console.log(love);
+        // let check_love = love.filter(love => love.username == state.auth.user.user.username);
+        // if(check_love[0]){
+        //   state.share_has_love_id = check_love[0].id
+        // }
+        // if(check_love.length>0){
+        //   state.share_has_love = true
+        // }
       }
     }
   },
@@ -488,6 +505,11 @@ export const mutations = {
     if(learn_obj){
       state.learn_obj = null}
   },
+  clear_page(state){
+      state.page_journey = ''
+      state.page_students = ''
+      state.page_teachers = ''
+    },
   clear_share_obj(state, share_obj){
     if(share_obj){
       state.share_obj = null}
@@ -506,16 +528,18 @@ export const mutations = {
   {
     state.share_comments_list =[]
   },
-  get_artists(state, artists) 
-  {
-    if(artists)
-    {state.artists = artists.results
-    state.page_artists= artists.next}
-  },
+  // get_artists(state, artists) 
+  // {
+  //   if(artists)
+  //   {
+  //     state.artists = artists.results
+  //     state.page_artists= artists.next
+  //   }
+  // },
   get_sharing(state, sharing) 
   {
-    if(sharing)
-    {state.sharing = sharing}
+    if(sharing.results)
+    {state.sharing = sharing.results}
   },
   usersPortfolio(state, artist)
   {
@@ -533,20 +557,30 @@ export const mutations = {
       state.hasBio = true
     }
   },
+  updateUserJourney(state,journey){
+      state.page_journey= journey.next;
+      journey.results.forEach(item => state.journey.push(item));
+      // filter array so no duplicates
+      const key = 'id';
+      state.journey = [...new Map(state.journey.map(item =>
+      [item[key], item])).values()];
+  },
   usersJourney(state, journey)
   {
     state.journey = []
-    if(journey.length)
+    if(journey.results.length)
     {
-      state.journey = journey
-      state.hasJourney = true}
+      state.journey = journey.results
+      state.hasJourney = true
+      state.page_journey = journey.next
+    }
   },
   usersUpcoming(state, upcoming)
   {
     state.upcoming=[]
-    if(upcoming.length)
+    if(upcoming.results.length)
     {
-      state.upcoming = upcoming
+      state.upcoming = upcoming.results
       state.hasUpcoming = true}
   },
   fullJourney(state, fullJourney){
@@ -558,9 +592,9 @@ export const mutations = {
   {
     state.personalMessages = personalMessages
   },
-  clear_notifications(state){
-    state.notifications =[]
-  },
+  // clear_notifications(state){
+  //   state.notifications =[]
+  // },
   clearLearnings(state){
     state.learnings = []
   },

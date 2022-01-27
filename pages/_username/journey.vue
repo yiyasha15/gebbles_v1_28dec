@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container>
+        <v-container v-show="!firstLoad">
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
                 <h3 class="font-weight-light d-inline">Share your journey</h3>
                     <v-btn x-small icon outlined color="indigo" class="ml-2" @click="createJourney"> 
@@ -108,6 +108,20 @@
 
             </div>
         </v-container>
+        <v-container v-if="firstLoad">
+            <div>
+                <div class="my-4">
+                <v-skeleton-loader :loading="loading" type="card-avatar" max-height="26" max-width="106" transition="fade-transition"></v-skeleton-loader>
+                </div>
+                <v-layout wrap row justify-center v-if="firstLoad">
+                    <div v-for="n in this.looploader" :key ="n.index">
+                        <v-flex sm6 xs6> 
+                        <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                        </v-flex>
+                    </div>
+                </v-layout>
+            </div>
+        </v-container>
         <v-card color="red" height="20px" v-intersect="infiniteScrolling"></v-card>
     </v-app>
 </template>
@@ -173,49 +187,72 @@ export default {
     //     }
     // },
     created(){
-        this.getJourney(this.$route.params);
+        // if user is checking own journey, calling from store
+        if(this.isAuthenticated &&this.$store.state.auth.user.user.username == this.$route.params.username)
+        {
+            this.getStoreJourney();
+        }else
+        {
+        this.getJourneyApi(this.$route.params);
+        }
     },
     data() {
         return {
         search: "",
-        page:"",
+        page:null,
         journey:[],
-        upcoming:[]
+        upcoming:[],
+        looploader:[1,1,1,1,1,1,1,1,1],
+        loading: true,
+        firstLoad: true,
         }
     },
     methods: {
-    async getJourney(params){
+    async getJourneyApi(params){
         try {
         let journey_response = await EventService.getJourney(params.username)
         let upcoming_events = await EventService.getUpcomingEvents(params.username)
         this.journey= journey_response.data.results;
         this.upcoming= upcoming_events.data.results;
-        console.log(journey_response.data);
+        console.log("created",journey_response.data);
         this.page = journey_response.data.next;
+        this.firstLoad = false
         } catch (err) {
             console.log(err);
         }
     },
+    getStoreJourney(){
+        this.firstLoad = false
+        console.log("checking store..");
+    },
     infiniteScrolling(entries, observer, isIntersecting) {
       // setTimeout(() => {
         // this.page++;
-        if(this.page)
-        {
-            const key = 'id';
-            this.$axios.get(this.page).then(response => {
-            if (response.data.results.length > 1) {
-                // console.log(response.data.next);
-              this.page= response.data.next;
-              response.data.results.forEach(item => this.journey.push(item));
-              // filter array so no duplicates
-              this.journey = [...new Map(this.journey.map(item =>
-                [item[key], item])).values()];
-            } else {
+        if(this.isAuthenticated && this.$store.state.auth.user.user.username == this.$route.params.username){
+            //update store to next
+            console.log("check store on scroll..");
+            this.$store.dispatch("update_user_journey");
+        }
+        else{
+            // console.log("page url",this.page);
+            if(this.page)
+            { 
+                const key = 'id';
+                this.$axios.get(this.page).then(response => {
+                console.log(response.data);
+                this.page= response.data.next;
+                console.log("this.page",this.page);
+                response.data.results.forEach(item => this.journey.push(item));
+                // filter array so no duplicates
+                this.journey = [...new Map(this.journey.map(item =>
+                    [item[key], item])).values()];
+                
+            })
+                .catch(err => {
+                    console.log(err);
+                });
             }
-          })
-          .catch(err => {
-            console.log(err);
-          });}
+        }
       // }, 500);
     },
     goback(){

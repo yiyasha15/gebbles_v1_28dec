@@ -179,7 +179,7 @@ export default {
       },
   mounted() {
     if(this.isAuthenticated){
-      this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
+      this.$store.dispatch("check_notifications");
     }
   },
   computed: {

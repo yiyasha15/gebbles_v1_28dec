@@ -33,6 +33,8 @@ export default {
 			this.$store.dispatch("remove_notifications")
 			this.$store.dispatch("remove_learnings")
 			this.$store.dispatch("remove_learn_reactions")
+			this.$store.dispatch("remove_page")
+			localStorage.removeItem('vuex');
 			this.$auth.logout();
 		},
 		cancel(){

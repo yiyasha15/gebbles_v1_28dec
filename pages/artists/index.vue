@@ -18,7 +18,14 @@
             ></v-text-field>
         </v-col>
       </v-row>
-        <v-layout wrap row justify-center>
+      <v-layout wrap row justify-center v-if="firstLoad">
+          <div v-for="n in this.looploader" :key ="n.index">
+            <v-flex sm6 xs6> 
+              <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+            </v-flex>
+          </div>
+      </v-layout>
+        <v-layout wrap row justify-center v-show="!firstLoad">
           <div v-for="artist in artists" :key ="artist.index">
             <v-flex sm6 xs6> 
               <ArtistCard :artist="artist" ></ArtistCard> 
@@ -52,7 +59,6 @@ export default {
   },
   created(){
     this.getartists();
-    // this.$store.dispatch("check_artists");
   },
   methods:{
     async getartists(){
@@ -60,6 +66,7 @@ export default {
       const response = await EventService.getArtists()
       this.artists = response.data.results
       this.page = response.data.next
+      this.firstLoad = false
     } catch (e) {
         error({statusCode:503, message: "unable to fetch artist data at this point"})
     }
@@ -69,20 +76,20 @@ export default {
       //   console.log(entries[0], observer, isIntersecting);
       //   console.log("settimeout", this.page);
         // this.page++;
+        if(this.page){
         const key = 'username';
         this.$axios.get(this.page).then(response => {
-            if (response.data.results.length > 1) {
+          // console.log(response);
               this.page= response.data.next;
               response.data.results.forEach(item => this.artists.push(item));
               // filter array so no duplicates
               this.artists = [...new Map(this.artists.map(item =>
                 [item[key], item])).values()];
-            } else {
-            }
           })
           .catch(err => {
             console.log(err);
           });
+        }
       // }, 500);
     }
   },
@@ -91,13 +98,16 @@ export default {
   },
   data() {
     return {
-      search: "",
+      looploader:[1,1,1,1,1,1,1,1,1,1,1],
+      loading: true,
+      firstLoad: true,
       page:"",
       artists:[],
+      search: "",
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'userHasPortfolio', 'loggedInUser', 'page_artists']),
+    ...mapGetters(['isAuthenticated', 'userHasPortfolio', 'loggedInUser']),
     // filteredArtists: function(){
     //   return this.artists.filter((artist) => {
     //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());

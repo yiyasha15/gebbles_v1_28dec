@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container>
+        <v-container v-show="!firstLoad">
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 " >
             <h3 class="font-weight-light d-inline">Share about your teacher</h3>
             <v-btn x-small icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
@@ -44,6 +44,21 @@
                 :src="require('@/assets/gebbleslogo.png')"/>
                 <h3>No posts yet. </h3></center>
         </div>
+        <v-card color="red" height="20px" v-intersect="infiniteScrolling"></v-card>
+        </v-container>
+        <v-container v-if="firstLoad">
+            <div>
+                <div class="my-4">
+                <v-skeleton-loader :loading="loading" type="card-avatar" max-height="26" max-width="106" transition="fade-transition"></v-skeleton-loader>
+                </div>
+                <v-layout wrap row justify-center v-if="firstLoad">
+                    <div v-for="n in this.looploader" :key ="n.index">
+                        <v-flex sm6 xs6> 
+                        <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                        </v-flex>
+                    </div>
+                </v-layout>
+            </div>
         </v-container>
     </v-app>
 </template>
@@ -89,16 +104,45 @@ export default {
         goback(){
             window.history.back();
         },
-    },
-    async asyncData({error, params}) {
-      try {
-        let sharing_response = await EventService.getEach1Teach1_user(params.username)
-        return {
-            sharing: sharing_response.data
+        async getsharing(params){
+            try {
+            const response = await EventService.getEach1Teach1_user(params.username)
+            this.sharing = response.data.results
+            this.page = response.data.next
+            this.firstLoad = false
+            // console.log(response);
+            } catch (e) {
+                error({statusCode:503, message: "unable to fetch shaaring data at this point"})
+            }
+        },
+        infiniteScrolling(entries, observer, isIntersecting) {
+            if(this.page)
+            {
+                    const key = 'id';
+                this.$axios.get(this.page).then(response => {
+                // console.log("this.page",response.data);
+                this.page= response.data.next;
+                response.data.results.forEach(item => this.sharing.push(item));
+                // filter array so no duplicates
+                this.sharing = [...new Map(this.sharing.map(item =>
+                    [item[key], item])).values()];
+            })
+            .catch(err => {
+                console.log(err);
+            });}
         }
-      } catch (err) {
-        error({statusCode:503,  message: err.message})
-        }
     },
+    created(){
+    this.getsharing(this.$route.params);
+    },
+    data() {
+    return {
+        page:"",
+        sharing:[],
+        looploader:[1,1,1,1,1,1,1,1,1],
+        loading: true,
+        firstLoad: true,
+    }
+  },
 }
 </script>
