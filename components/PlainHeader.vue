@@ -660,7 +660,7 @@ export default {
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
 				this.$store.dispatch("check_user_journey");
-				this.$store.dispatch("check_notifications");
+				// this.$store.dispatch("check_notifications");
 				this.$router.push('/'+res.data.user.username)})
 			}catch(error){
 				if(error.response.data.non_field_errors){

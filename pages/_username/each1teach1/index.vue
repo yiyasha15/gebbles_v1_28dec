@@ -44,21 +44,19 @@
                 :src="require('@/assets/gebbleslogo.png')"/>
                 <h3>No posts yet. </h3></center>
         </div>
-        <v-card color="red" height="20px" v-intersect="infiniteScrolling"></v-card>
+        <v-card v-intersect="infiniteScrolling"></v-card>
         </v-container>
         <v-container v-if="firstLoad">
-            <div>
                 <div class="my-4">
-                <v-skeleton-loader :loading="loading" type="card-avatar" max-height="26" max-width="106" transition="fade-transition"></v-skeleton-loader>
+                <v-skeleton-loader :loading="loading" type="card-heading" max-width="250" ></v-skeleton-loader>
                 </div>
-                <v-layout wrap row justify-center v-if="firstLoad">
+                <v-layout wrap row v-if="firstLoad">
                     <div v-for="n in this.looploader" :key ="n.index">
                         <v-flex sm6 xs6> 
-                        <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                        <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" ></v-skeleton-loader>
                         </v-flex>
                     </div>
                 </v-layout>
-            </div>
         </v-container>
     </v-app>
 </template>

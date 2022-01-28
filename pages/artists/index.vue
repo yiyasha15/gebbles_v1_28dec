@@ -34,7 +34,7 @@
       </v-layout>
       </v-container>
       <!-- <v-divider></v-divider> -->
-      <v-card color="red" height="20px" v-intersect="infiniteScrolling"></v-card>
+      <v-card v-intersect="infiniteScrolling"></v-card>
     </v-app>
 </template>
 

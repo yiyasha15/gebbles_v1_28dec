@@ -109,20 +109,18 @@
             </div>
         </v-container>
         <v-container v-if="firstLoad">
-            <div>
                 <div class="my-4">
-                <v-skeleton-loader :loading="loading" type="card-avatar" max-height="26" max-width="106" transition="fade-transition"></v-skeleton-loader>
+                <v-skeleton-loader :loading="loading" type="card-heading" max-width="250" ></v-skeleton-loader>
                 </div>
-                <v-layout wrap row justify-center v-if="firstLoad">
+                <v-layout wrap row v-if="firstLoad">
                     <div v-for="n in this.looploader" :key ="n.index">
                         <v-flex sm6 xs6> 
                         <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
                         </v-flex>
                     </div>
                 </v-layout>
-            </div>
         </v-container>
-        <v-card color="red" height="20px" v-intersect="infiniteScrolling"></v-card>
+        <v-card v-intersect="infiniteScrolling"></v-card>
     </v-app>
 </template>
 <script>
@@ -193,7 +191,7 @@ export default {
             this.getStoreJourney();
         }else
         {
-        this.getJourneyApi(this.$route.params);
+            this.getJourneyApi(this.$route.params);
         }
     },
     data() {
@@ -214,7 +212,7 @@ export default {
         let upcoming_events = await EventService.getUpcomingEvents(params.username)
         this.journey= journey_response.data.results;
         this.upcoming= upcoming_events.data.results;
-        console.log("created",journey_response.data);
+        // console.log("created",journey_response.data);
         this.page = journey_response.data.next;
         this.firstLoad = false
         } catch (err) {
@@ -223,14 +221,14 @@ export default {
     },
     getStoreJourney(){
         this.firstLoad = false
-        console.log("checking store..");
+        // console.log("checking store..");
     },
     infiniteScrolling(entries, observer, isIntersecting) {
       // setTimeout(() => {
         // this.page++;
         if(this.isAuthenticated && this.$store.state.auth.user.user.username == this.$route.params.username){
             //update store to next
-            console.log("check store on scroll..");
+            // console.log("check store on scroll..");
             this.$store.dispatch("update_user_journey");
         }
         else{
@@ -239,9 +237,9 @@ export default {
             { 
                 const key = 'id';
                 this.$axios.get(this.page).then(response => {
-                console.log(response.data);
+                // console.log(response.data);
                 this.page= response.data.next;
-                console.log("this.page",this.page);
+                // console.log("this.page",this.page);
                 response.data.results.forEach(item => this.journey.push(item));
                 // filter array so no duplicates
                 this.journey = [...new Map(this.journey.map(item =>

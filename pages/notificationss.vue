@@ -74,7 +74,7 @@ export default {
                 form.append('is_seen', 'true');
             await this.$axios.$patch("/v1/notifications/"+id, form, config);
 
-            this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
+            // this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
             this.$router.push('/e1t1/'+obj)
         },
         opene1t1(obj){

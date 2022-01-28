@@ -82,7 +82,7 @@
                     <v-flex md2 xs2>
                         <v-btn icon @click="react_love">
                             <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
-                            <v-icon color="red" v-else>mdi-heart</v-icon>
+                            <v-icon color="yellow" v-else>mdi-heart</v-icon>
                             <div v-if="love">{{love}}</div>
                         </v-btn>
                     </v-flex>
@@ -96,7 +96,7 @@
                 <v-row>
                     <v-col >
                     <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
-                    <read-more more-str="read more" :text="msg" link="#" less-str="read less" :max-chars="50"></read-more>
+                    <!-- <read-more more-str="read more" :text="msg" link="#" less-str="read less" :max-chars="50"></read-more> -->
                     <h4 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h4>
                     <v-btn small color="error" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
                     </v-col>
@@ -158,6 +158,7 @@
             </div>   
             </v-layout>   
         </v-row>
+        <v-card v-intersect="infiniteScrollingLearning"></v-card>
         <v-row class="mt-8">
             <v-col cols="12" class="justify-center " id="scroll_comments">
                 <h3 class ="font-weight-light">Comments <span v-if="share_comments_list.length">{{share_comments_list.length}}</span></h3>
@@ -207,6 +208,7 @@
                 <comments-card :comments = "share_comments_list"></comments-card>
             <!-- </div> -->
         </v-row>
+        <v-card v-intersect="infiniteScrollingComments"></v-card>
     </v-container>
     <v-dialog
       v-model="addLearning"
@@ -259,7 +261,7 @@
     <v-snackbar v-model="valid_snackbar2">
         Write something to post.
     </v-snackbar>
-    <v-snackbar v-model="login_snackbar" centered>
+    <v-snackbar v-model="login_snackbar">
         Please login first.
     </v-snackbar>
     <v-snackbar v-model="thankyou_snackbar">
@@ -347,7 +349,6 @@ export default {
             isYourRoom: false,
             items: [],
             dynamic_height: 50,
-            msg: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
             }
     },
     mounted() {
@@ -359,11 +360,11 @@ export default {
         let date = this.e1t1.s_date;
         let datetype= date.slice(8, 10);
         let month = date.slice(5, 7);
-        let yeartpye = date.slice(0, 4)
+        let yeartype = date.slice(0, 4)
         const regex = new RegExp("^0+(?!$)",'g');
         month = month.replaceAll(regex, "");
         let monthtype = months[month-1]
-        this.e1t1.s_date = datetype+" "+monthtype +" "+yeartpye;
+        this.e1t1.s_date = datetype+" "+monthtype +" "+yeartype;
         // if(this.isAuthenticated)
         // {
         // if(this.loggedInUser.user.username == this.e1t1.teacher || this.loggedInUser.user.username ==this.e1t1.username){
@@ -374,7 +375,7 @@ export default {
         // }
 	},
 	computed: {
-        ...mapGetters(['artists', 'userHasPortfolio', 'isAuthenticated',
+        ...mapGetters([ 'userHasPortfolio', 'isAuthenticated',
         'loggedInUser', 'usersPortfolio', 'share_comments_list', 'love',
         // 'personalMessages','personalMessagesNotifications', 
         'learnings', 'share_has_love', 'share_has_love_id']),
@@ -391,6 +392,12 @@ export default {
         }
     },
     methods:{
+        infiniteScrollingLearning(entries, observer, isIntersecting) {
+            this.$store.dispatch("update_user_learnings");
+        },
+        infiniteScrollingComments(entries, observer, isIntersecting) {
+            this.$store.dispatch("update_user_comments");
+        },
         onPick() //changing the click from button to input using refs
         {
             this.$refs.fileInputVideo.click()

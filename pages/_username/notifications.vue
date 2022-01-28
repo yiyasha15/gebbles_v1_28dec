@@ -80,11 +80,11 @@
     <v-container v-if="firstLoad">
           <div v-for="n in this.looploader" :key ="n.index">
             <v-flex sm6 xs6> 
-              <v-skeleton-loader  class="ma-1" :loading="loading" type="list-item-avatar,card-heading" transition="fade-transition"></v-skeleton-loader>
+              <v-skeleton-loader  class="ma-1" :loading="loading" type="list-item-avatar" ></v-skeleton-loader>
             </v-flex>
           </div>
     </v-container>
-      <v-card color="red" height="10px" v-intersect="infiniteScrolling"></v-card>
+      <v-card v-intersect="infiniteScrolling"></v-card>
 </v-app>
 </template>
 <script>
@@ -167,7 +167,7 @@ computed: {
             } catch (error) {
                 console.log("error..",error.response.data);
             }
-            this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
+            // this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
             // this.$router.push('/e1t1/'+ obj.e1t1object);
         }
     },

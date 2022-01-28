@@ -44,6 +44,8 @@ export const state = () => ({
   page_journey:'',
   page_teachers:'',
   page_students:'',
+  page_learnings:'',
+  page_share_comment:''
 })
 export const getters = {
   learn_obj(state){
@@ -165,12 +167,6 @@ export const getters = {
   }
 }
 export const actions = {
-  check_e1t1({commit},id){
-    EventService.getEach1Teach1(id).then(res =>
-    {
-      commit('get_e1t1',res.data)
-    })
-  },
   // check_notifications({commit, state}){
   //   if(state.auth.user ){
   //       const config = {
@@ -219,13 +215,13 @@ export const actions = {
   check_learn_reactions({commit}, id){
     EventService.getLearnReaction(id).then(res =>
       {
-        commit('check_learn_reactions',res.data)
+        commit('check_learn_reactions',res.data.results)
       })
   },
   check_learn_comments({commit}, id){
     EventService.getLearnComments(id).then(res =>
       {
-        commit('check_learn_comments',res.data)
+        commit('check_learn_comments',res.data.results)
       })
   },
   check_share_obj({commit, state}, share_obj){
@@ -241,6 +237,7 @@ export const actions = {
   check_learn_obj({commit},id){
     EventService.getLearning(id).then(res =>
     {
+      console.log("learn",res.data);
       commit('check_learn_obj',res.data)
     })
   },
@@ -299,6 +296,28 @@ export const actions = {
       //push the results to state.journey and update the page_journey url
       this.$axios.get(state.page_journey,config).then(res => {
         commit('updateUserJourney',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
+    }
+  },
+  update_user_learnings({commit, state}){
+    if(state.page_learnings) {
+      this.$axios.get(state.page_learnings).then(res => {
+        console.log("update_user_learnings");
+        commit('updateUserLearnings',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
+    }
+  },
+  update_user_comments({commit, state}){
+    if(state.page_share_comment) {
+      this.$axios.get(state.page_share_comment).then(res => {
+        console.log("update_user_comments");
+        commit('updateUserShareComments',res.data)
       })
       .catch(err => {
           console.log(err);
@@ -418,7 +437,8 @@ export const mutations = {
     state.e1t1 = e1t1;
   },
   get_learnings(state,learnings){
-    state.learnings = learnings;
+    state.learnings = learnings.results;
+    state.page_learnings = learnings.next;
   },
   // check_notifications(state, notifications){
   //   if(notifications){
@@ -447,9 +467,8 @@ export const mutations = {
     }
   },
   check_share_comments(state, share_comments_list){
-    if(share_comments_list){
-      state.share_comments_list = share_comments_list
-    }
+      state.share_comments_list = share_comments_list.results;
+      state.page_share_comment = share_comments_list.next
   },
   check_learn_reactions(state, react){
     if(react){
@@ -564,6 +583,22 @@ export const mutations = {
       const key = 'id';
       state.journey = [...new Map(state.journey.map(item =>
       [item[key], item])).values()];
+  },
+  updateUserLearnings(state,learnings){
+    state.page_learnings= learnings.next;
+    learnings.results.forEach(item => state.learnings.push(item));
+    // filter array so no duplicates
+    const key = 'id';
+    state.learnings = [...new Map(state.learnings.map(item =>
+    [item[key], item])).values()];
+  },
+  updateUserShareComments(state,comments){
+    state.page_share_comment= comments.next;
+    comments.results.forEach(item => state.share_comments_list.push(item));
+    // filter array so no duplicates
+    const key = 'id';
+    state.share_comments_list = [...new Map(state.share_comments_list.map(item =>
+    [item[key], item])).values()];
   },
   usersJourney(state, journey)
   {

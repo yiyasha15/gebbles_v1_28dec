@@ -177,11 +177,11 @@ export default {
         }]
         }
       },
-  mounted() {
-    if(this.isAuthenticated){
-      this.$store.dispatch("check_notifications");
-    }
-  },
+  // mounted() {
+  //   if(this.isAuthenticated){
+  //     this.$store.dispatch("check_notifications");
+  //   }
+  // },
   computed: {
       ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio'])
   },
