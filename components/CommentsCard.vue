@@ -1,7 +1,7 @@
 <template>
   <v-container >
     <section >
-      <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start mb-4 ">
+      <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start">
           <nuxt-link :to="'/'+ comment.username">
           <center>
               <v-list-item-avatar size="36" v-if=" comment.artist_metadata.thumb">
@@ -14,8 +14,8 @@
               </v-list-item-avatar>
           </center>
           </nuxt-link>
-        <div>
-          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{comment.timestamp}}</p>
+        <div class="mb-2">
+          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{getTime(comment.timestamp).date}}</p>
           <h5 class="mr-4"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}} </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span></h5>
         </div>
             <v-spacer></v-spacer>
@@ -44,7 +44,6 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-            <!-- <v-divider v-if="i + 1 < comments.length"></v-divider> -->
       </div>
     </section>
     <v-snackbar v-model="delete_snackbar">
@@ -93,10 +92,23 @@ import { mapGetters } from 'vuex'
             }
         };
         try {
+          console.log(comment);
           this.report_snackbar =true
         } catch (e) {
             console.log(e);
         }
+      },
+      getTime(timestamp){
+        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let date = timestamp;
+        let datetype= date.slice(8, 10);
+        let month = date.slice(5, 7);
+        let yeartype = date.slice(0, 4)
+        const regex = new RegExp("^0+(?!$)",'g');
+        month = month.replaceAll(regex, "");
+        let monthtype = months[month-1]
+        date = datetype+" "+monthtype +" "+yeartype;
+        return{ date}
       }
     }
   }
@@ -106,4 +118,3 @@ import { mapGetters } from 'vuex'
    white-space: pre-line;  
 }
 </style>
-

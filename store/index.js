@@ -45,11 +45,15 @@ export const state = () => ({
   page_teachers:'',
   page_students:'',
   page_learnings:'',
-  page_share_comment:''
+  page_share_comment:'',
+  loadingLearning:true,
 })
 export const getters = {
   learn_obj(state){
     return state.learn_obj
+  },
+  loadingLearning(state){
+    return state.loadingLearning
   },
   learn_has_like(state){
     return state.learn_has_like
@@ -237,7 +241,6 @@ export const actions = {
   check_learn_obj({commit},id){
     EventService.getLearning(id).then(res =>
     {
-      console.log("learn",res.data);
       commit('check_learn_obj',res.data)
     })
   },
@@ -305,7 +308,6 @@ export const actions = {
   update_user_learnings({commit, state}){
     if(state.page_learnings) {
       this.$axios.get(state.page_learnings).then(res => {
-        console.log("update_user_learnings");
         commit('updateUserLearnings',res.data)
       })
       .catch(err => {
@@ -316,7 +318,6 @@ export const actions = {
   update_user_comments({commit, state}){
     if(state.page_share_comment) {
       this.$axios.get(state.page_share_comment).then(res => {
-        console.log("update_user_comments");
         commit('updateUserShareComments',res.data)
       })
       .catch(err => {
@@ -431,6 +432,7 @@ export const actions = {
     // Define Mutations
 export const mutations = {
   check_learn_obj(state,learn_obj){
+    state.loadingLearning = false;
     state.learn_obj = learn_obj
   },
   get_e1t1(state,e1t1){
@@ -522,6 +524,7 @@ export const mutations = {
   },
   clear_learn_obj(state, learn_obj){
     if(learn_obj){
+      state.loadingLearning =true;
       state.learn_obj = null}
   },
   clear_page(state){

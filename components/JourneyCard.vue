@@ -183,8 +183,8 @@
                 </v-dialog>
               </v-row>
               </div>
-              <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}">
-                <h5 class="font-weight-light">{{journey.jodate}}</h5>
+              <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}" v-if="journey.jodate">
+                <h5 class="font-weight-light">{{dateFormat(journey.jodate).date}}</h5>
               </v-row>
               <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}" v-if="fullJourney">
                 <!-- {{fullJourney}} -->
@@ -244,6 +244,20 @@ export default {
     SliderItem
   },
   methods:{
+    dateFormat(recdate){
+      if(recdate){
+        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let date = recdate;
+        let datetype= date.slice(8, 10);
+        let month = date.slice(5, 7);
+        let yeartype = date.slice(0, 4)
+        const regex = new RegExp("^0+(?!$)",'g');
+        month = month.replaceAll(regex, "");
+        let monthtype = months[month-1]
+        date = datetype+" "+monthtype +" "+yeartype
+        return{date}
+        }
+      },
     openDialog() {
     this.dialog= true
     this.$store.dispatch("check_full_journey", this.journey.id,this.journey.username);

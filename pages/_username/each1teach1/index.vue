@@ -48,7 +48,7 @@
         </v-container>
         <v-container v-if="firstLoad">
                 <div class="my-4">
-                <v-skeleton-loader :loading="loading" type="card-heading" max-width="250" ></v-skeleton-loader>
+                <h3 class="font-weight-light d-inline">Share about your teacher</h3>
                 </div>
                 <v-layout wrap row v-if="firstLoad">
                     <div v-for="n in this.looploader" :key ="n.index">

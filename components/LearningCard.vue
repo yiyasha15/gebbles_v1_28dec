@@ -45,135 +45,171 @@
         v-model="videoDialog"
         width="700px"
         persistent>
-        <v-container class="rounded-lg white pa-2">
-        <v-col cols="12" align="end" justify="end">
-          <v-btn icon color="error" @click="closeDialog(learn_obj.video)">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        </v-col>
-        <!-- <div v-if="loggedInUser && learn_obj" align="end" justify="end">
-        <v-col class="ma-0" v-if="loggedInUser.user.username == learn_obj.username" >
-        <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn small icon v-bind="attrs"
-            v-on="on">
-            <v-icon small color="indigo" @click="editLearning">mdi-circle-edit-outline</v-icon>
-        </v-btn>
-        </template>
-        <span>Edit</span>
-        </v-tooltip>
-        <v-dialog v-if="loggedInUser" v-model="deleteLearnDialog" width="500">
-        <template v-slot:activator="{ on, attrs }">
-            <v-tooltip top v-bind="attrs" v-on="on">
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn small icon >
-                <v-icon small color="error" @click="deleteLearnDialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                </v-btn>
-            </template>
-            <span>Delete</span>
-            </v-tooltip>
-        </template>
-        <v-card class="pa-4">
-            <p>Are you sure you want to delete this lesson?</p>
-            <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn small class="px-4 text-decoration-none" color="error" dark
-                @click="deleteLearning(learn_obj.id,learn_obj.shareidobj)">Delete</v-btn>
-            <v-btn small color="indigo" class="px-4text-decoration-none" outlined  @click="deleteLearnDialog = false">
-                Cancel
-            </v-btn>
-            </v-card-actions>
-        </v-card>
-        </v-dialog>
-        </v-col>
-        </div> -->
-
-        <v-col cols="12" align="center" justify="center" v-if="learn_obj" >
-          <!-- {{learn_obj}}
-          <video id="videoId" max-width="300px" height="300px" controls v-if="learn_obj.video" class="hidden-xs-only">
-            <source src="https://presignedurl1.s3.us-east-2.amazonaws.com/c8e4e77b-96b5-47c6-ab04-0936555b351a" type="video/mp4">
-            Your browser does not support the video tag.
-        </video> -->
-        <video id="videoId" width="100%" height="300px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-xs-only">
-            <source :src="learn_obj.video" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <video id="videoId" width="100%" height="150px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-sm-and-up">
-            <source :src="learn_obj.video" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div align="left" justify="left">
-        <div class="my-4">
-          <h5 class="caption"> {{learndate}}</h5>
-        </div>
-        <div class="my-4" >
-        <h4>{{learn_obj.lesson}}</h4>
-        </div>
-          <div class="my-4">
-            <v-btn icon @click="react_like()" class="mr-1">
-              <v-icon color="black" v-if="!learn_has_like">mdi-heart-outline</v-icon>
-              <v-icon color="red" v-else>mdi-heart</v-icon>
-              <div v-if="like.length">{{like.length}}</div>
-            </v-btn>
-            <v-btn icon @click="react_dope()" class="mx-1">
-              <v-icon color="black" v-if="!learn_has_dope">mdi-fire</v-icon>
-              <v-icon color="orange" v-else>mdi-fire</v-icon>
-              <div v-if="dope.length">{{dope.length}}</div>
-            </v-btn>
-            <v-btn icon @click="react_info()" class="mx-1">
-              <v-icon color="black" v-if="!learn_has_info">mdi-head-flash-outline</v-icon>
-              <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
-              <div v-if="info.length">{{info.length}}</div>
-            </v-btn>
-        </div>
-        </div>
-        <div>
-          <v-row class="my-4 pl-2">
-              <h3 class="font-weight-light">
-                Comments <span v-if="learning_comments_list.length" >{{learning_comments_list.length}}</span>
-              </h3>
-          </v-row>
-          <v-row no-gutters style="flex-wrap: nowrap;">
-              <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
-              <img
-                  :src = "usersPortfolio.thumb" 
-                  alt="img"
-              >
-              </v-avatar>
-              <v-avatar size="36" color="indigo" v-else >
-              <v-icon dark>
-                  mdi-account-circle
-              </v-icon>
-              </v-avatar>
-              <v-textarea v-if="isAuthenticated && userHasPortfolio" class="mx-4"
-                  v-model= "comments.comment"
-                  outlined
-                  auto-grow
-                  rows="1"
-                  row-height="15"
-                  max-width= "200"
-                  label="Share your thoughts">
-              </v-textarea>
-              <v-textarea v-else class="mx-4"
-                  @click="login_snackbar=true"
-                  outlined
-                  rows="1"
-                  row-height="15"
-                  max-width= "200"
-                  label="Share your thoughts">
-              </v-textarea>
-              <v-btn v-if="isAuthenticated && userHasPortfolio"
-                  small class="text-decoration-none mt-2" 
-                  @click="post_comment(learn_obj.id)"
-                      color="indigo" dark >Post
+        <v-container class="rounded-lg white pa-2" v-show="!loadingLearning">
+          <v-col cols="12" align="end" justify="end">
+            <v-btn icon color="error" @click="closeDialog(learn_obj.video)">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-col>
+          <!-- <div v-if="loggedInUser && learn_obj" align="end" justify="end">
+          <v-col class="ma-0" v-if="loggedInUser.user.username == learn_obj.username" >
+          <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+              <v-btn small icon v-bind="attrs"
+              v-on="on">
+              <v-icon small color="indigo" @click="editLearning">mdi-circle-edit-outline</v-icon>
+          </v-btn>
+          </template>
+          <span>Edit</span>
+          </v-tooltip>
+          <v-dialog v-if="loggedInUser" v-model="deleteLearnDialog" width="500">
+          <template v-slot:activator="{ on, attrs }">
+              <v-tooltip top v-bind="attrs" v-on="on">
+              <template v-slot:activator="{ on, attrs }">
+                  <v-btn small icon >
+                  <v-icon small color="error" @click="deleteLearnDialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
+                  </v-btn>
+              </template>
+              <span>Delete</span>
+              </v-tooltip>
+          </template>
+          <v-card class="pa-4">
+              <p>Are you sure you want to delete this lesson?</p>
+              <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn small class="px-4 text-decoration-none" color="error" dark
+                  @click="deleteLearning(learn_obj.id,learn_obj.shareidobj)">Delete</v-btn>
+              <v-btn small color="indigo" class="px-4text-decoration-none" outlined  @click="deleteLearnDialog = false">
+                  Cancel
               </v-btn>
-          </v-row>
-          <v-row class="px-4" v-if="learning_comments_list.length">
-            <learning-comments-card :comments = "learning_comments_list"></learning-comments-card>
-          </v-row>
-        </div>
-        </v-col>
-    </v-container>
+              </v-card-actions>
+          </v-card>
+          </v-dialog>
+          </v-col>
+          </div> -->
+
+          <v-col cols="12"  v-if="learn_obj" >
+            <!-- {{learn_obj}}
+            <video id="videoId" max-width="300px" height="300px" controls v-if="learn_obj.video" class="hidden-xs-only">
+              <source src="https://presignedurl1.s3.us-east-2.amazonaws.com/c8e4e77b-96b5-47c6-ab04-0936555b351a" type="video/mp4">
+              Your browser does not support the video tag.
+          </video> -->
+          <video id="videoId" width="100%" height="300px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-xs-only">
+              <source :src="learn_obj.video" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>
+          <video id="videoId" width="100%" height="150px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-sm-and-up">
+              <source :src="learn_obj.video" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>
+          <div align="left" justify="left">
+          <div class="my-4">
+            <h5 class="caption"> {{learndate}}</h5>
+          </div>
+          <div class="my-4" >
+          <h4>{{learn_obj.lesson}}</h4>
+          </div>
+            <div class="my-4">
+              <v-btn icon @click="react_like()" class="mr-1">
+                <v-icon color="black" v-if="!learn_has_like">mdi-heart-outline</v-icon>
+                <v-icon color="red" v-else>mdi-heart</v-icon>
+                <div v-if="like.length">{{like.length}}</div>
+              </v-btn>
+              <v-btn icon @click="react_dope()" class="mx-1">
+                <v-icon color="black" v-if="!learn_has_dope">mdi-fire</v-icon>
+                <v-icon color="orange" v-else>mdi-fire</v-icon>
+                <div v-if="dope.length">{{dope.length}}</div>
+              </v-btn>
+              <v-btn icon @click="react_info()" class="mx-1">
+                <v-icon color="black" v-if="!learn_has_info">mdi-head-flash-outline</v-icon>
+                <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
+                <div v-if="info.length">{{info.length}}</div>
+              </v-btn>
+          </div>
+          </div>
+          <div>
+            <v-row class="my-4 pl-2">
+                <h3 class="font-weight-light">
+                  Comments <span v-if="learning_comments_list.length" >{{learning_comments_list.length}}</span>
+                </h3>
+            </v-row>
+            <v-row no-gutters style="flex-wrap: nowrap;">
+                <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
+                <img
+                    :src = "usersPortfolio.thumb" 
+                    alt="img"
+                >
+                </v-avatar>
+                <v-avatar size="36" color="indigo" v-else >
+                <v-icon dark>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <v-textarea v-if="isAuthenticated && userHasPortfolio" class="mx-4"
+                    v-model= "comments.comment"
+                    outlined
+                    auto-grow
+                    rows="1"
+                    row-height="15"
+                    max-width= "200"
+                    label="Share your thoughts">
+                </v-textarea>
+                <v-textarea v-else class="mx-4"
+                    @click="login_snackbar=true"
+                    outlined
+                    rows="1"
+                    row-height="15"
+                    max-width= "200"
+                    label="Share your thoughts">
+                </v-textarea>
+                <v-btn v-if="isAuthenticated && userHasPortfolio"
+                    small class="text-decoration-none mt-2" 
+                    @click="post_comment(learn_obj.id)"
+                        color="indigo" dark >Post
+                </v-btn>
+            </v-row>
+            <v-row class="px-4" v-if="learning_comments_list.length">
+              <learning-comments-card :comments = "learning_comments_list"></learning-comments-card>
+            </v-row>
+          </div>
+          </v-col>
+        </v-container>
+        <v-container class="rounded-lg white pa-2" v-if="loadingLearning" >
+          <v-col cols="12" align="end" justify="end">
+            <v-btn icon color="error" @click="closeDialog(null)">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-col>
+          <v-col cols="12">
+          <v-skeleton-loader width="100%" height="300px"  :loading="loading" type="card" ></v-skeleton-loader>
+          <div align="left" justify="left">
+            <div class="my-2">
+              <v-btn icon class="mr-1">
+                <v-icon color="black" >mdi-heart</v-icon>
+                <div v-if="like.length">{{like.length}}</div>
+              </v-btn>
+              <v-btn icon class="mx-1">
+                <v-icon color="black" >mdi-fire</v-icon>
+                <div v-if="dope.length">{{dope.length}}</div>
+              </v-btn>
+              <v-btn icon  class="mx-1">
+                <v-icon color="black" >mdi-head-flash-outline</v-icon>
+                <div v-if="info.length">{{info.length}}</div>
+              </v-btn>
+          </div>
+          </div>
+          <div>
+            <v-row class="my-2 pl-2">
+                <h3 class="font-weight-light">
+                  Comments 
+                </h3>
+            </v-row>
+            <v-row class="px-4">
+              <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+            </v-row>
+          </div>
+          </v-col>
+        </v-container>
     </v-dialog> 
     <v-dialog
       v-model="updateLearning"
@@ -239,6 +275,7 @@ import { mapGetters } from 'vuex'
         login_snackbar: false,
         thankyou_snackbar: false,
         videoDialog: false,
+        loading:true,
         learndate:'',
         comments : {
             username : "",
@@ -261,7 +298,7 @@ import { mapGetters } from 'vuex'
     computed: {
       ...mapGetters(['loggedInUser', 'userHasPortfolio', 'usersPortfolio', 'artists' ,'isAuthenticated',
       'like', 'dope', 'info', 'learning_comments_list', 'learn_has_like','learn_has_like_id', 
-      'learn_has_dope','learn_has_dope_id','learn_has_info','learn_has_info_id','learn_obj']),
+      'learn_has_dope','learn_has_dope_id','learn_has_info','learn_has_info_id','learn_obj' ,'loadingLearning']),
     },
     methods:{
       closeUpdateLearning(){

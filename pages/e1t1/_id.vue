@@ -203,11 +203,9 @@
             </v-btn></center>
             </v-flex>
         </v-layout>
-        <v-row  v-if="share_comments_list.length">
-            <!-- <div v-for = "comments in comments" :key = "comments.index" > -->
-                <comments-card :comments = "share_comments_list"></comments-card>
-            <!-- </div> -->
-        </v-row>
+        <div v-if="share_comments_list.length" >
+            <comments-card :comments = "share_comments_list"></comments-card>
+        </div>
         <v-card v-intersect="infiniteScrollingComments"></v-card>
     </v-container>
     <v-dialog
@@ -312,8 +310,6 @@ export default {
             videoId:'',
             addLearning:false,
             addDedicated:false,
-            video1Dialog: false,
-            video2Dialog: false,
             dialog: false,
             sizeExceed:false,
             learntDialog:false,
@@ -427,16 +423,6 @@ export default {
         };
         let now = new Date().toLocaleString('en-US', options);
         return now;
-        },
-        closeDialog1() //pressing outside dialog pauses video
-        {
-            var vid = document.getElementById("video1"); 
-            vid.pause();
-        },
-        closeDialog2() //pressing outside dialog pauses video
-        {
-            var vid = document.getElementById("video2"); 
-            vid.pause();
         },
         goback(){
             this.$store.dispatch("remove_share_obj")
