@@ -86,7 +86,7 @@
                     :to="'/logout'"
                     class="text-decoration-none pl-6 pr-12"
                     >
-                    <v-list-item-title>Log Out</v-list-item-title>
+                    <v-list-item-title>Sign Out</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>

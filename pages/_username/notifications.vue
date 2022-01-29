@@ -18,22 +18,22 @@
               </v-list-item-avatar>
             </div>
             <v-list-item-content v-if="item.notification_context == 1">
+                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you as a teacher.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your post.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your post.</v-list-item-title>
-                <v-list-item-subtitle> {{item.time}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 2">
+                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has added a video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your video.</v-list-item-title>
-                <v-list-item-subtitle> {{item.time}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 3">
+                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has sent you a private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your private message.</v-list-item-title>
-                <v-list-item-subtitle> {{item.time}}</v-list-item-subtitle>
             </v-list-item-content>
             </v-list-item>
         </template>
@@ -54,23 +54,24 @@
                 </v-list-item-avatar>
             </div>
             <v-list-item-content v-if="item.notification_context == 1">
-                <v-list-item-subtitle> {{item.time}}</v-list-item-subtitle>
+                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you as a teacher.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your post.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your post.</v-list-item-title>
                 
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 2">
+                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has added a video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your video.</v-list-item-title>
-                <v-list-item-subtitle> {{item.time}}</v-list-item-subtitle>
+                
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 3">
+                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has sent you a private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your private message.</v-list-item-title>
-                <v-list-item-subtitle> {{item.time}}</v-list-item-subtitle>
             </v-list-item-content>
             </v-list-item>
         </template>
@@ -124,7 +125,7 @@ computed: {
             "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
         };
         const response = await EventService.getNotificationsSharing(this.$store.state.auth.user.user.username,config)
-        // console.log(response);
+        console.log(response);
         this.notifications = response.data.results
         this.page = response.data.next
         this.firstLoad = false
@@ -132,6 +133,19 @@ computed: {
             console.log(e);
         }
     },
+    getTime(timestamp){
+        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let date = timestamp;
+        let datetype= date.slice(8, 10);
+        let month = date.slice(5, 7);
+        let yeartype = date.slice(0, 4)
+        const regex = new RegExp("^0+(?!$)",'g');
+        month = month.replaceAll(regex, "");
+        let monthtype = months[month-1]
+        date = datetype+" "+monthtype +" "+yeartype;
+        // console.log(date);
+        return{ date}
+      },
     async seen(obj){
         {
             this.$router.push('/e1t1/'+ obj.e1t1object);

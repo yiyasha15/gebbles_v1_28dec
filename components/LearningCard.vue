@@ -248,7 +248,7 @@
         Write something to post.
     </v-snackbar>
     <v-snackbar v-model="login_snackbar">
-        Please login first.
+        Please sign in first.
     </v-snackbar>
     <v-snackbar v-model="thankyou_snackbar">
           Thank you for sharing.
