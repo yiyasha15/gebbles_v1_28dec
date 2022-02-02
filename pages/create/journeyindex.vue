@@ -9,9 +9,18 @@
           </div>
         </v-col>
         <v-col cols="12" md='6'>
-            <div class="ma-2 px-2">
+          <div class="ma-2 px-2" v-if="!loggedInUser">
+              <h4 class="font-weight-light mt-4 mb-4 " > <br>Share about your dance journey, or add about your upcoming classes or events. </h4>
+              <div class="mt-6" >
+                <v-btn small outlined  dark color="black" class="text-decoration-none" :to= "`/create/journey/`">Sign in and Share Journey</v-btn>
+              </div>
+          </div>
+            <div class="ma-2 px-2" v-else>
               <h4 class="font-weight-light mt-4 mb-4 " > Hi {{loggedInUser.user.username}}, <br>Share about your dance journey, or add about your upcoming classes or events. </h4>
-              <nuxt-link :to="'/create/journey/'" class="text-decoration-none "><h4 class="icon">Share Journey <v-icon dense class="icon">mdi-chevron-right</v-icon> </h4></nuxt-link>
+              <div class="mt-6" >
+                <v-btn small outlined dark color="black" class="text-decoration-none" :to= "`/create/journey/`">Share Journey</v-btn>
+              </div>
+              <!-- <nuxt-link :to="'/create/journey/'" class="text-decoration-none "><h4 class="icon">Share Journey <v-icon dense class="icon">mdi-chevron-right</v-icon> </h4></nuxt-link> -->
               </div>
          </v-col>
       </v-row>
@@ -22,7 +31,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-    middleware : 'check_auth',
+    // middleware : 'check_auth',
     data () {
       return {
         dialog: false,

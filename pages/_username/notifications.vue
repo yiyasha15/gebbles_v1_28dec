@@ -150,6 +150,7 @@ computed: {
         {
             this.$router.push('/e1t1/'+ obj.e1t1object);
             let temp = this.filteredNotifications;
+            // console.log("filteredNotifications",temp);
             let tempe;
             // if(obj.chatobject)
             // {tempe = temp.filter(temp => temp.chatobject == obj.chatobject);
@@ -175,8 +176,9 @@ computed: {
                 form.append('receiver', tempe[i].receiver);
                 form.append('notification_type', tempe[i].notification_type);
                 form.append('notification_context', tempe[i].notification_context);
-                await this.$axios.$put("/v1/notifications/e1t1/"+tempe[i].id , form, config)
-                // console.log("put for", tempe[i].id );
+                let res = await this.$axios.$put("/v1/notifications/e1t1/"+tempe[i].id , form, config)
+                console.log(res);
+                console.log("put for", tempe[i].id );
                 }
             } catch (error) {
                 console.log("error..",error.response.data);
@@ -193,7 +195,7 @@ computed: {
         }
     },
     infiniteScrolling(entries, observer, isIntersecting) {
-        // console.log("page ",this.page);
+        console.log("page ",this.page);
         if(this.page){
              const config = {
         headers: {"content-type": "multipart/form-data",
@@ -201,7 +203,7 @@ computed: {
         };
         const key = 'id';
         this.$axios.get(this.page, config).then(response => {
-        //   console.log(response);
+          console.log(response);
               this.page= response.data.next;
               response.data.results.forEach(item => this.notifications.push(item));
               // filter array so no duplicates

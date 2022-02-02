@@ -18,6 +18,7 @@
       />
       <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="60" width="96" contain/>
       <v-dialog
+      max-width="800"
         v-model="dialog"
         persistent
         class="ma-12 ma-md-24">

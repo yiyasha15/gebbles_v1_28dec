@@ -18,8 +18,9 @@
                 you in your own journey. Similarly you will have a list of all your 
                 students and peers who learned something from you when they mention you.
             </h4>
-             <nuxt-link :to="'/create/each1teach1/'" class="text-decoration-none "><h3 class="  mt-4 ">Each 1 Teach 1 <v-icon class="icon">mdi-chevron-right</v-icon></h3></nuxt-link>
-                
+            <div class="mt-6" >
+                <v-btn small outlined dark color="black" class="text-decoration-none" :to= "`/create/each1teach1/`">Each 1 Teach 1</v-btn>
+              </div>
             </v-col>
         </v-row>
         </v-container>
@@ -27,7 +28,7 @@
 </template>
 <script>
 export default {
-    middleware : 'check_auth',
+    // middleware : 'check_auth',
     data(){
         return{}
     },
