@@ -15,7 +15,7 @@
               solo
               prepend-inner-icon="mdi-magnify"
               v-model="search"
-              @input="filterApi"
+              
             ></v-text-field>
         </v-col>
       </v-row>
@@ -92,7 +92,13 @@ export default {
           });
         }
       // }, 500);
-    }
+    },
+    // @input="filterApi"
+    // filterApi(){
+    //   return this.artists.filter((artist) => {
+    //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
+    //   });
+    // }
   },
   components: {
     ArtistCard
@@ -104,6 +110,7 @@ export default {
       firstLoad: true,
       page:"",
       artists:[],
+      searchedArtist:[],
       search: "",
     }
   },
@@ -114,6 +121,6 @@ export default {
     //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
     //   });
     // }
-  }
+  },
 }
 </script>

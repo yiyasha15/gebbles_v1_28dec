@@ -35,12 +35,12 @@
                 </nuxt-link>
                 <v-spacer></v-spacer>
                 <div class= "hidden-sm-and-up">
-                <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen.length>0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
+                <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen>0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
                 <v-badge color="error" overlap :content='notifications_notseen.length'>
                 <v-icon color="black">mdi-bell</v-icon>
                 </v-badge>
                 </v-btn>
-                <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen.length==0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
+                <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen==0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
                 <v-icon color="black">mdi-bell</v-icon>
                 </v-btn>
                 </div>
@@ -158,12 +158,12 @@
             <v-btn small text class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4>Journey</h4></v-btn> 
             <v-btn small text class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4>E1T1</h4></v-btn>
             <div class= "d-none d-sm-block">
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen.length>0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
-            <v-badge color="error" overlap :content='notifications_notseen.length'>
+            <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen>0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
+            <v-badge color="error" overlap :content='notifications_notseen'>
             <v-icon color="black">mdi-bell</v-icon>
             </v-badge>
             </v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen.length==0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
+            <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen==0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
             <v-icon color="black">mdi-bell</v-icon>
             </v-btn>
             </div>
@@ -838,7 +838,8 @@ export default {
 				// this.$store.dispatch("check_artists");
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
-				this.$store.dispatch("check_user_journey");
+                this.$store.dispatch("check_user_journey");
+                this.$store.dispatch("check_user_teachers");
 				// this.$store.dispatch("check_notifications",res.data.user.username);
                 this.$router.push('/');
                 this.progressbar1 = false;

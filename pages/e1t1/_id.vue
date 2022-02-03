@@ -440,6 +440,7 @@ export default {
             try {
                 let response = await this.$axios.$delete("/v1/e1t1/sharing/"+this.e1t1.id, config)
                 // console.log("e1t1 deleted.");
+                this.$store.dispatch("check_user_teachers");
                 this.$router.push("/"+ this.e1t1.username+"/each1teach1");
             } catch (e) {
                 console.log(e);

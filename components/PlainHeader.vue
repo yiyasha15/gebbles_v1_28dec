@@ -659,7 +659,8 @@ export default {
 				// this.$store.dispatch("check_artists");
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
-				this.$store.dispatch("check_user_journey");
+                this.$store.dispatch("check_user_journey");
+                this.$store.dispatch("check_user_teachers");
 				// this.$store.dispatch("check_notifications");
 				this.$router.push('/'+res.data.user.username)})
 			}catch(error){

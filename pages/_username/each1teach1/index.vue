@@ -2,61 +2,86 @@
     <v-app>
         <v-container v-show="!firstLoad">
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 " >
-            <h3 class="font-weight-light d-inline">Share about your teacher</h3>
-            <v-btn x-small icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
-            <v-icon>mdi-plus</v-icon>
-            </v-btn>
+                <h3 class="font-weight-light d-inline">Share about your teacher</h3>
+                <v-btn x-small icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
+                <v-icon>mdi-plus</v-icon>
+                </v-btn>
+            <!-- <nuxt-child :sharing="sharing"/> -->
+                <div v-if="userHasTeachers">
+                <div class="my-4">
+                <h3 class="font-weight-light">My Teachers</h3>
+                </div>
+                <v-layout wrap row :class="{'mb-4 justify-center': $vuetify.breakpoint.smAndDown, 'mb-4': $vuetify.breakpoint.mdAndUp}">
+                    <div v-for="share in usersTeachers" :key ="share.index">
+                        <v-flex > 
+                        <TeachersCard :e1t1="share" ></TeachersCard>
+                        </v-flex>
+                    </div>
+                </v-layout>
             </div>
-        <nuxt-child :sharing="sharing"/>
-        <div v-if="sharing.length">
-        <div v-if="filteredTeacher.length">
-            <div class="mb-5">
+            </div>
+        <div v-else>
+        <div v-if="teachers.length">
+            <div class="my-4">
             <h3 class="font-weight-light">My Teachers</h3>
             </div>
-        <!-- responsive -->
             <v-layout wrap row :class="{'mb-4 justify-center': $vuetify.breakpoint.smAndDown, 'mb-4': $vuetify.breakpoint.mdAndUp}">
-                <div v-for="share in sharing" :key ="share.index">
-                    <v-flex v-if="share.username === artist.username"> 
+                <div v-for="share in teachers" :key ="share.index">
+                    <v-flex > 
                     <TeachersCard :e1t1="share" ></TeachersCard>
                     </v-flex>
                 </div>
             </v-layout>
         </div>
-        <div v-if="filteredStudent.length">
+        </div>
+        <v-card v-intersect="infiniteScrollingTeacher"></v-card>
+        <div v-if="students.length">
         <!-- responsive -->
         <div class="mb-5">
         <h3 class="font-weight-light">My Students</h3>
         </div>
         <v-layout wrap row :class="{'mb-4  justify-center': $vuetify.breakpoint.smAndDown, 'mb-4 ': $vuetify.breakpoint.mdAndUp}" >
-            <div v-for="share in sharing" :key ="share.index">
-                <v-flex v-if="share.s_teacher_name === artist.username"> 
+            <div v-for="share in students" :key ="share.index">
+                <v-flex> 
                     <StudentsCard :share="share" ></StudentsCard>
                 </v-flex>
                 </div>
         </v-layout>
         </div>
-        </div>
-        <div v-else>
+        <v-card v-intersect="infiniteScrollingStudents"></v-card>
+        <div v-show="!students.length && !teachers.length && !userHasTeachers">
             <center>
                     <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="mt-6 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
-                <h3>No posts yet. </h3></center>
+                <h3>No posts yet. </h3>
+            </center>
         </div>
-        <v-card v-intersect="infiniteScrolling"></v-card>
         </v-container>
         <v-container v-if="firstLoad">
-                <div class="my-4">
-                <h3 class="font-weight-light d-inline">Share about your teacher</h3>
+            <div class="my-4">
+            <h3 class="font-weight-light d-inline">My Teachers</h3>
+            </div>
+            <v-layout wrap row v-if="firstLoad">
+                <div v-for="n in this.looploader" :key ="n.index">
+                    <v-flex sm6 xs6> 
+                    <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" ></v-skeleton-loader>
+                    </v-flex>
                 </div>
-                <v-layout wrap row v-if="firstLoad">
-                    <div v-for="n in this.looploader" :key ="n.index">
-                        <v-flex sm6 xs6> 
-                        <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" ></v-skeleton-loader>
-                        </v-flex>
-                    </div>
-                </v-layout>
+            </v-layout>
+        </v-container>
+        <v-container v-if=" firstLoadStudent">
+            <div class="mb-4">
+            <h3 class="font-weight-light d-inline">My Students</h3>
+            </div>
+            <v-layout wrap row v-if="firstLoadStudent">
+                <div v-for="n in this.looploader" :key ="n.index">
+                    <v-flex sm6 xs6> 
+                    <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" ></v-skeleton-loader>
+                    </v-flex>
+                </div>
+            </v-layout>
         </v-container>
     </v-app>
 </template>
@@ -74,17 +99,17 @@ export default {
         TeachersCard
     }, 
     computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser']),
-    filteredTeacher: function(){
-      return this.sharing.filter((share) => {
-        return share.username === this.artist.username;
-      });
-    },
-    filteredStudent: function(){
-      return this.sharing.filter((share) => {
-        return share.s_teacher_name === this.artist.username;
-      });
-    },
+    ...mapGetters(['isAuthenticated', 'loggedInUser','usersTeachers','userHasTeachers']),
+    // filteredTeacher: function(){
+    //   return this.teachers.filter((share) => {
+    //     return share.username === this.artist.username;
+    //   });
+    // },
+    // filteredStudent: function(){
+    //   return this.students.filter((share) => {
+    //     return share.s_teacher_name === this.artist.username;
+    //   });
+    // },
     },
     head() {
         return {
@@ -102,44 +127,97 @@ export default {
         goback(){
             window.history.back();
         },
-        async getsharing(params){
+        async getstudents(params){
             try {
-            const response = await EventService.getEach1Teach1_user(params.username)
-            this.sharing = response.data.results
-            this.page = response.data.next
-            this.firstLoad = false
+            const students_response = await EventService.getEach1Teach1_students(params.username)
+            this.students = students_response.data.results
+            this.students_page = students_response.data.next
+            // this.firstLoad = false
+            this.firstLoadStudent = false
             // console.log(response);
             } catch (e) {
-                error({statusCode:503, message: "unable to fetch shaaring data at this point"})
+                console.log(e);
+                // error({statusCode:503, message: "unable to fetch shaaring data at this point"})
             }
         },
-        infiniteScrolling(entries, observer, isIntersecting) {
-            if(this.page)
+        async getsharing(params){
+            try {
+            const teachers_response = await EventService.getEach1Teach1_teachers(params.username)
+            const students_response = await EventService.getEach1Teach1_students(params.username)
+            this.teachers = teachers_response.data.results
+            this.students = students_response.data.results
+            this.teachers_page = teachers_response.data.next
+            this.students_page = students_response.data.next
+            this.firstLoad = false
+            this.firstLoadStudent = false
+            // console.log(response);
+            } catch (e) {
+                console.log(e);
+                // error({statusCode:503, message: "unable to fetch shaaring data at this point"})
+            }
+        },
+        infiniteScrollingTeacher(entries, observer, isIntersecting) {
+            if(this.isAuthenticated && this.$store.state.auth.user.user.username == this.$route.params.username)
             {
+                //update store to next
+                this.$store.dispatch("update_user_teachers");
+            }
+            else 
+            {
+                if(this.teachers_page)
+                {
                     const key = 'id';
-                this.$axios.get(this.page).then(response => {
-                // console.log("this.page",response.data);
-                this.page= response.data.next;
-                response.data.results.forEach(item => this.sharing.push(item));
+                    this.$axios.get(this.teachers_page).then(response => {
+                    this.teachers_page= response.data.next;
+                    response.data.results.forEach(item => this.teachers.push(item));
+                    // filter array so no duplicates
+                    this.teachers = [...new Map(this.teachers.map(item =>
+                        [item[key], item])).values()];
+                })
+                .catch(err => {
+                    console.log(err);
+                });}
+            }
+        },
+        infiniteScrollingStudents(entries, observer, isIntersecting) {
+            if(this.students_page)
+            {
+                const key = 'id';
+                this.$axios.get(this.students_page).then(response => {
+                this.students_page= response.data.next;
+                response.data.results.forEach(item => this.students.push(item));
                 // filter array so no duplicates
-                this.sharing = [...new Map(this.sharing.map(item =>
+                this.students = [...new Map(this.students.map(item =>
                     [item[key], item])).values()];
             })
             .catch(err => {
                 console.log(err);
             });}
-        }
+        },
+        getStoreTeachers(){
+        this.firstLoad = false
+    },
     },
     created(){
-    this.getsharing(this.$route.params);
+        if(this.isAuthenticated &&this.$store.state.auth.user.user.username == this.$route.params.username)
+        {
+            this.getstudents(this.$route.params);
+            this.getStoreTeachers();
+        }else
+        {
+            this.getsharing(this.$route.params);
+        }
     },
     data() {
     return {
-        page:"",
-        sharing:[],
+        teachers_page:"",
+        students_page:"",
+        teachers:[],
+        students:[],
         looploader:[1,1,1,1,1,1,1,1,1],
         loading: true,
         firstLoad: true,
+        firstLoadStudent:true
     }
   },
 }

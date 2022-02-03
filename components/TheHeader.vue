@@ -14,12 +14,12 @@
         </v-layout>
         </nuxt-link>
             <v-spacer></v-spacer>
-        <v-btn small v-if="isAuthenticated && notifications_notseen.length>0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
-        <v-badge color="error" overlap :content='notifications_notseen.length'>
+        <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-badge color="error" overlap :content='notifications_notseen'>
         <v-icon color="black">mdi-bell</v-icon>
         </v-badge>
         </v-btn>
-        <v-btn small v-if="isAuthenticated && notifications_notseen.length==0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-icon color="black">mdi-bell</v-icon>
         </v-btn>
         <!-- <v-btn to= "/notificationss">test</v-btn> -->
@@ -671,6 +671,7 @@ export default {
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_journey");
+                this.$store.dispatch("check_user_teachers");
 				// this.$store.dispatch("check_notifications");
                 this.$router.push('/');
                 this.progressbar1 = false;

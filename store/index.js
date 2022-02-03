@@ -9,22 +9,22 @@ export const state = () => ({
   learn_obj:null,
   share_obj: null, //object to edit e1t1 data
   editing_obj: null, //object to edit data
-  sharing:[], //e1t1 onject
   portfolio: null, //store portfolio data of the logged in user
   bio: null, //store bio data of the logged in user
   fullJourney: null, //store currrently selected journey card
   upcoming: [], //store upcoming data of the logged in user
   journey: [], //store journey data of the logged in user
-  list_of_artists: [],
+  highlights: [], //store highlights data of the logged in user
   personalMessages: [],
   notifications:[],
   notifications_notseen:0,
+  hasTeachers:false,
   hasUpcoming: false, //if user has upcoming data
   hasJourney: false, 
+  hasHighlights: false, 
   hasPortfolio: false, //if user has portfolio data
   hasBio: false, //if user has bio data
   personalMessagesNotifications: 0,
-  img_artists: '', //no. of artist in img community
   share_comments_list: [],
   learning_comments_list:[],
   share_has_love: false,
@@ -41,9 +41,11 @@ export const state = () => ({
   dope: '',
   info:'',
   learnings:[],
+  teachers:[], //e1t1 onject
   page_journey:'',
+  page_upcoming:'',
+  page_highlights:'',
   page_teachers:'',
-  page_students:'',
   page_learnings:'',
   page_share_comment:'',
   loadingLearning:true,
@@ -97,18 +99,18 @@ export const getters = {
   artists(state) {
     return state.artists
   },
-  list_of_artists(state) {
-    return state.list_of_artists
-  },
   share_obj(state){
     return state.share_obj
   },
   editing_obj(state){
     return state.editing_obj
   },
-  sharing(state) {
-    return state.sharing
+  usersTeachers(state) {
+    return state.teachers
   },
+  // students(state) {
+  //   return state.students
+  // },
   personalMessages(state){
     return state.personalMessages
   },
@@ -136,20 +138,23 @@ export const getters = {
   usersUpcoming(state){
     return state.upcoming
   },
+  usersHighlights(state){
+    return state.highlights
+  },
   userHasJourney(state){
     return state.hasJourney
   },
+  userHasUpcoming(state){
+    return state.hasUpcoming
+  },
+  userHasHighlights(state){
+    return state.hasHighlights
+  },
+  userHasTeachers(state){
+    return state.hasTeachers
+  },
   personalMessagesNotifications(state){
     return state.personalMessagesNotifications
-  },
-  usersEvents(state){
-    return state.events
-  },
-  userHasEvents(state){
-    return state.hasEvents
-  },
-  img_artists(state){
-    return state.img_artists
   },
   share_comments_list(state){
     return state.share_comments_list
@@ -248,15 +253,18 @@ export const actions = {
   //   EventService.getArtists().then(res =>
   //   {
   //     commit('get_artists',res.data)
-  //     commit('img_community',res.data.length)
   //   })
   // },
-  check_sharing({commit},username){
-      EventService.getEach1Teach1_user(username).then(res =>
-      {
-        commit('get_sharing',res.data)
-      })
-  },
+  // check_sharing({commit},username){
+  //     EventService.getEach1Teach1_teachers(username).then(rest =>
+  //     {
+  //       commit('get_sharing_teachers',rest.data)
+  //     })
+  //     EventService.getEach1Teach1_students(username).then(res =>
+  //       {
+  //         commit('get_sharing_students',res.data)
+  //       })
+  // },
   check_user_portfolio({commit, state}){
       if(state.auth.loggedIn) {
           EventService.getArtist(state.auth.user.user.username).then(res =>
@@ -283,10 +291,34 @@ export const actions = {
       {
         commit('usersJourney',res.data)
       })
-      EventService.getUpcomingEvents(state.auth.user.user.username,config).then(res =>
+      EventService.getUpcoming(state.auth.user.user.username,config).then(res =>
       {
         commit('usersUpcoming',res.data)
       })
+      EventService.getHighlights(state.auth.user.user.username,config).then(res =>
+        {
+          commit('usersHighlights',res.data)
+        })
+    }
+  },
+  check_user_teachers({commit, state}){
+    if(state.auth.loggedIn) {
+        EventService.getEach1Teach1_teachers(state.auth.user.user.username).then(res =>
+        {
+          commit('usersTeachers',res.data)
+        })
+      }  
+  },
+  update_user_teachers({commit, state}){
+    if(state.page_teachers) {
+      // checking if page_teachers was not null then call api
+      //push the results to state.journey and update the page_teachers url
+      this.$axios.get(state.page_teachers).then(res => {
+        commit('updateUserTeachers',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
     }
   },
   update_user_journey({commit, state}){
@@ -299,6 +331,38 @@ export const actions = {
       //push the results to state.journey and update the page_journey url
       this.$axios.get(state.page_journey,config).then(res => {
         commit('updateUserJourney',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
+    }
+  },
+  update_user_upcoming({commit, state}){
+    if(state.page_upcoming) {
+      // checking if page_upcoming was not null then call api
+      const config = {
+      headers: {"content-type": "multipart/form-data",
+        "Authorization": "Bearer " + state.auth.user.access_token}
+      };
+      //push the results to state.journey and update the page_upcoming url
+      this.$axios.get(state.page_upcoming,config).then(res => {
+        commit('updateUserUpcoming',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
+    }
+  },
+  update_user_highlights({commit, state}){
+    if(state.page_highlights) {
+      // checking if page_highlights was not null then call api
+      const config = {
+      headers: {"content-type": "multipart/form-data",
+        "Authorization": "Bearer " + state.auth.user.access_token}
+      };
+      //push the results to state.journey and update the page_highlights url
+      this.$axios.get(state.page_highlights,config).then(res => {
+        commit('updateUserHighlights',res.data)
       })
       .catch(err => {
           console.log(err);
@@ -352,27 +416,21 @@ export const actions = {
         commit('clearBio')
       }
   },
-  remove_upcoming({commit, state})
-  {
-    if(state.auth.loggedIn){
-      commit('clearupcoming')
-    }
-  },
   remove_journey({commit, state})
   {
     if(state.auth.loggedIn){
       commit('clearJourney')
     }
   },
+  remove_teachers({commit, state})
+  {
+    if(state.auth.loggedIn){
+      commit('clearTeachers')
+    }
+  },
   remove_full_journey({commit})
   {
       commit('clearFullJourney')
-  },
-  remove_artists_sharing({commit, state})
-  {
-    if(state.auth.loggedIn){
-      commit('clearArtistsSharing')
-    }
   },
   remove_share_obj({commit, state})
   {
@@ -529,8 +587,13 @@ export const mutations = {
   },
   clear_page(state){
       state.page_journey = ''
-      state.page_students = ''
+      state.page_upcoming = ''
+      state.page_highlights = ''
       state.page_teachers = ''
+      state.page_share_comment = ''
+      state.page_learnings= ''
+      // state.page_students = ''
+      // state.page_teachers = ''
     },
   clear_share_obj(state, share_obj){
     if(share_obj){
@@ -550,19 +613,16 @@ export const mutations = {
   {
     state.share_comments_list =[]
   },
-  // get_artists(state, artists) 
+  // get_sharing_teachers(state, teachers) 
   // {
-  //   if(artists)
-  //   {
-  //     state.artists = artists.results
-  //     state.page_artists= artists.next
-  //   }
+  //   if(teachers.results)
+  //   {state.teachers = teachers.results}
   // },
-  get_sharing(state, sharing) 
-  {
-    if(sharing.results)
-    {state.sharing = sharing.results}
-  },
+  // get_sharing_students(state, students) 
+  // {
+  //   if(students.results)
+  //   {state.students = students.results}
+  // },
   usersPortfolio(state, artist)
   {
     if(artist)
@@ -587,6 +647,30 @@ export const mutations = {
       state.journey = [...new Map(state.journey.map(item =>
       [item[key], item])).values()];
   },
+  updateUserUpcoming(state,upcoming){
+    state.page_upcoming= upcoming.next;
+    upcoming.results.forEach(item => state.upcoming.push(item));
+    // filter array so no duplicates
+    const key = 'id';
+    state.upcoming = [...new Map(state.upcoming.map(item =>
+    [item[key], item])).values()];
+  },
+  updateUserHighlights(state,highlights){
+    state.page_highlights= highlights.next;
+    highlights.results.forEach(item => state.highlights.push(item));
+    // filter array so no duplicates
+    const key = 'id';
+    state.highlights = [...new Map(state.highlights.map(item =>
+    [item[key], item])).values()];
+  },
+  updateUserTeachers(state,teachers){
+    state.page_teachers= teachers.next;
+    teachers.results.forEach(item => state.teachers.push(item));
+    // filter array so no duplicates
+    const key = 'id';
+    state.teachers = [...new Map(state.teachers.map(item =>
+    [item[key], item])).values()];
+},
   updateUserLearnings(state,learnings){
     state.page_learnings= learnings.next;
     learnings.results.forEach(item => state.learnings.push(item));
@@ -619,7 +703,29 @@ export const mutations = {
     if(upcoming.results.length)
     {
       state.upcoming = upcoming.results
-      state.hasUpcoming = true}
+      state.hasUpcoming = true
+      state.page_upcoming = upcoming.next
+    }
+  },
+  usersHighlights(state, highlights)
+  {
+    state.highlights=[]
+    if(highlights.results.length)
+    {
+      state.highlights = highlights.results
+      state.hasHighlights = true
+      state.page_highlights = highlights.next
+    }
+  },
+  usersTeachers(state, teachers)
+  {
+    state.teachers = []
+    if(teachers.results.length)
+    {
+      state.teachers = teachers.results
+      state.hasTeachers = true
+      state.page_teachers = teachers.next
+    }
   },
   fullJourney(state, fullJourney){
     if(fullJourney)
@@ -646,29 +752,22 @@ export const mutations = {
     state.bio = null
     state.hasBio = false
   },
-  clearupcoming(state) //if user has portfolio change state to true
-  {
-    state.upcoming =[]
-    state.hasUpcoming = false
+  clearTeachers(state){
+    state.teachers =[]
+    state.hasTeachers = false
   },
   clearJourney(state) //if user has portfolio change state to true
   {
     state.journey =[]
     state.hasJourney = false
+    state.upcoming =[]
+    state.hasUpcoming = false
+    state.highlights =[]
+    state.hasHighlights = false
   },
   clearFullJourney(state) //if user has portfolio change state to true
   {
     state.fullJourney =null
-  },
-  img_community(state, length) //if user has portfolio change state to true
-  {
-    state.img_artists = length
-  },
-  clearArtistsSharing(state) //if user has portfolio change state to true
-  {
-    state.artists = null
-    state.sharing = null
-    state.list_of_artists = null
   },
   clear_personal_messages(state)
   {

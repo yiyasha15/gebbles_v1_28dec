@@ -153,9 +153,9 @@
                 @input="showYoutubeVideo"
                 >
             </v-text-field>
-            <v-btn v-if="!share_obj" outlined small class="text-decoration-none"  color="indigo" dark
+            <v-btn v-if="!share_obj" outlined small class="text-decoration-none"  color="indigo" dark :loading="progressbar"
             @click="submit">Submit</v-btn>
-            <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark
+            <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark :loading="progressbar"
             @click="update">Update</v-btn>
             <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
             <v-btn color="primary" text small @click="goback">Cancel</v-btn>
@@ -184,16 +184,12 @@
         </v-row>
         <v-snackbar v-model="mention_teacher_snackbar">
             Please fill the required details.
-            <template v-slot:action="{ attrs }">
-                <v-btn
-                color="error"
-                icon
-                v-bind="attrs"
-                @click="mention_teacher_snackbar = false"
-                >
-                <v-icon>mdi-close</v-icon>
-                </v-btn>
-        </template>
+        </v-snackbar>
+        <v-snackbar v-model="youtube_snackbar">
+            Youtube link is incorrect.
+        </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            Some error occured. Please try again.
         </v-snackbar>
     </v-container>
 </template>
@@ -487,9 +483,13 @@ export default {
             imageData: "",
             e6: 1,
             teacher_obj:"",
+            progressbar:false,
             mention_teacher_snackbar:false,
+            youtube_snackbar:false,
+            error_snackbar:false,
             videoId:'',
             ytLinkError:'',
+
         }
     },
     methods: {
@@ -547,6 +547,7 @@ export default {
         async submit() {
             if(this.sharing.s_teacher_name != ""&& this.sharing.s_photo != "" && this.sharing.s_appreciation != "")
             {
+                this.progressbar =true
                 this.sharing.s_student_country = this.usersPortfolio.country;
                 const config = {
                     headers: { "content-type": "multipart/form-data",
@@ -560,23 +561,28 @@ export default {
                 console.log(this.sharing);
                 try {
                     let response = await this.$axios.$post("/v1/e1t1/sharing/", formData, config);
+                    this.progressbar =false;
+                    this.$store.dispatch("check_user_teachers");
                     this.$router.push("/"+this.sharing.username+"/each1teach1/");
                     // console.log(response);
                 } catch (e) {
                     if(e.response.status=='500')
                     {
+                        this.progressbar =false;
                         console.log("500 error");
+                        this.error_snackbar=true;
                         this.$router.push("/"+this.sharing.username+"/each1teach1/");
-                        alert("500 error");
                     }
                     console.log("cant post!",e.response);
                 }
             }
             else{
+                this.progressbar =false;
                 this.mention_teacher_snackbar = true
             }
         },
         async update() {
+            this.progressbar =true
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -590,10 +596,12 @@ export default {
                 '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
                 '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
                 '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                let check = !!pattern.test(this.share_obj.s_teacher_video);
-                console.log("pattern",pattern);
-                console.log("check",check);
+                let check = !pattern.test(this.share_obj.s_teacher_video);
+                // console.log("pattern",pattern);
+                // console.log("check",check);
                 if(!check){
+                    this.youtube_snackbar =true
+                    this.progressbar =false;
                     console.log("incorrect yt link");
                     return;
                 }
@@ -623,6 +631,8 @@ export default {
                     // console.log( valueObj1[i] ," changed"); 
                 } 
             }
+            this.progressbar =false;
+            this.$store.dispatch("check_user_teachers");
             this.$store.dispatch("remove_share_obj");
             this.$router.push("/"+this.$store.state.auth.user.user.username+"/each1teach1");
         },

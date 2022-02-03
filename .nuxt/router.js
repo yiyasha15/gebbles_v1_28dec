@@ -14,7 +14,6 @@ const _24e8aee5 = () => interopDefault(import('../pages/e1t1/index.vue' /* webpa
 const _6e2b2d7a = () => interopDefault(import('../pages/help.vue' /* webpackChunkName: "pages/help" */))
 const _b3e7d500 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _6887a303 = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
-const _146286f8 = () => interopDefault(import('../pages/notificationss.vue' /* webpackChunkName: "pages/notificationss" */))
 const _46903a94 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
 const _4a7c9369 = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
 const _4e1bf800 = () => interopDefault(import('../pages/referencefore1t1.vue' /* webpackChunkName: "pages/referencefore1t1" */))
@@ -95,10 +94,6 @@ export const routerOptions = {
     path: "/logout",
     component: _6887a303,
     name: "logout"
-  }, {
-    path: "/notificationss",
-    component: _146286f8,
-    name: "notificationss"
   }, {
     path: "/onboarding",
     component: _46903a94,

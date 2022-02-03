@@ -125,7 +125,7 @@ computed: {
             "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
         };
         const response = await EventService.getNotificationsSharing(this.$store.state.auth.user.user.username,config)
-        console.log(response);
+        // console.log(response);
         this.notifications = response.data.results
         this.page = response.data.next
         this.firstLoad = false
@@ -177,8 +177,8 @@ computed: {
                 form.append('notification_type', tempe[i].notification_type);
                 form.append('notification_context', tempe[i].notification_context);
                 let res = await this.$axios.$put("/v1/notifications/e1t1/"+tempe[i].id , form, config)
-                console.log(res);
-                console.log("put for", tempe[i].id );
+                // console.log(res);
+                // console.log("put for", tempe[i].id );
                 }
             } catch (error) {
                 console.log("error..",error.response.data);
@@ -195,7 +195,7 @@ computed: {
         }
     },
     infiniteScrolling(entries, observer, isIntersecting) {
-        console.log("page ",this.page);
+        // console.log("page ",this.page);
         if(this.page){
              const config = {
         headers: {"content-type": "multipart/form-data",

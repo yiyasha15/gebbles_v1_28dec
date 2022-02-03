@@ -21,6 +21,9 @@ export default {
     getArtists() {
         return apiClient1.get('/artist/portfolios/list/')
     },
+    getSearchedArtist(query) {
+        return apiClient1.get('/artist/search/?query='+ query)
+    },
     getArtist(username) {
         // return apiClient1.get('/artist/portfolios/' + username)
         return apiClient1.get('/artist/portfolios/' + username)
@@ -34,8 +37,11 @@ export default {
     getFullJourney(id,config) {
         return apiClient1.get('/artist/journey/' + id, config)
     },
-    getUpcomingEvents(username,config) {
+    getUpcoming(username,config) {
         return apiClient1.get('/artist/journey/upcomingevents/?username=' + username, config)
+    },
+    getHighlights(username,config) {
+        return apiClient1.get('/artist/journey/highlights/?username=' + username, config)
     },
     getEach1Teach1(id) {
         return apiClient1.get('/e1t1/sharing/' + id)
@@ -46,8 +52,11 @@ export default {
     getPersonalMessages(id){
         return apiClient1.get('/e1t1/qna/?shareid=' + id)
     },
-    getEach1Teach1_user(username) {
-        return apiClient1.get('/e1t1/sharing/list/?username=' + username)
+    getEach1Teach1_teachers(username) {
+        return apiClient1.get('/e1t1/sharing/list/teachers/?username=' + username)
+    },
+    getEach1Teach1_students(username) {
+        return apiClient1.get('/e1t1/sharing/list/students/?username=' + username)
     },
     getShareLove(id){
         return apiClient1.get('/e1t1/sharing/love/?shareidobj=' + id)
@@ -64,9 +73,6 @@ export default {
     getNotificationsSharing(username,config){
         return apiClient1.get('/notifications/e1t1/?receiver=' + username, config)
     },
-    // getPageNotification(url, config){
-    //     return 
-    // },
     getLearnings(id){
         return apiClient1.get('/e1t1/learnings/list/?shareidobj=' + id)
     },
