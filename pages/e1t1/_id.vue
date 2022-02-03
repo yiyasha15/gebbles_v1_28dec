@@ -260,7 +260,8 @@
         Write something to post.
     </v-snackbar>
     <v-snackbar v-model="login_snackbar">
-        Please login first.
+        Please sign in first.
+         <!-- <nuxt-link :to="'/login'" class="text-decoration-none" ><span style="color:white">Sign in.</span></nuxt-link> -->
     </v-snackbar>
     <v-snackbar v-model="thankyou_snackbar">
          Thank you for sharing.

@@ -15,7 +15,7 @@
               solo
               prepend-inner-icon="mdi-magnify"
               v-model="search"
-               @input="debounceSearch"
+            @input="debounceSearch"
             ></v-text-field>
         </v-col>
       </v-row>

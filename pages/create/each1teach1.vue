@@ -27,14 +27,15 @@
             <!-- <small>Summarize if needed</small> -->
             </v-stepper-step>
             <v-stepper-content step="1">
+                <!-- {{artists}} {{teacher_obj}} -->
+                <!-- @click ="debounceSearch" -->
                 <v-combobox
                     v-model="teacher_obj"
                     :items="artists"
-                    color="blue-grey lighten-2"
                     label="Teacher name"
                     item-text="artist_name"
                     item-value="username"
-                    @input="addTeacher"
+                @input="addTeacher"
                     >
                     <template v-slot:selection="data">
                         <v-chip
@@ -198,6 +199,7 @@ import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
+import EventService from '@/services/EventService.js'
 export default {
     middleware : 'check_auth',
     components: {
@@ -218,7 +220,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['artists', 'share_obj','usersPortfolio'])
+        ...mapGetters([ 'share_obj','usersPortfolio']),
     },
     data(){
         return {
@@ -489,8 +491,20 @@ export default {
             error_snackbar:false,
             videoId:'',
             ytLinkError:'',
-
+            artists:[],
+            debounce: null
         }
+    },
+    watch: {
+    teacher_obj: function() {
+        if(this.teacher_obj)
+        {
+            EventService.getSearchedArtist(this.teacher_obj).then((value) => {
+            console.log("api called", value);
+            this.artists = value.data});
+            console.log("search datat");
+        }
+      }
     },
     methods: {
         showYoutubeVideo(){
@@ -526,22 +540,6 @@ export default {
                 }
                 fileReader.readAsDataURL(files[0]);
                 this.sharing.s_photo = files[0];
-            }
-        },
-        addTeacher(){
-            let t_name = typeof this.teacher_obj;
-            // console.log(t_name);
-            // console.log(this.teacher_obj);
-            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
-            {
-                this.sharing.teacher = this.teacher_obj.username
-                this.sharing.s_teacher_name = this.teacher_obj.username 
-                this.sharing.s_teacher_country = this.teacher_obj.country
-            }
-            else
-            {
-                this.sharing.s_teacher_name = this.teacher_obj 
-                this.sharing.teacher = "" //making null because no artists to tag.
             }
         },
         async submit() {
@@ -635,6 +633,39 @@ export default {
             this.$store.dispatch("check_user_teachers");
             this.$store.dispatch("remove_share_obj");
             this.$router.push("/"+this.$store.state.auth.user.user.username+"/each1teach1");
+        },
+        addTeacher(){
+            let t_name = typeof this.teacher_obj;
+            console.log(t_name);
+            // console.log(this.teacher_obj);
+            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            {
+                this.sharing.teacher = this.teacher_obj.username
+                this.sharing.s_teacher_name = this.teacher_obj.username 
+                this.sharing.s_teacher_country = this.teacher_obj.country
+            }
+            else
+            {
+                this.sharing.s_teacher_name = this.teacher_obj 
+                this.sharing.teacher = "" //making null because no artists to tag.
+            }
+        },
+        debounceSearchA() {
+        this.artists=[]
+        clearTimeout(this.debounce)
+        this.debounce = setTimeout(() => {
+        if(this.teacher_obj){EventService.getSearchedArtist(this.teacher_obj).then((value) => {
+        console.log("api called", value);
+        this.artists = value.data
+        });}
+        }, 600)
+        },
+        debounceSearch() {
+        if(this.teacher_obj){
+            EventService.getSearchedArtist(this.teacher_obj).then((value) => {
+            console.log("api called", value);
+            this.artists = value.data});
+        }
         },
     },
     }

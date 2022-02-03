@@ -8,11 +8,10 @@
       outlined
       min-width="96" 
       max-height="96">
-          <div v-for = "artist in artists" :key = "artist.index">
-            <v-img v-if="share.username === artist.username"
-              :src = "artist.thumb"
+          <v-img v-if="share.sp_thumb"
+              :src = "share.sp_thumb"
               height="60" width="96"/>
-          </div>
+          <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="60" width="96" contain/>
           <v-card-actions  max-height="32px" class="pa-1">
           <div width="80" class="text-decoration-none caption" style=" height: 1em;
             line-height: initial;
@@ -39,7 +38,7 @@ import { mapGetters } from 'vuex'
          CountryFlag
       },
       computed: {
-        ...mapGetters(['artists', 'userHasPortfolio'])
+        ...mapGetters([ 'userHasPortfolio'])
       },
       
       
