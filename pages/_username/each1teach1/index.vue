@@ -63,10 +63,10 @@
             <div class="my-4">
             <h3 class="font-weight-light d-inline">My Teachers</h3>
             </div>
-            <v-layout wrap row v-if="firstLoad">
+            <v-layout wrap row v-if="firstLoad" :class="{'mb-4  justify-center': $vuetify.breakpoint.smAndDown, 'mb-4 ': $vuetify.breakpoint.mdAndUp}">
                 <div v-for="n in this.looploader" :key ="n.index">
                     <v-flex sm6 xs6> 
-                    <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" ></v-skeleton-loader>
+                    <v-skeleton-loader min-width="98" class="ma-1" max-height="82" :loading="loading" type="card" ></v-skeleton-loader>
                     </v-flex>
                 </div>
             </v-layout>
@@ -75,10 +75,10 @@
             <div class="mb-4">
             <h3 class="font-weight-light d-inline">My Students</h3>
             </div>
-            <v-layout wrap row v-if="firstLoadStudent">
+            <v-layout wrap row v-if="firstLoadStudent" :class="{'mb-4  justify-center': $vuetify.breakpoint.smAndDown, 'mb-4 ': $vuetify.breakpoint.mdAndUp}">
                 <div v-for="n in this.looploader" :key ="n.index">
                     <v-flex sm6 xs6> 
-                    <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" ></v-skeleton-loader>
+                    <v-skeleton-loader min-width="98" class="ma-1" max-height="82" :loading="loading" type="card" ></v-skeleton-loader>
                     </v-flex>
                 </div>
             </v-layout>

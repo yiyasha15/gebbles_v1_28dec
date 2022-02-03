@@ -15,7 +15,7 @@
               solo
               prepend-inner-icon="mdi-magnify"
               v-model="search"
-              
+               @input="debounceSearch"
             ></v-text-field>
         </v-col>
       </v-row>
@@ -33,6 +33,13 @@
             </v-flex>
             </div>
       </v-layout>
+      <center v-if="!artists.length && !firstLoad">
+            <img
+            :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+            class="ml-2 mt-6 clickable"
+            :src="require('@/assets/gebbleslogo.png')"/>
+            <h3>No artists found. </h3>
+        </center>
       </v-container>
       <!-- <v-divider></v-divider> -->
       <v-card v-intersect="infiniteScrolling"></v-card>
@@ -65,6 +72,7 @@ export default {
     async getartists(){
       try {
       const response = await EventService.getArtists()
+      // console.log("api called", response);
       this.artists = response.data.results
       this.page = response.data.next
       this.firstLoad = false
@@ -73,10 +81,6 @@ export default {
     }
     },
     infiniteScrolling(entries, observer, isIntersecting) {
-      // setTimeout(() => {
-      //   console.log(entries[0], observer, isIntersecting);
-      //   console.log("settimeout", this.page);
-        // this.page++;
         if(this.page){
         const key = 'username';
         this.$axios.get(this.page).then(response => {
@@ -91,14 +95,23 @@ export default {
             console.log(err);
           });
         }
-      // }, 500);
     },
-    // @input="filterApi"
-    // filterApi(){
-    //   return this.artists.filter((artist) => {
-    //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
-    //   });
-    // }
+    debounceSearch() {
+    this.firstLoad = true
+    this.artists=[]
+    // console.log("waiting");
+      clearTimeout(this.debounce)
+      this.debounce = setTimeout(() => {
+      if(this.search){EventService.getSearchedArtist(this.search).then((value) => {
+      // console.log("api called", value);
+      this.firstLoad = false
+      this.artists = value.data
+      });}
+      else{
+        this.getartists();
+      }
+      }, 600)
+    },
   },
   components: {
     ArtistCard
@@ -110,10 +123,24 @@ export default {
       firstLoad: true,
       page:"",
       artists:[],
-      searchedArtist:[],
       search: "",
+      debounce: null
     }
   },
+  // watch: {
+  //   search: function() {
+  //     this.firstLoad = true
+  //     console.log(this.search)
+  //     var vm = this;
+  //     setTimeout(() => {
+  //       if(vm.search)
+  //       {vm.getSearchedArtist();
+  //       console.log("search datat");}
+  //       else
+  //       {vm.getartists();}
+  //     }, 2000);
+  //     }
+  //   },
   computed: {
     ...mapGetters(['isAuthenticated', 'userHasPortfolio', 'loggedInUser']),
     // filterApi: function(){

@@ -117,10 +117,10 @@
                 <div class="my-4">
                 <h3 class="font-weight-light">Journey</h3>
                 </div>
-                <v-layout wrap row >
+                <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
                     <div v-for="n in this.looploader" :key ="n.index">
                         <v-flex sm6 xs6> 
-                        <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                        <v-skeleton-loader min-width="96" class="ma-1" max-height="82" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
                         </v-flex>
                     </div>
                 </v-layout>
