@@ -23,14 +23,14 @@
         <v-stepper  v-model="e6" vertical>
         <!-- <div> -->
             <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-            Mention your teacher
-            <!-- <small>Summarize if needed</small> -->
+                <p>Mention your teacher</p>
+            <small>If your teacher are not yet in this platform, mention them and tag them later when they join.<br></small>
             </v-stepper-step>
             <v-stepper-content step="1">
                 <v-combobox
                     v-model="teacher_obj"
                     :items="artists"
-                    label="Teacher name"
+                    label="Search teacher.."
                     item-text="artist_name"
                     item-value="username"
                     ref="artistListComboBox"
