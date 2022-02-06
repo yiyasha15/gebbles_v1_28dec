@@ -30,7 +30,7 @@
                 <v-combobox
                     v-model="teacher_obj"
                     :items="artists"
-                    label="Search teacher.."
+                    label="Search teacher..."
                     item-text="artist_name"
                     item-value="username"
                     ref="artistListComboBox"

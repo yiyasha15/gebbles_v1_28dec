@@ -185,7 +185,7 @@
                 outlined
                 auto-grow
                 rows="1"
-                row-height="15"
+                row-height="10"
                 max-width= "100%"
                 label="Share your thoughts">
                 </v-textarea>
