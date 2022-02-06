@@ -28,9 +28,9 @@
       </v-layout>
         <v-layout wrap row justify-center v-show="!firstLoad">
           <div v-for="artist in artists" :key ="artist.index">
-            <v-flex sm6 xs6> 
+            <!-- <v-flex sm6 xs6>  -->
               <ArtistCard :artist="artist" ></ArtistCard> 
-            </v-flex>
+            <!-- </v-flex> -->
             </div>
       </v-layout>
       <center v-if="!artists.length && !firstLoad">

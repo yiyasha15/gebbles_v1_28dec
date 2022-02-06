@@ -6,7 +6,7 @@
       :to="'/' + artist.username" 
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="96" 
+      width="96" 
       max-height="96"
     >
       <v-img

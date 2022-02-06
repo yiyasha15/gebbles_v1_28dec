@@ -14,24 +14,25 @@
 		<v-card-text>
     <v-form
     ref="form" v-model="valid">
-              <v-text-field :maxlength="30" 
+              <v-text-field :maxlength="30"  class="mb-4"
+              hide-details="auto" 
         :rules="usernameRules" 
         v-model="registrationInfo.username" 
         label="Username" 
         prepend-icon="mdi-account-circle" 
         :error-messages="errorUsername"
         color="#cead8f"/>
-      <v-text-field v-model="registrationInfo.email" 
-        :rules=" emailRules" 
+      <v-text-field v-model="registrationInfo.email" class="mb-4"
+        :rules=" emailRules" hide-details="auto" 
         :error-messages="errorEmail1"
         label="Email" 
         prepend-icon="mdi-account-circle" 
         autocomplete="email"
         color="#cead8f"/>
       <v-text-field     
-        :error-messages="errorPassword1"
-        :rules="[rules.required, passwordRules.min]"   
-                  v-model="registrationInfo.password1"
+        :error-messages="errorPassword1" hide-details="auto" class="mb-4"
+        :rules="passwordRules"   
+        v-model="registrationInfo.password1"
         :type="showPassword1 ? 'text' : 'password'"
         label="Password"
         prepend-icon="mdi-lock"
@@ -40,8 +41,10 @@
         color="#cead8f"
       />
       <v-text-field   
-      :error-messages="errorPassword2" 
-                  v-model="registrationInfo.password2"
+        :error-messages="errorPassword2"  
+        :rules="passwordRules" 
+        hide-details="auto" class="mb-4"
+        v-model="registrationInfo.password2"
         :type="showPassword2 ? 'text' : 'password'"
         label="Confirm Password"
         prepend-icon="mdi-lock"
@@ -49,14 +52,15 @@
         @click:append="showPassword2 = !showPassword2"
         color="#cead8f"
       />
-      <v-select label="Representing" v-model= "registrationInfo.country"
+      <v-select label="Representing" v-model= "registrationInfo.country" hide-details="auto" class="mb-4"
+      :error-messages="errorCountry"
+      :rules="countryRules" 
         :items="countries"
         item-text="name"
         item-value="code"
         color="#cead8f"
-        required
       ></v-select>
-      <v-radio-group v-model="registrationInfo.gender" :mandatory="true" row>
+      <v-radio-group v-model="registrationInfo.gender" :mandatory="true"  :rules="genderRules"  row>
         <v-radio 
             label="Male" 
             value="M"
@@ -72,12 +76,12 @@
             value="NS"
             color="#cead8f">
         </v-radio>
-        <v-text-field color="#cead8f"
+        <v-text-field color="#cead8f" 
           v-if="registrationInfo.gender == 'NS'"
           label="What's your gender">
         </v-text-field>
       </v-radio-group>
-      <v-checkbox color="#cead8f" v-model="checkbox">
+      <v-checkbox color="#cead8f" v-model="checkbox" :rules="checkboxRules" >
       <template v-slot:label>
         <div class="mt-2" >
           Do you accept the
@@ -88,7 +92,7 @@
       </template>
     </v-checkbox>
       <v-card-actions class="mb-3 justify-center">
-      <v-btn @click="registerUser(registrationInfo)" outlined small elevation="4" class="px-8" color="black" :loading="progressbar" :disabled="!formIsValid">Create Account</v-btn>
+      <v-btn @click="registerUser(registrationInfo)" outlined small elevation="4" class="px-8" color="black" :loading="progressbar">Create Account</v-btn>
     </v-card-actions>
     </v-form>
     </v-card-text>
@@ -179,20 +183,27 @@ export default {
       errorEmail1:'',
       errorPassword1:'',
       errorPassword2:'',
+      errorCountry:'',
       usernameRules: [
-        v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed',
-      v => !!v || "Username is required."],
+        v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',
+        v => !!v || "Username is required."],
       emailRules: [
       v => !!v || "Email is required.",
-      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      v => /.+@.+\..+/.test(v) || "E-mail must be valid."
       ],
-      rules: {
-        required: v => !!v || "Password is required.",
-        nospace: v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed',
-      },
-      passwordRules: {
-        min: v => (v && v.length >= 8) || "Min 8 characters"
-      },
+      passwordRules: [
+      v => !!v || "Password is required.",
+      v => (v && v.length >= 8) || "Min 8 characters."
+      ],
+      countryRules: [
+      v => !!v || "Country is required.",
+      ],
+      genderRules: [
+      v => !!v || "Gender is required.",
+      ],
+      checkboxRules: [
+      v => !!v || "Please accept the terms and conditions.",
+      ],
       showPassword1: false,
       showPassword2: false,
       conditionContent: 'Conditions content',
@@ -465,71 +476,75 @@ export default {
 				this.verify =true;
   },
   async registerUser(registrationInfo){
-    try {
-    if(this.registrationInfo.password1!=this.registrationInfo.password2){
-      this.errorPassword2 = `Passwords doesn't match.`
-      return;
-    }
-    else{this.errorPassword2 = ``}
-    this.tempusername= this.registrationInfo.username
-    this.tempemail= this.registrationInfo.email
-    this.progressbar =true
-    const config = {
-      headers: {"content-type": "multipart/form-data"},
-      // onDownloadProgress: (progressEvent) => {
-      //   var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-      //   console.log(percentCompleted);
-      // }
-    };
-    var form = new FormData();
-    for (let data in registrationInfo) //append
-      {
-        form.append(data, registrationInfo[data]);
+    if(this.$refs.form.validate()){
+      try {
+      if(this.registrationInfo.password1!=this.registrationInfo.password2){
+        this.errorPassword2 = `Passwords doesn't match.`
+        return;
       }
-    await this.$axios.post('https://gruw80hfj5.execute-api.us-east-2.amazonaws.com/dev/api/v1/auth/registration/', form, config)
-    .then(res=> {
+      else{this.errorPassword2 = ``}
+      this.tempusername= this.registrationInfo.username
+      this.tempemail= this.registrationInfo.email
+      this.progressbar =true
+      const config = {
+        headers: {"content-type": "multipart/form-data"},
+      };
+      var form = new FormData();
+      for (let data in registrationInfo) //append
+        {
+          form.append(data, registrationInfo[data]);
+        }
+      await this.$axios.post('https://gruw80hfj5.execute-api.us-east-2.amazonaws.com/dev/api/v1/auth/registration/', form, config)
+      .then(res=> {
+        this.progressbar =false
+        this.$refs.form.resetValidation()
+        this.$refs.form.reset()
+        this.errorUsername=''
+        this.errorEmail1=''
+        this.errorPassword1=''
+        this.errorPassword2=''
+        this.errorCountry=''
+        this.verify= true
+      })} 
+      catch(err){
       this.progressbar =false
-      // console.log("registered", res);
-      this.$refs.form.resetValidation()
-      this.$refs.form.reset()
-      this.errorUsername=''
-      this.errorEmail1=''
-      this.errorPassword1=''
-      this.errorPassword2=''
-      this.verify= true
-    })
-  } catch(err){
-    this.progressbar =false
-    if(err.response.data){
-      let er = err.response.data
-      console.log(er);
-      for (const key in er) {
-        if(`${key}` == 'username'){
-        this.errorUsername = `${er[key]}`
+      if(err.response.data){
+        let er = err.response.data
+        console.log(er);
+        for (const key in er) {
+          if(`${key}` == 'username'){
+          this.errorUsername = `${er[key]}`
+          }
+          if(`${key}` == 'email'){
+          this.errorEmail1 = `${er[key]}`
+          }
+          if(`${key}` == 'password1'){
+          this.errorPassword1= `${er[key]}`
+          }
+          if(`${key}` == 'password2'){
+          this.errorPassword2= `${er[key]}`
+          }
+          if(`${key}` == 'country'){
+          this.errorCountry= `${er[key]}`
+          }
+          // console.log(`${key}: ${er[key]}`);
         }
-        if(`${key}` == 'email'){
-        this.errorEmail1 = `${er[key]}`
-        }
-        if(`${key}` == 'password1'){
-        this.errorPassword1= `${er[key]}`
-        }
-        // console.log(`${key}: ${er[key]}`);
       }
-    }
-  }
+      }
+      }
   }
 	},
-	computed: {
-		formIsValid () {
-      return (
-        this.registrationInfo.username &&
-        this.registrationInfo.email &&
-        this.registrationInfo.password1 &&
-        this.checkbox &&
-        this.registrationInfo.password2
-      )
-	  }
-	},
+	// computed: {
+	// 	formIsValid () {
+  //     return (
+  //       this.registrationInfo.username &&
+  //       this.registrationInfo.email &&
+  //       this.registrationInfo.password1 &&
+  //       this.checkbox &&
+  //       this.registrationInfo.password2
+  //     )
+	//   }
+	// },
 	layout: 'signup'
 }
 </script>

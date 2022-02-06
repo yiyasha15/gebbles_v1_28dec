@@ -27,15 +27,17 @@
             <!-- <small>Summarize if needed</small> -->
             </v-stepper-step>
             <v-stepper-content step="1">
-                <!-- {{artists}} {{teacher_obj}} -->
-                <!-- @click ="debounceSearch" -->
                 <v-combobox
                     v-model="teacher_obj"
                     :items="artists"
                     label="Teacher name"
                     item-text="artist_name"
                     item-value="username"
-                @input="addTeacher"
+                    ref="artistListComboBox"
+                    @change="onAutoCompleteSelection"
+                    @keyup="customOnChangeHandler"
+                    @paste="customOnChangeHandler"
+                    @input="addTeacher"
                     >
                     <template v-slot:selection="data">
                         <v-chip
@@ -165,9 +167,9 @@
         </v-col>
         <v-col cols="12" md="6" class="px-sm-8 my-6 grey lighten-4 rounded-xl">
                 <v-row class="pb-6 pa-4 justify-center text-center">
-                    <h2> {{sharing.s_teacher_name}}</h2>
+                    <h2 class="font-weight-light"> {{sharing.s_teacher_name}}</h2>
                     <v-spacer></v-spacer>
-                    <h5 class="pt-2">{{sharing.s_location}}</h5>
+                    <h5 class="pt-2 font-weight-light">{{sharing.s_location}}</h5>
                     <v-btn icon class="text-decoration-none" >
                         <country-flag :country= sharing.s_teacher_country />
                     </v-btn>
@@ -176,7 +178,7 @@
                     <v-img :src="imageData" height="500px" width="500px"></v-img>
                 </v-row>
                 <v-row class="justify-center text-center">
-                    <h5 class="pb-6 text-center">{{sharing.s_appreciation}} {{sharing.s_date}} </h5>
+                    <h5 class="pb-6 font-weight-light text-center">{{sharing.s_appreciation}} {{sharing.s_date}} </h5>
                 </v-row>
                 <v-row v-if="videoId" class=" justify-center text-center">
                     <youtube :video-id= 'videoId'></youtube>
@@ -484,7 +486,7 @@ export default {
             },
             imageData: "",
             e6: 1,
-            teacher_obj:"",
+            teacher_obj:null,
             progressbar:false,
             mention_teacher_snackbar:false,
             youtube_snackbar:false,
@@ -492,11 +494,13 @@ export default {
             videoId:'',
             ytLinkError:'',
             artists:[],
-            debounce: null
+            debounce: null,
+            comboBoxModel: null,
         }
     },
     watch: {
     teacher_obj: function() {
+        console.log(this.teacher_obj);
         if(this.teacher_obj)
         {
             EventService.getSearchedArtist(this.teacher_obj).then((value) => {
@@ -507,6 +511,30 @@ export default {
       }
     },
     methods: {
+        searchArtists(){
+        // console.log('So this is your favorite number: ' + this.comboBoxModel);
+        this.artists=[]
+        clearTimeout(this.debounce)
+        this.debounce = setTimeout(() => {
+        if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
+        // console.log("api called", value);
+        this.artists = value.data
+        });}
+        }, 100)
+        },
+        onAutoCompleteSelection(){
+            this.comboBoxModel = this.teacher_obj;
+            this.searchArtists();
+        },
+        customOnChangeHandler(){
+        let vm = this;
+        setTimeout(function(){
+            if(vm.$refs.artistListComboBox){
+            vm.comboBoxModel = vm.$refs.artistListComboBox.internalSearch;
+            vm.searchArtists();
+            }
+        });
+        },
         showYoutubeVideo(){
             let url= this.sharing.s_teacher_video
             if (url != undefined || url != '') {        
@@ -636,6 +664,7 @@ export default {
         },
         addTeacher(){
             let t_name = typeof this.teacher_obj;
+            console.log(this.teacher_obj);
             console.log(t_name);
             // console.log(this.teacher_obj);
             if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
@@ -649,24 +678,7 @@ export default {
                 this.sharing.s_teacher_name = this.teacher_obj 
                 this.sharing.teacher = "" //making null because no artists to tag.
             }
-        },
-        debounceSearchA() {
-        this.artists=[]
-        clearTimeout(this.debounce)
-        this.debounce = setTimeout(() => {
-        if(this.teacher_obj){EventService.getSearchedArtist(this.teacher_obj).then((value) => {
-        console.log("api called", value);
-        this.artists = value.data
-        });}
-        }, 600)
-        },
-        debounceSearch() {
-        if(this.teacher_obj){
-            EventService.getSearchedArtist(this.teacher_obj).then((value) => {
-            console.log("api called", value);
-            this.artists = value.data});
         }
-        },
     },
     }
 </script>

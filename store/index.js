@@ -515,7 +515,7 @@ export const mutations = {
       if(state.auth.loggedIn){
       state.share_has_love = false
       state.share_has_love_id = ''
-      console.log(love);
+      // console.log(love);
         // let check_love = love.filter(love => love.username == state.auth.user.user.username);
         // if(check_love[0]){
         //   state.share_has_love_id = check_love[0].id

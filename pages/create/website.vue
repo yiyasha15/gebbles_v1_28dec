@@ -271,7 +271,7 @@
                 <h3 class="my-4">Preview your website</h3>
                 <v-col>
                     <v-row class="pb-6 justify-center text-center">
-                        <h2> {{artist_data.artist_name}}</h2>
+                        <h2 class="font-weight-light "> {{artist_data.artist_name}}</h2>
                         <v-spacer></v-spacer>
                         <v-btn v-if="artist_data.country " icon class="text-decoration-none" >
                             <country-flag :country= artist_data.country />
@@ -292,16 +292,16 @@
                     </v-col>
                     <v-col>
                     <v-row class="pb-6 justify-center text-center">
-                        <h5 class=" text-center">{{bio.introduction}} </h5>
+                        <h5 class="font-weight-light text-center">{{bio.introduction}} </h5>
                     </v-row>
                     <v-row v-if="bio.quote" class="pb-6 justify-center text-center">
-                        <h5 class=" text-center font-italic">"{{bio.quote}}" </h5>
+                        <h5 class="font-weight-light  text-center font-italic">"{{bio.quote}}" </h5>
                     </v-row>
                     <v-row v-if="bio.style" class="pb-6 justify-center text-center">
-                        <h5 class="text-center font-italic">{{bio.style}} </h5>
+                        <h5 class="text-center font-weight-light  font-italic">{{bio.style}} </h5>
                     </v-row>
                     <v-row v-if="bio.crew" class="pb-6 justify-center text-center">
-                        <h5 class=" text-center">Representing: {{bio.crew}} 🙏 </h5>
+                        <h5 class="font-weight-light  text-center">Representing: {{bio.crew}} 🙏 </h5>
                     </v-row>
                     <v-row class="pb-6 justify-center text-center">
                         <v-col v-if="bio.ig"><v-icon>mdi-instagram</v-icon></v-col>

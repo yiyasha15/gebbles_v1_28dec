@@ -14,9 +14,9 @@
                     </div>
                     <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}" >
                         <div v-for="upcoming in usersUpcoming" :key ="upcoming.index">
-                            <v-flex> 
+                            <!-- <v-flex>  -->
                             <journey-card :journey = "upcoming" ></journey-card>
-                            </v-flex>
+                            <!-- </v-flex> -->
                         </div>
                     </v-layout>
                     <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
@@ -27,9 +27,9 @@
                     </div>
                     <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
                         <div v-for="journey in usersHighlights" :key ="journey.index">
-                            <v-flex> 
+                            <!-- <v-flex>  -->
                             <journey-card :journey = "journey"></journey-card>
-                            </v-flex>
+                            <!-- </v-flex> -->
                         </div>
                     </v-layout>
                     <v-card v-intersect="infiniteScrollingHighlights"></v-card>
@@ -40,9 +40,9 @@
                     </div>
                     <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
                         <div v-for="journey in usersJourney" :key ="journey.index">
-                            <v-flex> 
+                            <!-- <v-flex>  -->
                             <journey-card :journey = "journey" ></journey-card>
-                            </v-flex>
+                            <!-- </v-flex> -->
                             </div>
                     </v-layout>
                     <v-card v-intersect="infiniteScrollingJourney"></v-card>
@@ -67,9 +67,9 @@
                     </div>
                         <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}" >
                             <div v-for="journey in upcoming" :key ="journey.index">
-                                <v-flex> 
+                                <!-- <v-flex>  -->
                                 <journey-card :journey = "journey" ></journey-card>
-                                </v-flex>
+                                <!-- </v-flex> -->
                             </div>
                         </v-layout>
                         <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
@@ -80,9 +80,9 @@
                     </div>
                         <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
                             <div v-for="journey in highlights" :key ="journey.index">
-                                <v-flex> 
+                                <!-- <v-flex>  -->
                                 <journey-card :journey = "journey" ></journey-card>
-                                </v-flex>
+                                <!-- </v-flex> -->
                             </div>
                         </v-layout>
                         <v-card v-intersect="infiniteScrollingHighlights"></v-card>
@@ -93,9 +93,9 @@
                     </div>
                         <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
                             <div v-for="journey in journey" :key ="journey.index">
-                                <v-flex> 
+                                <!-- <v-flex>  -->
                                 <journey-card :journey = "journey" ></journey-card>
-                                </v-flex>
+                                <!-- </v-flex> -->
                                 </div>
                         </v-layout>
                         <v-card v-intersect="infiniteScrollingJourney"></v-card>

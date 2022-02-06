@@ -29,7 +29,8 @@ export default {
     },
     methods: {
         async reset() {
-            let resetForm = new FormData();
+            if(this.email)
+            {let resetForm = new FormData();
                 resetForm.append('email', this.email)
                 this.progressbar = true
             try {
@@ -50,8 +51,10 @@ export default {
                     }
                     this.progressbar = false
                 }
+            }}
+            else{
+                this.resetError = "Email is required."
             }
-            
         }   
     }
 }

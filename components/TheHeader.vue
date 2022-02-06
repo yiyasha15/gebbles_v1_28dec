@@ -129,6 +129,7 @@
                 <v-card-title class="justify-center">
                     <h3>Sign in to gebbles</h3>
                 </v-card-title>
+                <v-form ref="loginform">
                 <v-card-text>
                     <v-text-field 
                         :rules=" emailRules" 
@@ -138,7 +139,7 @@
                         prepend-icon="mdi-account-circle"
                         color="#cead8f" />
                     <v-text-field  
-                        :rules="[rules.required]"
+                        :rules="passwordRules"
                         :error-messages="errorPassword"    
                         v-model="userInfo.password"
                         :type="showPassword ? 'text' : 'password'"
@@ -152,7 +153,7 @@
                     <v-btn @click="submitForm()" class="px-8 " small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
                     <!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
                 </v-card-actions>
-
+                </v-form>
                 <center> <h5 class="py-4 font-weight-light"> <span @click="forgot" style="cursor:pointer; text-decoration:none; color:#3f51b5;">I forgot my password. </span></h5></center>
                 <v-divider></v-divider>
                 <center> <h5 class="py-4 font-weight-light">Don't have an account? <span @click="loginDialog=false; registerDialog=true; " style="cursor:pointer; text-decoration:none; color:#3f51b5;">Sign up. </span></h5></center>
@@ -180,8 +181,7 @@
             <h3 class="font-weight-black">Sign up to gebbles</h3>
         </v-card-title>
         <v-card-text>
-        <v-form
-        ref="form" v-model="valid">
+        <v-form ref="form" >
             <v-text-field :maxlength="30" 
             :rules="usernameRules" 
             v-model="registrationInfo.username" 
@@ -198,8 +198,8 @@
             color="#cead8f"/>
         <v-text-field     
             :error-messages="errorPassword1"
-            :rules="[rules.required, passwordRules.min]"   
-                    v-model="registrationInfo.password1"
+            :rules=" passwordRules"  
+            v-model="registrationInfo.password1"
             :type="showPassword1 ? 'text' : 'password'"
             label="Password"
             prepend-icon="mdi-lock"
@@ -209,7 +209,8 @@
         />
         <v-text-field   
         :error-messages="errorPassword2" 
-                    v-model="registrationInfo.password2"
+        :rules=" passwordRules" 
+            v-model="registrationInfo.password2"
             :type="showPassword2 ? 'text' : 'password'"
             label="Confirm Password"
             prepend-icon="mdi-lock"
@@ -217,14 +218,16 @@
             @click:append="showPassword2 = !showPassword2"
             color="#cead8f"
         />
-        <v-select label="Representing" v-model= "registrationInfo.country"
+        <v-select label="Representing" v-model= "registrationInfo.country" 
+        :rules=" countryRules" 
+        :error-messages="errorCountry" 
             :items="countries"
             item-text="name"
             item-value="code"
             color="#cead8f"
             required
         ></v-select>
-        <v-radio-group v-model="registrationInfo.gender" :mandatory="true" row>
+        <v-radio-group v-model="registrationInfo.gender" :mandatory="true" :rules=" genderRules" row>
             <v-radio 
                 label="Male" 
                 value="M"
@@ -245,7 +248,7 @@
             label="What's your gender">
             </v-text-field>
         </v-radio-group>
-        <v-checkbox color="#cead8f" v-model="checkbox">
+        <v-checkbox color="#cead8f" v-model="checkbox" :rules=" checkboxRules">
         <template v-slot:label>
             <div class="mt-2" >
             Do you accept the
@@ -256,7 +259,7 @@
         </template>
         </v-checkbox>
         <v-card-actions class="mb-3 justify-center">
-        <v-btn @click="registerUser(registrationInfo)" outlined small class="px-8" color="black" :loading="progressbar" :disabled="!formIsValid">Create Account</v-btn>
+        <v-btn @click="registerUser(registrationInfo)" outlined small class="px-8" color="black" :loading="progressbar" >Create Account</v-btn>
         </v-card-actions>
         </v-form>
         </v-card-text>
@@ -341,15 +344,15 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),
-        formIsValid () {
-        return (
-            this.registrationInfo.username &&
-            this.registrationInfo.email &&
-            this.registrationInfo.password1 &&
-            this.checkbox &&
-            this.registrationInfo.password2
-        )
-	  }
+    //     formIsValid () {
+    //     return (
+    //         this.registrationInfo.username &&
+    //         this.registrationInfo.email &&
+    //         this.registrationInfo.password1 &&
+    //         this.checkbox &&
+    //         this.registrationInfo.password2
+    //     )
+	//   }
     },
     data() {
       return {
@@ -357,6 +360,11 @@ export default {
             registerDialog: false,
             errorEmail:'',
             errorPassword:'',
+            errorUsername:'',
+            errorEmail1:'',
+            errorPassword1:'',
+            errorPassword2:'',
+            errorCountry:'',
             showPassword: false,
             hasName: false,
             userInfo: {
@@ -366,24 +374,26 @@ export default {
             progressbar:false,
             progressbar1:false,
             valid:false,
-            errorUsername:'',
-            errorEmail1:'',
-            errorPassword1:'',
-            errorPassword2:'',
             usernameRules: [
-                v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed',
-            v => !!v || "Username is required."],
+                v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',
+                v => !!v || "Username is required."],
             emailRules: [
             v => !!v || "Email is required.",
-            v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+            v => /.+@.+\..+/.test(v) || "E-mail must be valid."
             ],
-            rules: {
-                required: v => !!v || "Password is required.",
-                nospace: v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed',
-            },
-            passwordRules: {
-                min: v => (v && v.length >= 8) || "Min 8 characters"
-            },
+            passwordRules: [
+            v => !!v || "Password is required.",
+            v => (v && v.length >= 8) || "Min 8 characters."
+            ],
+            countryRules: [
+            v => !!v || "Country is required.",
+            ],
+            genderRules: [
+            v => !!v || "Gender is required.",
+            ],
+            checkboxRules: [
+            v => !!v || "Please accept the terms and conditions.",
+            ],
             showPassword1: false,
             showPassword2: false,
             conditionContent: 'Conditions content',
@@ -652,7 +662,8 @@ export default {
     },
     methods:{
 		async submitForm(){
-            this.progressbar1 = true;
+            if(this.$refs.loginform.validate())
+            {this.progressbar1 = true;
 			if(this.userInfo.email && this.userInfo.password){
                 try{
 				const config = {
@@ -690,20 +701,20 @@ export default {
             }
             else{
                 this.progressbar1 = false
-
-            }
+            }}
         },
         reset (response) {
 		console.log("registration successful",response.data);
 		this.$refs.form.reset()
-				this.verify =true;
+        this.verify =true;
         },
         forgot(){
             this.loginDialog=false; 
             this.$router.push('/passwordrenew') 
         },
         async registerUser(registrationInfo){
-            try {
+           if(this.$refs.form.validate()) {
+               try {
             if(this.registrationInfo.password1!=this.registrationInfo.password2){
             this.errorPassword2 = `Passwords doesn't match.`
             return;
@@ -734,28 +745,36 @@ export default {
             this.errorEmail1=''
             this.errorPassword1=''
             this.errorPassword2=''
+            this.errorCountry=''
             this.verify= true
             this.registerDialog = false;
             })
-        } catch(err){
-            this.progressbar =false
-            if(err.response.data){
-            let er = err.response.data
-            console.log(er);
-            for (const key in er) {
-                if(`${key}` == 'username'){
-                this.errorUsername = `${er[key]}`
+                } catch(err){
+                    this.progressbar =false
+                    if(err.response.data){
+                    let er = err.response.data
+                    console.log(er);
+                    for (const key in er) {
+                        if(`${key}` == 'username'){
+                        this.errorUsername = `${er[key]}`
+                        }
+                        if(`${key}` == 'email'){
+                        this.errorEmail1 = `${er[key]}`
+                        }
+                        if(`${key}` == 'password1'){
+                        this.errorPassword1= `${er[key]}`
+                        }
+                        if(`${key}` == 'password2'){
+                        this.errorPassword2= `${er[key]}`
+                        }
+                        if(`${key}` == 'country'){
+                        this.errorCountry= `${er[key]}`
+                        }
+                        // console.log(`${key}: ${er[key]}`);
+                    }
+                    }
                 }
-                if(`${key}` == 'email'){
-                this.errorEmail1 = `${er[key]}`
-                }
-                if(`${key}` == 'password1'){
-                this.errorPassword1= `${er[key]}`
-                }
-                // console.log(`${key}: ${er[key]}`);
             }
-            }
-        }
         }
 	},
 }

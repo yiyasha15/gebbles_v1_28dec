@@ -225,7 +225,7 @@
                 <caption class="ma-6">{{journey.jodate}} </caption>
             </v-row>
             <v-row v-if="journey.joevent" class="pb-6 justify-center text-center">
-                <h3 class="text-center">{{journey.joevent}} </h3>
+                <h3 class="text-center font-weight-light ">{{journey.joevent}} </h3>
                 <v-btn v-if="journey.country " icon class="text-decoration-none pb-2 pl-4" >
                 <country-flag :country= journey.country />
             </v-btn>
@@ -319,7 +319,7 @@
                 </v-slide-item>
             </v-slide-group> -->
             <v-row v-if="journey.jocontent" class="pb-6 pt-4 justify-center text-center">
-                <h4 class=" text-center"> {{journey.username}}: {{journey.jocontent}} </h4>
+                <h4 class=" text-center font-weight-light "> {{journey.username}}: {{journey.jocontent}} </h4>
             </v-row>
             <v-row v-if="journey.jolink" class="pb-6 justify-center text-center">
                 <v-btn v-if="journey.jolink"  icon color="indigo" @click="openlink">
@@ -329,7 +329,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs"
                         v-on="on">
-                        <v-icon class="pl-2 float-right" yellow small>mdi-star</v-icon>
+                        <v-icon class="pl-2 float-right" small color="orange">mdi-star</v-icon>
                     </v-btn>
                   </template>
                   <span>This is a highlighted post.</span>
