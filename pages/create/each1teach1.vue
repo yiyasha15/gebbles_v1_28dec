@@ -19,7 +19,7 @@
             </v-col>
         </v-row>
         <v-row>
-        <v-col>
+        <v-col cols="12" md="6" >
         <v-stepper  v-model="e6" vertical>
         <!-- <div> -->
             <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
@@ -165,7 +165,7 @@
         </v-stepper-content>
         </v-stepper>
         </v-col>
-        <v-col cols="12" md="6" class="px-sm-8 my-6 grey lighten-4 rounded-xl">
+        <v-col cols="12" md="6" class="px-sm-8 my-6 grey lighten-4 rounded-xl hidden-sm-and-down">
                 <v-row class="pb-6 pa-4 justify-center text-center">
                     <h2 class="font-weight-light"> {{sharing.s_teacher_name}}</h2>
                     <v-spacer></v-spacer>

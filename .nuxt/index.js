@@ -13,13 +13,13 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_7b157dcf from 'nuxt_plugin_plugin_7b157dcf' // Source: ./vuetify/plugin.js (mode: 'all')
-import nuxt_plugin_workbox_2f72381e from 'nuxt_plugin_workbox_2f72381e' // Source: ./workbox.js (mode: 'client')
-import nuxt_plugin_metaplugin_4679aa04 from 'nuxt_plugin_metaplugin_4679aa04' // Source: ./pwa/meta.plugin.js (mode: 'all')
-import nuxt_plugin_axios_6503bfd6 from 'nuxt_plugin_axios_6503bfd6' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_plugin_6dc982f3 from 'nuxt_plugin_plugin_6dc982f3' // Source: ./vuetify/plugin.js (mode: 'all')
+import nuxt_plugin_workbox_d532c166 from 'nuxt_plugin_workbox_d532c166' // Source: ./workbox.js (mode: 'client')
+import nuxt_plugin_metaplugin_ab736d40 from 'nuxt_plugin_metaplugin_ab736d40' // Source: ./pwa/meta.plugin.js (mode: 'all')
+import nuxt_plugin_axios_da65fb1e from 'nuxt_plugin_axios_da65fb1e' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuexpersist_13f465a2 from 'nuxt_plugin_vuexpersist_13f465a2' // Source: ../plugins/vuex-persist (mode: 'client')
 import nuxt_plugin_aos_3e747fca from 'nuxt_plugin_aos_3e747fca' // Source: ../plugins/aos.client (mode: 'client')
-import nuxt_plugin_plugin_11900991 from 'nuxt_plugin_plugin_11900991' // Source: ./auth/plugin.js (mode: 'all')
+import nuxt_plugin_plugin_676ab6ed from 'nuxt_plugin_plugin_676ab6ed' // Source: ./auth/plugin.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -205,20 +205,20 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_7b157dcf === 'function') {
-    await nuxt_plugin_plugin_7b157dcf(app.context, inject)
+  if (typeof nuxt_plugin_plugin_6dc982f3 === 'function') {
+    await nuxt_plugin_plugin_6dc982f3(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_workbox_2f72381e === 'function') {
-    await nuxt_plugin_workbox_2f72381e(app.context, inject)
+  if (process.client && typeof nuxt_plugin_workbox_d532c166 === 'function') {
+    await nuxt_plugin_workbox_d532c166(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_metaplugin_4679aa04 === 'function') {
-    await nuxt_plugin_metaplugin_4679aa04(app.context, inject)
+  if (typeof nuxt_plugin_metaplugin_ab736d40 === 'function') {
+    await nuxt_plugin_metaplugin_ab736d40(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_6503bfd6 === 'function') {
-    await nuxt_plugin_axios_6503bfd6(app.context, inject)
+  if (typeof nuxt_plugin_axios_da65fb1e === 'function') {
+    await nuxt_plugin_axios_da65fb1e(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_vuexpersist_13f465a2 === 'function') {
@@ -229,8 +229,8 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_aos_3e747fca(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_11900991 === 'function') {
-    await nuxt_plugin_plugin_11900991(app.context, inject)
+  if (typeof nuxt_plugin_plugin_676ab6ed === 'function') {
+    await nuxt_plugin_plugin_676ab6ed(app.context, inject)
   }
 
   // Lock enablePreview in context

@@ -267,7 +267,7 @@
                     </v-row>
                 </v-form>
             </v-col>
-            <v-col cols="12" md="6" class="pl-sm-6 lighten-4 rounded-xl">
+            <v-col cols="12" md="6" class="pl-sm-6 lighten-4 rounded-xl  hidden-sm-and-down">
                 <h3 class="my-4">Preview your website</h3>
                 <v-col>
                     <v-row class="pb-6 justify-center text-center">
@@ -277,7 +277,7 @@
                             <country-flag :country= artist_data.country />
                         </v-btn>
                     </v-row> 
-                    <v-row class="pb-6 justify-center text-center hidden-sm-and-down">
+                    <v-row class="pb-6 justify-center text-center">
                         <croppa
                             v-model="cropImage"
                             canvas-color="transparent"

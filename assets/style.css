@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6, p {
 font-family: 'Poppins',  cursive sans-serif !important;
 src: url('Poppins/Poppins-Regular.ttf') format('truetype')
 }
-.v-application {
+.theme--light.v-application {
 font-family: 'Poppins',  cursive sans-serif !important;
 }
 .page-enter-active,
@@ -28,5 +28,5 @@ font-family: 'Poppins',  cursive sans-serif !important;
   opacity: 0;
 }
 .app{
-  background-color: #f0f2f5;
+  background-color: #ece0c7;
 }

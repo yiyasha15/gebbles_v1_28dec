@@ -177,7 +177,8 @@
                 <v-icon dark>
                     mdi-account-circle
                 </v-icon>
-                </v-avatar></center>
+                </v-avatar>
+                </center>
             </v-flex>
             <v-flex md9 sm8>
                 <v-textarea v-if="isAuthenticated && userHasPortfolio"
@@ -228,23 +229,13 @@
                     Your browser does not support the video tag.
                     </video><br>
                     <v-btn outlined  class="my-2 " @click="onPick" >
-                        <!-- <h5> -->
                             Upload a video
-                        <!-- </h5> -->
                         <v-icon right dark> mdi-cloud-upload </v-icon>
                     </v-btn>
-                    <!-- <video id="videoPreview" width="300" height="300" controls></video> -->
                     <v-text-field
                         v-model = "learningForm.lesson"
                         label= "Caption">
                     </v-text-field>
-                    <!-- <v-file-input
-                        show-size
-                        v-model = "learningForm.video" 
-                        label="Upload video" 
-                        accept="video/*"
-                        prepend-icon="mdi-video"
-                    ></v-file-input> -->
                         <v-btn class="text-decoration-none"  color="indigo" dark outlined
                         @click="submitLearning" :loading="progressbar">Submit</v-btn>
                 </v-col>

@@ -217,7 +217,7 @@
                 </v-stepper-content>
             </v-stepper>
         </v-col>
-        <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl">
+        <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl hidden-sm-and-down">
             <h3 class="ma-4">Preview your journey</h3>
             <!-- {{editing_obj}}
             {{journey}} -->
