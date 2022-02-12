@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container v-show="!firstLoad">
+        <v-container v-show="!firstLoad" style="max-width:1185px;">
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 " >
                 <h3 class="font-weight-light d-inline">Share about your teacher</h3>
                 <v-btn x-small icon outlined color="indigo" class="ml-2" to="/create/each1teach1/">
@@ -71,7 +71,7 @@
                 </div>
             </v-layout>
         </v-container>
-        <v-container v-if=" firstLoadStudent">
+        <v-container v-if=" firstLoadStudent" style="max-width:1185px;">
             <div class="mb-4">
             <h3 class="font-weight-light d-inline">My Students</h3>
             </div>

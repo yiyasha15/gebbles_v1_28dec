@@ -16,7 +16,7 @@
                 height="700"
                 :src = "usersPortfolio.cover"></v-img> -->
         </center>
-        <v-container>
+        <v-container style="max-width:1185px;">
         <v-row class="hidden-sm-and-down">
             <v-col cols="6" class="pt-10 pl-0">
                 <v-img
@@ -135,7 +135,7 @@
                 height="700"
                 :src = "artist.cover"></v-img> -->
         </center>
-        <v-container>
+        <v-container style="max-width:1185px;">
         <v-row class="hidden-sm-and-down">
             <v-col cols="6" class="pt-10 pl-0">
                 <v-img

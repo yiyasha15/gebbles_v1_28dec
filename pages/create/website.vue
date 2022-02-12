@@ -372,9 +372,10 @@ export default {
         if(this.$store.state.hasPortfolio)
         {
             this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
+            console.log(this.artist_data);
             this.initialImage = this.artist_data.cover
         }
-        if(this.$store.state.hasBio) 
+        if(this.$store.state.hasBio)
         {
             this.bio = Object.assign({}, this.$store.getters.usersBio);
             if(this.bio.style==""){

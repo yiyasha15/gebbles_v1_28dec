@@ -104,7 +104,7 @@
                         text-align:justify;">
                     <h4 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h4>
                     </div>
-                    <v-btn class="mt-2" small color="error" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
+                    <v-btn class="mt-4" small color="error" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
                     </v-col>
                 </v-row>
                 <v-dialog

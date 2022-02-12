@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container v-show="!firstLoad">
+        <v-container v-show="!firstLoad" style="max-width:1185px;">
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
                 <h3 class="font-weight-light d-inline">Share your journey</h3>
                     <v-btn x-small icon outlined color="indigo" class="ml-2" @click="createJourney"> 
@@ -113,7 +113,7 @@
 
             </div>
         </v-container>
-        <v-container v-if="firstLoad">
+        <v-container v-if="firstLoad" style="max-width:1185px;">
                 <div class="my-4">
                 <h3 class="font-weight-light">Journey</h3>
                 </div>
