@@ -14,14 +14,17 @@
         </v-layout>
         </nuxt-link>
             <v-spacer></v-spacer>
-        <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-badge color="error" overlap :content='notifications_notseen'>
         <v-icon color="black">mdi-bell</v-icon>
         </v-badge>
         </v-btn>
-        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="indigo" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="blacks" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-icon color="black">mdi-bell</v-icon>
         </v-btn>
+        <!-- <v-btn small v-if="isAuthenticated" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/create/uploadvideo`">
+        <v-icon color="black">mdi-tray-arrow-up</v-icon>
+        </v-btn> -->
         <!-- <v-btn to= "/notificationss">test</v-btn> -->
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
@@ -54,12 +57,18 @@
                     alt="img"
                 >
                 </v-avatar>
-                <v-avatar size="36" color="indigo" v-else >
+                <v-avatar size="36" color="black" v-else >
                     <v-icon dark>
                         mdi-account-circle
                     </v-icon>
                 </v-avatar>
                 <v-list-item-title class="pl-2">@{{ loggedInUser.user.username }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                :to="'/create/uploadvideo'"
+                class="text-decoration-none pl-6 pr-12"
+                ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
+                <v-list-item-title>Upload video</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 v-if="!userHasPortfolio"

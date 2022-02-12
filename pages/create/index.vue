@@ -50,9 +50,9 @@
               <div class="mt-6" >
                 <v-btn small outlined dark color="black" class="text-decoration-none" :to= "`/create/website/`">Edit Portfolio</v-btn>
               </div>
-              <div class="mt-6" >
+              <!-- <div class="mt-6" >
                 <v-btn small outlined dark color="black" class="text-decoration-none" :to= "`/create/uploadvideo/`">Edit Portfolio</v-btn>
-              </div>
+              </div> -->
               <!-- <nuxt-link :to="'/create/website/'" class="text-decoration-none"><h3 class="icon">Edit Portfolio <v-icon dense class="icon">mdi-chevron-right</v-icon></h3></nuxt-link> -->
               </div>
          </v-col>

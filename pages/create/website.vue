@@ -33,7 +33,7 @@
                                 v-model="cropImage1"
                                 canvas-color="transparent"
                                 :width="320"
-                                :height="200"
+                                :height="500"
                                 :show-loading="true"
                                 :initial-image="initialImage"
                                 :prevent-white-space="true"

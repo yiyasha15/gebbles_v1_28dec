@@ -32,7 +32,7 @@
             </v-row>
         </v-form>
       </v-card>
-      <v-dialog 
+      <v-dialog persistent
       v-model="selectTeacher"
       max-width="500">
       <v-card :class="{'pa-3': $vuetify.breakpoint.smAndDown, 'pa-6': $vuetify.breakpoint.mdAndUp}">
@@ -189,46 +189,43 @@ methods:{
     
     async submitLearning(){
         this.progressbar =true;
-        try {
-            let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
-            if(res.statusCode == 200)
-            {
-                delete this.$axios.defaults.headers.common['Authorization']
-                //got res status 200
-                let filename = res.key
-                //put to storage
-                let url = res.body
-                url = url.slice(1, -1);
-                await this.$axios.$put(url, this.putVideo).then((value) => {
-                this.learningForm.username = this.$store.state.auth.user.user.username;
-                if(this.selectedTeachers.length){
-                    console.log("teacher exists");
-                }
-                // this.learningForm.shareidobj = this.e1t1.id
-                this.learningForm.video = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
-                };
-                let formData = new FormData();
-                for (let data in this.learningForm) {
-                    formData.append(data, this.learningForm[data]);
-                }
-                this.$axios.$post("/v1/e1t1/learnings/", formData, config).then((res) => {
-                    this.progressbar = false
-                    this.refreshLearning();
-                    // this.$store.dispatch("check_learnings", this.e1t1.id)
-                    this.addLearning = false;
-                    // this.$router.push("/e1t1/"+this.e1t1.id);
-                })
-                }); 
-            }
+        alert("complete the api river!!")
+        this.progressbar =false;
+        // try {
+        //     let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
+        //     if(res.statusCode == 200)
+        //     {
+        //         delete this.$axios.defaults.headers.common['Authorization']
+        //         let filename = res.key
+        //         let url = res.body
+        //         url = url.slice(1, -1);
+        //         await this.$axios.$put(url, this.putVideo).then((value) => {
+        //         this.learningForm.username = this.$store.state.auth.user.user.username;
+        //         if(this.selectedTeachers.length){
+        //             console.log("teacher exists");
+        //         }
+        //         this.learningForm.video = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
+        //         const config = {
+        //             headers: {"content-type": "multipart/form-data",
+        //                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+        //         };
+        //         let formData = new FormData();
+        //         for (let data in this.learningForm) {
+        //             formData.append(data, this.learningForm[data]);
+        //         }
+        //         this.$axios.$post("/v1/e1t1/learnings/", formData, config).then((res) => {
+        //             this.progressbar = false
+        //             this.refreshLearning();
+        //             this.addLearning = false;
+        //         })
+        //         }); 
+        //     }
             
-        } 
-        catch (error) {
-            console.log("unsuccess",error.response);
-            this.progressbar =false
-        }
+        // } 
+        // catch (error) {
+        //     console.log("unsuccess",error.response);
+        //     this.progressbar =false
+        // }
     },
     refreshLearning(){
         this.learningForm.username = this.$store.state.auth.user.user.username;
