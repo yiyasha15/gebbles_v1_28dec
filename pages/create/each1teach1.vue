@@ -1,5 +1,5 @@
 <template>
-    <v-container class="ma-24">
+    <v-container class="ma-24" style="max-width:1185px;">
         <v-row>
             <v-col>
                 <v-container>

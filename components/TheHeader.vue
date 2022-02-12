@@ -1,6 +1,6 @@
 <template>
    <!-- <v-container> -->
-    <v-toolbar flat class="mt-2">
+    <v-toolbar flat class="mt-2" style="flex:none;">
         <nuxt-link :to="'/'" class="text-decoration-none">
         <v-layout align-center>
             <img

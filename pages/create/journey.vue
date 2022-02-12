@@ -1,6 +1,6 @@
 <template>
 <v-app>
-    <v-container class="ma-24">
+    <v-container class="ma-24" style="max-width:1185px;">
         <div class="text-xs-center mb-6" align = "center">
             <!-- <v-btn small outlined  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/judging/`">test</v-btn> -->
             <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>

@@ -16,6 +16,7 @@ import { createStore } from './store.js'
 import nuxt_plugin_plugin_6dc982f3 from 'nuxt_plugin_plugin_6dc982f3' // Source: ./vuetify/plugin.js (mode: 'all')
 import nuxt_plugin_workbox_d532c166 from 'nuxt_plugin_workbox_d532c166' // Source: ./workbox.js (mode: 'client')
 import nuxt_plugin_metaplugin_ab736d40 from 'nuxt_plugin_metaplugin_ab736d40' // Source: ./pwa/meta.plugin.js (mode: 'all')
+import nuxt_plugin_iconplugin_a2242258 from 'nuxt_plugin_iconplugin_a2242258' // Source: ./pwa/icon.plugin.js (mode: 'all')
 import nuxt_plugin_axios_da65fb1e from 'nuxt_plugin_axios_da65fb1e' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuexpersist_13f465a2 from 'nuxt_plugin_vuexpersist_13f465a2' // Source: ../plugins/vuex-persist (mode: 'client')
 import nuxt_plugin_aos_3e747fca from 'nuxt_plugin_aos_3e747fca' // Source: ../plugins/aos.client (mode: 'client')
@@ -215,6 +216,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_metaplugin_ab736d40 === 'function') {
     await nuxt_plugin_metaplugin_ab736d40(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_iconplugin_a2242258 === 'function') {
+    await nuxt_plugin_iconplugin_a2242258(app.context, inject)
   }
 
   if (typeof nuxt_plugin_axios_da65fb1e === 'function') {

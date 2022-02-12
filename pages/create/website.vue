@@ -1,5 +1,5 @@
 <template>
-    <v-container >
+    <v-container style="max-width:1185px;">
         <div class="text-xs-center mb-6" align = "center">
             <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
             <!-- <v-btn small outlined  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/highlights/`">test</v-btn>
@@ -8,7 +8,7 @@
          </div>
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row>
-            <v-col cols="12" md="6" class="pl-sm-6">
+            <v-col cols="12" md="6">
                 <v-row>
                 <v-col cols="8">
                     <h3 class="mt-4">Build your website</h3>
@@ -41,7 +41,7 @@
                             ></croppa>
                         </v-row>
                         <v-row>
-                            <v-col cols="12" md="9">
+                            <v-col cols="12" md="10">
                                 <v-text-field
                                     required 
                                     v-model = "artist_data.artist_name"
@@ -59,7 +59,7 @@
                     </v-form>
                 <v-form v-on:submit.prevent="submit">
                     <v-row>
-                        <v-col cols="12" md="9">
+                        <v-col cols="12" md="10">
                             <v-autocomplete 
                                 v-model= "dummy_style" 
                                 :items="styles" 
@@ -267,7 +267,7 @@
                     </v-row>
                 </v-form>
             </v-col>
-            <v-col cols="12" md="6" class="pl-sm-6 lighten-4 rounded-xl  hidden-sm-and-down">
+            <v-col cols="12" md="6" class="lighten-4 rounded-xl  hidden-sm-and-down">
                 <h3 class="my-4">Preview your website</h3>
                 <v-col>
                     <v-row class="pb-6 justify-center text-center">
