@@ -20,7 +20,7 @@
         <v-row class="hidden-sm-and-down">
             <v-col cols="6" class="pt-10 pl-0">
                 <v-img
-                
+                height="700"
                 :src = "artist.cover"></v-img>
             </v-col>
             <v-col cols="6" class="pr-0">
