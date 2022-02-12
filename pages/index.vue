@@ -1,58 +1,10 @@
 <template>
   <div class="home">
-      <!-- for mobile -->
-       <!-- <v-img
-        class="hidden-md-and-up "
-        height="250"
-        :src="require('@/assets/bboys.jpeg')"
-        >
-       </v-img>
-       <div class="hidden-md-and-up mr-4">
-        <div align="end" justify="end" >
-            <h2 class="mr-4"> Represent Right!</h2>
-            <div class="mt-2" >
-              <v-btn outlined dark color="#BD3D30" 
-              class="text-decoration-none elevation-none mr-4 px-4 justify-end" 
-              :to= "`/artists/`"><h5>community</h5>
-              <v-icon right>
-                mdi-arrow-right
-              </v-icon>
-            </v-btn>
-            </div>
-        </div>
-      </div> -->
-      <!-- for desktop -->
-    <!-- <v-img
-    class="hidden-sm-and-down"
-    width="100%"
-    :src="require('@/assets/bboys.jpeg')"
-    >
-    <v-layout
-        align-center
-        fill-height 
-      >
-      <v-col>
-        <v-row class="align-center
-        justify-end">
-        <h1 class="mr-8 font-weight-bold"> Represent Right!</h1></v-row>
-        <v-row class="align-center
-        justify-end">  
-          <v-btn outlined dark color="#BD3D30" class="text-decoration-none elevation-none px-4 mr-8" :to= "`/artists/`"><h5>community </h5>
-          <v-icon right>
-            mdi-arrow-right
-          </v-icon>
-        </v-btn>
-        </v-row>
-      </v-col>
-    </v-layout>
-    </v-img> -->
-      <v-row
-      align="center" justify="center" align-content="center" class="ma-md-12 my-8 hidden-sm-and-down " grey >
+      <v-row justify="center" class="ma-md-12 my-8 hidden-sm-and-down " grey >
         <h1 class="text-center">
           Connecting the groove, <br>
           celebrating<span style="color:red;"> Each one Teach one.</span>
         </h1>
-        <!-- <v-btn :to= "`/test/`">test</v-btn> -->
       </v-row>
       <v-row class="justify-center align-center mt-12">
         <v-col cols="12" md="6">
@@ -164,7 +116,6 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import vuex from 'vuex' 
 export default {
   head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -177,19 +128,9 @@ export default {
         }]
         }
       },
-  // mounted() {
-  //   if(this.isAuthenticated){
-  //     this.$store.dispatch("check_notifications");
-  //   }
-  // },
   computed: {
       ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio'])
   },
-  data(){
-    return {
-      model: null,
-  }
-  }
 }
 //https://stackoverflow.com/questions/57800048/how-to-enable-dark-mode-with-custom-colors-in-light-theme-in-vuetify
 //You know that you have a groove that no other dancer has in this 

@@ -53,7 +53,7 @@
                     </div>
                 </v-row>
                 <div>
-                <v-layout row wrap justify-space-between class="my-3 mx-0">
+                <v-layout row wrap justify-space-between class="mt-3 mx-0">
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
                             <h3 >{{e1t1.teacher}}</h3> 
@@ -78,7 +78,7 @@
                             </div>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap justify-start class="mx-0 mb-3">
+                <v-layout row wrap justify-start class="mx-0 mb-2">
                     <v-flex md2 xs2>
                         <v-btn icon @click="react_love">
                             <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
@@ -97,8 +97,14 @@
                     <v-col >
                     <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
                     <!-- <read-more more-str="read more" :text="msg" link="#" less-str="read less" :max-chars="50"></read-more> -->
+                    <div style="
+                        height:200px;
+                        overflow-x: hidden;
+                        overflow-y: auto;
+                        text-align:justify;">
                     <h4 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h4>
-                    <v-btn small color="error" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
+                    </div>
+                    <v-btn class="mt-2" small color="error" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
                     </v-col>
                 </v-row>
                 <v-dialog

@@ -11,6 +11,7 @@ const _af938f32 = () => interopDefault(import('../pages/blogs.vue/index.vue' /* 
 const _3d39c31b = () => interopDefault(import('../pages/contact.vue' /* webpackChunkName: "pages/contact" */))
 const _6a4e72d8 = () => interopDefault(import('../pages/create/index.vue' /* webpackChunkName: "pages/create/index" */))
 const _7ac35c41 = () => interopDefault(import('../pages/e1t1/index.vue' /* webpackChunkName: "pages/e1t1/index" */))
+const _3717afe4 = () => interopDefault(import('../pages/explore.vue' /* webpackChunkName: "pages/explore" */))
 const _337a0fd6 = () => interopDefault(import('../pages/help.vue' /* webpackChunkName: "pages/help" */))
 const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
@@ -82,6 +83,10 @@ export const routerOptions = {
     path: "/e1t1",
     component: _7ac35c41,
     name: "e1t1"
+  }, {
+    path: "/explore",
+    component: _3717afe4,
+    name: "explore"
   }, {
     path: "/help",
     component: _337a0fd6,

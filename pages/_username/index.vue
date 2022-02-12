@@ -11,29 +11,51 @@
             class="hidden-md-and-up"
                 height="300"
                 :src = "artist.cover"></v-img>
-            <v-img
+            <!-- <v-img
             class="hidden-sm-and-down"
                 height="700"
-                :src = "artist.cover"></v-img>
+                :src = "artist.cover"></v-img> -->
         </center>
-        <br>
         <v-container>
-        <v-row v-if="bio.introduction">
-            <v-col cols="12" style="margin:auto; max-width:750px" class="my-md-6 pa-4">
-                <h2 style="font-size: 2.5rem;" >about</h2><br>
+        <v-row class="hidden-sm-and-down">
+            <v-col cols="6" class="pt-10 pl-0">
+                <v-img
+                
+                :src = "artist.cover"></v-img>
+            </v-col>
+            <v-col cols="6" class="pr-0">
+                <h2 style="font-size: 2.5rem;" class="mb-2 pt-6 " >about</h2>
+                <div style="
+                        height:600px;
+                        overflow-x: hidden;
+                        overflow-y: auto;
+                        text-align:justify;">
                 <h3 class="mb-5 font-weight-light" style="line-height:2;">
                     {{ bio.introduction }}
+                </h3></div>
+                <h3 class="mb-2 mt-3" v-if="bio.crew">
+                    Representing: {{bio.crew}}
                 </h3>
+            </v-col>
+        </v-row>
+        </v-container>
+        <v-container>
+        <v-row v-if="bio.introduction" class="hidden-md-and-up">
+            <v-col cols="12" class="my-md-6 pa-4">
+                <h2 style="font-size: 2.0rem;" >about</h2>
+                <h4 class="mb-5 mt-2 font-weight-light" style="line-height:2;">
+                    {{ bio.introduction }}
+                </h4>
                 </v-col>
         </v-row>
-                <v-row v-if="bio.crew" >
+                <v-row v-if="bio.crew" class="hidden-md-and-up" >
                     <v-col v-if="bio.crew" style="margin:auto; max-width:750px">
-                        <h3 class="mb-2 " >
+                        <h3 >
                             Representing: {{bio.crew}}
                         </h3>
                     </v-col>
                 </v-row>
-            <v-row v-if="bio.quote" class="mt-12 mb-6">
+            <v-row v-if="bio.quote" class="mt-8 mb-6">
                 <v-col align="center" style="margin:auto; max-width:750px">
                 <h3 class="font-weight-light font-italic">
                 "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 

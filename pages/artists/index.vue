@@ -72,19 +72,17 @@ export default {
     async getartists(){
       try {
       const response = await EventService.getArtists()
-      // console.log("api called", response);
       this.artists = response.data.results
       this.page = response.data.next
       this.firstLoad = false
     } catch (e) {
-        error({statusCode:503, message: "unable to fetch artist data at this point"})
+        console.log(e);
     }
     },
     infiniteScrolling(entries, observer, isIntersecting) {
         if(this.page){
         const key = 'username';
         this.$axios.get(this.page).then(response => {
-          // console.log(response);
               this.page= response.data.next;
               response.data.results.forEach(item => this.artists.push(item));
               // filter array so no duplicates
@@ -99,11 +97,9 @@ export default {
     debounceSearch() {
     this.firstLoad = true
     this.artists=[]
-    // console.log("waiting");
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
       if(this.search){EventService.getSearchedArtist(this.search).then((value) => {
-      // console.log("api called", value);
       this.firstLoad = false
       this.artists = value.data
       });}
@@ -127,20 +123,6 @@ export default {
       debounce: null
     }
   },
-  // watch: {
-  //   search: function() {
-  //     this.firstLoad = true
-  //     console.log(this.search)
-  //     var vm = this;
-  //     setTimeout(() => {
-  //       if(vm.search)
-  //       {vm.getSearchedArtist();
-  //       console.log("search datat");}
-  //       else
-  //       {vm.getartists();}
-  //     }, 2000);
-  //     }
-  //   },
   computed: {
     ...mapGetters(['isAuthenticated', 'userHasPortfolio', 'loggedInUser']),
     // filterApi: function(){

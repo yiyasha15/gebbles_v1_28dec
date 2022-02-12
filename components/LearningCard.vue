@@ -168,7 +168,7 @@
                         color="indigo" dark >Post
                 </v-btn>
             </v-row>
-            <v-row class="px-4" v-if="learning_comments_list.length">
+            <v-row v-if="learning_comments_list.length" class="mt-0">
               <learning-comments-card :comments = "learning_comments_list"></learning-comments-card>
             </v-row>
           </div>
@@ -268,6 +268,7 @@ import { mapGetters } from 'vuex'
     name: 'LearningCard',
     data() {
       return {
+        teacher_mentioned:['river','batalla','martha'],
         deleteLearnDialog: false,
         updateLearning: false,
         timeLearn:'',

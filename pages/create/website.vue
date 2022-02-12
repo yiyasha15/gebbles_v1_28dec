@@ -281,8 +281,8 @@
                         <croppa
                             v-model="cropImage"
                             canvas-color="transparent"
-                            :width="600"
-                            :height="340"
+                            :width="580"
+                            :height="700"
                             :show-loading="true"
                             :initial-image="initialImage"
                             :prevent-white-space="true"

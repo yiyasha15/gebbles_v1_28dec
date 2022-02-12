@@ -21,6 +21,9 @@ export default {
     getArtists() {
         return apiClient1.get('/artist/portfolios/list/')
     },
+    getLegacyArtists(){
+        return apiClient1.get('/artist/portfolios/legacy/list/')
+    },
     getSearchedArtist(query) {
         return apiClient1.get('/artist/search/?query='+ query)
     },

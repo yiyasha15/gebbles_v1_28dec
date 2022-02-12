@@ -42,6 +42,12 @@
     "chunkName": "pages/e1t1/index"
   },
   {
+    "name": "explore",
+    "path": "/explore",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/explore.vue",
+    "chunkName": "pages/explore"
+  },
+  {
     "name": "help",
     "path": "/help",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/help.vue",
