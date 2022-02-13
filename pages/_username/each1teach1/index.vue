@@ -11,7 +11,7 @@
                 <div class="my-4">
                 <h3 class="font-weight-light">My Teachers</h3>
                 </div>
-                <v-layout wrap row :class="{'mb-4 justify-center': $vuetify.breakpoint.smAndDown, 'mb-4': $vuetify.breakpoint.mdAndUp}">
+                <v-layout wrap row style="justify-content:space-evenly" class="mb-4" >
                     <div v-for="share in usersTeachers" :key ="share.index">
                         <!-- <v-flex >  -->
                         <TeachersCard :e1t1="share" ></TeachersCard>
@@ -25,7 +25,7 @@
             <div class="my-4">
             <h3 class="font-weight-light">My Teachers</h3>
             </div>
-            <v-layout wrap row :class="{'mb-4 justify-center': $vuetify.breakpoint.smAndDown, 'mb-4': $vuetify.breakpoint.mdAndUp}">
+            <v-layout wrap row style="justify-content:space-evenly" class="mb-4">
                 <div v-for="share in teachers" :key ="share.index">
                     <!-- <v-flex >  -->
                     <TeachersCard :e1t1="share" ></TeachersCard>
@@ -40,7 +40,7 @@
         <div class="mb-5">
         <h3 class="font-weight-light">My Students</h3>
         </div>
-        <v-layout wrap row :class="{'mb-4  justify-center': $vuetify.breakpoint.smAndDown, 'mb-4 ': $vuetify.breakpoint.mdAndUp}" >
+        <v-layout wrap row style="justify-content:space-evenly" class="mb-4" >
             <div v-for="share in students" :key ="share.index">
                 <!-- <v-flex>  -->
                     <StudentsCard :share="share" ></StudentsCard>
@@ -63,7 +63,7 @@
             <div class="my-4">
             <h3 class="font-weight-light d-inline">My Teachers</h3>
             </div>
-            <v-layout wrap row v-if="firstLoad" :class="{'mb-4  justify-center': $vuetify.breakpoint.smAndDown, 'mb-4 ': $vuetify.breakpoint.mdAndUp}">
+            <v-layout wrap row v-if="firstLoad" style="justify-content:space-evenly" class="mb-4">
                 <div v-for="n in this.looploader" :key ="n.index">
                     <!-- <v-flex sm6 xs6>  -->
                     <v-skeleton-loader min-width="98" class="ma-1" max-height="82" :loading="loading" type="card" ></v-skeleton-loader>
@@ -75,7 +75,7 @@
             <div class="mb-4">
             <h3 class="font-weight-light d-inline">My Students</h3>
             </div>
-            <v-layout wrap row v-if="firstLoadStudent" :class="{'mb-4  justify-center': $vuetify.breakpoint.smAndDown, 'mb-4 ': $vuetify.breakpoint.mdAndUp}">
+            <v-layout wrap row v-if="firstLoadStudent" style="justify-content:space-evenly" class="mb-4">
                 <div v-for="n in this.looploader" :key ="n.index">
                     <!-- <v-flex sm6 xs6>  -->
                     <v-skeleton-loader min-width="98" class="ma-1" max-height="82" :loading="loading" type="card" ></v-skeleton-loader>

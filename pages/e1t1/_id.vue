@@ -157,7 +157,7 @@
             </v-col>
         </v-row>
         <v-row class="mx-0" v-if="learnings.length>0 ">
-            <v-layout row wrap :class="{' justify-center': $vuetify.breakpoint.smAndDown, 'ma-0': $vuetify.breakpoint.mdAndUp}">
+            <v-layout row wrap style="justify-content:space-evenly" :class="{'ma-0': $vuetify.breakpoint.mdAndUp}">
             <div v-for="learning in learnings" :key ="learning.index">
             <v-flex > 
             <learning-card :learning = "learning"></learning-card>

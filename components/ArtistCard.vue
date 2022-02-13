@@ -1,12 +1,11 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card
-      class="ma-1"
+    <v-card style="margin:2px"
       data-view
       :to="'/' + artist.username" 
       :elevation="hover ? 12 : 0"
       outlined
-      width="96" 
+      width="106" 
       max-height="96"
     >
       <v-img
@@ -14,13 +13,13 @@
         :lazy-src= "artist.thumb" 
         class="grey lighten-2 white--text"
         height="60"
-        width="96"
+        width="106"
       />
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"
         contain
         height="60"
-        width="96"
+        width="106"
       />
       <v-card-actions height="32px">
         <div v-if="artist.artist_name" width="70" class="text-decoration-none caption" style=" height: 1.3em;

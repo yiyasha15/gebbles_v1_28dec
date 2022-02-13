@@ -30,7 +30,7 @@
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
-                <h3 class="mb-5 font-weight-light" style="line-height:1.7em;">
+                <h3 class="mb-5 font-weight-light" style="line-height:1.7em;text-align:justify;">
                     {{ bio.introduction }}
                 </h3></div>
                 <h3 class="mb-2 mt-12" v-if="bio.crew">
@@ -41,7 +41,7 @@
         <v-row v-if="usersBio.introduction" class="hidden-md-and-up">
             <v-col cols="12" class="my-md-6 pa-4">
                 <h2 style="font-size: 2.5rem;" >about</h2><br>
-                <h3 class="mb-5 font-weight-light" style="line-height:2;">
+                <h3 class="mb-5 font-weight-light" style="line-height:2;text-align:justify;">
                     {{ usersBio.introduction }}
                 </h3>
                 <v-row >
@@ -149,7 +149,7 @@
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
-                <h3 class="mb-5 font-weight-light" style="line-height:1.7em;">
+                <h3 class="mb-5 font-weight-light" style="line-height:1.7em;text-align:justify;">
                     {{ bio.introduction }}
                 </h3></div>
                 <h3 class="mb-2 mt-12" v-if="bio.crew">
@@ -162,7 +162,7 @@
         <v-row v-if="bio.introduction" class="hidden-md-and-up">
             <v-col cols="12" class="my-md-6 pa-4">
                 <h2 style="font-size: 2.0rem;" >about</h2>
-                <h4 class="mb-5 mt-2 font-weight-light" style="line-height:2;">
+                <h4 class="mb-5 mt-2 font-weight-light" style="line-height:2;text-align:justify;">
                     {{ bio.introduction }}
                 </h4>
                 </v-col>

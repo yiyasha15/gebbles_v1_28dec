@@ -12,7 +12,7 @@
                     <div class="my-4">
                     <h3 class="font-weight-light d-inline">Upcoming events</h3>
                     </div>
-                    <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}" >
+                    <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
                         <div v-for="upcoming in usersUpcoming" :key ="upcoming.index">
                             <!-- <v-flex>  -->
                             <journey-card :journey = "upcoming" ></journey-card>
@@ -25,7 +25,7 @@
                     <div class="my-4" >
                     <h3 class="font-weight-light">Highlights</h3>
                     </div>
-                    <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
+                    <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
                         <div v-for="journey in usersHighlights" :key ="journey.index">
                             <!-- <v-flex>  -->
                             <journey-card :journey = "journey"></journey-card>
@@ -38,7 +38,8 @@
                     <div class="my-4">
                         <h3 class="font-weight-light">Journey</h3>
                     </div>
-                    <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
+                    <!-- :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}" -->
+                    <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
                         <div v-for="journey in usersJourney" :key ="journey.index">
                             <!-- <v-flex>  -->
                             <journey-card :journey = "journey" ></journey-card>
@@ -65,7 +66,7 @@
                     <div class="my-4">
                     <h3 class="font-weight-light">Upcoming events</h3>
                     </div>
-                        <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}" >
+                        <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
                             <div v-for="journey in upcoming" :key ="journey.index">
                                 <!-- <v-flex>  -->
                                 <journey-card :journey = "journey" ></journey-card>
@@ -78,7 +79,7 @@
                     <div class="my-4" >
                     <h3 class="font-weight-light">Highlights</h3>
                     </div>
-                        <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
+                        <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
                             <div v-for="journey in highlights" :key ="journey.index">
                                 <!-- <v-flex>  -->
                                 <journey-card :journey = "journey" ></journey-card>
@@ -91,7 +92,7 @@
                     <div class="my-4">
                         <h3 class="font-weight-light">Journey</h3>
                     </div>
-                        <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
+                        <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
                             <div v-for="journey in journey" :key ="journey.index">
                                 <!-- <v-flex>  -->
                                 <journey-card :journey = "journey" ></journey-card>
@@ -117,7 +118,7 @@
                 <div class="my-4">
                 <h3 class="font-weight-light">Journey</h3>
                 </div>
-                <v-layout wrap row :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}">
+                <v-layout wrap row class="my-2" style="justify-content:space-evenly">
                     <div v-for="n in this.looploader" :key ="n.index">
                         <v-flex sm6 xs6> 
                         <v-skeleton-loader min-width="96" class="ma-1" max-height="82" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
