@@ -53,7 +53,7 @@ color: #000;
 }
 
 .icon:hover {
-color: indigo;
-/* text-shadow:  0 0 2px indigo; ; */
+color: #815A44;
+/* text-shadow:  0 0 2px black; ; */
 }
 </style>

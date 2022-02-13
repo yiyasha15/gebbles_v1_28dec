@@ -26,7 +26,7 @@
                         v-model = "learningForm.lesson"
                         label= "Caption">
                     </v-text-field>
-                        <v-btn class="text-decoration-none"  color="indigo" dark outlined
+                        <v-btn class="text-decoration-none"  color="black" dark outlined
                         @click="next">Next</v-btn>
                 </v-col>
             </v-row>
@@ -92,7 +92,7 @@
                 </template>
             </template>
         </v-autocomplete>    
-        <v-btn class="text-decoration-none"  color="indigo" dark outlined
+        <v-btn class="text-decoration-none"  color="black" dark outlined
         @click="submitLearning" :loading="progressbar">Submit</v-btn>     
       </v-card>
     </v-dialog>

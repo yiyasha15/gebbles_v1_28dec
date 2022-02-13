@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="12" md="8"  class="justify-center">
           <h2 class ="pl-6 xs12 d-inline">Community</h2>
-          <v-btn v-if="isAuthenticated" small icon outlined color="indigo" class="mb-2 ml-2" to="/create/website/">
+          <v-btn v-if="isAuthenticated" small icon outlined color="black" class="mb-2 ml-2" to="/create/website/">
           <v-icon small>mdi-plus</v-icon>
           </v-btn>
         </v-col>

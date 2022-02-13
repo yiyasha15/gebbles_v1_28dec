@@ -96,13 +96,13 @@
             </v-col>
         </v-row>
         <v-row class="mt-4" align="center" justify="center">
-            <v-btn v-if="usersBio.ig" icon class="text-decoration-none mx-4" color="indigo"  @click="openig" >
+            <v-btn v-if="usersBio.ig" icon class="text-decoration-none mx-4" color="black"  @click="openig" >
                 <v-icon>mdi-instagram</v-icon>
             </v-btn>
-            <v-btn v-if="usersBio.fb" icon class="text-decoration-none mx-4" color="indigo"  @click="openfb" >
+            <v-btn v-if="usersBio.fb" icon class="text-decoration-none mx-4" color="black"  @click="openfb" >
                 <v-icon>mdi-facebook</v-icon>
             </v-btn>
-            <v-btn v-if="usersBio.site" icon class="text-decoration-none mx-4" color="indigo"  @click="openpersonal" >
+            <v-btn v-if="usersBio.site" icon class="text-decoration-none mx-4" color="black"  @click="openpersonal" >
                 <v-icon>mdi-email</v-icon>
             </v-btn>
         </v-row>
@@ -216,13 +216,13 @@
             </v-col>
         </v-row>
         <v-row class="mt-4" align="center" justify="center">
-            <v-btn v-if="bio.ig" icon class="text-decoration-none mx-4" color="indigo"  @click="openig" >
+            <v-btn v-if="bio.ig" icon class="text-decoration-none mx-4" color="black"  @click="openig" >
                 <v-icon>mdi-instagram</v-icon>
             </v-btn>
-            <v-btn v-if="bio.fb" icon class="text-decoration-none mx-4" color="indigo"  @click="openfb" >
+            <v-btn v-if="bio.fb" icon class="text-decoration-none mx-4" color="black"  @click="openfb" >
                 <v-icon>mdi-facebook</v-icon>
             </v-btn>
-            <v-btn v-if="bio.site" icon class="text-decoration-none mx-4" color="indigo"  @click="openpersonal" >
+            <v-btn v-if="bio.site" icon class="text-decoration-none mx-4" color="black"  @click="openpersonal" >
                 <v-icon>mdi-email</v-icon>
             </v-btn>
         </v-row>

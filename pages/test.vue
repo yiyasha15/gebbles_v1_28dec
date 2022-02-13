@@ -21,7 +21,7 @@
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn small icon v-bind="attrs"
                             v-on="on">
-                            <v-icon small color="indigo" @click="editE1t1">mdi-circle-edit-outline</v-icon>
+                            <v-icon small color="black" @click="editE1t1">mdi-circle-edit-outline</v-icon>
                         </v-btn>
                         </template>
                         <span>Edit</span>
@@ -43,7 +43,7 @@
                             <v-spacer></v-spacer>
                             <v-btn small class="px-4 text-decoration-none" color="error" dark
                                 @click="deleted">Delete</v-btn>
-                            <v-btn small color="indigo" class="px-4text-decoration-none" outlined  @click="dialog = false">
+                            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="dialog = false">
                                 Cancel
                             </v-btn>
                             </v-card-actions>
@@ -208,7 +208,7 @@
                                     </v-textarea>
                                     <v-btn small class="text-decoration-none mr-2 ml-12 ml-sm-2" 
                                         @click="post_personal_text"
-                                            color="indigo" dark>Send
+                                            color="black" dark>Send
                                     </v-btn>
                                     <personal-messages-card :messages="personalMessages"></personal-messages-card>
                                 </v-row>
@@ -232,7 +232,7 @@
         <v-row>
             <v-col cols="12"  class="justify-center">
                 <h3 class =" font-weight-light pl-3 xs12 d-inline">Dedicated to {{e1t1.s_teacher_name}}</h3>
-                <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="indigo" class="mb-2 ml-2" @click="addLearning = true">
+                <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="black" class="mb-2 ml-2" @click="addLearning = true">
                 <v-icon small>mdi-plus</v-icon>
                 </v-btn>
             </v-col>
@@ -258,7 +258,7 @@
                 :src = "usersPortfolio.thumb" 
                 alt="img">
                 </v-avatar>
-                <v-avatar size="36" color="indigo" v-else >
+                <v-avatar size="36" color="black" v-else >
                 <v-icon dark>
                     mdi-account-circle
                 </v-icon>
@@ -286,7 +286,7 @@
             <v-flex md2 xs3><center>
                 <v-btn v-if="isAuthenticated && userHasPortfolio" small 
                 @click="post_comment"
-                color="indigo" dark >Post
+                color="black" dark >Post
             </v-btn></center>
             </v-flex>
         </v-layout>
@@ -331,7 +331,7 @@
                         accept="video/*"
                         prepend-icon="mdi-video"
                     ></v-file-input> -->
-                        <v-btn class="text-decoration-none"  color="indigo" dark outlined
+                        <v-btn class="text-decoration-none"  color="black" dark outlined
                         @click="submitLearning" :loading="progressbar">Submit</v-btn>
                 </v-col>
             </v-row>

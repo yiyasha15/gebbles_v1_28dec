@@ -57,7 +57,7 @@
           <template v-slot:activator="{ on, attrs }">
               <v-btn small icon v-bind="attrs"
               v-on="on">
-              <v-icon small color="indigo" @click="editLearning">mdi-circle-edit-outline</v-icon>
+              <v-icon small color="black" @click="editLearning">mdi-circle-edit-outline</v-icon>
           </v-btn>
           </template>
           <span>Edit</span>
@@ -79,7 +79,7 @@
               <v-spacer></v-spacer>
               <v-btn small class="px-4 text-decoration-none" color="error" dark
                   @click="deleteLearning(learn_obj.id,learn_obj.shareidobj)">Delete</v-btn>
-              <v-btn small color="indigo" class="px-4text-decoration-none" outlined  @click="deleteLearnDialog = false">
+              <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="deleteLearnDialog = false">
                   Cancel
               </v-btn>
               </v-card-actions>
@@ -140,7 +140,7 @@
                     alt="img"
                 >
                 </v-avatar>
-                <v-avatar size="36" color="indigo" v-else >
+                <v-avatar size="36" color="black" v-else >
                 <v-icon dark>
                     mdi-account-circle
                 </v-icon>
@@ -165,7 +165,7 @@
                 <v-btn v-if="isAuthenticated && userHasPortfolio"
                     small class="text-decoration-none mt-2" 
                     @click="post_comment(learn_obj.id)"
-                        color="indigo" dark >Post
+                        color="black" dark >Post
                 </v-btn>
             </v-row>
             <v-row v-if="learning_comments_list.length" class="mt-0">
@@ -237,7 +237,7 @@
                         v-model = "learn_obj.lesson"
                         label= "Describe the lessons you learnt.">
                     </v-text-field>
-                        <v-btn class="text-decoration-none" outlined  color="indigo" dark
+                        <v-btn class="text-decoration-none" outlined  color="black" dark
                         @click="updateLearningBtn">Update</v-btn>
                 </v-col>
             </v-row>

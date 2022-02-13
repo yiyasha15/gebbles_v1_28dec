@@ -66,10 +66,10 @@ export default {
         light: {
           // background-color: '#ece0c7',
           // background: '#ece0c7' ,
-          primary: '#3f51b5',
-          secondary: '#b0bec5',
+          primary: '#815A44',
+          secondary: '#815A44',
           accent: '#8c9eff',
-          error: '#b71c1c',
+          error: '#e35252',
         },
       }
     }

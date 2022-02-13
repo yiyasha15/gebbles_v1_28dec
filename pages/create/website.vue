@@ -2,9 +2,9 @@
     <v-container style="max-width:1185px;">
         <div class="text-xs-center mb-6" align = "center">
             <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-            <!-- <v-btn small outlined  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/highlights/`">test</v-btn>
-            <v-btn small dark color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
-            <v-btn small outlined color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
+            <!-- <v-btn small outlined  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/highlights/`">test</v-btn>
+            <v-btn small dark color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
+            <v-btn small outlined color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
          </div>
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row>
@@ -17,7 +17,7 @@
                     <v-row class="justify-end mt-4 mr-8">
                     <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn icon v-bind="attrs" v-on="on" color="indigo"><v-icon>mdi-information-outline</v-icon></v-btn>
+                        <v-btn icon v-bind="attrs" v-on="on" color="black"><v-icon>mdi-information-outline</v-icon></v-btn>
                     </template>
                     <span>Share about yourself. Who you are. What you like.<br> 
                         The dance styles/crew that you represent along with your social handles.<br>
@@ -96,7 +96,7 @@
                                 label="Instagram ID"
                                 @click:append="bio.ig=''; inputInsta=!inputInsta">
                             </v-text-field>
-                            <v-btn v-show="!inputFace &&!bio.fb" icon color=indigo @click="inputFace=true"><v-icon>mdi-facebook</v-icon></v-btn>
+                            <v-btn v-show="!inputFace &&!bio.fb" icon color=black @click="inputFace=true"><v-icon>mdi-facebook</v-icon></v-btn>
                             <v-text-field
                                 v-show="inputFace || bio.fb"
                                 prepend-icon="mdi-facebook"
@@ -168,7 +168,7 @@
                                         <div class=" rounded-lg grey lighten-4">
                                             <v-img :src="imageData1" height="200px" width="200px"></v-img>
                                             <v-btn icon>
-                                                <v-icon color="indigo" small @click="onPick">mdi-image-plus</v-icon>
+                                                <v-icon color="black" small @click="onPick">mdi-image-plus</v-icon>
                                             </v-btn>
                                             <input 
                                             type="file" 
@@ -187,7 +187,7 @@
                                         <div class="rounded-lg grey lighten-4">
                                             <v-img :src="imageData2" height="200px" width="200px"></v-img>
                                             <v-btn icon>
-                                                <v-icon color="indigo" small @click="onPick1">mdi-image-plus</v-icon>
+                                                <v-icon color="black" small @click="onPick1">mdi-image-plus</v-icon>
                                             </v-btn>
                                             <input 
                                             type="file" 
@@ -206,7 +206,7 @@
                                         <div class="rounded-lg grey lighten-4">
                                             <v-img :src="imageData3" height="200px" width="200px"></v-img>
                                             <v-btn icon>
-                                                <v-icon color="indigo" small @click="onPick2">mdi-image-plus</v-icon>
+                                                <v-icon color="black" small @click="onPick2">mdi-image-plus</v-icon>
                                             </v-btn>
                                             <input 
                                             type="file" 
@@ -225,7 +225,7 @@
                                         <div class="rounded-lg grey lighten-4">
                                             <v-img :src="imageData4" height="200px" width="200px"></v-img>
                                             <v-btn icon>
-                                                <v-icon color="indigo" small @click="onPick3">mdi-image-plus</v-icon>
+                                                <v-icon color="black" small @click="onPick3">mdi-image-plus</v-icon>
                                             </v-btn>
                                             <input 
                                             type="file" 
@@ -242,9 +242,9 @@
                                     </v-flex>
                                 </v-layout>
                             </v-container>  -->
-                            <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="indigo" dark
+                            <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="black" dark
                                 @click="submit" :loading="progressbar">Submit</v-btn>
-                                <v-btn v-if="userHasBio || userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="indigo" dark
+                                <v-btn v-if="userHasBio || userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
                                 @click="update" :loading="progressbar">Update</v-btn>
                             <v-dialog  v-model="dialog" width="500">
                             <template v-slot:activator="{ on, attrs }">
@@ -257,7 +257,7 @@
                                 <v-spacer></v-spacer>
                                 <v-btn small class="px-4 text-decoration-none"  color="error" dark 
                                     @click="deleted">Delete</v-btn>
-                                <v-btn color="indigo" small class="px-4 text-decoration-none"  dark outlined  @click="dialog = false">
+                                <v-btn color="black" small class="px-4 text-decoration-none"  dark outlined  @click="dialog = false">
                                     Cancel
                                 </v-btn>
                                 </v-card-actions>

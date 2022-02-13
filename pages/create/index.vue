@@ -41,7 +41,7 @@
                 Okay, let's get started.
               </h4>
               <div class="mt-6" >
-                <v-btn small outlined  dark color="indigo" class="text-decoration-none" :to= "`/create/website/`">Get Started</v-btn>
+                <v-btn small outlined  dark color="black" class="text-decoration-none" :to= "`/create/website/`">Get Started</v-btn>
               </div>
             </div>
             <div v-if="loggedInUser && userHasPortfolio" class="ma-2 px-2">
@@ -86,7 +86,7 @@ color: #000;
 }
 
 .icon:hover {
-color: indigo;
+color: #815A44;
 /* text-shadow:  0 0 2px indigo; ; */
 }
 </style>

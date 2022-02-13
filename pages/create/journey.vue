@@ -2,10 +2,10 @@
 <v-app>
     <v-container class="ma-24" style="max-width:1185px;">
         <div class="text-xs-center mb-6" align = "center">
-            <!-- <v-btn small outlined  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/judging/`">test</v-btn> -->
+            <!-- <v-btn small outlined  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/judging/`">test</v-btn> -->
             <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-           <!-- <v-btn small outlined  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
-            <v-btn small dark  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
+           <!-- <v-btn small outlined  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
+            <v-btn small dark  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
         </div>
             <!-- <v-divider class="ma-4" ></v-divider> -->
             <!-- <h4 class="ma-4">Share your journey</h4> -->
@@ -27,7 +27,7 @@
                         <div class=" rounded-lg grey lighten-4">
                             <v-img :src="imageData1" height="150px" width="150px"></v-img>
                             <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(1)">mdi-image-plus</v-icon>
+                                <v-icon color="black" small @click="onPick(1)">mdi-image-plus</v-icon>
                             </v-btn>
                             <input 
                             type="file" 
@@ -46,7 +46,7 @@
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData2" height="150px" width="150px"></v-img>
                             <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(2)">mdi-image-plus</v-icon>
+                                <v-icon color="black" small @click="onPick(2)">mdi-image-plus</v-icon>
                             </v-btn>
                             <input 
                             type="file" 
@@ -65,7 +65,7 @@
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData3" height="150px" width="150px"></v-img>
                             <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(3)">mdi-image-plus</v-icon>
+                                <v-icon color="black" small @click="onPick(3)">mdi-image-plus</v-icon>
                             </v-btn>
                             <input 
                             type="file" 
@@ -84,7 +84,7 @@
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData4" height="150px" width="150px"></v-img>
                             <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(4)">mdi-image-plus</v-icon>
+                                <v-icon color="black" small @click="onPick(4)">mdi-image-plus</v-icon>
                             </v-btn>
                             <input 
                             type="file" 
@@ -103,7 +103,7 @@
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData5" height="150px" width="150px"></v-img>
                             <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(5)">mdi-image-plus</v-icon>
+                                <v-icon color="black" small @click="onPick(5)">mdi-image-plus</v-icon>
                             </v-btn>
                             <input 
                             type="file" 
@@ -119,12 +119,12 @@
                         </div>
                     </v-slide-item> -->
                     </v-slide-group>
-                <v-btn color="indigo" text small outlined @click="e6 = 2">Next</v-btn>
-                <!-- <v-btn color="indigo" text @click="e6 = 1">Previous</v-btn> -->
+                <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
+                <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->
                 <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Caption</v-stepper-step>
+                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Caption*</v-stepper-step>
                 <v-stepper-content step="2" class="ma-0">
                     <v-text-field
                         v-model = "journey.joevent"
@@ -162,8 +162,8 @@
                         </template>
                         <v-date-picker v-model= "journey.jodate" no-title scrollable>
                             <v-spacer></v-spacer>
-                            <v-btn text small color="indigo" @click="menu = false">Cancel</v-btn>
-                            <v-btn text small color="indigo" @click="$refs.menu.save(date)">OK</v-btn>
+                            <v-btn text small color="black" @click="menu = false">Cancel</v-btn>
+                            <v-btn text small color="black" @click="$refs.menu.save(date)">OK</v-btn>
                         </v-date-picker>
                     </v-menu>
                     <v-text-field
@@ -173,7 +173,7 @@
                         :maxlength="50"
                         @change="checkLink">
                     </v-text-field>
-                    <v-btn color="indigo" text small outlined @click="e6 = 3">Next</v-btn>
+                    <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
                     <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
@@ -208,9 +208,9 @@
                                 :value="false"
                             ></v-radio>
                         </v-radio-group>
-                    <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="indigo" dark
+                    <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black" dark
                     @click="submit" :loading="progressbar">Submit</v-btn>
-                    <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark
+                    <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
                     @click="update" :loading="progressbar">Update</v-btn>
                     <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
@@ -322,7 +322,7 @@
                 <h4 class=" text-center font-weight-light "> {{journey.username}}: {{journey.jocontent}} </h4>
             </v-row>
             <v-row v-if="journey.jolink" class="pb-6 justify-center text-center">
-                <v-btn v-if="journey.jolink"  icon color="indigo" @click="openlink">
+                <v-btn v-if="journey.jolink"  icon color="black" @click="openlink">
                   <v-icon >mdi-link</v-icon>
                 </v-btn>
                 <v-tooltip v-if="journey.ishighlight" top>

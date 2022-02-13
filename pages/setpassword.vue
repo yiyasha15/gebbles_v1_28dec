@@ -25,7 +25,7 @@
 					:append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
 					@click:append="showPassword2 = !showPassword2"
 				/><v-card-actions class="mb-3 pb-6 justify-center">
-                <v-btn small class="text-decoration-none" outlined :loading="progressbar" color="indigo" dark
+                <v-btn small class="text-decoration-none" outlined :loading="progressbar" color="black" dark
                     @click="reset">Set new password</v-btn>
             </v-card-actions>
             </div>

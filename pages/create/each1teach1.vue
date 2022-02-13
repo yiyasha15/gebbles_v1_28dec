@@ -23,7 +23,7 @@
         <v-stepper  v-model="e6" vertical>
         <!-- <div> -->
             <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                <p>Mention your teacher</p>
+                <p>Mention your teacher*</p>
             <small>If your teacher are not yet in this platform, mention them and tag them later when they join.<br></small>
             </v-stepper-step>
             <v-stepper-content step="1">
@@ -90,12 +90,12 @@
                 label= "Teacher's country"
                 clearable>
                 </v-select>
-            <v-btn color="primary" small text outlined @click="e6 = 2">Next</v-btn>
+            <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
             <v-btn color="primary" small text @click="goback">Cancel</v-btn>
             </v-stepper-content>
         <!-- </div> -->
     
-        <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Do you have a click with your teacher?
+        <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Do you have a click with your teacher?*
             <small>(if not, you can add their image.)</small>
         </v-stepper-step>
         <v-stepper-content step="2" style="border-left: none;">
@@ -116,12 +116,12 @@
                 <v-btn small v-else outlined color="error" class="ma-2" @click="imageData=''; sharing.s_photo = ''" >
                     Remove<v-icon right dark> mdi-close</v-icon>
                 </v-btn>
-            <v-btn color="primary" text outlined @click="e6 = 3" small>Next</v-btn>
+            <v-btn color="black" text outlined @click="e6 = 3" small>Next</v-btn>
             <v-btn color="error" text @click="e6 = 1" small>Previous</v-btn>
             <v-btn color="primary" text @click="goback" small>Cancel</v-btn>
         </v-stepper-content>
     
-        <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One</v-stepper-step>
+        <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
         <v-stepper-content step="3" style="border-left: none;">
             <v-textarea
                 v-model = "sharing.s_appreciation"
@@ -139,7 +139,7 @@
                 label= "Share about what you learnt from them."
                 clearable>
             </v-textarea>
-            <v-btn color="primary" small text outlined @click="e6 = 4">Next</v-btn>
+            <v-btn color="black" small text outlined @click="e6 = 4">Next</v-btn>
             <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
             <v-btn color="primary" text small @click="goback">Cancel</v-btn>
         </v-stepper-content>
@@ -156,9 +156,9 @@
                 @input="showYoutubeVideo"
                 >
             </v-text-field>
-            <v-btn v-if="!share_obj" outlined small class="text-decoration-none"  color="indigo" dark :loading="progressbar"
+            <v-btn v-if="!share_obj" outlined small class="text-decoration-none"  color="black" dark :loading="progressbar"
             @click="submit">Submit</v-btn>
-            <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark :loading="progressbar"
+            <v-btn v-else outlined small class="text-decoration-none"  color="black" dark :loading="progressbar"
             @click="update">Update</v-btn>
             <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
             <v-btn color="primary" text small @click="goback">Cancel</v-btn>

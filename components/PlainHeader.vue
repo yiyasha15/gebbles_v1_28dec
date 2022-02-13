@@ -41,7 +41,7 @@
                         alt="img"
                     >
                     </v-avatar>
-                    <v-avatar size="36" color="indigo" v-else >
+                    <v-avatar size="36" color="black" v-else >
                         <v-icon dark>
                             mdi-account-circle
                         </v-icon>

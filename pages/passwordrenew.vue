@@ -7,7 +7,7 @@
             </v-card-title>
             <v-text-field :error-messages="resetError"  class="mx-6"  v-model="email" label="Email" prepend-icon="mdi-account-circle" />
             <v-card-actions class="mb-3 pb-6 justify-center">
-                <v-btn small class="text-decoration-none" outlined :loading="progressbar" color="indigo" dark
+                <v-btn small class="text-decoration-none" outlined :loading="progressbar" color="black" dark
                     @click="reset">Send password reset instructions</v-btn>
             </v-card-actions>
 	    </v-card>

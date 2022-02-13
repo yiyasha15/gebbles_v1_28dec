@@ -3,7 +3,7 @@
         <v-container v-show="!firstLoad" style="max-width:1185px;">
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
                 <h3 class="font-weight-light d-inline">Share your journey</h3>
-                    <v-btn x-small icon outlined color="indigo" class="ml-2" @click="createJourney"> 
+                    <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
                         <v-icon >mdi-plus</v-icon>
                     </v-btn>
                 <div v-if="userHasJourney || userHasUpcoming|| userHasHighlights"> 

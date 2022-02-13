@@ -33,7 +33,7 @@
                     <v-dialog v-model="dialog" width="500" >
                         <template v-slot:activator="{ on, attrs }">
                         <v-btn v-bind="attrs" v-on="on" 
-                        color="indigo" dark  class="float-right mr-2 text-decoration-none">Make a post</v-btn>
+                        color="black" dark  class="float-right mr-2 text-decoration-none">Make a post</v-btn>
                         </template>
                         <v-card>
                             <v-card-title class="headline grey lighten-2">
@@ -74,7 +74,7 @@
                         <v-btn icon color="orange" >
                         <v-icon>mdi-heart</v-icon> 34
                         </v-btn>
-                        <v-btn class="ml-4" icon color="indigo" >
+                        <v-btn class="ml-4" icon color="black" >
                         <v-icon>mdi-comment</v-icon>5
                         </v-btn>
                         </v-row>
@@ -101,7 +101,7 @@
                         <v-btn icon color="orange" >
                         <v-icon>mdi-heart</v-icon> 34
                         </v-btn>
-                        <v-btn class="ml-4" icon color="indigo" >
+                        <v-btn class="ml-4" icon color="black" >
                         <v-icon>mdi-comment</v-icon>5
                         </v-btn>
                         </v-row>

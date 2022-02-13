@@ -8,7 +8,7 @@
                         <div>Let's share our stories.</div>
                         <br>
                         <v-btn class="text-decoration-none mt-6" @click="post"
-                         color="indigo" dark >Post</v-btn>
+                         color="black" dark >Post</v-btn>
                     </div>
                 </v-col>
                 <v-col cols="6">

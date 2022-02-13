@@ -7,7 +7,7 @@
 		</v-card-title>
 		<v-card-actions class="pb-6 justify-center">
 			<v-btn class="ml-4 px-4" small dark color="error" @click="signout">Sign Out</v-btn>
-			<v-btn class="ml-4 px-4" small outlined color="indigo" @click="cancel">Cancel</v-btn>
+			<v-btn class="ml-4 px-4" small outlined color="black" @click="cancel">Cancel</v-btn>
 		</v-card-actions>
 	</v-card>
 	</v-container>

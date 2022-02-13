@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" md="8" class="justify-center">
         <h2 class ="pl-6 my-2 font-weight-bold xs12 d-inline">Each 1 Teach 1</h2>
-        <v-btn dark v-if="isAuthenticated" x-small fab color="indigo" 
+        <v-btn dark v-if="isAuthenticated" x-small fab color="black" 
             class="text-decoration-none mb-2 ml-2" @click="addteacher">
         <v-icon>mdi-plus</v-icon>
         </v-btn>
@@ -19,7 +19,7 @@
         </v-text-field>
       </v-col>
     </v-row>
-      <!-- <v-btn color="indigo" outlined class="mx-2 mt-2 mb-6 text-decoration-none justify-end"
+      <!-- <v-btn color="black" outlined class="mx-2 mt-2 mb-6 text-decoration-none justify-end"
        dark @click="addteacher">
       <v-icon class="px-2">mdi-account-multiple-plus-outline</v-icon>
       Share my experience</v-btn> -->

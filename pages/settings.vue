@@ -10,7 +10,7 @@
                     <v-text-field readonly v-model="email" label="Email" prepend-icon="mdi-account-circle" />
                     <v-text-field readonly v-model="username" label="Username" prepend-icon="mdi-account-circle" />
                 </v-form>
-            <!-- <v-btn small class="text-decoration-none" outlined  color="indigo" dark
+            <!-- <v-btn small class="text-decoration-none" outlined  color="black" dark
                 @click="save_information">Save Information</v-btn> -->
             </div>
             </v-card>
@@ -48,7 +48,7 @@
                         @click:append="showPassword2 = !showPassword2"
                     />
                 </v-form>
-            <v-btn small class="text-decoration-none" outlined  color="indigo" dark
+            <v-btn small class="text-decoration-none" outlined  color="black" dark
                 @click="set_new_password">Set New Password</v-btn>
             </div>
             </v-card>

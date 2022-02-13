@@ -154,7 +154,7 @@
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon small>
-                      <v-icon color="indigo" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
+                      <v-icon color="black" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
                     </v-btn>
                     </template>
                     <span>Edit</span>
@@ -176,7 +176,7 @@
                         <v-spacer></v-spacer>
                         <v-btn class="px-4 text-decoration-none" small rounded color="error" dark
                             @click="confirmDelete(rm)">Delete</v-btn>
-                        <v-btn color="indigo" class="px-4 text-decoration-none" small rounded outlined  @click="dialogDelete = false">
+                        <v-btn color="black" class="px-4 text-decoration-none" small rounded outlined  @click="dialogDelete = false">
                             Cancel
                         </v-btn>
                         </v-card-actions>
@@ -191,7 +191,7 @@
                 <!-- {{fullJourney}} -->
                   <h4>{{fullJourney.joevent}}</h4> 
                   <v-spacer></v-spacer>
-                <v-btn v-if="fullJourney.jolink"  icon color="indigo" @click="openlink">
+                <v-btn v-if="fullJourney.jolink"  icon color="black" @click="openlink">
                   <v-icon >mdi-link</v-icon>
                 </v-btn>
                 <v-tooltip v-if="fullJourney.ishighlight" top>

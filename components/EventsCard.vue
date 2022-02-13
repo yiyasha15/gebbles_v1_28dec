@@ -34,7 +34,7 @@
                       <v-icon>mdi-heart-outline</v-icon>
                     </v-btn> -->
                     <!-- <v-spacer></v-spacer> -->
-                    <v-btn v-if="events.ev_link" icon color="indigo" @click="openlink">
+                    <v-btn v-if="events.ev_link" icon color="black" @click="openlink">
                       <v-icon>mdi-link</v-icon>
                     </v-btn>
                   </v-row>
@@ -46,7 +46,7 @@
             <v-icon>mdi-heart-outline</v-icon>
           </v-btn> -->
           <v-spacer></v-spacer>
-          <v-btn v-if="events.ev_link" icon color="indigo" @click="openlink" >
+          <v-btn v-if="events.ev_link" icon color="black" @click="openlink" >
             <v-icon>mdi-link</v-icon>
           </v-btn>
           <v-btn @click="overlay_judge = true" icon>
