@@ -92,7 +92,7 @@
       </template>
     </v-checkbox>
       <v-card-actions class="mb-3 justify-center">
-      <v-btn @click="registerUser(registrationInfo)" outlined small elevation="4" class="px-8" color="black" :loading="progressbar">Create Account</v-btn>
+      <v-btn @click="registerUser(registrationInfo)" small elevation="4" class="px-8" dark color="black" :loading="progressbar">Create Account</v-btn>
     </v-card-actions>
     </v-form>
     </v-card-text>

@@ -12,16 +12,10 @@ export const state = () => ({
   portfolio: null, //store portfolio data of the logged in user
   bio: null, //store bio data of the logged in user
   fullJourney: null, //store currrently selected journey card
-  upcoming: [], //store upcoming data of the logged in user
-  journey: [], //store journey data of the logged in user
-  highlights: [], //store highlights data of the logged in user
   personalMessages: [],
   notifications:[],
   notifications_notseen:0,
   hasTeachers:false,
-  hasUpcoming: false, //if user has upcoming data
-  hasJourney: false, 
-  hasHighlights: false, 
   hasPortfolio: false, //if user has portfolio data
   hasBio: false, //if user has bio data
   personalMessagesNotifications: 0,
@@ -42,9 +36,6 @@ export const state = () => ({
   info:'',
   learnings:[],
   teachers:[], //e1t1 onject
-  page_journey:'',
-  page_upcoming:'',
-  page_highlights:'',
   page_teachers:'',
   page_learnings:'',
   page_share_comment:'',
@@ -108,9 +99,6 @@ export const getters = {
   usersTeachers(state) {
     return state.teachers
   },
-  // students(state) {
-  //   return state.students
-  // },
   personalMessages(state){
     return state.personalMessages
   },
@@ -131,24 +119,6 @@ export const getters = {
   },
   usersBio(state){
     return state.bio
-  },
-  usersJourney(state){
-    return state.journey
-  },
-  usersUpcoming(state){
-    return state.upcoming
-  },
-  usersHighlights(state){
-    return state.highlights
-  },
-  userHasJourney(state){
-    return state.hasJourney
-  },
-  userHasUpcoming(state){
-    return state.hasUpcoming
-  },
-  userHasHighlights(state){
-    return state.hasHighlights
   },
   userHasTeachers(state){
     return state.hasTeachers
@@ -249,22 +219,6 @@ export const actions = {
       commit('check_learn_obj',res.data)
     })
   },
-  // check_artists({commit}){
-  //   EventService.getArtists().then(res =>
-  //   {
-  //     commit('get_artists',res.data)
-  //   })
-  // },
-  // check_sharing({commit},username){
-  //     EventService.getEach1Teach1_teachers(username).then(rest =>
-  //     {
-  //       commit('get_sharing_teachers',rest.data)
-  //     })
-  //     EventService.getEach1Teach1_students(username).then(res =>
-  //       {
-  //         commit('get_sharing_students',res.data)
-  //       })
-  // },
   check_user_portfolio({commit, state}){
       if(state.auth.loggedIn) {
           EventService.getArtist(state.auth.user.user.username).then(res =>
@@ -281,26 +235,26 @@ export const actions = {
         })
       }  
   },
-  check_user_journey({commit, state}){
-    if(state.auth.loggedIn) {
-      const config = {
-      headers: {"content-type": "multipart/form-data",
-        "Authorization": "Bearer " + state.auth.user.access_token}
-      };
-      EventService.getJourney(state.auth.user.user.username,config).then(res =>
-      {
-        commit('usersJourney',res.data)
-      })
-      EventService.getUpcoming(state.auth.user.user.username,config).then(res =>
-      {
-        commit('usersUpcoming',res.data)
-      })
-      EventService.getHighlights(state.auth.user.user.username,config).then(res =>
-        {
-          commit('usersHighlights',res.data)
-        })
-    }
-  },
+  // check_user_journey({commit, state}){
+  //   if(state.auth.loggedIn) {
+  //     const config = {
+  //     headers: {"content-type": "multipart/form-data",
+  //       "Authorization": "Bearer " + state.auth.user.access_token}
+  //     };
+  //     EventService.getJourney(state.auth.user.user.username,config).then(res =>
+  //     {
+  //       commit('usersJourney',res.data)
+  //     })
+  //     EventService.getUpcoming(state.auth.user.user.username,config).then(res =>
+  //     {
+  //       commit('usersUpcoming',res.data)
+  //     })
+  //     EventService.getHighlights(state.auth.user.user.username,config).then(res =>
+  //       {
+  //         commit('usersHighlights',res.data)
+  //       })
+  //   }
+  // },
   check_user_teachers({commit, state}){
     if(state.auth.loggedIn) {
         EventService.getEach1Teach1_teachers(state.auth.user.user.username).then(res =>
@@ -321,54 +275,7 @@ export const actions = {
       });   
     }
   },
-  update_user_journey({commit, state}){
-    if(state.page_journey) {
-      // checking if page_journey was not null then call api
-      const config = {
-      headers: {"content-type": "multipart/form-data",
-        "Authorization": "Bearer " + state.auth.user.access_token}
-      };
-      //push the results to state.journey and update the page_journey url
-      this.$axios.get(state.page_journey,config).then(res => {
-        commit('updateUserJourney',res.data)
-      })
-      .catch(err => {
-          console.log(err);
-      });   
-    }
-  },
-  update_user_upcoming({commit, state}){
-    if(state.page_upcoming) {
-      // checking if page_upcoming was not null then call api
-      const config = {
-      headers: {"content-type": "multipart/form-data",
-        "Authorization": "Bearer " + state.auth.user.access_token}
-      };
-      //push the results to state.journey and update the page_upcoming url
-      this.$axios.get(state.page_upcoming,config).then(res => {
-        commit('updateUserUpcoming',res.data)
-      })
-      .catch(err => {
-          console.log(err);
-      });   
-    }
-  },
-  update_user_highlights({commit, state}){
-    if(state.page_highlights) {
-      // checking if page_highlights was not null then call api
-      const config = {
-      headers: {"content-type": "multipart/form-data",
-        "Authorization": "Bearer " + state.auth.user.access_token}
-      };
-      //push the results to state.journey and update the page_highlights url
-      this.$axios.get(state.page_highlights,config).then(res => {
-        commit('updateUserHighlights',res.data)
-      })
-      .catch(err => {
-          console.log(err);
-      });   
-    }
-  },
+  
   update_user_learnings({commit, state}){
     if(state.page_learnings) {
       this.$axios.get(state.page_learnings).then(res => {
@@ -415,12 +322,6 @@ export const actions = {
       if(state.auth.loggedIn){
         commit('clearBio')
       }
-  },
-  remove_journey({commit, state})
-  {
-    if(state.auth.loggedIn){
-      commit('clearJourney')
-    }
   },
   remove_teachers({commit, state})
   {
@@ -686,36 +587,6 @@ export const mutations = {
     const key = 'id';
     state.share_comments_list = [...new Map(state.share_comments_list.map(item =>
     [item[key], item])).values()];
-  },
-  usersJourney(state, journey)
-  {
-    state.journey = []
-    if(journey.results.length)
-    {
-      state.journey = journey.results
-      state.hasJourney = true
-      state.page_journey = journey.next
-    }
-  },
-  usersUpcoming(state, upcoming)
-  {
-    state.upcoming=[]
-    if(upcoming.results.length)
-    {
-      state.upcoming = upcoming.results
-      state.hasUpcoming = true
-      state.page_upcoming = upcoming.next
-    }
-  },
-  usersHighlights(state, highlights)
-  {
-    state.highlights=[]
-    if(highlights.results.length)
-    {
-      state.highlights = highlights.results
-      state.hasHighlights = true
-      state.page_highlights = highlights.next
-    }
   },
   usersTeachers(state, teachers)
   {

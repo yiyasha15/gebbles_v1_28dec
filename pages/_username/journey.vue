@@ -6,112 +6,51 @@
                     <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
                         <v-icon >mdi-plus</v-icon>
                     </v-btn>
-                <div v-if="userHasJourney || userHasUpcoming|| userHasHighlights"> 
-                    <!-- check if journey is available -->
-                    <div v-if="userHasUpcoming">
-                    <div class="my-4">
-                    <h3 class="font-weight-light d-inline">Upcoming events</h3>
-                    </div>
+            </div>
+            <div v-if="upcoming.length || journey.length || highlights.length"> 
+                <!-- check if journey is available -->
+                <div v-if="upcoming.length">
+                <div class="my-4">
+                <h3 class="font-weight-light">Upcoming events</h3>
+                </div>
                     <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
-                        <div v-for="upcoming in usersUpcoming" :key ="upcoming.index">
-                            <!-- <v-flex>  -->
-                            <journey-card :journey = "upcoming" ></journey-card>
-                            <!-- </v-flex> -->
+                        <div v-for="journey in upcoming" :key ="journey.index">
+                            <journey-card :journey = "journey" ></journey-card>
                         </div>
                     </v-layout>
                     <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
-                    </div>
-                    <div v-if="userHasHighlights">
-                    <div class="my-4" >
-                    <h3 class="font-weight-light">Highlights</h3>
-                    </div>
+                </div>
+                <div v-if="highlights.length">
+                <div class="my-4" >
+                <h3 class="font-weight-light">Highlights</h3>
+                </div>
                     <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
-                        <div v-for="journey in usersHighlights" :key ="journey.index">
-                            <!-- <v-flex>  -->
-                            <journey-card :journey = "journey"></journey-card>
-                            <!-- </v-flex> -->
+                        <div v-for="journey in highlights" :key ="journey.index">
+                            <journey-card :journey = "journey" ></journey-card>
                         </div>
                     </v-layout>
                     <v-card v-intersect="infiniteScrollingHighlights"></v-card>
-                    </div>
-                    <div v-if="userHasJourney">
-                    <div class="my-4">
-                        <h3 class="font-weight-light">Journey</h3>
-                    </div>
-                    <!-- :class="{'my-2 justify-center': $vuetify.breakpoint.smAndDown, 'my-2': $vuetify.breakpoint.mdAndUp}" -->
+                </div>
+                <div v-if="journey.length">
+                <div class="my-4">
+                    <h3 class="font-weight-light">Journey</h3>
+                </div>
                     <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
-                        <div v-for="journey in usersJourney" :key ="journey.index">
-                            <!-- <v-flex>  -->
+                        <div v-for="journey in journey" :key ="journey.index">
                             <journey-card :journey = "journey" ></journey-card>
-                            <!-- </v-flex> -->
-                            </div>
+                        </div>
                     </v-layout>
                     <v-card v-intersect="infiniteScrollingJourney"></v-card>
-                    </div>
-                </div>
-                <div v-else>
-                    <center>
-                        <img
-                        :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                        class="ml-2 mt-6 clickable"
-                        :src="require('@/assets/gebbleslogo.png')"/>
-                        <h3>No posts yet. </h3>
-                    </center>
                 </div>
             </div>
             <div v-else>
-                <div v-if="upcoming.length || journey.length || highlights.length"> 
-                    <!-- check if journey is available -->
-                    <div v-if="upcoming.length">
-                    <div class="my-4">
-                    <h3 class="font-weight-light">Upcoming events</h3>
-                    </div>
-                        <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
-                            <div v-for="journey in upcoming" :key ="journey.index">
-                                <!-- <v-flex>  -->
-                                <journey-card :journey = "journey" ></journey-card>
-                                <!-- </v-flex> -->
-                            </div>
-                        </v-layout>
-                        <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
-                    </div>
-                    <div v-if="highlights.length">
-                    <div class="my-4" >
-                    <h3 class="font-weight-light">Highlights</h3>
-                    </div>
-                        <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
-                            <div v-for="journey in highlights" :key ="journey.index">
-                                <!-- <v-flex>  -->
-                                <journey-card :journey = "journey" ></journey-card>
-                                <!-- </v-flex> -->
-                            </div>
-                        </v-layout>
-                        <v-card v-intersect="infiniteScrollingHighlights"></v-card>
-                    </div>
-                    <div v-if="journey.length">
-                    <div class="my-4">
-                        <h3 class="font-weight-light">Journey</h3>
-                    </div>
-                        <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
-                            <div v-for="journey in journey" :key ="journey.index">
-                                <!-- <v-flex>  -->
-                                <journey-card :journey = "journey" ></journey-card>
-                                <!-- </v-flex> -->
-                                </div>
-                        </v-layout>
-                        <v-card v-intersect="infiniteScrollingJourney"></v-card>
-                    </div>
-                </div>
-                <div v-else>
-                    <center>
-                        <img
-                        :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                        class="ml-2 mt-6 clickable"
-                        :src="require('@/assets/gebbleslogo.png')"/>
-                        <h3>No posts yet. </h3>
-                    </center>
-                </div>
-
+                <center>
+                    <img
+                    :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                    class="ml-2 mt-6 clickable"
+                    :src="require('@/assets/gebbleslogo.png')"/>
+                    <h3>No posts yet. </h3>
+                </center>
             </div>
         </v-container>
         <v-container v-if="firstLoad" style="max-width:1185px;">
@@ -149,18 +88,19 @@ export default {
         JourneyCard
     },
     computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser', 'usersJourney', 'usersUpcoming', 'usersHighlights', 'userHasJourney','userHasUpcoming','userHasHighlights']),
+    ...mapGetters(['isAuthenticated', 'loggedInUser', 'usersJourney', 
+    'usersUpcoming', 'usersHighlights','userHasJourney','userHasUpcoming','userHasHighlights']),
     },
     props: ["artist"],
     created(){
         // if user is checking own journey, calling from store
-        if(this.isAuthenticated &&this.$store.state.auth.user.user.username == this.$route.params.username)
-        {
-            this.getStoreJourney();
-        }else
-        {
+        // if(this.isAuthenticated &&this.$store.state.auth.user.user.username == this.$route.params.username)
+        // {
+        //     this.getStoreJourney();
+        // }else
+        // {
             this.getJourneyApi(this.$route.params);
-        }
+        // }
     },
     data() {
         return {
@@ -193,79 +133,64 @@ export default {
             console.log(err);
         }
     },
-    getStoreJourney(){
-        this.firstLoad = false
-        // console.log("checking store..");
-    },
+    // getStoreJourney(){
+    //     this.firstLoad = false
+    //     console.log("checking store..");
+    // },
     infiniteScrollingJourney(entries, observer, isIntersecting) {
-        if(this.isAuthenticated && this.$store.state.auth.user.user.username == this.$route.params.username){
-            //update store to next
-            // console.log("check store on scroll..");
-            this.$store.dispatch("update_user_journey");
+        // if(this.isAuthenticated && this.$store.state.auth.user.user.username == this.$route.params.username){
+        //     console.log("check store on scroll..");
+        //     this.$store.dispatch("update_user_journey");
+        // }
+        // else{
+        if(this.pageJourney)
+        { 
+            const key = 'id';
+            this.$axios.get(this.pageJourney).then(response => {
+            this.pageJourney= response.data.next;
+            response.data.results.forEach(item => this.journey.push(item));
+            // filter array so no duplicates
+            this.journey = [...new Map(this.journey.map(item =>
+                [item[key], item])).values()];
+            
+        })
+            .catch(err => {
+                console.log(err);
+            });
         }
-        else{
-            if(this.pageJourney)
-            { 
-                const key = 'id';
-                this.$axios.get(this.pageJourney).then(response => {
-                this.pageJourney= response.data.next;
-                response.data.results.forEach(item => this.journey.push(item));
-                // filter array so no duplicates
-                this.journey = [...new Map(this.journey.map(item =>
-                    [item[key], item])).values()];
-                
-            })
-                .catch(err => {
-                    console.log(err);
-                });
-            }
-        }
+        // }
     },
     infiniteScrollingUpcoming(entries, observer, isIntersecting) {
-        if(this.isAuthenticated && this.$store.state.auth.user.user.username == this.$route.params.username){
-            //update store to next
-            // console.log("check store on scroll..");
-            this.$store.dispatch("update_user_upcoming");
-        }
-        else{
-            if(this.pageUpcoming)
-            { 
-                const key = 'id';
-                this.$axios.get(this.pageUpcoming).then(response => {
-                this.pageUpcoming= response.data.next;
-                response.data.results.forEach(item => this.upcoming.push(item));
-                // filter array so no duplicates
-                this.upcoming = [...new Map(this.upcoming.map(item =>
-                [item[key], item])).values()];
-            })
-                .catch(err => {
-                    console.log(err);
-                });
-            }
+        if(this.pageUpcoming)
+        { 
+            const key = 'id';
+            this.$axios.get(this.pageUpcoming).then(response => {
+            this.pageUpcoming= response.data.next;
+            response.data.results.forEach(item => this.upcoming.push(item));
+            // filter array so no duplicates
+            this.upcoming = [...new Map(this.upcoming.map(item =>
+            [item[key], item])).values()];
+        })
+            .catch(err => {
+                console.log(err);
+            });
         }
     },
     infiniteScrollingHighlights(entries, observer, isIntersecting) {
-        if(this.isAuthenticated && this.$store.state.auth.user.user.username == this.$route.params.username){
-            //update store to next
-            // console.log("check store on scroll..");
-            this.$store.dispatch("update_user_highlights");
-        }
-        else{
-            if(this.pageHighlights)
-            { 
-                const key = 'id';
-                this.$axios.get(this.pageHighlights).then(response => {
-                this.pageHighlights= response.data.next;
-                response.data.results.forEach(item => this.highlights.push(item));
-                // filter array so no duplicates
-                this.highlights = [...new Map(this.highlights.map(item =>
-                    [item[key], item])).values()];
-                
-            })
-                .catch(err => {
-                    console.log(err);
-                });
-            }
+        if(this.pageHighlights)
+        { 
+            const key = 'id';
+            this.$axios.get(this.pageHighlights).then(response => {
+            this.pageHighlights= response.data.next;
+            response.data.results.forEach(item => this.highlights.push(item));
+            // filter array so no duplicates
+            this.highlights = [...new Map(this.highlights.map(item =>
+                [item[key], item])).values()];
+            
+        })
+            .catch(err => {
+                console.log(err);
+            });
         }
     },
     goback(){

@@ -268,7 +268,7 @@
         </template>
         </v-checkbox>
         <v-card-actions class="mb-3 justify-center">
-        <v-btn @click="registerUser(registrationInfo)" outlined small class="px-8" color="black" :loading="progressbar" >Create Account</v-btn>
+        <v-btn @click="registerUser(registrationInfo)" dark small class="px-8" color="black" :loading="progressbar" >Create Account</v-btn>
         </v-card-actions>
         </v-form>
         </v-card-text>
@@ -690,7 +690,6 @@ export default {
 				// this.$store.dispatch("check_artists");
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
-                this.$store.dispatch("check_user_journey");
                 this.$store.dispatch("check_user_teachers");
 				// this.$store.dispatch("check_notifications");
                 this.$router.push('/');

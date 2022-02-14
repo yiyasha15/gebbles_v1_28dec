@@ -6,7 +6,7 @@
             <h5>Are you sure you want to sign out?</h5>
 		</v-card-title>
 		<v-card-actions class="pb-6 justify-center">
-			<v-btn class="ml-4 px-4" small dark color="error" @click="signout">Sign Out</v-btn>
+			<v-btn class="ml-4 px-4" small dark color="error" :loading="progressbar" @click="signout">Sign Out</v-btn>
 			<v-btn class="ml-4 px-4" small outlined color="black" @click="cancel">Cancel</v-btn>
 		</v-card-actions>
 	</v-card>
@@ -18,12 +18,16 @@
 import { mapActions } from 'vuex'
 import vuex from 'vuex'
 export default {
+	data() {
+      return {
+		progressbar:false
+		}
+	},
 	methods:{
-		signout(){
+		signout(){this.progressbar = true;
 			console.log("logged out");
 			this.$store.dispatch("remove_portfolio")
 			this.$store.dispatch("remove_bio")
-			this.$store.dispatch("remove_journey")
 			this.$store.dispatch("remove_love")
 			this.$store.dispatch("remove_teachers")
 			this.$store.dispatch("remove_share_obj")
@@ -34,6 +38,7 @@ export default {
 			this.$store.dispatch("remove_page")
 			localStorage.removeItem('vuex');
 			this.$auth.logout();
+			this.progressbar = false;
 		},
 		cancel(){
 			this.$router.push("/");

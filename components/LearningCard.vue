@@ -109,6 +109,29 @@
           <div class="my-4" >
           <h4>{{learn_obj.lesson}}</h4>
           </div>
+          <div class="my-4">
+            <nuxt-link to="/batalla" class="text-decoration-none">
+          <v-chip color="black" dark outlined class="mr-1" cursor>
+            <v-avatar left>
+              <!-- <img
+                    :src = "usersPortfolio.thumb" 
+                    alt="img"
+                > -->
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            batalla
+          </v-chip></nuxt-link>
+          <v-chip color="black" dark>
+            <v-avatar left>
+              <!-- <img
+                    :src = "usersPortfolio.thumb" 
+                    alt="img"
+                > -->
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            martha
+          </v-chip>
+          </div>
             <div class="my-4">
               <v-btn icon @click="react_like()" class="mr-1">
                 <v-icon color="black" v-if="!learn_has_like">mdi-heart-outline</v-icon>

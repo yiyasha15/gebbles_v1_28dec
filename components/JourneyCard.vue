@@ -174,9 +174,9 @@
                         <p> Are you sure you want to delete this journey?</p>
                         <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn class="px-4 text-decoration-none" small rounded color="error" dark
+                        <v-btn class="px-4 text-decoration-none" small color="error" dark
                             @click="confirmDelete(rm)">Delete</v-btn>
-                        <v-btn color="black" class="px-4 text-decoration-none" small rounded outlined  @click="dialogDelete = false">
+                        <v-btn color="black" class="px-4 text-decoration-none" small outlined  @click="dialogDelete = false">
                             Cancel
                         </v-btn>
                         </v-card-actions>
@@ -277,6 +277,7 @@ export default {
       this.rm=id;
     },
     editJourney(journey){
+      console.log("edit");
       this.$store.dispatch("check_editing_obj", journey);
       this.$router.push("/create/journey");
     },
@@ -287,7 +288,6 @@ export default {
       };
       try {
           await this.$axios.$delete("/v1/artist/journey/"+id , config);
-          this.$store.dispatch("check_user_journey");
           this.dialogDelete =false;
           this.dialog = false
           this.snackbar = true;

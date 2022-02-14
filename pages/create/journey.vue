@@ -840,7 +840,6 @@ export default {
             }
             try {
                 let response = await this.$axios.$post("/v1/artist/journey/", formData, config);
-                this.$store.dispatch("check_user_journey");
                 this.refresh();
                 this.progressbar =false;
                 this.snackbar = true;
@@ -889,7 +888,7 @@ export default {
                     console.log( valueObj2[i] ," changed"); 
                 } 
             }
-            this.$store.dispatch("check_user_journey");
+            // this.$store.dispatch("check_user_journey");
             this.$store.dispatch("remove_editing_obj");
             this.refresh();
             this.progressbar =false
