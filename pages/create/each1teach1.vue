@@ -504,9 +504,9 @@ export default {
         if(this.teacher_obj)
         {
             EventService.getSearchedArtist(this.teacher_obj).then((value) => {
-            console.log("api called", value);
+            // console.log("api called", value);
             this.artists = value.data});
-            console.log("search datat");
+            // console.log("search datat");
         }
       }
     },

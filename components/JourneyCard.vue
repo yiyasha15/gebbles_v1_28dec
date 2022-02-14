@@ -6,17 +6,18 @@
       @click="openDialog(journey.id)" 
       :elevation="hover ? 12 : 0"
       outlined
-      max-width="96" 
-      max-height="96"
+      width="115"
+       max-height="105"
     >
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
         :lazy-src= "journey.jp1thumb" 
         class="grey lighten-2 white--text"
-        height="60"
-        width="96"
+        height="73"
+        width="115"
       />
-      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="60" width="96" contain/>
+      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73"
+        width="115" contain/>
       <v-dialog
       max-width="800"
         v-model="dialog"
@@ -219,11 +220,11 @@
               </v-container>
         </div>
       </v-dialog>
-      <v-card-actions max-height="32" class="pa-1">
-        <div width="70" class="text-decoration-none caption" style=" height: 1em;
+      <v-card-actions height="32px">
+        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p style="max-width:76px; font-size:0.5rem!important;">{{ journey.joevent }} </p>
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ journey.joevent }} </p>
         </div>
         <v-spacer></v-spacer>
          <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>

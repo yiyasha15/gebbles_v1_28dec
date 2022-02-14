@@ -6,20 +6,20 @@
       :to="'/e1t1/' + share.id" 
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="96" 
-      max-height="96">
-          <v-img v-if="share.sp_thumb"
-              :src = "share.sp_thumb"
-              height="60" width="96"/>
-          <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="60" width="96" contain/>
-          <v-card-actions  max-height="32px" class="pa-1">
-          <div width="80" class="text-decoration-none caption" style=" height: 1em;
-            line-height: initial;
-            overflow: hidden">
-          <p style="max-width:72px; font-size:0.5rem!important;">{{share.username}}</p>
-          </div>
-          <v-spacer></v-spacer>
-        <country-flag :country= 'share.s_student_country' size='small'/>
+      width="115" 
+      max-height="105">
+      <v-img v-if="share.sp_thumb"
+          :src = "share.sp_thumb"
+          height="73" width="115"/>
+      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73" width="115" contain/>
+      <v-card-actions height="32px">
+        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
+          line-height: initial;
+          overflow: hidden">
+        <p style="max-width:78px; font-size:0.6rem!important;">{{share.username}}</p>
+        </div>
+        <v-spacer></v-spacer>
+          <country-flag :country= 'share.s_student_country' size='small'/>
       </v-card-actions>
     </v-card>
   </v-hover>

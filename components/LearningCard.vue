@@ -5,38 +5,36 @@
       data-view
       @click="openDialog(learning.id,learning.timestamp)"
       outlined
-      width="96" 
-      height="96"
+      width="115" 
+      max-height="110"
     >
     <v-img
         :src="require('@/assets/play_button1.png')"
-        class="grey lighten-2 white--text"
-        height="55"
-        width="96"
+        height="73" width="115"
       />
-      <v-card-actions height="37px">
-        <div width="70" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;
+      <v-card-actions height="32px">
+        <div width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p>{{ learning.lesson }} </p>
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ learning.lesson }}</p>
         </div>
         <v-spacer></v-spacer>
         <v-menu v-if=" isAuthenticated && learning.username == loggedInUser.user.username " transition="slide-y-transition" open-on-hover offset-y bottom left>
-          <template v-slot:activator="{ on, attrs }">
-              <div v-bind="attrs"
-              v-on="on">
-              <v-icon small>mdi-dots-vertical</v-icon>
-              </div>
-          </template>
-          <v-list>
-              <v-list-item
-              class="text-decoration-none pl-6 pr-12"
-              color="error"
-              @click="deleteLearning(learning.id,learning.shareidobj)"
-              >
-              <v-list-item-title>Delete</v-list-item-title>
-              </v-list-item>
-          </v-list>
+        <template v-slot:activator="{ on, attrs }">
+            <div v-bind="attrs" 
+            v-on="on">
+            <v-icon small>mdi-dots-vertical</v-icon>
+            </div>
+        </template>
+        <v-list>
+            <v-list-item
+            class="text-decoration-none pl-6 pr-12"
+            color="error"
+            @click="deleteLearning(learning.id,learning.shareidobj)"
+            >
+            <v-list-item-title>Delete</v-list-item-title>
+            </v-list-item>
+        </v-list>
         </v-menu>
       </v-card-actions>
     </v-card>
@@ -111,7 +109,7 @@
           </div>
           <div class="my-4">
             <nuxt-link to="/batalla" class="text-decoration-none">
-          <v-chip color="black" dark outlined class="mr-1" cursor>
+          <v-chip color="black" dark outlined class="mr-1" style="cursor:pointer;">
             <v-avatar left>
               <!-- <img
                     :src = "usersPortfolio.thumb" 

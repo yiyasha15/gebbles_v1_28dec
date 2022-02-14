@@ -19,14 +19,14 @@
             ></v-text-field>
         </v-col>
       </v-row>
-      <v-layout wrap row style="justify-content:space-evenly" v-if="firstLoad">
+      <v-layout wrap row justify-center v-if="firstLoad">
           <div v-for="n in this.looploader" :key ="n.index">
             <v-flex sm6 xs6> 
-              <v-skeleton-loader min-width="96" class="ma-1" max-height="96" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+              <v-skeleton-loader class="ma-1" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
             </v-flex>
           </div>
       </v-layout>
-        <v-layout wrap row style="justify-content:space-evenly" v-show="!firstLoad" >
+        <v-layout wrap row justify-center v-show="!firstLoad" >
           <div v-for="artist in artists" :key ="artist.index">
             <!-- <v-flex sm6 xs6>  -->
               <ArtistCard :artist="artist" ></ArtistCard> 

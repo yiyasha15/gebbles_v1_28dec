@@ -1,36 +1,35 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card style="margin:2px"
+    <v-card style="margin:2px;"
       data-view
       :to="'/' + artist.username" 
       :elevation="hover ? 12 : 0"
       outlined
-      width="106" 
-      max-height="96"
+      width="115" 
+      max-height="105"
     >
       <v-img
         v-if = artist.thumb :src = "artist.thumb" 
         :lazy-src= "artist.thumb" 
-        class="grey lighten-2 white--text"
-        height="60"
-        width="106"
+        height="73"
+        width="115"
       />
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"
         contain
-        height="60"
-        width="106"
+        height="73"
+        width="115"
       />
       <v-card-actions height="32px">
         <div v-if="artist.artist_name" width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p style="max-width:76px; font-size:0.6rem!important;">{{ artist.artist_name }} </p>
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ artist.artist_name }} </p>
         </div>
         <div v-else width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p style="max-width:76px; font-size:0.6rem!important;">{{ artist.username }} </p>
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ artist.username }} </p>
         </div>
         <v-spacer></v-spacer>
         <country-flag size=small  :country= 'artist.country' />

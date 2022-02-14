@@ -13,7 +13,7 @@
                 <div class="my-4">
                 <h3 class="font-weight-light">Upcoming events</h3>
                 </div>
-                    <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
+                    <v-layout wrap row justify-center class="my-2" >
                         <div v-for="journey in upcoming" :key ="journey.index">
                             <journey-card :journey = "journey" ></journey-card>
                         </div>
@@ -24,7 +24,7 @@
                 <div class="my-4" >
                 <h3 class="font-weight-light">Highlights</h3>
                 </div>
-                    <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
+                    <v-layout wrap row justify-center class="my-2" >
                         <div v-for="journey in highlights" :key ="journey.index">
                             <journey-card :journey = "journey" ></journey-card>
                         </div>
@@ -35,7 +35,7 @@
                 <div class="my-4">
                     <h3 class="font-weight-light">Journey</h3>
                 </div>
-                    <v-layout wrap row style="justify-content:space-evenly" class="my-2" >
+                    <v-layout wrap row justify-center class="my-2" >
                         <div v-for="journey in journey" :key ="journey.index">
                             <journey-card :journey = "journey" ></journey-card>
                         </div>
@@ -57,10 +57,10 @@
                 <div class="my-4">
                 <h3 class="font-weight-light">Journey</h3>
                 </div>
-                <v-layout wrap row class="my-2" style="justify-content:space-evenly">
+                <v-layout wrap row class="my-2" justify-center>
                     <div v-for="n in this.looploader" :key ="n.index">
                         <v-flex sm6 xs6> 
-                        <v-skeleton-loader min-width="96" class="ma-1" max-height="82" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                        <v-skeleton-loader class="ma-1" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
                         </v-flex>
                     </div>
                 </v-layout>
@@ -88,8 +88,7 @@ export default {
         JourneyCard
     },
     computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser', 'usersJourney', 
-    'usersUpcoming', 'usersHighlights','userHasJourney','userHasUpcoming','userHasHighlights']),
+    ...mapGetters(['isAuthenticated', 'loggedInUser']),
     },
     props: ["artist"],
     created(){
@@ -119,9 +118,15 @@ export default {
     methods: {
     async getJourneyApi(params){
         try {
-        let journey_response = await EventService.getJourney(params.username)
-        let upcoming_response = await EventService.getUpcoming(params.username)
-        let highlights_response = await EventService.getHighlights(params.username)
+            let config;
+            if(this.isAuthenticated &&this.$store.state.auth.user.user.username == this.$route.params.username)
+            {config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+            };}
+        let journey_response = await EventService.getJourney(params.username,config)
+        let upcoming_response = await EventService.getUpcoming(params.username,config)
+        let highlights_response = await EventService.getHighlights(params.username,config)
         this.journey= journey_response.data.results;
         this.upcoming= upcoming_response.data.results;
         this.highlights= highlights_response.data.results;

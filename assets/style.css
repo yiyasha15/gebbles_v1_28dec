@@ -27,6 +27,6 @@ font-family: 'Poppins',  cursive sans-serif !important;
 .page-leave-to {
   opacity: 0;
 }
-.app{
-  background-color: #ece0c7;
+#app{
+  overflow-x: hidden;
 }
