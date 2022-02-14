@@ -1,57 +1,72 @@
 <template>
     <v-app>
-        <v-container v-show="!firstLoad" style="max-width:1185px;">
-            <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
-                <h3 class=" d-inline">Share your journey</h3>
-                    <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
-                        <v-icon >mdi-plus</v-icon>
-                    </v-btn>
+        <v-container v-show="!firstLoad" style="max-width:1072px;">
+        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username">
+            <h3 class=" d-inline">Share your journey</h3>
+            <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
+                <v-icon >mdi-plus</v-icon>
+            </v-btn>
+        </div>
+        <div v-if="upcoming.length || journey.length || highlights.length"> 
+        <!-- check if journey is available -->
+        <div v-if="upcoming.length">
+        <div class="my-4">
+        <h3 class="font-weight-light">Upcoming events</h3>
+        </div>
+        <v-layout wrap row justify-center class="my-2 hidden-md-and-up" >
+            <div v-for="journey in upcoming" :key ="journey.index">
+                <journey-card :journey = "journey" ></journey-card>
             </div>
-            <div v-if="upcoming.length || journey.length || highlights.length"> 
-                <!-- check if journey is available -->
-                <div v-if="upcoming.length">
-                <div class="my-4">
-                <h3 class="font-weight-light">Upcoming events</h3>
-                </div>
-                    <v-layout wrap row justify-center class="my-2" >
-                        <div v-for="journey in upcoming" :key ="journey.index">
-                            <journey-card :journey = "journey" ></journey-card>
-                        </div>
-                    </v-layout>
-                    <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
-                </div>
-                <div v-if="highlights.length">
-                <div class="my-4" >
-                <h3 class="font-weight-light">Highlights</h3>
-                </div>
-                    <v-layout wrap row justify-center class="my-2" >
-                        <div v-for="journey in highlights" :key ="journey.index">
-                            <journey-card :journey = "journey" ></journey-card>
-                        </div>
-                    </v-layout>
-                    <v-card v-intersect="infiniteScrollingHighlights"></v-card>
-                </div>
-                <div v-if="journey.length">
-                <div class="my-4">
-                    <h3 class="font-weight-light">Journey</h3>
-                </div>
-                    <v-layout wrap row justify-center class="my-2" >
-                        <div v-for="journey in journey" :key ="journey.index">
-                            <journey-card :journey = "journey" ></journey-card>
-                        </div>
-                    </v-layout>
-                    <v-card v-intersect="infiniteScrollingJourney"></v-card>
-                </div>
+        </v-layout>
+        <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+            <div v-for="journey in upcoming" :key ="journey.index">
+                <journey-card :journey = "journey" ></journey-card>
             </div>
-            <div v-else>
-                <center>
-                    <img
-                    :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                    class="ml-2 mt-6 clickable"
-                    :src="require('@/assets/gebbleslogo.png')"/>
-                    <h3>No posts yet. </h3>
-                </center>
+        </v-layout>
+        <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
+        </div>
+        <div v-if="highlights.length">
+        <div class="my-4" >
+        <h3 class="font-weight-light">Highlights</h3>
+        </div>
+        <v-layout wrap row justify-center class="my-2 hidden-md-and-up" >
+            <div v-for="journey in highlights" :key ="journey.index">
+                <journey-card :journey = "journey" ></journey-card>
             </div>
+        </v-layout>
+        <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+            <div v-for="journey in highlights" :key ="journey.index">
+                <journey-card :journey = "journey" ></journey-card>
+            </div>
+        </v-layout>
+        <v-card v-intersect="infiniteScrollingHighlights"></v-card>
+        </div>
+        <div v-if="journey.length">
+        <div class="my-4">
+            <h3 class="font-weight-light">Journey</h3>
+        </div>
+            <v-layout wrap row justify-center class="my-2 hidden-md-and-up">
+                <div v-for="journey in journey" :key ="journey.index">
+                    <journey-card :journey = "journey" ></journey-card>
+                </div>
+            </v-layout>
+            <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+                <div v-for="journey in journey" :key ="journey.index">
+                    <journey-card :journey = "journey" ></journey-card>
+                </div>
+            </v-layout>
+            <v-card v-intersect="infiniteScrollingJourney"></v-card>
+        </div>
+        </div>
+        <div v-else>
+            <center>
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo.png')"/>
+                <h3>No posts yet. </h3>
+            </center>
+        </div>
         </v-container>
         <v-container v-if="firstLoad" style="max-width:1185px;">
                 <div class="my-4">
@@ -74,14 +89,14 @@ import JourneyCard from "@/components/JourneyCard.vue"
 export default {
     head() {
         return {
-            title: this.artist.username,     //do not miss "this"
-            meta: [
-                {
-                    hid: 'description',
-                    name: 'description',
-                    content: 'What you need to know about this artist #' + this.artist.name
-                }
-            ]
+        title: this.artist.username,     //do not miss "this"
+        meta: [
+            {
+                hid: 'description',
+                name: 'description',
+                content: 'What you need to know about this artist #' + this.artist.name
+            }
+        ]
         }
     },
     components:{
@@ -92,14 +107,7 @@ export default {
     },
     props: ["artist"],
     created(){
-        // if user is checking own journey, calling from store
-        // if(this.isAuthenticated &&this.$store.state.auth.user.user.username == this.$route.params.username)
-        // {
-        //     this.getStoreJourney();
-        // }else
-        // {
-            this.getJourneyApi(this.$route.params);
-        // }
+        this.getJourneyApi(this.$route.params);
     },
     data() {
         return {
@@ -138,16 +146,7 @@ export default {
             console.log(err);
         }
     },
-    // getStoreJourney(){
-    //     this.firstLoad = false
-    //     console.log("checking store..");
-    // },
     infiniteScrollingJourney(entries, observer, isIntersecting) {
-        // if(this.isAuthenticated && this.$store.state.auth.user.user.username == this.$route.params.username){
-        //     console.log("check store on scroll..");
-        //     this.$store.dispatch("update_user_journey");
-        // }
-        // else{
         if(this.pageJourney)
         { 
             const key = 'id';
@@ -163,7 +162,6 @@ export default {
                 console.log(err);
             });
         }
-        // }
     },
     infiniteScrollingUpcoming(entries, observer, isIntersecting) {
         if(this.pageUpcoming)

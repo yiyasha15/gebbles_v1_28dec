@@ -1,14 +1,15 @@
 <template>
     <v-app>
       <v-container>
-      <v-row>
+      <v-row style="max-width: 1072px;
+    margin: auto;">
         <v-col cols="12" md="8"  class="justify-center">
-          <h2 class ="pl-6 xs12 d-inline">Community</h2>
+          <h2 class ="xs12 d-inline">Community</h2>
           <v-btn v-if="isAuthenticated" small icon outlined color="black" class="mb-2 ml-2" to="/create/website/">
           <v-icon small>mdi-plus</v-icon>
           </v-btn>
         </v-col>
-        <v-col cols="12" md="4" class= "pr-6 justify-end px-6" >
+        <v-col cols="12" md="4" class= "justify-end" >
             <v-text-field
               label="Search artists"
               rounded
@@ -26,12 +27,19 @@
             </v-flex>
           </div>
       </v-layout>
-        <v-layout wrap row justify-center v-show="!firstLoad" >
-          <div v-for="artist in artists" :key ="artist.index">
-            <!-- <v-flex sm6 xs6>  -->
-              <ArtistCard :artist="artist" ></ArtistCard> 
-            <!-- </v-flex> -->
-            </div>
+      <v-layout wrap row justify-center v-show="!firstLoad" class="hidden-md-and-up" >
+        <div v-for="artist in artists" :key ="artist.index">
+          <!-- <v-flex sm6 xs6>  -->
+            <ArtistCard :artist="artist" ></ArtistCard> 
+          <!-- </v-flex> -->
+        </div>
+      </v-layout>
+      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
+        <div v-for="artist in artists" :key ="artist.index">
+          <!-- <v-flex sm6 xs6>  -->
+            <ArtistCard :artist="artist" ></ArtistCard> 
+          <!-- </v-flex> -->
+        </div>
       </v-layout>
       <center v-if="!artists.length && !firstLoad">
             <img
