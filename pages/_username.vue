@@ -13,8 +13,8 @@
                 :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
                 <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
                 <div>
-                    <h2 v-if="artist.artist_name" class="xs12" style="color:black; margin-bottom:7px;">{{artist.artist_name}}</h2>
-                    <h2 v-else class="xs12" style="color:black; margin-bottom:7px;">{{artist.username}} </h2>
+                    <h2 v-if="artist.artist_name" class="xs12" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">{{artist.artist_name}}</h2>
+                    <h2 v-else class="xs12" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">{{artist.username}} </h2>
                 </div>
                 </nuxt-link>
                 <v-spacer></v-spacer>
