@@ -12,17 +12,9 @@
                 class="ml-1 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
                 <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
-                <div class="hidden-sm-and-down">
                 <div>
-                    <h1 v-if="artist.artist_name" class="xs12" style="color:black;">{{artist.artist_name}}</h1>
-                    <h1 v-else class="xs12" style="color:black; ">{{artist.username}} </h1>
-                </div>
-                </div>
-                <div class="hidden-md-and-up ">
-                <div>
-                    <h2 v-if="artist.artist_name" class="xs12" style="color:black;">{{artist.artist_name}}</h2>
-                    <h2 v-else class="xs12" style="color:black; ">{{artist.username}} </h2>
-                </div>
+                    <h2 v-if="artist.artist_name" class="xs12" style="color:black; margin-bottom:7px;">{{artist.artist_name}}</h2>
+                    <h2 v-else class="xs12" style="color:black; margin-bottom:7px;">{{artist.username}} </h2>
                 </div>
                 </nuxt-link>
                 <v-spacer></v-spacer>

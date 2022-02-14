@@ -149,8 +149,6 @@
                 </h3>
             </v-col>
         </v-row>
-        </v-container>
-        <v-container>
         <v-row v-if="bio.introduction" class="hidden-md-and-up">
             <v-col cols="12" class="my-md-6 pa-4">
                 <h2 style="font-size: 2.0rem;" >about</h2>
@@ -160,7 +158,7 @@
                 </v-col>
         </v-row>
                 <v-row v-if="bio.crew" class="hidden-md-and-up" >
-                    <v-col v-if="bio.crew" style="margin:auto; max-width:750px">
+                    <v-col v-if="bio.crew">
                         <h3 >
                             Representing: {{bio.crew}}
                         </h3>
@@ -172,7 +170,7 @@
                 "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
                 </h3> </v-col>
             </v-row>
-        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6">
+        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6" >
             <template>
                 <v-row>
                     <v-col
@@ -203,19 +201,19 @@
             </template>
         </v-row>
         <v-row >
-            <v-col cols="12" class="my-6" style="margin:auto; max-width:650px">
-                <h2 v-if="bio.ig || bio.fb|| bio.site" align="center" justify="center" style="font-size: 5rem;" >contact</h2>
+            <v-col cols="12" class="my-6">
+                <h2 v-if="bio.ig || bio.fb|| bio.site" align="center" justify="center" style="font-size: 2.5rem;" >contact</h2>
             </v-col>
         </v-row>
-        <v-row class="mt-4" align="center" justify="center">
-            <v-btn v-if="bio.ig" icon class="text-decoration-none mx-4" color="black"  @click="openig" >
-                <v-icon>mdi-instagram</v-icon>
+        <v-row class="mb-12" align="center" justify="center">
+            <v-btn v-if="bio.ig"  class="text-decoration-none mx-2" color="black" text @click="openig" >
+                <v-icon class="mr-1">mdi-instagram</v-icon> instagram
             </v-btn>
-            <v-btn v-if="bio.fb" icon class="text-decoration-none mx-4" color="black"  @click="openfb" >
-                <v-icon>mdi-facebook</v-icon>
+            <v-btn v-if="bio.fb" class="text-decoration-none mx-2" color="black" text @click="openfb" >
+                <v-icon class="mr-1">mdi-facebook</v-icon> facebook
             </v-btn>
-            <v-btn v-if="bio.site" icon class="text-decoration-none mx-4" color="black"  @click="openpersonal" >
-                <v-icon>mdi-email</v-icon>
+            <v-btn v-if="bio.site" class="text-decoration-none mx-2" color="black" text @click="openpersonal" >
+                <v-icon class="mr-1">mdi-email</v-icon> website
             </v-btn>
         </v-row>
         </v-container>

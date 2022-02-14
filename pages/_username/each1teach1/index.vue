@@ -2,7 +2,7 @@
     <v-app>
         <v-container v-show="!firstLoad" style="max-width:1185px;">
             <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 " >
-                <h3 class="font-weight-light d-inline">Share about your teacher</h3>
+                <h3 class="d-inline">Share about your teacher</h3>
                 <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/">
                 <v-icon>mdi-plus</v-icon>
                 </v-btn>

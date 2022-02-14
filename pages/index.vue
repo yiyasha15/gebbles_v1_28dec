@@ -1,7 +1,7 @@
 <template>
   <div class="home">
       <v-row justify="center" class="ma-md-12 my-8 hidden-sm-and-down " grey >
-        <h1 class="text-center">
+        <h1 class="text-center font-weight-black" style="font-size:3em">
           Connecting the groove, <br>
           celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
         </h1>
@@ -9,18 +9,18 @@
       <v-row class="justify-center align-center mt-12">
         <v-col cols="12" md="6">
           <div align="center" justify="center">
-          <img src = "~/assets/e1t11.jpeg"  width="60%" alt="portfolio logo">
+          <img src = "~/assets/e1t1.png"  width="60%" alt="portfolio logo">
           </div>
-          <h2 class="text-center hidden-md-and-up my-6 mx-4">
+          <h2 class="text-center hidden-md-and-up my-6 mx-4 font-weight-black"  style="font-size:2.5em">
           "Connecting the groove, <br>
-          celebrating
+          celebrating<br>
           <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
         </h2>
         </v-col>
         <v-col cols="12" md="6">
           <div class="mx-8" align-content="left" align="left" justify="center">
               <!-- <h1 style="font-size:28px" >Gebbles</h1><br> -->
-              <h3 style="text-align:justify; max-width:531px;" class=" font-weight-light">At gebbles, people share the stories about how you touched their lives through your dance and movement philosophy. <span class="font-weight-black">Gebbles builds the foundation for you to create your own community.</span>
+              <h3 style="text-align:justify; max-width:531px;" class=" font-weight-light">At gebbles, people share the stories about how you touched their lives through your dance and movement philosophy. <span class="font-weight-bold">Gebbles builds the foundation for you to create your own community.</span>
               </h3>
               <v-btn dark color="#815A44" 
               class="text-decoration-none elevation-none mt-4 px-4 justify-end" 
@@ -99,7 +99,7 @@
           outlined
           >
             <v-img contain
-              :src="require('@/assets/e1t11.jpeg')"
+              :src="require('@/assets/e1t1.png')"
               height="150px"
               position="top"
             ></v-img>

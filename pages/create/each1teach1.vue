@@ -23,7 +23,7 @@
         <v-stepper  v-model="e6" vertical>
         <!-- <div> -->
             <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                <p>Mention your teacher*</p>
+                Mention your teacher*
             <small>If your teacher are not yet in this platform, mention them and tag them later when they join.<br></small>
             </v-stepper-step>
             <v-stepper-content step="1">

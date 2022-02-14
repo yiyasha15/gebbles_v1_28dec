@@ -5,7 +5,7 @@
         <v-row class="px-4">
             <v-col cols="12" md="6" class="pa-4">
                 <div align="center" justify="center">
-                <img src = "~/assets/e1t11.jpeg"  width="60%" alt="portfolio logo">
+                <img src = "~/assets/e1t1.png"  width="60%" alt="portfolio logo">
                 </div>
             </v-col>
             <v-col cols="12" md="6">

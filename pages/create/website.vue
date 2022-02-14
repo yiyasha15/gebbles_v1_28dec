@@ -33,7 +33,7 @@
                                 v-model="cropImage1"
                                 canvas-color="transparent"
                                 :width="320"
-                                :height="500"
+                                :height="320"
                                 :show-loading="true"
                                 :initial-image="initialImage"
                                 :prevent-white-space="true"
@@ -282,7 +282,7 @@
                             v-model="cropImage"
                             canvas-color="transparent"
                             :width="580"
-                            :height="700"
+                            :height="580"
                             :show-loading="true"
                             :initial-image="initialImage"
                             :prevent-white-space="true"
@@ -356,649 +356,647 @@ import "vue-croppa/dist/vue-croppa.css";
 Vue.use(Croppa);
 
 export default {
-    middleware : 'check_auth',
-    components: {
-        CountryFlag,
-        Youtube
-    },
-    computed: {
-        ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser'])
-    },
-    mounted() {
-        this.$store.dispatch("check_user_portfolio");
-        this.$store.dispatch("check_user_bio");
-    },
-    created(){
-        if(this.$store.state.hasPortfolio)
-        {
-            this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
-            console.log(this.artist_data);
-            this.initialImage = this.artist_data.cover
+middleware : 'check_auth',
+components: {
+    CountryFlag,
+    Youtube
+},
+computed: {
+    ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser'])
+},
+mounted() {
+    this.$store.dispatch("check_user_portfolio");
+    this.$store.dispatch("check_user_bio");
+},
+created(){
+    if(this.$store.state.hasPortfolio)
+    {
+        this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
+        console.log(this.artist_data);
+        this.initialImage = this.artist_data.cover
+    }
+    if(this.$store.state.hasBio)
+    {
+        this.bio = Object.assign({}, this.$store.getters.usersBio);
+        if(this.bio.style==""){
+            this.dummy_style = [];
         }
-        if(this.$store.state.hasBio)
-        {
-            this.bio = Object.assign({}, this.$store.getters.usersBio);
-            if(this.bio.style==""){
-                this.dummy_style = [];
+        else{
+            let arr = this.bio.style.split(',');
+        this.dummy_style = arr;}
+        //assigning the bio from store if it exists
+        this.imageData1 = this.bio.gallery1
+        this.imageData2 = this.bio.gallery2
+        this.imageData3 = this.bio.gallery3
+        this.imageData4 = this.bio.gallery4
+        let url1 = this.bio.vid1 //getting value of youtube video urls
+        let url2 = this.bio.vid2
+        let url3 = this.bio.vid3
+        let url4 = this.bio.vid4
+        let videoId1 = getIdFromURL(url1) //getting id from video url
+        this.videoId1 = videoId1 //assigning the id to <youtube> video id
+        let videoId2 = getIdFromURL(url2)
+        this.videoId2 = videoId2
+        let videoId3 = getIdFromURL(url3)
+        this.videoId3 = videoId3
+        let videoId4 = getIdFromURL(url4)
+        this.videoId4 = videoId4
+    }
+},
+data(){
+    return {
+        websiteRules: [
+        v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',],
+            // this is bio object
+        bio: {
+            username: this.$store.state.auth.user.user.username,
+            style: "",
+            introduction: "",
+            quote: "",
+            crew: "",
+            ig: "",
+            fb: "",
+            site: "",
+            gallery1 : "",
+            gallery2 : "",
+            gallery3 : "",
+            gallery4 : "",
+            vid1:"",
+            vid2:"",
+            vid3:"",
+            vid4:""
+        },
+        artist_data: {
+            artist_name: "",
+            username: this.$store.state.auth.user.user.username,
+            country: "",
+            cover: "",
+        },
+        rm:"",
+        dummy_style:[], //keep style in string from array
+        cropImage: null, //imagecropper
+        cropImage1: null, 
+        initialImage:'',
+        dialog: false,
+        styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
+        imageData: "",
+        imageData1: "",
+        imageData2: "",
+        imageData3: "",
+        imageData4: "",
+        yt1: false,
+        yt2: false,
+        yt3: false,
+        videoId1:'',
+        videoId2:'',
+        videoId3:'',
+        videoId4:'',
+        ytLinkError1:'',
+        ytLinkError2:'',
+        ytLinkError3:'',
+        ytLinkError4:'',
+        inputInsta: false,
+        inputFace: false,
+        inputMail: false,
+        snackbar: false,
+        text: 'Website created successfully.',
+        overlay: false,
+        progressbar: false,
+        countries: [
+            {"name": "Afghanistan", "code": "AF"},
+            {"name": "Åland Islands", "code": "AX"},
+            {"name": "Albania", "code": "AL"},
+            {"name": "Algeria", "code": "DZ"},
+            {"name": "American Samoa", "code": "AS"},
+            {"name": "AndorrA", "code": "AD"},
+            {"name": "Angola", "code": "AO"},
+            {"name": "Anguilla", "code": "AI"},
+            {"name": "Antarctica", "code": "AQ"},
+            {"name": "Antigua and Barbuda", "code": "AG"},
+            {"name": "Argentina", "code": "AR"},
+            {"name": "Armenia", "code": "AM"},
+            {"name": "Aruba", "code": "AW"},
+            {"name": "Australia", "code": "AU"},
+            {"name": "Austria", "code": "AT"},
+            {"name": "Azerbaijan", "code": "AZ"},
+            {"name": "Bahamas", "code": "BS"},
+            {"name": "Bahrain", "code": "BH"},
+            {"name": "Bangladesh", "code": "BD"},
+            {"name": "Barbados", "code": "BB"},
+            {"name": "Belarus", "code": "BY"},
+            {"name": "Belgium", "code": "BE"},
+            {"name": "Belize", "code": "BZ"},
+            {"name": "Benin", "code": "BJ"},
+            {"name": "Bermuda", "code": "BM"},
+            {"name": "Bhutan", "code": "BT"},
+            {"name": "Bolivia", "code": "BO"},
+            {"name": "Bosnia and Herzegovina", "code": "BA"},
+            {"name": "Botswana", "code": "BW"},
+            {"name": "Bouvet Island", "code": "BV"},
+            {"name": "Brazil", "code": "BR"},
+            {"name": "British Indian Ocean Territory", "code": "IO"},
+            {"name": "Brunei Darussalam", "code": "BN"},
+            {"name": "Bulgaria", "code": "BG"},
+            {"name": "Burkina Faso", "code": "BF"},
+            {"name": "Burundi", "code": "BI"},
+            {"name": "Cambodia", "code": "KH"},
+            {"name": "Cameroon", "code": "CM"},
+            {"name": "Canada", "code": "CA"},
+            {"name": "Cape Verde", "code": "CV"},
+            {"name": "Cayman Islands", "code": "KY"},
+            {"name": "Central African Republic", "code": "CF"},
+            {"name": "Chad", "code": "TD"},
+            {"name": "Chile", "code": "CL"},
+            {"name": "China", "code": "CN"},
+            {"name": "Christmas Island", "code": "CX"},
+            {"name": "Cocos (Keeling) Islands", "code": "CC"},
+            {"name": "Colombia", "code": "CO"},
+            {"name": "Comoros", "code": "KM"},
+            {"name": "Congo", "code": "CG"},
+            {"name": "Congo, The Democratic Republic of the", "code": "CD"},
+            {"name": "Cook Islands", "code": "CK"},
+            {"name": "Costa Rica", "code": "CR"},
+            {"name": "Cote D'Ivoire", "code": "CI"},
+            {"name": "Croatia", "code": "HR"},
+            {"name": "Cuba", "code": "CU"},
+            {"name": "Cyprus", "code": "CY"},
+            {"name": "Czech Republic", "code": "CZ"},
+            {"name": "Denmark", "code": "DK"},
+            {"name": "Djibouti", "code": "DJ"},
+            {"name": "Dominica", "code": "DM"},
+            {"name": "Dominican Republic", "code": "DO"},
+            {"name": "Ecuador", "code": "EC"},
+            {"name": "Egypt", "code": "EG"},
+            {"name": "El Salvador", "code": "SV"},
+            {"name": "Equatorial Guinea", "code": "GQ"},
+            {"name": "Eritrea", "code": "ER"},
+            {"name": "Estonia", "code": "EE"},
+            {"name": "Ethiopia", "code": "ET"},
+            {"name": "Falkland Islands (Malvinas)", "code": "FK"},
+            {"name": "Faroe Islands", "code": "FO"},
+            {"name": "Fiji", "code": "FJ"},
+            {"name": "Finland", "code": "FI"},
+            {"name": "France", "code": "FR"},
+            {"name": "French Guiana", "code": "GF"},
+            {"name": "French Polynesia", "code": "PF"},
+            {"name": "French Southern Territories", "code": "TF"},
+            {"name": "Gabon", "code": "GA"},
+            {"name": "Gambia", "code": "GM"},
+            {"name": "Georgia", "code": "GE"},
+            {"name": "Germany", "code": "DE"},
+            {"name": "Ghana", "code": "GH"},
+            {"name": "Gibraltar", "code": "GI"},
+            {"name": "Greece", "code": "GR"},
+            {"name": "Greenland", "code": "GL"},
+            {"name": "Grenada", "code": "GD"},
+            {"name": "Guadeloupe", "code": "GP"},
+            {"name": "Guam", "code": "GU"},
+            {"name": "Guatemala", "code": "GT"},
+            {"name": "Guernsey", "code": "GG"},
+            {"name": "Guinea", "code": "GN"},
+            {"name": "Guinea-Bissau", "code": "GW"},
+            {"name": "Guyana", "code": "GY"},
+            {"name": "Haiti", "code": "HT"},
+            {"name": "Heard Island and Mcdonald Islands", "code": "HM"},
+            {"name": "Holy See (Vatican City State)", "code": "VA"},
+            {"name": "Honduras", "code": "HN"},
+            {"name": "Hong Kong", "code": "HK"},
+            {"name": "Hungary", "code": "HU"},
+            {"name": "Iceland", "code": "IS"},
+            {"name": "India", "code": "IN"},
+            {"name": "Indonesia", "code": "ID"},
+            {"name": "Iran, Islamic Republic Of", "code": "IR"},
+            {"name": "Iraq", "code": "IQ"},
+            {"name": "Ireland", "code": "IE"},
+            {"name": "Isle of Man", "code": "IM"},
+            {"name": "Israel", "code": "IL"},
+            {"name": "Italy", "code": "IT"},
+            {"name": "Jamaica", "code": "JM"},
+            {"name": "Japan", "code": "JP"},
+            {"name": "Jersey", "code": "JE"},
+            {"name": "Jordan", "code": "JO"},
+            {"name": "Kazakhstan", "code": "KZ"},
+            {"name": "Kenya", "code": "KE"},
+            {"name": "Kiribati", "code": "KI"},
+            {"name": "Korea, Democratic People'S Republic of", "code": "KP"},
+            {"name": "Korea, Republic of", "code": "KR"},
+            {"name": "Kuwait", "code": "KW"},
+            {"name": "Kyrgyzstan", "code": "KG"},
+            {"name": "Lao People'S Democratic Republic", "code": "LA"},
+            {"name": "Latvia", "code": "LV"},
+            {"name": "Lebanon", "code": "LB"},
+            {"name": "Lesotho", "code": "LS"},
+            {"name": "Liberia", "code": "LR"},
+            {"name": "Libyan Arab Jamahiriya", "code": "LY"},
+            {"name": "Liechtenstein", "code": "LI"},
+            {"name": "Lithuania", "code": "LT"},
+            {"name": "Luxembourg", "code": "LU"},
+            {"name": "Macao", "code": "MO"},
+            {"name": "Macedonia, The Former Yugoslav Republic of", "code": "MK"},
+            {"name": "Madagascar", "code": "MG"},
+            {"name": "Malawi", "code": "MW"},
+            {"name": "Malaysia", "code": "MY"},
+            {"name": "Maldives", "code": "MV"},
+            {"name": "Mali", "code": "ML"},
+            {"name": "Malta", "code": "MT"},
+            {"name": "Marshall Islands", "code": "MH"},
+            {"name": "Martinique", "code": "MQ"},
+            {"name": "Mauritania", "code": "MR"},
+            {"name": "Mauritius", "code": "MU"},
+            {"name": "Mayotte", "code": "YT"},
+            {"name": "Mexico", "code": "MX"},
+            {"name": "Micronesia, Federated States of", "code": "FM"},
+            {"name": "Moldova, Republic of", "code": "MD"},
+            {"name": "Monaco", "code": "MC"},
+            {"name": "Mongolia", "code": "MN"},
+            {"name": "Montserrat", "code": "MS"},
+            {"name": "Morocco", "code": "MA"},
+            {"name": "Mozambique", "code": "MZ"},
+            {"name": "Myanmar", "code": "MM"},
+            {"name": "Namibia", "code": "NA"},
+            {"name": "Nauru", "code": "NR"},
+            {"name": "Nepal", "code": "NP"},
+            {"name": "Netherlands", "code": "NL"},
+            {"name": "Netherlands Antilles", "code": "AN"},
+            {"name": "New Caledonia", "code": "NC"},
+            {"name": "New Zealand", "code": "NZ"},
+            {"name": "Nicaragua", "code": "NI"},
+            {"name": "Niger", "code": "NE"},
+            {"name": "Nigeria", "code": "NG"},
+            {"name": "Niue", "code": "NU"},
+            {"name": "Norfolk Island", "code": "NF"},
+            {"name": "Northern Mariana Islands", "code": "MP"},
+            {"name": "Norway", "code": "NO"},
+            {"name": "Oman", "code": "OM"},
+            {"name": "Pakistan", "code": "PK"},
+            {"name": "Palau", "code": "PW"},
+            {"name": "Palestinian Territory, Occupied", "code": "PS"},
+            {"name": "Panama", "code": "PA"},
+            {"name": "Papua New Guinea", "code": "PG"},
+            {"name": "Paraguay", "code": "PY"},
+            {"name": "Peru", "code": "PE"},
+            {"name": "Philippines", "code": "PH"},
+            {"name": "Pitcairn", "code": "PN"},
+            {"name": "Poland", "code": "PL"},
+            {"name": "Portugal", "code": "PT"},
+            {"name": "Puerto Rico", "code": "PR"},
+            {"name": "Qatar", "code": "QA"},
+            {"name": "Reunion", "code": "RE"},
+            {"name": "Romania", "code": "RO"},
+            {"name": "Russian Federation", "code": "RU"},
+            {"name": "RWANDA", "code": "RW"},
+            {"name": "Saint Helena", "code": "SH"},
+            {"name": "Saint Kitts and Nevis", "code": "KN"},
+            {"name": "Saint Lucia", "code": "LC"},
+            {"name": "Saint Pierre and Miquelon", "code": "PM"},
+            {"name": "Saint Vincent and the Grenadines", "code": "VC"},
+            {"name": "Samoa", "code": "WS"},
+            {"name": "San Marino", "code": "SM"},
+            {"name": "Sao Tome and Principe", "code": "ST"},
+            {"name": "Saudi Arabia", "code": "SA"},
+            {"name": "Senegal", "code": "SN"},
+            {"name": "Serbia and Montenegro", "code": "CS"},
+            {"name": "Seychelles", "code": "SC"},
+            {"name": "Sierra Leone", "code": "SL"},
+            {"name": "Singapore", "code": "SG"},
+            {"name": "Slovakia", "code": "SK"},
+            {"name": "Slovenia", "code": "SI"},
+            {"name": "Solomon Islands", "code": "SB"},
+            {"name": "Somalia", "code": "SO"},
+            {"name": "South Africa", "code": "ZA"},
+            {"name": "South Georgia and the South Sandwich Islands", "code": "GS"},
+            {"name": "Spain", "code": "ES"},
+            {"name": "Sri Lanka", "code": "LK"},
+            {"name": "Sudan", "code": "SD"},
+            {"name": "Suriname", "code": "SR"},
+            {"name": "Svalbard and Jan Mayen", "code": "SJ"},
+            {"name": "Swaziland", "code": "SZ"},
+            {"name": "Sweden", "code": "SE"},
+            {"name": "Switzerland", "code": "CH"},
+            {"name": "Syrian Arab Republic", "code": "SY"},
+            {"name": "Taiwan, Province of China", "code": "TW"},
+            {"name": "Tajikistan", "code": "TJ"},
+            {"name": "Tanzania, United Republic of", "code": "TZ"},
+            {"name": "Thailand", "code": "TH"},
+            {"name": "Timor-Leste", "code": "TL"},
+            {"name": "Togo", "code": "TG"},
+            {"name": "Tokelau", "code": "TK"},
+            {"name": "Tonga", "code": "TO"},
+            {"name": "Trinidad and Tobago", "code": "TT"},
+            {"name": "Tunisia", "code": "TN"},
+            {"name": "Turkey", "code": "TR"},
+            {"name": "Turkmenistan", "code": "TM"},
+            {"name": "Turks and Caicos Islands", "code": "TC"},
+            {"name": "Tuvalu", "code": "TV"},
+            {"name": "Uganda", "code": "UG"},
+            {"name": "Ukraine", "code": "UA"},
+            {"name": "United Arab Emirates", "code": "AE"},
+            {"name": "United Kingdom", "code": "GB"},
+            {"name": "United States", "code": "US"},
+            {"name": "United States Minor Outlying Islands", "code": "UM"},
+            {"name": "Uruguay", "code": "UY"},
+            {"name": "Uzbekistan", "code": "UZ"},
+            {"name": "Vanuatu", "code": "VU"},
+            {"name": "Venezuela", "code": "VE"},
+            {"name": "Viet Nam", "code": "VN"},
+            {"name": "Virgin Islands, British", "code": "VG"},
+            {"name": "Virgin Islands, U.S.", "code": "VI"},
+            {"name": "Wallis and Futuna", "code": "WF"},
+            {"name": "Western Sahara", "code": "EH"},
+            {"name": "Yemen", "code": "YE"},
+            {"name": "Zambia", "code": "ZM"},
+            {"name": "Zimbabwe", "code": "ZW"}
+        ],
+    }
+},
+methods: {
+    ...mapActions(['check_user_bio','check_user_portfolio']),
+    showYoutubeVideo(id){
+        switch(id) {
+            case 1:
+                {
+                    let url= this.bio.vid1
+                    if (url != undefined || url != '') {        
+                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                        var match = url.match(regExp);
+                        if (match && match[2].length == 11) {
+                            // Do anything for being valid        
+                            this.ytLinkError1 =``
+                        } else {
+                            //invalid youtube url
+                            this.ytLinkError1 = `Enter a valid Youtube URL.`
+                        }
+                    }
+                    let videoId1 = getIdFromURL(url) //getting id from video url
+                    this.videoId1 = videoId1
+                }
+                break;
+            case 2:
+                {
+                    let url= this.bio.vid2
+                    if (url != undefined || url != '') {        
+                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                        var match = url.match(regExp);
+                        if (match && match[2].length == 11) {
+                            // Do anything for being valid        
+                            this.ytLinkError2 =``
+                        } else {
+                            //invalid youtube url
+                            this.ytLinkError2 = `Enter a valid Youtube URL.`
+                        }
+                    }
+                    let videoId2 = getIdFromURL(url) //getting id from video url
+                    this.videoId2 = videoId2
+                }
+                break;
+            case 3:
+                {
+                    let url= this.bio.vid3
+                    if (url != undefined || url != '') {        
+                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                        var match = url.match(regExp);
+                        if (match && match[2].length == 11) {
+                            // Do anything for being valid        
+                            this.ytLinkError3 =``
+                        } else {
+                            //invalid youtube url
+                            this.ytLinkError3 = `Enter a valid Youtube URL.`
+                        }
+                    }
+                    let videoId3 = getIdFromURL(url) //getting id from video url
+                    this.videoId3 = videoId3
+                }
+                break;
+            case 4:
+                {
+                    let url= this.bio.vid4
+                    if (url != undefined || url != '') {        
+                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                        var match = url.match(regExp);
+                        if (match && match[2].length == 11) {
+                            // Do anything for being valid        
+                            this.ytLinkError4 =``
+                        } else {
+                            //invalid youtube url
+                            this.ytLinkError4 = `Enter a valid Youtube URL.`
+                        }
+                    }
+                    let videoId4 = getIdFromURL(url) //getting id from video url
+                    this.videoId4 = videoId4
+                }
+                break;
+            default:
+                // code block
             }
-            else{
-                let arr = this.bio.style.split(',');
-            this.dummy_style = arr;}
-            //assigning the bio from store if it exists
-            this.imageData1 = this.bio.gallery1
-            this.imageData2 = this.bio.gallery2
-            this.imageData3 = this.bio.gallery3
-            this.imageData4 = this.bio.gallery4
-            let url1 = this.bio.vid1 //getting value of youtube video urls
-            let url2 = this.bio.vid2
-            let url3 = this.bio.vid3
-            let url4 = this.bio.vid4
-            let videoId1 = getIdFromURL(url1) //getting id from video url
-            this.videoId1 = videoId1 //assigning the id to <youtube> video id
-            let videoId2 = getIdFromURL(url2)
-            this.videoId2 = videoId2
-            let videoId3 = getIdFromURL(url3)
-            this.videoId3 = videoId3
-            let videoId4 = getIdFromURL(url4)
-            this.videoId4 = videoId4
+    },
+    goback(){
+        window.history.back();
+    },
+    makeString() //making array as string for backend to accept
+    {
+        if(this.dummy_style.length == 0)
+        {
+            this.bio.style= ""
+            this.dummy_style=[]
+            // console.log("empty the style");
+            // console.log("style",this.bio.style);
+            // console.log(this.bio);
+            }
+        else{
+            let arr = this.dummy_style;
+            // console.log(this.dummy_style);
+            // console.log(this.bio.style);
+            this.bio.style= arr.join();
+            // console.log(this.bio.style);
+            // console.log("style after JOIN",this.bio.style);
         }
     },
-    data(){
-        return {
-                // this is bio object
-            bio: {
-                username: this.$store.state.auth.user.user.username,
-                style: "",
-                introduction: "",
-                quote: "",
-                crew: "",
-                ig: "",
-                fb: "",
-                site: "",
-                gallery1 : "",
-                gallery2 : "",
-                gallery3 : "",
-                gallery4 : "",
-                vid1:"",
-                vid2:"",
-                vid3:"",
-                vid4:""
-            },
-            artist_data: {
-                artist_name: "",
-                username: this.$store.state.auth.user.user.username,
-                country: "",
-                cover: "",
-            },
-            rm:"",
-            dummy_style:[], //keep style in string from array
-            cropImage: null, //imagecropper
-            cropImage1: null, 
-            initialImage:'',
-            dialog: false,
-            styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
-            imageData: "",
-            imageData1: "",
-            imageData2: "",
-            imageData3: "",
-            imageData4: "",
-            yt1: false,
-            yt2: false,
-            yt3: false,
-            videoId1:'',
-            videoId2:'',
-            videoId3:'',
-            videoId4:'',
-            ytLinkError1:'',
-            ytLinkError2:'',
-            ytLinkError3:'',
-            ytLinkError4:'',
-            inputInsta: false,
-            inputFace: false,
-            inputMail: false,
-            snackbar: false,
-            text: 'Website created successfully.',
-            overlay: false,
-            progressbar: false,
-            countries: [
-                {"name": "Afghanistan", "code": "AF"},
-                {"name": "Åland Islands", "code": "AX"},
-                {"name": "Albania", "code": "AL"},
-                {"name": "Algeria", "code": "DZ"},
-                {"name": "American Samoa", "code": "AS"},
-                {"name": "AndorrA", "code": "AD"},
-                {"name": "Angola", "code": "AO"},
-                {"name": "Anguilla", "code": "AI"},
-                {"name": "Antarctica", "code": "AQ"},
-                {"name": "Antigua and Barbuda", "code": "AG"},
-                {"name": "Argentina", "code": "AR"},
-                {"name": "Armenia", "code": "AM"},
-                {"name": "Aruba", "code": "AW"},
-                {"name": "Australia", "code": "AU"},
-                {"name": "Austria", "code": "AT"},
-                {"name": "Azerbaijan", "code": "AZ"},
-                {"name": "Bahamas", "code": "BS"},
-                {"name": "Bahrain", "code": "BH"},
-                {"name": "Bangladesh", "code": "BD"},
-                {"name": "Barbados", "code": "BB"},
-                {"name": "Belarus", "code": "BY"},
-                {"name": "Belgium", "code": "BE"},
-                {"name": "Belize", "code": "BZ"},
-                {"name": "Benin", "code": "BJ"},
-                {"name": "Bermuda", "code": "BM"},
-                {"name": "Bhutan", "code": "BT"},
-                {"name": "Bolivia", "code": "BO"},
-                {"name": "Bosnia and Herzegovina", "code": "BA"},
-                {"name": "Botswana", "code": "BW"},
-                {"name": "Bouvet Island", "code": "BV"},
-                {"name": "Brazil", "code": "BR"},
-                {"name": "British Indian Ocean Territory", "code": "IO"},
-                {"name": "Brunei Darussalam", "code": "BN"},
-                {"name": "Bulgaria", "code": "BG"},
-                {"name": "Burkina Faso", "code": "BF"},
-                {"name": "Burundi", "code": "BI"},
-                {"name": "Cambodia", "code": "KH"},
-                {"name": "Cameroon", "code": "CM"},
-                {"name": "Canada", "code": "CA"},
-                {"name": "Cape Verde", "code": "CV"},
-                {"name": "Cayman Islands", "code": "KY"},
-                {"name": "Central African Republic", "code": "CF"},
-                {"name": "Chad", "code": "TD"},
-                {"name": "Chile", "code": "CL"},
-                {"name": "China", "code": "CN"},
-                {"name": "Christmas Island", "code": "CX"},
-                {"name": "Cocos (Keeling) Islands", "code": "CC"},
-                {"name": "Colombia", "code": "CO"},
-                {"name": "Comoros", "code": "KM"},
-                {"name": "Congo", "code": "CG"},
-                {"name": "Congo, The Democratic Republic of the", "code": "CD"},
-                {"name": "Cook Islands", "code": "CK"},
-                {"name": "Costa Rica", "code": "CR"},
-                {"name": "Cote D'Ivoire", "code": "CI"},
-                {"name": "Croatia", "code": "HR"},
-                {"name": "Cuba", "code": "CU"},
-                {"name": "Cyprus", "code": "CY"},
-                {"name": "Czech Republic", "code": "CZ"},
-                {"name": "Denmark", "code": "DK"},
-                {"name": "Djibouti", "code": "DJ"},
-                {"name": "Dominica", "code": "DM"},
-                {"name": "Dominican Republic", "code": "DO"},
-                {"name": "Ecuador", "code": "EC"},
-                {"name": "Egypt", "code": "EG"},
-                {"name": "El Salvador", "code": "SV"},
-                {"name": "Equatorial Guinea", "code": "GQ"},
-                {"name": "Eritrea", "code": "ER"},
-                {"name": "Estonia", "code": "EE"},
-                {"name": "Ethiopia", "code": "ET"},
-                {"name": "Falkland Islands (Malvinas)", "code": "FK"},
-                {"name": "Faroe Islands", "code": "FO"},
-                {"name": "Fiji", "code": "FJ"},
-                {"name": "Finland", "code": "FI"},
-                {"name": "France", "code": "FR"},
-                {"name": "French Guiana", "code": "GF"},
-                {"name": "French Polynesia", "code": "PF"},
-                {"name": "French Southern Territories", "code": "TF"},
-                {"name": "Gabon", "code": "GA"},
-                {"name": "Gambia", "code": "GM"},
-                {"name": "Georgia", "code": "GE"},
-                {"name": "Germany", "code": "DE"},
-                {"name": "Ghana", "code": "GH"},
-                {"name": "Gibraltar", "code": "GI"},
-                {"name": "Greece", "code": "GR"},
-                {"name": "Greenland", "code": "GL"},
-                {"name": "Grenada", "code": "GD"},
-                {"name": "Guadeloupe", "code": "GP"},
-                {"name": "Guam", "code": "GU"},
-                {"name": "Guatemala", "code": "GT"},
-                {"name": "Guernsey", "code": "GG"},
-                {"name": "Guinea", "code": "GN"},
-                {"name": "Guinea-Bissau", "code": "GW"},
-                {"name": "Guyana", "code": "GY"},
-                {"name": "Haiti", "code": "HT"},
-                {"name": "Heard Island and Mcdonald Islands", "code": "HM"},
-                {"name": "Holy See (Vatican City State)", "code": "VA"},
-                {"name": "Honduras", "code": "HN"},
-                {"name": "Hong Kong", "code": "HK"},
-                {"name": "Hungary", "code": "HU"},
-                {"name": "Iceland", "code": "IS"},
-                {"name": "India", "code": "IN"},
-                {"name": "Indonesia", "code": "ID"},
-                {"name": "Iran, Islamic Republic Of", "code": "IR"},
-                {"name": "Iraq", "code": "IQ"},
-                {"name": "Ireland", "code": "IE"},
-                {"name": "Isle of Man", "code": "IM"},
-                {"name": "Israel", "code": "IL"},
-                {"name": "Italy", "code": "IT"},
-                {"name": "Jamaica", "code": "JM"},
-                {"name": "Japan", "code": "JP"},
-                {"name": "Jersey", "code": "JE"},
-                {"name": "Jordan", "code": "JO"},
-                {"name": "Kazakhstan", "code": "KZ"},
-                {"name": "Kenya", "code": "KE"},
-                {"name": "Kiribati", "code": "KI"},
-                {"name": "Korea, Democratic People'S Republic of", "code": "KP"},
-                {"name": "Korea, Republic of", "code": "KR"},
-                {"name": "Kuwait", "code": "KW"},
-                {"name": "Kyrgyzstan", "code": "KG"},
-                {"name": "Lao People'S Democratic Republic", "code": "LA"},
-                {"name": "Latvia", "code": "LV"},
-                {"name": "Lebanon", "code": "LB"},
-                {"name": "Lesotho", "code": "LS"},
-                {"name": "Liberia", "code": "LR"},
-                {"name": "Libyan Arab Jamahiriya", "code": "LY"},
-                {"name": "Liechtenstein", "code": "LI"},
-                {"name": "Lithuania", "code": "LT"},
-                {"name": "Luxembourg", "code": "LU"},
-                {"name": "Macao", "code": "MO"},
-                {"name": "Macedonia, The Former Yugoslav Republic of", "code": "MK"},
-                {"name": "Madagascar", "code": "MG"},
-                {"name": "Malawi", "code": "MW"},
-                {"name": "Malaysia", "code": "MY"},
-                {"name": "Maldives", "code": "MV"},
-                {"name": "Mali", "code": "ML"},
-                {"name": "Malta", "code": "MT"},
-                {"name": "Marshall Islands", "code": "MH"},
-                {"name": "Martinique", "code": "MQ"},
-                {"name": "Mauritania", "code": "MR"},
-                {"name": "Mauritius", "code": "MU"},
-                {"name": "Mayotte", "code": "YT"},
-                {"name": "Mexico", "code": "MX"},
-                {"name": "Micronesia, Federated States of", "code": "FM"},
-                {"name": "Moldova, Republic of", "code": "MD"},
-                {"name": "Monaco", "code": "MC"},
-                {"name": "Mongolia", "code": "MN"},
-                {"name": "Montserrat", "code": "MS"},
-                {"name": "Morocco", "code": "MA"},
-                {"name": "Mozambique", "code": "MZ"},
-                {"name": "Myanmar", "code": "MM"},
-                {"name": "Namibia", "code": "NA"},
-                {"name": "Nauru", "code": "NR"},
-                {"name": "Nepal", "code": "NP"},
-                {"name": "Netherlands", "code": "NL"},
-                {"name": "Netherlands Antilles", "code": "AN"},
-                {"name": "New Caledonia", "code": "NC"},
-                {"name": "New Zealand", "code": "NZ"},
-                {"name": "Nicaragua", "code": "NI"},
-                {"name": "Niger", "code": "NE"},
-                {"name": "Nigeria", "code": "NG"},
-                {"name": "Niue", "code": "NU"},
-                {"name": "Norfolk Island", "code": "NF"},
-                {"name": "Northern Mariana Islands", "code": "MP"},
-                {"name": "Norway", "code": "NO"},
-                {"name": "Oman", "code": "OM"},
-                {"name": "Pakistan", "code": "PK"},
-                {"name": "Palau", "code": "PW"},
-                {"name": "Palestinian Territory, Occupied", "code": "PS"},
-                {"name": "Panama", "code": "PA"},
-                {"name": "Papua New Guinea", "code": "PG"},
-                {"name": "Paraguay", "code": "PY"},
-                {"name": "Peru", "code": "PE"},
-                {"name": "Philippines", "code": "PH"},
-                {"name": "Pitcairn", "code": "PN"},
-                {"name": "Poland", "code": "PL"},
-                {"name": "Portugal", "code": "PT"},
-                {"name": "Puerto Rico", "code": "PR"},
-                {"name": "Qatar", "code": "QA"},
-                {"name": "Reunion", "code": "RE"},
-                {"name": "Romania", "code": "RO"},
-                {"name": "Russian Federation", "code": "RU"},
-                {"name": "RWANDA", "code": "RW"},
-                {"name": "Saint Helena", "code": "SH"},
-                {"name": "Saint Kitts and Nevis", "code": "KN"},
-                {"name": "Saint Lucia", "code": "LC"},
-                {"name": "Saint Pierre and Miquelon", "code": "PM"},
-                {"name": "Saint Vincent and the Grenadines", "code": "VC"},
-                {"name": "Samoa", "code": "WS"},
-                {"name": "San Marino", "code": "SM"},
-                {"name": "Sao Tome and Principe", "code": "ST"},
-                {"name": "Saudi Arabia", "code": "SA"},
-                {"name": "Senegal", "code": "SN"},
-                {"name": "Serbia and Montenegro", "code": "CS"},
-                {"name": "Seychelles", "code": "SC"},
-                {"name": "Sierra Leone", "code": "SL"},
-                {"name": "Singapore", "code": "SG"},
-                {"name": "Slovakia", "code": "SK"},
-                {"name": "Slovenia", "code": "SI"},
-                {"name": "Solomon Islands", "code": "SB"},
-                {"name": "Somalia", "code": "SO"},
-                {"name": "South Africa", "code": "ZA"},
-                {"name": "South Georgia and the South Sandwich Islands", "code": "GS"},
-                {"name": "Spain", "code": "ES"},
-                {"name": "Sri Lanka", "code": "LK"},
-                {"name": "Sudan", "code": "SD"},
-                {"name": "Suriname", "code": "SR"},
-                {"name": "Svalbard and Jan Mayen", "code": "SJ"},
-                {"name": "Swaziland", "code": "SZ"},
-                {"name": "Sweden", "code": "SE"},
-                {"name": "Switzerland", "code": "CH"},
-                {"name": "Syrian Arab Republic", "code": "SY"},
-                {"name": "Taiwan, Province of China", "code": "TW"},
-                {"name": "Tajikistan", "code": "TJ"},
-                {"name": "Tanzania, United Republic of", "code": "TZ"},
-                {"name": "Thailand", "code": "TH"},
-                {"name": "Timor-Leste", "code": "TL"},
-                {"name": "Togo", "code": "TG"},
-                {"name": "Tokelau", "code": "TK"},
-                {"name": "Tonga", "code": "TO"},
-                {"name": "Trinidad and Tobago", "code": "TT"},
-                {"name": "Tunisia", "code": "TN"},
-                {"name": "Turkey", "code": "TR"},
-                {"name": "Turkmenistan", "code": "TM"},
-                {"name": "Turks and Caicos Islands", "code": "TC"},
-                {"name": "Tuvalu", "code": "TV"},
-                {"name": "Uganda", "code": "UG"},
-                {"name": "Ukraine", "code": "UA"},
-                {"name": "United Arab Emirates", "code": "AE"},
-                {"name": "United Kingdom", "code": "GB"},
-                {"name": "United States", "code": "US"},
-                {"name": "United States Minor Outlying Islands", "code": "UM"},
-                {"name": "Uruguay", "code": "UY"},
-                {"name": "Uzbekistan", "code": "UZ"},
-                {"name": "Vanuatu", "code": "VU"},
-                {"name": "Venezuela", "code": "VE"},
-                {"name": "Viet Nam", "code": "VN"},
-                {"name": "Virgin Islands, British", "code": "VG"},
-                {"name": "Virgin Islands, U.S.", "code": "VI"},
-                {"name": "Wallis and Futuna", "code": "WF"},
-                {"name": "Western Sahara", "code": "EH"},
-                {"name": "Yemen", "code": "YE"},
-                {"name": "Zambia", "code": "ZM"},
-                {"name": "Zimbabwe", "code": "ZW"}
-                ],
+    toShowImage(){
+        if(this.artist_data.cover)
+        this.imageData = URL.createObjectURL(this.artist_data.cover);
+    },
+    onFileChange(e) {
+        let files = e.target.files;
+        if (files) {
+        const fileReader = new FileReader()
+        fileReader.onload = (e) => {
+                this.imageData1 = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.bio.gallery1 = files[0];
         }
     },
-    methods: {
-        ...mapActions(['check_user_bio','check_user_portfolio']),
-        showYoutubeVideo(id){
-            switch(id) {
-                case 1:
-                    {
-                        let url= this.bio.vid1
-                        if (url != undefined || url != '') {        
-                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11) {
-                                // Do anything for being valid        
-                                this.ytLinkError1 =``
-                            } else {
-                                //invalid youtube url
-                                this.ytLinkError1 = `Enter a valid Youtube URL.`
-                            }
-                        }
-                        let videoId1 = getIdFromURL(url) //getting id from video url
-                        this.videoId1 = videoId1
-                    }
-                    break;
-                case 2:
-                    {
-                        let url= this.bio.vid2
-                        if (url != undefined || url != '') {        
-                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11) {
-                                // Do anything for being valid        
-                                this.ytLinkError2 =``
-                            } else {
-                                //invalid youtube url
-                                this.ytLinkError2 = `Enter a valid Youtube URL.`
-                            }
-                        }
-                        let videoId2 = getIdFromURL(url) //getting id from video url
-                        this.videoId2 = videoId2
-                    }
-                    break;
-                case 3:
-                    {
-                        let url= this.bio.vid3
-                        if (url != undefined || url != '') {        
-                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11) {
-                                // Do anything for being valid        
-                                this.ytLinkError3 =``
-                            } else {
-                                //invalid youtube url
-                                this.ytLinkError3 = `Enter a valid Youtube URL.`
-                            }
-                        }
-                        let videoId3 = getIdFromURL(url) //getting id from video url
-                        this.videoId3 = videoId3
-                    }
-                    break;
-                case 4:
-                    {
-                        let url= this.bio.vid4
-                        if (url != undefined || url != '') {        
-                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11) {
-                                // Do anything for being valid        
-                                this.ytLinkError4 =``
-                            } else {
-                                //invalid youtube url
-                                this.ytLinkError4 = `Enter a valid Youtube URL.`
-                            }
-                        }
-                        let videoId4 = getIdFromURL(url) //getting id from video url
-                        this.videoId4 = videoId4
-                    }
-                    break;
-                default:
-                    // code block
-                }
-        },
-        goback(){
-            window.history.back();
-        },
-        makeString() //making array as string for backend to accept
-        {
-            if(this.dummy_style.length == 0)
-            {
-                this.bio.style= ""
-                this.dummy_style=[]
-                // console.log("empty the style");
-                // console.log("style",this.bio.style);
-                // console.log(this.bio);
-                }
-            else{
-                let arr = this.dummy_style;
-                // console.log(this.dummy_style);
-                // console.log(this.bio.style);
-                this.bio.style= arr.join();
-                // console.log(this.bio.style);
-                // console.log("style after JOIN",this.bio.style);
+    onFileChange1(e) {
+        let files = e.target.files;
+        if (files) {
+        const fileReader = new FileReader()
+        fileReader.onload = (e) => {
+                this.imageData2 = e.target.result;
             }
-        },
-        toShowImage(){
-            if(this.artist_data.cover)
-	        this.imageData = URL.createObjectURL(this.artist_data.cover);
-        },
-        onFileChange(e) {
-            let files = e.target.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData1 = e.target.result;
-                }
-                fileReader.readAsDataURL(files[0]);
-                this.bio.gallery1 = files[0];
+            fileReader.readAsDataURL(files[0]);
+            this.bio.gallery2 = files[0];
+        }
+    },
+    onFileChange2(e) {
+        let files = e.target.files;
+        if (files) {
+        const fileReader = new FileReader()
+        fileReader.onload = (e) => {
+                this.imageData3 = e.target.result;
             }
-        },
-        onFileChange1(e) {
-            let files = e.target.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData2 = e.target.result;
-                }
-                fileReader.readAsDataURL(files[0]);
-                this.bio.gallery2 = files[0];
+            fileReader.readAsDataURL(files[0]);
+            this.bio.gallery3 = files[0];
+        }
+    },
+    onFileChange3(e) {
+        let files = e.target.files;
+        if (files) {
+        const fileReader = new FileReader()
+        fileReader.onload = (e) => {
+                this.imageData4 = e.target.result;
             }
-        },
-        onFileChange2(e) {
-            let files = e.target.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData3 = e.target.result;
-                }
-                fileReader.readAsDataURL(files[0]);
-                this.bio.gallery3 = files[0];
-            }
-        },
-        onFileChange3(e) {
-            let files = e.target.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData4 = e.target.result;
-                }
-                fileReader.readAsDataURL(files[0]);
-                this.bio.gallery4 = files[0];
-            }
-        },
-        onPick() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput.click()
-        },
-        onPick1() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput1.click()
-        },
-        onPick2() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput2.click()
-        },
-        onPick3() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput3.click()
-        },
-        removeImage(){
-            this.imageData1 = ""
-            this.bio.gallery1 =''
-        },
-        removeImage1(){
-            this.imageData2 = ""
-            this.bio.gallery2 =''
-        },
-        removeImage2(){
-            this.imageData3 = ""
-            this.bio.gallery3 =''
-        },
-        removeImage3(){
-            this.imageData4 = ''
-            this.bio.gallery4 =''
-        },
-        dataURLtoFile(dataurl, filename) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-            }
-        return new File([u8arr], filename, {type:mime});
-        },
-        
-        async submit(){
-            this.progressbar =true
-            //generating a file object from cropedimage url
-            // console.log(this.cropImage); 
-                let url = this.cropImage.generateDataUrl(); 
-                let url1 = this.cropImage1.generateDataUrl(); 
-                if (!url){
-                    console.log("no image1");}
-                else{
-                    var fileData = this.dataURLtoFile(url, "coverimage.png");
-                    this.artist_data.cover = fileData;
-                }
-                if (!url1){
-                    console.log("no image");}
-                else{
-                    var fileData = this.dataURLtoFile(url1, "coverimage.png");
-                    this.artist_data.cover = fileData;
-                }
-             // style is taken as array and made into a string
-            //required attributes check..
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
-                    }
-            };
-            let formPortfolio = new FormData();
-            let formBio= new FormData();
-            
-            for (let data in this.artist_data) //append
-            {
-                formPortfolio.append(data, this.artist_data[data]);
-            }
-            for (let data in this.bio) {
-                formBio.append(data, this.bio[data]);
-            }
-            try {
-                await this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config)
-                await this.$axios.$post("/v1/artist/bios/", formBio, config)
-                this.progressbar =false
-                // let [someResult, anotherResult] = await Promise.allSettled([this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config), this.$axios.$post("/v1/artist/bios/", formData, config)]);
-                // console.log('res from portfolio',someResult);
-                // console.log('res from bio',anotherResult);
-                this.$store.dispatch("check_user_portfolio");
-                this.$store.dispatch("check_user_bio");
-                this.snackbar = true;
-                this.$router.push("/" + this.bio.username);
-            } catch (e) {
-                this.progressbar =false
-                console.log(e);
-            }
-        },
-        async update() {
-            this.progressbar =true
-            const config = {
-                headers: {
-                    "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
+            fileReader.readAsDataURL(files[0]);
+            this.bio.gallery4 = files[0];
+        }
+    },
+    onPick() //changing the click from button to input using refs
+    {
+        this.$refs.fileInput.click()
+    },
+    onPick1() //changing the click from button to input using refs
+    {
+        this.$refs.fileInput1.click()
+    },
+    onPick2() //changing the click from button to input using refs
+    {
+        this.$refs.fileInput2.click()
+    },
+    onPick3() //changing the click from button to input using refs
+    {
+        this.$refs.fileInput3.click()
+    },
+    removeImage(){
+        this.imageData1 = ""
+        this.bio.gallery1 =''
+    },
+    removeImage1(){
+        this.imageData2 = ""
+        this.bio.gallery2 =''
+    },
+    removeImage2(){
+        this.imageData3 = ""
+        this.bio.gallery3 =''
+    },
+    removeImage3(){
+        this.imageData4 = ''
+        this.bio.gallery4 =''
+    },
+    dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+        }
+    return new File([u8arr], filename, {type:mime});
+    },
+    
+    async submit(){
+        this.progressbar =true
+        //generating a file object from cropedimage url
+        // console.log(this.cropImage); 
             let url = this.cropImage.generateDataUrl(); 
             let url1 = this.cropImage1.generateDataUrl(); 
-                if (!url){
-                    console.log("no image");}
-                else{
-                    var fileData = this.dataURLtoFile(url, "coverimage.png");
-                    this.artist_data.cover = fileData;
+            if (!url){
+                console.log("no image1");}
+            else{
+                var fileData = this.dataURLtoFile(url, "coverimage.png");
+                this.artist_data.cover = fileData;
+            }
+            if (!url1){
+                console.log("no image");}
+            else{
+                var fileData = this.dataURLtoFile(url1, "coverimage.png");
+                this.artist_data.cover = fileData;
+            }
+            // style is taken as array and made into a string
+        //required attributes check..
+        const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
                 }
-                if (!url1){
-                    console.log("no image");}
-                else{
-                    var fileData = this.dataURLtoFile(url1, "coverimage.png");
-                    this.artist_data.cover = fileData;
-                }
-            let myObj1 = this.usersPortfolio 
-            let myObj2 = this.artist_data
-            let myObj3 = this.usersBio
-            let myObj4 = this.bio
-            // find keys 
-            let keyObj1 = Object.keys(myObj1); 
-            let keyObj2 = Object.keys(myObj2); 
-            let keyObj3 = Object.keys(myObj3); 
-            let keyObj4 = Object.keys(myObj4); 
-                
-            // find values 
-            let valueObj1 = Object.values(myObj1); 
-            let valueObj2 = Object.values(myObj2); 
-            let valueObj3 = Object.values(myObj3); 
-            let valueObj4 = Object.values(myObj4); 
-	
+        };
+        let formPortfolio = new FormData();
+        let formBio= new FormData();
+        
+        for (let data in this.artist_data) //append
+        {
+            formPortfolio.append(data, this.artist_data[data]);
+        }
+        for (let data in this.bio) {
+            formBio.append(data, this.bio[data]);
+        }
+        try {
+            await this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config)
+            await this.$axios.$post("/v1/artist/bios/", formBio, config)
+            this.progressbar =false
+            // let [someResult, anotherResult] = await Promise.allSettled([this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config), this.$axios.$post("/v1/artist/bios/", formData, config)]);
+            // console.log('res from portfolio',someResult);
+            // console.log('res from bio',anotherResult);
+            this.$store.dispatch("check_user_portfolio");
+            this.$store.dispatch("check_user_bio");
+            this.snackbar = true;
+            this.$router.push("/" + this.bio.username);
+        } catch (e) {
+            this.progressbar =false
+            console.log(e);
+        }
+    },
+    async update() {
+        this.progressbar =true
+        const config = {
+            headers: {
+                "content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            }
+        };
+        let url = this.cropImage.generateDataUrl(); 
+        let url1 = this.cropImage1.generateDataUrl(); 
+        if (!url){
+            console.log("no image");}
+        else{
+            var fileData = this.dataURLtoFile(url, "coverimage.png");
+            this.artist_data.cover = fileData;
+        }
+        if (!url1){
+            console.log("no image");}
+        else{
+            var fileData = this.dataURLtoFile(url1, "coverimage.png");
+            this.artist_data.cover = fileData;
+        }
+        let myObj1 = this.usersPortfolio 
+        let myObj2 = this.artist_data
+        let myObj3 = this.usersBio
+        let myObj4 = this.bio
+        // find keys 
+        let keyObj1 = Object.keys(myObj1); 
+        let keyObj2 = Object.keys(myObj2); 
+        let keyObj3 = Object.keys(myObj3); 
+        let keyObj4 = Object.keys(myObj4); 
+            
+        // find values 
+        let valueObj1 = Object.values(myObj1); 
+        let valueObj2 = Object.values(myObj2); 
+        let valueObj3 = Object.values(myObj3); 
+        let valueObj4 = Object.values(myObj4); 
+
         // now compare their keys and values  
         for(var i=0; i<keyObj1.length; i++) { 
-            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-            } else { 
-                // it prints keys have different values 
+            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
+            } else {
                 let formName = new FormData();
                 formName.append(keyObj1[i], valueObj2[i]);
                 formName.append("username", this.artist_data['username']);
-                // console.log("key obj1: "+keyObj1[i]+"keyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
                 await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
-                // console.log( valueObj1[i] ," changed"); 
             } 
         }
         for(var i=0; i<keyObj3.length; i++) { 
@@ -1019,55 +1017,55 @@ export default {
         this.$store.dispatch("check_user_portfolio");
         this.snackbar = true;
         this.$router.push("/" + this.bio.username);
-        },
-        async deleted() {
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
-            try {
-                if(this.usersBio) await this.$axios.$delete("/v1/artist/bios/"+this.usersBio.username, config)
-                if(this.usersPortfolio) await this.$axios.$delete("/v1/artist/portfolios/"+this.usersPortfolio.username, config)
-                // console.log("Artist Bio deleted.");
-                // console.log("Artist portfolio deleted.");
-                //update store
-                this.$store.dispatch("remove_portfolio")
-                this.$store.dispatch("remove_bio")
-                for (let data in this.bio) {
-                    this.bio[data] = ''
-                }
-                this.artist_data.artist_name = ''
-                this.artist_data.country = ''
-                this.artist_data.cover = null
-                this.artist_data.username= this.$store.state.auth.user.user.username,
-                this.imageData = ''
-                this.bio.username= this.$store.state.auth.user.user.username,
-                this.imageData4 = ''
-                this.imageData2 = ''
-                this.imageData1 = ''
-                this.imageData3 = ''
-                this.yt1= false,
-                this.yt2= false,
-                this.yt3= false,
-                this.videoId1='',
-                this.videoId2='',
-                this.videoId3='',
-                this.videoId4='',
-                this.ytLinkError1='',
-                this.ytLinkError2='',
-                this.ytLinkError3='',
-                this.ytLinkError4='',
-                this.dummy_style =[],
-                this.cropImage.remove()
-                this.cropImage1.remove()
-                this.dialog =false,
-                this.snackbar = true;
-                this.$router.push("/create/website");
-            } catch (e) {
-                console.log(e);
+    },
+    async deleted() {
+        const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
-        },
-    }
+        };
+        try {
+            if(this.usersBio) await this.$axios.$delete("/v1/artist/bios/"+this.usersBio.username, config)
+            if(this.usersPortfolio) await this.$axios.$delete("/v1/artist/portfolios/"+this.usersPortfolio.username, config)
+            // console.log("Artist Bio deleted.");
+            // console.log("Artist portfolio deleted.");
+            //update store
+            this.$store.dispatch("remove_portfolio")
+            this.$store.dispatch("remove_bio")
+            for (let data in this.bio) {
+                this.bio[data] = ''
+            }
+            this.artist_data.artist_name = ''
+            this.artist_data.country = ''
+            this.artist_data.cover = null
+            this.artist_data.username= this.$store.state.auth.user.user.username,
+            this.imageData = ''
+            this.bio.username= this.$store.state.auth.user.user.username,
+            this.imageData4 = ''
+            this.imageData2 = ''
+            this.imageData1 = ''
+            this.imageData3 = ''
+            this.yt1= false,
+            this.yt2= false,
+            this.yt3= false,
+            this.videoId1='',
+            this.videoId2='',
+            this.videoId3='',
+            this.videoId4='',
+            this.ytLinkError1='',
+            this.ytLinkError2='',
+            this.ytLinkError3='',
+            this.ytLinkError4='',
+            this.dummy_style =[],
+            this.cropImage.remove()
+            this.cropImage1.remove()
+            this.dialog =false,
+            this.snackbar = true;
+            this.$router.push("/create/website");
+        } catch (e) {
+            console.log(e);
+        }
+    },
+}
 }
 </script>
