@@ -1,7 +1,7 @@
 <template>
   <div class="home">
       <v-row justify="center" class="ma-md-12 my-8 hidden-sm-and-down " grey >
-        <h1 class="text-center font-weight-black" style="font-size:3em">
+        <h1 class="text-center font-weight-black" style="font-size:2em">
           Connecting the groove, <br>
           celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
         </h1>
@@ -11,7 +11,7 @@
           <div align="center" justify="center">
           <img src = "~/assets/e1t1.png"  width="60%" alt="portfolio logo">
           </div>
-          <h2 class="text-center hidden-md-and-up my-6 mx-4 font-weight-black"  style="font-size:2.5em">
+          <h2 class="text-center hidden-md-and-up my-6 mx-4 font-weight-black"  style="font-size:1.5em">
           "Connecting the groove, <br>
           celebrating<br>
           <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
