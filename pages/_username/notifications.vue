@@ -78,7 +78,7 @@
         </v-list>
         </div>
     </v-container>
-    <v-container v-if="firstLoad">
+    <v-container v-if="firstLoad" style="max-width:1072px;">
           <div v-for="n in this.looploader" :key ="n.index">
             <v-flex sm6 xs6> 
               <v-skeleton-loader  class="ma-1" :loading="loading" type="list-item-avatar" ></v-skeleton-loader>

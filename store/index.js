@@ -417,7 +417,7 @@ export const actions = {
   },
   remove_learn_obj({commit, state})
   {
-    if(state.auth.loggedIn && state.learn_obj){
+    if( state.learn_obj){
       commit('clear_learn_obj',state.learn_obj)
     }
   },
