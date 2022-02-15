@@ -1,7 +1,7 @@
 <template>
 <v-hover v-slot:default="{ hover }">
   <v-card
-      class="ma-1"
+      style="margin:2px;"
       data-view
       :to="'/e1t1/' + e1t1.id"
       :elevation="hover ? 12 : 0"

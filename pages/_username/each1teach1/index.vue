@@ -1,29 +1,47 @@
 <template>
     <v-app>
-        <v-container v-show="!firstLoad" style="max-width:1185px;">
-            <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 " >
-                <h3 class="d-inline">Share about your teacher</h3>
-                <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/">
-                <v-icon>mdi-plus</v-icon>
-                </v-btn>
-            </div>
+        <v-container v-show="!firstLoad" style="max-width:1072px;" class="pa-0">
+        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-8 hidden-sm-and-down">
+            <h3 class="d-inline pl-2">Share about your teacher</h3>
+            <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/"> 
+                <v-icon >mdi-plus</v-icon>
+            </v-btn>
+        </div>
+        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-6 hidden-md-and-up"
+        style="max-width:357px; margin:auto;">
+            <h3 class="d-inline pl-2">Share about your teacher</h3>
+            <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/"> 
+                <v-icon >mdi-plus</v-icon>
+            </v-btn>
+        </div>
         <div v-if="teachers.length">
-            <div class="my-4">
-            <h3 class="font-weight-light">My Teachers</h3>
-            </div>
-            <v-layout wrap row justify-center  class="mb-4">
-                <div v-for="share in teachers" :key ="share.index">
+        <div>
+        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:1072px; margin:auto;">My Teachers</h3>
+        </div>
+        <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
+            <div v-for="share in teachers" :key ="share.index">
                     <TeachersCard :e1t1="share" ></TeachersCard>
                 </div>
-            </v-layout>
+        </v-layout>
+        <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+            <div v-for="share in teachers" :key ="share.index">
+                    <TeachersCard :e1t1="share" ></TeachersCard>
+                </div>
+        </v-layout>
         </div>
         <v-card v-intersect="infiniteScrollingTeacher"></v-card>
         <div v-if="students.length">
-        <!-- responsive -->
-        <div class="mb-5">
-        <h3 class="font-weight-light">My Students</h3>
+        <div>
+            <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
+            <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:1072px; margin:auto;">My Students</h3>
         </div>
-        <v-layout wrap row justify-center class="mb-4" >
+        <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
+            <div v-for="share in students" :key ="share.index">
+                <StudentsCard :share="share" ></StudentsCard>
+            </div>
+        </v-layout>
+        <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
             <div v-for="share in students" :key ="share.index">
                 <StudentsCard :share="share" ></StudentsCard>
             </div>
@@ -40,22 +58,34 @@
             </center>
         </div>
         </v-container>
-        <v-container v-if="firstLoad" style="max-width:1185px;">
-            <div class="my-4">
-            <h3 class="font-weight-light d-inline">My Teachers</h3>
+        <v-container v-if="firstLoad" style="max-width:1072px;" class="pa-0">
+            <div style="margin-top:12px">
+            <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
+            <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:1072px; margin:auto;">My Teachers</h3>
             </div>
-            <v-layout wrap row v-if="firstLoad" justify-center class="mb-4">
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader class="ma-1" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
-                </div>
+            <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
+            <div v-for="n in this.looploader" :key ="n.index">
+                <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
+            </div>
             </v-layout>
-            <div class="mb-4">
-            <h3 class="font-weight-light d-inline">My Students</h3>
-            </div>
-            <v-layout wrap row justify-center class="mb-4">
+            <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
                 <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader class="ma-1" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
-                </div>
+                        <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
+                    </div>
+            </v-layout>
+            <div>
+            <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
+            <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:1072px; margin:auto;">My Students</h3>
+            </div>
+            <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
+            <div v-for="n in this.looploader" :key ="n.index">
+                <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
+            </div>
+            </v-layout>
+            <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+                <div v-for="n in this.looploader" :key ="n.index">
+                        <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
+                    </div>
             </v-layout>
         </v-container>
     </v-app>

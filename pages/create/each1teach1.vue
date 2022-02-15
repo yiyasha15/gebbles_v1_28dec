@@ -23,14 +23,14 @@
         <v-stepper  v-model="e6" vertical>
         <!-- <div> -->
             <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                Mention your teacher*
-            <small>If your teacher are not yet in this platform, mention them and tag them later when they join.<br></small>
+                Mention the person that inspired you.*
+            <small>If that person is not yet in this platform, mention them and tag them later when they join.<br></small>
             </v-stepper-step>
             <v-stepper-content step="1">
                 <v-combobox
                     v-model="teacher_obj"
                     :items="artists"
-                    label="Search teacher..."
+                    label="Search artists..."
                     item-text="artist_name"
                     item-value="username"
                     ref="artistListComboBox"
@@ -87,7 +87,7 @@
                 item-text="name"
                 item-value="code"
                 v-model = "sharing.s_teacher_country"
-                label= "Teacher's country"
+                label= "'Country they are from"
                 clearable>
                 </v-select>
             <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
@@ -95,7 +95,7 @@
             </v-stepper-content>
         <!-- </div> -->
     
-        <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Do you have a click with your teacher?*
+        <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Upload an image together.*
             <small>(if not, you can add their image.)</small>
         </v-stepper-step>
         <v-stepper-content step="2" style="border-left: none;">

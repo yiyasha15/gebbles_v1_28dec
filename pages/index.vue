@@ -145,7 +145,8 @@ export default {
 
 </script>
 <style scoped>
-/* .app{
-  background-color:beige;
-} */
+.home{
+  max-width: 1072px;
+  margin: auto;
+}
 </style>

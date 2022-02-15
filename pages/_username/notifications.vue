@@ -1,6 +1,6 @@
 <template>
 <v-app>
-    <v-container >
+    <v-container style="max-width:1072px;" >
         <h2 class="my-2">Notifications</h2>
         <div v-if="!firstLoad">
         <v-list two-line>

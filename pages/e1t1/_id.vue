@@ -148,7 +148,7 @@
             </p></div></blockquote> <script async src="//www.instagram.com/embed.js"></script> -->
     </div>
     <v-divider class="mt-8"></v-divider>
-        <v-row class="mt-2">
+        <v-row class="mt-2 mb-4">
             <v-col cols="12" class="justify-center">
                 <h3 class ="font-weight-light xs12 d-inline ">Dedicated to {{e1t1.s_teacher_name}}</h3>
                 <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="black" class="mb-2 ml-2" @click="addLearning = true">
@@ -156,17 +156,23 @@
                 </v-btn>
             </v-col>
         </v-row>
-        <v-row class="mx-0" v-if="learnings.length>0 ">
-            <v-layout row wrap justify-center :class="{'ma-0': $vuetify.breakpoint.mdAndUp}">
+        </v-container>
+        <v-container class="pa-0">
+        <v-row class="mx-0 mb-4" v-if="learnings.length>0 ">
+            <v-layout wrap row justify-start class="hidden-md-and-up" style="max-width:357px; margin:auto;">
             <div v-for="learning in learnings" :key ="learning.index">
-            <v-flex > 
             <learning-card :learning = "learning"></learning-card>
-            </v-flex>
             </div>   
-            </v-layout>   
-        </v-row>
+            </v-layout>
+            <v-layout wrap row justify-start class=" hidden-sm-and-down" style="max-width: 750px; margin:auto;" >
+                <div v-for="learning in learnings" :key ="learning.index">
+            <learning-card :learning = "learning"></learning-card>
+            </div>   
+            </v-layout> 
+        </v-row></v-container>
+        <v-container class="mx-auto" fluid style="max-width:750px">
         <v-card v-intersect="infiniteScrollingLearning"></v-card>
-        <v-divider class="mt-8"></v-divider>
+        <v-divider></v-divider>
         <v-row class="mt-8">
             <v-col cols="12" class="justify-center " id="scroll_comments">
                 <h3 class ="font-weight-light">Comments <span v-if="share_comments_list.length">{{share_comments_list.length}}</span></h3>
@@ -439,11 +445,11 @@ export default {
             this.$store.dispatch("remove_share_obj")
             try {
                 let response = await this.$axios.$delete("/v1/e1t1/sharing/"+this.e1t1.id, config)
-                // console.log("e1t1 deleted.");
+                console.log("e1t1 deleted.");
                 this.$store.dispatch("check_user_teachers");
                 this.$router.push("/"+ this.e1t1.username+"/each1teach1");
             } catch (e) {
-                console.log(e);
+                console.log(e.response);
             }
         },
         async editE1t1(){

@@ -40,8 +40,18 @@ export const state = () => ({
   page_learnings:'',
   page_share_comment:'',
   loadingLearning:true,
+  upcoming:[],
+  highlights:[],
+  journey:[],
+  page_journey:'',
+  page_upcoming:'',
+  page_highlights:'',
+  journeyLoaded:true,
 })
 export const getters = {
+  journeyLoaded(state){
+    return state.journeyLoaded
+  },
   learn_obj(state){
     return state.learn_obj
   },
@@ -143,6 +153,15 @@ export const getters = {
   },
   info(state){
     return state.info
+  },
+  upcoming(state){
+    return state.upcoming
+  },
+  highlights(state){
+    return state.highlights
+  },
+  journey(state){
+    return state.journey
   }
 }
 export const actions = {
@@ -235,26 +254,80 @@ export const actions = {
         })
       }  
   },
-  // check_user_journey({commit, state}){
-  //   if(state.auth.loggedIn) {
-  //     const config = {
-  //     headers: {"content-type": "multipart/form-data",
-  //       "Authorization": "Bearer " + state.auth.user.access_token}
-  //     };
-  //     EventService.getJourney(state.auth.user.user.username,config).then(res =>
-  //     {
-  //       commit('usersJourney',res.data)
-  //     })
-  //     EventService.getUpcoming(state.auth.user.user.username,config).then(res =>
-  //     {
-  //       commit('usersUpcoming',res.data)
-  //     })
-  //     EventService.getHighlights(state.auth.user.user.username,config).then(res =>
-  //       {
-  //         commit('usersHighlights',res.data)
-  //       })
-  //   }
-  // },
+  check_user_journey({commit, state}, username){
+    let config;
+    if(state.auth.loggedIn) {
+      config = {
+      headers: {"content-type": "multipart/form-data",
+        "Authorization": "Bearer " + state.auth.user.access_token}
+      };}
+      EventService.getUpcoming(username,config).then(res =>
+      {
+        commit('usersUpcoming',res.data)
+      })
+      EventService.getHighlights(username,config).then(res =>
+      {
+        commit('usersHighlights',res.data)
+      })
+      EventService.getJourney(username,config).then(res =>
+        {
+          commit('usersJourney',res.data)
+        })
+  },
+  update_user_journey({commit, state}){
+    if(state.page_journey) {
+      // checking if page_journey was not null then call api
+      let config;
+      if(state.auth.loggedIn) {
+        config = {
+        headers: {"content-type": "multipart/form-data",
+          "Authorization": "Bearer " + state.auth.user.access_token}
+      };}
+      //push the results to state.journey and update the page_journey url
+      this.$axios.get(state.page_journey,config).then(res => {
+        commit('updateUserJourney',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
+    }
+  },
+  update_user_upcoming({commit, state}){
+    if(state.page_upcoming) {
+      // checking if page_upcoming was not null then call api
+      let config;
+      if(state.auth.loggedIn) {
+        config = {
+        headers: {"content-type": "multipart/form-data",
+          "Authorization": "Bearer " + state.auth.user.access_token}
+      };}
+      //push the results to state.journey and update the page_upcoming url
+      this.$axios.get(state.page_upcoming,config).then(res => {
+        commit('updateUserUpcoming',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
+    }
+  },
+  update_user_highlights({commit, state}){
+    if(state.page_highlights) {
+      // checking if page_highlights was not null then call api
+      let config;
+      if(state.auth.loggedIn) {
+        config = {
+        headers: {"content-type": "multipart/form-data",
+          "Authorization": "Bearer " + state.auth.user.access_token}
+      };}
+      //push the results to state.journey and update the page_highlights url
+      this.$axios.get(state.page_highlights,config).then(res => {
+        commit('updateUserHighlights',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
+    }
+  },
   check_user_teachers({commit, state}){
     if(state.auth.loggedIn) {
         EventService.getEach1Teach1_teachers(state.auth.user.user.username).then(res =>
@@ -275,7 +348,6 @@ export const actions = {
       });   
     }
   },
-  
   update_user_learnings({commit, state}){
     if(state.page_learnings) {
       this.$axios.get(state.page_learnings).then(res => {
@@ -328,6 +400,10 @@ export const actions = {
     if(state.auth.loggedIn){
       commit('clearTeachers')
     }
+  },
+  remove_journey({commit, state})
+  {
+      commit('clearJourney')
   },
   remove_full_journey({commit})
   {
@@ -390,6 +466,43 @@ export const actions = {
 }
     // Define Mutations
 export const mutations = {
+  usersJourney(state, journey)
+  {
+    state.journey = []
+    if(journey.results.length)
+    {
+      state.journey = journey.results
+      state.page_journey = journey.next
+    }
+    // this one's for loading in journey page.
+    state.journeyLoaded = false
+  },
+  usersUpcoming(state, upcoming)
+  {
+    state.upcoming=[]
+    if(upcoming.results.length)
+    {
+      state.upcoming = upcoming.results
+      state.page_upcoming = upcoming.next
+    }
+  },
+  usersHighlights(state, highlights)
+  {
+    state.highlights=[]
+    if(highlights.results.length)
+    {
+      state.highlights = highlights.results
+      state.page_highlights = highlights.next
+    }
+  },
+  clearJourney(state) //if user has portfolio change state to true
+  {
+    console.log("clear journey");
+    state.journeyLoaded=true
+    state.journey =[]
+    state.upcoming =[]
+    state.highlights =[]
+  },
   check_learn_obj(state,learn_obj){
     state.loadingLearning = false;
     state.learn_obj = learn_obj
@@ -626,15 +739,6 @@ export const mutations = {
   clearTeachers(state){
     state.teachers =[]
     state.hasTeachers = false
-  },
-  clearJourney(state) //if user has portfolio change state to true
-  {
-    state.journey =[]
-    state.hasJourney = false
-    state.upcoming =[]
-    state.hasUpcoming = false
-    state.highlights =[]
-    state.hasHighlights = false
   },
   clearFullJourney(state) //if user has portfolio change state to true
   {

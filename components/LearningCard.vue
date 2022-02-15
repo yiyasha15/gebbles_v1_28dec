@@ -1,7 +1,7 @@
 <template>
 <div>
     <v-card
-      class="ma-1"
+      style="margin:2px;"
       data-view
       @click="openDialog(learning.id,learning.timestamp)"
       outlined

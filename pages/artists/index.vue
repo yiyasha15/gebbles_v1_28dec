@@ -1,6 +1,6 @@
 <template>
     <v-app>
-      <v-container>
+      <v-container class="pa-0">
       <v-row style="max-width: 1072px;
     margin: auto;">
         <v-col cols="12" md="8"  class="justify-center">
@@ -20,14 +20,17 @@
             ></v-text-field>
         </v-col>
       </v-row>
-      <v-layout wrap row justify-center v-if="firstLoad">
-          <div v-for="n in this.looploader" :key ="n.index">
-            <v-flex sm6 xs6> 
-              <v-skeleton-loader class="ma-1" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
-            </v-flex>
+      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+        <div v-for="n in this.looploader" :key ="n.index">
+              <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
           </div>
       </v-layout>
-      <v-layout wrap row justify-center v-show="!firstLoad" class="hidden-md-and-up" >
+      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
+        <div v-for="n in this.looploader" :key ="n.index">
+              <v-skeleton-loader style="margin:2px;"  width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+          </div>
+      </v-layout>
+      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
         <div v-for="artist in artists" :key ="artist.index">
           <!-- <v-flex sm6 xs6>  -->
             <ArtistCard :artist="artist" ></ArtistCard> 

@@ -12,7 +12,7 @@
                 height="550"
                 :src = "usersPortfolio.cover"></v-img>
         </center>
-        <v-container style="max-width:1185px;">
+        <v-container style="max-width:1072px;">
         <v-row class="hidden-sm-and-down">
             <v-col cols="6" class="pt-10 pl-0">
                 <v-img
@@ -127,7 +127,7 @@
                 height="500"
                 :src = "artist.cover"></v-img>
         </center>
-        <v-container style="max-width:1185px;">
+        <v-container style="max-width:1072px;">
         <v-row class="hidden-sm-and-down">
             <v-col cols="6" class="pt-10 pl-0">
                 <v-img
@@ -381,6 +381,7 @@ export default {
       }
     },
     created(){
+        // this.$store.dispatch("remove_portfolio")
         let url1 =this.$props.bio.vid1 //getting value of youtube video urls
         let url2 = this.$props.bio.vid2
         let url3 = this.$props.bio.vid3

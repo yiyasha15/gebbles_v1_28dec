@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card
-      class="ma-1 overflow-hidden"
+      style="margin:2px;"
       data-view
       @click="openDialog(journey.id)" 
       :elevation="hover ? 12 : 0"
@@ -22,9 +22,9 @@
       max-width="800"
         v-model="dialog"
         persistent
-        class="ma-12 ma-md-24">
-        <div class="rounded-lg white">
-          <v-row align="end" justify="end" class="pa-4" >
+        class="ma-12 ma-md-24 overflow-hidden">
+        <div class="rounded-lg white" max-width="800"> 
+          <v-row align="end" justify="end" class="pa-4 ma-0" >
           <v-btn icon color="error" @click="closeDialog"  align="end" justify="end" >
             <v-icon >mdi-close</v-icon>
           </v-btn>
@@ -151,20 +151,20 @@
               </v-row>
               <v-container style="margin:auto; max-width:768px; " >
               <div v-if="loggedInUser">
-              <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="pt-2">
+              <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="pa-2">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon small>
-                      <v-icon color="black" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
+                      <v-icon  color="black" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
                     </v-btn>
-                    </template>
-                    <span>Edit</span>
-                    </v-tooltip>
+                  </template>
+                  <span>Edit</span>
+                </v-tooltip>
                 <v-dialog v-model="dialogDelete" width="500">
                     <template v-slot:activator="{ on, attrs }">
                       <v-tooltip top v-bind="attrs" v-on="on">
                         <template v-slot:activator="{ on, attrs }">
-                            <v-btn small icon>
+                            <v-btn small icon >
                                 <v-icon color="error" small  @click="saveJourneyId(journey.id)" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
                             </v-btn>
                         </template>
@@ -289,6 +289,8 @@ export default {
       };
       try {
           await this.$axios.$delete("/v1/artist/journey/"+id , config);
+          console.log("Journey deleted!");
+          this.$store.dispatch("check_user_journey", this.$store.state.auth.user.user.username)
           this.dialogDelete =false;
           this.dialog = false
           this.snackbar = true;
