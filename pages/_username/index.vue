@@ -170,32 +170,32 @@
                 "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
                 </h3> </v-col>
             </v-row>
-        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="my-6" >
+        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="mb-6 mt-16" >
             <template>
                 <v-row>
                     <v-col
                     v-if="videoId"
                     class="d-flex child-flex"
                     cols="12" md="6">
-                    <youtube aspect-ratio="1" :video-id= 'videoId'></youtube>
+                    <youtube style="max-width:90%; margin:auto;height:auto; " :video-id= 'videoId'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId1"
                     class="d-flex child-flex"
                     cols="12" md="6">
-                    <youtube  aspect-ratio="1" :video-id= 'videoId1'></youtube>
+                    <youtube style="max-width:90%; margin:auto;height:auto;"  :video-id= 'videoId1'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId2"
                     class="d-flex child-flex"
                     cols="12" md="6">
-                    <youtube aspect-ratio="1" :video-id= 'videoId2'></youtube>
+                    <youtube style="max-width:90%; margin:auto;height:auto;"  :video-id= 'videoId2'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId3"
                     class="d-flex child-flex"
                     cols="12" md="6">
-                    <youtube aspect-ratio="1" :video-id= 'videoId3'></youtube>
+                    <youtube style="max-width:90%; margin:auto; height:auto;"  :video-id= 'videoId3'></youtube>
                     </v-col>
                 </v-row>
             </template>
