@@ -1,6 +1,6 @@
 <template>
 <v-app>
-  <v-container>
+  <v-container style="max-width:1072px;">
     <v-btn icon class="elevation-0 mb-8 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
       <v-row no-gutters>
         <v-col cols="12" md='6'>

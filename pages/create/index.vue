@@ -1,6 +1,6 @@
 <template>
 <v-app>
-  <v-container>
+  <v-container style="max-width:1072px;">
     <v-btn icon class="elevation-0 mb-8 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
       <v-row no-gutters>
         <v-col cols="12" md='6'>
@@ -29,7 +29,7 @@
           <div v-if="loggedInUser && !userHasPortfolio" class="ma-2">
               <h3 class="font-weight-bold">How to get started?</h3>
               <h4 class="font-weight-light mb-8">Yo! <b class="text-capitalize">
-                {{loggedInUser.user.username}}
+                @{{loggedInUser.user.username}}
                 </b>, so glad that you're joining the <b>gebbles
                 community</b>, we have a basic template laid out for you. Please follow these steps.
               </h4>

@@ -1,5 +1,5 @@
 <template>
-    <v-container class="ma-24" style="max-width:1185px;">
+    <v-container class="ma-24" style="max-width:1072px;">
         <v-row>
             <v-col>
                 <v-container>
@@ -87,7 +87,7 @@
                 item-text="name"
                 item-value="code"
                 v-model = "sharing.s_teacher_country"
-                label= "'Country they are from"
+                label= "Country they are from"
                 clearable>
                 </v-select>
             <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
@@ -110,8 +110,9 @@
                 <template v-if="imageData">
                 <v-img :src="imageData" height="300px" width="350px"></v-img>
                 </template>
-                <v-btn small v-if="!imageData" outlined color="blue-grey" class="ma-2 white--text" @click="onPick" >
-                    Upload<v-icon right dark> mdi-cloud-upload </v-icon>
+                <v-btn small v-if="!imageData" outlined color="black" class="ma-2" @click="onPick" >
+                    Upload
+                    <!-- <v-icon right> mdi-cloud-upload </v-icon> -->
                 </v-btn>
                 <v-btn small v-else outlined color="error" class="ma-2" @click="imageData=''; sharing.s_photo = ''" >
                     Remove<v-icon right dark> mdi-close</v-icon>

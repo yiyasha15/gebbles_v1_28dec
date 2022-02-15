@@ -1,6 +1,6 @@
 <template>
     <v-app> 
-        <v-container style="max-width:1185px;">
+        <v-container style="max-width:1072px;">
             <div :class="{'ma-0': $vuetify.breakpoint.smAndDown, 'ma-6': $vuetify.breakpoint.mdAndUp}">
             <h2 class="my-4">Settings</h2>
             <v-card max-width="700" class="my-6 pa-2" elevation="0" outlined>

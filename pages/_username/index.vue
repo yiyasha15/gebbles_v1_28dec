@@ -124,20 +124,20 @@
         <center v-if="artist.cover">
             <v-img
             class="hidden-md-and-up"
-                height="500"
+                height="350"
                 :src = "artist.cover"></v-img>
         </center>
         <v-container style="max-width:1072px;">
         <v-row class="hidden-sm-and-down">
             <v-col cols="6" class="pt-10 pl-0">
                 <v-img
-                height="700"
+                height="530"
                 :src = "artist.cover"></v-img>
             </v-col>
             <v-col cols="6" class="pr-0">
-                <h2 style="font-size: 2.5rem;" class="mb-12 pt-6 " >about</h2>
+                <h2 style="font-size: 2.5rem;" class="mb-9 pt-6 " >about</h2>
                 <div style="
-                        height:522px;
+                        height:368px;
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
@@ -157,19 +157,19 @@
                 </h4>
                 </v-col>
         </v-row>
-                <v-row v-if="bio.crew" class="hidden-md-and-up" >
-                    <v-col v-if="bio.crew">
-                        <h3 >
-                            Representing: {{bio.crew}}
-                        </h3>
-                    </v-col>
-                </v-row>
-            <v-row v-if="bio.quote" class="mt-8 mb-6">
-                <v-col align="center" style="margin:auto; max-width:750px">
-                <h3 class="font-weight-light font-italic">
-                "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
-                </h3> </v-col>
-            </v-row>
+        <v-row v-if="bio.crew" class="hidden-md-and-up" >
+            <v-col v-if="bio.crew">
+                <h3 >
+                    Representing: {{bio.crew}}
+                </h3>
+            </v-col>
+        </v-row>
+        <v-row v-if="bio.quote" class="mt-8 mb-6">
+            <v-col align="center" style="margin:auto; max-width:750px">
+            <h3 class="font-weight-light font-italic">
+            "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
+            </h3> </v-col>
+        </v-row>
         <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="mb-6 mt-16" >
             <template>
                 <v-row>
@@ -177,25 +177,29 @@
                     v-if="videoId"
                     class="d-flex child-flex"
                     cols="12" md="6">
-                    <youtube style="max-width:90%; margin:auto;height:auto; " :video-id= 'videoId'></youtube>
+                    <youtube class="hidden-sm-and-down" aspect-ratio="1" :video-id= 'videoId'></youtube>
+                    <youtube style="max-width:90%; margin:auto;height:auto;" class="hidden-md-and-up" :video-id= 'videoId'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId1"
                     class="d-flex child-flex"
                     cols="12" md="6">
-                    <youtube style="max-width:90%; margin:auto;height:auto;"  :video-id= 'videoId1'></youtube>
+                    <youtube class="hidden-sm-and-down" aspect-ratio="1" :video-id= 'videoId1'></youtube>
+                    <youtube style="max-width:90%; margin:auto;height:auto;" class="hidden-md-and-up" :video-id= 'videoId1'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId2"
                     class="d-flex child-flex"
                     cols="12" md="6">
-                    <youtube style="max-width:90%; margin:auto;height:auto;"  :video-id= 'videoId2'></youtube>
+                    <youtube class="hidden-sm-and-down" aspect-ratio="1" :video-id= 'videoId2'></youtube>
+                    <youtube style="max-width:90%; margin:auto;height:auto;" class="hidden-md-and-up" :video-id= 'videoId2'></youtube>
                     </v-col>
                     <v-col
                     v-if="videoId3"
                     class="d-flex child-flex"
                     cols="12" md="6">
-                    <youtube style="max-width:90%; margin:auto; height:auto;"  :video-id= 'videoId3'></youtube>
+                    <youtube class="hidden-sm-and-down" aspect-ratio="1" :video-id= 'videoId3'></youtube>
+                    <youtube style="max-width:90%; margin:auto; height:auto;" class="hidden-md-and-up" :video-id= 'videoId3'></youtube>
                     </v-col>
                 </v-row>
             </template>
