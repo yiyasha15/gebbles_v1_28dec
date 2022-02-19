@@ -8,7 +8,7 @@
       width="115" 
       max-height="105"
     >
-    <v-img v-if="cook .taggedteachers.s_photo"
+    <v-img v-if="cook.taggedteachers.s_photo"
         :src="cook.taggedteachers.s_photo"
         contain
         height="73"
@@ -27,6 +27,7 @@
         <p style="max-width:78px; font-size:0.6rem!important;">{{cook.username}} </p>
         </div>
         <v-spacer></v-spacer>
+        <template v-if="cook.taggedteachers.length <4">
          <div v-for="obj in cook.taggedteachers" :key="obj.id" class="text-decoration-none">
               <v-avatar left v-if="obj.shareidobj.teacher" size="16">
                 <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
@@ -35,6 +36,7 @@
                 <v-icon>mdi-account-circle</v-icon>
               </v-avatar>
           </div>
+        </template>
       </v-card-actions>
     </v-card>
   </v-hover>
