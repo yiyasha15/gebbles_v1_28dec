@@ -3,21 +3,21 @@
       <v-container class="pa-0">
       <v-row style="max-width: 1072px; margin: auto;">
         <v-col cols="12" md="8"  class="justify-center">
-          <h2 class ="xs12 d-inline">Community</h2>
-          <v-btn v-if="isAuthenticated" small icon outlined color="black" class="mb-2 ml-2" to="/create/website/">
+          <h2 class ="xs12 d-inline">What's Cooking</h2>
+          <v-btn v-if="isAuthenticated" small icon outlined color="black" class="mb-2 ml-2" to="/create/uploadvideo/">
           <v-icon small>mdi-plus</v-icon>
           </v-btn>
         </v-col>
-        <v-col cols="12" md="4" class= "justify-end" >
+        <!-- <v-col cols="12" md="4" class= "justify-end" >
           <v-text-field
-            label="Search artists"
+            label="Search cooking"
             rounded
             solo
             prepend-inner-icon="mdi-magnify"
             v-model="search"
           @input="debounceSearch"
           ></v-text-field>
-        </v-col>
+        </v-col> -->
       </v-row>
       <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
         <div v-for="n in this.looploader" :key ="n.index">
@@ -30,21 +30,21 @@
         </div>
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
-        <div v-for="artist in artists" :key ="artist.index">
-          <ArtistCard :artist="artist" ></ArtistCard> 
+        <div v-for="cook in cooking" :key ="cook.index">
+          <CookingCard :cook="cook" ></CookingCard> 
         </div>
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
-        <div v-for="artist in artists" :key ="artist.index">
-          <ArtistCard :artist="artist" ></ArtistCard>
+        <div v-for="cook in cooking" :key ="cook.index">
+          <CookingCard :cook="cook" ></CookingCard>
         </div>
       </v-layout>
-      <center v-if="!artists.length && !firstLoad">
+      <center v-if="!cooking.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
         :src="require('@/assets/gebbleslogo.png')"/>
-        <h3>No artists found. </h3>
+        <h3>No videos found. </h3>
       </center>
       </v-container>
       <v-card v-intersect="infiniteScrolling"></v-card>
@@ -52,14 +52,14 @@
 </template>
 
 <script>
-import ArtistCard from '@/components/ArtistCard.vue'
+import CookingCard from '@/components/CookingCard.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
 export default {
   scrollToTop: true,
   head() {  
     return {
-      title: 'Artists',
+      title: 'Cooking',
       meta: [ 
         {
           hid: 'description',
@@ -71,52 +71,52 @@ export default {
     }
   },
   created(){
-    this.getartists();
+    this.getwhatiscooking();
   },
   methods:{
-    async getartists(){
+    async getwhatiscooking(){
       try {
-      const response = await EventService.getArtists()
-      this.artists = response.data.results
+      const response = await EventService.getWhatsCooking()
+      this.cooking = response.data.results
       this.page = response.data.next
       this.firstLoad = false
-    } catch (e) {
+      } catch (e) {
         console.log(e);
         this.firstLoad = false
     }
     },
-    infiniteScrolling(entries, observer, isIntersecting) {
-        if(this.page){
-        const key = 'username';
-        this.$axios.get(this.page).then(response => {
-              this.page= response.data.next;
-              response.data.results.forEach(item => this.artists.push(item));
-              // filter array so no duplicates
-              this.artists = [...new Map(this.artists.map(item =>
-                [item[key], item])).values()];
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        }
-    },
-    debounceSearch() {
-    this.firstLoad = true
-    this.artists=[]
-      clearTimeout(this.debounce)
-      this.debounce = setTimeout(() => {
-      if(this.search){EventService.getSearchedArtist(this.search).then((value) => {
-      this.firstLoad = false
-      this.artists = value.data
-      });}
-      else{
-        this.getartists();
+    infiniteScrolling() {
+      if(this.page){
+      const key = 'username';
+      this.$axios.get(this.page).then(response => {
+        this.page= response.data.next;
+        response.data.results.forEach(item => this.cooking.push(item));
+        // filter array so no duplicates
+        this.cooking = [...new Map(this.cooking.map(item =>
+          [item[key], item])).values()];
+      })
+      .catch(err => {
+        console.log(err);
+      });
       }
-      }, 600)
     },
+    // debounceSearch() {
+    // this.firstLoad = true
+    // this.cooking=[]
+    //   clearTimeout(this.debounce)
+    //   this.debounce = setTimeout(() => {
+    //   if(this.search){EventService.getSearchedCooking(this.search).then((value) => {
+    //   this.firstLoad = false
+    //   this.cooking = value.data
+    //   });}
+    //   else{
+    //     this.getwhatiscooking();
+    //   }
+    //   }, 600)
+    // },
   },
   components: {
-    ArtistCard
+    CookingCard
   },
   data() {
     return {
@@ -124,18 +124,13 @@ export default {
       loading: true,
       firstLoad: true,
       page:"",
-      artists:[],
+      cooking:[],
       search: "",
       debounce: null
     }
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
-    // filterApi: function(){
-    //   return this.artists.filter((artist) => {
-    //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
-    //   });
-    // }
   },
 }
 </script>

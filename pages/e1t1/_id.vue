@@ -57,10 +57,10 @@
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
                             <h3 >{{e1t1.teacher}}</h3> 
-                            </nuxt-link>
-                            <div v-else>
-                                <h3>{{e1t1.s_teacher_name}}</h3> 
-                            </div>
+                        </nuxt-link>
+                        <div v-else>
+                            <h3>{{e1t1.s_teacher_name}}</h3> 
+                        </div>
                     </v-flex>
                     <v-flex xs2 md2>
                         <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >

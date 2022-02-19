@@ -49,49 +49,7 @@
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-col>
-          <!-- <div v-if="loggedInUser && learn_obj" align="end" justify="end">
-          <v-col class="ma-0" v-if="loggedInUser.user.username == learn_obj.username" >
-          <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-              <v-btn small icon v-bind="attrs"
-              v-on="on">
-              <v-icon small color="black" @click="editLearning">mdi-circle-edit-outline</v-icon>
-          </v-btn>
-          </template>
-          <span>Edit</span>
-          </v-tooltip>
-          <v-dialog v-if="loggedInUser" v-model="deleteLearnDialog" width="500">
-          <template v-slot:activator="{ on, attrs }">
-              <v-tooltip top v-bind="attrs" v-on="on">
-              <template v-slot:activator="{ on, attrs }">
-                  <v-btn small icon >
-                  <v-icon small color="error" @click="deleteLearnDialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                  </v-btn>
-              </template>
-              <span>Delete</span>
-              </v-tooltip>
-          </template>
-          <v-card class="pa-4">
-              <p>Are you sure you want to delete this lesson?</p>
-              <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn small class="px-4 text-decoration-none" color="error" dark
-                  @click="deleteLearning(learn_obj.id,learn_obj.shareidobj)">Delete</v-btn>
-              <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="deleteLearnDialog = false">
-                  Cancel
-              </v-btn>
-              </v-card-actions>
-          </v-card>
-          </v-dialog>
-          </v-col>
-          </div> -->
-
           <v-col cols="12"  v-if="learn_obj" >
-            <!-- {{learn_obj}}
-            <video id="videoId" max-width="300px" height="300px" controls v-if="learn_obj.video" class="hidden-xs-only">
-              <source src="https://presignedurl1.s3.us-east-2.amazonaws.com/c8e4e77b-96b5-47c6-ab04-0936555b351a" type="video/mp4">
-              Your browser does not support the video tag.
-          </video> -->
           <video id="videoId" width="100%" height="300px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-xs-only">
               <source :src="learn_obj.video" type="video/mp4">
               Your browser does not support the video tag.
@@ -111,10 +69,6 @@
             <nuxt-link to="/batalla" class="text-decoration-none">
           <v-chip color="black" dark outlined class="mr-1" style="cursor:pointer;">
             <v-avatar left>
-              <!-- <img
-                    :src = "usersPortfolio.thumb" 
-                    alt="img"
-                > -->
               <v-icon>mdi-account-circle</v-icon>
             </v-avatar>
             batalla
@@ -289,7 +243,6 @@ import { mapGetters } from 'vuex'
     name: 'LearningCard',
     data() {
       return {
-        teacher_mentioned:['river','batalla','martha'],
         deleteLearnDialog: false,
         updateLearning: false,
         timeLearn:'',

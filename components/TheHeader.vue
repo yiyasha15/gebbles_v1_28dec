@@ -68,7 +68,7 @@
                 :to="'/create/uploadvideo'"
                 class="text-decoration-none pl-6 pr-12"
                 ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                <v-list-item-title>Upload video</v-list-item-title>
+                <v-list-item-title>Upload a video</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 v-if="!userHasPortfolio"

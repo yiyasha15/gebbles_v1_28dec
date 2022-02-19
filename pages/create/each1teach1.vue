@@ -616,7 +616,7 @@ export default {
                 }
             };
             let urlLink = this.sharing.s_teacher_video;
-            if(urlLink){ //if link exists check if it's valid
+            if(urlLink!= this.share_obj.s_teacher_video){ //if link exists check if it's valid
                 var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
                 '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
                 '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address

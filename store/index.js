@@ -201,6 +201,7 @@ export const actions = {
   check_share_love({commit}, id){
     EventService.getShareLove(id).then(res =>
       {
+        console.log(res.data);
         commit('check_share_love',res.data.count)
       })
   },

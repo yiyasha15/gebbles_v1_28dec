@@ -18,6 +18,15 @@ const apiClient1 = axios.create({
 })
 
 export default {
+    getWhatsCooking() {
+        return apiClient1.get('/whatiscooking/list/')
+    },
+    getWhatsCookingId(id) {
+        return apiClient1.get('/whatiscooking/list/'+ id)
+    },
+    // getSearchedCooking() {
+    //     return apiClient1.get('/whatiscooking/search/?query='+ query)
+    // },
     getArtists() {
         return apiClient1.get('/artist/portfolios/list/')
     },

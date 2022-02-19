@@ -22,24 +22,23 @@
               <!-- <h1 style="font-size:28px" >Gebbles</h1><br> -->
               <h3 style="text-align:justify;" class=" font-weight-light">At gebbles, people share the stories about how you touched their lives through your dance and movement philosophy. <span class="font-weight-medium">Gebbles builds the foundation for you to create your own community.</span>
               </h3>
-              <v-btn dark color="#815A44" 
+              <v-btn dark color="#815A44" small
               class="text-decoration-none elevation-none mt-4 px-4 justify-end" 
               :to= "`/artists/`"><h4>community</h4>
               <v-icon right>
                 mdi-arrow-right
               </v-icon>
             </v-btn>
+            <h3 style="text-align:justify;" class=" font-weight-light">
+              </h3>
+            <v-btn color="#815A44"  outlined small
+              class="text-decoration-none elevation-none mt-4 px-4 justify-end" 
+              :to= "`/whatiscooking/`"><h4>Explore</h4>
+              <v-icon right>
+                mdi-arrow-right
+              </v-icon>
+            </v-btn>
           </div>
-          <!-- <div class="mx-8" align="left" justify="left">
-          <h3 class=" font-weight-bold"> Each 1 Teach 1</h3>
-          <h5 class="font-weight-light mt-2">we celebrate the 'EACH 1 TEACH 1'
-            legacy of the hiphop culture and it starts with you,
-            who represents the culture right.</h5>
-          <v-btn dark outlined color="#35463A" class="mt-4 text-decoration-none elevation-none px-4" :to= "`/create/each1teach1/`"><h5>Each One Teach One</h5>
-          <v-icon right>
-            mdi-arrow-right
-          </v-icon></v-btn>
-          </div> -->
         </v-col>
       </v-row>
       <v-container>

@@ -71,7 +71,7 @@
                             :to="'/create/uploadvideo'"
                             class="text-decoration-none pl-6 pr-12"
                             ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                            <v-list-item-title>Upload video</v-list-item-title>
+                            <v-list-item-title>Upload a video</v-list-item-title>
                             </v-list-item>
                             <v-list-item
                             v-if="!userHasPortfolio"
@@ -183,14 +183,14 @@
                     :to="'/'+ loggedInUser.user.username"
                     class="text-decoration-none pl-6 pr-12"
                     >
-                    <v-avatar size="36" v-if="usersPortfolio.thumb">
+                    <v-avatar size="36" v-if="!usersPortfolio.thumb">
                     <img
                         :src = "usersPortfolio.thumb" 
                         alt="img"
                     >
                     </v-avatar>
-                    <v-avatar size="36" color="black" v-else >
-                        <v-icon dark>
+                    <v-avatar size="36" v-else >
+                        <v-icon>
                             mdi-account-circle
                         </v-icon>
                     </v-avatar>
