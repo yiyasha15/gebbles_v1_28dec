@@ -45,17 +45,17 @@
         persistent>
         <v-container class="rounded-lg white pa-2" v-show="!loadingLearning">
           <v-col cols="12" align="end" justify="end">
-            <v-btn icon color="error" @click="closeDialog(learn_obj.video)">
+            <v-btn icon color="error" @click="closeDialog(cook_obj.video)">
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-col>
-          <v-col cols="12"  v-if="learn_obj" >
-          <video id="videoId" width="100%" height="300px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-xs-only">
-              <source :src="learn_obj.video" type="video/mp4">
+          <v-col cols="12"  v-if="cook_obj" >
+          <video id="videoId" width="100%" height="300px" controls controlsList="nodownload" v-if="cook_obj.video" class="hidden-xs-only">
+              <source :src="cook_obj.video" type="video/mp4">
               Your browser does not support the video tag.
           </video>
-          <video id="videoId" width="100%" height="150px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-sm-and-up">
-              <source :src="learn_obj.video" type="video/mp4">
+          <video id="videoId" width="100%" height="150px" controls controlsList="nodownload" v-if="cook_obj.video" class="hidden-sm-and-up">
+              <source :src="cook_obj.video" type="video/mp4">
               Your browser does not support the video tag.
           </video>
           <div align="left" justify="left">
@@ -63,7 +63,7 @@
             <h5 class="caption"> {{learndate}}</h5>
           </div>
           <div class="my-4" >
-          <h4>{{learn_obj.lesson}}</h4>
+          <h4>{{cook_obj.lesson}}</h4>
           </div>
           <div class="my-4">
             <nuxt-link to="/batalla" class="text-decoration-none">
@@ -86,17 +86,17 @@
           </div>
             <div class="my-4">
               <v-btn icon @click="react_like()" class="mr-1">
-                <v-icon color="black" v-if="!learn_has_like">mdi-heart-outline</v-icon>
+                <v-icon color="black" v-if="!cook_has_like">mdi-heart-outline</v-icon>
                 <v-icon color="red" v-else>mdi-heart</v-icon>
                 <div v-if="like.length">{{like.length}}</div>
               </v-btn>
               <v-btn icon @click="react_dope()" class="mx-1">
-                <v-icon color="black" v-if="!learn_has_dope">mdi-fire</v-icon>
+                <v-icon color="black" v-if="!cook_has_dope">mdi-fire</v-icon>
                 <v-icon color="orange" v-else>mdi-fire</v-icon>
                 <div v-if="dope.length">{{dope.length}}</div>
               </v-btn>
               <v-btn icon @click="react_info()" class="mx-1">
-                <v-icon color="black" v-if="!learn_has_info">mdi-head-flash-outline</v-icon>
+                <v-icon color="black" v-if="!cook_has_info">mdi-head-flash-outline</v-icon>
                 <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
                 <div v-if="info.length">{{info.length}}</div>
               </v-btn>
@@ -139,7 +139,7 @@
                 </v-textarea>
                 <v-btn v-if="isAuthenticated && userHasPortfolio"
                     small class="text-decoration-none mt-2" 
-                    @click="post_comment(learn_obj.id)"
+                    @click="post_comment(cook_obj.id)"
                         color="black" dark >Post
                 </v-btn>
             </v-row>
@@ -208,8 +208,8 @@
                     </video>
                     <!-- <video id="videoPreview" width="300" height="300" controls></video> -->
                     <v-text-field
-                        v-if="learn_obj "
-                        v-model = "learn_obj.lesson"
+                        v-if="cook_obj "
+                        v-model = "cook_obj.lesson"
                         label= "Describe the lessons you learnt.">
                     </v-text-field>
                         <v-btn class="text-decoration-none" outlined  color="black" dark
@@ -272,20 +272,20 @@ import { mapGetters } from 'vuex'
     },
     computed: {
       ...mapGetters(['loggedInUser', 'userHasPortfolio', 'usersPortfolio', 'artists' ,'isAuthenticated',
-      'like', 'dope', 'info', 'learning_comments_list', 'learn_has_like','learn_has_like_id', 
-      'learn_has_dope','learn_has_dope_id','learn_has_info','learn_has_info_id','learn_obj' ,'loadingLearning']),
+      'like', 'dope', 'info', 'learning_comments_list', 'cook_has_like','cook_has_like_id', 
+      'cook_has_dope','cook_has_dope_id','cook_has_info','cook_has_info_id','cook_obj' ,'loadingLearning']),
     },
     methods:{
       closeUpdateLearning(){
-        this.$store.dispatch("remove_learn_obj");
+        this.$store.dispatch("remove_cook_obj");
         this.updateLearning = false
       },
       async updateLearningBtn(){
           
       },
       editLearning(){
-        // this.$store.dispatch("check_learn_obj",id);
-        console.log(this.learn_obj);
+        // this.$store.dispatch("check_cook_obj",id);
+        console.log(this.cook_obj);
         this.updateLearning = true
       },
       dateFormat(recdate){
@@ -302,16 +302,16 @@ import { mapGetters } from 'vuex'
       async openDialog(id, time){
         //check likes and comments for particular opened learning id
         this.dateFormat(time)
-        this.$store.dispatch("check_learn_obj",id);
-        this.$store.dispatch("check_learn_reactions",id);
-        this.$store.dispatch("check_learn_comments",id);
+        this.$store.dispatch("check_cook_obj",id);
+        this.$store.dispatch("check_cook_reactions",id);
+        this.$store.dispatch("check_cook_comments",id);
         this.videoDialog= true;
       },
       closeDialog(video) //pressing outside dialog pauses video
       {
         //remove likes and comments for particular opened learning id
-        this.$store.dispatch("remove_learn_reactions");
-        this.$store.dispatch("remove_learn_obj");
+        this.$store.dispatch("remove_cook_reactions");
+        this.$store.dispatch("remove_cook_obj");
         this.videoDialog =false;
         this.learndate =""
         if(video){
@@ -358,17 +358,17 @@ import { mapGetters } from 'vuex'
       async react_like(){
           if(this.isAuthenticated){
           this.reactForm.username = this.$store.state.auth.user.user.username;
-          this.reactForm.learningidobj = this.learn_obj.id
+          this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'LO'
-          if(this.learn_has_like){
+          if(this.cook_has_like){
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.learn_has_like_id , config)
-                this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_like_id , config)
+                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
                 //store make learn love false
             } catch (e) {
                 console.log(e);
@@ -386,7 +386,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               await this.$axios.$post("/v1/e1t1/learnings/likes/", formData, config)
-              this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+              this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
           } catch (e) {
               console.log(e);
           }
@@ -399,17 +399,17 @@ import { mapGetters } from 'vuex'
       async react_dope(){
         if(this.isAuthenticated){
           this.reactForm.username = this.$store.state.auth.user.user.username;
-          this.reactForm.learningidobj = this.learn_obj.id
+          this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'FI'
-          if(this.learn_has_dope){
+          if(this.cook_has_dope){
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.learn_has_dope_id , config)
-                this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_dope_id , config)
+                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
                 //store make learn love false
             } catch (e) {
                 console.log(e);
@@ -427,7 +427,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               await this.$axios.$post("/v1/e1t1/learnings/likes/", formData, config)
-              this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+              this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
           } catch (e) {
               console.log(e);
           }
@@ -440,17 +440,17 @@ import { mapGetters } from 'vuex'
       async react_info(){
         if(this.isAuthenticated){
           this.reactForm.username = this.$store.state.auth.user.user.username;
-          this.reactForm.learningidobj = this.learn_obj.id
+          this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'DE'
-          if(this.learn_has_info){
+          if(this.cook_has_info){
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.learn_has_info_id , config)
-                this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_info_id , config)
+                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
                 //store make learn love false
             } catch (e) {
                 console.log(e);
@@ -468,7 +468,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               await this.$axios.$post("/v1/e1t1/learnings/likes/", formData, config)
-              this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+              this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
           } catch (e) {
               console.log(e);
           }
@@ -495,7 +495,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               let response = await this.$axios.$post("/v1/e1t1/learnings/comments/", formData, config)
-              this.$store.dispatch("check_learn_comments",id)
+              this.$store.dispatch("check_cook_comments",id)
               this.comments.comment = ''
               this.thankyou_snackbar = true
           } catch (e) {

@@ -210,15 +210,18 @@
             </v-col>
         </v-row>
         <v-row class="mb-12" align="center" justify="center">
-            <v-btn v-if="bio.ig"  class="text-decoration-none mx-2" color="black" text @click="openig" >
-                <v-icon class="mr-1">mdi-instagram</v-icon> instagram
+            <v-btn v-if="bio.ig"  class="text-decoration-none mx-2" color="black" icon @click="openig" >
+                <v-icon class="mr-1">mdi-instagram</v-icon>
             </v-btn>
-            <v-btn v-if="bio.fb" class="text-decoration-none mx-2" color="black" text @click="openfb" >
-                <v-icon class="mr-1">mdi-facebook</v-icon> facebook
+            <!-- <span v-if="bio.ig">{{bio.ig}}</span> -->
+            <v-btn v-if="bio.fb" class="text-decoration-none mx-2" color="black" icon @click="openfb" >
+                <v-icon class="mr-1">mdi-facebook</v-icon>
             </v-btn>
-            <v-btn v-if="bio.site" class="text-decoration-none mx-2" color="black" text @click="openpersonal" >
-                <v-icon class="mr-1">mdi-email</v-icon> website
-            </v-btn>
+            <!-- <span v-if="bio.fb">{{bio.fb}}</span> -->
+            <v-btn v-if="bio.site" class="text-decoration-none mx-2" color="black" icon @click="openpersonal" >
+                <v-icon class="mr-1">mdi-email</v-icon>
+            </v-btn> 
+            <a v-if="bio.site" :href="bio.site">{{bio.site}}</a>
         </v-row>
         </v-container>
         </div>

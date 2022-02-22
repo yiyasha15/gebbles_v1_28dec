@@ -29,19 +29,19 @@
                 mdi-arrow-right
               </v-icon>
             </v-btn>
-            <h3 style="text-align:justify;" class=" font-weight-light">
-              </h3>
-            <v-btn color="#815A44"  outlined small
-              class="text-decoration-none elevation-none mt-4 px-4 justify-end" 
-              :to= "`/whatiscooking/`"><h4>Explore</h4>
-              <v-icon right>
-                mdi-arrow-right
-              </v-icon>
-            </v-btn>
           </div>
         </v-col>
       </v-row>
       <v-container>
+        <center>
+          <v-btn color="#815A44"  outlined small
+          class="text-decoration-none elevation-none mb-6 mt-4 px-4" 
+          :to= "`/whatiscooking/`"><h4>What's cookin!</h4>
+          <v-icon right>
+            mdi-arrow-right
+          </v-icon>
+          </v-btn>
+        </center>
       <v-row class="my-16">
         <v-col>
           <v-hover v-slot:default="{ hover }">

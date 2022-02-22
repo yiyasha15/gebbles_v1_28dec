@@ -105,13 +105,15 @@
                                 label="Facebook ID"
                                 @click:append="bio.fb=''; inputFace=!inputFace">
                             </v-text-field>
-                            <v-btn v-show="!inputMail &&!bio.site" icon color=blue @click="inputMail=true"><v-icon>mdi-mail</v-icon></v-btn>
+                            <v-btn v-show="!inputMail &&!bio.site" icon color=blue @click="inputMail=true"><v-icon>mdi-email</v-icon></v-btn>
                             <v-text-field
+                            :error-messages="linkError"
                                 v-show="inputMail ||bio.site"
                                 prepend-icon="mdi-email"
                                 v-model= "bio.site"
                                 append-icon="mdi-close"
                                 label="Personal Website URL"
+                                @change="checkLink"
                                 @click:append="bio.site=''; inputMail=!inputMail"
                                 >
                             </v-text-field>
@@ -451,6 +453,7 @@ data(){
         videoId2:'',
         videoId3:'',
         videoId4:'',
+        linkError:'',
         ytLinkError1:'',
         ytLinkError2:'',
         ytLinkError3:'',
@@ -710,84 +713,112 @@ data(){
     }
 },
 methods: {
+    checkLink(){
+        let urlLink = this.bio.site;
+        if(urlLink){ //if link exists check if it's valid
+            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+            let check = !!pattern.test(this.bio.site);
+            if(check){
+                let checkStartsHttp = urlLink.startsWith('http')
+                console.log( "checkStartsHttp", checkStartsHttp);
+                if(!checkStartsHttp)
+                {
+                    console.log("doesn't start with http")
+                    console.log("url",this.bio.site);
+                    this.bio.site = 'http://'+ this.bio.site
+                    console.log("url",this.bio.site);
+                    this.linkError=``
+                    //add http to url
+                }
+            }
+            else{
+                this.linkError=`Enter a valid URL.`
+            }
+        }
+    },
     ...mapActions(['check_user_bio','check_user_portfolio']),
     showYoutubeVideo(id){
         switch(id) {
-            case 1:
-                {
-                    let url= this.bio.vid1
-                    if (url != undefined || url != '') {        
-                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                        var match = url.match(regExp);
-                        if (match && match[2].length == 11) {
-                            // Do anything for being valid        
-                            this.ytLinkError1 =``
-                        } else {
-                            //invalid youtube url
-                            this.ytLinkError1 = `Enter a valid Youtube URL.`
-                        }
-                    }
-                    let videoId1 = getIdFromURL(url) //getting id from video url
-                    this.videoId1 = videoId1
+        case 1:
+            {
+            let url= this.bio.vid1
+            if (url != undefined || url != '') {        
+                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                var match = url.match(regExp);
+                if (match && match[2].length == 11) {
+                    // Do anything for being valid        
+                    this.ytLinkError1 =``
+                } else {
+                    //invalid youtube url
+                    this.ytLinkError1 = `Enter a valid Youtube URL.`
                 }
-                break;
-            case 2:
-                {
-                    let url= this.bio.vid2
-                    if (url != undefined || url != '') {        
-                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                        var match = url.match(regExp);
-                        if (match && match[2].length == 11) {
-                            // Do anything for being valid        
-                            this.ytLinkError2 =``
-                        } else {
-                            //invalid youtube url
-                            this.ytLinkError2 = `Enter a valid Youtube URL.`
-                        }
-                    }
-                    let videoId2 = getIdFromURL(url) //getting id from video url
-                    this.videoId2 = videoId2
-                }
-                break;
-            case 3:
-                {
-                    let url= this.bio.vid3
-                    if (url != undefined || url != '') {        
-                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                        var match = url.match(regExp);
-                        if (match && match[2].length == 11) {
-                            // Do anything for being valid        
-                            this.ytLinkError3 =``
-                        } else {
-                            //invalid youtube url
-                            this.ytLinkError3 = `Enter a valid Youtube URL.`
-                        }
-                    }
-                    let videoId3 = getIdFromURL(url) //getting id from video url
-                    this.videoId3 = videoId3
-                }
-                break;
-            case 4:
-                {
-                    let url= this.bio.vid4
-                    if (url != undefined || url != '') {        
-                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                        var match = url.match(regExp);
-                        if (match && match[2].length == 11) {
-                            // Do anything for being valid        
-                            this.ytLinkError4 =``
-                        } else {
-                            //invalid youtube url
-                            this.ytLinkError4 = `Enter a valid Youtube URL.`
-                        }
-                    }
-                    let videoId4 = getIdFromURL(url) //getting id from video url
-                    this.videoId4 = videoId4
-                }
-                break;
-            default:
-                // code block
             }
+            let videoId1 = getIdFromURL(url) //getting id from video url
+            this.videoId1 = videoId1
+            }
+            break;
+        case 2:
+            {
+                let url= this.bio.vid2
+                if (url != undefined || url != '') {        
+                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                    var match = url.match(regExp);
+                    if (match && match[2].length == 11) {
+                        // Do anything for being valid        
+                        this.ytLinkError2 =``
+                    } else {
+                        //invalid youtube url
+                        this.ytLinkError2 = `Enter a valid Youtube URL.`
+                    }
+                }
+                let videoId2 = getIdFromURL(url) //getting id from video url
+                this.videoId2 = videoId2
+            }
+            break;
+        case 3:
+            {
+                let url= this.bio.vid3
+                if (url != undefined || url != '') {        
+                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                    var match = url.match(regExp);
+                    if (match && match[2].length == 11) {
+                        // Do anything for being valid        
+                        this.ytLinkError3 =``
+                    } else {
+                        //invalid youtube url
+                        this.ytLinkError3 = `Enter a valid Youtube URL.`
+                    }
+                }
+                let videoId3 = getIdFromURL(url) //getting id from video url
+                this.videoId3 = videoId3
+            }
+            break;
+        case 4:
+            {
+                let url= this.bio.vid4
+                if (url != undefined || url != '') {        
+                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                    var match = url.match(regExp);
+                    if (match && match[2].length == 11) {
+                        // Do anything for being valid        
+                        this.ytLinkError4 =``
+                    } else {
+                        //invalid youtube url
+                        this.ytLinkError4 = `Enter a valid Youtube URL.`
+                    }
+                }
+                let videoId4 = getIdFromURL(url) //getting id from video url
+                this.videoId4 = videoId4
+            }
+            break;
+        default:
+            // code block
+        }
     },
     goback(){
         window.history.back();
@@ -859,38 +890,38 @@ methods: {
             this.bio.gallery4 = files[0];
         }
     },
-    onPick() //changing the click from button to input using refs
-    {
-        this.$refs.fileInput.click()
-    },
-    onPick1() //changing the click from button to input using refs
-    {
-        this.$refs.fileInput1.click()
-    },
-    onPick2() //changing the click from button to input using refs
-    {
-        this.$refs.fileInput2.click()
-    },
-    onPick3() //changing the click from button to input using refs
-    {
-        this.$refs.fileInput3.click()
-    },
-    removeImage(){
-        this.imageData1 = ""
-        this.bio.gallery1 =''
-    },
-    removeImage1(){
-        this.imageData2 = ""
-        this.bio.gallery2 =''
-    },
-    removeImage2(){
-        this.imageData3 = ""
-        this.bio.gallery3 =''
-    },
-    removeImage3(){
-        this.imageData4 = ''
-        this.bio.gallery4 =''
-    },
+    // onPick() 
+    // {
+    //     this.$refs.fileInput.click()
+    // },
+    // onPick1() 
+    // {
+    //     this.$refs.fileInput1.click()
+    // },
+    // onPick2() 
+    // {
+    //     this.$refs.fileInput2.click()
+    // },
+    // onPick3() 
+    // {
+    //     this.$refs.fileInput3.click()
+    // },
+    // removeImage(){
+    //     this.imageData1 = ""
+    //     this.bio.gallery1 =''
+    // },
+    // removeImage1(){
+    //     this.imageData2 = ""
+    //     this.bio.gallery2 =''
+    // },
+    // removeImage2(){
+    //     this.imageData3 = ""
+    //     this.bio.gallery3 =''
+    // },
+    // removeImage3(){
+    //     this.imageData4 = ''
+    //     this.bio.gallery4 =''
+    // },
     dataURLtoFile(dataurl, filename) {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);

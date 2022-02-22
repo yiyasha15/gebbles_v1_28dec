@@ -8,9 +8,8 @@
       width="115" 
       max-height="105"
     >
-    <v-img v-if="cook.taggedteachers.s_photo"
-        :src="cook.taggedteachers.s_photo"
-        contain
+    <v-img v-if="cook.thumbjs"
+        :src="cook.thumbjs"
         height="73"
         width="115"
       />
@@ -20,7 +19,7 @@
         height="73"
         width="115"
       />
-      <v-card-actions height="32px">
+      <v-card-actions height="32px" class="pa-1">
         <div width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
@@ -29,7 +28,7 @@
         <v-spacer></v-spacer>
         <template v-if="cook.taggedteachers.length <4">
          <div v-for="obj in cook.taggedteachers" :key="obj.id" class="text-decoration-none">
-              <v-avatar left v-if="obj.shareidobj.teacher" size="16">
+              <v-avatar left v-if="obj.shareidobj && obj.shareidobj.teacher!=null" size="16">
                 <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
               </v-avatar>
               <v-avatar left v-else color="white" size="16">

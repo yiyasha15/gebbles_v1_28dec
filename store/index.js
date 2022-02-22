@@ -6,8 +6,9 @@ import EventService from '@/services/EventService.js'
 
 export const state = () => ({
   artists: [], //array of artists in img community
-  learn_obj:null,
+  // learn_obj:null,
   share_obj: null, //object to edit e1t1 data
+  cook_obj:null,
   editing_obj: null, //object to edit data
   portfolio: null, //store portfolio data of the logged in user
   bio: null, //store bio data of the logged in user
@@ -23,12 +24,12 @@ export const state = () => ({
   learning_comments_list:[],
   share_has_love: false,
   share_has_love_id:'',
-  learn_has_like: false,
-  learn_has_dope: false,
-  learn_has_info: false,
-  learn_has_like_id: '',
-  learn_has_dope_id: '',
-  learn_has_info_id: '',
+  cook_has_like: false,
+  cook_has_dope: false,
+  cook_has_info: false,
+  cook_has_like_id: '',
+  cook_has_dope_id: '',
+  cook_has_info_id: '',
   e1t1:{},
   love: '',
   like:'',
@@ -52,29 +53,29 @@ export const getters = {
   journeyLoaded(state){
     return state.journeyLoaded
   },
-  learn_obj(state){
-    return state.learn_obj
+  cook_obj(state){
+    return state.cook_obj
   },
   loadingLearning(state){
     return state.loadingLearning
   },
-  learn_has_like(state){
-    return state.learn_has_like
+  cook_has_like(state){
+    return state.cook_has_like
   },
-  learn_has_dope(state){
-    return state.learn_has_dope
+  cook_has_dope(state){
+    return state.cook_has_dope
   },
-  learn_has_info(state){
-    return state.learn_has_info
+  cook_has_info(state){
+    return state.cook_has_info
   },
-  learn_has_like_id(state){
-    return state.learn_has_like_id
+  cook_has_like_id(state){
+    return state.cook_has_like_id
   },
-  learn_has_dope_id(state){
-    return state.learn_has_dope_id
+  cook_has_dope_id(state){
+    return state.cook_has_dope_id
   },
-  learn_has_info_id(state){
-    return state.learn_has_info_id
+  cook_has_info_id(state){
+    return state.cook_has_info_id
   },
   share_has_love(state){
     return state.share_has_love
@@ -211,17 +212,22 @@ export const actions = {
         commit('check_share_comments',res.data)
       })
   },
-  check_learn_reactions({commit}, id){
-    EventService.getLearnReaction(id).then(res =>
-      {
-        commit('check_learn_reactions',res.data.results)
-      })
+  check_cook_reactions({commit}, id){
+    // EventService.getLearnReaction(id).then(res =>
+    //   {
+    //     commit('check_cook_reactions',res.data.results)
+    //   })
   },
-  check_learn_comments({commit}, id){
-    EventService.getLearnComments(id).then(res =>
-      {
-        commit('check_learn_comments',res.data.results)
-      })
+  check_cook_comments({commit}, id){
+    // EventService.getLearnComments(id).then(res =>
+    //   {
+    //     commit('check_cook_comments',res.data.results)
+    //   })
+  },
+  check_cook_obj({commit, state}, cook_obj){
+    if(state.auth.loggedIn) {
+    commit('check_cook_obj', cook_obj)
+    }
   },
   check_share_obj({commit, state}, share_obj){
     if(state.auth.loggedIn) {
@@ -233,12 +239,12 @@ export const actions = {
     commit('check_editing_obj', editing_obj)
     }
   },
-  check_learn_obj({commit},id){
-    EventService.getLearning(id).then(res =>
-    {
-      commit('check_learn_obj',res.data)
-    })
-  },
+  // check_learn_obj({commit},id){
+  //   EventService.getLearning(id).then(res =>
+  //   {
+  //     commit('check_learn_obj',res.data)
+  //   })
+  // },
   check_user_portfolio({commit, state}){
       if(state.auth.loggedIn) {
           EventService.getArtist(state.auth.user.user.username).then(res =>
@@ -416,12 +422,18 @@ export const actions = {
       commit('clear_share_obj',state.share_obj)
     }
   },
-  remove_learn_obj({commit, state})
+  remove_cook_obj({commit, state})
   {
-    if( state.learn_obj){
-      commit('clear_learn_obj',state.learn_obj)
+    if(state.auth.loggedIn && state.cook_obj){
+      commit('clear_cook_obj',state.cook_obj)
     }
   },
+  // remove_learn_obj({commit, state})
+  // {
+  //   if( state.learn_obj){
+  //     commit('clear_learn_obj',state.learn_obj)
+  //   }
+  // },
   remove_page({commit, state})
   {
     if(state.auth.loggedIn){
@@ -434,11 +446,11 @@ export const actions = {
       commit('clear_editing_obj',state.editing_obj)
     }
   },
-  remove_learn_reactions({commit, state})
+  remove_cook_reactions({commit, state})
   {
     if(state.auth.loggedIn){
-      commit('clear_learn_reactions')
-      commit('clear_learn_comments')
+      commit('clear_cook_reactions')
+      commit('clear_cook_comments')
     }
   },
   remove_love({commit, state})
@@ -504,10 +516,10 @@ export const mutations = {
     state.upcoming =[]
     state.highlights =[]
   },
-  check_learn_obj(state,learn_obj){
-    state.loadingLearning = false;
-    state.learn_obj = learn_obj
-  },
+  // check_learn_obj(state,learn_obj){
+  //   state.loadingLearning = false;
+  //   state.learn_obj = learn_obj
+  // },
   get_e1t1(state,e1t1){
     state.e1t1 = e1t1;
   },
@@ -545,7 +557,7 @@ export const mutations = {
       state.share_comments_list = share_comments_list.results;
       state.page_share_comment = share_comments_list.next
   },
-  check_learn_reactions(state, react){
+  check_cook_reactions(state, react){
     if(react){
       state.like = react.filter(react => react.like_type == "LO");
       state.dope = react.filter(react => react.like_type == "FI");
@@ -555,38 +567,44 @@ export const mutations = {
       let like = state.like
       let dope = state.dope
       let info = state.info
-      state.learn_has_like = false
-      state.learn_has_dope = false
-      state.learn_has_info = false
-      state.learn_has_like_id = ''
-      state.learn_has_dope_id = ''
-      state.learn_has_info_id = ''
+      state.cook_has_like = false
+      state.cook_has_dope = false
+      state.cook_has_info = false
+      state.cook_has_like_id = ''
+      state.cook_has_dope_id = ''
+      state.cook_has_info_id = ''
       let check_like = like.filter(like => like.username == state.auth.user.user.username);
       let check_dope = dope.filter(dope => dope.username == state.auth.user.user.username);
       let check_info = info.filter(info => info.username == state.auth.user.user.username);
       if(check_like[0]){
-        state.learn_has_like_id = check_like[0].id
+        state.cook_has_like_id = check_like[0].id
       }
       if(check_like.length>0){
-        state.learn_has_like = true
+        state.cook_has_like = true
       }
       if(check_dope[0]){
-        state.learn_has_dope_id = check_dope[0].id
+        state.cook_has_dope_id = check_dope[0].id
       }
       if(check_dope.length>0){
-        state.learn_has_dope = true
+        state.cook_has_dope = true
       }
       if(check_info[0]){
-        state.learn_has_info_id = check_info[0].id
+        state.cook_has_info_id = check_info[0].id
       }
       if(check_info.length>0){
-        state.learn_has_info = true
+        state.cook_has_info = true
       }
       }
   },
-  check_learn_comments(state, learning_comments_list){
+  check_cook_comments(state, learning_comments_list){
     if(learning_comments_list){
       state.learning_comments_list = learning_comments_list
+    }
+  },
+  check_cook_obj(state, cook_obj){
+    if(cook_obj){
+      state.cook_obj = null
+      state.cook_obj = cook_obj
     }
   },
   check_share_obj(state, share_obj){
@@ -595,11 +613,11 @@ export const mutations = {
       state.share_obj = share_obj
     }
   },
-  clear_learn_obj(state, learn_obj){
-    if(learn_obj){
-      state.loadingLearning =true;
-      state.learn_obj = null}
-  },
+  // clear_learn_obj(state, learn_obj){
+  //   if(learn_obj){
+  //     state.loadingLearning =true;
+  //     state.learn_obj = null}
+  // },
   clear_page(state){
       state.page_journey = ''
       state.page_upcoming = ''
@@ -613,6 +631,10 @@ export const mutations = {
   clear_share_obj(state, share_obj){
     if(share_obj){
       state.share_obj = null}
+  },
+  clear_cook_obj(state, cook_obj){
+    if(cook_obj){
+      state.cook_obj = null}
   },
   check_editing_obj(state, editing_obj){
     if(editing_obj){
@@ -755,19 +777,19 @@ export const mutations = {
     state.share_has_love = false
     state.share_has_love_id =''
   },
-  clear_learn_reactions(state)
+  clear_cook_reactions(state)
   {
     state.like = ''
     state.dope = ''
     state.info = ''
-    state.learn_has_like = false
-    state.learn_has_dope= false
-    state.learn_has_info= false
-    state.learn_has_like_id= ''
-    state.learn_has_dope_id=''
-    state.learn_has_info_id= ''
+    state.cook_has_like = false
+    state.cook_has_dope= false
+    state.cook_has_info= false
+    state.cook_has_like_id= ''
+    state.cook_has_dope_id=''
+    state.cook_has_info_id= ''
   },
-  clear_learn_comments(state)
+  clear_cook_comments(state)
   {
     state.learning_comments_list = []
   },

@@ -41,7 +41,7 @@
                         <p>Are you sure you want to delete this experience?</p>
                         <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn small class="px-4 text-decoration-none" color="error" dark
+                        <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
                             @click="deleted">Delete</v-btn>
                         <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="dialog = false">
                             Cancel
@@ -151,14 +151,14 @@
         <v-row class="mt-2 mb-4">
             <v-col cols="12" class="justify-center">
                 <h3 class ="font-weight-light xs12 d-inline ">Dedicated to {{e1t1.s_teacher_name}}</h3>
-                <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="black" class="mb-2 ml-2" @click="addLearning = true">
+                <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="black" class="mb-2 ml-2" to="/create/uploadvideo">
                 <v-icon small>mdi-plus</v-icon>
                 </v-btn>
             </v-col>
         </v-row>
         </v-container>
         <v-container class="pa-0">
-        <v-row class="mx-0 mb-4" v-if="learnings.length>0 ">
+        <!-- <v-row class="mx-0 mb-4" v-if="learnings.length>0 ">
             <v-layout wrap row justify-start class="hidden-md-and-up" style="max-width:357px; margin:auto;">
             <div v-for="learning in learnings" :key ="learning.index">
             <learning-card :learning = "learning"></learning-card>
@@ -169,7 +169,8 @@
             <learning-card :learning = "learning"></learning-card>
             </div>   
             </v-layout> 
-        </v-row></v-container>
+        </v-row> -->
+        </v-container>
         <v-container class="mx-auto" fluid style="max-width:750px">
         <v-card v-intersect="infiniteScrollingLearning"></v-card>
         <v-divider></v-divider>
@@ -223,38 +224,6 @@
         </div>
         <v-card v-intersect="infiniteScrollingComments"></v-card>
     </v-container>
-    <v-dialog
-      v-model="addLearning"
-      max-width="500">
-      <v-card :class="{'pa-6': $vuetify.breakpoint.smAndDown, 'pa-8': $vuetify.breakpoint.mdAndUp}">
-          <v-form v-on:submit.prevent="submit">
-            <v-row>
-                <v-col cols="12" align="end" justify="end" class="pa-0">
-                    <v-btn icon color="error" @click="addLearning = false" >
-                        <v-icon >mdi-close</v-icon>
-                    </v-btn>
-                </v-col>
-                <v-col cols="12">
-                    <h3 class ="font-weight-light xs12 pb-4">Dedicating a dance for {{e1t1.s_teacher_name}}</h3>
-                    <input style="display:none" ref="fileInputVideo" type="file" accept="video/*" @change="onFileChange"> 
-                    <video width="100%" height="240" controls id="videoPreview">
-                    Your browser does not support the video tag.
-                    </video><br>
-                    <v-btn outlined  class="my-2 " @click="onPick" >
-                            Upload a video
-                        <v-icon right dark> mdi-cloud-upload </v-icon>
-                    </v-btn>
-                    <v-text-field
-                        v-model = "learningForm.lesson"
-                        label= "Caption">
-                    </v-text-field>
-                        <v-btn class="text-decoration-none"  color="black" dark outlined
-                        @click="submitLearning" :loading="progressbar">Submit</v-btn>
-                </v-col>
-            </v-row>
-        </v-form>
-      </v-card>
-    </v-dialog>
     <v-snackbar v-model="sizeExceed">
         Size exceeded.
     </v-snackbar>
@@ -312,9 +281,9 @@ export default {
     },
     data(){
         return {
+            deleteLoading:false,
             love_id:'',
             videoId:'',
-            addLearning:false,
             addDedicated:false,
             dialog: false,
             sizeExceed:false,
@@ -338,12 +307,6 @@ export default {
             //     username: null,
             //     messagetext: ""
             // },
-            learningForm: {
-                username: "",
-                lesson: "",
-                video: "",
-                shareidobj: "",
-            },
             progressbar: false,
             putVideo:"",
             videoData:'',
@@ -380,7 +343,7 @@ export default {
         ...mapGetters([ 'userHasPortfolio', 'isAuthenticated',
         'loggedInUser', 'usersPortfolio', 'share_comments_list', 'love',
         // 'personalMessages','personalMessagesNotifications', 
-        'learnings', 'share_has_love', 'share_has_love_id']),
+         'share_has_love', 'share_has_love_id']),
 	},
     async asyncData({error, params}) {
       try {
@@ -437,6 +400,7 @@ export default {
             window.history.back();
         },
         async deleted(){
+            this.deleteLoading = true;
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -446,10 +410,12 @@ export default {
             try {
                 let response = await this.$axios.$delete("/v1/e1t1/sharing/"+this.e1t1.id, config)
                 console.log("e1t1 deleted.");
+                this.deleteLoading = false;
                 this.$store.dispatch("check_user_teachers");
                 this.$router.push("/"+ this.e1t1.username+"/each1teach1");
             } catch (e) {
                 console.log(e.response);
+                this.deleteLoading = false;
             }
         },
         async editE1t1(){
@@ -552,59 +518,7 @@ export default {
         //         console.log(e);
         //     }
         // },
-        async submitLearning(){
-            if(this.putVideo!=''){
-                if(this.learningForm.lesson){
-                this.progressbar =true;
-                try {
-                    let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
-                    if(res.statusCode == 200)
-                    {
-                        delete this.$axios.defaults.headers.common['Authorization']
-                        //got res status 200
-                        let filename = res.key
-                        //put to storage
-                        let url = res.body
-                        url = url.slice(1, -1);
-                        await this.$axios.$put(url, this.putVideo).then((value) => {
-                        this.learningForm.username = this.$store.state.auth.user.user.username;
-                        this.learningForm.shareidobj = this.e1t1.id
-                        this.learningForm.video = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
-                        const config = {
-                            headers: {"content-type": "multipart/form-data",
-                                "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
-                        };
-                        let formData = new FormData();
-                        for (let data in this.learningForm) {
-                            formData.append(data, this.learningForm[data]);
-                        }
-                        this.$axios.$post("/v1/e1t1/learnings/", formData, config).then((res) => {
-                            this.progressbar = false
-                            this.refreshLearning();
-                            this.$store.dispatch("check_learnings", this.e1t1.id)
-                            this.addLearning = false;
-                            this.$router.push("/e1t1/"+this.e1t1.id);
-                        })
-                        }); 
-                    }
-                    
-                } catch (error) {
-                    console.log("unsuccess",error.response);
-                    this.progressbar =false
-                }}else{
-                    this.valid_snackbar2 = true
-                }
-                }else{
-                this.valid_snackbar1 = true
-            }
-        },
-        refreshLearning(){
-            this.learningForm.username = this.$store.state.auth.user.user.username;
-            this.learningForm.lesson= "";
-            this.learningForm.video= "";
-            this.videoData ="";
-            this.learningForm.shareidobj= "";
-        },
+        
     }
     
 }

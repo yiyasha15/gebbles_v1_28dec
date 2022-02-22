@@ -34,7 +34,7 @@ export default {
 			this.$store.dispatch("remove_editing_obj")
 			this.$store.dispatch("remove_personal_messages")
 			this.$store.dispatch("remove_learnings")
-			this.$store.dispatch("remove_learn_reactions")
+			this.$store.dispatch("remove_cook_reactions")
 			this.$store.dispatch("remove_page")
 			localStorage.removeItem('vuex');
 			this.$auth.logout();

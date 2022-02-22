@@ -79,7 +79,7 @@ import { mapGetters } from 'vuex'
         };
         try {
             let response = await this.$axios.$delete("/v1/e1t1/learnings/comments/"+ comment.id, config)
-            this.$store.dispatch("check_learn_comments", comment.learningidobj)
+            this.$store.dispatch("check_cook_comments", comment.learningidobj)
             this.delete_snackbar =true
         } catch (e) {
             console.log(e.response);
