@@ -77,7 +77,7 @@
           >
             <v-img
             contain
-              :src="require('@/assets/each1teach1.jpeg')"
+              :src="require('@/assets/journey.png')"
               height="150px"
               position="top"
             ></v-img>

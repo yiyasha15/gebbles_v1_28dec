@@ -10,24 +10,24 @@
     >
     <v-img v-if="cook.thumbjs"
         :src="cook.thumbjs"
-        height="73"
+        height="74"
         width="115"
       />
       <v-img v-else
         :src="require('@/assets/gebbleslogo3.png')"
         contain
-        height="73"
+        height="74"
         width="115"
       />
-      <v-card-actions height="32px" class="pa-1">
+      <v-card-actions style="min-height:36px;" class="pa-1">
         <div width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
         <p style="max-width:78px; font-size:0.6rem!important;">{{cook.username}} </p>
         </div>
         <v-spacer></v-spacer>
-        <template v-if="cook.taggedteachers.length <4">
-         <div v-for="obj in cook.taggedteachers" :key="obj.id" class="text-decoration-none">
+        <template v-if="cook.taggedteachers.length <3">
+         <div v-for="obj in cook.taggedteachers" :key="obj.id" class="text-decoration-none" style="margin-top:-8px">
               <v-avatar left v-if="obj.shareidobj && obj.shareidobj.teacher!=null" size="16">
                 <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
               </v-avatar>
@@ -35,6 +35,16 @@
                 <v-icon>mdi-account-circle</v-icon>
               </v-avatar>
           </div>
+        </template>
+        <template v-else>
+         <div v-for="obj in cook.taggedteachers.slice(0, 2)" :key="obj.id" class="text-decoration-none" style="margin-top:-8px">
+              <v-avatar left v-if="obj.shareidobj && obj.shareidobj.teacher!=null" size="16">
+                <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
+              </v-avatar>
+              <v-avatar left v-else color="white" size="16">
+                <v-icon>mdi-account-circle</v-icon>
+              </v-avatar>
+          </div><p class="mb-1 pl-1" style="font-size:0.6rem!important;">+{{cook.taggedteachers.length-2}}</p>
         </template>
       </v-card-actions>
     </v-card>

@@ -88,12 +88,12 @@ export default {
 	data() {
       return {
 		emailRules: [
-		v => !!v || "Email is required.",
-		v => /.+@.+\..+/.test(v) || "E-mail must be valid."
+		// v => !!v || "Email is required.",
+		// v => /.+@.+\..+/.test(v) || "E-mail must be valid."
 		],
 		passwordRules: [
-		v => !!v || "Password is required.",
-		v => (v && v.length >= 8) || "Min 8 characters."
+		// v => !!v || "Password is required.",
+		// v => (v && v.length >= 8) || "Min 8 characters."
 		],
 		errorEmail:'',
 		errorPassword:'',

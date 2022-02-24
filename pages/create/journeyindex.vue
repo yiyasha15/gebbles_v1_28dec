@@ -5,7 +5,7 @@
       <v-row no-gutters>
         <v-col cols="12" md='6'>
           <div align="center" justify="center">
-          <img src = "~/assets/art1.jpeg"  width="70%" alt="portfolio logo">
+          <img src = "~/assets/journey.png"  width="100%" alt="portfolio logo">
           </div>
         </v-col>
         <v-col cols="12" md='6'>

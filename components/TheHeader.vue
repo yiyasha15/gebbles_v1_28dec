@@ -387,12 +387,12 @@ export default {
                 v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',
                 v => !!v || "Username is required."],
             emailRules: [
-            v => !!v || "Email is required.",
-            v => /.+@.+\..+/.test(v) || "E-mail must be valid."
+            // v => !!v || "Email is required.",
+            // v => /.+@.+\..+/.test(v) || "E-mail must be valid."
             ],
             passwordRules: [
-            v => !!v || "Password is required.",
-            v => (v && v.length >= 8) || "Min 8 characters."
+            // v => !!v || "Password is required.",
+            // v => (v && v.length >= 8) || "Min 8 characters."
             ],
             countryRules: [
             v => !!v || "Country is required.",

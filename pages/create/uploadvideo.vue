@@ -213,7 +213,7 @@ methods:{
                         }
                         this.$axios.$post("/v1/whatiscooking/cooking/", formData, config).then((res) => {
                             console.log(res);
-                            console.log(this.selectedTeachers);
+                            // console.log(this.selectedTeachers);
                             if(this.selectedTeachers.length){
                                 for (let data of this.selectedTeachers){
                                 let formData = new FormData();
@@ -222,7 +222,7 @@ methods:{
                                 formData.append("shareidobj",data)
                                 formData.append("idea",data)
                                 this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
-                                    console.log(res);
+                                    // console.log(res);
                                     this.progressbar = false
                                 })
                             }
