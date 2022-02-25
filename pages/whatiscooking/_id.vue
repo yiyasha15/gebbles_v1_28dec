@@ -1,5 +1,10 @@
 <template>
     <div :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'mt-14': $vuetify.breakpoint.mdAndUp}">
+      <v-container class=" mx-auto" fluid style="max-width:750px" >
+        <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
+            <v-icon class="float-left">mdi-arrow-left</v-icon>
+        </v-btn>
+       </v-container>
       <v-container style="max-width:750px; margin:auto;" >
         <div v-if="cook">
         <video id="videoId" width="100%" height="410px" controls controlsList="nodownload" v-if="cook.video" class="hidden-xs-only">
@@ -424,6 +429,10 @@ import { mapGetters } from 'vuex'
               this.login_snackbar = true
           }
       },
+      goback(){
+            this.$store.dispatch("remove_cook_obj")
+            window.history.back();
+        },
     }
   }
 </script>

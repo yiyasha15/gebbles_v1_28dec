@@ -83,9 +83,11 @@
                                 </template>
                             </template>
                         </v-autocomplete>    
-                        <v-btn class="text-decoration-none"  color="black" dark outlined
+                        <v-btn class="text-decoration-none" small color="black" dark outlined v-if="!cook_obj"
                         @click="submitCooking" :loading="progressbar">Submit</v-btn>
-                        <v-btn class="text-decoration-none"  color="error" dark outlined
+                        <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
+                        @click="update" :loading="progressbar">Update</v-btn>
+                        <v-btn class="text-decoration-none" small color="error" dark outlined
                         @click="cancelCooking">Cancel</v-btn> 
                     </v-col>
                 </v-row>
@@ -250,6 +252,61 @@ methods:{
             this.progressbar =false}
         // alert("complete the api river!!")
     },
+    async updateCooking() {
+        if(this.putVideo != ''){
+            if(this.cookingForm.lesson){
+                this.progressbar =true;
+                this.capture();
+                console.log(this.cookingForm);
+                const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+                };
+                let myObj1 = this.cook_obj 
+                let myObj2 = this.journey
+                // find keys 
+                let keyObj1 = Object.keys(myObj1); 
+                let keyObj2 = Object.keys(myObj2);
+                    
+                // find values 
+                let valueObj1 = Object.values(myObj1); 
+                let valueObj2 = Object.values(myObj2); 
+                
+                // now compare their keys and values  
+                try {
+                    for(var i=0; i<keyObj1.length; i++) { 
+                    if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                        console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                    } 
+                    else { 
+                        // it prints keys have different values 
+                        let formName = new FormData();
+                        formName.append(keyObj1[i], valueObj2[i]);
+                        formName.append("id", this.journey['id']);
+
+                        console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                        let res= await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config);
+                        console.log( valueObj2[i] ,res," changed"); 
+                    } 
+                }
+                // this.$store.dispatch("check_user_journey");
+                this.$store.dispatch("remove_editing_obj");
+                this.refresh();
+                this.progressbar =false
+                this.snackbar = true;
+                } catch (error) {
+                    console.log("error",error);
+                    this.progressbar =false
+                }
+            }else {
+                this.valid_snackbar2 =true
+                this.progressbar =false}
+        }
+        else {
+            this.valid_snackbar1 =true
+            this.progressbar =false}
+        },
     capture(){
     var canvas = document.getElementById('canvas');
     var video = document.getElementById('videoPreview');

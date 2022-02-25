@@ -20,7 +20,7 @@
         <v-col cols="12" md="6">
           <div class="px-4" style="max-width:531px; margin:auto" align-content="left" align="left" justify="center">
               <!-- <h1 style="font-size:28px" >Gebbles</h1><br> -->
-              <h3 style="text-align:justify;" class=" font-weight-light">At gebbles, people share the stories about how you touched their lives through your dance and movement philosophy. <span class="font-weight-medium">Gebbles builds the foundation for you to create your own community.</span>
+              <h3 style="text-align:justify;" class=" font-weight-light">At gebbles, people share the stories about how you touched their lives through your dance and movement philosophy. Gebbles builds the foundation for you to create your own community.
               </h3>
               <v-btn dark color="#815A44" small
               class="text-decoration-none elevation-none mt-4 px-4 justify-end" 
@@ -54,7 +54,7 @@
           max-height="200"
           >
             <v-img
-              :src="require('@/assets/bboys.jpeg')"
+              :src="require('@/assets/portfolio.png')"
               height="150px"
               position="top"
               contain

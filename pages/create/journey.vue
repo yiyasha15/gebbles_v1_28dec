@@ -13,6 +13,7 @@
         <v-col cols="12" md="6" class="pa-0">
              <h3 class="ma-4">Share your journey</h3>
             <v-stepper v-model="e6" vertical >
+                <!-- {{editing_obj}} -->
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Share images* 
                 <!-- <small>Summarize if needed</small> -->
@@ -219,8 +220,8 @@
         </v-col>
         <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl hidden-sm-and-down">
             <h3 class="ma-4">Preview your journey</h3>
-            <!-- {{editing_obj}}
-            {{journey}} -->
+            <!-- {{editing_obj}} -->
+            <!-- {{journey}} -->
             <v-row v-if="journey.jodate" class="pb-2">
                 <caption class="ma-6">{{journey.jodate}} </caption>
             </v-row>
@@ -722,11 +723,11 @@ export default {
             switch(num) {
                 case 1:
                     {this.imageData1 = ""
-                    this.journey.jophoto1 = null
+                    this.journey.jophoto1 = ""
                     break;}
                 case 2:
                     {this.imageData2 = ""
-                    this.journey.jophoto2 =null
+                    this.journey.jophoto2 =""
                     console.log(this.journey);
                     break;}
                 // case 3:
@@ -884,8 +885,8 @@ export default {
                     formName.append("id", this.journey['id']);
 
                     console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                    await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config);
-                    console.log( valueObj2[i] ," changed"); 
+                    let res= await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config);
+                    console.log( valueObj2[i] ,res," changed"); 
                 } 
             }
             // this.$store.dispatch("check_user_journey");
