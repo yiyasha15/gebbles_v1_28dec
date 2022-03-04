@@ -213,16 +213,16 @@ export const actions = {
       })
   },
   check_cook_reactions({commit}, id){
-    // EventService.getLearnReaction(id).then(res =>
-    //   {
-    //     commit('check_cook_reactions',res.data.results)
-    //   })
+    EventService.getCookReaction(id).then(res =>
+      {
+        commit('check_cook_reactions',res.data)
+      })
   },
   check_cook_comments({commit}, id){
-    // EventService.getLearnComments(id).then(res =>
-    //   {
-    //     commit('check_cook_comments',res.data.results)
-    //   })
+    EventService.getCookComments(id).then(res =>
+      {
+        commit('check_cook_comments',res.data.results)
+      })
   },
   check_cook_obj({commit, state}, cook_obj){
     if(state.auth.loggedIn) {
@@ -558,43 +558,44 @@ export const mutations = {
       state.page_share_comment = share_comments_list.next
   },
   check_cook_reactions(state, react){
+    console.log("react", react);
     if(react){
       state.like = react.filter(react => react.like_type == "LO");
       state.dope = react.filter(react => react.like_type == "FI");
       state.info = react.filter(react => react.like_type == "DE");
+      if(state.auth.loggedIn){
+        let like = state.like
+        let dope = state.dope
+        let info = state.info
+        state.cook_has_like = false
+        state.cook_has_dope = false
+        state.cook_has_info = false
+        state.cook_has_like_id = ''
+        state.cook_has_dope_id = ''
+        state.cook_has_info_id = ''
+        let check_like = like.filter(like => like.username == state.auth.user.user.username);
+        let check_dope = dope.filter(dope => dope.username == state.auth.user.user.username);
+        let check_info = info.filter(info => info.username == state.auth.user.user.username);
+        if(check_like[0]){
+          state.cook_has_like_id = check_like[0].id
+        }
+        if(check_like.length>0){
+          state.cook_has_like = true
+        }
+        if(check_dope[0]){
+          state.cook_has_dope_id = check_dope[0].id
+        }
+        if(check_dope.length>0){
+          state.cook_has_dope = true
+        }
+        if(check_info[0]){
+          state.cook_has_info_id = check_info[0].id
+        }
+        if(check_info.length>0){
+          state.cook_has_info = true
+        }
+      }
     }
-    if(state.auth.loggedIn){
-      let like = state.like
-      let dope = state.dope
-      let info = state.info
-      state.cook_has_like = false
-      state.cook_has_dope = false
-      state.cook_has_info = false
-      state.cook_has_like_id = ''
-      state.cook_has_dope_id = ''
-      state.cook_has_info_id = ''
-      let check_like = like.filter(like => like.username == state.auth.user.user.username);
-      let check_dope = dope.filter(dope => dope.username == state.auth.user.user.username);
-      let check_info = info.filter(info => info.username == state.auth.user.user.username);
-      if(check_like[0]){
-        state.cook_has_like_id = check_like[0].id
-      }
-      if(check_like.length>0){
-        state.cook_has_like = true
-      }
-      if(check_dope[0]){
-        state.cook_has_dope_id = check_dope[0].id
-      }
-      if(check_dope.length>0){
-        state.cook_has_dope = true
-      }
-      if(check_info[0]){
-        state.cook_has_info_id = check_info[0].id
-      }
-      if(check_info.length>0){
-        state.cook_has_info = true
-      }
-      }
   },
   check_cook_comments(state, learning_comments_list){
     if(learning_comments_list){

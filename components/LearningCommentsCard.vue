@@ -2,21 +2,21 @@
   <v-container>
     <section >
       <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start">
-          <nuxt-link :to="'/'+ comment.username">
+          <nuxt-link :to="'/'+ comment.username" class="text-decoration-none">
           <center>
               <v-list-item-avatar size="36" v-if=" comment.artist_metadata.thumb">
                 <img :src = "comment.artist_metadata.thumb" alt="img">
               </v-list-item-avatar>
-              <v-list-item-avatar size="36" v-else>
-                <v-icon>
-                      mdi-account-circle
-                  </v-icon>
+              <v-list-item-avatar color="black" size="36" v-else >
+                <v-icon dark>
+                  mdi-account-circle
+                </v-icon>
               </v-list-item-avatar>
           </center>
           </nuxt-link>
         <div class="mb-2">
           <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{getTime(comment.timestamp).date}}</p>
-          <h5 class="mr-4"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}} </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span></h5>
+          <nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}}: </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span>
         </div>
             <v-spacer></v-spacer>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
@@ -78,8 +78,8 @@ import { mapGetters } from 'vuex'
             }
         };
         try {
-            let response = await this.$axios.$delete("/v1/e1t1/learnings/comments/"+ comment.id, config)
-            this.$store.dispatch("check_cook_comments", comment.learningidobj)
+            let response = await this.$axios.$delete("/v1/whatiscooking/cooking/comments/"+ comment.id, config)
+            this.$store.dispatch("check_cook_comments", comment.cookingidobj)
             this.delete_snackbar =true
         } catch (e) {
             console.log(e.response);

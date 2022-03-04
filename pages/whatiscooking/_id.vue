@@ -24,9 +24,9 @@
             <v-col v-if="loggedInUser.user.username == cook.username" >
             <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn small icon v-bind="attrs"
-                v-on="on">
-                <v-icon small color="black" @click="editcook">mdi-circle-edit-outline</v-icon>
+              <v-btn small icon v-bind="attrs"
+              v-on="on">
+              <v-icon small color="black" @click="editcook">mdi-circle-edit-outline</v-icon>
             </v-btn>
             </template>
             <span>Edit</span>
@@ -169,6 +169,7 @@
           </v-row>
         </div>
       </v-container>
+      
     <v-snackbar v-model="valid_snackbar">
       Write something to post.
     </v-snackbar>
@@ -229,9 +230,9 @@ import { mapGetters } from 'vuex'
     },
     created(){
       this.dateFormat(this.cook.timestamp)
-      // this.$store.dispatch("check_cook_obj",this.cook.id);
-      // this.$store.dispatch("check_cook_reactions",this.cook.id);
-      // this.$store.dispatch("check_cook_comments",this.cook.id);
+      this.$store.dispatch("check_cook_obj",this.cook.id);
+      this.$store.dispatch("check_cook_reactions",this.cook.id);
+      this.$store.dispatch("check_cook_comments",this.cook.id);
     },
     methods:{
       dateFormat(recdate){
@@ -260,13 +261,7 @@ import { mapGetters } from 'vuex'
         try {
             this.$axios.$delete("/v1/whatiscooking/cooking/"+this.cook.id, config).then(res=>{
               console.log("cooking deleted",res);
-              if(this.cook.taggedteachers.length>0){
-              this.$axios.$delete("/v1/whatiscooking/taggedteachers/"+this.cook.id, config).then(res=>{
-                console.log(res,"cook deleted.");
-                this.deleteLoading = false;
-                // this.$store.dispatch("remove_cooking");
-              })
-              }
+              this.deleteLoading = false;
               this.$router.push("/whatiscooking");
             })
         } catch (e) {
@@ -275,18 +270,21 @@ import { mapGetters } from 'vuex'
         }
       },
       async react_like(){
+        //
+        console.log("reacted like");
           if(this.isAuthenticated){
           this.reactForm.username = this.$store.state.auth.user.user.username;
           this.reactForm.cookingidobj = this.cook.id
           this.reactForm.like_type = 'LO'
           if(this.cook_has_like){
             const config = {
-            headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            headers: {
+              "content-type": "multipart/form-data",
+              "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_like_id , config)
+                await this.$axios.$delete("/v1/whatiscooking/cooking/likes/"+this.cook_has_like_id , config)
                 this.$store.dispatch("check_cook_reactions", this.cook.id)
                 //store make learn love false
             } catch (e) {
@@ -327,7 +325,7 @@ import { mapGetters } from 'vuex'
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_dope_id , config)
+                await this.$axios.$delete("/v1/whatiscooking/cooking/likes/"+this.cook_has_dope_id , config)
                 this.$store.dispatch("check_cook_reactions", this.cook.id)
                 //store make learn love false
             } catch (e) {
@@ -368,7 +366,7 @@ import { mapGetters } from 'vuex'
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_info_id , config)
+                await this.$axios.$delete("/v1/whatiscooking/cooking/likes/"+this.cook_has_info_id , config)
                 this.$store.dispatch("check_cook_reactions", this.cook.id)
                 //store make learn love false
             } catch (e) {
@@ -431,7 +429,7 @@ import { mapGetters } from 'vuex'
       },
       goback(){
             this.$store.dispatch("remove_cook_obj")
-            window.history.back();
+            this.$router.push("/whatiscooking");
         },
     }
   }

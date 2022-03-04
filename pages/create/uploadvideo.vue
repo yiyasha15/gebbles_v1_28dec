@@ -14,7 +14,10 @@
                         <h3 class ="font-weight-light xs12 pb-4">Upload your video</h3>
                         <canvas style="display:none;" id="canvas"></canvas>
                         <input style="display:none" ref="fileInputVideo" type="file" accept="video/*" @change="onFileChange"> 
-                        <video width="100%" height="240" controls id="videoPreview">
+                        <video width="100%" height="240" controls v-if="cook_obj" id="videoPreviewWhenUpdate" :src="cook_obj.video">
+                        Your browser does not support the video tag.
+                        </video>
+                        <video width="100%" height="240" controls id="videoPreview" v-else >
                         Your browser does not support the video tag.
                         </video>
                         <p class="caption">Scroll to desired frame to make thumbnail.</p>
@@ -86,7 +89,7 @@
                         <v-btn class="text-decoration-none" small color="black" dark outlined v-if="!cook_obj"
                         @click="submitCooking" :loading="progressbar">Submit</v-btn>
                         <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
-                        @click="update" :loading="progressbar">Update</v-btn>
+                        @click="updateCooking" :loading="progressbar">Update</v-btn>
                         <v-btn class="text-decoration-none" small color="error" dark outlined
                         @click="cancelCooking">Cancel</v-btn> 
                     </v-col>
@@ -94,6 +97,9 @@
             </v-form>
         </v-card>
         </v-container>
+        {{selectedTeachers}}
+        <h1>AND</h1>
+        {{this.cook_obj.taggedteachers}}
         <v-snackbar v-model="sizeExceed">
             Size exceeded.
         </v-snackbar>
@@ -127,7 +133,7 @@ head() {
 middleware : 'check_auth',
 created(){
     this.usersTeacher= this.usersTeachers
-    console.log(this.cook_obj);
+    // console.log(this.cook_obj);
     if(this.cook_obj)
     {
         this.cookingForm.lesson = this.cook_obj.lesson
@@ -157,6 +163,7 @@ data(){
         videoData:'',
         selectedTeachers: [],
         isUpdating: false,
+        changedVideo:false,
         }
 },
 computed: {
@@ -170,7 +177,7 @@ methods:{
     onFileChange(e) {
         let files = e.target.files;
         if (files[0]) {
-        console.log(files[0]);
+        // console.log(files[0]);
         let i = Math.floor(files[0].size * 0.000001)
         if(i>=120){ 
             this.sizeExceed = true;
@@ -178,11 +185,18 @@ methods:{
         else{
             this.putVideo = files[0]
             let blobURL = URL.createObjectURL(files[0]);
+            if(this.cook_obj!= null)
+            {
+                document.getElementById("videoPreviewWhenUpdate").src = blobURL;
+                this.changedVideo= true
+                this.capture();}
+            else
             document.getElementById("videoPreview").src = blobURL;
         };
         }
     },
     goback(){
+        this.$store.dispatch("remove_cook_obj");
         window.history.back();
     },
     cancelCooking(){
@@ -214,7 +228,7 @@ methods:{
                             formData.append(data, this.cookingForm[data]);
                         }
                         this.$axios.$post("/v1/whatiscooking/cooking/", formData, config).then((res) => {
-                            console.log(res);
+                            // console.log(res);
                             // console.log(this.selectedTeachers);
                             if(this.selectedTeachers.length){
                                 for (let data of this.selectedTeachers){
@@ -232,7 +246,7 @@ methods:{
                             }else console.log("no teachers");
                             this.progressbar = false
                             console.log(this.cookingForm);
-                            this.refreshLearning();
+                            this.refresh();
                             this.addLearning = false;
                             this.$router.push("/whatiscooking");
                         })
@@ -252,75 +266,87 @@ methods:{
             this.progressbar =false}
         // alert("complete the api river!!")
     },
+    updateCookingForm(){
+        const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            }
+        };
+        let formName = new FormData();
+        let formNameThumb = new FormData();
+        formName.append("video", this.cookingForm.video);
+        formNameThumb.append("thumbjs", this.cookingForm.thumbjs);
+        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.id, formName, config);
+        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.id, formNameThumb, config);
+    },
     async updateCooking() {
-        if(this.putVideo != ''){
-            if(this.cookingForm.lesson){
-                this.progressbar =true;
-                this.capture();
-                console.log(this.cookingForm);
-                const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-                };
-                let myObj1 = this.cook_obj 
-                let myObj2 = this.journey
-                // find keys 
-                let keyObj1 = Object.keys(myObj1); 
-                let keyObj2 = Object.keys(myObj2);
-                    
-                // find values 
-                let valueObj1 = Object.values(myObj1); 
-                let valueObj2 = Object.values(myObj2); 
-                
-                // now compare their keys and values  
-                try {
-                    for(var i=0; i<keyObj1.length; i++) { 
-                    if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                        console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-                    } 
-                    else { 
-                        // it prints keys have different values 
-                        let formName = new FormData();
-                        formName.append(keyObj1[i], valueObj2[i]);
-                        formName.append("id", this.journey['id']);
-
-                        console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                        let res= await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config);
-                        console.log( valueObj2[i] ,res," changed"); 
-                    } 
-                }
-                // this.$store.dispatch("check_user_journey");
-                this.$store.dispatch("remove_editing_obj");
-                this.refresh();
-                this.progressbar =false
-                this.snackbar = true;
-                } catch (error) {
-                    console.log("error",error);
-                    this.progressbar =false
-                }
-            }else {
-                this.valid_snackbar2 =true
-                this.progressbar =false}
+        this.progressbar =true;
+        try {
+        //for video
+        if(this.changedVideo){
+            this.capture();
+            let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
+            if(res.statusCode == 200)
+            {
+                delete this.$axios.defaults.headers.common['Authorization']
+                let filename = res.key
+                let url = res.body
+                url = url.slice(1, -1);
+                await this.$axios.$put(url, this.putVideo).then((value) => {
+                this.cookingForm.video = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
+                this.updateCookingForm();
+            });
+            }
+        }else console.log("video unchanged");
+        // for lesson
+        if(this.cook_obj.lesson != this.cookingForm.lesson){
+            const config = {
+            headers:{
+                "content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            }
+            };
+            let formName = new FormData();
+            formName.append("lesson", this.cookingForm.lesson);
+            let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.id, formName, config);
+            // console.log(response, "changed");
+        }else console.log("lesson unchanged");
+        //for tagged teachers
+        if(this.cook_obj.taggedteachers.length == this.selectedTeachers.length){
+            console.log("teacher unchanged");
+        }else console.log("teacher changed");
+        this.refresh();
+        this.progressbar =false
+        this.$router.push("/whatiscooking/"+this.cook_obj.id);
+        this.$store.dispatch("remove_cook_obj");
+        } 
+        catch (error) {
+            console.log("error",error);
+            this.progressbar =false
         }
-        else {
-            this.valid_snackbar1 =true
-            this.progressbar =false}
-        },
+    },
     capture(){
     var canvas = document.getElementById('canvas');
+    if(this.cook_obj!=null)
+    var video = document.getElementById('videoPreviewWhenUpdate');
+    else
     var video = document.getElementById('videoPreview');
-    console.log(video);
     canvas.getContext('2d').drawImage(video, 0, 0, 300, 200);
     let imgData = canvas.toDataURL("image/jpeg",0.75);console.log(imgData);
     this.cookingForm.thumbjs = imgData
     },
-    refreshLearning(){
+    refresh(){
         this.cookingForm.username = this.$store.state.auth.user.user.username;
         this.cookingForm.lesson= "";
         this.cookingForm.video= "";
+        this.cookingForm.thumbjs ='';
         this.videoData ="";
         this.selectedTeachers= []
+        this.changedVideo= false
+        if(this.cook_obj!= null)
+            document.getElementById("videoPreviewWhenUpdate").src = '';
+        else
+            document.getElementById("videoPreview").src = '';
     },
     remove (item) {
         const index = this.selectedTeachers.indexOf(item.s_teacher_name)

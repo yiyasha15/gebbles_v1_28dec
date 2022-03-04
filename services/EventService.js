@@ -76,11 +76,11 @@ export default {
     getShareComments(id){
         return apiClient1.get('/e1t1/sharing/comments/?shareidobj=' + id)
     },
-    getLearnReaction(id){
-        return apiClient1.get('/e1t1/learnings/likes/?learningidobj=' + id)
+    getCookReaction(id){
+        return apiClient1.get('/whatiscooking/cooking/likes/?cookingidobj=' + id)
     },
-    getLearnComments(id){
-        return apiClient1.get('/e1t1/learnings/comments/?learningidobj=' + id)
+    getCookComments(id){
+        return apiClient1.get('/whatiscooking/cooking/comments/?cookingidobj=' + id)
     },
     getNotificationsSharing(username,config){
         return apiClient1.get('/notifications/e1t1/?receiver=' + username, config)

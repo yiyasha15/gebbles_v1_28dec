@@ -4,6 +4,7 @@
         <h2 class="my-2">Notifications</h2>
         <div v-if="!firstLoad">
         <v-list two-line>
+            <!-- {{filteredNotifications}} -->
         <v-subheader>New</v-subheader>
         <template v-for="(item) in filteredNotifications">
             <v-list-item :key="item.index" @click="seen(item)" v-show="loggedInUser.user.username != item.sender" >
@@ -148,7 +149,10 @@ computed: {
       },
     async seen(obj){
         {
+            if(obj.e1t1object)
             this.$router.push('/e1t1/'+ obj.e1t1object);
+            else
+            this.$router.push('/whatiscooking/'+ obj.cookingobject);
             let temp = this.filteredNotifications;
             // console.log("filteredNotifications",temp);
             let tempe;
@@ -181,7 +185,7 @@ computed: {
                 // console.log("put for", tempe[i].id );
                 }
             } catch (error) {
-                console.log("error..",error.response.data);
+                console.log("error..",error.response);
             }
             // this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
             // this.$router.push('/e1t1/'+ obj.e1t1object);
