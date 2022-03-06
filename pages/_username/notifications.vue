@@ -155,7 +155,6 @@ computed: {
             this.$router.push('/whatiscooking/'+ obj.cookingobject);
             let temp = this.filteredNotifications;
             // console.log("filteredNotifications",temp);
-            let tempe;
             // if(obj.chatobject)
             // {tempe = temp.filter(temp => temp.chatobject == obj.chatobject);
             // console.log("chatobj",tempe);}
@@ -163,7 +162,7 @@ computed: {
             // {tempe = temp.filter(temp => temp.learningobject == obj.learningobject);
             // console.log("learnobj",tempe);}
             if(obj.e1t1object)
-            {tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);}
+            {let tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);}
             // console.log("e1t1tempe",tempe);
             // for all notifications with filternotification whose e1t1 matches
             const config = {
