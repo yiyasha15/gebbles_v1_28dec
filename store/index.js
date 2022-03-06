@@ -166,19 +166,35 @@ export const getters = {
   }
 }
 export const actions = {
-  // check_notifications({commit, state}){
-  //   if(state.auth.user ){
-  //       const config = {
-  //       headers: {"content-type": "multipart/form-data",
-  //           "Authorization": "Bearer " + state.auth.user.access_token}
-  //       };
-  //     EventService.getNotificationsSharing(state.auth.user.user.username,config).then(res =>
-  //     {
-  //       commit('check_notifications',res.data.results)
-  //       return;
-  //     })
-  //   }
-  // },
+  check_notifications({commit, state}){
+    if(state.auth.user ){
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": "Bearer " + state.auth.user.access_token}
+        };
+      EventService.getNotificationsSharing(state.auth.user.user.username,config).then(res =>
+      {
+        commit('check_notifications',res.data.results)
+        return;
+      })
+    }
+  },
+  change_love({commit})
+  {
+    commit('changeLove')
+  },
+  change_like({commit})
+  {
+    commit('changeLike')
+  },
+  change_dope({commit})
+  {
+    commit('changeDope')
+  },
+  change_info({commit})
+  {
+    commit('changeInfo')
+  },
   check_full_journey({commit, state}, id, username){
     if(state.auth.user ){
       if(state.auth.user.user.username == username){ //check if logged in user is checking its private journey
@@ -202,7 +218,6 @@ export const actions = {
   check_share_love({commit}, id){
     EventService.getShareLove(id).then(res =>
       {
-        console.log(res.data);
         commit('check_share_love',res.data.count)
       })
   },
@@ -448,10 +463,8 @@ export const actions = {
   },
   remove_cook_reactions({commit, state})
   {
-    if(state.auth.loggedIn){
       commit('clear_cook_reactions')
       commit('clear_cook_comments')
-    }
   },
   remove_love({commit, state})
   {
@@ -460,12 +473,12 @@ export const actions = {
       commit('clear_comments')
     }
   },
-  // remove_notifications({commit, state})
-  // {
-  //   if(state.auth.loggedIn){
-  //     commit('clear_notifications')
-  //   }
-  // },
+  remove_notifications({commit, state})
+  {
+    if(state.auth.loggedIn){
+      commit('clear_notifications')
+    }
+  },
   remove_personal_messages({commit, state})
   {
     if(state.auth.loggedIn && state.personalMessages){
@@ -479,6 +492,18 @@ export const actions = {
 }
     // Define Mutations
 export const mutations = {
+  changeLove(state){
+    state.share_has_love = !state.share_has_love;
+  },
+  changeLike(state){
+    state.cook_has_like = !state.cook_has_like;
+  },
+  changeDope(state){
+    state.cook_has_dope = !state.cook_has_dope;
+  },
+  changeInfo(state){
+    state.cook_has_info = !state.cook_has_info;
+  },
   usersJourney(state, journey)
   {
     state.journey = []
@@ -510,7 +535,6 @@ export const mutations = {
   },
   clearJourney(state) //if user has portfolio change state to true
   {
-    console.log("clear journey");
     state.journeyLoaded=true
     state.journey =[]
     state.upcoming =[]
@@ -527,15 +551,15 @@ export const mutations = {
     state.learnings = learnings.results;
     state.page_learnings = learnings.next;
   },
-  // check_notifications(state, notifications){
-  //   if(notifications){
-  //     state.notifications = []
-  //     state.notifications_notseen =0
-  //     state.notifications = notifications
-  //     let n = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.user.username);
-  //     state.notifications_notseen = n;
-  //   }
-  // },
+  check_notifications(state, notifications){
+    if(notifications){
+      state.notifications = []
+      state.notifications_notseen =0
+      state.notifications = notifications
+      let n = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.user.username);
+      state.notifications_notseen = n.length;
+    }
+  },
   check_share_love(state, love){
     if(love){
       state.love = love
@@ -558,7 +582,7 @@ export const mutations = {
       state.page_share_comment = share_comments_list.next
   },
   check_cook_reactions(state, react){
-    console.log("react", react);
+    // console.log("react", react);
     if(react){
       state.like = react.filter(react => react.like_type == "LO");
       state.dope = react.filter(react => react.like_type == "FI");
@@ -744,9 +768,10 @@ export const mutations = {
   {
     state.personalMessages = personalMessages
   },
-  // clear_notifications(state){
-  //   state.notifications =[]
-  // },
+  clear_notifications(state){
+    state.notifications =[]
+    state.notifications_notseen=0
+  },
   clearLearnings(state){
     state.learnings = []
   },

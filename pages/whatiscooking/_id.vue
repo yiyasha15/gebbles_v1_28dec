@@ -219,13 +219,13 @@ import { mapGetters } from 'vuex'
     },
     async asyncData({error, params}) {
       try {
-         let cook = await EventService.getWhatsCookingId(params.id)
-         return {
-             cook : cook.data
-             }
+        let cook = await EventService.getWhatsCookingId(params.id)
+        return {
+          cook : cook.data
+        }
         } catch (err) {
-            console.log(err);
-            error({statusCode:503,  message: err.message})
+          console.log(err);
+          error({statusCode:503,  message: err.message})
         }
     },
     created(){
@@ -258,6 +258,7 @@ import { mapGetters } from 'vuex'
             }
         };
         this.$store.dispatch("remove_cook_obj")
+        this.$store.dispatch("remove_cook_reactions")
         try {
             this.$axios.$delete("/v1/whatiscooking/cooking/"+this.cook.id, config).then(res=>{
               console.log("cooking deleted",res);
@@ -270,13 +271,12 @@ import { mapGetters } from 'vuex'
         }
       },
       async react_like(){
-        //
-        console.log("reacted like");
           if(this.isAuthenticated){
           this.reactForm.username = this.$store.state.auth.user.user.username;
           this.reactForm.cookingidobj = this.cook.id
           this.reactForm.like_type = 'LO'
           if(this.cook_has_like){
+            this.$store.dispatch("change_like");
             const config = {
             headers: {
               "content-type": "multipart/form-data",
@@ -292,6 +292,7 @@ import { mapGetters } from 'vuex'
             }
           }
           else{
+            this.$store.dispatch("change_like");
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -319,6 +320,7 @@ import { mapGetters } from 'vuex'
           this.reactForm.cookingidobj = this.cook.id
           this.reactForm.like_type = 'FI'
           if(this.cook_has_dope){
+            this.$store.dispatch("change_dope");
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -333,6 +335,7 @@ import { mapGetters } from 'vuex'
             }
           }
           else{
+            this.$store.dispatch("change_dope");
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -360,6 +363,7 @@ import { mapGetters } from 'vuex'
           this.reactForm.cookingidobj = this.cook.id
           this.reactForm.like_type = 'DE'
           if(this.cook_has_info){
+            this.$store.dispatch("change_info");
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -374,6 +378,7 @@ import { mapGetters } from 'vuex'
             }
           }
           else{
+            this.$store.dispatch("change_info");
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -429,6 +434,7 @@ import { mapGetters } from 'vuex'
       },
       goback(){
             this.$store.dispatch("remove_cook_obj")
+            this.$store.dispatch("remove_cook_reactions")
             this.$router.push("/whatiscooking");
         },
     }

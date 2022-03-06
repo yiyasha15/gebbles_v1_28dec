@@ -154,15 +154,11 @@ computed: {
             else
             this.$router.push('/whatiscooking/'+ obj.cookingobject);
             let temp = this.filteredNotifications;
-            // console.log("filteredNotifications",temp);
-            // if(obj.chatobject)
-            // {tempe = temp.filter(temp => temp.chatobject == obj.chatobject);
-            // console.log("chatobj",tempe);}
-            // if(obj.learningobject)
-            // {tempe = temp.filter(temp => temp.learningobject == obj.learningobject);
-            // console.log("learnobj",tempe);}
+            let tempe;
             if(obj.e1t1object)
-            {let tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);}
+                tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);
+            else
+                tempe = temp.filter(temp => temp.cookingobject == obj.cookingobject);
             // console.log("e1t1tempe",tempe);
             // for all notifications with filternotification whose e1t1 matches
             const config = {
@@ -175,27 +171,23 @@ computed: {
                 {
                 let form= new FormData();
                 form.append('is_seen', 'true');
-                form.append('sender', tempe[i].sender);
-                form.append('receiver', tempe[i].receiver);
-                form.append('notification_type', tempe[i].notification_type);
-                form.append('notification_context', tempe[i].notification_context);
-                let res = await this.$axios.$put("/v1/notifications/e1t1/"+tempe[i].id , form, config)
-                // console.log(res);
-                // console.log("put for", tempe[i].id );
+                // form.append('sender', tempe[i].sender);
+                // form.append('receiver', tempe[i].receiver);
+                // form.append('notification_type', tempe[i].notification_type);
+                // form.append('notification_context', tempe[i].notification_context);
+                await this.$axios.$put("/v1/notifications/e1t1/"+tempe[i].id , form, config)
                 }
             } catch (error) {
                 console.log("error..",error.response);
             }
-            // this.$store.dispatch("check_notifications",this.loggedInUser.user.username);
-            // this.$router.push('/e1t1/'+ obj.e1t1object);
+            this.$store.dispatch("check_notifications");
         }
     },
     opene1t1(obj){
-        if ('e1t1object' != null){
-            this.$router.push('/e1t1/'+obj.e1t1object)
-        }else{
-            this.$router.push('/e1t1/'+obj.learningobject)
-        }
+        if(obj.e1t1object)
+        this.$router.push('/e1t1/'+ obj.e1t1object);
+        else
+        this.$router.push('/whatiscooking/'+ obj.cookingobject);
     },
     infiniteScrolling(entries, observer, isIntersecting) {
         // console.log("page ",this.page);
@@ -206,7 +198,7 @@ computed: {
         };
         const key = 'id';
         this.$axios.get(this.page, config).then(response => {
-          console.log(response);
+        //   console.log(response);
               this.page= response.data.next;
               response.data.results.forEach(item => this.notifications.push(item));
               // filter array so no duplicates

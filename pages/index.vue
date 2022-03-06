@@ -127,9 +127,13 @@ export default {
               'gebbles - The thread connecting music, movement and artists.'
         }]
         }
-      },
+    },
+  // created(){
+  //   console.log("hix");
+  //   this.$store.dispatch("check_notifications");
+  // },
   computed: {
-      ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio'])
+    ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio'])
   },
 }
 //https://stackoverflow.com/questions/57800048/how-to-enable-dark-mode-with-custom-colors-in-light-theme-in-vuetify

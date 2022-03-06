@@ -20,7 +20,7 @@
                 <v-spacer></v-spacer>
                 <div class= "hidden-sm-and-up">
                 <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/${artist.username}/notifications`">
-                <v-badge color="error" overlap :content='notifications_notseen.length'>
+                <v-badge color="error" overlap :content='notifications_notseen'>
                 <v-icon color="black">mdi-bell</v-icon>
                 </v-badge>
                 </v-btn>
@@ -942,7 +942,6 @@ export default {
         //     }
         // }
         // else{}
-        console.log("called");
           try {
           let artist_response = await EventService.getArtist(params.username)
           let bio_response = await EventService.getBio(params.username)

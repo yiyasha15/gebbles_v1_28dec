@@ -393,14 +393,11 @@ export default {
         let url2 = this.$props.bio.vid2
         let url3 = this.$props.bio.vid3
         let url4 = this.$props.bio.vid4
-        let videoId = getIdFromURL(url1) //getting id from video url
-        this.videoId = videoId //assigning the id to <youtube> video id
-        let videoId1 = getIdFromURL(url2)
-        this.videoId1 = videoId1
-        let videoId2 = getIdFromURL(url3)
-        this.videoId2 = videoId2
-        let videoId3 = getIdFromURL(url4)
-        this.videoId3 = videoId3
+
+        this.videoId = getIdFromURL(url1) //getting id from video url
+        this.videoId1 = getIdFromURL(url2)
+        this.videoId2 = getIdFromURL(url3)
+        this.videoId3 = getIdFromURL(url4)
     },
     // layout: 'username',
     props: ["artist", "bio"],

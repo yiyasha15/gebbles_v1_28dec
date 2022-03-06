@@ -353,15 +353,6 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),
-    //     formIsValid () {
-    //     return (
-    //         this.registrationInfo.username &&
-    //         this.registrationInfo.email &&
-    //         this.registrationInfo.password1 &&
-    //         this.checkbox &&
-    //         this.registrationInfo.password2
-    //     )
-	//   }
     },
     data() {
       return {

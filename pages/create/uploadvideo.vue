@@ -49,6 +49,7 @@
                             item-text="s_teacher_name"
                             item-value="id"
                             multiple
+                            @input="teacherchange"
                             >
                             <template v-slot:selection="data">
                                 <v-chip
@@ -97,9 +98,14 @@
             </v-form>
         </v-card>
         </v-container>
-        {{selectedTeachers}}
+        <div v-for="n in cook_obj.taggedteachers" :key="n.index">
+        {{n}}</div>
         <h1>AND</h1>
-        {{this.cook_obj.taggedteachers}}
+        <div v-for="n in changedTeachers" :key="n.index">
+        {{n}}</div>
+        <h1>AND</h1>
+            <div v-for="n in selectedTeachers" :key="n.index">
+        {{n}}</div>
         <v-snackbar v-model="sizeExceed">
             Size exceeded.
         </v-snackbar>
@@ -140,8 +146,10 @@ created(){
         // this.selectedTeachers = this.cook_obj.taggedteachers.shareidobj
         //if tagged teacher exists populate the selected teachers array with it's taggedteacher
         for(let i =0 ;i <this.cook_obj.taggedteachers.length ; i++)
-        this.selectedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
-        console.log(this.cookingForm);
+        {
+            this.selectedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
+            this.changedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
+        }
         // document.getElementById("videoPreview").src = this.cook_obj.video;
         // this.initialImage = this.artist_data.cover
     }
@@ -164,6 +172,8 @@ data(){
         selectedTeachers: [],
         isUpdating: false,
         changedVideo:false,
+        changedTeacherBool:false,
+        changedTeachers:[]
         }
 },
 computed: {
@@ -312,18 +322,38 @@ methods:{
             // console.log(response, "changed");
         }else console.log("lesson unchanged");
         //for tagged teachers
-        if(this.cook_obj.taggedteachers.length == this.selectedTeachers.length){
-            console.log("teacher unchanged");
-        }else console.log("teacher changed");
-        this.refresh();
-        this.progressbar =false
+
+
+        if(this.changedTeacherBool){
+            console.log("teacher changed");
+            for(var i=0; i<this.cook_obj.taggedteachers.length;i++)
+            {
+                let a =this.selectedTeachers.find(element => element ==this.cook_obj.taggedteachers[i].shareidobj.id);
+                if(!a)
+                {
+                    const config = {
+                    headers:{
+                        "content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                    };
+                    await this.$axios.$delete("/v1/whatiscooking/taggedteachers/"+this.cook_obj.taggedteachers[i].id, config)
+                }
+            }
+        }else console.log("teacher unchanged");
         this.$router.push("/whatiscooking/"+this.cook_obj.id);
         this.$store.dispatch("remove_cook_obj");
+        this.refresh();
+        this.progressbar =false
         } 
         catch (error) {
             console.log("error",error);
             this.progressbar =false
         }
+    },
+    teacherchange(){
+        if(this.cook_obj)
+        this.changedTeacherBool = true
     },
     capture(){
     var canvas = document.getElementById('canvas');
@@ -343,10 +373,12 @@ methods:{
         this.videoData ="";
         this.selectedTeachers= []
         this.changedVideo= false
-        if(this.cook_obj!= null)
-            document.getElementById("videoPreviewWhenUpdate").src = '';
-        else
-            document.getElementById("videoPreview").src = '';
+        this.changedTeacherBool=false,
+        this.changedTeachers=[]
+        // if(this.cook_obj!= null)
+        //     document.getElementById("videoPreviewWhenUpdate").src = '#';
+        // else
+        //     document.getElementById("videoPreview").src = '#';
     },
     remove (item) {
         const index = this.selectedTeachers.indexOf(item.s_teacher_name)

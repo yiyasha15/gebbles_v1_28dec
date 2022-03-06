@@ -427,6 +427,7 @@ export default {
                 this.loveForm.username = this.$store.state.auth.user.user.username;
                 this.loveForm.shareidobj = this.e1t1.id
                 if(this.share_has_love){
+                    this.$store.dispatch("change_love");
                     const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -441,6 +442,7 @@ export default {
                     }
                 }
                 else{
+                    this.$store.dispatch("change_love");
                     const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token

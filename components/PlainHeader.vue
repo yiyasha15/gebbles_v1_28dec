@@ -11,6 +11,14 @@
             </v-layout>
             </nuxt-link>
             <v-spacer></v-spacer>
+            <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-badge color="error" overlap :content='notifications_notseen'>
+        <v-icon color="black">mdi-bell</v-icon>
+        </v-badge>
+        </v-btn>
+        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="blacks" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-icon color="black">mdi-bell</v-icon>
+        </v-btn>
         <div v-if="isAuthenticated"> <v-menu transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs"
@@ -340,15 +348,6 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),
-    //     formIsValid () {
-    //   return (
-    //     this.registrationInfo.username &&
-    //     this.registrationInfo.email &&
-    //     this.registrationInfo.password1 &&
-    //     this.checkbox &&
-    //     this.registrationInfo.password2
-    //   )
-	//   }
     },
     data() {
       return {
