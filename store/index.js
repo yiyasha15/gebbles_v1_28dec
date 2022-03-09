@@ -496,6 +496,8 @@ export const mutations = {
     state.share_has_love = !state.share_has_love;
   },
   changeLike(state){
+    // if(state.cook_has_like)
+    // state.like = 
     state.cook_has_like = !state.cook_has_like;
   },
   changeDope(state){
