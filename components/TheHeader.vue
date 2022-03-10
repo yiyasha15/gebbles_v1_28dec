@@ -14,6 +14,13 @@
         </v-layout>
         </nuxt-link>
             <v-spacer></v-spacer>
+            <v-btn outlined color="black" small v-if="isAuthenticated"
+              class="text-decoration-none elevation-none px-2 mr-1" 
+              :to= "`/artists/`"><h4>community</h4>
+              <!-- <v-icon right>
+                mdi-arrow-right
+              </v-icon> -->
+            </v-btn>
         <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-badge color="error" overlap :content='notifications_notseen'>
         <v-icon color="black">mdi-bell</v-icon>

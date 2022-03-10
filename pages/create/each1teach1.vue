@@ -157,6 +157,9 @@
                 @input="showYoutubeVideo"
                 >
             </v-text-field>
+            <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
+                <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
+            </v-row>
             <v-btn v-if="!share_obj" outlined small class="text-decoration-none"  color="black" dark :loading="progressbar"
             @click="submit">Submit</v-btn>
             <v-btn v-else outlined small class="text-decoration-none"  color="black" dark :loading="progressbar"
@@ -166,7 +169,7 @@
         </v-stepper-content>
         </v-stepper>
         </v-col>
-        <v-col cols="12" md="6" class="px-sm-8 my-6 grey lighten-4 rounded-xl hidden-sm-and-down">
+        <!-- <v-col cols="12" md="6" class="px-sm-8 my-6 hidden-sm-and-down">
                 <v-row class="pb-6 pa-4 justify-center text-center">
                     <h2 class="font-weight-light"> {{sharing.s_teacher_name}}</h2>
                     <v-spacer></v-spacer>
@@ -181,10 +184,10 @@
                 <v-row class="justify-center text-center">
                     <h5 class="pb-6 font-weight-light text-center">{{sharing.s_appreciation}} {{sharing.s_date}} </h5>
                 </v-row>
-                <v-row v-if="videoId" class=" justify-center text-center">
-                    <youtube :video-id= 'videoId'></youtube>
+                <v-row v-if="videoId" class=" justify-center text-center ">
+                    <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
                 </v-row>
-        </v-col>
+        </v-col> -->
         </v-row>
         <v-snackbar v-model="mention_teacher_snackbar">
             Please fill the required details.

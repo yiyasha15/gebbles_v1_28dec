@@ -2,13 +2,8 @@
 <v-app>
     <v-container class="ma-24" style="max-width:1072px;">
         <div class="text-xs-center mb-6" align = "center">
-            <!-- <v-btn small outlined  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/judging/`">test</v-btn> -->
             <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-           <!-- <v-btn small outlined  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
-            <v-btn small dark  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
         </div>
-            <!-- <v-divider class="ma-4" ></v-divider> -->
-            <!-- <h4 class="ma-4">Share your journey</h4> -->
         <v-row >
         <v-col cols="12" md="6" class="pa-0">
              <h3 class="ma-4">Share your journey</h3>
@@ -143,6 +138,7 @@
                         v-model = "journey.jocontent"
                         label= "Caption">
                     </v-textarea>
+                    <p class="caption">If the date is in the future it will be added to an upcoming event.</p>
                     <v-menu
                         ref="menu"
                         :close-on-content-click="false"
@@ -154,7 +150,7 @@
                         <template v-slot:activator="{ on, attrs }">
                             <v-text-field
                             v-model= "journey.jodate"
-                            label="Date(if the date is in the future it will become an upcoming event.)"
+                            label="Date"
                             prepend-icon="mdi-calendar"        
                             readonly
                             v-bind="attrs"
@@ -218,10 +214,8 @@
                 </v-stepper-content>
             </v-stepper>
         </v-col>
-        <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl hidden-sm-and-down">
+        <!-- <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl hidden-sm-and-down">
             <h3 class="ma-4">Preview your journey</h3>
-            <!-- {{editing_obj}} -->
-            <!-- {{journey}} -->
             <v-row v-if="journey.jodate" class="pb-2">
                 <caption class="ma-6">{{journey.jodate}} </caption>
             </v-row>
@@ -256,69 +250,9 @@
                           ></v-img>
                       </SliderItem>
                       </div>
-                      <!-- <div v-if="imageData3">
-                      <SliderItem >
-                      <v-img
-                            :src="imageData3"
-                            contain
-                            height="200px"
-                            width="320px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="imageData4">
-                      <SliderItem >
-                      <v-img
-                            :src="imageData4"
-                            contain
-                            height="200px"
-                            width="320px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="imageData5">
-                      <SliderItem >
-                      <v-img
-                            :src="imageData5"
-                            contain
-                            height="200px"
-                            width="320px"
-                          ></v-img>
-                      </SliderItem>
-                      </div> -->
                   </Slider>
-                </client-only>
-            <!-- <v-slide-group
-                min-width="2px"
-                v-model="model"
-                class="pb-8 ma-0"
-                show-arrows>
-                <v-slide-item>
-                     <div class=" rounded-lg grey lighten-4">
-                        <v-img :src="imageData1" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-                <v-slide-item>
-                     <div class="mx-2 rounded-lg grey lighten-4">
-                        <v-img :src="imageData2" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-                <v-slide-item>
-                     <div class="mx-2 rounded-lg grey lighten-4">
-                        <v-img :src="imageData3" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-                <v-slide-item>
-                     <div class="mx-2 rounded-lg grey lighten-4">
-                        <v-img :src="imageData4" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-                <v-slide-item>
-                     <div class="mx-2 rounded-lg grey lighten-4">
-                        <v-img :src="imageData5" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-            </v-slide-group> -->
+            </client-only>
+            
             <v-row v-if="journey.jocontent" class="pb-6 pt-4 justify-center text-center">
                 <h4 class=" text-center font-weight-light "> {{journey.username}}: {{journey.jocontent}} </h4>
             </v-row>
@@ -345,8 +279,7 @@
                   <span>This is your private post.</span>
                 </v-tooltip>
             </v-row>
-             <!-- preview -->
-        </v-col>
+        </v-col> -->
         </v-row>
         <v-snackbar v-model="valid_snackbar">
             Please fill the required details.

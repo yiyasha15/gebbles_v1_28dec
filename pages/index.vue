@@ -1,21 +1,21 @@
 <template>
   <div class="home">
-      <v-row justify="center" class="ma-md-12 my-8 hidden-sm-and-down " grey >
-        <h1 class="text-center font-weight-black" style="font-size:2em">
+      <v-row justify="center" class="ma-md-12 my-8 " grey >
+        <h1 class="text-center font-weight-black hidden-sm-and-down " style="font-size:2em">
           Connecting the groove, <br>
           celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
         </h1>
-      </v-row>
-      <v-row class="justify-center align-center mt-12">
-        <v-col cols="12" md="6">
-          <div align="center" justify="center">
-          <img src = "~/assets/e1t1.png"  width="100%" alt="portfolio logo">
-          </div>
-          <h2 class="text-center hidden-md-and-up my-6 mx-4 font-weight-black"  style="font-size:1.5em">
+        <h2 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-black"  style="font-size:1.5em">
           "Connecting the groove, <br>
           celebrating<br>
           <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
         </h2>
+      </v-row>
+      <v-row v-if="!isAuthenticated" class="justify-center align-center ">
+        <v-col cols="12" md="6">
+          <div align="center" justify="center">
+          <img src = "~/assets/e1t1.png"  width="100%" alt="portfolio logo">
+          </div>
         </v-col>
         <v-col cols="12" md="6">
           <div class="px-4" style="max-width:531px; margin:auto" align-content="left" align="left" justify="center">
@@ -32,17 +32,8 @@
           </div>
         </v-col>
       </v-row>
-      <v-container>
-        <center>
-          <v-btn color="#815A44"  outlined small
-          class="text-decoration-none elevation-none mb-6 mt-4 px-4" 
-          :to= "`/whatiscooking/`"><h4>What's cookin!</h4>
-          <v-icon right>
-            mdi-arrow-right
-          </v-icon>
-          </v-btn>
-        </center>
-      <v-row class="my-16">
+      <v-container >
+        <v-row>
         <v-col>
           <v-hover v-slot:default="{ hover }">
           <v-card
@@ -50,19 +41,18 @@
           :to="'/create'" 
           :elevation="hover ? 8 : 4"
           class="mx-auto"
-          max-width="244"
+          max-width="240"
           max-height="200"
           >
             <v-img
               :src="require('@/assets/portfolio.png')"
-              height="150px"
-              position="top"
+              height="200px"
               contain
             ></v-img>
           </v-card>
           </v-hover>
           <center>
-            <h4 class="font-weight-light mt-4">Create your Portfolio</h4>
+            <h4 class="font-weight-light mt-4">Portfolio</h4>
           </center>
         </v-col>
         <v-col>
@@ -72,19 +62,17 @@
           :to="'/create/journeyindex'" 
           :elevation="hover ? 6 : 2"
           class="mx-auto"
-          max-width="244"
+          max-width="240"
           max-height="200"
           >
             <v-img
-            contain
               :src="require('@/assets/journey.png')"
-              height="150px"
-              position="top"
+              height="200px" contain
             ></v-img>
           </v-card>
           </v-hover>
           <center>
-            <h4 class="font-weight-light mt-4">Your dance journey</h4>
+            <h4 class="font-weight-light mt-4">Journey</h4>
           </center>
         </v-col>
         <v-col>
@@ -93,13 +81,13 @@
           :to="'/create/e1t1index'" 
           :elevation="hover ? 6 : 2"
           class="mx-auto"
-          max-width="244"
-          max-height="200"
+          max-width="240"
+          height="200"
           outlined
           >
-            <v-img contain
+            <v-img 
               :src="require('@/assets/e1t1.png')"
-              height="150px"
+              height="200px"
               position="top"
             ></v-img>
           </v-card>
@@ -109,12 +97,55 @@
           </center>
         </v-col>
       </v-row>
+        <!-- <center>
+          <v-btn color="#815A44"  outlined small
+          class="text-decoration-none elevation-none mb-6 mt-4 px-4" 
+          :to= "`/whatiscooking/`"><h4>What's cookin!</h4>
+          <v-icon right>
+            mdi-arrow-right
+          </v-icon>
+          </v-btn>
+        </center> -->
+        <div class="my-12">
+          <h3 class="pl-1 my-4 hidden-sm-and-down ">What's cookin</h3>
+          <h3 class="pl-1 my-4 text-center hidden-md-and-up">What's cookin</h3>
+        <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+        <div v-for="n in this.looploader" :key ="n.index">
+          <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+        </div>
+      </v-layout>
+      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
+        <div v-for="n in this.looploader" :key ="n.index">
+          <v-skeleton-loader style="margin:2px;"  width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+        </div>
+      </v-layout>
+      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+        <div v-for="cook in cooking" :key ="cook.index">
+          <CookingCard :cook="cook" ></CookingCard> 
+        </div>
+      </v-layout>
+      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
+        <div v-for="cook in cooking" :key ="cook.index">
+          <CookingCard :cook="cook" ></CookingCard>
+        </div>
+      </v-layout>
+      <v-card v-intersect="infiniteScrolling"></v-card>
+      <center v-if="!cooking.length && !firstLoad">
+        <img
+        :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+        class="ml-2 mt-6 clickable"
+        :src="require('@/assets/gebbleslogo.png')"/>
+        <h3>No videos found. </h3>
+      </center>
+        </div>
       <v-divider></v-divider>
       </v-container>
   </div>
 </template>
 
 <script>
+import CookingCard from '@/components/CookingCard.vue'
+import EventService from '@/services/EventService.js'
 import {mapGetters} from 'vuex'
 export default {
   head() {  //head function (a property of vue-meta), returns an object
@@ -127,11 +158,56 @@ export default {
               'gebbles - The thread connecting music, movement and artists.'
         }]
         }
+  },
+  created(){
+    this.getwhatiscooking();
+  },
+  methods:{
+    async getwhatiscooking(){
+      try {
+      const response = await EventService.getWhatsCooking()
+      this.cooking = response.data.results
+      this.page = response.data.next
+      this.firstLoad = false
+      } catch (e) {
+        console.log(e);
+        this.firstLoad = false
+    }
     },
-  // created(){
-  //   console.log("hix");
-  //   this.$store.dispatch("check_notifications");
-  // },
+    infiniteScrolling() {
+      if(this.page){
+        console.log(this.page);
+      const key = 'id';
+      this.$axios.get(this.page).then(response => {
+        console.log(response);
+        this.page= response.data.next;
+        response.data.results.forEach(item => this.cooking.push(item));
+        // filter array so no duplicates
+        console.log(this.cooking);
+        this.cooking = [...new Map(this.cooking.map(item =>
+          [item[key], item])).values()];
+          console.log(this.cooking);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      }
+    },
+  },
+  components: {
+    CookingCard
+  },
+  data() {
+    return {
+      looploader:[1,1,1,1,1,1,1,1,1,1,1],
+      loading: true,
+      firstLoad: true,
+      page:"",
+      cooking:[],
+      search: "",
+      debounce: null
+    }
+  },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio'])
   },
@@ -149,7 +225,7 @@ export default {
 </script>
 <style scoped>
 .home{
-  max-width: 1072px;
+  max-width: 860px;
   margin: auto;
 }
 </style>

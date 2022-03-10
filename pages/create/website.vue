@@ -8,6 +8,20 @@
          </div>
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row>
+            <v-col cols="12" md="6" class="mt-12 hidden-sm-and-down">
+                <v-row class="pb-6 justify-center text-center">
+                        <croppa
+                            v-model="cropImage"
+                            canvas-color="transparent"
+                            :width="450"
+                            :height="450"
+                            :show-loading="true"
+                            :initial-image="initialImage"
+                            :prevent-white-space="true"
+                            :remove-button-color="'black'"
+                        ></croppa>
+                    </v-row>
+            </v-col>
             <v-col cols="12" md="6">
                 <v-row>
                 <v-col cols="8">
@@ -40,6 +54,17 @@
                                 :remove-button-color="'black'"
                             ></croppa>
                         </v-row>
+                        <!-- <v-row class="py-4 justify-center text-center hidden-sm-and-down">
+                        <croppa
+                            v-model="cropImage"
+                            canvas-color="transparent"
+                            :width="580"
+                            :height="580"
+                            :show-loading="true"
+                            :initial-image="initialImage"
+                            :prevent-white-space="true"
+                            :remove-button-color="'black'"
+                        ></croppa></v-row> -->
                         <v-row>
                             <v-col cols="12" md="10">
                                 <v-text-field
@@ -269,7 +294,7 @@
                     </v-row>
                 </v-form>
             </v-col>
-            <v-col cols="12" md="6" class="lighten-4 rounded-xl  hidden-sm-and-down">
+            <!-- <v-col cols="12" md="6" class="lighten-4 rounded-xl  hidden-sm-and-down">
                 <h3 class="my-4">Preview your website</h3>
                 <v-col>
                     <v-row class="pb-6 justify-center text-center">
@@ -337,7 +362,7 @@
                     <youtube width="auto" height="100%" :video-id= 'videoId4'></youtube>
                     </v-col>
                 </v-row>
-            </v-col>
+            </v-col> -->
         </v-row>
         <v-snackbar v-model="snackbar" >
         <div>

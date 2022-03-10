@@ -87,6 +87,7 @@
                                 </template>
                             </template>
                         </v-autocomplete>    
+                        <p class="caption" v-if="progressbar">Uploading... please wait.</p>
                         <v-btn class="text-decoration-none" small color="black" dark outlined v-if="!cook_obj"
                         @click="submitCooking" :loading="progressbar">Submit</v-btn>
                         <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
@@ -150,8 +151,8 @@ created(){
     if(this.cook_obj)
     {
         this.cookingForm.lesson = this.cook_obj.lesson
-        console.log(this.cook_obj);
-        for(let i =0 ;i <this.cook_obj.taggedteachers.length ; i++)
+        console.log("this.cook_obj",this.cook_obj);
+        if(this.cook_obj.taggedteachers)for(let i =0 ;i <this.cook_obj.taggedteachers.length ; i++)
         {
             this.selectedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
             // this.changedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
@@ -216,7 +217,7 @@ methods:{
     },
     cancelCooking(){
         this.$store.dispatch("remove_cook_obj");
-        this.$router.push("/whatiscooking");
+        this.$router.push("/");
     },
     async submitCooking(){
         if(this.putVideo != ''){
@@ -263,7 +264,7 @@ methods:{
                             console.log(this.cookingForm);
                             this.refresh();
                             this.addLearning = false;
-                            this.$router.push("/whatiscooking");
+                            this.$router.push("/");
                         })
                         }); 
                     }
@@ -383,10 +384,10 @@ methods:{
         // this.$router.push("/whatiscooking/"+this.cook_obj.id);
         // this.$router.push("/whatiscooking/")
         this.updated = true;
-        this.$store.dispatch("remove_cook_obj");
         this.refresh();
-        document.getElementById("videoPreviewWhenUpdate").src = '#';
+        this.$store.dispatch("remove_cook_obj");
         this.progressbar =false
+
         } 
         catch (error) {
             console.log("error",error);
@@ -417,10 +418,10 @@ methods:{
         this.changedVideo= false
         this.changedTeacherBool=false,
         this.changedTeachers=[]
-        // if(this.cook_obj!= null)
-        //     document.getElementById("videoPreviewWhenUpdate").src = '#';
-        // else
-        //     document.getElementById("videoPreview").src = '#';
+        if(this.cook_obj!= null)
+            document.getElementById("videoPreviewWhenUpdate").src = '#';
+        else
+            document.getElementById("videoPreview").src = '#';
     },
     remove (item) {
         const index = this.selectedTeachers.indexOf(item.s_teacher_name)

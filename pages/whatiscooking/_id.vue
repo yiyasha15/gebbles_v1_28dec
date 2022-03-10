@@ -263,7 +263,7 @@ import { mapGetters } from 'vuex'
             this.$axios.$delete("/v1/whatiscooking/cooking/"+this.cook.id, config).then(res=>{
               console.log("cooking deleted",res);
               this.deleteLoading = false;
-              this.$router.push("/whatiscooking");
+              this.$router.push("/");
             })
         } catch (e) {
             console.log(e.response);
@@ -435,7 +435,7 @@ import { mapGetters } from 'vuex'
       goback(){
             this.$store.dispatch("remove_cook_obj")
             this.$store.dispatch("remove_cook_reactions")
-            this.$router.push("/whatiscooking");
+            this.$router.push("/");
         },
     }
   }
