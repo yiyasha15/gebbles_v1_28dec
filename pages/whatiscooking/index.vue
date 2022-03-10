@@ -87,13 +87,17 @@ export default {
     },
     infiniteScrolling() {
       if(this.page){
-      const key = 'username';
+        console.log(this.page);
+      const key = 'id';
       this.$axios.get(this.page).then(response => {
+        console.log(response);
         this.page= response.data.next;
         response.data.results.forEach(item => this.cooking.push(item));
         // filter array so no duplicates
+        console.log(this.cooking);
         this.cooking = [...new Map(this.cooking.map(item =>
           [item[key], item])).values()];
+          console.log(this.cooking);
       })
       .catch(err => {
         console.log(err);
