@@ -36,9 +36,12 @@ export const state = () => ({
   dope: '',
   info:'',
   learnings:[],
+  cookings:[],
+  cookingsfiltered:[],
   teachers:[], //e1t1 onject
   page_teachers:'',
   page_learnings:'',
+  // page_cookings:'',
   page_share_comment:'',
   loadingLearning:true,
   upcoming:[],
@@ -88,6 +91,12 @@ export const getters = {
   },
   learnings(state){
     return state.learnings
+  },
+  cookings(state){
+    return state.cookings
+  },
+  cookingsfiltered(state){
+    return state.cookingsfiltered
   },
   notifications(state){
     return state.notifications
@@ -380,6 +389,16 @@ export const actions = {
       });   
     }
   },
+  // update_user_cookings({commit, state}){
+  //   if(state.page_cookings) {
+  //     this.$axios.get(state.page_cookings).then(res => {
+  //       commit('updateUserCookings',res.data)
+  //     })
+  //     .catch(err => {
+  //         console.log(err);
+  //     });   
+  //   }
+  // },
   update_user_comments({commit, state}){
     if(state.page_share_comment) {
       this.$axios.get(state.page_share_comment).then(res => {
@@ -404,6 +423,15 @@ export const actions = {
       {
         commit('get_learnings',res.data)
       })
+  },
+  check_cookings({commit},username){
+    EventService.getWhatsCookingUsername(username).then(res =>
+      {
+        commit('get_cookings',res.data)
+      })
+  },
+  check_cookings_filtered({commit},id){
+    commit('get_cookings_filtered',id)
   },
   remove_portfolio({commit, state})
     {
@@ -489,6 +517,10 @@ export const actions = {
   {
       commit('clearLearnings')
   },
+  remove_cookings({commit})
+  {
+      commit('clearCookings')
+  },
 }
     // Define Mutations
 export const mutations = {
@@ -552,6 +584,41 @@ export const mutations = {
   get_learnings(state,learnings){
     state.learnings = learnings.results;
     state.page_learnings = learnings.next;
+  },
+  get_cookings(state,cookings){
+    state.cookings = cookings;
+    // state.page_cookings = cookings.next;
+  },
+  get_cookings_filtered(state,id){
+    state.cookingsfiltered=[]
+    if(state.cookings.length>0)
+    {
+      let taggedteacherpresent = state.cookings.filter(obj => obj.taggedteachers.length>0)
+      let arr=[];
+      for(let i=0 ; i<taggedteacherpresent.length; i++)
+      {
+        for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+        arr.push(taggedteacherpresent[i].taggedteachers[j]);
+      }
+      let final = arr.filter(obj => obj.shareidobj!=null)
+      let f2=[];
+      let f3 =[];
+      f2 = final.filter(obj => obj.shareidobj.id ==id);
+
+      f2.forEach(element => f3.push(element.id));
+      for(let i=0 ; i<taggedteacherpresent.length; i++)
+      {
+        for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+        {
+          if(f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id))
+          {
+            // console.log("only put this",f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id));
+            state.cookingsfiltered.push(taggedteacherpresent[i])
+          }
+        }
+      }
+      // console.log("state.cookingsfiltered",state.cookingsfiltered);
+    }
   },
   check_notifications(state, notifications){
     if(notifications){
@@ -652,6 +719,7 @@ export const mutations = {
       state.page_teachers = ''
       state.page_share_comment = ''
       state.page_learnings= ''
+      // state.page_cookings= ''
       // state.page_students = ''
       // state.page_teachers = ''
     },
@@ -743,6 +811,14 @@ export const mutations = {
     state.learnings = [...new Map(state.learnings.map(item =>
     [item[key], item])).values()];
   },
+  // updateUserCookings(state,cookings){
+  //   state.page_cookings= cookings.next;
+  //   cookings.results.forEach(item => state.cookings.push(item));
+  //   // filter array so no duplicates
+  //   const key = 'id';
+  //   state.cookings = [...new Map(state.cookings.map(item =>
+  //   [item[key], item])).values()];
+  // },
   updateUserShareComments(state,comments){
     state.page_share_comment= comments.next;
     comments.results.forEach(item => state.share_comments_list.push(item));
@@ -776,6 +852,9 @@ export const mutations = {
   },
   clearLearnings(state){
     state.learnings = []
+  },
+  clearCookings(state){
+    state.cookings = []
   },
   clearPortfolio(state) //if user has portfolio change state to true
   {

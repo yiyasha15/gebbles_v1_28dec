@@ -79,6 +79,7 @@ export default {
       const response = await EventService.getWhatsCooking()
       this.cooking = response.data.results
       this.page = response.data.next
+      console.log(response.data);
       this.firstLoad = false
       } catch (e) {
         console.log(e);

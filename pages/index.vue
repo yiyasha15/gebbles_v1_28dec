@@ -11,6 +11,15 @@
           <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
         </h2>
       </v-row>
+      <center>
+        <v-btn dark color="#815A44" small v-if="isAuthenticated"
+          class="text-decoration-none elevation-none px-4 mb-8 " 
+          :to= "`/artists/`"><h4>community</h4>
+          <v-icon right>
+            mdi-arrow-right
+          </v-icon>
+        </v-btn>
+      </center>
       <v-row v-if="!isAuthenticated" class="justify-center align-center ">
         <v-col cols="12" md="6">
           <div align="center" justify="center">

@@ -4,6 +4,7 @@
             <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
+            <!-- {{cook_obj}} -->
         </v-container>
         <v-container class="mx-auto" fluid style="max-width:550px" >
             <v-card :class="{'pa-6': $vuetify.breakpoint.smAndDown, 'pa-8': $vuetify.breakpoint.mdAndUp}">
@@ -93,7 +94,7 @@
                         <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
                         @click="updateCooking" :loading="progressbar">Update</v-btn>
                         <v-btn class="text-decoration-none" small color="error" dark outlined
-                        @click="cancelCooking">Cancel</v-btn> 
+                        @click="goback()">Cancel</v-btn> 
                     </v-col>
                 </v-row>
             </v-form>

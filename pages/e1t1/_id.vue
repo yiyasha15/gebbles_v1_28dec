@@ -151,28 +151,28 @@
         <v-row class="mt-2 mb-4">
             <v-col cols="12" class="justify-center">
                 <h3 class ="font-weight-light xs12 d-inline ">Dedicated to {{e1t1.s_teacher_name}}</h3>
-                <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="black" class="mb-2 ml-2" to="/create/uploadvideo">
+                <!-- <v-btn v-if="loggedInUser && loggedInUser.user.username == e1t1.username" small icon outlined color="black" class="mb-2 ml-2" to="/create/uploadvideo">
                 <v-icon small>mdi-plus</v-icon>
-                </v-btn>
+                </v-btn> -->
             </v-col>
         </v-row>
         </v-container>
         <v-container class="pa-0">
-        <!-- <v-row class="mx-0 mb-4" v-if="learnings.length>0 ">
+        <v-row class="mx-0 mb-4" v-if="cookingsfiltered.length>0 ">
             <v-layout wrap row justify-start class="hidden-md-and-up" style="max-width:357px; margin:auto;">
-            <div v-for="learning in learnings" :key ="learning.index">
-            <learning-card :learning = "learning"></learning-card>
+            <div v-for="learn in cookingsfiltered" :key ="learn.index">
+            <cooking-card :cook= "learn"></cooking-card>
             </div>   
             </v-layout>
             <v-layout wrap row justify-start class=" hidden-sm-and-down" style="max-width: 750px; margin:auto;" >
-                <div v-for="learning in learnings" :key ="learning.index">
-            <learning-card :learning = "learning"></learning-card>
+                <div v-for="learn in cookingsfiltered" :key ="learn.index">
+            <cooking-card :cook= "learn"></cooking-card>
             </div>   
             </v-layout> 
-        </v-row> -->
+        </v-row>
         </v-container>
         <v-container class="mx-auto" fluid style="max-width:750px">
-        <v-card v-intersect="infiniteScrollingLearning"></v-card>
+        <!-- <v-card v-intersect="infiniteScrollingCooking"></v-card> -->
         <v-divider></v-divider>
         <v-row class="mt-8">
             <v-col cols="12" class="justify-center " id="scroll_comments">
@@ -253,6 +253,7 @@ import ReadMore from 'vue-read-more';
 // import PersonalMessagesCard from '~/components/PersonalMessagesCard.vue'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
+import CookingCard from '~/components/CookingCard.vue'
 export default {
     head() {
         return {
@@ -277,10 +278,11 @@ export default {
         LearningCard,
         ReadMore,
         // PersonalMessagesCard,
-        Youtube
+        Youtube,
+        CookingCard 
     },
     data(){
-        return {
+          return {
             deleteLoading:false,
             love_id:'',
             videoId:'',
@@ -320,7 +322,8 @@ export default {
         // this.$store.dispatch("check_artists");
         this.$store.dispatch("check_share_love", this.e1t1.id)
         this.$store.dispatch("check_share_comments", this.e1t1.id)
-        this.$store.dispatch("check_learnings", this.e1t1.id)
+        this.$store.dispatch("check_cookings", this.e1t1.username)
+        this.$store.dispatch("check_cookings_filtered",this.e1t1.id)
         const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let date = this.e1t1.s_date;
         let datetype= date.slice(8, 10);
@@ -341,7 +344,7 @@ export default {
 	},
 	computed: {
         ...mapGetters([ 'userHasPortfolio', 'isAuthenticated',
-        'loggedInUser', 'usersPortfolio', 'share_comments_list', 'love',
+        'loggedInUser', 'usersPortfolio', 'share_comments_list', 'love', 'cookingsfiltered',
         // 'personalMessages','personalMessagesNotifications', 
          'share_has_love', 'share_has_love_id']),
 	},
@@ -357,9 +360,12 @@ export default {
         }
     },
     methods:{
-        infiniteScrollingLearning(entries, observer, isIntersecting) {
-            this.$store.dispatch("update_user_learnings");
-        },
+        // filtercooking(){
+        //     this.$store.dispatch("check_cookings_filtered",this.e1t1.id)
+        // },
+        // infiniteScrollingCooking(entries, observer, isIntersecting) {
+        //     this.$store.dispatch("update_user_cookings");
+        // },
         infiniteScrollingComments(entries, observer, isIntersecting) {
             this.$store.dispatch("update_user_comments");
         },

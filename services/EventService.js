@@ -24,6 +24,9 @@ export default {
     getWhatsCookingId(id) {
         return apiClient1.get('/whatiscooking/list/'+ id)
     },
+    getWhatsCookingUsername(username) {
+        return apiClient1.get('/whatiscooking/mycookings/?username='+ username)
+    },
     // getSearchedCooking() {
     //     return apiClient1.get('/whatiscooking/search/?query='+ query)
     // },
