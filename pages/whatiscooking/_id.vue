@@ -79,17 +79,17 @@
             <v-btn icon @click="react_like()" class="mr-1">
               <v-icon color="black" v-if="!cook_has_like">mdi-heart-outline</v-icon>
               <v-icon color="red" v-else>mdi-heart</v-icon>
-              <div v-if="like.length">{{like.length}}</div>
+              <div v-if="like_length">{{like_length}}</div>
             </v-btn>
             <v-btn icon @click="react_dope()" class="mx-1">
               <v-icon color="black" v-if="!cook_has_dope">mdi-fire</v-icon>
               <v-icon color="orange" v-else>mdi-fire</v-icon>
-              <div v-if="dope.length">{{dope.length}}</div>
+              <div v-if="dope_length">{{dope_length}}</div>
             </v-btn>
             <v-btn icon @click="react_info()" class="mx-1">
               <v-icon color="black" v-if="!cook_has_info">mdi-head-flash-outline</v-icon>
               <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
-              <div v-if="info.length">{{info.length}}</div>
+              <div v-if="info_length">{{info_length}}</div>
             </v-btn>
         </div>
         </div>
@@ -205,6 +205,9 @@ import { mapGetters } from 'vuex'
         thankyou_snackbar: false,
         loading:true,
         learndate:'',
+        like_length:'',
+        dope_length:'',
+        info_length:'',
         comments : {
             username : "",
             comment: "",
@@ -233,6 +236,9 @@ import { mapGetters } from 'vuex'
       this.$store.dispatch("check_cook_obj",this.cook.id);
       this.$store.dispatch("check_cook_reactions",this.cook.id);
       this.$store.dispatch("check_cook_comments",this.cook.id);
+      this.like_length = this.like.length;
+      this.dope_length = this.dope.length;
+      this.info_length = this.info.length;
     },
     methods:{
       dateFormat(recdate){
@@ -276,6 +282,7 @@ import { mapGetters } from 'vuex'
           this.reactForm.cookingidobj = this.cook.id
           this.reactForm.like_type = 'LO'
           if(this.cook_has_like){
+            this.like_length--;
             this.$store.dispatch("change_like");
             const config = {
             headers: {
@@ -292,6 +299,7 @@ import { mapGetters } from 'vuex'
             }
           }
           else{
+            this.like_length++;
             this.$store.dispatch("change_like");
             const config = {
                 headers: {"content-type": "multipart/form-data",

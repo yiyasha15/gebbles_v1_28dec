@@ -35,6 +35,7 @@ const _73fb89d2 = () => interopDefault(import('../pages/whatiscooking/_id.vue' /
 const _7e1c48e6 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 const _a29e8c20 = () => interopDefault(import('../pages/_username.vue' /* webpackChunkName: "pages/_username" */))
 const _11b3e71a = () => interopDefault(import('../pages/_username/index.vue' /* webpackChunkName: "pages/_username/index" */))
+const _51239ca4 = () => interopDefault(import('../pages/_username/about.vue' /* webpackChunkName: "pages/_username/about" */))
 const _5fd40d50 = () => interopDefault(import('../pages/_username/each1teach1/index.vue' /* webpackChunkName: "pages/_username/each1teach1/index" */))
 const _8a37e3be = () => interopDefault(import('../pages/_username/journey.vue' /* webpackChunkName: "pages/_username/journey" */))
 const _7c9c9b12 = () => interopDefault(import('../pages/_username/myhood.vue' /* webpackChunkName: "pages/_username/myhood" */))
@@ -179,6 +180,10 @@ export const routerOptions = {
       path: "",
       component: _11b3e71a,
       name: "username"
+    }, {
+      path: "about",
+      component: _51239ca4,
+      name: "username-about"
     }, {
       path: "each1teach1",
       component: _5fd40d50,

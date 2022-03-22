@@ -528,8 +528,14 @@ export const mutations = {
     state.share_has_love = !state.share_has_love;
   },
   changeLike(state){
-    // if(state.cook_has_like)
-    // state.like = 
+    if(state.cook_has_like)
+    {
+      
+    }
+    else
+    {
+      
+    }
     state.cook_has_like = !state.cook_has_like;
   },
   changeDope(state){
@@ -612,7 +618,7 @@ export const mutations = {
         {
           if(f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id))
           {
-            // console.log("only put this",f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id));
+            // console.log("only put this", state.cookingsfiltered);
             state.cookingsfiltered.push(taggedteacherpresent[i])
           }
         }

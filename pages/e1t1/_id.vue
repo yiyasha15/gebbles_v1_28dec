@@ -158,6 +158,7 @@
         </v-row>
         </v-container>
         <v-container class="pa-0">
+            <!-- {{cookingsfiltered}} -->
         <v-row class="mx-0 mb-4" v-if="cookingsfiltered.length>0 ">
             <v-layout wrap row justify-start class="hidden-md-and-up" style="max-width:357px; margin:auto;">
             <div v-for="learn in cookingsfiltered" :key ="learn.index">

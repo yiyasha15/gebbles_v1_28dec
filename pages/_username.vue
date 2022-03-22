@@ -145,7 +145,7 @@
             </v-layout>
         </v-col>
         <v-col cols="12" sm="6" :class="{'align-center justify-center': $vuetify.breakpoint.xs, 'px-2 d-flex align-center justify-end': $vuetify.breakpoint.smAndUp}">
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}`"><h4>About</h4></v-btn>
+            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4>About</h4></v-btn>
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4>Journey</h4></v-btn> 
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4>E1T1</h4></v-btn>
             <div class= "d-none d-sm-block">
