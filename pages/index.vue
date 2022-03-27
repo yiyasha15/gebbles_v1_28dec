@@ -13,9 +13,6 @@
         <h1 class="text-center font-weight-light mb-2 mx-4" style="font-size:1em">
         at gebbles, people share the stories about <br>how you touched their lives through your art.  
         </h1>
-        <!-- <h2 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-light"  style="font-size:0.5em">
-          at gebbles, people share the stories about <br>how you touched their lives through your art.
-        </h2> -->
         <br>
       </v-row>
       <v-row justify="center" class="mb-2">
@@ -24,39 +21,7 @@
       <div align="center" justify="center">
       <img src = "~/assets/home.png"  width="80%" alt="portfolio logo">
       </div>
-      <v-row v-if="!isAuthenticated" class="justify-center align-center ">
-        <v-col cols="12" md="6">
-          <div align="center" justify="center">
-          <img src = "~/assets/home.png"  width="100%" alt="portfolio logo">
-          </div>
-        </v-col>
-        <v-row justify="center" class="mb-md-2 mt-4" grey >
-        <h1 class="text-center font-weight-light" style="font-size:1em">
-        at gebbles, people share the stories about <br>how you touched their lives through your art.  
-        </h1>
-        <!-- <h2 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-light"  style="font-size:0.5em">
-          at gebbles, people share the stories about <br>how you touched their lives through your art.
-        </h2> -->
-        <br>
-      </v-row>
-      <v-row justify="center" class="mb-2">
-        <h4 class="caption">movement + music + culture</h4>
-      </v-row>
-      <!-- <center>
-        <v-btn color="#815A44" small v-if="isAuthenticated"
-          class="text-decoration-none elevation-none px-4 mb-8 " 
-          :to= "`/artists/`"><h4>community</h4>
-          <v-icon right>
-            mdi-arrow-right
-          </v-icon>
-        </v-btn>
-      </center> -->
-      </v-row>
         <center>
-        <!-- <v-btn small v-if="isAuthenticated" color="#815A44" dark
-           class="text-decoration-none elevation-none px-4 mb-8 " 
-          :to= "`/artists/`"><h4 class="font-weight-light">community</h4>
-        </v-btn> -->
         <v-row class="mt-1" style="max-width:500px; margin:auto">
           <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h4 class="font-weight-light">community</h4></nuxt-link></v-col>
           <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h4 class="font-weight-light">what's cooking</h4></nuxt-link></v-col>
