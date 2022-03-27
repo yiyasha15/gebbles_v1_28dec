@@ -3,8 +3,8 @@
       <v-container class="pa-0">
       <v-row style="max-width: 1072px; margin: auto;">
         <v-col cols="12" md="8"  class="justify-center">
-          <h2 class ="xs12 d-inline">What's Cooking</h2>
-          <v-btn v-if="isAuthenticated" small icon outlined color="black" class="mb-2 ml-2" to="/create/uploadvideo/">
+          <h3 class ="xs12 d-inline font-weight-light">What's Cooking</h3>
+          <v-btn v-if="isAuthenticated" small icon outlined color="black" class=" mx-2 mb-3 mt-1" to="/create/uploadvideo/">
           <v-icon small>mdi-plus</v-icon>
           </v-btn>
         </v-col>
@@ -19,14 +19,14 @@
           ></v-text-field>
         </v-col> -->
       </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+      <v-layout wrap row justify-start v-if="firstLoad"  class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
         <div v-for="n in this.looploader" :key ="n.index">
           <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
+      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
         <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;"  width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+          <v-skeleton-loader style="margin:2px;"  width="215" max-height="195" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
@@ -34,9 +34,9 @@
           <CookingCard :cook="cook" ></CookingCard> 
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
+      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
         <div v-for="cook in cooking" :key ="cook.index">
-          <CookingCard :cook="cook" ></CookingCard>
+          <cooking-card-desktop :cook="cook" ></cooking-card-desktop>
         </div>
       </v-layout>
       <center v-if="!cooking.length && !firstLoad">
@@ -53,6 +53,7 @@
 
 <script>
 import CookingCard from '@/components/CookingCard.vue'
+import CookingCardDesktop from '@/components/CookingCardDesktop.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
 export default {
@@ -121,7 +122,8 @@ export default {
     // },
   },
   components: {
-    CookingCard
+    CookingCard,
+    CookingCardDesktop
   },
   data() {
     return {

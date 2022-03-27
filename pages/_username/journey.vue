@@ -1,15 +1,15 @@
 <template>
     <v-app>
-        <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:1072px;">
+        <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:670px;">
         <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 hidden-sm-and-down">
-            <h3 class="d-inline pl-2">Share your journey</h3>
+            <h3 class="d-inline pl-2 font-weight-medium">Share your journey</h3>
             <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
         </div>
         <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 hidden-md-and-up"
         style="max-width:357px; margin:auto;">
-            <h3 class="d-inline pl-2">Share your journey</h3>
+            <h3 class="d-inline pl-2 font-weight-medium">Share your journey</h3>
             <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
@@ -19,16 +19,16 @@
         <div v-if="upcoming.length">
         <div class="my-4">
         <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Upcoming events</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:1072px; margin:auto;">Upcoming events</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Upcoming events</h3>
         </div>
         <v-layout wrap row justify-start class="my-2 hidden-md-and-up" style="max-width:357px; margin:auto;">
             <div v-for="journey in upcoming" :key ="journey.index">
                 <journey-card :journey = "journey" ></journey-card>
             </div>
         </v-layout>
-        <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+        <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
             <div v-for="journey in upcoming" :key ="journey.index">
-                <journey-card :journey = "journey" ></journey-card>
+                <journey-card-desktop :journey = "journey" ></journey-card-desktop>
             </div>
         </v-layout>
         <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
@@ -36,7 +36,7 @@
         <div v-if="highlights.length">
         <div class="my-4" >
         <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Highlights</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:1072px; margin:auto;">Highlights</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Highlights</h3>
         
         </div>
         <v-layout wrap row justify-start class="my-2 hidden-md-and-up" style="max-width:357px; margin:auto;" >
@@ -44,9 +44,9 @@
                 <journey-card :journey = "journey" ></journey-card>
             </div>
         </v-layout>
-        <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+        <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
             <div v-for="journey in highlights" :key ="journey.index">
-                <journey-card :journey = "journey" ></journey-card>
+                <journey-card-desktop :journey = "journey" ></journey-card-desktop>
             </div>
         </v-layout>
         <v-card v-intersect="infiniteScrollingHighlights"></v-card>
@@ -54,16 +54,16 @@
         <div v-if="journey.length">
         <div class="my-4">
         <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Journey</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:1072px; margin:auto;">Journey</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Journey</h3>
         </div>
             <v-layout wrap row justify-start class="my-2 hidden-md-and-up" style="max-width:357px; margin:auto;">
                 <div v-for="journey in journey" :key ="journey.index">
                     <journey-card :journey = "journey" ></journey-card>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+            <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
                 <div v-for="journey in journey" :key ="journey.index">
-                    <journey-card :journey = "journey" ></journey-card>
+                    <journey-card-desktop :journey = "journey" ></journey-card-desktop>
                 </div>
             </v-layout>
             <v-card v-intersect="infiniteScrollingJourney"></v-card>
@@ -79,19 +79,19 @@
             </center>
         </div>
         </v-container>
-        <v-container v-if="journeyLoaded" class="pa-0" style="max-width:1072px;">
+        <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
             <div class="my-4">
         <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Journey</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:1072px; margin:auto;">Journey</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Journey</h3>
         </div>
             <v-layout wrap row justify-start class="my-2 hidden-md-and-up" style="max-width:357px; margin:auto;">
                 <div v-for="n in this.looploader" :key ="n.index">
-                        <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                        <v-skeleton-loader style="margin:2px" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
                     </div>
             </v-layout>
-            <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 1072px; margin:auto;" >
+            <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
                 <div v-for="n in this.looploader" :key ="n.index">
-                        <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                        <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
                     </div>
             </v-layout>
         </v-container>
@@ -99,8 +99,9 @@
 </template>
 <script>
 import { mapGetters} from 'vuex'
-import EventService from '@/services/EventService.js'
+// import EventService from '@/services/EventService.js'
 import JourneyCard from "@/components/JourneyCard.vue"
+import JourneyCardDesktop from "@/components/JourneyCardDesktop.vue"
 export default {
     head() {
         return {
@@ -115,7 +116,7 @@ export default {
         }
     },
     components:{
-        JourneyCard
+        JourneyCard, JourneyCardDesktop
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser', 'journey','upcoming','highlights', 'journeyLoaded']),

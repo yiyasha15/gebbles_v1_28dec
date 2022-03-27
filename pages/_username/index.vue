@@ -144,7 +144,7 @@
                 <h3 class="mb-5 font-weight-light" style="line-height:1.7em;text-align:justify;">
                     {{ bio.introduction }}
                 </h3></div>
-                <h3 class="mb-2 mt-12" v-if="bio.crew">
+                <h3 class="mb-2 mt-12 font-weight-medium" v-if="bio.crew">
                     Representing: {{bio.crew}}
                 </h3>
             </v-col>

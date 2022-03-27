@@ -13,11 +13,11 @@
             <v-spacer></v-spacer>
             <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-badge color="error" overlap :content='notifications_notseen'>
-        <v-icon color="black">mdi-bell</v-icon>
+        <v-icon color="black">mdi-bell-outline</v-icon>
         </v-badge>
         </v-btn>
         <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="blacks" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
-        <v-icon color="black">mdi-bell</v-icon>
+        <v-icon color="black">mdi-bell-outline</v-icon>
         </v-btn>
         <div v-if="isAuthenticated"> <v-menu transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">

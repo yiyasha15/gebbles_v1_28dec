@@ -20,21 +20,68 @@
             </v-btn> -->
         <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-badge color="error" overlap :content='notifications_notseen'>
-        <v-icon color="black">mdi-bell</v-icon>
+        <v-icon color="black">mdi-bell-outline</v-icon>
         </v-badge>
         </v-btn>
-        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="blacks" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
-        <v-icon color="black">mdi-bell</v-icon>
+        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-icon color="black">mdi-bell-outline</v-icon>
         </v-btn>
+        <!-- <nuxt-link to="'/${loggedInUser.user.username}/notifications'" v-if="isAuthenticated && notifications_notseen==0" class="text-decoration-none mr-2"><v-icon color="black">mdi-bell-outline</v-icon></nuxt-link> -->
         <!-- <v-btn small v-if="isAuthenticated" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/create/uploadvideo`">
         <v-icon color="black">mdi-tray-arrow-up</v-icon>
         </v-btn> -->
         <!-- <v-btn to= "/notificationss">test</v-btn> -->
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
-                <div v-bind="attrs"
+                <div v-bind="attrs" class="mr-2"
                 v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
+                <v-icon color="black">mdi-file-document-edit-outline</v-icon>
+                </div>
+            </template>
+            <v-list>
+                <v-list-item
+                :to="'/create/uploadvideo'"
+                class="text-decoration-none pl-6 pr-12"
+                ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
+                <v-list-item-title>Upload a video</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                v-if="!userHasPortfolio"
+                :to="'/create/website'"
+                class="text-decoration-none pl-6 pr-12"
+                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
+                <v-list-item-title>Create a portfolio</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                v-if="userHasPortfolio"
+                :to="'/create/website'"
+                class="text-decoration-none pl-6 pr-12"
+                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
+                <v-list-item-title>Edit your portfolio</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                v-if="userHasPortfolio"
+                :to="'/create/journey'"
+                class="text-decoration-none pl-6 pr-12"
+                ><v-icon color="black" class="pr-2">mdi-chart-line-variant</v-icon>
+                
+                <v-list-item-title>Share journey</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                v-if="userHasPortfolio"
+                :to="'/create/each1teach1'"
+                class="text-decoration-none pl-6 pr-12"
+                >
+                <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
+                <v-list-item-title>Create E1T1</v-list-item-title>
+                </v-list-item>
+            </v-list>
+        </v-menu>
+        <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+            <template v-slot:activator="{ on, attrs }">
+                <div v-bind="attrs" class="mr-2"
+                v-on="on">
+                <v-icon color="black">mdi-dots-vertical</v-icon>
                 </div>
             </template>
             <v-list>
@@ -67,40 +114,6 @@
                     </v-icon>
                 </v-avatar>
                 <v-list-item-title class="pl-2">@{{ loggedInUser.user.username }}</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                :to="'/create/uploadvideo'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                <v-list-item-title>Upload a video</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="!userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                >
-                <v-list-item-title>Create a portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                >
-                <v-list-item-title>Edit your portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/journey'"
-                class="text-decoration-none pl-6 pr-12"
-                >
-                <v-list-item-title>Share journey</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/each1teach1'"
-                class="text-decoration-none pl-6 pr-12"
-                >
-                <v-list-item-title>Create E1T1</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 :to="'/settings'"

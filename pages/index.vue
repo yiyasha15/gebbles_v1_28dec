@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-      <v-row justify="center" class="ma-md-12 my-8 " grey >
-        <h1 class="text-center font-weight-black hidden-sm-and-down " style="font-size:2em">
+      <v-row justify="center" class="mb-md-2 mt-8 " grey >
+        <!-- <h1 class="text-center font-weight-black hidden-sm-and-down " style="font-size:2em">
           Connecting the groove, <br>
           celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
         </h1>
@@ -9,39 +9,69 @@
           "Connecting the groove, <br>
           celebrating<br>
           <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
-        </h2>
+        </h2> -->
+        <h1 class="text-center font-weight-light mb-2 mx-4" style="font-size:1em">
+        at gebbles, people share the stories about <br>how you touched their lives through your art.  
+        </h1>
+        <!-- <h2 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-light"  style="font-size:0.5em">
+          at gebbles, people share the stories about <br>how you touched their lives through your art.
+        </h2> -->
+        <br>
       </v-row>
-      <center>
-        <v-btn dark color="#815A44" small v-if="isAuthenticated"
+      <v-row justify="center" class="mb-2">
+        <h4 class="caption">movement + music + culture</h4>
+      </v-row>
+      <div align="center" justify="center">
+      <img src = "~/assets/home.png"  width="80%" alt="portfolio logo">
+      </div>
+      <v-row v-if="!isAuthenticated" class="justify-center align-center ">
+        <v-col cols="12" md="6">
+          <div align="center" justify="center">
+          <img src = "~/assets/home.png"  width="100%" alt="portfolio logo">
+          </div>
+        </v-col>
+        <v-row justify="center" class="mb-md-2 mt-4" grey >
+        <h1 class="text-center font-weight-light" style="font-size:1em">
+        at gebbles, people share the stories about <br>how you touched their lives through your art.  
+        </h1>
+        <!-- <h2 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-light"  style="font-size:0.5em">
+          at gebbles, people share the stories about <br>how you touched their lives through your art.
+        </h2> -->
+        <br>
+      </v-row>
+      <v-row justify="center" class="mb-2">
+        <h4 class="caption">movement + music + culture</h4>
+      </v-row>
+      <!-- <center>
+        <v-btn color="#815A44" small v-if="isAuthenticated"
           class="text-decoration-none elevation-none px-4 mb-8 " 
           :to= "`/artists/`"><h4>community</h4>
           <v-icon right>
             mdi-arrow-right
           </v-icon>
         </v-btn>
-      </center>
-      <v-row v-if="!isAuthenticated" class="justify-center align-center ">
-        <v-col cols="12" md="6">
-          <div align="center" justify="center">
-          <img src = "~/assets/e1t1.png"  width="100%" alt="portfolio logo">
-          </div>
-        </v-col>
-        <v-col cols="12" md="6">
-          <div class="px-4" style="max-width:531px; margin:auto" align-content="left" align="left" justify="center">
-              <!-- <h1 style="font-size:28px" >Gebbles</h1><br> -->
-              <h3 style="text-align:justify;" class=" font-weight-light">At gebbles, people share the stories about how you touched their lives through your dance and movement philosophy. Gebbles builds the foundation for you to create your own community.
-              </h3>
-              <v-btn dark color="#815A44" small
-              class="text-decoration-none elevation-none mt-4 px-4 justify-end" 
-              :to= "`/artists/`"><h4>community</h4>
-              <v-icon right>
-                mdi-arrow-right
-              </v-icon>
-            </v-btn>
-          </div>
-        </v-col>
+      </center> -->
       </v-row>
-      <v-container >
+        <center>
+        <!-- <v-btn small v-if="isAuthenticated" color="#815A44" dark
+           class="text-decoration-none elevation-none px-4 mb-8 " 
+          :to= "`/artists/`"><h4 class="font-weight-light">community</h4>
+        </v-btn> -->
+        <v-row class="mt-1" style="max-width:500px; margin:auto">
+          <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h4 class="font-weight-light">community</h4></nuxt-link></v-col>
+          <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h4 class="font-weight-light">what's cooking</h4></nuxt-link></v-col>
+          <v-col><nuxt-link to="/create/" class="text-decoration-none "><h4 class="font-weight-light">get started</h4></nuxt-link></v-col>
+        </v-row>
+        <!-- <v-btn small v-if="isAuthenticated" color="#815A44" dark
+           class="text-decoration-none elevation-none px-4 mb-8 " 
+          :to= "`/whatiscooking/`"><h4 class="font-weight-light">What's cooking</h4>
+        </v-btn>
+        <v-btn small v-if="isAuthenticated" color="#815A44" dark
+           class="text-decoration-none elevation-none px-4 mb-8 " 
+          :to= "`/create/`"><h4 class="font-weight-light">Get Started</h4>
+        </v-btn> -->
+      </center>
+      <!-- <v-container >
         <v-row>
         <v-col>
           <v-hover v-slot:default="{ hover }">
@@ -106,36 +136,15 @@
           </center>
         </v-col>
       </v-row>
-        <!-- <center>
-          <v-btn color="#815A44"  outlined small
-          class="text-decoration-none elevation-none mb-6 mt-4 px-4" 
-          :to= "`/whatiscooking/`"><h4>What's cookin!</h4>
-          <v-icon right>
-            mdi-arrow-right
-          </v-icon>
-          </v-btn>
-        </center> -->
         <div class="my-12">
-          <h3 class="pl-1 my-4 hidden-sm-and-down ">What's cookin</h3>
-          <h3 class="pl-1 my-4 text-center hidden-md-and-up">What's cookin</h3>
-        <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+        <v-layout wrap row justify-start v-if="firstLoad" style="max-width:357px; margin:auto;" >
         <div v-for="n in this.looploader" :key ="n.index">
           <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
-        <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;"  width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+      <v-layout wrap row justify-start v-show="!firstLoad"  style="max-width:357px; margin:auto;" >
         <div v-for="cook in cooking" :key ="cook.index">
           <CookingCard :cook="cook" ></CookingCard> 
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 1072px; margin:auto;">
-        <div v-for="cook in cooking" :key ="cook.index">
-          <CookingCard :cook="cook" ></CookingCard>
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
@@ -148,7 +157,7 @@
       </center>
         </div>
       <v-divider></v-divider>
-      </v-container>
+      </v-container> -->
   </div>
 </template>
 
@@ -185,17 +194,17 @@ export default {
     },
     infiniteScrolling() {
       if(this.page){
-        console.log(this.page);
+        // console.log(this.page);
       const key = 'id';
       this.$axios.get(this.page).then(response => {
-        console.log(response);
+        // console.log(response);
         this.page= response.data.next;
         response.data.results.forEach(item => this.cooking.push(item));
         // filter array so no duplicates
-        console.log(this.cooking);
+        // console.log(this.cooking);
         this.cooking = [...new Map(this.cooking.map(item =>
           [item[key], item])).values()];
-          console.log(this.cooking);
+          // console.log(this.cooking);
       })
       .catch(err => {
         console.log(err);
@@ -236,5 +245,8 @@ export default {
 .home{
   max-width: 860px;
   margin: auto;
+}
+h4.hover{
+  color: black;
 }
 </style>

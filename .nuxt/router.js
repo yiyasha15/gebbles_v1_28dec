@@ -23,6 +23,7 @@ const _404d3538 = () => interopDefault(import('../pages/settings.vue' /* webpack
 const _1e3274a7 = () => interopDefault(import('../pages/test.vue' /* webpackChunkName: "pages/test" */))
 const _d9ad562c = () => interopDefault(import('../pages/whatiscooking/index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
 const _246f0a57 = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
+const _6d1500c3 = () => interopDefault(import('../pages/create/backup_index.vue' /* webpackChunkName: "pages/create/backup_index" */))
 const _2318800b = () => interopDefault(import('../pages/create/e1t1index.vue' /* webpackChunkName: "pages/create/e1t1index" */))
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
@@ -133,6 +134,10 @@ export const routerOptions = {
     path: "/write_blog",
     component: _246f0a57,
     name: "write_blog"
+  }, {
+    path: "/create/backup_index",
+    component: _6d1500c3,
+    name: "create-backup_index"
   }, {
     path: "/create/e1t1index",
     component: _2318800b,

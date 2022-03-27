@@ -1,62 +1,39 @@
 <template>
 <v-app>
-  <v-container style="max-width:1072px;">
+  <v-container style="max-width:672px;">
     <v-btn icon class="elevation-0 mb-8 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-      <v-row no-gutters>
-        <v-col cols="12" md='6'>
-          <div align="center" justify="center">
-          <img src = "~/assets/portfolio.png"  width="100%" alt="portfolio logo">
+    <v-row no-gutters>
+      <v-carousel hide-delimiters>
+        <v-carousel-item 
+          v-for="(item,i) in items"
+          :key="i"
+          
+          >
+          <center >
+          <div v-if="i==0"  > 
+            <h3 style="color:black;" class="font-weight-medium pb-4">create your portfolio</h3>
+            <img src = "~/assets/portfolio.png"  width="70%" alt="portfolio logo">
+            <h4 style="color:black; max-width:550px" class="font-weight-light"> a simple and beautiful canvas to showcase your art and lifestyle. render your landing page by just filling up a form.</h4>
           </div>
-        </v-col>
-        <v-col cols="12" md='6'>
-          <div v-if="!loggedInUser" class="ma-2">
-              <h3 class="font-weight-bold">How to get started?</h3>
-              <h4 class="font-weight-light mb-8">Yo! <b class="text-capitalize">
-                </b>So glad that you're joining the <b>gebbles
-                community</b>, we have a basic template laid out for you. Please follow these steps.
-              </h4>
-              <h4 class="font-weight-light">1. Fill the form according to the guidelines provided and while doing so, you can preview your website. </h4>
-              <h4 class="font-weight-light">2. Similarly you can document your dance journey by sharing your experiences or adding any past/upcoming events.</h4>
-              <h4 class="font-weight-light mt-8">We understand that gathering all these memories will take some time, but memories will eventually fade away 
-                but the shared ones will be here to stay. So, years down the lane we hope that you have a smile on your face 
-                looking back at your journey. 
-                Okay, let's get started.
-              </h4>
-              <div class="mt-6" >
-                <v-btn small outlined  dark color="black" class="text-decoration-none" :to= "`/create/website/`">Sign in and Get Started</v-btn>
-              </div>
-            </div>
-          <div v-if="loggedInUser && !userHasPortfolio" class="ma-2">
-              <h3 class="font-weight-bold">How to get started?</h3>
-              <h4 class="font-weight-light mb-8">Yo! <b class="text-capitalize">
-                @{{loggedInUser.user.username}}
-                </b>, so glad that you're joining the <b>gebbles
-                community</b>, we have a basic template laid out for you. Please follow these steps.
-              </h4>
-              <h4 class="font-weight-light">1. Fill the form according to the guidelines provided and while doing so, you can preview your website. </h4>
-              <h4 class="font-weight-light">2. Similarly you can document your dance journey by sharing your experiences or adding any past/upcoming events.</h4>
-              <h4 class="font-weight-light mt-8">We understand that gathering all these memories will take some time, but memories will eventually fade away 
-                but the shared ones will be here to stay. So, years down the lane we hope that you have a smile on your face 
-                looking back at your journey. 
-                Okay, let's get started.
-              </h4>
-              <div class="mt-6" >
-                <v-btn small outlined  dark color="black" class="text-decoration-none" :to= "`/create/website/`">Get Started</v-btn>
-              </div>
-            </div>
-            <div v-if="loggedInUser && userHasPortfolio" class="ma-2 px-2">
-              <h4 class=" mb-4 font-weight-light">Hi {{loggedInUser.user.username}}, <br>You can edit the form to update your portfolio.
-              </h4>
-              <div class="mt-6" >
-                <v-btn small outlined dark color="black" class="text-decoration-none" :to= "`/create/website/`">Edit Portfolio</v-btn>
-              </div>
-              <!-- <div class="mt-6" >
-                <v-btn small outlined dark color="black" class="text-decoration-none" :to= "`/create/uploadvideo/`">Edit Portfolio</v-btn>
-              </div> -->
-              <!-- <nuxt-link :to="'/create/website/'" class="text-decoration-none"><h3 class="icon">Edit Portfolio <v-icon dense class="icon">mdi-chevron-right</v-icon></h3></nuxt-link> -->
-              </div>
-         </v-col>
-      </v-row>
+          <div v-if="i==1">
+            <h3 style="color:black;" class="font-weight-medium pb-4">a gallery for your dance journey</h3>
+            <img src = "~/assets/journey.png"  width="70%" alt="journey logo"> 
+            <h4 style="color:black; max-width:500px" class="font-weight-light mt-4" >your home to keep those photos from all the events you attended, battles you own, judging and workshop fliers, so that your can go back in time when nostalgia hits.</h4>
+          </div>
+          <div v-if="i==2" >
+            <h3 style="color:black;" class="font-weight-medium pb-4">each one teach one</h3>
+            <img src = "~/assets/e1t1.png"  width="70%" alt="e1t1 logo">
+            <h4 style="color:black; max-width:500px" class="font-weight-light">let them know how you are taking their teachings and ideas to the next level with your own flavour. Let them know that you appreciate their sharings.</h4>
+          </div>
+          </center>
+        </v-carousel-item>
+      </v-carousel>
+    </v-row>
+    <center>
+      <v-btn icon outlined>
+      <v-icon color="black">mdi-plus</v-icon>
+      </v-btn>
+    </center>
   </v-container>
 </v-app>
 </template>
@@ -68,6 +45,18 @@ export default {
     data () {
       return {
         dialog: false,
+        num:0,
+        items: [
+        {
+          src: require("@/assets/portfolio.png"),
+        },
+        {
+          src: require("@/assets/journey.png"),
+        },
+        {
+          src: require("@/assets/e1t1.png"),
+        }
+      ],
       }
     },
     computed: {
@@ -81,12 +70,7 @@ export default {
 }
 </script>
 <style scoped>
-.icon {
-color: #000;
-}
-
-.icon:hover {
-color: #815A44;
-/* text-shadow:  0 0 2px indigo; ; */
+.v-image__image--cover {
+    background-size: contain !important;
 }
 </style>
