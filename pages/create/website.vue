@@ -6,6 +6,7 @@
             <v-btn small dark color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
             <v-btn small outlined color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
          </div>
+            <h2 class="mt-4" align="center" justify="center">Create your protfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row>
             <v-col cols="12" md="6" class="mt-12 hidden-sm-and-down">
@@ -23,24 +24,6 @@
                     </v-row>
             </v-col>
             <v-col cols="12" md="6">
-                <v-row>
-                <v-col cols="8">
-                    <h3 class="mt-4">Build your website</h3>
-                </v-col>
-                <v-col cols="2">
-                    <v-row class="justify-end mt-4 mr-8">
-                    <v-tooltip right>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn icon v-bind="attrs" v-on="on" color="black"><v-icon>mdi-information-outline</v-icon></v-btn>
-                    </template>
-                    <span>Share about yourself. Who you are. What you like.<br> 
-                        The dance styles/crew that you represent along with your social handles.<br>
-                        You can preview it while uploading the information. <br>
-                        Time to upload, let's go.</span>
-                    </v-tooltip>
-                    </v-row>
-                </v-col>
-                </v-row>
                 <v-form v-on:submit.prevent="submit_about">
                     <v-row class="py-4 justify-center text-center hidden-md-and-up">
                             <croppa

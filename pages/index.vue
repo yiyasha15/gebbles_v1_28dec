@@ -246,7 +246,8 @@ export default {
   max-width: 860px;
   margin: auto;
 }
-h4.hover{
+h4:hover{
   color: black;
+  text-decoration: underline;
 }
 </style>

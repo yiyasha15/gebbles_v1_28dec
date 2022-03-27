@@ -1,12 +1,12 @@
 <template>
 <v-app>
-    <v-container class="ma-24" style="max-width:1072px;">
-        <div class="text-xs-center mb-6" align = "center">
+    <v-container class="ma-24" style="max-width:550px;">
+        <div>
             <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
         <v-row >
-        <v-col cols="12" md="6" class="pa-0">
-             <h3 class="ma-4">Share your journey</h3>
+        <v-col class="pa-0">
+             <h2 class="my-8" align="center" justify="center">Share your journey</h2>
             <v-stepper v-model="e6" vertical >
                 <!-- {{editing_obj}} -->
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">

@@ -6,13 +6,14 @@
             </v-btn>
             <!-- {{cook_obj}} -->
         </v-container>
+        <h2 align="center" justify="center">Upload your video</h2>
         <v-container class="mx-auto" fluid style="max-width:550px" >
             <v-card :class="{'pa-6': $vuetify.breakpoint.smAndDown, 'pa-8': $vuetify.breakpoint.mdAndUp}">
             <v-form v-on:submit.prevent="submit">
                 <v-row>
                     <v-col cols="12">
                         <!-- <h3 class ="font-weight-light xs12 pb-4">Dedicating a dance for {{e1t1.s_teacher_name}}</h3> -->
-                        <h3 class ="font-weight-light xs12 pb-4">Upload your video</h3>
+                        
                         <canvas style="display:none;" id="canvas"></canvas>
                         <input style="display:none" ref="fileInputVideo" type="file" accept="video/*" @change="onFileChange"> 
                         <video width="100%" height="240" controls v-if="cook_obj" id="videoPreviewWhenUpdate" :src="cook_obj.video">

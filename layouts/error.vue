@@ -1,15 +1,15 @@
 <template>
   <v-container>
     <v-col align="center" justify="center">
-      <h1 v-if="error.statusCode === 404">
+      <h2 v-if="error.statusCode === 404" class="font-weight-light">
         Oops! {{ pageNotFound }}
         <img src="@/assets/vivi.png" width="150px">
-      </h1>
-      <h1 v-else>
+      </h2>
+      <h2 v-else class="font-weight-light">
         Oops! {{ otherError }}
         <img src="@/assets/vivi.png"  width="150px">
-      </h1>
-      <h1> <NuxtLink to="/">Let's return to the home page.</NuxtLink></h1>
+      </h2>
+      <h2 class="font-weight-light"> <NuxtLink to="/">Let's return to the home page.</NuxtLink></h2>
     </v-col>
   </v-container>
 </template>
