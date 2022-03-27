@@ -3,7 +3,7 @@
         <v-container>
         <v-card width="490" class="mx-auto mt-16 ">
             <v-card-title class="justify-center align-center">
-                <h3>Set new password</h3>
+                <h3 >Set new password</h3>
             </v-card-title>
             <div style="padding:18px">
             <v-text-field     

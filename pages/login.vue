@@ -8,7 +8,7 @@
 			class="clickable mt-8"
 			:src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
 			<v-card-title class="justify-center">
-				<h3>Sign in to gebbles</h3>
+				<h3 class="font-weight-medium">Sign in to gebbles</h3>
 			</v-card-title>
 			<v-form ref="form">
 			<v-card-text>

@@ -3,7 +3,7 @@
         <v-container>
         <v-card width="450" elevation="0" outlined class="mx-auto mt-16 ">
             <v-card-title class="justify-center align-center">
-                <h3>Forgot your password</h3>
+                <h3 >Forgot your password</h3>
             </v-card-title>
             <v-text-field :error-messages="resetError"  class="mx-6"  v-model="email" label="Email" prepend-icon="mdi-account-circle" />
             <v-card-actions class="mb-3 pb-6 justify-center">

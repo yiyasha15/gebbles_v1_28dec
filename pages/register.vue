@@ -9,7 +9,7 @@
     :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
     </center>
 		<v-card-title class="justify-center">
-			<h3 class="font-weight-black">Sign up to gebbles</h3>
+			<h3 class="font-weight-medium">Sign up to gebbles</h3>
 		</v-card-title>
 		<v-card-text>
     <v-form
