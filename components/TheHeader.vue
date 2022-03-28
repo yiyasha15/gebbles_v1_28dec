@@ -33,10 +33,10 @@
         <!-- <v-btn to= "/notificationss">test</v-btn> -->
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
-                <div v-bind="attrs" class="mr-2"
-                v-on="on">
-                <v-icon color="black">mdi-file-document-edit-outline</v-icon>
-                </div>
+            <div v-bind="attrs" class="mr-2"
+            v-on="on">
+            <v-icon color="black">mdi-file-document-edit-outline</v-icon>
+            </div>
             </template>
             <v-list>
                 <v-list-item
@@ -192,11 +192,11 @@
         max-width="450">
         <center>
             <v-card max-width="450" class="pa-2 " elevation="0" outlined>
-                <div align="end">
-                <v-btn icon color="error" @click="registerDialog=false" >
-                    <v-icon >mdi-close</v-icon>
-                </v-btn>
-                </div>
+            <div align="end">
+            <v-btn icon color="error" @click="registerDialog=false" >
+                <v-icon >mdi-close</v-icon>
+            </v-btn>
+            </div>
         <div class="mt-8"><nuxt-link :to="'/'" class="text-decoration-none">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 38 : 48"

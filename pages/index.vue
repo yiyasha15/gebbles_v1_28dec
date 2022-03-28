@@ -19,10 +19,10 @@
         <h4 class="caption">movement + music + culture</h4>
       </v-row>
       <div align="center" justify="center">
-      <img src = "~/assets/home.png"  width="80%" alt="portfolio logo">
+      <img src = "~/assets/home.png"  width="60%" alt="portfolio logo">
       </div>
         <center>
-        <v-row class="mt-1" style="max-width:500px; margin:auto">
+        <v-row  style="max-width:500px; margin:auto">
           <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h4 class="font-weight-light">community</h4></nuxt-link></v-col>
           <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h4 class="font-weight-light">what's cooking</h4></nuxt-link></v-col>
           <v-col><nuxt-link to="/create/" class="text-decoration-none "><h4 class="font-weight-light">get started</h4></nuxt-link></v-col>
