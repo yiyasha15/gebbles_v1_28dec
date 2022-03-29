@@ -13,7 +13,7 @@
           celebrating<br>
           <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
         </h2> -->
-        <h1 class="text-center font-weight-light mb-2 mx-4" style="font-size:0.9em">
+        <h1 class="text-center font-weight-medium mb-2 mx-4" style="font-size:0.9em">
         at gebbles, people share the stories about <br>how you touched their lives through your art.  
         </h1>
         <br>
@@ -211,7 +211,7 @@ export default {
   max-width: 860px;
   margin: auto;
 }
-h4:hover{
+h5:hover{
   color: black;
   text-decoration: underline;
 }
