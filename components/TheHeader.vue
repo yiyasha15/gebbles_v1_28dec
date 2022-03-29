@@ -35,7 +35,7 @@
             <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" class="mr-2"
             v-on="on">
-            <v-icon color="black">mdi-file-document-edit-outline</v-icon>
+            <v-icon color="black">mdi-plus-circle-outline</v-icon>
             </div>
             </template>
             <v-list>

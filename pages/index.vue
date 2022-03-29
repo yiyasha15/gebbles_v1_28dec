@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-      <v-row justify="center" class="mb-md-2 mt-8 " grey >
+      <div align="center" justify="center" class="mt-2">
+      <img src = "~/assets/home.png"  width="100%" alt="portfolio logo">
+      </div>
+      <v-row justify="center" class="my-3" grey >
         <!-- <h1 class="text-center font-weight-black hidden-sm-and-down " style="font-size:2em">
           Connecting the groove, <br>
           celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
@@ -10,7 +13,7 @@
           celebrating<br>
           <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
         </h2> -->
-        <h1 class="text-center font-weight-light mb-2 mx-4" style="font-size:1em">
+        <h1 class="text-center font-weight-light mb-2 mx-4" style="font-size:0.9em">
         at gebbles, people share the stories about <br>how you touched their lives through your art.  
         </h1>
         <br>
@@ -18,14 +21,11 @@
       <v-row justify="center" class="mb-2">
         <h4 class="caption">movement + music + culture</h4>
       </v-row>
-      <div align="center" justify="center">
-      <img src = "~/assets/home.png"  width="60%" alt="portfolio logo">
-      </div>
         <center>
         <v-row  style="max-width:500px; margin:auto">
-          <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h4 class="font-weight-light">community</h4></nuxt-link></v-col>
-          <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h4 class="font-weight-light">what's cooking</h4></nuxt-link></v-col>
-          <v-col><nuxt-link to="/create/" class="text-decoration-none "><h4 class="font-weight-light">get started</h4></nuxt-link></v-col>
+          <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h5 class="font-weight-light">community</h5></nuxt-link></v-col>
+          <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h5 class="font-weight-light">what's cooking</h5></nuxt-link></v-col>
+          <v-col><nuxt-link to="/create/" class="text-decoration-none "><h5 class="font-weight-light">get started</h5></nuxt-link></v-col>
         </v-row>
         <!-- <v-btn small v-if="isAuthenticated" color="#815A44" dark
            class="text-decoration-none elevation-none px-4 mb-8 " 

@@ -32,11 +32,9 @@
       </v-carousel>
     </v-row>
     <center>
-      <v-menu top
-      offset-y
-    >
+      <v-menu top offset-y>
       <template v-slot:activator="{ on, attrs }">
-         <v-btn icon outlined v-bind="attrs" v-if="isAuthenticated"
+         <v-btn outlined icon v-bind="attrs" v-if="isAuthenticated"
           v-on="on">
       <v-icon color="black">mdi-plus</v-icon>
       </v-btn>
