@@ -13,7 +13,6 @@
                 <v-row>
                     <v-col cols="12">
                         <!-- <h3 class ="font-weight-light xs12 pb-4">Dedicating a dance for {{e1t1.s_teacher_name}}</h3> -->
-                        
                         <canvas style="display:none;" id="canvas"></canvas>
                         <input style="display:none" ref="fileInputVideo" type="file" accept="video/*" @change="onFileChange"> 
                         <video width="100%" height="240" controls v-if="cook_obj" id="videoPreviewWhenUpdate" :src="cook_obj.video">

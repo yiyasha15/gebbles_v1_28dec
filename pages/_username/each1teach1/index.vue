@@ -14,101 +14,99 @@
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
         </div>
+        <center>
         <v-tabs style="max-width:670px; margin:auto;" class="hidden-sm-and-down">
-      <v-tab>
-        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Teachers</h3>
-      </v-tab>
-      <v-tab>
-        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Students</h3>
-      </v-tab>
-      <v-tab-item>
-        <div v-if="teachers.length">
-        <div>
-        <!-- <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Teachers</h3> -->
-        </div>
-        <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
-            <div v-for="share in teachers" :key ="share.index">
-                    <TeachersCard :e1t1="share" ></TeachersCard>
-                </div>
-        </v-layout>
-        <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
-            <div v-for="share in teachers" :key ="share.index">
-                    <teachers-card-desktop :e1t1="share" ></teachers-card-desktop>
-                </div>
-        </v-layout>
-        </div>
-        <v-card v-intersect="infiniteScrollingTeacher"></v-card>
-      </v-tab-item>
-      <v-tab-item>
-          <div v-if="students.length">
-        <!-- <div>
-            <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
-            <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Students</h3>
-        </div> -->
-        <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
-            <div v-for="share in students" :key ="share.index">
-                <StudentsCard :share="share" ></StudentsCard>
+        <v-tab>
+            <h3 class="font-weight-light pl-2 " style="max-width:670px; margin:auto;">My Teachers</h3>
+        </v-tab>
+        <v-tab>
+            <h3 class="font-weight-light pl-2 " style="max-width:670px; margin:auto;">My Students</h3>
+        </v-tab>
+        <v-tab-item>
+            <div v-if="teachers.length">
+            <div>
+            <!-- <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
+            <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Teachers</h3> -->
             </div>
-        </v-layout>
-        <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
-            <div v-for="share in students" :key ="share.index">
-                <students-card-desktop :share="share" ></students-card-desktop>
+            <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
+                <div v-for="share in teachers" :key ="share.index">
+                        <TeachersCard :e1t1="share" ></TeachersCard>
+                    </div>
+            </v-layout>
+            <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
+                <div v-for="share in teachers" :key ="share.index">
+                        <teachers-card-desktop :e1t1="share" ></teachers-card-desktop>
+                    </div>
+            </v-layout>
             </div>
-        </v-layout>
-        </div>
-        <v-card v-intersect="infiniteScrollingStudents"></v-card>
-      </v-tab-item>
+            <v-card v-intersect="infiniteScrollingTeacher"></v-card>
+        </v-tab-item>
+        <v-tab-item>
+            <div v-if="students.length">
+            <!-- <div>
+                <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
+                <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Students</h3>
+            </div> -->
+            <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
+                <div v-for="share in students" :key ="share.index">
+                    <StudentsCard :share="share" ></StudentsCard>
+                </div>
+            </v-layout>
+            <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
+                <div v-for="share in students" :key ="share.index">
+                    <students-card-desktop :share="share" ></students-card-desktop>
+                </div>
+            </v-layout>
+            </div>
+            <v-card v-intersect="infiniteScrollingStudents"></v-card>
+        </v-tab-item>
         </v-tabs>
+        </center>
         <v-tabs style="max-width:357px; margin:auto;" class="hidden-md-and-up">
-      <v-tab>
-        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Teachers</h3>
-      </v-tab>
-      <v-tab>
-        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Students</h3>
-      </v-tab>
-      <v-tab-item>
-        <div v-if="teachers.length">
-        <div>
-        <!-- <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
-        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Teachers</h3> -->
-        </div>
-        <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
-            <div v-for="share in teachers" :key ="share.index">
-                    <TeachersCard :e1t1="share" ></TeachersCard>
-                </div>
-        </v-layout>
-        <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
-            <div v-for="share in teachers" :key ="share.index">
-                    <teachers-card-desktop :e1t1="share" ></teachers-card-desktop>
-                </div>
-        </v-layout>
-        </div>
-        <v-card v-intersect="infiniteScrollingTeacher"></v-card>
-      </v-tab-item>
-      <v-tab-item>
-          <div v-if="students.length">
-        <!-- <div>
-            <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
-            <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Students</h3>
-        </div> -->
-        <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
-            <div v-for="share in students" :key ="share.index">
-                <StudentsCard :share="share" ></StudentsCard>
+        <v-tab>
+            <h3 class="font-weight-light pl-2" style="max-width:357px; margin:auto;">My Teachers</h3>
+        </v-tab>
+        <v-tab>
+            <h3 class="font-weight-light pl-2" style="max-width:357px; margin:auto;">My Students</h3>
+        </v-tab>
+        <v-tab-item>
+            <div v-if="teachers.length">
+            <div>
+            <!-- <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
+            <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Teachers</h3> -->
             </div>
-        </v-layout>
-        <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
-            <div v-for="share in students" :key ="share.index">
-                <students-card-desktop :share="share" ></students-card-desktop>
+            <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
+                <div v-for="share in teachers" :key ="share.index">
+                        <TeachersCard :e1t1="share" ></TeachersCard>
+                    </div>
+            </v-layout>
+            <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
+                <div v-for="share in teachers" :key ="share.index">
+                        <teachers-card-desktop :e1t1="share" ></teachers-card-desktop>
+                    </div>
+            </v-layout>
             </div>
-        </v-layout>
-        </div>
-        <v-card v-intersect="infiniteScrollingStudents"></v-card>
-      </v-tab-item>
+            <v-card v-intersect="infiniteScrollingTeacher"></v-card>
+        </v-tab-item>
+        <v-tab-item>
+            <div v-if="students.length">
+            <!-- <div>
+                <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
+                <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Students</h3>
+            </div> -->
+            <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
+                <div v-for="share in students" :key ="share.index">
+                    <StudentsCard :share="share" ></StudentsCard>
+                </div>
+            </v-layout>
+            <v-layout wrap row justify-start class="my-8 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
+                <div v-for="share in students" :key ="share.index">
+                    <students-card-desktop :share="share" ></students-card-desktop>
+                </div>
+            </v-layout>
+            </div>
+            <v-card v-intersect="infiniteScrollingStudents"></v-card>
+        </v-tab-item>
         </v-tabs>
         <div v-show="!students.length && !teachers.length">
             <center>

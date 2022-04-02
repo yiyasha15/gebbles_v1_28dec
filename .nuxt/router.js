@@ -11,6 +11,7 @@ const _af938f32 = () => interopDefault(import('../pages/blogs.vue/index.vue' /* 
 const _3d39c31b = () => interopDefault(import('../pages/contact.vue' /* webpackChunkName: "pages/contact" */))
 const _6a4e72d8 = () => interopDefault(import('../pages/create/index.vue' /* webpackChunkName: "pages/create/index" */))
 const _3717afe4 = () => interopDefault(import('../pages/explore.vue' /* webpackChunkName: "pages/explore" */))
+const _571cafb3 = () => interopDefault(import('../pages/feed.vue' /* webpackChunkName: "pages/feed" */))
 const _337a0fd6 = () => interopDefault(import('../pages/help.vue' /* webpackChunkName: "pages/help" */))
 const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
@@ -23,11 +24,8 @@ const _404d3538 = () => interopDefault(import('../pages/settings.vue' /* webpack
 const _1e3274a7 = () => interopDefault(import('../pages/test.vue' /* webpackChunkName: "pages/test" */))
 const _d9ad562c = () => interopDefault(import('../pages/whatiscooking/index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
 const _246f0a57 = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
-const _6d1500c3 = () => interopDefault(import('../pages/create/backup_index.vue' /* webpackChunkName: "pages/create/backup_index" */))
-const _2318800b = () => interopDefault(import('../pages/create/e1t1index.vue' /* webpackChunkName: "pages/create/e1t1index" */))
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
-const _02d13980 = () => interopDefault(import('../pages/create/journeyindex.vue' /* webpackChunkName: "pages/create/journeyindex" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
 const _3e15aee2 = () => interopDefault(import('../pages/blogs.vue/_id.vue' /* webpackChunkName: "pages/blogs.vue/_id" */))
@@ -87,6 +85,10 @@ export const routerOptions = {
     component: _3717afe4,
     name: "explore"
   }, {
+    path: "/feed",
+    component: _571cafb3,
+    name: "feed"
+  }, {
     path: "/help",
     component: _337a0fd6,
     name: "help"
@@ -135,14 +137,6 @@ export const routerOptions = {
     component: _246f0a57,
     name: "write_blog"
   }, {
-    path: "/create/backup_index",
-    component: _6d1500c3,
-    name: "create-backup_index"
-  }, {
-    path: "/create/e1t1index",
-    component: _2318800b,
-    name: "create-e1t1index"
-  }, {
     path: "/create/each1teach1",
     component: _0da0c1ee,
     name: "create-each1teach1"
@@ -150,10 +144,6 @@ export const routerOptions = {
     path: "/create/journey",
     component: _6cd0c402,
     name: "create-journey"
-  }, {
-    path: "/create/journeyindex",
-    component: _02d13980,
-    name: "create-journeyindex"
   }, {
     path: "/create/uploadvideo",
     component: _70dd915c,

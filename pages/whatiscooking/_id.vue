@@ -192,7 +192,7 @@ import { mapGetters } from 'vuex'
     computed: {
       ...mapGetters(['loggedInUser', 'userHasPortfolio', 'usersPortfolio','isAuthenticated',
       'like', 'dope', 'info', 'cook_has_like','cook_has_like_id', 'learning_comments_list',
-      'cook_has_dope','cook_has_dope_id','cook_has_info','cook_has_info_id' ]),
+      'cook_has_dope','cook_has_dope_id','cook_has_info','cook_has_info_id','cook_obj' ]),
     },
     data() {
       return {
@@ -230,7 +230,7 @@ import { mapGetters } from 'vuex'
     },
     created(){
       this.dateFormat(this.cook.timestamp)
-      this.$store.dispatch("check_cook_obj",this.cook.id);
+      // this.$store.dispatch("check_cook_obj",this.cook);
       this.$store.dispatch("check_cook_reactions",this.cook.id);
       this.$store.dispatch("check_cook_comments",this.cook.id);
     },

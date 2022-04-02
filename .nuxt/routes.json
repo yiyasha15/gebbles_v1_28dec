@@ -42,6 +42,12 @@
     "chunkName": "pages/explore"
   },
   {
+    "name": "feed",
+    "path": "/feed",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/feed.vue",
+    "chunkName": "pages/feed"
+  },
+  {
     "name": "help",
     "path": "/help",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/help.vue",
@@ -114,18 +120,6 @@
     "chunkName": "pages/write_blog"
   },
   {
-    "name": "create-backup_index",
-    "path": "/create/backup_index",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/backup_index.vue",
-    "chunkName": "pages/create/backup_index"
-  },
-  {
-    "name": "create-e1t1index",
-    "path": "/create/e1t1index",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/e1t1index.vue",
-    "chunkName": "pages/create/e1t1index"
-  },
-  {
     "name": "create-each1teach1",
     "path": "/create/each1teach1",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/each1teach1.vue",
@@ -136,12 +130,6 @@
     "path": "/create/journey",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/journey.vue",
     "chunkName": "pages/create/journey"
-  },
-  {
-    "name": "create-journeyindex",
-    "path": "/create/journeyindex",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/journeyindex.vue",
-    "chunkName": "pages/create/journeyindex"
   },
   {
     "name": "create-uploadvideo",
