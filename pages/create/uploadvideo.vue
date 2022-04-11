@@ -7,7 +7,7 @@
             <!-- {{cook_obj}} -->
         </v-container>
         <h2 align="center" justify="center">Upload your video</h2>
-        <v-container class="mx-auto" fluid style="max-width:550px" >
+        <v-container class="mx-auto" fluid style="max-width:550px" v-if="isMobile">
             <v-card :class="{'pa-6': $vuetify.breakpoint.smAndDown, 'pa-8': $vuetify.breakpoint.mdAndUp}">
             <v-form v-on:submit.prevent="submit">
                 <v-row>
@@ -100,6 +100,11 @@
             </v-form>
         </v-card>
         </v-container>
+        <v-container class="mx-auto" fluid style="max-width:550px" v-else>
+            <center>
+                <h3 class="font-weight-light mt-8">Please use a mobile device to upload videos.</h3>
+            </center>
+        </v-container>
         <!-- {{usersTeacher}}
         <h1>AND</h1>
         <div v-if="this.cook_obj">
@@ -149,6 +154,9 @@ middleware : 'check_auth',
 created(){
     this.usersTeacher= this.usersTeachers
     // console.log(this.cook_obj);
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        this.isMobile = true;
+    }
     if(this.cook_obj)
     {
         this.cookingForm.lesson = this.cook_obj.lesson
@@ -181,6 +189,7 @@ data(){
         changedTeacherBool:false,
         changedTeachers:[],
         updated:false,
+        isMobile:false,
         }
 },
 computed: {

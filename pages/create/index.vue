@@ -15,7 +15,7 @@
             <h4 style="color:black; max-width:550px" class="font-weight-light hidden-sm-and-down"> a simple and beautiful canvas to showcase your art and lifestyle. render your landing page by just filling up a form.</h4>
             <p style="color:black; max-width:260px" class="font-weight-light hidden-md-and-up"> a simple and beautiful canvas to showcase your art and lifestyle. render your landing page by just filling up a form.</p>
             <div class="mt-2" > 
-            <v-icon dark color="#815A44">mdi-circle-small</v-icon>
+            <v-icon dark large color="#815A44">mdi-circle-small</v-icon>
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
             </div>
@@ -27,7 +27,7 @@
             <p style="color:black; max-width:260px" class="font-weight-light hidden-md-and-up"> your home to keep those photos from all the events you attended, battles you own, judging and workshop fliers, so that your can go back in time when nostalgia hits.</p>
           <div class="mt-2" > 
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
-            <v-icon dark color="#815A44">mdi-circle-small</v-icon>
+            <v-icon dark large color="#815A44">mdi-circle-small</v-icon>
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
             </div>
           </div>
@@ -39,7 +39,7 @@
           <div class="mt-2" > 
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
-            <v-icon dark color="#815A44">mdi-circle-small</v-icon>
+            <v-icon dark large color="#815A44">mdi-circle-small</v-icon>
             </div>
          </div>
           </center>
