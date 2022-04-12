@@ -30,6 +30,7 @@
                             <!-- </h5> -->
                             <v-icon right dark> mdi-cloud-upload </v-icon>
                         </v-btn>
+                        <p class="caption">Maximum one minute.</p>
                         <v-text-field
                             v-model = "cookingForm.lesson"
                             label= "Caption">

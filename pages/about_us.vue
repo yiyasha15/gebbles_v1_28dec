@@ -6,7 +6,7 @@
           <!-- <h3 class="my-4 font-weight-black">gebbles</h3> -->
           <h4 class="font-weight-light my-4"><span class="font-weight-bold">*groove pebbles</span>, is a community platform <b>to celebrate the each one teach one legacy of the hiphop culture. </b><br>
           at gebbles, you can document your HipHop journey & stay connected
-          to some of the people who matter the most, your teachers and students in this culture,
+          to some of the people who matter the most, your peers, teachers and students in this culture,
           the people who show you the way and the people whom you show it to.
 
           <!-- Gebbles is a platform for the artists of the hiphop culture. At gebbles, you can make a dance portfolio, document your HipHop journey & stay connected
