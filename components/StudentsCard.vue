@@ -3,7 +3,7 @@
     <v-card
       style="margin:2px;"
       data-view
-      :to="'/e1t1/' + share.id" 
+      :to="'/e1t1/' + share.uuid" 
       :elevation="hover ? 12 : 0"
       outlined
       width="115" 

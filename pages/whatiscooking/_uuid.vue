@@ -7,11 +7,11 @@
        </v-container>
       <v-container style="max-width:750px; margin:auto;" >
         <div v-if="cook">
-        <video id="videoId" width="100%" height="410px" controls controlsList="nodownload" v-if="cook.video" class="hidden-xs-only">
+        <video id="videoId" width="100%" height="410px" autoplay controls controlsList="nodownload" v-if="cook.video" class="hidden-xs-only">
             <source :src="cook.video" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <video id="videoId" width="100%" height="220px" controls controlsList="nodownload" v-if="cook.video" class="hidden-sm-and-up">
+        <video id="videoId" width="100%" height="220px" autoplay controls controlsList="nodownload" v-if="cook.video" class="hidden-sm-and-up">
             <source :src="cook.video" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -219,7 +219,8 @@ import { mapGetters } from 'vuex'
     },
     async asyncData({error, params}) {
       try {
-        let cook = await EventService.getWhatsCookingId(params.id)
+        console.log(params);
+        let cook = await EventService.getWhatsCookingId(params.uuid)
         return {
           cook : cook.data
         }
@@ -260,7 +261,7 @@ import { mapGetters } from 'vuex'
         this.$store.dispatch("remove_cook_obj")
         this.$store.dispatch("remove_cook_reactions")
         try {
-            this.$axios.$delete("/v1/whatiscooking/cooking/"+this.cook.id, config).then(res=>{
+            this.$axios.$delete("/v1/whatiscooking/cooking/"+this.cook.uuid, config).then(res=>{
               console.log("cooking deleted",res);
               this.deleteLoading = false;
               this.$router.push("/");

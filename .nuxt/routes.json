@@ -150,16 +150,16 @@
     "chunkName": "pages/blogs.vue/_id"
   },
   {
-    "name": "e1t1-id",
-    "path": "/e1t1/:id?",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/e1t1/_id.vue",
-    "chunkName": "pages/e1t1/_id"
+    "name": "e1t1-uuid",
+    "path": "/e1t1/:uuid?",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/e1t1/_uuid.vue",
+    "chunkName": "pages/e1t1/_uuid"
   },
   {
-    "name": "whatiscooking-id",
-    "path": "/whatiscooking/:id",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/whatiscooking/_id.vue",
-    "chunkName": "pages/whatiscooking/_id"
+    "name": "whatiscooking-uuid",
+    "path": "/whatiscooking/:uuid",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/whatiscooking/_uuid.vue",
+    "chunkName": "pages/whatiscooking/_uuid"
   },
   {
     "name": "index",

@@ -303,8 +303,8 @@ methods:{
         let formNameThumb = new FormData();
         formName.append("video", this.cookingForm.video);
         formNameThumb.append("thumbjs", this.cookingForm.thumbjs);
-        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.id, formName, config);
-        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.id, formNameThumb, config);
+        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);
+        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formNameThumb, config);
     },
     async updateCooking() {
         this.progressbar =true;
@@ -335,7 +335,7 @@ methods:{
             };
             let formName = new FormData();
             formName.append("lesson", this.cookingForm.lesson);
-            let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.id, formName, config);
+            let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);
             // console.log(response, "changed");
         }else console.log("lesson unchanged");
         //for tagged teachers

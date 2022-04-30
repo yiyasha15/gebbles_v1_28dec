@@ -209,8 +209,10 @@ export default {
             this.imageData = this.sharing.s_photo;
             this.teacher_obj = this.sharing.s_teacher_name;
             let url1 =this.sharing.s_teacher_video //getting value of youtube video urls
+            if(url1){
             let videoId = getIdFromURL(url1) //getting id from video url
             this.videoId = videoId //assigning the id to <youtube> video id
+            }
         }
     },
     computed: {
@@ -645,7 +647,7 @@ export default {
                     formName.append(keyObj1[i], valueObj2[i]);
                     formName.append("id", this.sharing['id']);
                     // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                    await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.id, formName, config);
+                    await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
                     // console.log( valueObj1[i] ," changed"); 
                 } 
             }

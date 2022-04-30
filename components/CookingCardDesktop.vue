@@ -2,7 +2,7 @@
   <v-hover v-slot:default="{ hover }">
     <v-card style="margin:4px;"
       data-view
-      :to="'/whatiscooking/'+cook.id" 
+      :to="'/whatiscooking/'+cook.uuid" 
       :elevation="hover ? 12 : 0"
       outlined
       width="215" 

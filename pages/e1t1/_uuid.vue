@@ -255,6 +255,7 @@ import ReadMore from 'vue-read-more';
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 import CookingCard from '~/components/CookingCard.vue'
+import logoutVue from '../logout.vue'
 export default {
     head() {
         return {
@@ -270,8 +271,10 @@ export default {
     },
     created(){
         let url1 =this.e1t1.s_teacher_video //getting value of youtube video urls
+        if(url1){
         let videoId = getIdFromURL(url1) //getting id from video url
         this.videoId = videoId //assigning the id to <youtube> video id
+        }
     },
     components:{
         CountryFlag,
@@ -351,7 +354,7 @@ export default {
 	},
     async asyncData({error, params}) {
       try {
-         let each1teach1 = await EventService.getEach1Teach1(params.id)
+         let each1teach1 = await EventService.getEach1Teach1(params.uuid)
          return {
              e1t1 : each1teach1.data
              }
@@ -415,7 +418,7 @@ export default {
             };
             this.$store.dispatch("remove_share_obj")
             try {
-                let response = await this.$axios.$delete("/v1/e1t1/sharing/"+this.e1t1.id, config)
+                let response = await this.$axios.$delete("/v1/e1t1/sharing/"+this.e1t1.uuid, config)
                 console.log("e1t1 deleted.");
                 this.deleteLoading = false;
                 this.$store.dispatch("check_user_teachers");
