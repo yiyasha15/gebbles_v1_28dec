@@ -21,12 +21,12 @@
       <v-row justify="center" class="mb-2">
         <h4 class="caption">movement + music + culture</h4>
       </v-row>
-        <center>
-        <v-row  style="max-width:500px; margin:auto">
+        <center class="mt-6">
+        <v-row  style="max-width:370px; margin:auto">
           <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h5 class="font-weight-light">community</h5></nuxt-link></v-col>
           <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h5 class="font-weight-light">what's cooking</h5></nuxt-link></v-col>
           <!-- <v-col><nuxt-link to="/feed/" class="text-decoration-none "><h5 class="font-weight-light">explore</h5></nuxt-link></v-col> -->
-          <v-col><nuxt-link to="/create/" class="text-decoration-none "><h5 class="font-weight-light">get started</h5></nuxt-link></v-col>
+          <v-col v-if="!userHasPortfolio"><nuxt-link to="/create/" class="text-decoration-none "><h5 class="font-weight-light">get started</h5></nuxt-link></v-col>
         </v-row>
         <!-- <v-btn small v-if="isAuthenticated" color="#815A44" dark
            class="text-decoration-none elevation-none px-4 mb-8 " 

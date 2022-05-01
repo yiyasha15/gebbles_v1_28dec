@@ -184,6 +184,7 @@ computed: {
         }
     },
     opene1t1(obj){
+        console.log(obj);
         if(obj.e1t1object)
         this.$router.push('/e1t1/'+ obj.e1t1object);
         else
