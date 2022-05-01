@@ -18,12 +18,12 @@
                 </div>
                 </nuxt-link>
                 <v-spacer></v-spacer>
-                <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
+                <v-btn small v-if="isAuthenticated && userHasPortfolio  && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
                 <v-badge color="error" overlap :content='notifications_notseen'>
                 <v-icon color="black">mdi-bell-outline</v-icon>
                 </v-badge>
             </v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen==0" icon dark color="black" class="mr-2 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
+            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-2 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
             <v-icon color="black">mdi-bell-outline</v-icon>
             </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
