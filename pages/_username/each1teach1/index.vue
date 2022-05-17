@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container v-show="!firstLoad" style="max-width:670px;" class="pa-0">
-        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-8 hidden-sm-and-down">
+        <!-- <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-8 hidden-sm-and-down">
             <h3 class="d-inline pl-2 font-weight-medium" >Shout out to your friend/teacher.</h3>
             <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/"> 
                 <v-icon >mdi-plus</v-icon>
@@ -13,7 +13,7 @@
         <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/"> 
             <v-icon >mdi-plus</v-icon>
         </v-btn>
-        </div>
+        </div> -->
         <center>
         <v-tabs style="max-width:670px; margin:auto;" class="hidden-sm-and-down">
         <v-tab>

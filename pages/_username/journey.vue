@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:670px;">
-        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 hidden-sm-and-down">
+        <!-- <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 hidden-sm-and-down">
             <h3 class="d-inline pl-2 font-weight-medium">Share your journey</h3>
             <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
                 <v-icon >mdi-plus</v-icon>
@@ -13,7 +13,7 @@
             <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
-        </div>
+        </div> -->
         <div v-if="upcoming.length || journey.length || highlights.length"> 
         <!-- check if journey is available -->
         <div v-if="upcoming.length">

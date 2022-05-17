@@ -43,7 +43,7 @@
                 :to="'/create/uploadvideo'"
                 class="text-decoration-none pl-6 pr-12"
                 ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                <v-list-item-title>Upload a video</v-list-item-title>
+                <v-list-item-title>Upload a gebble</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 v-if="!userHasPortfolio"
@@ -73,7 +73,7 @@
                 class="text-decoration-none pl-6 pr-12"
                 >
                 <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
-                <v-list-item-title>Create E1T1</v-list-item-title>
+                <v-list-item-title>Shoutout to your pebble</v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-menu>
