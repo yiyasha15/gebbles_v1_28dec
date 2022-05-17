@@ -10,9 +10,9 @@
         <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-6 hidden-md-and-up"
         style="max-width:357px; margin:auto;">
             <h3 class="d-inline pl-2 font-weight-medium">Shout out to your friend/teacher.</h3>
-            <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/"> 
-                <v-icon >mdi-plus</v-icon>
-            </v-btn>
+        <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/"> 
+            <v-icon >mdi-plus</v-icon>
+        </v-btn>
         </div>
         <center>
         <v-tabs style="max-width:670px; margin:auto;" class="hidden-sm-and-down">

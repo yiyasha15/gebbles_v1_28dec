@@ -28,7 +28,7 @@
                 v-if="message.username == loggedInUser.user.username"
                 class="text-decoration-none pl-6 pr-12"
                 color="error"
-                @click="deleted(message.uuid)"
+                @click="deleted(message.uuid,message.shareid)"
                 >
                 <v-list-item-title>Delete</v-list-item-title>
                 </v-list-item>
@@ -45,7 +45,7 @@
         </div>
     </section>
     <v-snackbar v-model="delete_snackbar">
-            Deleted.
+            Message deleted.
             <template v-slot:action="{ attrs }">
             <v-btn
                 color="error"
@@ -58,7 +58,7 @@
             </template>
     </v-snackbar>
     <v-snackbar v-model="report_snackbar">
-        Reported.
+        Message reported.
         <template v-slot:action="{ attrs }">
         <v-btn
             color="error"
@@ -87,22 +87,21 @@ import store from 'vuex'
         }
     },
     mounted(){
-      // console.log(this.events);
+      // console.log(this.messages);
     },
     computed: {
         ...mapGetters(['loggedInUser', 'artists' ,'isAuthenticated']),
     },
     methods:{
-      async deleted(uuid){
+      async deleted(uuid, shareid){
         const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
         };
         try {
-          console.log(uuid);
             let response = await this.$axios.$delete("/v1/chat/"+ uuid, config)
-            this.$store.dispatch("check_personal_room", id)
+            this.$store.dispatch("check_personal_room", shareid)
             this.delete_snackbar =true
         } catch (e) {
             console.log(e.response);

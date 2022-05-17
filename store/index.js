@@ -431,7 +431,6 @@ export const actions = {
   check_personal_room({commit, state}, id)
   {
     if(state.auth.loggedIn) {
-      console.log("check roon");
       EventService.getPersonalMessages(id).then(res =>
       {
         commit('get_personal_messages',res.data)

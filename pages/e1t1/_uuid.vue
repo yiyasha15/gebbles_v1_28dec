@@ -305,7 +305,7 @@
          <!-- <nuxt-link :to="'/login'" class="text-decoration-none" ><span style="color:white">Sign in.</span></nuxt-link> -->
     </v-snackbar>
     <v-snackbar v-model="thankyou_snackbar">
-         Thank you for sharing.
+         Message posted.
     </v-snackbar>
   </v-app>
 </template>
@@ -597,7 +597,6 @@ export default {
             for (let data in this.personal) {
                 formData.append(data, this.personal[data]);
             }
-            console.log(this.personal);
             try {
                 await this.$axios.$post("/v1/chat/", formData, config)
                 this.personal.messagetext = ''
