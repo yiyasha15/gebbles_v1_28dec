@@ -7,11 +7,11 @@
        </v-container>
       <v-container style="max-width:750px; margin:auto;" >
         <div v-if="cook">
-        <video id="videoId" width="100%" height="410px" autoplay controls controlsList="nodownload" v-if="cook.video" class="hidden-xs-only">
+        <video id="videoId" width="100%" height="410px" controls controlsList="nodownload" v-if="cook.video" class="hidden-xs-only">
             <source :src="cook.video" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <video id="videoId" width="100%" height="220px" autoplay controls controlsList="nodownload" v-if="cook.video" class="hidden-sm-and-up">
+        <video id="videoId" width="100%" height="220px" controls controlsList="nodownload" v-if="cook.video" class="hidden-sm-and-up">
             <source :src="cook.video" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -63,7 +63,7 @@
         </nuxt-link>{{cook.lesson}}
         </div>
         <div class="my-2">
-        <nuxt-link v-for="obj in cook.taggedteachers" :key="obj.id" :to="'/e1t1/'+ obj.shareidobj.id" class="text-decoration-none">
+        <nuxt-link v-for="obj in cook.taggedteachers" :key="obj.id" :to="'/'+ obj.shareidobj.s_teacher_name" class="text-decoration-none">
           <v-chip color="black grey" dark outlined class="mr-1" style="cursor:pointer;">
             <v-avatar left v-if="obj.shareidobj.teacher">
               <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>

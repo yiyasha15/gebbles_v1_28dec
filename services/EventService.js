@@ -65,7 +65,7 @@ export default {
         return apiClient1.get('/e1t1/sharing/')
     },
     getPersonalMessages(id){
-        return apiClient1.get('/e1t1/qna/?shareid=' + id)
+        return apiClient1.get('/chat/?shareid=' + id)
     },
     getEach1Teach1_teachers(username) {
         return apiClient1.get('/e1t1/sharing/list/teachers/?username=' + username)

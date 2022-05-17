@@ -51,6 +51,7 @@ export const state = () => ({
   page_upcoming:'',
   page_highlights:'',
   journeyLoaded:true,
+  page_personal_messages:''
 })
 export const getters = {
   journeyLoaded(state){
@@ -323,6 +324,24 @@ export const actions = {
       });   
     }
   },
+  update_chat({commit, state}){
+    if(state.page_personal_messages) {
+      // checking if page_journey was not null then call api
+      let config;
+      if(state.auth.loggedIn) {
+        config = {
+        headers: {"content-type": "multipart/form-data",
+          "Authorization": "Bearer " + state.auth.user.access_token}
+      };}
+      //push the results to state.journey and update the page_journey url
+      this.$axios.get(state.page_personal_messages,config).then(res => {
+        commit('updateChat',res.data)
+      })
+      .catch(err => {
+          console.log(err);
+      });   
+    }
+  },
   update_user_upcoming({commit, state}){
     if(state.page_upcoming) {
       // checking if page_upcoming was not null then call api
@@ -412,6 +431,7 @@ export const actions = {
   check_personal_room({commit, state}, id)
   {
     if(state.auth.loggedIn) {
+      console.log("check roon");
       EventService.getPersonalMessages(id).then(res =>
       {
         commit('get_personal_messages',res.data)
@@ -785,6 +805,14 @@ export const mutations = {
       state.journey = [...new Map(state.journey.map(item =>
       [item[key], item])).values()];
   },
+  updateChat(state,personal_messages){
+    state.page_personal_messages= personal_messages.next;
+    personal_messages.results.forEach(item => state.personalMessages.push(item));
+    // filter array so no duplicates
+    const key = 'id';
+    state.personalMessages = [...new Map(state.personalMessages.map(item =>
+    [item[key], item])).values()];
+},
   updateUserUpcoming(state,upcoming){
     state.page_upcoming= upcoming.next;
     upcoming.results.forEach(item => state.upcoming.push(item));
@@ -850,7 +878,8 @@ export const mutations = {
   },
   get_personal_messages(state, personalMessages)
   {
-    state.personalMessages = personalMessages
+    state.personalMessages = personalMessages.results
+    state.page_personal_messages = personalMessages.next
   },
   clear_notifications(state){
     state.notifications =[]

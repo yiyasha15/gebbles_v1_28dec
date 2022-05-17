@@ -28,14 +28,14 @@
                 v-if="message.username == loggedInUser.user.username"
                 class="text-decoration-none pl-6 pr-12"
                 color="error"
-                @click="deleted(message.shareid)"
+                @click="deleted(message.uuid)"
                 >
                 <v-list-item-title>Delete</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 v-else
                 class="text-decoration-none pl-6 pr-12"
-                @click="reported(message.shareid)"
+                @click="reported(message.uuid)"
                 >
                 <v-list-item-title>Report</v-list-item-title>
                 </v-list-item>
@@ -93,14 +93,15 @@ import store from 'vuex'
         ...mapGetters(['loggedInUser', 'artists' ,'isAuthenticated']),
     },
     methods:{
-      async deleted(id){
+      async deleted(uuid){
         const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
         };
         try {
-            let response = await this.$axios.$delete("/v1/e1t1/qna/"+ id, config)
+          console.log(uuid);
+            let response = await this.$axios.$delete("/v1/chat/"+ uuid, config)
             this.$store.dispatch("check_personal_room", id)
             this.delete_snackbar =true
         } catch (e) {

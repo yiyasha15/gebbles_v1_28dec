@@ -2,14 +2,14 @@
     <v-app>
         <v-container v-show="!firstLoad" style="max-width:670px;" class="pa-0">
         <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-8 hidden-sm-and-down">
-            <h3 class="d-inline pl-2 font-weight-medium" >Share about your teacher</h3>
+            <h3 class="d-inline pl-2 font-weight-medium" >Shout out to your friend/teacher.</h3>
             <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/"> 
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
         </div>
         <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-6 hidden-md-and-up"
         style="max-width:357px; margin:auto;">
-            <h3 class="d-inline pl-2 font-weight-medium">Share about your teacher</h3>
+            <h3 class="d-inline pl-2 font-weight-medium">Shout out to your friend/teacher.</h3>
             <v-btn x-small icon outlined color="black" class="ml-2" to="/create/each1teach1/"> 
                 <v-icon >mdi-plus</v-icon>
             </v-btn>
@@ -17,10 +17,10 @@
         <center>
         <v-tabs style="max-width:670px; margin:auto;" class="hidden-sm-and-down">
         <v-tab>
-            <h3 class="font-weight-light pl-2 " style="max-width:670px; margin:auto;">My Teachers</h3>
+            <h3 class="font-weight-light pl-2 " style="max-width:670px; margin:auto;">Learnings</h3>
         </v-tab>
         <v-tab>
-            <h3 class="font-weight-light pl-2 " style="max-width:670px; margin:auto;">My Students</h3>
+            <h3 class="font-weight-light pl-2 " style="max-width:670px; margin:auto;">Sharings</h3>
         </v-tab>
         <v-tab-item>
             <div v-if="teachers.length">
@@ -64,10 +64,10 @@
         </center>
         <v-tabs style="max-width:357px; margin:auto;" class="hidden-md-and-up">
         <v-tab>
-            <h3 class="font-weight-light pl-2" style="max-width:357px; margin:auto;">My Teachers</h3>
+            <h3 class="font-weight-light pl-2" style="max-width:357px; margin:auto;">Learnings</h3>
         </v-tab>
         <v-tab>
-            <h3 class="font-weight-light pl-2" style="max-width:357px; margin:auto;">My Students</h3>
+            <h3 class="font-weight-light pl-2" style="max-width:357px; margin:auto;">Sharings</h3>
         </v-tab>
         <v-tab-item>
             <div v-if="teachers.length">
@@ -164,12 +164,12 @@
         <v-container v-if="firstLoad" style="max-width:670px;" class="pa-0">
             <v-tabs style="max-width:670px; margin:auto;" >
             <v-tab>
-                <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Teachers</h3>
-                <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Teachers</h3>
+                <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Learnings</h3>
+                <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Learnings</h3>
             </v-tab>
             <v-tab>
-                <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">My Students</h3>
-                <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">My Students</h3>
+                <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Sharings</h3>
+                <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Sharings</h3>
             </v-tab>
             <v-tab-item>
                  <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">

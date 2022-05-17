@@ -204,7 +204,7 @@ methods:{
     onFileChange(e) {
         let files = e.target.files;
         if (files[0]) {
-        // console.log(files[0]);
+        console.log(files[0]);
         let i = Math.floor(files[0].size * 0.000001)
         if(i>=120){ 
             this.sizeExceed = true;

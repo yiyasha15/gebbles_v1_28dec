@@ -153,19 +153,19 @@
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium">About</h4></v-btn>
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium">Journey</h4></v-btn> 
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium">E1T1</h4></v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
+            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mx-2 text-decoration-none d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
                 <v-badge color="error" overlap :content='notifications_notseen'>
                 <v-icon color="black">mdi-bell-outline</v-icon>
                 </v-badge>
             </v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && loggedInUser.user.username==artist.username  && notifications_notseen==0" icon dark color="black" class="mr-2 text-decoration-none  d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
+            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mx-2 text-decoration-none  d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
             <v-icon color="black">mdi-bell-outline</v-icon>
             </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" class="mr-2 d-none d-sm-flex"
             v-on="on">
-        <v-icon color="black">mdi-plus-circle-outline</v-icon>
+            <v-icon color="black">mdi-plus-circle-outline</v-icon>
             </div>
             </template>
             <v-list>
