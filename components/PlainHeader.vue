@@ -12,13 +12,40 @@
             </nuxt-link>
             <v-spacer></v-spacer>
             <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
-        <v-badge color="error" overlap :content='notifications_notseen'>
-        <v-icon color="black">mdi-bell-outline</v-icon>
+        <v-badge  color="error" overlap :content='notifications_notseen'>
+        <v-icon size="26" color="black">mdi-bell-outline</v-icon>
         </v-badge>
         </v-btn>
         <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="blacks" class="mr-2 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
-        <v-icon color="black">mdi-bell-outline</v-icon>
+        <v-icon size="26" color="black">mdi-bell-outline</v-icon>
         </v-btn>
+        <v-btn icon small
+            v-if="isAuthenticated"
+            :to="'/whatiscooking'"
+            class="text-decoration-none mr-3"
+        >
+            <v-icon size="26" color="black" >
+                mdi-compass-outline
+            </v-icon>
+        </v-btn>
+        <v-btn icon small 
+                v-if="userHasPortfolio"
+                :to="'/'+ loggedInUser.user.username"
+                class="text-decoration-none mr-1"
+                >
+                <v-avatar size="26" v-if="usersPortfolio.thumb">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
+                    :src = "usersPortfolio.thumb" 
+                    alt="img"
+                >
+                </v-avatar>
+                <v-avatar size="26" color="black" v-else >
+                    <v-icon dark>
+                        mdi-account-circle
+                    </v-icon>
+                </v-avatar>
+                </v-btn>
         <div v-if="isAuthenticated"> <v-menu transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs"
@@ -32,13 +59,13 @@
                     class="text-decoration-none pl-5"
                     >
                     <img
-                    height="42"
+                    height="28"
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     >
-                    <v-list-item-title class="pl-2" ><h4 style="font-family: 'Poiret One', cursive;">gebbles</h4></v-list-item-title>
+                    <v-list-item-title class="pl-1" ><h4 style="font-family: 'Poiret One', cursive;">gebbles</h4></v-list-item-title>
                     </v-list-item>
-                    <v-list-item
+                    <!-- <v-list-item
                     v-if="userHasPortfolio"
                     :to="'/'+ loggedInUser.user.username"
                     class="text-decoration-none pl-6 pr-12"
@@ -55,7 +82,7 @@
                         </v-icon>
                     </v-avatar>
                     <v-list-item-title class="pl-2">@{{ loggedInUser.user.username }}</v-list-item-title>
-                    </v-list-item>
+                    </v-list-item> -->
                     <v-list-item
                     :to="'/create/uploadvideo'"
                     class="text-decoration-none pl-6 pr-12"

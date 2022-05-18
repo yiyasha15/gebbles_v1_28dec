@@ -54,6 +54,7 @@
           <artist-card-desktop :artist="artist" ></artist-card-desktop>
         </div>
       </v-layout>
+      <v-card v-intersect="infiniteScrolling"></v-card>
       <center v-if="!artists.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -62,7 +63,6 @@
         <h3>No artists found. </h3>
       </center>
       </v-container>
-      <v-card v-intersect="infiniteScrolling"></v-card>
     </v-app>
 </template>
 

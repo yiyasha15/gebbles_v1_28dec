@@ -3,15 +3,13 @@
     <!-- <v-container> -->
     <v-row class="ma-0">
         <v-col cols="12" sm="6" >
-            <!-- {{usersPortfolio}}
-            {{artist}} -->
             <v-layout align-center>
                 <nuxt-link :to="'/'" class="text-decoration-none">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
                 class="ml-1 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
-                <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
+                <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center" style="max-width:fit-content; overflow:hidden;">
                 <div>
                     <h2 v-if="artist.artist_name" class="xs12" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">{{artist.artist_name}}</h2>
                     <h2 v-else class="xs12" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">{{artist.username}} </h2>
@@ -72,6 +70,33 @@
                 </v-list-item>
             </v-list>
             </v-menu>
+            <v-btn icon small
+            v-if="isAuthenticated"
+            :to="'/whatiscooking'"
+            class="text-decoration-none mr-3 hidden-sm-and-up"
+            >
+                <v-icon size="26" color="black" >
+                    mdi-compass-outline
+                </v-icon>
+            </v-btn>
+            <v-btn icon small
+                v-if="userHasPortfolio"
+                :to="'/'+ loggedInUser.user.username"
+                class="text-decoration-none mr-1 hidden-sm-and-up"
+                >
+                <v-avatar size="26" v-if="usersPortfolio.thumb">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
+                    :src = "usersPortfolio.thumb" 
+                    alt="img"
+                >
+                </v-avatar>
+                <v-avatar size="26" color="black" v-else >
+                    <v-icon dark>
+                        mdi-account-circle
+                    </v-icon>
+                </v-avatar>
+                </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs" class="mr-2  hidden-sm-and-up"
@@ -86,30 +111,11 @@
                     class="text-decoration-none pl-5"
                     >
                     <img
-                    height="38"
+                    height="28"
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     >
-                    <v-list-item-title class="pl-2" ><h3 style="font-family: 'Poiret One', cursive;">gebbles</h3></v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    v-if="userHasPortfolio"
-                    :to="'/'+ loggedInUser.user.username"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-avatar size="36" v-if="usersPortfolio.thumb">
-                    <img
-                    :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
-                        :src = "usersPortfolio.thumb" 
-                        alt="img"
-                    >
-                    </v-avatar>
-                    <v-avatar size="36" color="black" v-else >
-                        <v-icon dark>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-avatar>
-                    <v-list-item-title class="pl-2">@{{ loggedInUser.user.username }}</v-list-item-title>
+                    <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">gebbles</h3></v-list-item-title>
                     </v-list-item>
                     <v-list-item
                     :to="'/settings'"
@@ -125,6 +131,7 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
+
             <v-menu v-else transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs" class="hidden-sm-and-up"
@@ -163,9 +170,9 @@
             </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" class="mr-2 d-none d-sm-flex"
+            <div v-bind="attrs" class="mr-3 d-none d-sm-flex"
             v-on="on">
-            <v-icon color="black">mdi-plus-circle-outline</v-icon>
+            <v-icon size="26" color="black">mdi-plus-circle-outline</v-icon>
             </div>
             </template>
             <v-list>
@@ -207,6 +214,24 @@
                 </v-list-item>
             </v-list>
             </v-menu>
+            <v-btn icon small
+                v-if="userHasPortfolio"
+                :to="'/'+ loggedInUser.user.username"
+                class="text-decoration-none mr-1 d-none d-sm-flex"
+                >
+                <v-avatar size="26" v-if="usersPortfolio.thumb">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
+                    :src = "usersPortfolio.thumb" 
+                    alt="img"
+                >
+                </v-avatar>
+                <v-avatar size="26" color="black" v-else >
+                    <v-icon dark>
+                        mdi-account-circle
+                    </v-icon>
+                </v-avatar>
+                </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs" class="mr-2  d-none d-sm-flex"
@@ -221,30 +246,11 @@
                     class="text-decoration-none pl-5"
                     >
                     <img
-                    height="38"
+                    height="28"
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     >
                     <v-list-item-title class="pl-2" ><h3 style="font-family: 'Poiret One', cursive;">gebbles</h3></v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    v-if="userHasPortfolio"
-                    :to="'/'+ loggedInUser.user.username"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-avatar size="36" v-if="usersPortfolio.thumb">
-                    <img
-                    :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
-                        :src = "usersPortfolio.thumb" 
-                        alt="img"
-                    >
-                    </v-avatar>
-                    <v-avatar size="36" color="black" v-else >
-                        <v-icon dark>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-avatar>
-                    <v-list-item-title class="pl-2">@{{ loggedInUser.user.username }}</v-list-item-title>
                     </v-list-item>
                     <v-list-item
                     :to="'/settings'"
