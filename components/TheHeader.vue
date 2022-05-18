@@ -73,7 +73,7 @@
                 class="text-decoration-none pl-6 pr-12"
                 >
                 <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
-                <v-list-item-title>Shoutout to your pebble</v-list-item-title>
+                <v-list-item-title>Give a shoutout </v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-menu>

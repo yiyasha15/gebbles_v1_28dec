@@ -1,23 +1,11 @@
 <template>
     <v-app>
       <v-container class="pa-0">
-      <v-row style="max-width: 1072px; margin: auto;">
-        <v-col cols="12" md="8"  class="justify-center">
-          <h3 class ="xs12 d-inline font-weight-light">What's Cooking</h3>
-          <v-btn v-if="isAuthenticated" small icon outlined color="black" class=" mx-2 mb-3 mt-1" to="/create/uploadvideo/">
-          <v-icon small>mdi-plus</v-icon>
-          </v-btn>
-        </v-col>
-        <!-- <v-col cols="12" md="4" class= "justify-end" >
-          <v-text-field
-            label="Search cooking"
-            rounded
-            solo
-            prepend-inner-icon="mdi-magnify"
-            v-model="search"
-          @input="debounceSearch"
-          ></v-text-field>
-        </v-col> -->
+      <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down" >
+        <h3 class ="xs12 d-inline font-weight-light pl-1 py-2">What's Cooking</h3>
+      </v-row>
+      <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up">
+        <h3 class ="xs12 d-inline font-weight-light pl-1 py-2">What's Cooking</h3>
       </v-row>
       <v-layout wrap row justify-start v-if="firstLoad"  class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
         <div v-for="n in this.looploader" :key ="n.index">

@@ -151,7 +151,8 @@
                 <v-col cols="12" >
                 <v-row class="mt-4">
                     <v-col cols="12" class="justify-center ">
-                        <h3 class ="font-weight-light">Chat room</h3>
+                        <h3 class ="font-weight-light">Chat room</h3> <v-spacer></v-spacer>
+                        <v-icon>mdi-lock-outline</v-icon>
                     </v-col>
                 </v-row> 
                 <v-layout class="pt-6">
