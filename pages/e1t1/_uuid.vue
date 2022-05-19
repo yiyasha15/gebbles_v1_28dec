@@ -116,7 +116,7 @@
                     </div>
                     <v-btn class="mt-4" small outlined color="black" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
                     <span v-if="e1t1.teacher!= null">
-                        <v-btn class="mt-4" small outlined color="black" @click="personalDialog=true" v-if="loggedInUser.user.username == e1t1.teacher || loggedInUser.user.username == e1t1.username">Say hi</v-btn>
+                        <v-btn class="mt-4" small outlined color="black" @click="personalDialog=true" v-if="loggedInUser.user.username == e1t1.teacher || loggedInUser.user.username == e1t1.username">Say hi <v-icon small class="pl-1">mdi-lock-outline</v-icon></v-btn>
                     </span>
                     </v-col>
                 </v-row>
@@ -151,8 +151,7 @@
                 <v-col cols="12" >
                 <v-row class="mt-4">
                     <v-col cols="12" class="justify-center ">
-                        <h3 class ="font-weight-light">Chat room</h3> <v-spacer></v-spacer>
-                        <v-icon>mdi-lock-outline</v-icon>
+                        <h3 class ="font-weight-light">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}})</h3>
                     </v-col>
                 </v-row> 
                 <v-layout class="pt-6">
