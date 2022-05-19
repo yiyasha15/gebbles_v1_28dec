@@ -227,7 +227,7 @@
         </v-container>
         <v-container class="pa-0">
         <v-row class="mx-0 mb-4" v-if="cookingsfiltered.length>0 ">
-            <v-layout wrap row justify-start class="hidden-md-and-up" style="max-width:357px; margin:auto; padding-left:12px; padding-right:12px">
+            <v-layout wrap row justify-start class="hidden-md-and-up" style="max-width:381px; margin:auto; padding-left:12px; padding-right:12px">
             <div v-for="learn in cookingsfiltered" :key ="learn.index">
             <cooking-card :cook= "learn"></cooking-card>
             </div>   
