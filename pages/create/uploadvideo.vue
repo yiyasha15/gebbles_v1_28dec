@@ -240,7 +240,7 @@ methods:{
                     let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
                     if(res.statusCode == 200)
                     {
-                        alert("res.statusCode == 200")
+                        // alert("res.statusCode == 200")
                         console.log("res.statusCode == 200");
                         delete this.$axios.defaults.headers.common['Authorization']
                         let filename = res.key
