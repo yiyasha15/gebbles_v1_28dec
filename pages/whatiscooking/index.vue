@@ -1,23 +1,57 @@
 <template>
     <v-app>
       <v-container class="pa-0">
-      <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down" >
-        <h3 class ="xs12 d-inline font-weight-light pl-1 py-2">What's Cooking</h3>
+      <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down py-4" >
+        <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3></nuxt-link>/<nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light pl-1">Community</h3></nuxt-link> 
       </v-row>
-      <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up">
-        <h3 class ="xs12 d-inline font-weight-light pl-1 py-2">What's Cooking</h3>
+      <v-row style="max-width: 457px; margin: auto;" class="hidden-md-and-up py-3 pl-2">
+        <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3></nuxt-link>/<nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light pl-1">Community</h3></nuxt-link> 
       </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad"  class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
-        <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;"  width="215" max-height="195" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+       <div style="max-width: 457px; margin:auto;"  v-if="firstLoad" class="hidden-md-and-up" >
+      <v-skeleton-loader width="100%"   :loading="loading" type="card" ></v-skeleton-loader>
+      <div align="left" justify="left">
+      <div class="mb-1">
+        <v-btn icon class="mr-1">
+            <v-icon color="black" >mdi-heart</v-icon>
+        </v-btn>
+        <v-btn icon class="mx-1">
+            <v-icon color="black" >mdi-fire</v-icon>
+        </v-btn>
+        <v-btn icon  class="mx-1">
+            <v-icon color="black" >mdi-head-flash-outline</v-icon>
+        </v-btn>
+      </div>
+      </div>
+      <v-row >
+      <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+      </v-row>
+      </div>
+      <div style="max-width: 670px; margin:auto;"  v-if="firstLoad" class="hidden-sm-and-down" >
+      <v-skeleton-loader width="100%"  :loading="loading" type="card" ></v-skeleton-loader>
+      <div align="left" justify="left">
+          <div class="mb-2">
+          <v-btn icon class="mr-1">
+              <v-icon color="black" >mdi-heart</v-icon>
+          </v-btn>
+          <v-btn icon class="mx-1">
+              <v-icon color="black" >mdi-fire</v-icon>
+          </v-btn>
+          <v-btn icon  class="mx-1">
+              <v-icon color="black" >mdi-head-flash-outline</v-icon>
+          </v-btn>
+      </div>
+      </div>
+        <v-row class="px-4">
+        <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+        </v-row>
+      </div>
+      <div style="max-width: 670px; margin:auto;" class="hidden-sm-and-down" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
+        <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
+      </div>
+      <div style="max-width: 457px; margin:auto;" class="hidden-md-and-up" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
+        <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
+      </div>
+      <!-- <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
         <div v-for="cook in cooking" :key ="cook.index">
           <CookingCard :cook="cook" ></CookingCard> 
         </div>
@@ -26,7 +60,7 @@
         <div v-for="cook in cooking" :key ="cook.index">
           <cooking-card-desktop :cook="cook" ></cooking-card-desktop>
         </div>
-      </v-layout>
+      </v-layout> -->
       <center v-if="!cooking.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -42,6 +76,7 @@
 <script>
 import CookingCard from '@/components/CookingCard.vue'
 import CookingCardDesktop from '@/components/CookingCardDesktop.vue'
+import CookingFeed from '@/components/CookingFeed.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
 export default {
@@ -89,24 +124,17 @@ export default {
       });
       }
     },
-    // debounceSearch() {
-    // this.firstLoad = true
-    // this.cooking=[]
-    //   clearTimeout(this.debounce)
-    //   this.debounce = setTimeout(() => {
-    //   if(this.search){EventService.getSearchedCooking(this.search).then((value) => {
-    //   this.firstLoad = false
-    //   this.cooking = value.data
-    //   });}
-    //   else{
-    //     this.getwhatiscooking();
-    //   }
-    //   }, 600)
-    // },
+    postDelete(){
+      this.$forceUpdate();
+      // console.log("updated?");
+      this.getwhatiscooking();
+    }
+
   },
   components: {
     CookingCard,
-    CookingCardDesktop
+    CookingCardDesktop,
+    CookingFeed
   },
   data() {
     return {

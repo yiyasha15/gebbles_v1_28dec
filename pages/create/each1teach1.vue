@@ -139,7 +139,7 @@
                 :error-messages="ytLinkError" 
                 color="red"
                 v-model= "sharing.s_teacher_video"
-                label="Youtube link"
+                label="Youtube/Instagram link"
                 prepend-icon="mdi-youtube"
                 clearable
                 @input="showYoutubeVideo"
@@ -147,6 +147,11 @@
             </v-text-field>
             <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
                 <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
+                <instagram-embed
+                :url="'https://www.instagram.com/p/CEeXLVAAoYl/'"
+                :max-width=300
+                :hide-caption=true
+                />
             </v-row>
             <v-btn v-if="!share_obj" outlined small class="text-decoration-none"  color="black" dark :loading="progressbar"
             @click="submit">Submit</v-btn>
@@ -193,12 +198,13 @@ import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
+import InstagramEmbed from 'vue-instagram-embed';
 import EventService from '@/services/EventService.js'
 export default {
     middleware : 'check_auth',
     components: {
         CountryFlag,
-        Youtube
+        Youtube, InstagramEmbed
     },
     created (){
         // this.$store.dispatch("check_artists");
@@ -533,13 +539,20 @@ export default {
             let url= this.sharing.s_teacher_video
             if (url != undefined || url != '') {        
                 var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                var regExpInsta = /(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/g; //instagram red exp
                 var match = url.match(regExp);
+                var match2 = url.match(regExpInsta)
+                console.log(match,match2);
                 if (match && match[2].length == 11) {
                     // Do anything for being valid        
                     this.ytLinkError =``
-                } else {
+                } else if (match2 && match2[0].length ) {
+                    // Do anything for being valid        
+                    this.ytLinkError =``
+                } 
+                else {
                     //invalid youtube url
-                    this.ytLinkError = `Enter a valid Youtube URL.`
+                    this.ytLinkError = `Enter a valid Youtube/Instagram URL.`
                 }
             }
             let videoId = getIdFromURL(url) //getting id from video url

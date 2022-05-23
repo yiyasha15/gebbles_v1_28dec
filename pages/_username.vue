@@ -71,12 +71,11 @@
             </v-list>
             </v-menu>
             <v-btn icon small
-            v-if="isAuthenticated"
-            :to="'/whatiscooking'"
-            class="text-decoration-none mr-3 hidden-sm-and-up"
-            >
+                v-if="isAuthenticated"
+                :to="'/whatiscooking/sharings'"
+                class="text-decoration-none mr-3 hidden-sm-and-up">
                 <v-icon size="26" color="black" >
-                    mdi-compass-outline
+                    mdi-hand-heart-outline
                 </v-icon>
             </v-btn>
             <v-btn icon small
@@ -214,6 +213,14 @@
                 </v-list-item>
             </v-list>
             </v-menu>
+            <v-btn icon small
+                v-if="isAuthenticated"
+                :to="'/whatiscooking/sharings'"
+                class="text-decoration-none mr-3 d-none d-sm-flex">
+                <v-icon size="26" color="black" >
+                    mdi-hand-heart-outline
+                </v-icon>
+            </v-btn>
             <v-btn icon small
                 v-if="userHasPortfolio"
                 :to="'/'+ loggedInUser.user.username"

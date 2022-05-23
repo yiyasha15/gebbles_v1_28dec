@@ -80,6 +80,7 @@ import { mapGetters } from 'vuex'
         try {
             let response = await this.$axios.$delete("/v1/whatiscooking/cooking/comments/"+ comment.id, config)
             this.$store.dispatch("check_cook_comments", comment.cookingidobj)
+            this.$emit("commentDelete"); 
             this.delete_snackbar =true
         } catch (e) {
             console.log(e.response);

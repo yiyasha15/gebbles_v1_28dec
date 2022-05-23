@@ -74,15 +74,15 @@
         </v-menu>
         <v-btn icon small
             v-if="isAuthenticated"
-            :to="'/whatiscooking'"
+            :to="'/whatiscooking/sharings'"
             class="text-decoration-none mr-3"
         >
             <v-icon size="26" color="black" >
-                mdi-compass-outline
+                mdi-hand-heart-outline
             </v-icon>
         </v-btn>
         <v-btn icon small
-                v-if="userHasPortfolio"
+                v-if=" isAuthenticated  && userHasPortfolio"
                 :to="'/'+ loggedInUser.user.username"
                 class="text-decoration-none mr-1"
                 >

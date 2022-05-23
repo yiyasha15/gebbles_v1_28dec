@@ -897,6 +897,22 @@ methods: {
             this.bio.gallery4 = files[0];
         }
     },
+    async putimage(image){
+        let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
+        if(res.statusCode == 200)
+        {
+            delete this.$axios.defaults.headers.common['Authorization']
+            let filename = res.key
+            let url = res.body
+            console.log(res);
+            url = url.slice(1, -1);
+            await this.$axios.$put(url, image).then((value) => {
+                console.log("image is put", value);
+            this.artist_data.cover = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
+            console.log("this.artist_data.cover ", this.artist_data.cover );
+            }); 
+        }
+    },
     // onPick() 
     // {
     //     this.$refs.fileInput.click()
@@ -940,14 +956,13 @@ methods: {
     
     async submit(){
         this.progressbar =true
-        //generating a file object from cropedimage url
-        // console.log(this.cropImage); 
             let url = this.cropImage.generateDataUrl(); 
             let url1 = this.cropImage1.generateDataUrl(); 
             if (!url){
                 console.log("no image1");}
             else{
                 var fileData = this.dataURLtoFile(url, "coverimage.png");
+                console.log("image is",fileData);
                 this.artist_data.cover = fileData;
             }
             if (!url1){
@@ -999,16 +1014,14 @@ methods: {
         };
         let url = this.cropImage.generateDataUrl(); 
         let url1 = this.cropImage1.generateDataUrl(); 
-        if (!url){
-            console.log("no image");}
-        else{
+        if (url){
             var fileData = this.dataURLtoFile(url, "coverimage.png");
+            // this.putimage(fileData);
             this.artist_data.cover = fileData;
-        }
-        if (!url1){
-            console.log("no image");}
-        else{
+            }
+        if (url1){
             var fileData = this.dataURLtoFile(url1, "coverimage.png");
+            // this.putimage(fileData);
             this.artist_data.cover = fileData;
         }
         let myObj1 = this.usersPortfolio 

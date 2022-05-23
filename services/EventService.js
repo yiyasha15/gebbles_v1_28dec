@@ -21,11 +21,15 @@ export default {
     getWhatsCooking() {
         return apiClient1.get('/whatiscooking/list/')
     },
-    getWhatsCookingId(id) {
-        return apiClient1.get('/whatiscooking/list/'+ id)
+    getWhatsCookingId(uuid) {
+        return apiClient1.get('/whatiscooking/list/'+ uuid)
     },
     getWhatsCookingUsername(username) {
         return apiClient1.get('/whatiscooking/mycookings/?username='+ username)
+    },
+    getStudentsCooking(username)
+    {
+        return apiClient1.get('/whatiscooking/my-students-videos/?teacher='+ username)
     },
     // getSearchedCooking() {
     //     return apiClient1.get('/whatiscooking/search/?query='+ query)

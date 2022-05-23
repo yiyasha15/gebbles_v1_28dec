@@ -28,6 +28,7 @@ const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' 
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
+const _4ad990a2 = () => interopDefault(import('../pages/whatiscooking/sharings.vue' /* webpackChunkName: "pages/whatiscooking/sharings" */))
 const _3e15aee2 = () => interopDefault(import('../pages/blogs.vue/_id.vue' /* webpackChunkName: "pages/blogs.vue/_id" */))
 const _1042bc09 = () => interopDefault(import('../pages/e1t1/_uuid.vue' /* webpackChunkName: "pages/e1t1/_uuid" */))
 const _28a8b4b2 = () => interopDefault(import('../pages/whatiscooking/_uuid.vue' /* webpackChunkName: "pages/whatiscooking/_uuid" */))
@@ -152,6 +153,10 @@ export const routerOptions = {
     path: "/create/website",
     component: _2f47e146,
     name: "create-website"
+  }, {
+    path: "/whatiscooking/sharings",
+    component: _4ad990a2,
+    name: "whatiscooking-sharings"
   }, {
     path: "/blogs.vue/:id",
     component: _3e15aee2,

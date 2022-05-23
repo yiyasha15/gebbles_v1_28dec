@@ -9,11 +9,11 @@
           Connecting the groove, <br>
           celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
         </h1>
-        <h2 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-black"  style="font-size:1.5em">
+        <h3 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-black"  style="font-size:1.5em">
           "Connecting the groove, <br>
           celebrating<br>
           <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
-        </h2> -->
+        </h3> -->
         <h1 class="text-center font-weight-medium mb-2 mx-4" style="font-size:0.9em">
         at gebbles, people share the stories about <br>how you touched their lives through your art.  
         </h1>
@@ -34,7 +34,7 @@
     <v-container v-else class="pa-0" >
     <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down">
       <v-col cols="12" md="8"  class="justify-center pa-1">
-        <h2 class ="xs12 d-inline font-weight-light">Community</h2>
+        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link>
       </v-col>
       <v-col cols="12" md="4" class= "justify-end pa-1" >
         <v-text-field
@@ -49,7 +49,7 @@
     </v-row>
     <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up" >
       <v-col cols="12" md="8"  class="justify-center px-1">
-        <h3 class ="xs12 d-inline font-weight-light">Community</h3>
+        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link>
       </v-col>
       <v-col cols="12" md="4" class= "justify-end pa-0" >
         <v-text-field
@@ -112,6 +112,7 @@ export default {
         }
   },
   created(){
+    this.$store.dispatch("check_notifications");
     this.getartists();
   },
   methods:{
@@ -191,6 +192,10 @@ export default {
   margin: auto;
 }
 h5:hover{
+  color: black;
+  text-decoration: underline;
+}
+h3:hover{
   color: black;
   text-decoration: underline;
 }

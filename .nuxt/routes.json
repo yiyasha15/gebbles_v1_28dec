@@ -144,6 +144,12 @@
     "chunkName": "pages/create/website"
   },
   {
+    "name": "whatiscooking-sharings",
+    "path": "/whatiscooking/sharings",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/whatiscooking/sharings.vue",
+    "chunkName": "pages/whatiscooking/sharings"
+  },
+  {
     "name": "blogs.vue-id",
     "path": "/blogs.vue/:id",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/blogs.vue/_id.vue",

@@ -21,7 +21,7 @@
                         <video width="100%" height="240" controls id="videoPreview" v-else >
                         Your browser does not support the video tag.
                         </video>
-                        <p class="caption">Scroll to desired frame to make thumbnail.</p>
+                        <h3 class="caption">Scroll to desired frame to make thumbnail.</h3>
                         <!-- <v-btn outlined  class="my-2 " @click="capture" >Make thumbnail
                         </v-btn> -->
                         <v-btn outlined  class="my-2 " @click="onPick" >
@@ -235,18 +235,14 @@ methods:{
             if(this.cookingForm.lesson){
                 this.progressbar =true;
                 this.capture();
-                console.log(this.cookingForm);
                 try {
                     let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
                     if(res.statusCode == 200)
                     {
-                        // alert("res.statusCode == 200")
-                        console.log("res.statusCode == 200");
                         delete this.$axios.defaults.headers.common['Authorization']
                         let filename = res.key
                         let url = res.body
                         url = url.slice(1, -1);
-                        console.log("got url", url);
                         await this.$axios.$put(url, this.putVideo).then((value) => {
                             console.log("video is put", value);
                         this.cookingForm.video = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
@@ -260,8 +256,6 @@ methods:{
                         }
                         console.log("now make post to whatiscooking",this.cookingForm);
                         this.$axios.$post("/v1/whatiscooking/cooking/", formData, config).then((res) => {
-                            console.log("form data posted",res);
-                            // console.log(this.selectedTeachers);
                             if(this.selectedTeachers.length){
                                 for (let data of this.selectedTeachers){
                                 let formData = new FormData();
@@ -270,7 +264,6 @@ methods:{
                                 formData.append("shareidobj",data)
                                 formData.append("idea",data)
                                 this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
-                                    console.log("tagging teachers..",res);
                                     this.progressbar = false
                                 })
                             }
@@ -418,7 +411,9 @@ methods:{
     var video = document.getElementById('videoPreviewWhenUpdate');
     else
     var video = document.getElementById('videoPreview');
-    canvas.getContext('2d').drawImage(video, 0, 0, 300, 200);
+    // console.log("videoo",video.currrentTime);
+    // video.currrentTime = 5;
+    canvas.getContext('2d').drawImage(video, 0, 0, 314, 213);
     let imgData = canvas.toDataURL("image/jpeg",0.75);
     console.log("image data created",imgData);
     this.cookingForm.thumbjs = imgData

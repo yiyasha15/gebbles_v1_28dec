@@ -716,7 +716,6 @@ export const mutations = {
     }
   },
   check_cook_comments(state, learning_comments_list){
-    console.log("cook comments", learning_comments_list);
     if(learning_comments_list){
       state.learning_comments_list = learning_comments_list
     }

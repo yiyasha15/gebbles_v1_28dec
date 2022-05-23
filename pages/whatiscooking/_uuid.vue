@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'mt-14': $vuetify.breakpoint.mdAndUp}">
+    <div :class="{'mt-1': $vuetify.breakpoint.smAndDown, 'mt-6': $vuetify.breakpoint.mdAndUp}">
       <v-container class=" mx-auto" fluid style="max-width:750px" >
         <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
@@ -94,11 +94,11 @@
         </div>
         </div>
         <div>
-          <v-row class="my-4 pl-2">
-              <h3 class="font-weight-light">
+          <!-- <v-row class="my-4 pl-2"> -->
+              <p class="font-weight-light">
                 Comments <span v-if="learning_comments_list.length" >{{learning_comments_list.length}}</span>
-              </h3>
-          </v-row>
+              </p>
+          <!-- </v-row> -->
           <v-row no-gutters style="flex-wrap: nowrap;">
               <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
               <img
