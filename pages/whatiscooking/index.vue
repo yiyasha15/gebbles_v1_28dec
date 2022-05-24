@@ -1,10 +1,16 @@
 <template>
     <v-app>
       <v-container class="pa-0">
-      <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down py-4" >
+        <v-row v-if="!isAuthenticated" style="max-width: 670px; margin: auto;" class="hidden-sm-and-down py-4" >
+        <h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3>
+      </v-row>
+      <v-row v-if="!isAuthenticated" style="max-width: 457px; margin: auto;" class="hidden-md-and-up  py-4 pl-2" >
+        <h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3>
+      </v-row>
+      <v-row v-if="isAuthenticated" style="max-width: 670px; margin: auto;" class="hidden-sm-and-down py-4" >
         <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3></nuxt-link>/<nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light pl-1">Community</h3></nuxt-link> 
       </v-row>
-      <v-row style="max-width: 457px; margin: auto;" class="hidden-md-and-up py-3 pl-2">
+      <v-row v-if="isAuthenticated" style="max-width: 457px; margin: auto;" class="hidden-md-and-up py-3 pl-2">
         <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3></nuxt-link>/<nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light pl-1">Community</h3></nuxt-link> 
       </v-row>
        <div style="max-width: 457px; margin:auto;"  v-if="firstLoad" class="hidden-md-and-up" >

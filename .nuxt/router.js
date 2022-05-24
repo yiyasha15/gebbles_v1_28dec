@@ -17,11 +17,9 @@ const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChu
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
 const _c72a3020 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
 const _3d30988d = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
-const _1d839f48 = () => interopDefault(import('../pages/referencefore1t1.vue' /* webpackChunkName: "pages/referencefore1t1" */))
 const _8aad3090 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
 const _5cc81810 = () => interopDefault(import('../pages/setpassword.vue' /* webpackChunkName: "pages/setpassword" */))
 const _404d3538 = () => interopDefault(import('../pages/settings.vue' /* webpackChunkName: "pages/settings" */))
-const _1e3274a7 = () => interopDefault(import('../pages/test.vue' /* webpackChunkName: "pages/test" */))
 const _d9ad562c = () => interopDefault(import('../pages/whatiscooking/index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
 const _246f0a57 = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
@@ -110,10 +108,6 @@ export const routerOptions = {
     component: _3d30988d,
     name: "passwordrenew"
   }, {
-    path: "/referencefore1t1",
-    component: _1d839f48,
-    name: "referencefore1t1"
-  }, {
     path: "/register",
     component: _8aad3090,
     name: "register"
@@ -125,10 +119,6 @@ export const routerOptions = {
     path: "/settings",
     component: _404d3538,
     name: "settings"
-  }, {
-    path: "/test",
-    component: _1e3274a7,
-    name: "test"
   }, {
     path: "/whatiscooking",
     component: _d9ad562c,

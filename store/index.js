@@ -855,7 +855,6 @@ export const mutations = {
   updateUserShareComments(state,comments){
     state.page_share_comment= comments.next;
     comments.results.forEach(item => state.share_comments_list.push(item));
-    // filter array so no duplicates
     const key = 'id';
     state.share_comments_list = [...new Map(state.share_comments_list.map(item =>
     [item[key], item])).values()];

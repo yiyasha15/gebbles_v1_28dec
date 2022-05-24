@@ -18,13 +18,20 @@
               class="text-decoration-none elevation-none px-2 mr-1" 
               :to= "`/artists/`"><h4>community</h4>
             </v-btn> -->
-        <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
-        <v-badge color="error" overlap :content='notifications_notseen'>
-        <v-icon size="26" color="black">mdi-bell-outline</v-icon>
-        </v-badge>
-        </v-btn>
-        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
-        <v-icon size="26" color="black">mdi-bell-outline</v-icon>
+            <v-btn icon small v-if="isAuthenticated"
+            :to="'/'"
+            class="text-decoration-none mr-3"
+            >
+            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
+            </v-btn>
+            <v-btn icon small
+            v-if="isAuthenticated"
+            :to="loggedInUser.user.username+'/each1teach1'"
+            class="text-decoration-none mr-3"
+        >
+            <v-icon size="26" color="black" >
+                mdi-google-circles-communities
+            </v-icon>
         </v-btn>
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
@@ -72,18 +79,20 @@
                 </v-list-item>
             </v-list>
         </v-menu>
-        <v-btn icon small
-            v-if="isAuthenticated"
-            :to="'/whatiscooking/sharings'"
-            class="text-decoration-none mr-3"
-        >
-            <v-icon size="26" color="black" >
-                mdi-hand-heart-outline
-            </v-icon>
+            <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-badge color="error" overlap :content='notifications_notseen'>
+        <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
+        </v-badge>
         </v-btn>
-        <v-btn icon small
+        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
+        </v-btn>
+        <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+            <template v-slot:activator="{ on, attrs }">
+                <div v-bind="attrs" class="mr-2"
+                v-on="on">
+                <v-btn icon small
                 v-if=" isAuthenticated  && userHasPortfolio"
-                :to="'/'+ loggedInUser.user.username"
                 class="text-decoration-none mr-1"
                 >
                 <v-avatar size="26" v-if="usersPortfolio.thumb">
@@ -99,22 +108,11 @@
                     </v-icon>
                 </v-avatar>
                 </v-btn>
-        <!-- <nuxt-link to="'/${loggedInUser.user.username}/notifications'" v-if="isAuthenticated && notifications_notseen==0" class="text-decoration-none mr-2"><v-icon color="black">mdi-bell-outline</v-icon></nuxt-link> -->
-        <!-- <v-btn small v-if="isAuthenticated" icon dark color="black" class="mr-2 text-decoration-none" :to= "`/create/uploadvideo`">
-        <v-icon color="black">mdi-tray-arrow-up</v-icon>
-        </v-btn> -->
-        <!-- <v-btn to= "/notificationss">test</v-btn> -->
-        
-        <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-            <template v-slot:activator="{ on, attrs }">
-                <div v-bind="attrs" class="mr-2"
-                v-on="on">
-                <v-icon color="black">mdi-dots-vertical</v-icon>
                 </div>
             </template>
             <v-list>
                 <v-list-item
-                :to="'/'"
+                :to="'/'+ loggedInUser.user.username"
                 class="text-decoration-none pl-5"
                 >
                 <img
@@ -122,7 +120,7 @@
                     :src="require('@/assets/gebbleslogo.png')"
                     alt="img"
                 >
-                <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">gebbles</h3></v-list-item-title>
+                <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 :to="'/settings'"

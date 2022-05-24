@@ -1,11 +1,11 @@
 <template>
 <div>
     <div class="my-2" >   
-    <video id="videoId" width="100%" height="410px" controls controlsList="nodownload" v-if="cook.video" class="hidden-xs-only">
+    <video id="videoId" width="100%" height="410px" controls :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-if="cook.video" class="hidden-xs-only">
         <source :src="cook.video" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <video id="videoId" width="100%" height="220px" controls controlsList="nodownload" v-if="cook.video" class="hidden-sm-and-up">
+    <video id="videoId" width="100%" height="220px" controls :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-if="cook.video" class="hidden-sm-and-up">
         <source :src="cook.video" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -175,6 +175,7 @@ export default {
     },
     data(){
         return{
+            thumb:'',
             dialog:false,
             deleteLoading:false,
             deleteLearnDialog: false,
@@ -205,6 +206,7 @@ export default {
         }
     },
     created(){
+        this.thumb = this.cook.thumbjs
         const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let date = this.cook.timestamp;
         let datetype= date.slice(8, 10);

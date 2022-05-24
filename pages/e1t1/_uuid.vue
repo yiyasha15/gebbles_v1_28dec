@@ -96,11 +96,11 @@
                             <div v-if="love">{{love}}</div>
                         </v-btn>
                     </v-flex>
-                    <v-flex md2 xs2>
+                    <!-- <v-flex md2 xs2>
                         <v-btn icon class="mx-1" @click="$vuetify.goTo('#scroll_comments')">
                             <v-icon color="black">mdi-comment-outline</v-icon><span v-if="share_comments_list.length" >{{share_comments_list.length}}</span>
                             </v-btn>
-                    </v-flex>
+                    </v-flex> -->
                 </v-layout>
                 </div>
                 <v-row>
@@ -115,7 +115,7 @@
                     <h4 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h4>
                     </div>
                     <v-btn class="mt-4" small outlined color="black" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
-                    <span v-if="e1t1.teacher!= null">
+                    <span v-if="e1t1.teacher!= null && loggedInUser">
                         <v-btn class="mt-4" small outlined color="black" @click="personalDialog=true" v-if="loggedInUser.user.username == e1t1.teacher || loggedInUser.user.username == e1t1.username">Say hi <v-icon small class="pl-1">mdi-lock-outline</v-icon></v-btn>
                     </span>
                     </v-col>
@@ -392,7 +392,7 @@ export default {
     mounted() {
         // this.$store.dispatch("check_artists");
         this.$store.dispatch("check_share_love", this.e1t1.id)
-        this.$store.dispatch("check_share_comments", this.e1t1.id)
+        // this.$store.dispatch("check_share_comments", this.e1t1.id)
         this.$store.dispatch("check_cookings", this.e1t1.username)
         this.$store.dispatch("check_cookings_filtered",this.e1t1.id)
         const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -553,37 +553,37 @@ export default {
                 this.login_snackbar = true
             }
         },
-        async post_comment() {
-            if(this.isAuthenticated){
-            if(this.comments.comment != "" )
-            {
-            this.comments.username = this.$store.state.auth.user.user.username;
-            this.comments.shareidobj = this.e1t1.id
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
-            let formData = new FormData();
-            for (let data in this.comments) {
-                formData.append(data, this.comments[data]);
-            }
-            try {
-                let response = await this.$axios.$post("/v1/e1t1/sharing/comments/", formData, config)
-                this.$store.dispatch("check_share_comments", this.e1t1.id)
-                this.comments.comment = ''
-                this.thankyou_snackbar = true
-            } catch (e) {
-                console.log(e);
-            }
-            }
-            else{
-                this.valid_snackbar2 = true
-            }}
-            else{
-                this.login_snackbar = true
-            }
-        },
+        // async post_comment() {
+        //     if(this.isAuthenticated){
+        //     if(this.comments.comment != "" )
+        //     {
+        //     this.comments.username = this.$store.state.auth.user.user.username;
+        //     this.comments.shareidobj = this.e1t1.id
+        //     const config = {
+        //         headers: {"content-type": "multipart/form-data",
+        //             "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //         }
+        //     };
+        //     let formData = new FormData();
+        //     for (let data in this.comments) {
+        //         formData.append(data, this.comments[data]);
+        //     }
+        //     try {
+        //         let response = await this.$axios.$post("/v1/e1t1/sharing/comments/", formData, config)
+        //         this.$store.dispatch("check_share_comments", this.e1t1.id)
+        //         this.comments.comment = ''
+        //         this.thankyou_snackbar = true
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        //     }
+        //     else{
+        //         this.valid_snackbar2 = true
+        //     }}
+        //     else{
+        //         this.login_snackbar = true
+        //     }
+        // },
         async post_personal_text(){
             if(this.personal.messagetext)
             {this.personal.username = this.$store.state.auth.user.user.username

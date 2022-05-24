@@ -16,17 +16,22 @@
                 </div>
                 </nuxt-link>
                 <v-spacer></v-spacer>
-                <v-btn small v-if="isAuthenticated && userHasPortfolio  && notifications_notseen>0" icon dark color="black" class="mr-2 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
-                <v-badge color="error" overlap :content='notifications_notseen'>
-                <v-icon color="black">mdi-bell-outline</v-icon>
-                </v-badge>
+                <v-btn icon small v-if="isAuthenticated"
+            :to="'/'"
+            class="text-decoration-none mx-1 hidden-sm-and-up"
+            >
+            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-2 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
-            <v-icon color="black">mdi-bell-outline</v-icon>
+                <v-btn icon small
+                :to= "`/${artist.username}/each1teach1`"
+                class="text-decoration-none mx-1 hidden-sm-and-up">
+                <v-icon size="26" color="black" >
+                    mdi-google-circles-communities
+                </v-icon>
             </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" class="mr-2 hidden-sm-and-up"
+            <div v-bind="attrs" class="mx-1 hidden-sm-and-up"
             v-on="on">
         <v-icon color="black">mdi-plus-circle-outline</v-icon>
             </div>
@@ -70,18 +75,21 @@
                 </v-list-item>
             </v-list>
             </v-menu>
-            <v-btn icon small
-                v-if="isAuthenticated"
-                :to="'/whatiscooking/sharings'"
-                class="text-decoration-none mr-3 hidden-sm-and-up">
-                <v-icon size="26" color="black" >
-                    mdi-hand-heart-outline
-                </v-icon>
-            </v-btn>
-            <v-btn icon small
-                v-if="userHasPortfolio"
-                :to="'/'+ loggedInUser.user.username"
-                class="text-decoration-none mr-1 hidden-sm-and-up"
+            <v-btn small v-if="isAuthenticated && userHasPortfolio  && notifications_notseen>0" icon dark color="black" class="mx-1 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
+                <v-badge color="error" overlap :content='notifications_notseen'>
+                <v-icon color="black">mdi-heart-circle-outline</v-icon>
+                </v-badge>
+                </v-btn>
+                <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mx-1 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
+                <v-icon color="black">mdi-heart-circle-outline</v-icon>
+                </v-btn>
+            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+                <template v-slot:activator="{ on, attrs }">
+                    <div v-bind="attrs" class="mx-1  hidden-sm-and-up"
+                    v-on="on">
+                    <v-btn icon small
+                v-if=" isAuthenticated  && userHasPortfolio"
+                class="text-decoration-none mr-1"
                 >
                 <v-avatar size="26" v-if="usersPortfolio.thumb">
                 <img
@@ -96,12 +104,6 @@
                     </v-icon>
                 </v-avatar>
                 </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class="mr-2  hidden-sm-and-up"
-                    v-on="on">
-                    <v-icon color="black">mdi-dots-vertical</v-icon>
-                    
                     </div>
                 </template>
                 <v-list>
@@ -158,18 +160,23 @@
         <v-col cols="12" sm="6" :class="{'align-center justify-center': $vuetify.breakpoint.xs, 'px-2 d-flex align-center justify-end': $vuetify.breakpoint.smAndUp}">
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium">About</h4></v-btn>
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium">Journey</h4></v-btn> 
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium">E1T1</h4></v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mx-2 text-decoration-none d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
-                <v-badge color="error" overlap :content='notifications_notseen'>
-                <v-icon color="black">mdi-bell-outline</v-icon>
-                </v-badge>
+            <!-- <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium">E1T1</h4></v-btn> -->
+            <v-btn icon small v-if="isAuthenticated"
+            :to="'/'"
+            class="text-decoration-none mx-1 d-none d-sm-flex"
+            >
+            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mx-2 text-decoration-none  d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
-            <v-icon color="black">mdi-bell-outline</v-icon>
+            <v-btn icon small
+                :to= "`/${artist.username}/each1teach1`"
+                class="text-decoration-none mx-1 d-none d-sm-flex">
+                <v-icon size="26" color="black" >
+                    mdi-google-circles-communities
+                </v-icon>
             </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" class="mr-3 d-none d-sm-flex"
+            <div v-bind="attrs" class="mx-1 d-none d-sm-flex"
             v-on="on">
             <v-icon size="26" color="black">mdi-plus-circle-outline</v-icon>
             </div>
@@ -213,17 +220,20 @@
                 </v-list-item>
             </v-list>
             </v-menu>
-            <v-btn icon small
-                v-if="isAuthenticated"
-                :to="'/whatiscooking/sharings'"
-                class="text-decoration-none mr-3 d-none d-sm-flex">
-                <v-icon size="26" color="black" >
-                    mdi-hand-heart-outline
-                </v-icon>
+            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mx-1 text-decoration-none d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
+                <v-badge color="error" overlap :content='notifications_notseen'>
+                <v-icon color="black">mdi-heart-circle-outline</v-icon>
+                </v-badge>
             </v-btn>
-            <v-btn icon small
+            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mx-1 text-decoration-none  d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
+            <v-icon color="black">mdi-heart-circle-outline</v-icon>
+            </v-btn>
+            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+                <template v-slot:activator="{ on, attrs }">
+                    <div v-bind="attrs" class="mx-1  d-none d-sm-flex"
+                    v-on="on">
+                    <v-btn icon small
                 v-if="userHasPortfolio"
-                :to="'/'+ loggedInUser.user.username"
                 class="text-decoration-none mr-1 d-none d-sm-flex"
                 >
                 <v-avatar size="26" v-if="usersPortfolio.thumb">
@@ -239,11 +249,6 @@
                     </v-icon>
                 </v-avatar>
                 </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class="mr-2  d-none d-sm-flex"
-                    v-on="on">
-                    <v-icon color="black">mdi-dots-vertical</v-icon>
                     
                     </div>
                 </template>
