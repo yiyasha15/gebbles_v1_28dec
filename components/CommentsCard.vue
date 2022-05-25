@@ -1,5 +1,5 @@
 <template>
-  <v-container >
+  <div >
     <section >
       <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start">
           <nuxt-link :to="'/'+ comment.username">
@@ -52,7 +52,7 @@
     <v-snackbar v-model="report_snackbar">
         We have reported this comment.
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'

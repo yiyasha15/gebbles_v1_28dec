@@ -108,16 +108,16 @@
                 </template>
                 <v-list>
                     <v-list-item
-                    :to="'/'"
-                    class="text-decoration-none pl-5"
-                    >
-                    <img
-                    height="28"
-                        :src="require('@/assets/gebbleslogo.png')"
-                        alt="img"
-                    >
-                    <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">gebbles</h3></v-list-item-title>
-                    </v-list-item>
+                :to="'/'+ loggedInUser.user.username"
+                class="text-decoration-none pl-5"
+                >
+                <img
+                height="28"
+                    :src="require('@/assets/gebbleslogo.png')"
+                    alt="img"
+                >
+                <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                </v-list-item>
                     <v-list-item
                     :to="'/settings'"
                     class="text-decoration-none pl-6 pr-12"
@@ -254,7 +254,7 @@
                 </template>
                 <v-list>
                     <v-list-item
-                    :to="'/'"
+                    :to="'/'+ loggedInUser.user.username"
                     class="text-decoration-none pl-5"
                     >
                     <img
@@ -262,7 +262,7 @@
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     >
-                    <v-list-item-title class="pl-2" ><h3 style="font-family: 'Poiret One', cursive;">gebbles</h3></v-list-item-title>
+                    <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
                     </v-list-item>
                     <v-list-item
                     :to="'/settings'"

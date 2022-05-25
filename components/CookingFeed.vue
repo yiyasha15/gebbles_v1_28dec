@@ -9,13 +9,30 @@
         <source :src="cook.video" type="video/mp4">
         Your browser does not support the video tag.
     </video>
+    <div >
+    <h5 class="caption"> {{created_date}}</h5>
+    </div>
     <div :class="{'px-3': $vuetify.breakpoint.smAndDown}" align="left" justify="left">
-    <div class="my-2">
+    <div class="my-1">
         <v-row >
-        <v-col>
-        <h5 class="caption pt-1"> {{created_date}}</h5>
+        <v-col :class="{'pl-3 pb-1': $vuetify.breakpoint.smAndDown ,'pt-2 pl-3 pb-1': $vuetify.breakpoint.mdAndUp}" >
+            <v-btn icon @click="react_like()">
+              <v-icon color="black" v-if="!cook_has_like">mdi-heart-outline</v-icon>
+              <v-icon color="red" v-else>mdi-heart</v-icon>
+            </v-btn>
+            <span class="caption" v-if="like">{{like}}</span>
+            <v-btn icon @click="react_dope()" >
+              <v-icon color="black" v-if="!cook_has_dope">mdi-fire</v-icon>
+              <v-icon color="orange" v-else>mdi-fire</v-icon>
+            </v-btn>
+            <span class="caption" v-if="dope">{{dope}}</span>
+            <v-btn icon @click="react_info()" >
+              <v-icon color="black" v-if="!cook_has_info">mdi-head-flash-outline</v-icon>
+              <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
+            </v-btn>
+            <span class="caption" v-if="info">{{info}}</span>
         </v-col>
-        <div v-if="loggedInUser">
+        <span v-if="loggedInUser">
             <v-col v-if="loggedInUser.user.username == cook.username" >
             <v-menu transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
@@ -40,7 +57,7 @@
                 </v-list>
             </v-menu>
             </v-col>
-            </div>
+        </span>
     </v-row>
     <v-dialog v-model="dialog" width="500">
         <v-card class="pa-4">
@@ -71,28 +88,10 @@
         {{obj.shareidobj.s_teacher_name}}
         </v-chip>
     </nuxt-link>
-    <div class="my-2">
-        <v-btn icon @click="react_like()" class="mr-1">
-              <v-icon color="black" v-if="!cook_has_like">mdi-heart-outline</v-icon>
-              <v-icon color="red" v-else>mdi-heart</v-icon>
-              <div v-if="like.length">{{like.length}}</div>
-            </v-btn>
-            <v-btn icon @click="react_dope()" class="mx-1">
-              <v-icon color="black" v-if="!cook_has_dope">mdi-fire</v-icon>
-              <v-icon color="orange" v-else>mdi-fire</v-icon>
-              <div v-if="dope.length">{{dope.length}}</div>
-            </v-btn>
-            <v-btn icon @click="react_info()" class="mx-1">
-              <v-icon color="black" v-if="!cook_has_info">mdi-head-flash-outline</v-icon>
-              <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
-              <div v-if="info.length">{{info.length}}</div>
-            </v-btn>
-    </div>
-    <div>
-        <p class="font-weight-light ">
+        <!-- <span class="font-weight-light">
             Comments {{comment_array.length}}
-        </p>
-        <v-row no-gutters style="flex-wrap: nowrap;">
+        </span> -->
+        <v-row no-gutters style="flex-wrap: nowrap;" class="mt-2">
             <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
             <img
                 :src = "usersPortfolio.thumb" 
@@ -139,8 +138,7 @@
     </div>
     </div>
     </div>
-    </div>
-    <v-divider class="my-6"></v-divider>
+    <v-divider class="my-4"></v-divider>
     
     <v-snackbar v-model="valid_snackbar">
       Write something to post.
@@ -227,24 +225,25 @@ export default {
             EventService.getCookReaction(this.cook.id).then(res => {
             if(res.data){
                 let react = res.data
-                this.like = react.filter(react => react.like_type == "LO");
-                this.dope = react.filter(react => react.like_type == "FI");
-                this.info = react.filter(react => react.like_type == "DE");
+                let like_arr = react.filter(react => react.like_type == "LO");
+                let dope_arr = react.filter(react => react.like_type == "FI");
+                let info_arr = react.filter(react => react.like_type == "DE");
+                this.like = like_arr.length
+                this.dope = dope_arr.length
+                this.info = info_arr.length
                 if(this.loggedInUser){
-                let likes = this.like
-                let dopes = this.dope
-                let infos = this.info
-                let check_like = likes.filter(likes => likes.username == this.$store.state.auth.user.user.username);
-                let check_dope = dopes.filter(dopes => dopes.username == this.$store.state.auth.user.user.username);
-                let check_info = infos.filter(infos => infos.username == this.$store.state.auth.user.user.username);
+                let check_like = like_arr.filter(likes => likes.username == this.$store.state.auth.user.user.username);
                 if(check_like.length>0){
                 this.cook_has_like = true
                 this.cook_has_like_id = check_like[0].id
                 }
+                let check_dope = dope_arr.filter(dopes => dopes.username == this.$store.state.auth.user.user.username);
                 if(check_dope.length>0){
                 this.cook_has_dope = true
                 this.cook_has_dope_id = check_dope[0].id
                 }
+                
+                let check_info = info_arr.filter(infos => infos.username == this.$store.state.auth.user.user.username);
                 if(check_info.length>0){
                 this.cook_has_info = true
                 this.cook_has_info_id = check_info[0].id
@@ -317,7 +316,9 @@ export default {
           this.reactForm.like_type = 'LO'
           if(this.cook_has_like){
             this.cook_has_like = !this.cook_has_like
-            this.like= this.like-1;
+            // console.log(this.like);
+            this.like = this.like-1;
+            // console.log(this.like);
             const config = {
             headers: {
               "content-type": "multipart/form-data",
@@ -334,7 +335,7 @@ export default {
           else{
             this.cook_has_like = !this.cook_has_like
             this.like = this.like+1;
-            console.log("like",this.like);
+            // console.log("like",this.like);
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token

@@ -898,7 +898,8 @@ methods: {
         }
     },
     async putimage(image){
-        let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
+        console.log("imageee",image);
+        let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
         if(res.statusCode == 200)
         {
             delete this.$axios.defaults.headers.common['Authorization']
@@ -963,13 +964,15 @@ methods: {
             else{
                 var fileData = this.dataURLtoFile(url, "coverimage.png");
                 console.log("image is",fileData);
-                this.artist_data.cover = fileData;
+                this.putimage(fileData);
+                // this.artist_data.cover = fileData;
             }
             if (!url1){
                 console.log("no image");}
             else{
                 var fileData = this.dataURLtoFile(url1, "coverimage.png");
-                this.artist_data.cover = fileData;
+                // this.artist_data.cover = fileData;
+                this.putimage(fileData);
             }
             // style is taken as array and made into a string
         //required attributes check..
@@ -1016,13 +1019,13 @@ methods: {
         let url1 = this.cropImage1.generateDataUrl(); 
         if (url){
             var fileData = this.dataURLtoFile(url, "coverimage.png");
-            // this.putimage(fileData);
-            this.artist_data.cover = fileData;
+            this.putimage(fileData);
+            // this.artist_data.cover = fileData;
             }
         if (url1){
             var fileData = this.dataURLtoFile(url1, "coverimage.png");
-            // this.putimage(fileData);
-            this.artist_data.cover = fileData;
+            this.putimage(fileData);
+            // this.artist_data.cover = fileData;
         }
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
