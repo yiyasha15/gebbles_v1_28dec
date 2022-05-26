@@ -10,12 +10,12 @@
         Your browser does not support the video tag.
     </video>
     <div >
-    <h5 class="caption"> {{created_date}}</h5>
+    <h5 :class="{'pl-3 caption': $vuetify.breakpoint.smAndDown  ,'pl-0 caption': $vuetify.breakpoint.mdAndUp}"> {{created_date}}</h5>
     </div>
     <div :class="{'px-3': $vuetify.breakpoint.smAndDown}" align="left" justify="left">
     <div class="my-1">
         <v-row >
-        <v-col :class="{'pl-3 pb-1': $vuetify.breakpoint.smAndDown ,'pt-2 pl-3 pb-1': $vuetify.breakpoint.mdAndUp}" >
+        <v-col class="pa-1">
             <v-btn icon @click="react_like()">
               <v-icon color="black" v-if="!cook_has_like">mdi-heart-outline</v-icon>
               <v-icon color="red" v-else>mdi-heart</v-icon>

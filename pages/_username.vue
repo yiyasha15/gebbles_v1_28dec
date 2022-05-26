@@ -112,7 +112,7 @@
                 class="text-decoration-none pl-5"
                 >
                 <img
-                height="28"
+                    height="28"
                     :src="require('@/assets/gebbleslogo.png')"
                     alt="img"
                 >
