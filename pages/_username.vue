@@ -16,18 +16,18 @@
                 </div>
                 </nuxt-link>
                 <v-spacer></v-spacer>
-                <v-btn icon small v-if="isAuthenticated"
-            :to="'/'"
-            class="text-decoration-none mx-1 hidden-sm-and-up"
-            >
-            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
-            </v-btn>
                 <v-btn icon small
                 :to= "`/${artist.username}/each1teach1`"
                 class="text-decoration-none mx-1 hidden-sm-and-up">
                 <v-icon size="26" color="black" >
                     mdi-google-circles-communities
                 </v-icon>
+            </v-btn>
+                <v-btn icon small v-if="isAuthenticated"
+            :to="'/'"
+            class="text-decoration-none mx-1 hidden-sm-and-up"
+            >
+            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
@@ -161,18 +161,18 @@
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium">About</h4></v-btn>
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium">Journey</h4></v-btn> 
             <!-- <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium">E1T1</h4></v-btn> -->
-            <v-btn icon small v-if="isAuthenticated"
-            :to="'/'"
-            class="text-decoration-none mx-1 d-none d-sm-flex"
-            >
-            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
-            </v-btn>
             <v-btn icon small
                 :to= "`/${artist.username}/each1teach1`"
                 class="text-decoration-none mx-1 d-none d-sm-flex">
                 <v-icon size="26" color="black" >
                     mdi-google-circles-communities
                 </v-icon>
+            </v-btn>
+            <v-btn icon small v-if="isAuthenticated"
+            :to="'/'"
+            class="text-decoration-none mx-1 d-none d-sm-flex"
+            >
+            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">

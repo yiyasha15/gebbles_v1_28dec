@@ -6,10 +6,9 @@
         </v-btn>
        </v-container>
         <v-container class="mx-auto" fluid style="max-width:750px" >
-        <div id="mycanvas">
-        <v-row class="pb-4">
+        <v-row class="pb-4 px-2">
             <v-col cols="12" md="6" align="center" justify="center">
-                <v-img :src = "e1t1.s_photo" class="centerImage" maxHeight="520px"></v-img>
+                <v-img :src = "e1t1.image_mini" class="centerImage" maxHeight="520px"></v-img>
             </v-col>
             <v-col cols="12" md="6" >
                 <v-row>
@@ -22,11 +21,48 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn small icon v-bind="attrs"
                         v-on="on">
-                        <v-icon small color="black" @click="capture">mdi-camera-outline</v-icon>
+                        <v-icon small color="black" @click="capture">mdi-card-account-details-outline</v-icon>
                     </v-btn>
                     </template>
-                    <span>Capture</span>
+                    <span>Gebbles card</span>
                     </v-tooltip>
+                    <v-dialog
+                    :retain-focus="false"
+                    v-model="cardDialog"
+                    width="500px"
+                    persistent>
+                    <v-container class="rounded-lg white pa-2">
+                    <v-btn icon color="error" class="float-right" @click="cardDialog=false; ">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-col cols="12" >
+                    <v-row class="mt-4">
+                        <v-col cols="12" class="justify-center ">
+                            <h4 class ="font-weight-light">Get your gebbles card for {{e1t1.s_teacher_name}}  </h4> 
+                        </v-col>
+                        <v-col cols="12" class="justify-center ">
+                            <v-img v-if="gebbles_card_url" :src = "gebbles_card_url" maxHeight="420px" contain >
+                            </v-img>
+                            <template v-else>
+                                <v-row
+                                class="fill-height ma-0"
+                                align="center"
+                                justify="center"
+                                >
+                                <v-progress-circular
+                                    indeterminate
+                                    color="black"
+                                ></v-progress-circular>
+                                </v-row>
+                            </template>
+                        </v-col>
+                        <v-col cols="12" justify="center" align="center">
+                            <v-btn text @click="download"> Download<v-icon>mdi-download-circle-outline</v-icon></v-btn>
+                        </v-col>
+                    </v-row>
+                    </v-col>
+                    </v-container>
+                    </v-dialog> 
                     <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn small icon v-bind="attrs"
@@ -66,24 +102,24 @@
                 <v-layout row wrap justify-space-between class="mt-3 mx-0">
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
-                            <h3 >{{e1t1.teacher}}</h3> 
+                            <h4 >{{e1t1.teacher}}</h4> 
                         </nuxt-link>
                         <div v-else>
-                            <h3>{{e1t1.s_teacher_name}}</h3> 
+                            <h4>{{e1t1.s_teacher_name}}</h4> 
                         </div>
                     </v-flex>
                     <v-flex xs2 md2>
-                        <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
+                        <div class="pl-1 pt-1" >
                             <country-flag :country= 'e1t1.s_teacher_country' />
                         </div>
                     </v-flex>
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
-                                <h3 >{{e1t1.username}}</h3> 
+                                <h4 >{{e1t1.username}}</h4> 
                             </nuxt-link>
                     </v-flex>
                     <v-flex xs2 md2>
-                            <div :class="{'pt-1 pl-2': $vuetify.breakpoint.smAndDown, 'pt-2 pl-2': $vuetify.breakpoint.mdAndUp}" >
+                            <div class="pl-1 pt-1" >
                             <country-flag :country= 'e1t1.s_student_country' />
                             </div>
                     </v-flex>
@@ -195,11 +231,10 @@
                 </v-dialog> 
                 </v-col>
         </v-row>
-        </div>
         <div v-if="videoId" >
-                <h3  :class="{'font-weight-light pt-4': $vuetify.breakpoint.smAndDown, 'font-weight-light pt-12': $vuetify.breakpoint.mdAndUp}">
+                <!-- <h3  :class="{'font-weight-light pt-4': $vuetify.breakpoint.smAndDown, 'font-weight-light pt-12': $vuetify.breakpoint.mdAndUp}">
                     The video which inspired me
-                </h3>
+                </h3> -->
                 <center class="py-6 hidden-xs-only">
                     <youtube width="100%" height="408" :video-id= 'videoId'></youtube>
                 </center>
@@ -341,7 +376,7 @@ export default {
         if(url1){
         let videoId = getIdFromURL(url1) //getting id from video url
         this.videoId = videoId //assigning the id to <youtube> video id
-        }
+        } 
     },
     components:{
         CountryFlag,
@@ -354,6 +389,8 @@ export default {
     },
     data(){
           return {
+              cardDialog:false,
+            gebbles_card_url:'',
             deleteLoading:false,
             love_id:'',
             videoId:'',
@@ -431,16 +468,27 @@ export default {
         }
     },
     methods:{
-        capture(){
-            console.log("proxy url",this.e1t1);
-            html2canvas(document.querySelector("#mycanvas"), { useCORS: false,}).then(canvas => {
-                var a = document.createElement('a');
-                // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
-                a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                console.log(a);
-                a.download = 'somefilename.jpg';
-                a.click();
-            });
+        async capture(){
+            // send gebbles card post request
+            this.cardDialog =true
+            if(this.gebbles_card_url == ''){
+                let formData = new FormData();
+                formData.append('s3_obj_url', this.e1t1.image_mini);
+                formData.append('message_text', this.e1t1.s_appreciation);
+                formData.append('name', this.loggedInUser.user.username);
+                try {
+                    let res = await this.$axios.$post("https://lptmv2b4j9.execute-api.us-east-2.amazonaws.com/dev/upload", formData)
+                    this.gebbles_card_url =res
+                } catch (e) {
+                    console.log(e.response);
+                }
+            }
+        },
+        download(){
+            const link = document.createElement('a');
+            link.href =  this.gebbles_card_url;
+            link.setAttribute('download', this.loggedInUser.user.username+'_card.png'); //or any other extension
+            link.click();
         },
         // filtercooking(){
         //     this.$store.dispatch("check_cookings_filtered",this.e1t1.id)
@@ -451,7 +499,7 @@ export default {
         // infiniteScrollingComments(entries, observer, isIntersecting) {
         //     this.$store.dispatch("update_user_comments");
         // },
-        onPick() //changing the click from button to input using refs
+        onPick() 
         {
             this.$refs.fileInputVideo.click()
         },

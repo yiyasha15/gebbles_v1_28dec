@@ -77,10 +77,13 @@
         {{cook.username}}{{": "}}
     </nuxt-link>{{cook.lesson}}
     </div>
-    <nuxt-link v-for="obj in cook.taggedteachers" :key="obj.id" :to="'/'+ obj.shareidobj.s_teacher_name" class="text-decoration-none">
+    <nuxt-link v-for="obj in cook.taggedteachers" :key="obj.id" :to="'/e1t1/'+ obj.shareidobj.uuid" class="text-decoration-none">
         <v-chip color="black grey" dark outlined class="mr-1" style="cursor:pointer;">
         <v-avatar left v-if="obj.shareidobj.teacher">
             <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
+        </v-avatar>
+        <v-avatar left v-else-if="obj.shareidobj.s_photo">
+            <v-img :src="obj.shareidobj.s_photo"></v-img>
         </v-avatar>
         <v-avatar left v-else>
             <v-icon>mdi-account-circle</v-icon>

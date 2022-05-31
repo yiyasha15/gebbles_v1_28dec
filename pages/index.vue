@@ -1,5 +1,8 @@
 <template>
   <v-app>
+    <!-- <div>
+      <nuxt-link to="/explore/">test</nuxt-link>
+    </div> -->
     <div v-if="!isAuthenticated" class="home">
       <div align="center" justify="center" class="mt-2">
       <img src = "~/assets/home.png"  width="100%" alt="portfolio logo">

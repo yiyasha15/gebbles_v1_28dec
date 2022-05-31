@@ -9,7 +9,7 @@
       width="215" 
       max-height="205"
     >
-    <v-img v-if = e1t1.sp_thumb  :src = "e1t1.sp_thumb" :lazy-src= "e1t1.sp_thumb" height="134" width="215"></v-img>
+    <v-img v-if = e1t1.image_mini  :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" height="134" width="215"></v-img>
     <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="134"  width="215" contain/>
       <v-card-actions height="32px">
         <div  width="70" class="text-decoration-none caption" style=" height: 1.7em;

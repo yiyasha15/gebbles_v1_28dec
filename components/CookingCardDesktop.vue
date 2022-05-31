@@ -38,6 +38,7 @@
         </template>
         <template v-else>
          <div v-for="obj in cook.taggedteachers.slice(0, 2)" :key="obj.id" class="text-decoration-none" style="margin-top:-1px">
+           {{obj}}
               <v-avatar left v-if="obj.shareidobj && obj.shareidobj.teacher!=null" size="21">
                 <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
               </v-avatar>

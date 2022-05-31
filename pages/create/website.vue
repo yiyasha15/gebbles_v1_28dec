@@ -6,16 +6,17 @@
             <v-btn small dark color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
             <v-btn small outlined color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
          </div>
-            <h2 class="mt-4" align="center" justify="center">Create your protfolio</h2>
+            <h2 class="mt-4" align="center" justify="center">Create your portfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row>
-            <v-col cols="12" md="6" class="mt-12 hidden-sm-and-down">
+                <!-- hidden-sm-and-down -->
+            <v-col cols="12" md="6" class="mt-12">
                 <v-row class="pb-6 justify-center text-center">
                         <croppa
                             v-model="cropImage"
                             canvas-color="transparent"
-                            :width="450"
-                            :height="450"
+                            :width="350"
+                            :height="350"
                             :show-loading="true"
                             :initial-image="initialImage"
                             :prevent-white-space="true"
@@ -25,7 +26,7 @@
             </v-col>
             <v-col cols="12" md="6">
                 <v-form v-on:submit.prevent="submit_about">
-                    <v-row class="py-4 justify-center text-center hidden-md-and-up">
+                    <!-- <v-row class="py-4 justify-center text-center hidden-md-and-up">
                             <croppa
                                 v-model="cropImage1"
                                 canvas-color="transparent"
@@ -36,7 +37,7 @@
                                 :prevent-white-space="true"
                                 :remove-button-color="'black'"
                             ></croppa>
-                        </v-row>
+                        </v-row> -->
                         <!-- <v-row class="py-4 justify-center text-center hidden-sm-and-down">
                         <croppa
                             v-model="cropImage"
@@ -394,10 +395,10 @@ created(){
             let arr = this.bio.style.split(',');
         this.dummy_style = arr;}
         //assigning the bio from store if it exists
-        this.imageData1 = this.bio.gallery1
-        this.imageData2 = this.bio.gallery2
-        this.imageData3 = this.bio.gallery3
-        this.imageData4 = this.bio.gallery4
+        // this.imageData1 = this.bio.gallery1
+        // this.imageData2 = this.bio.gallery2
+        // this.imageData3 = this.bio.gallery3
+        // this.imageData4 = this.bio.gallery4
         let url1 = this.bio.vid1 //getting value of youtube video urls
         let url2 = this.bio.vid2
         let url3 = this.bio.vid3
@@ -444,15 +445,14 @@ data(){
         rm:"",
         dummy_style:[], //keep style in string from array
         cropImage: null, //imagecropper
-        cropImage1: null, 
         initialImage:'',
         dialog: false,
         styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
         imageData: "",
-        imageData1: "",
-        imageData2: "",
-        imageData3: "",
-        imageData4: "",
+        // imageData1: "",
+        // imageData2: "",
+        // imageData3: "",
+        // imageData4: "",
         yt1: false,
         yt2: false,
         yt3: false,
@@ -853,53 +853,53 @@ methods: {
         if(this.artist_data.cover)
         this.imageData = URL.createObjectURL(this.artist_data.cover);
     },
-    onFileChange(e) {
-        let files = e.target.files;
-        if (files) {
-        const fileReader = new FileReader()
-        fileReader.onload = (e) => {
-                this.imageData1 = e.target.result;
-            }
-            fileReader.readAsDataURL(files[0]);
-            this.bio.gallery1 = files[0];
-        }
-    },
-    onFileChange1(e) {
-        let files = e.target.files;
-        if (files) {
-        const fileReader = new FileReader()
-        fileReader.onload = (e) => {
-                this.imageData2 = e.target.result;
-            }
-            fileReader.readAsDataURL(files[0]);
-            this.bio.gallery2 = files[0];
-        }
-    },
-    onFileChange2(e) {
-        let files = e.target.files;
-        if (files) {
-        const fileReader = new FileReader()
-        fileReader.onload = (e) => {
-                this.imageData3 = e.target.result;
-            }
-            fileReader.readAsDataURL(files[0]);
-            this.bio.gallery3 = files[0];
-        }
-    },
-    onFileChange3(e) {
-        let files = e.target.files;
-        if (files) {
-        const fileReader = new FileReader()
-        fileReader.onload = (e) => {
-                this.imageData4 = e.target.result;
-            }
-            fileReader.readAsDataURL(files[0]);
-            this.bio.gallery4 = files[0];
-        }
-    },
-    async putimage(image){
+    // onFileChange(e) {
+    //     let files = e.target.files;
+    //     if (files) {
+    //     const fileReader = new FileReader()
+    //     fileReader.onload = (e) => {
+    //             this.imageData1 = e.target.result;
+    //         }
+    //         fileReader.readAsDataURL(files[0]);
+    //         this.bio.gallery1 = files[0];
+    //     }
+    // },
+    // onFileChange1(e) {
+    //     let files = e.target.files;
+    //     if (files) {
+    //     const fileReader = new FileReader()
+    //     fileReader.onload = (e) => {
+    //             this.imageData2 = e.target.result;
+    //         }
+    //         fileReader.readAsDataURL(files[0]);
+    //         this.bio.gallery2 = files[0];
+    //     }
+    // },
+    // onFileChange2(e) {
+    //     let files = e.target.files;
+    //     if (files) {
+    //     const fileReader = new FileReader()
+    //     fileReader.onload = (e) => {
+    //             this.imageData3 = e.target.result;
+    //         }
+    //         fileReader.readAsDataURL(files[0]);
+    //         this.bio.gallery3 = files[0];
+    //     }
+    // },
+    // onFileChange3(e) {
+    //     let files = e.target.files;
+    //     if (files) {
+    //     const fileReader = new FileReader()
+    //     fileReader.onload = (e) => {
+    //             this.imageData4 = e.target.result;
+    //         }
+    //         fileReader.readAsDataURL(files[0]);
+    //         this.bio.gallery4 = files[0];
+    //     }
+    // },
+    putimage(image){
         console.log("imageee",image);
-        let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+        let res = this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
         if(res.statusCode == 200)
         {
             delete this.$axios.defaults.headers.common['Authorization']
@@ -907,8 +907,8 @@ methods: {
             let url = res.body
             console.log(res);
             url = url.slice(1, -1);
-            await this.$axios.$put(url, image).then((value) => {
-                console.log("image is put", value);
+            this.$axios.$put(url, image).then((value) => {
+            console.log("image is put", value);
             this.artist_data.cover = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
             console.log("this.artist_data.cover ", this.artist_data.cover );
             }); 
@@ -954,28 +954,7 @@ methods: {
         }
     return new File([u8arr], filename, {type:mime});
     },
-    
-    async submit(){
-        this.progressbar =true
-            let url = this.cropImage.generateDataUrl(); 
-            let url1 = this.cropImage1.generateDataUrl(); 
-            if (!url){
-                console.log("no image1");}
-            else{
-                var fileData = this.dataURLtoFile(url, "coverimage.png");
-                console.log("image is",fileData);
-                this.putimage(fileData);
-                // this.artist_data.cover = fileData;
-            }
-            if (!url1){
-                console.log("no image");}
-            else{
-                var fileData = this.dataURLtoFile(url1, "coverimage.png");
-                // this.artist_data.cover = fileData;
-                this.putimage(fileData);
-            }
-            // style is taken as array and made into a string
-        //required attributes check..
+    async sendApiRequest(){
         const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
@@ -995,9 +974,6 @@ methods: {
             await this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config)
             await this.$axios.$post("/v1/artist/bios/", formBio, config)
             this.progressbar =false
-            // let [someResult, anotherResult] = await Promise.allSettled([this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config), this.$axios.$post("/v1/artist/bios/", formData, config)]);
-            // console.log('res from portfolio',someResult);
-            // console.log('res from bio',anotherResult);
             this.$store.dispatch("check_user_portfolio");
             this.$store.dispatch("check_user_bio");
             this.snackbar = true;
@@ -1007,26 +983,7 @@ methods: {
             console.log(e);
         }
     },
-    async update() {
-        this.progressbar =true
-        const config = {
-            headers: {
-                "content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-            }
-        };
-        let url = this.cropImage.generateDataUrl(); 
-        let url1 = this.cropImage1.generateDataUrl(); 
-        if (url){
-            var fileData = this.dataURLtoFile(url, "coverimage.png");
-            this.putimage(fileData);
-            // this.artist_data.cover = fileData;
-            }
-        if (url1){
-            var fileData = this.dataURLtoFile(url1, "coverimage.png");
-            this.putimage(fileData);
-            // this.artist_data.cover = fileData;
-        }
+    async updateApiRequest(){
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
@@ -1046,16 +1003,18 @@ methods: {
         // now compare their keys and values  
         for(var i=0; i<keyObj1.length; i++) { 
             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
+                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
             } else {
                 let formName = new FormData();
                 formName.append(keyObj1[i], valueObj2[i]);
+                console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
                 formName.append("username", this.artist_data['username']);
                 await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
             } 
         }
         for(var i=0; i<keyObj3.length; i++) { 
             if(keyObj3[i] == keyObj4[i] && valueObj3[i] == valueObj4[i]) { 
-                // console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
+                console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
             } else { 
                 // it prints keys have different values 
                 let formName = new FormData();
@@ -1071,6 +1030,67 @@ methods: {
         this.$store.dispatch("check_user_portfolio");
         this.snackbar = true;
         this.$router.push("/" + this.bio.username);
+    },
+    submit(){
+        this.progressbar =true
+            let url = this.cropImage.generateDataUrl();
+            let fileData;
+            if (!url){
+                console.log("no image1");}
+            else{
+                fileData = this.dataURLtoFile(url, "coverimage.png");
+                // this.artist_data.cover = fileData;
+            }
+            let res = this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+            if(res.statusCode == 200)
+            {
+                delete this.$axios.defaults.headers.common['Authorization']
+                let filename = res.key
+                let url = res.body
+                console.log(res);
+                url = url.slice(1, -1);
+                this.$axios.$put(url, fileData).then((value) => {
+                console.log("image is put", value);
+                this.artist_data.cover = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
+                }); 
+            }
+            sendApiRequest();
+            // style is taken as array and made into a string
+        //required attributes check..
+    },
+    update() {
+        this.progressbar =true
+        const config = {
+            headers: {
+                "content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            }
+        };
+        let url = this.cropImage.generateDataUrl();
+        if (url){
+            console.log("url");
+            let fileData = this.dataURLtoFile(url, "coverimage.png");
+            let res = this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+            if(res.statusCode == 200)
+            {
+                console.log("res 200");
+                delete this.$axios.defaults.headers.common['Authorization']
+                let filename = res.key
+                let url = res.body
+                console.log(res);
+                url = url.slice(1, -1);
+                this.$axios.$put(url, fileData).then((value) => {
+                console.log("image is put", value);
+                this.artist_data.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                this.artist_data.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                updateApiRequest();
+                }); 
+            }
+            // this.artist_data.cover = fileData;
+        }
+        else{
+            updateApiRequest();
+        }
     },
     async deleted() {
         const config = {
@@ -1095,10 +1115,10 @@ methods: {
             this.artist_data.username= this.$store.state.auth.user.user.username,
             this.imageData = ''
             this.bio.username= this.$store.state.auth.user.user.username,
-            this.imageData4 = ''
-            this.imageData2 = ''
-            this.imageData1 = ''
-            this.imageData3 = ''
+            // this.imageData4 = ''
+            // this.imageData2 = ''
+            // this.imageData1 = ''
+            // this.imageData3 = ''
             this.yt1= false,
             this.yt2= false,
             this.yt3= false,
@@ -1112,7 +1132,6 @@ methods: {
             this.ytLinkError4='',
             this.dummy_style =[],
             this.cropImage.remove()
-            this.cropImage1.remove()
             this.dialog =false,
             this.snackbar = true;
             this.$router.push("/create/website");

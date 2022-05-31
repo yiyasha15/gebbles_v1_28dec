@@ -103,7 +103,7 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {},
-    transpile:['vue-youtube-embed', 'vuex-persist'],
+    transpile:['vue-youtube-embed', 'vuex-persist', 'vue-instagram-embed'],
   },
   //nuxt auth module for authenticating users.
   auth: {

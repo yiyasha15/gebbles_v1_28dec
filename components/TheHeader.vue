@@ -24,7 +24,7 @@
             >
             <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
-            <v-btn icon small
+            <!-- <v-btn icon small
             v-if="isAuthenticated"
             :to="loggedInUser.user.username+'/each1teach1'"
             class="text-decoration-none mr-3"
@@ -32,7 +32,7 @@
             <v-icon size="26" color="black" >
                 mdi-google-circles-communities
             </v-icon>
-        </v-btn>
+        </v-btn> -->
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" class="mr-3"

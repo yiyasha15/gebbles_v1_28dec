@@ -8,8 +8,8 @@
       outlined
       width="115" 
       max-height="105">
-      <v-img v-if="share.sp_thumb"
-          :src = "share.sp_thumb"
+      <v-img v-if="share.image_mini"
+          :src = "share.image_mini"
           height="73" width="115"/>
       <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73" width="115" contain/>
       <v-card-actions height="32px">

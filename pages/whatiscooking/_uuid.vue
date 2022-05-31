@@ -219,7 +219,6 @@ import { mapGetters } from 'vuex'
     },
     async asyncData({error, params}) {
       try {
-        console.log(params);
         let cook = await EventService.getWhatsCookingId(params.uuid)
         return {
           cook : cook.data

@@ -154,10 +154,9 @@ head() {
 middleware : 'check_auth',
 created(){
     this.usersTeacher= this.usersTeachers
-    // console.log(this.cook_obj);
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        this.isMobile = true;
-    }
+    // if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    //     this.isMobile = true;
+    // }
     if(this.cook_obj)
     {
         this.cookingForm.lesson = this.cook_obj.lesson
@@ -165,7 +164,6 @@ created(){
         if(this.cook_obj.taggedteachers)for(let i =0 ;i <this.cook_obj.taggedteachers.length ; i++)
         {
             this.selectedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
-            // this.changedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
         }
     }
 },
@@ -190,7 +188,7 @@ data(){
         changedTeacherBool:false,
         changedTeachers:[],
         updated:false,
-        isMobile:false,
+        isMobile:true,
         }
 },
 computed: {
@@ -402,6 +400,8 @@ methods:{
         }
     },
     teacherchange(){
+        console.log("teacher changed", this.selectedTeachers);
+        console.log("teacher changed", this.usersTeachers);
         if(this.cook_obj)
         this.changedTeacherBool = true
     },
