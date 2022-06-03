@@ -57,9 +57,8 @@ import CookingFeed from '@/components/CookingFeed.vue'
         methods:{
           postDelete(){
             this.$forceUpdate();
-            console.log("updated?");
             this.dialog=false
-            // this.getwhatiscooking();
+            this.$emit("postDelete");
           }
         }
     }

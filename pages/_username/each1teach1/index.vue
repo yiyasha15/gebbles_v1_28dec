@@ -70,18 +70,18 @@
                 </div>
             </v-layout>
             </div> -->
-            <div v-if="own_cooking.length" >
+            <!-- <div v-if="own_cooking.length" >
                 <div v-for="cook in own_cooking" :key ="cook.index">
                     <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
                 </div>
-            </div>
-            <!-- <div v-if="own_cooking.length">
+            </div> -->
+            <div v-if="own_cooking.length">
             <v-layout wrap  justify-start class="my-2" >
                 <div v-for="cook in own_cooking" :key ="cook.index">
                 <cooking-card-desktop :cook="cook"></cooking-card-desktop>
                 </div>
             </v-layout>
-            </div> -->
+            </div>
             <center v-if="!own_cooking.length && !firstLoad">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -169,18 +169,18 @@
             </v-layout>
             </div>
             <v-divider v-if="cooking.length && own_cooking.length"></v-divider> -->
-            <div v-if="own_cooking.length" >
+            <!-- <div v-if="own_cooking.length" >
                 <div v-for="cook in own_cooking" :key ="cook.index">
                     <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
                 </div>
-            </div>
-            <!-- <div v-if="own_cooking.length">
+            </div> -->
+            <div v-if="own_cooking.length">
             <v-layout wrap  justify-start class="my-2" >
                 <div v-for="cook in own_cooking" :key ="cook.index">
-                <cooking-card :cook="cook"></cooking-card>
+                <cooking-card :cook="cook" @postDelete="postDelete"></cooking-card>
                 </div>
             </v-layout>
-            </div> -->
+            </div>
             <center v-if=" !firstLoad && !own_cooking.length">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
