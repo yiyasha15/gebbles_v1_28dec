@@ -5,11 +5,11 @@
         <v-tabs style="max-width:670px; margin:auto;" class="hidden-sm-and-down">
         <v-tab>
             <h4 class="font-weight-light pl-2" style="text-transform: capitalize;">Learnings</h4><br>
-            <p class="font-weight-light caption ma-0" style="font-weight:6px; text-transform: lowercase;">(each one)</p>
+            <p class="font-weight-light caption ma-0" style="text-transform: lowercase;">(each one)</p>
         </v-tab>
         <v-tab>
             <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Sharings</h4>
-             <p class="font-weight-light caption ma-0" style="font-weight:6px; text-transform: lowercase;">(teach one)</p>
+             <p class="font-weight-light caption ma-0" style="text-transform: lowercase;">(teach one)</p>
         </v-tab>
         <v-tab>
             <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Videos</h4>
@@ -161,12 +161,12 @@
             <v-tab>
                 <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;text-transform: capitalize;font-size:10px ">Learnings</p>
                 <h4 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;text-transform: capitalize;">Learnings</h4>
-                <p class="font-weight-light caption ma-0" style="font-size:8px; text-transform: lowercase;">(each one)</p>
+                <p class="font-weight-light  ma-0" style="font-size:8px; text-transform: lowercase;">(each one)</p>
             </v-tab>
             <v-tab>
                 <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;text-transform: capitalize; font-size:10px">Sharings</p>
                 <h4 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;text-transform: capitalize;">Sharings</h4>
-                <p class="font-weight-light caption ma-0" style="font-size:8px; text-transform: lowercase;">(teach one)</p>
+                <p class="font-weight-light  ma-0" style="font-size:8px; text-transform: lowercase;">(teach one)</p>
             </v-tab>
             <v-tab>
                 <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;text-transform: capitalize; font-size:10px">Videos</p>
@@ -345,4 +345,6 @@ export default {
 <style scoped>
 .v-tab {
     letter-spacing: 0;}
+.v-tabs:not(.v-tabs--vertical):not(.v-tabs--right) > .v-slide-group--is-overflowing.v-tabs-bar--is-mobile:not(.v-slide-group--has-affixes) .v-slide-group__prev {
+display: none;}
 </style>
