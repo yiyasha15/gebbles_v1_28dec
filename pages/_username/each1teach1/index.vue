@@ -70,13 +70,18 @@
                 </div>
             </v-layout>
             </div> -->
-            <div v-if="own_cooking.length">
+            <div v-if="own_cooking.length" >
+                <div v-for="cook in own_cooking" :key ="cook.index">
+                    <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
+                </div>
+            </div>
+            <!-- <div v-if="own_cooking.length">
             <v-layout wrap  justify-start class="my-2" >
                 <div v-for="cook in own_cooking" :key ="cook.index">
                 <cooking-card-desktop :cook="cook"></cooking-card-desktop>
                 </div>
             </v-layout>
-            </div>
+            </div> -->
             <center v-if="!own_cooking.length && !firstLoad">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -97,15 +102,15 @@
         </center>
         <v-tabs style="max-width:357px; margin:auto;" class="hidden-md-and-up">
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:10px">Learning</p>
-            <p class="font-weight-light ma-0" style="font-size:8px; text-transform: lowercase;">(each one)</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Learning</p>
+            <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p>
         </v-tab>
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:10px">Sharing</p>
-            <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:8px">(teach one)</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Sharing</p>
+            <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:10px">Videos</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Videos</p>
         </v-tab>
         <v-tab-item v-if="!firstLoad">
             <div v-if="teachers.length">
@@ -164,13 +169,18 @@
             </v-layout>
             </div>
             <v-divider v-if="cooking.length && own_cooking.length"></v-divider> -->
-            <div v-if="own_cooking.length">
+            <div v-if="own_cooking.length" >
+                <div v-for="cook in own_cooking" :key ="cook.index">
+                    <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
+                </div>
+            </div>
+            <!-- <div v-if="own_cooking.length">
             <v-layout wrap  justify-start class="my-2" >
                 <div v-for="cook in own_cooking" :key ="cook.index">
                 <cooking-card :cook="cook"></cooking-card>
                 </div>
             </v-layout>
-            </div>
+            </div> -->
             <center v-if=" !firstLoad && !own_cooking.length">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -212,6 +222,7 @@ import CookingCardSharingDesktop from '@/components/CookingCardSharingDesktop.vu
 import { mapGetters} from 'vuex'
 import CookingCard from '~/components/CookingCard.vue'
 import CookingCardDesktop from '~/components/CookingCardDesktop.vue'
+import CookingFeed from '~/components/CookingFeed.vue'
 
 export default {
     props: ['artist'],
@@ -223,7 +234,8 @@ export default {
         CookingCardSharing,
         CookingCardSharingDesktop,
         CookingCard,
-        CookingCardDesktop
+        CookingCardDesktop,
+        CookingFeed
     }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser','usersTeachers','userHasTeachers']),
@@ -251,6 +263,11 @@ export default {
         }
     },
     methods:{
+        postDelete(){
+            this.$forceUpdate();
+            console.log("updated?");
+            this.getsharing(this.$route.params);
+            },
         goback(){
             window.history.back();
         },
@@ -342,9 +359,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.v-tab {
-    letter-spacing: 0;}
-.v-tabs:not(.v-tabs--vertical):not(.v-tabs--right) > .v-slide-group--is-overflowing.v-tabs-bar--is-mobile:not(.v-slide-group--has-affixes) .v-slide-group__prev {
-display: none;}
-</style>

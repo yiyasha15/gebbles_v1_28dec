@@ -230,7 +230,6 @@ import { mapGetters } from 'vuex'
     },
     created(){
       this.dateFormat(this.cook.timestamp)
-      // this.$store.dispatch("check_cook_obj",this.cook);
       this.$store.dispatch("check_cook_reactions",this.cook.id);
       this.$store.dispatch("check_cook_comments",this.cook.id);
     },
@@ -286,7 +285,6 @@ import { mapGetters } from 'vuex'
               try {
                 await this.$axios.$delete("/v1/whatiscooking/cooking/likes/"+this.cook_has_like_id , config)
                 this.$store.dispatch("check_cook_reactions", this.cook.id)
-                //store make learn love false
             } catch (e) {
                 console.log(e);
             }
@@ -329,7 +327,6 @@ import { mapGetters } from 'vuex'
               try {
                 await this.$axios.$delete("/v1/whatiscooking/cooking/likes/"+this.cook_has_dope_id , config)
                 this.$store.dispatch("check_cook_reactions", this.cook.id)
-                //store make learn love false
             } catch (e) {
                 console.log(e);
             }
@@ -372,7 +369,6 @@ import { mapGetters } from 'vuex'
               try {
                 await this.$axios.$delete("/v1/whatiscooking/cooking/likes/"+this.cook_has_info_id , config)
                 this.$store.dispatch("check_cook_reactions", this.cook.id)
-                //store make learn love false
             } catch (e) {
                 console.log(e);
             }
@@ -435,7 +431,6 @@ import { mapGetters } from 'vuex'
       goback(){
             this.$store.dispatch("remove_cook_obj")
             this.$store.dispatch("remove_cook_reactions")
-            // this.$router.push("/");
             window.history.back();
         },
     }

@@ -57,16 +57,6 @@
       <div style="max-width: 457px; margin:auto;" class="hidden-md-and-up" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
         <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
       </div>
-      <!-- <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
-        <div v-for="cook in cooking" :key ="cook.index">
-          <CookingCard :cook="cook" ></CookingCard> 
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="cook in cooking" :key ="cook.index">
-          <cooking-card-desktop :cook="cook" ></cooking-card-desktop>
-        </div>
-      </v-layout> -->
       <center v-if="!cooking.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -80,8 +70,6 @@
 </template>
 
 <script>
-import CookingCard from '@/components/CookingCard.vue'
-import CookingCardDesktop from '@/components/CookingCardDesktop.vue'
 import CookingFeed from '@/components/CookingFeed.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
@@ -132,14 +120,12 @@ export default {
     },
     postDelete(){
       this.$forceUpdate();
-      // console.log("updated?");
+      console.log("updated?");
       this.getwhatiscooking();
     }
 
   },
   components: {
-    CookingCard,
-    CookingCardDesktop,
     CookingFeed
   },
   data() {

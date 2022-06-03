@@ -9,9 +9,11 @@
         <source :src="cook.video" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <div >
+    <!-- <div style="float:left;"> -->
+        <v-row class="pt-3 pb-2 px-3">
     <h5 :class="{'pl-3 caption': $vuetify.breakpoint.smAndDown  ,'pl-0 caption': $vuetify.breakpoint.mdAndUp}"> {{created_date}}</h5>
-    </div>
+        </v-row>
+    <!-- </div> -->
     <div :class="{'px-3': $vuetify.breakpoint.smAndDown}" align="left" justify="left">
     <div class="my-1">
         <v-row >

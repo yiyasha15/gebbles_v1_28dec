@@ -2,7 +2,7 @@
   <v-hover v-slot:default="{ hover }">
     <v-card style="margin:2px;"
       data-view
-      :to="'/whatiscooking/'+cook.uuid" 
+      @click="dialog=true"
       :elevation="hover ? 12 : 0"
       outlined
       width="115" 
@@ -19,38 +19,23 @@
         height="84"
         width="115"
       />
-      <!-- <v-card-actions style="min-height:36px;" class="pa-1">
-        <div width="70" class="text-decoration-none caption" style=" height: 1.3em;
-          line-height: initial;
-          overflow: hidden">
-        <p style="max-width:78px; font-size:0.6rem!important;">{{cook.username}} </p>
-        </div>
-        <v-spacer></v-spacer>
-        <template v-if="cook.taggedteachers.length <3">
-         <div v-for="obj in cook.taggedteachers" :key="obj.id" class="text-decoration-none" style="margin-top:-8px">
-              <v-avatar left v-if="obj.shareidobj && obj.shareidobj.teacher!=null" size="16">
-                <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
-              </v-avatar>
-              <v-avatar left v-else color="white" size="16">
-                <v-icon>mdi-account-circle</v-icon>
-              </v-avatar>
-          </div>
-        </template>
-        <template v-else>
-         <div v-for="obj in cook.taggedteachers.slice(0, 2)" :key="obj.id" class="text-decoration-none" style="margin-top:-8px">
-              <v-avatar left v-if="obj.shareidobj && obj.shareidobj.teacher!=null" size="16">
-                <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
-              </v-avatar>
-              <v-avatar left v-else color="white" size="16">
-                <v-icon>mdi-account-circle</v-icon>
-              </v-avatar>
-          </div><p class="mb-1 pl-1" style="font-size:0.6rem!important;">+{{cook.taggedteachers.length-2}}</p>
-        </template>
-      </v-card-actions> -->
+      <v-dialog
+        :retain-focus="false"
+        v-model="dialog"
+        width="800px"
+        persistent>
+        <v-container class="rounded-lg white pa-2">
+        <v-btn icon color="error" class="float-right" @click="dialog=false; ">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
+        </v-container>
+        </v-dialog> 
     </v-card>
   </v-hover>
 </template>
 <script>
+import CookingFeed from '@/components/CookingFeed.vue'
     export default {
         head() {  
         return {
@@ -61,6 +46,22 @@
         props: {
             cook: Object
         },
+        components: {
+          CookingFeed
+        },
+        data() {
+          return {
+            dialog:false,
+          }
+        },
+        methods:{
+          postDelete(){
+            this.$forceUpdate();
+            console.log("updated?");
+            this.dialog=false
+            // this.getwhatiscooking();
+          }
+        }
     }
 </script>
 
