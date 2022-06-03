@@ -10,16 +10,16 @@
     >
     <v-img v-if="cook.thumbjs"
         :src="cook.thumbjs"
-        height="74"
+        height="84"
         width="115"
       />
       <v-img v-else
         :src="require('@/assets/gebbleslogo3.png')"
         contain
-        height="74"
+        height="84"
         width="115"
       />
-      <v-card-actions style="min-height:36px;" class="pa-1">
+      <!-- <v-card-actions style="min-height:36px;" class="pa-1">
         <div width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
@@ -46,7 +46,7 @@
               </v-avatar>
           </div><p class="mb-1 pl-1" style="font-size:0.6rem!important;">+{{cook.taggedteachers.length-2}}</p>
         </template>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
   </v-hover>
 </template>

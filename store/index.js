@@ -36,8 +36,7 @@ export const state = () => ({
   dope: '',
   info:'',
   learnings:[],
-  cookings:[],
-  cookingsfiltered:[],
+  // cookings:[],
   teachers:[], //e1t1 onject
   page_teachers:'',
   page_learnings:'',
@@ -93,12 +92,9 @@ export const getters = {
   learnings(state){
     return state.learnings
   },
-  cookings(state){
-    return state.cookings
-  },
-  cookingsfiltered(state){
-    return state.cookingsfiltered
-  },
+  // cookings(state){
+  //   return state.cookings
+  // },
   notifications(state){
     return state.notifications
   },
@@ -443,15 +439,12 @@ export const actions = {
         commit('get_learnings',res.data)
       })
   },
-  check_cookings({commit},username){
-    EventService.getWhatsCookingUsername(username).then(res =>
-      {
-        commit('get_cookings',res.data)
-      })
-  },
-  check_cookings_filtered({commit},id){
-    commit('get_cookings_filtered',id)
-  },
+  // check_cookings({commit},username){
+  //   EventService.getWhatsCookingUsername(username).then(res =>
+  //     {
+  //       commit('get_cookings',res.data)
+  //     })
+  // },
   remove_portfolio({commit, state})
     {
       if(state.auth.loggedIn){
@@ -536,10 +529,10 @@ export const actions = {
   {
       commit('clearLearnings')
   },
-  remove_cookings({commit})
-  {
-      commit('clearCookings')
-  },
+  // remove_cookings({commit})
+  // {
+  //     commit('clearCookings')
+  // },
 }
     // Define Mutations
 export const mutations = {
@@ -610,41 +603,41 @@ export const mutations = {
     state.learnings = learnings.results;
     state.page_learnings = learnings.next;
   },
-  get_cookings(state,cookings){
-    state.cookings = cookings;
-    // state.page_cookings = cookings.next;
-  },
-  get_cookings_filtered(state,id){
-    state.cookingsfiltered=[]
-    if(state.cookings.length>0)
-    {
-      let taggedteacherpresent = state.cookings.filter(obj => obj.taggedteachers.length>0)
-      let arr=[];
-      for(let i=0 ; i<taggedteacherpresent.length; i++)
-      {
-        for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
-        arr.push(taggedteacherpresent[i].taggedteachers[j]);
-      }
-      let final = arr.filter(obj => obj.shareidobj!=null)
-      let f2=[];
-      let f3 =[];
-      f2 = final.filter(obj => obj.shareidobj.id ==id);
+  // get_cookings(state,cookings){
+  //   state.cookings = cookings;
+  //   state.page_cookings = cookings.next;
+  // },
+  // get_cookings_filtered(state,id){
+  //   state.cookingsfiltered=[]
+  //   if(state.cookings.length>0)
+  //   {
+  //     let taggedteacherpresent = state.cookings.filter(obj => obj.taggedteachers.length>0)
+  //     let arr=[];
+  //     for(let i=0 ; i<taggedteacherpresent.length; i++)
+  //     {
+  //       for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+  //       arr.push(taggedteacherpresent[i].taggedteachers[j]);
+  //       console.log("state.1");
+  //     }
+  //     let final = arr.filter(obj => obj.shareidobj!=null)
+  //     let f2=[];
+  //     let f3 =[];
+  //     f2 = final.filter(obj => obj.shareidobj.id ==id);
 
-      f2.forEach(element => f3.push(element.id));
-      for(let i=0 ; i<taggedteacherpresent.length; i++)
-      {
-        for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
-        {
-          if(f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id))
-          {
-            // console.log("only put this", state.cookingsfiltered);
-            state.cookingsfiltered.push(taggedteacherpresent[i])
-          }
-        }
-      }
-      // console.log("state.cookingsfiltered",state.cookingsfiltered);
-    }
-  },
+  //     f2.forEach(element => f3.push(element.id));
+  //     for(let i=0 ; i<taggedteacherpresent.length; i++)
+  //     {
+  //       for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+  //       {
+  //         if(f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id))
+  //         {
+  //           console.log("only put this", state.cookingsfiltered);
+  //           state.cookingsfiltered.push(taggedteacherpresent[i])
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   check_notifications(state, notifications){
     if(notifications){
       state.notifications = []
@@ -886,9 +879,9 @@ export const mutations = {
   clearLearnings(state){
     state.learnings = []
   },
-  clearCookings(state){
-    state.cookings = []
-  },
+  // clearCookings(state){
+  //   state.cookings = []
+  // },
   clearPortfolio(state) //if user has portfolio change state to true
   {
     state.portfolio = null

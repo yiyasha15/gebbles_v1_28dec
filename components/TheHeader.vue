@@ -115,11 +115,11 @@
                 :to="'/'+ loggedInUser.user.username"
                 class="text-decoration-none pl-5"
                 >
-                <img
+                <!-- <img
                 height="28"
                     :src="require('@/assets/gebbleslogo.png')"
                     alt="img"
-                >
+                > -->
                 <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
                 </v-list-item>
                 <v-list-item

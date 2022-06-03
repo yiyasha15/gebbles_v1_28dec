@@ -19,7 +19,7 @@
         height="134"
         width="215"
       />
-      <v-card-actions style="min-height:36px;" class="pa-1">
+      <!-- <v-card-actions style="min-height:36px;" class="pa-1">
         <div width="90" class="text-decoration-none caption" style=" height: 1.7em;
           line-height: initial;
           overflow: hidden">
@@ -38,7 +38,6 @@
         </template>
         <template v-else>
          <div v-for="obj in cook.taggedteachers.slice(0, 2)" :key="obj.id" class="text-decoration-none" style="margin-top:-1px">
-           {{obj}}
               <v-avatar left v-if="obj.shareidobj && obj.shareidobj.teacher!=null" size="21">
                 <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
               </v-avatar>
@@ -47,7 +46,7 @@
               </v-avatar>
           </div><p class="mb-1 pt-1 pl-1" style="font-size:0.9rem!important;">+{{cook.taggedteachers.length-2}}</p>
         </template>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
   </v-hover>
 </template>

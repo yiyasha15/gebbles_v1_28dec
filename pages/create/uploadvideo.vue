@@ -12,8 +12,6 @@
             <v-form v-on:submit.prevent="submit">
                 <v-row>
                     <v-col cols="12" class="pa-0">
-                        <!-- <h3 class ="font-weight-light xs12 pb-4">Dedicating a dance for {{e1t1.s_teacher_name}}</h3> -->
-                        <!-- <canvas id="canvas"></canvas> -->
                         <input style="display:none" ref="fileInputVideo" type="file" accept="video/*" @change="onFileChange"> 
                         <video width="100%" height="240" controls v-if="cook_obj" id="videoPreviewWhenUpdate" :src="cook_obj.video" >
                         Your browser does not support the video tag.
@@ -22,14 +20,8 @@
                         Your browser does not support the video tag.
                         </video>
                         <img id="thumb_img" style="height:100px; display:none;" src=""/>
-                        <!-- <p v-if="cookingForm.thumbjs" class="caption">Thumbnail</p> -->
-                        <!-- <h3 class="caption">Scroll to desired frame to make thumbnail.</h3> -->
-                        <!-- <v-btn outlined  class="my-2 " @click="capture" >Make thumbnail
-                        </v-btn> -->
                         <v-btn outlined  class="my-2 " @click="onPick" >
-                            <!-- <h5> -->
                             Select a video
-                            <!-- </h5> -->
                             <v-icon right dark> mdi-cloud-upload </v-icon>
                         </v-btn>
                         <p class="caption">Maximum one minute.</p>
@@ -39,8 +31,6 @@
                         </v-text-field>
                             <h3 class ="font-weight-light xs12">Mention the artist if you have used any of their teaching in this video.</h3>
                         <small>This will be added in the learnings and they will be notified.</small>
-                        <!-- {{this.selectedTeachers}}
-                        {{this.usersTeachers}} -->
                         <v-autocomplete
                             class="pt-4"
                             v-model="selectedTeachers"
@@ -86,7 +76,6 @@
                                 </v-list-item-avatar>
                                 <v-list-item-content>
                                     <v-list-item-title v-html="data.item.s_teacher_name"></v-list-item-title>
-                                    <!-- <v-list-item-subtitle v-html="data.item.group"></v-list-item-subtitle> -->
                                 </v-list-item-content>
                                 </template>
                             </template>
@@ -163,7 +152,7 @@ created(){
     if(this.cook_obj)
     {
         this.cookingForm.lesson = this.cook_obj.lesson
-        console.log("this.cook_obj",this.cook_obj);
+        // console.log("this.cook_obj",this.cook_obj);
         if(this.cook_obj.taggedteachers)for(let i =0 ;i <this.cook_obj.taggedteachers.length ; i++)
         {
             this.selectedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
@@ -205,7 +194,7 @@ methods:{
     onFileChange(e) {
         let files = e.target.files;
         if (files[0]) {
-        console.log(files[0]);
+        // console.log(files[0]);
         let i = Math.floor(files[0].size * 0.000001)
         if(i>=120){ 
             this.sizeExceed = true;
@@ -440,21 +429,10 @@ methods:{
         }
     },
     teacherchange(){
-        console.log("teacher changed", this.selectedTeachers);
-        console.log("teacher changed", this.usersTeachers);
+        // console.log("teacher changed", this.selectedTeachers);
+        // console.log("teacher changed", this.usersTeachers);
         if(this.cook_obj)
         this.changedTeacherBool = true
-    },
-    capture(){
-    // var canvas = document.getElementById('canvas');
-    // if(this.cook_obj!=null)
-    // var video = document.getElementById('videoPreviewWhenUpdate');
-    // else
-    // var video = document.getElementById('videoPreview');
-    // canvas.getContext('2d').drawImage(video, 0, 0, 314, 213);
-    // let imgData = canvas.toDataURL("image/jpeg",0.75);
-    // console.log("image data created",imgData);
-    // this.cookingForm.thumbjs = imgData
     },
     refresh(){
         this.cookingForm.username = this.$store.state.auth.user.user.username;
