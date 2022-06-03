@@ -16,13 +16,13 @@
                 </div>
                 </nuxt-link>
                 <v-spacer></v-spacer>
-                <v-btn icon small
+                <!-- <v-btn icon small
                 :to= "`/${artist.username}/each1teach1`"
                 class="text-decoration-none mx-1 hidden-sm-and-up">
                 <v-icon size="26" color="black" >
                     mdi-google-circles-communities
                 </v-icon>
-            </v-btn>
+            </v-btn> -->
                 <v-btn icon small v-if="isAuthenticated"
             :to="'/'"
             class="text-decoration-none mx-1 hidden-sm-and-up"
@@ -111,11 +111,11 @@
                 :to="'/'+ loggedInUser.user.username"
                 class="text-decoration-none pl-5"
                 >
-                <img
+                <!-- <img
                     height="28"
                     :src="require('@/assets/gebbleslogo.png')"
                     alt="img"
-                >
+                > -->
                 <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
                 </v-list-item>
                     <v-list-item
@@ -158,16 +158,16 @@
             </v-layout>
         </v-col>
         <v-col cols="12" sm="6" :class="{'align-center justify-center': $vuetify.breakpoint.xs, 'px-2 d-flex align-center justify-end': $vuetify.breakpoint.smAndUp}">
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium">About</h4></v-btn>
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium">Journey</h4></v-btn> 
-            <!-- <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium">E1T1</h4></v-btn> -->
-            <v-btn icon small
+            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium" style="text-transform: capitalize;">About</h4></v-btn>
+            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium" style="text-transform: capitalize;">Journey</h4></v-btn> 
+            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium" style="text-transform: capitalize;">E1T1</h4></v-btn>
+            <!-- <v-btn icon small
                 :to= "`/${artist.username}/each1teach1`"
                 class="text-decoration-none mx-1 d-none d-sm-flex">
                 <v-icon size="26" color="black" >
                     mdi-google-circles-communities
                 </v-icon>
-            </v-btn>
+            </v-btn> -->
             <v-btn icon small v-if="isAuthenticated"
             :to="'/'"
             class="text-decoration-none mx-1 d-none d-sm-flex"
@@ -257,11 +257,11 @@
                     :to="'/'+ loggedInUser.user.username"
                     class="text-decoration-none pl-5"
                     >
-                    <img
+                    <!-- <img
                     height="28"
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
-                    >
+                    > -->
                     <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
                     </v-list-item>
                     <v-list-item

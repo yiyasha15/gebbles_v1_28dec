@@ -6,9 +6,9 @@
         </v-btn>
        </v-container>
         <v-container class="mx-auto" fluid style="max-width:750px" >
-        <v-row class="pb-4 px-2">
+        <v-row class="pb-4">
             <v-col cols="12" md="6" align="center" justify="center">
-                <v-img :src = "e1t1.image_mini" class="centerImage" maxHeight="520px"></v-img>
+                <v-img :src = "e1t1.image" class="centerImage" maxHeight="520px"></v-img>
             </v-col>
             <v-col cols="12" md="6" >
                 <v-row>

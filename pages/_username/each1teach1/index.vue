@@ -4,13 +4,15 @@
         <center>
         <v-tabs style="max-width:670px; margin:auto;" class="hidden-sm-and-down">
         <v-tab>
-            <h4 class="font-weight-light pl-2 " >Learnings</h4>
+            <h4 class="font-weight-light pl-2" style="text-transform: capitalize;">Learnings</h4><br>
+            <p class="font-weight-light caption ma-0" style="font-weight:6px; text-transform: lowercase;">(each one)</p>
         </v-tab>
         <v-tab>
-            <h4 class="font-weight-light pl-2 " >Sharings</h4>
+            <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Sharings</h4>
+             <p class="font-weight-light caption ma-0" style="font-weight:6px; text-transform: lowercase;">(teach one)</p>
         </v-tab>
         <v-tab>
-            <h4 class="font-weight-light pl-2 " >Videos</h4>
+            <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Videos</h4>
         </v-tab>
         <v-tab-item>
             <div v-if="teachers.length">
@@ -47,14 +49,21 @@
             <v-card v-intersect="infiniteScrollingStudents"></v-card>
         </v-tab-item>
         <v-tab-item>
-            <div v-if="cooking.length">
+            <!-- <div v-if="cooking.length">
             <v-layout wrap justify-start class="my-6" >
                 <div v-for="cook in cooking" :key ="cook.index">
                 <cooking-card-sharing-desktop :cook="cook" ></cooking-card-sharing-desktop>
                 </div>
             </v-layout>
+            </div> -->
+            <div v-if="own_cooking.length">
+            <v-layout wrap  justify-start class="my-6" >
+                <div v-for="cook in own_cooking" :key ="cook.index">
+                <cooking-card-desktop :cook="cook"></cooking-card-desktop>
+                </div>
+            </v-layout>
             </div>
-            <center v-if="!cooking.length && !firstLoad">
+            <center v-if="!own_cooking.length && !firstLoad">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
@@ -67,13 +76,15 @@
         </center>
         <v-tabs style="max-width:357px; margin:auto;" class="hidden-md-and-up">
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0" >Learnings</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:10px">Learnings</p>
+            <p class="font-weight-light ma-0" style="font-size:8px; text-transform: lowercase;">(each one)</p>
         </v-tab>
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0">Sharings</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:10px">Sharings</p>
+            <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:8px">(teach one)</p>
         </v-tab>
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0" >Videos</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:10px">Videos</p>
         </v-tab>
         <v-tab-item>
             <div v-if="teachers.length">
@@ -110,14 +121,22 @@
             <v-card v-intersect="infiniteScrollingStudents"></v-card>
         </v-tab-item>
         <v-tab-item>
-            <div v-if="cooking.length">
+            <!-- <div v-if="cooking.length">
             <v-layout wrap  justify-start class="my-6" >
                 <div v-for="cook in cooking" :key ="cook.index">
                 <cooking-card-sharing :cook="cook"></cooking-card-sharing>
                 </div>
             </v-layout>
             </div>
-            <center v-if="!cooking.length && !firstLoad">
+            <v-divider v-if="cooking.length && own_cooking.length"></v-divider> -->
+            <div v-if="own_cooking.length">
+            <v-layout wrap  justify-start class="my-6" >
+                <div v-for="cook in own_cooking" :key ="cook.index">
+                <cooking-card :cook="cook"></cooking-card>
+                </div>
+            </v-layout>
+            </div>
+            <center v-if=" !firstLoad && !own_cooking.length">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
@@ -140,16 +159,18 @@
         <v-container v-if="firstLoad" style="max-width:670px;" class="pa-0">
             <v-tabs style="max-width:670px; margin:auto;" >
             <v-tab>
-                <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Learnings</p>
-                <h4 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Learnings</h4>
+                <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;text-transform: capitalize;font-size:10px ">Learnings</p>
+                <h4 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;text-transform: capitalize;">Learnings</h4>
+                <p class="font-weight-light caption ma-0" style="font-size:8px; text-transform: lowercase;">(each one)</p>
             </v-tab>
             <v-tab>
-                <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Sharings</p>
-                <h4 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Sharings</h4>
+                <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;text-transform: capitalize; font-size:10px">Sharings</p>
+                <h4 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;text-transform: capitalize;">Sharings</h4>
+                <p class="font-weight-light caption ma-0" style="font-size:8px; text-transform: lowercase;">(teach one)</p>
             </v-tab>
             <v-tab>
-                <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Videos</p>
-                <h4 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Videos</h4>
+                <p class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;text-transform: capitalize; font-size:10px">Videos</p>
+                <h4 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;text-transform: capitalize;">Videos</h4>
             </v-tab>
             <v-tab-item>
                  <v-layout wrap row justify-start class="my-6 hidden-md-and-up" style="max-width:357px; margin:auto;">
@@ -177,7 +198,6 @@
             </v-tab-item>
             </v-tabs>
         </v-container>
-        
     </v-app>
 </template>
 
@@ -191,6 +211,7 @@ import CookingCardSharing from '@/components/CookingCardSharing.vue'
 import CookingCardSharingDesktop from '@/components/CookingCardSharingDesktop.vue'
 import { mapGetters} from 'vuex'
 import CookingCard from '~/components/CookingCard.vue'
+import CookingCardDesktop from '~/components/CookingCardDesktop.vue'
 
 export default {
     props: ['artist'],
@@ -201,7 +222,8 @@ export default {
         TeachersCardDesktop,
         CookingCardSharing,
         CookingCardSharingDesktop,
-        CookingCard
+        CookingCard,
+        CookingCardDesktop
     }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser','usersTeachers','userHasTeachers']),
@@ -233,14 +255,17 @@ export default {
             window.history.back();
         },
         async getsharing(params){
+            const key = 'id';
             try {
             const teachers_response = await EventService.getEach1Teach1_teachers(params.username)
             const students_response = await EventService.getEach1Teach1_students(params.username)
             const cooking_response = await EventService.getStudentsCooking(params.username)
+            const cooking_own_response = await EventService.getWhatsCookingUsername(params.username)
             this.teachers = teachers_response.data.results
             this.students = students_response.data.results
             this.cooking = cooking_response.data.results
-            // console.log(this.cooking);
+            this.own_cooking = cooking_own_response.data
+            // console.log(this.own_cooking);
             this.teachers_page = teachers_response.data.next
             this.students_page = students_response.data.next
             this.cooking_page = cooking_response.data.next
@@ -309,6 +334,7 @@ export default {
         teachers:[],
         students:[],
         cooking:[],
+        own_cooking:[],
         looploader:[1,1,1,1,1,1,1,1,1],
         loading: true,
         firstLoad: true,
@@ -316,3 +342,7 @@ export default {
   },
 }
 </script>
+<style scoped>
+.v-tab {
+    letter-spacing: 0;}
+</style>

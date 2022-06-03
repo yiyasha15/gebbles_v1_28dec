@@ -81,12 +81,12 @@
         <v-btn color="primary" small text @click="goback">Cancel</v-btn>
         </v-stepper-content>
         <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Upload an image together.*
-            <small>(if not, you can add their image.)</small>
+            <small>(or, you can add their image.)</small>
         </v-stepper-step>
         <v-stepper-content step="2" style="border-left: none;">
                 <input
                 type="file" 
-                name = "sharing.s_photo" 
+                name = "imageData" 
                 style="display:none" 
                 ref="fileInput" 
                 accept="image/*"
@@ -99,7 +99,7 @@
                     Upload
                     <!-- <v-icon right> mdi-cloud-upload </v-icon> -->
                 </v-btn>
-                <v-btn small v-else outlined color="error" class="ma-2" @click="imageData=''; sharing.s_photo = ''" >
+                <v-btn small v-else outlined color="error" class="ma-2" @click="imageData='';" >
                     Remove<v-icon right dark> mdi-close</v-icon>
                 </v-btn>
             <v-btn color="black" text outlined @click="e6 = 3" small>Next</v-btn>
@@ -490,7 +490,6 @@ export default {
                 teacher: "",
                 s_learnings:"",
                 s_teacher_name: "",
-                s_photo: "",
                 image:"",
                 image_mini:"",
                 s_appreciation: "",
@@ -517,7 +516,7 @@ export default {
     },
     watch: {
     teacher_obj: function() {
-        console.log(this.teacher_obj);
+        // console.log(this.teacher_obj);
         if(this.teacher_obj)
         {
             EventService.getSearchedArtist(this.teacher_obj).then((value) => {
@@ -585,12 +584,31 @@ export default {
                     this.imageData = e.target.result;
                 }
                 if(files[0])
-                {fileReader.readAsDataURL(files[0]);
-                this.sharing.image = files[0];}
+                {
+                    fileReader.readAsDataURL(files[0]);
+                    this.sharing.image = files[0];
+                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                            if(res.statusCode == 200)
+                            {
+                                delete this.$axios.defaults.headers.common['Authorization']
+                                let filename = res.key
+                                let url = res.body
+                                url = url.slice(1, -1);
+                                this.$axios.$put(url, this.sharing.image).then((value) => {
+                                this.sharing.image =''
+                                this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                                this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                                console.log(this.sharing);
+                                });
+                            }
+                        }
+                    )
+                }
             }
         },
         async submit() {
-            if(this.sharing.s_teacher_name != ""&& this.sharing.s_photo != "" && this.sharing.s_appreciation != "")
+            if(this.sharing.s_teacher_name != "" && this.sharing.s_appreciation != "" && this.sharing.image!='')
             {
                 this.progressbar =true
                 this.sharing.s_student_country = this.usersPortfolio.country;
@@ -598,20 +616,6 @@ export default {
                     headers: { "content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
                 };
-                let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-                if(res.statusCode == 200)
-                {
-                    console.log("res 200");
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    console.log(res);
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.sharing.s_photo).then((value) => {
-                    console.log("image is put", value);
-                    this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/med_" + filename;
-                    this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.sharing.s_photo ='';
                     let formData = new FormData();
                     for (let data in this.sharing) {
                         formData.append(data, this.sharing[data]);
@@ -628,8 +632,6 @@ export default {
                         this.$router.push("/"+this.sharing.username+"/each1teach1/");
                         console.log("cant post!",e.response.data);
                     }
-                    }); 
-                }
             }
             else{
                 this.progressbar =false;
@@ -676,31 +678,7 @@ export default {
                 if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
                     console.log("no change ",keyObj1[i]+' -> '+valueObj2[i]);	 
                 } 
-                else { 
-                    if(keyObj1[i] =='image'){
-                        let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-                        if(res.statusCode == 200)
-                        {
-                            console.log("res 200");
-                            delete this.$axios.defaults.headers.common['Authorization']
-                            let filename = res.key
-                            let url = res.body
-                            console.log(res);
-                            url = url.slice(1, -1);
-                            this.$axios.$put(url, this.sharing.image).then((value) => {
-                            console.log("image is put", value);
-                            this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/med_" + filename;
-                            this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                            this.sharing.s_photo ='';
-                            let formName = new FormData();
-                            formName.append(keyObj1[i], valueObj2[i]);
-                            formName.append("id", this.sharing['id']);
-                            console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                            this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
-                            console.log( valueObj1[i] ," changed"); 
-                            });
-                        }
-                    }else{
+                else{
                     // it prints keys have different values 
                     let formName = new FormData();
                     formName.append(keyObj1[i], valueObj2[i]);
@@ -708,7 +686,6 @@ export default {
                     console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
                     await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
                     // console.log( valueObj1[i] ," changed"); 
-                    }
                 } 
             }
             this.progressbar =false;
@@ -718,8 +695,8 @@ export default {
         },
         addTeacher(){
             let t_name = typeof this.teacher_obj;
-            console.log(this.teacher_obj);
-            console.log(t_name);
+            // console.log(this.teacher_obj);
+            // console.log(t_name);
             // console.log(this.teacher_obj);
             if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {

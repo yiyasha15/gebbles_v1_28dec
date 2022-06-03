@@ -11,17 +11,19 @@
             <v-card :class="{'pa-6': $vuetify.breakpoint.smAndDown, 'pa-8': $vuetify.breakpoint.mdAndUp}">
             <v-form v-on:submit.prevent="submit">
                 <v-row>
-                    <v-col cols="12">
+                    <v-col cols="12" class="pa-0">
                         <!-- <h3 class ="font-weight-light xs12 pb-4">Dedicating a dance for {{e1t1.s_teacher_name}}</h3> -->
-                        <canvas style="display:none;" id="canvas"></canvas>
+                        <!-- <canvas id="canvas"></canvas> -->
                         <input style="display:none" ref="fileInputVideo" type="file" accept="video/*" @change="onFileChange"> 
-                        <video width="100%" height="240" controls v-if="cook_obj" id="videoPreviewWhenUpdate" :src="cook_obj.video">
+                        <video width="100%" height="240" controls v-if="cook_obj" id="videoPreviewWhenUpdate" :src="cook_obj.video" >
                         Your browser does not support the video tag.
                         </video>
                         <video width="100%" height="240" controls id="videoPreview" v-else >
                         Your browser does not support the video tag.
                         </video>
-                        <h3 class="caption">Scroll to desired frame to make thumbnail.</h3>
+                        <img id="thumb_img" style="height:100px; display:none;" src=""/>
+                        <!-- <p v-if="cookingForm.thumbjs" class="caption">Thumbnail</p> -->
+                        <!-- <h3 class="caption">Scroll to desired frame to make thumbnail.</h3> -->
                         <!-- <v-btn outlined  class="my-2 " @click="capture" >Make thumbnail
                         </v-btn> -->
                         <v-btn outlined  class="my-2 " @click="onPick" >
@@ -137,6 +139,7 @@
 </template>
 
 <script>
+// import { image } from 'html2canvas/dist/types/css/types/image'
 import { mapGetters } from 'vuex'
 export default {
 head() {
@@ -154,9 +157,9 @@ head() {
 middleware : 'check_auth',
 created(){
     this.usersTeacher= this.usersTeachers
-    // if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-    //     this.isMobile = true;
-    // }
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        this.isMobile = true;
+    }
     if(this.cook_obj)
     {
         this.cookingForm.lesson = this.cook_obj.lesson
@@ -209,14 +212,52 @@ methods:{
         }
         else{
             this.putVideo = files[0]
-            let blobURL = URL.createObjectURL(files[0]);
-            if(this.cook_obj!= null)
-            {
-                document.getElementById("videoPreviewWhenUpdate").src = blobURL;
-                this.changedVideo= true
-                this.capture();}
+            // let blobURL = URL.createObjectURL(files[0]);
+            if(this.cook_obj!=null)
+            {var video = document.getElementById('videoPreviewWhenUpdate');
+            this.changedVideo= true}
             else
-            document.getElementById("videoPreview").src = blobURL;
+            var video = document.getElementById('videoPreview');
+            // for getting first frame as thumbnail..
+            var file = this.putVideo
+            var fileReader = new FileReader();
+            fileReader.onload = function() {
+            var blob = new Blob([fileReader.result], {type: file.type});
+            var url = URL.createObjectURL(blob);
+            var timeupdate = function() {
+                if (snapImage()) {
+                video.removeEventListener('timeupdate', timeupdate);
+                video.pause();
+                }
+            };
+            video.addEventListener('loadeddata', function() {
+                if (snapImage()) {
+                video.removeEventListener('timeupdate', timeupdate);
+            }
+            });
+            var snapImage = function() {
+            var canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            var image = canvas.toDataURL();
+            var success = image.length > 100000;
+            if (success) {
+            document.getElementById('thumb_img').src = image
+            URL.revokeObjectURL(url);
+            }
+                return success;
+            };
+        
+            video.addEventListener('timeupdate', timeupdate);
+            video.preload = 'metadata';
+            video.src = url;
+            // Load video in Safari / IE11
+            video.muted = true;
+            video.playsInline = true;
+            video.play();
+            };
+            fileReader.readAsArrayBuffer(file);
         };
         }
     },
@@ -230,9 +271,11 @@ methods:{
     },
     async submitCooking(){
         if(this.putVideo != ''){
+            let thumb = document.getElementById('thumb_img')
+            this.cookingForm.thumbjs = thumb.src
+            // console.log(this.cookingForm);
             if(this.cookingForm.lesson){
                 this.progressbar =true;
-                this.capture();
                 try {
                     let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
                     if(res.statusCode == 200)
@@ -242,7 +285,7 @@ methods:{
                         let url = res.body
                         url = url.slice(1, -1);
                         await this.$axios.$put(url, this.putVideo).then((value) => {
-                            console.log("video is put", value);
+                            console.log("video is put", value);}); 
                         this.cookingForm.video = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
                         const config = {
                             headers: {"content-type": "multipart/form-data",
@@ -268,10 +311,8 @@ methods:{
                             }else console.log("no teachers");
                             this.progressbar = false
                             this.refresh();
-                            this.addLearning = false;
                             this.$router.push("/whatiscooking");
                         })
-                        }); 
                     }
                 } 
                 catch (error) {
@@ -287,25 +328,13 @@ methods:{
             this.progressbar =false}
         // alert("complete the api river!!")
     },
-    updateCookingForm(){
-        const config = {
-            headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-            }
-        };
-        let formName = new FormData();
-        let formNameThumb = new FormData();
-        formName.append("video", this.cookingForm.video);
-        formNameThumb.append("thumbjs", this.cookingForm.thumbjs);
-        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);
-        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formNameThumb, config);
-    },
     async updateCooking() {
         this.progressbar =true;
         try {
         //for video
         if(this.changedVideo){
-            this.capture();
+            let thumb = document.getElementById('thumb_img')
+            this.cookingForm.thumbjs = thumb.src
             let res = await this.$axios.$get("https://bkgqvz7q1m.execute-api.us-east-2.amazonaws.com/v1");
             if(res.statusCode == 200)
             {
@@ -314,11 +343,24 @@ methods:{
                 let url = res.body
                 url = url.slice(1, -1);
                 await this.$axios.$put(url, this.putVideo).then((value) => {
-                this.cookingForm.video = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
-                this.updateCookingForm();
-            });
+                console.log("video updated", value);});
+        const config = {
+        headers: {
+            "content-type": "multipart/form-data",
+            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        }
+        };
+        this.cookingForm.video = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
+        console.log(this.cookingForm);
+        let formName = new FormData();
+        let formNameThumb = new FormData();
+        formName.append("video", this.cookingForm.video);
+        formNameThumb.append("thumbjs", this.cookingForm.thumbjs);
+        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);
+        this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formNameThumb, config);
             }
-        }else console.log("video unchanged");
+        }
+        else console.log("video unchanged");
         // for lesson
         if(this.cook_obj.lesson != this.cookingForm.lesson){
             const config = {
@@ -384,15 +426,13 @@ methods:{
                 })
             }
         }else console.log("teacher unchanged");
-
-
         // this.$router.push("/whatiscooking/"+this.cook_obj.id);
         // this.$router.push("/whatiscooking/")
         this.updated = true;
         this.refresh();
         this.$store.dispatch("remove_cook_obj");
         this.progressbar =false
-
+        this.$router.push("/whatiscooking");
         } 
         catch (error) {
             console.log("error",error);
@@ -406,17 +446,15 @@ methods:{
         this.changedTeacherBool = true
     },
     capture(){
-    var canvas = document.getElementById('canvas');
-    if(this.cook_obj!=null)
-    var video = document.getElementById('videoPreviewWhenUpdate');
-    else
-    var video = document.getElementById('videoPreview');
-    // console.log("videoo",video.currrentTime);
-    // video.currrentTime = 5;
-    canvas.getContext('2d').drawImage(video, 0, 0, 314, 213);
-    let imgData = canvas.toDataURL("image/jpeg",0.75);
-    console.log("image data created",imgData);
-    this.cookingForm.thumbjs = imgData
+    // var canvas = document.getElementById('canvas');
+    // if(this.cook_obj!=null)
+    // var video = document.getElementById('videoPreviewWhenUpdate');
+    // else
+    // var video = document.getElementById('videoPreview');
+    // canvas.getContext('2d').drawImage(video, 0, 0, 314, 213);
+    // let imgData = canvas.toDataURL("image/jpeg",0.75);
+    // console.log("image data created",imgData);
+    // this.cookingForm.thumbjs = imgData
     },
     refresh(){
         this.cookingForm.username = this.$store.state.auth.user.user.username;

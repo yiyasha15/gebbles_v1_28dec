@@ -173,6 +173,7 @@
                                 append-icon="mdi-close"
                                 @click:append="bio.vid4 =''; yt3=!yt3; showYoutubeVideo(4)">
                             </v-text-field>
+                            <!-- {{yt}} -->
                             <!-- <v-container grid-list-md :class="{'pa-1': $vuetify.breakpoint.smAndDown, 'ma-1': $vuetify.breakpoint.mdAndUp}">
                                 <v-layout class="flex-wrap">
                                     <v-flex xs6 md6>
@@ -983,7 +984,47 @@ methods: {
             console.log(e);
         }
     },
-    async updateApiRequest(){
+    submit(){
+        this.progressbar =true
+            let url = this.cropImage.generateDataUrl();
+            let fileData;
+            if (!url){
+                console.log("no image1");}
+            else{
+                fileData = this.dataURLtoFile(url, "coverimage.png");
+                // this.artist_data.cover = fileData;
+            }
+            let res = this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+            if(res.statusCode == 200)
+            {
+                delete this.$axios.defaults.headers.common['Authorization']
+                let filename = res.key
+                let url = res.body
+                console.log(res);
+                url = url.slice(1, -1);
+                this.$axios.$put(url, fileData).then((value) => {
+                console.log("image is put", value);
+                this.artist_data.cover = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
+                }); 
+            }
+            sendApiRequest();
+            // style is taken as array and made into a string
+        //required attributes check..
+    },
+    async update() {
+        this.progressbar =true
+        const config = {
+            headers: {
+                "content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            }
+        };
+        let url = this.cropImage.generateDataUrl();
+        if (url){
+            console.log("url");
+            let fileData = this.dataURLtoFile(url, "coverimage.png");
+            this.artist_data.cover = fileData;
+        }
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
@@ -1030,67 +1071,6 @@ methods: {
         this.$store.dispatch("check_user_portfolio");
         this.snackbar = true;
         this.$router.push("/" + this.bio.username);
-    },
-    submit(){
-        this.progressbar =true
-            let url = this.cropImage.generateDataUrl();
-            let fileData;
-            if (!url){
-                console.log("no image1");}
-            else{
-                fileData = this.dataURLtoFile(url, "coverimage.png");
-                // this.artist_data.cover = fileData;
-            }
-            let res = this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-            if(res.statusCode == 200)
-            {
-                delete this.$axios.defaults.headers.common['Authorization']
-                let filename = res.key
-                let url = res.body
-                console.log(res);
-                url = url.slice(1, -1);
-                this.$axios.$put(url, fileData).then((value) => {
-                console.log("image is put", value);
-                this.artist_data.cover = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
-                }); 
-            }
-            sendApiRequest();
-            // style is taken as array and made into a string
-        //required attributes check..
-    },
-    update() {
-        this.progressbar =true
-        const config = {
-            headers: {
-                "content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-            }
-        };
-        let url = this.cropImage.generateDataUrl();
-        if (url){
-            console.log("url");
-            let fileData = this.dataURLtoFile(url, "coverimage.png");
-            let res = this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-            if(res.statusCode == 200)
-            {
-                console.log("res 200");
-                delete this.$axios.defaults.headers.common['Authorization']
-                let filename = res.key
-                let url = res.body
-                console.log(res);
-                url = url.slice(1, -1);
-                this.$axios.$put(url, fileData).then((value) => {
-                console.log("image is put", value);
-                this.artist_data.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                this.artist_data.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                updateApiRequest();
-                }); 
-            }
-            // this.artist_data.cover = fileData;
-        }
-        else{
-            updateApiRequest();
-        }
     },
     async deleted() {
         const config = {
