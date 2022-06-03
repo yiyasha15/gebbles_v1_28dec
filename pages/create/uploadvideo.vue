@@ -191,7 +191,7 @@ data(){
         changedTeacherBool:false,
         changedTeachers:[],
         updated:false,
-        isMobile:true,
+        isMobile:false,
         }
 },
 computed: {
