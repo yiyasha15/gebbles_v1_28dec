@@ -393,10 +393,13 @@ export default {
         let url2 = this.$props.bio.vid2
         let url3 = this.$props.bio.vid3
         let url4 = this.$props.bio.vid4
-
+        if(url1)
         this.videoId = getIdFromURL(url1) //getting id from video url
+        if(url2)
         this.videoId1 = getIdFromURL(url2)
+        if(url3)
         this.videoId2 = getIdFromURL(url3)
+        if(url4)
         this.videoId3 = getIdFromURL(url4)
     },
     // layout: 'username',

@@ -19,7 +19,7 @@
                         <video width="100%" height="240" controls id="videoPreview" v-else >
                         Your browser does not support the video tag.
                         </video>
-                        <img id="thumb_img" style="height:100px; display:none;" src=""/>
+                        <img id="thumb_img" style="height:100px; " src=""/><br>
                         <v-btn outlined  class="my-2 " @click="onPick" >
                             Select a video
                             <v-icon right dark> mdi-cloud-upload </v-icon>
@@ -115,6 +115,9 @@
         <v-snackbar v-model="sizeExceed">
             Size exceeded.
         </v-snackbar>
+        <v-snackbar v-model="timeExceed">
+            Time exceeding. Please upload 15 sec video.
+        </v-snackbar>
         <v-snackbar v-model="valid_snackbar1">
             Select a video.
         </v-snackbar>
@@ -162,6 +165,7 @@ created(){
 data(){
     return {
         sizeExceed:false,
+        timeExceed:false,
         valid_snackbar1: false,
         valid_snackbar2: false,
         thankyou_snackbar: false,
@@ -201,53 +205,66 @@ methods:{
         }
         else{
             this.putVideo = files[0]
-            // let blobURL = URL.createObjectURL(files[0]);
             if(this.cook_obj!=null)
             {var video = document.getElementById('videoPreviewWhenUpdate');
             this.changedVideo= true}
             else
             var video = document.getElementById('videoPreview');
             // for getting first frame as thumbnail..
-            var file = this.putVideo
-            var fileReader = new FileReader();
-            fileReader.onload = function() {
-            var blob = new Blob([fileReader.result], {type: file.type});
-            var url = URL.createObjectURL(blob);
-            var timeupdate = function() {
-                if (snapImage()) {
-                video.removeEventListener('timeupdate', timeupdate);
-                video.pause();
+            var videoDuration =0;
+            var timer = setInterval(function () {
+            if (video.readyState === 4){
+                console.log(video.duration.toFixed(0));
+                videoDuration = video.duration.toFixed(0);
+                if(videoDuration >16){
+                    alert("time exceeded")
+                    console.log("time exceeded");
+                    video.src = ''
+                }else{
+                    console.log("when this happens",videoDuration);
+                    var file = files[0]
+                    var fileReader = new FileReader();
+                    fileReader.onload = function() {
+                    var blob = new Blob([fileReader.result], {type: file.type});
+                    var url = URL.createObjectURL(blob);
+                    var timeupdate = function() {
+                        if (snapImage()) {
+                        video.removeEventListener('timeupdate', timeupdate);
+                        video.pause();
+                        }
+                    };
+                    video.addEventListener('loadeddata', function() {
+                        if (snapImage()) {
+                        video.removeEventListener('timeupdate', timeupdate);
+                    }
+                    });
+                    var snapImage = function() {
+                    var canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    var image = canvas.toDataURL();
+                    var success = image.length > 100000;
+                    if (success) {
+                    document.getElementById('thumb_img').src = image
+                    URL.revokeObjectURL(url);
+                    }
+                        return success;
+                    };
+                
+                    video.addEventListener('timeupdate', timeupdate);
+                    video.preload = 'metadata';
+                    video.src = url;
+                    video.muted = true;
+                    video.playsInline = true;
+                    video.play();
+                    };
+                    fileReader.readAsArrayBuffer(file);
                 }
-            };
-            video.addEventListener('loadeddata', function() {
-                if (snapImage()) {
-                video.removeEventListener('timeupdate', timeupdate);
-            }
-            });
-            var snapImage = function() {
-            var canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-            var image = canvas.toDataURL();
-            var success = image.length > 100000;
-            if (success) {
-            document.getElementById('thumb_img').src = image
-            URL.revokeObjectURL(url);
-            }
-                return success;
-            };
-        
-            video.addEventListener('timeupdate', timeupdate);
-            video.preload = 'metadata';
-            video.src = url;
-            // Load video in Safari / IE11
-            video.muted = true;
-            video.playsInline = true;
-            video.play();
-            };
-            fileReader.readAsArrayBuffer(file);
-        };
+                clearInterval(timer);
+                }
+            }, 500)
+        }
         }
     },
     goback(){

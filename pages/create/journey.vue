@@ -138,7 +138,7 @@
                         v-model = "journey.jocontent"
                         label= "Caption">
                     </v-textarea>
-                    <p class="caption">If the date is in the future it will be added to an upcoming event.</p>
+                    <p class="caption">If the date is in the future it will be added as an upcoming event.</p>
                     <v-menu
                         ref="menu"
                         :close-on-content-click="false"
@@ -205,10 +205,11 @@
                                 :value="false"
                             ></v-radio>
                         </v-radio-group>
-                    <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black" dark
-                    @click="submit" :loading="progressbar">Submit</v-btn>
-                    <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
-                    @click="update" :loading="progressbar">Update</v-btn>
+                        <p class="caption" v-if="lockButton"> Please wait..</p>
+                    <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
+                    @click="submit" :loading="progressbar" :disabled="lockButton">Submit</v-btn>
+                    <v-btn v-else outlined small class="text-decoration-none"  color="black"
+                    @click="update" :loading="progressbar" :disabled="lockButton">Update</v-btn>
                     <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
@@ -281,6 +282,13 @@
             </v-row>
         </v-col> -->
         </v-row>
+        {{editing_obj}}
+        <v-snackbar v-model="posted_snackbar">
+            Posted.
+        </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            Some error occured. Please try again.
+        </v-snackbar>
         <v-snackbar v-model="valid_snackbar">
             Please fill the required details.
         </v-snackbar>
@@ -334,10 +342,12 @@ export default {
                 // jophoto3: "",
                 // jophoto4: "",
                 // jophoto5: "",
+                jp1thumb:"",
                 jolink: "",
                 ishighlight: false,
                 isprivate: false,
             },
+            lockButton: false,
             progressbar: false,
             date:"",
             slide: null,
@@ -350,6 +360,8 @@ export default {
             linkError:'',
             model:"",
             valid_snackbar: false,
+            error_snackbar:false,
+            posted_snackbar: false,
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
                 {"name": "Åland Islands", "code": "AX"},
@@ -680,26 +692,79 @@ export default {
                 }
         },
         onFileChange1(e) {
+            this.lockButton = true;
+            console.log("this.lockButton",this.lockButton);
             console.log("click");
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
             fileReader.onload = (e) => {
                     this.imageData1 = e.target.result;
+            }
+            if(files[0])
+                {
+                    fileReader.readAsDataURL(files[0]);
+                    this.journey.jophoto1 = files[0];
+                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                            if(res.statusCode == 200)
+                            {
+                                delete this.$axios.defaults.headers.common['Authorization']
+                                let filename = res.key
+                                let url = res.body
+                                url = url.slice(1, -1);
+                                this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                                this.journey.jophoto1 =''
+                                this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                                this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                                this.lockButton = false;
+                                console.log("this.lockButton",this.lockButton);
+                                console.log(this.journey.jophoto1);
+                                });
+                            }
+                        }
+                    )
+                }else{
+                    this.lockButton = false;
                 }
-                fileReader.readAsDataURL(files[0]);
-                this.journey.jophoto1 = files[0];
+            // fileReader.readAsDataURL(files[0]);
+            // this.journey.jophoto1 = files[0];
             }
         },
         onFileChange2(e) {
+            this.lockButton = true;
+            console.log("this.lockButton",this.lockButton);
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
             fileReader.onload = (e) => {
                     this.imageData2 = e.target.result;
                 }
-                fileReader.readAsDataURL(files[0]);
-                this.journey.jophoto2 = files[0];
+            if(files[0])
+                {
+                    fileReader.readAsDataURL(files[0]);
+                    this.journey.jophoto2 = files[0];
+                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                            if(res.statusCode == 200)
+                            {
+                                delete this.$axios.defaults.headers.common['Authorization']
+                                let filename = res.key
+                                let url = res.body
+                                url = url.slice(1, -1);
+                                this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                                this.journey.jophoto2 =''
+                                this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                                this.lockButton = false;
+                                console.log("this.lockButton",this.lockButton);
+                                console.log(this.journey.jophoto2);
+                                });
+                            }
+                        }
+                    )
+                }else{
+                    this.lockButton = false;
+                }
             }
         },
         // onFileChange3(e) {
@@ -773,13 +838,17 @@ export default {
                 formData.append(data, this.journey[data]);
             }
             try {
-                let response = await this.$axios.$post("/v1/artist/journey/", formData, config);
-                this.refresh();
-                this.progressbar =false;
-                this.snackbar = true;
-                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
+                await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
+                    console.log(res);
+                    this.refresh();
+                    this.progressbar =false;
+                    this.posted_snackbar = true;
+                    this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
+                })
             } catch (e) {
                 this.progressbar =false;
+                this.error_snackbar =true
+                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
                 console.log(e);
             }
             }
@@ -809,7 +878,7 @@ export default {
             try {
                 for(var i=0; i<keyObj1.length; i++) { 
                 if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                    console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                    // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
                 } 
                 else { 
                     // it prints keys have different values 
@@ -818,20 +887,21 @@ export default {
                     formName.append("id", this.journey['id']);
 
                     console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                    let res= await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config);
-                    console.log( valueObj2[i] ,res," changed"); 
+                    await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config).then(res => {
+                        console.log( valueObj2[i] ,res," changed"); 
+                        // this.$store.dispatch("check_user_journey");
+                    })
                 } 
             }
-            // this.$store.dispatch("check_user_journey");
             this.$store.dispatch("remove_editing_obj");
-            this.refresh();
             this.progressbar =false
-            this.snackbar = true;
+            this.posted_snackbar = true;
+            this.refresh();
             } catch (error) {
                 console.log("error",error);
+                this.error_snackbar =true
                 this.progressbar =false
             }
-            
             this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");}
             else{
                 this.valid_snackbar=true

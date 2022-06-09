@@ -11,9 +11,9 @@
             <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Sharing</h4>
              <p class="font-weight-light caption ma-0" style="text-transform: lowercase;">(teach one)</p>
         </v-tab>
-        <v-tab>
+        <!-- <v-tab>
             <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Videos</h4>
-        </v-tab>
+        </v-tab> -->
         <v-tab-item v-if="!firstLoad">
             <div v-if="teachers.length">
             <v-layout wrap class="my-2">
@@ -62,19 +62,7 @@
                 </div>
             </v-layout>
         </v-tab-item>
-        <v-tab-item v-if="!firstLoad">
-            <!-- <div v-if="cooking.length">
-            <v-layout wrap justify-start class="my-2" >
-                <div v-for="cook in cooking" :key ="cook.index">
-                <cooking-card-sharing-desktop :cook="cook" ></cooking-card-sharing-desktop>
-                </div>
-            </v-layout>
-            </div> -->
-            <!-- <div v-if="own_cooking.length" >
-                <div v-for="cook in own_cooking" :key ="cook.index">
-                    <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
-                </div>
-            </div> -->
+        <!-- <v-tab-item v-if="!firstLoad">
             <div v-if="own_cooking.length">
             <v-layout wrap  justify-start class="my-2" >
                 <div v-for="cook in own_cooking" :key ="cook.index">
@@ -97,7 +85,7 @@
                     <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" ></v-skeleton-loader>
                 </div>
             </v-layout>
-        </v-tab-item>
+        </v-tab-item> -->
         </v-tabs>
         </center>
         <v-tabs style="max-width:357px; margin:auto;" class="hidden-md-and-up">
@@ -109,9 +97,9 @@
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Sharing</p>
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
-        <v-tab>
+        <!-- <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Videos</p>
-        </v-tab>
+        </v-tab> -->
         <v-tab-item v-if="!firstLoad">
             <div v-if="teachers.length">
             <v-layout wrap justify-start class="my-2" >
@@ -160,20 +148,7 @@
             </div>
             </v-layout>
         </v-tab-item>
-        <v-tab-item v-if="!firstLoad">
-            <!-- <div v-if="cooking.length">
-            <v-layout wrap  justify-start class="my-2" >
-                <div v-for="cook in cooking" :key ="cook.index">
-                <cooking-card-sharing :cook="cook"></cooking-card-sharing>
-                </div>
-            </v-layout>
-            </div>
-            <v-divider v-if="cooking.length && own_cooking.length"></v-divider> -->
-            <!-- <div v-if="own_cooking.length" >
-                <div v-for="cook in own_cooking" :key ="cook.index">
-                    <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
-                </div>
-            </div> -->
+        <!-- <v-tab-item v-if="!firstLoad">
             <div v-if="own_cooking.length">
             <v-layout wrap  justify-start class="my-2" >
                 <div v-for="cook in own_cooking" :key ="cook.index">
@@ -196,9 +171,9 @@
                 <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
             </div>
             </v-layout>
-        </v-tab-item>
+        </v-tab-item> -->
         </v-tabs>
-        <div v-show="!students.length && !teachers.length && !own_cooking.length && !firstLoad">
+        <div v-show="!students.length && !teachers.length  && !firstLoad">
             <center>
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -217,12 +192,12 @@ import StudentsCard from '@/components/StudentsCard.vue'
 import TeachersCard from '@/components/TeachersCard.vue'
 import StudentsCardDesktop from '@/components/StudentsCardDesktop.vue'
 import TeachersCardDesktop from '@/components/TeachersCardDesktop.vue'
-import CookingCardSharing from '@/components/CookingCardSharing.vue'
-import CookingCardSharingDesktop from '@/components/CookingCardSharingDesktop.vue'
+// import CookingCardSharing from '@/components/CookingCardSharing.vue'
+// import CookingCardSharingDesktop from '@/components/CookingCardSharingDesktop.vue'
 import { mapGetters} from 'vuex'
-import CookingCard from '~/components/CookingCard.vue'
-import CookingCardDesktop from '~/components/CookingCardDesktop.vue'
-import CookingFeed from '~/components/CookingFeed.vue'
+// import CookingCard from '~/components/CookingCard.vue'
+// import CookingCardDesktop from '~/components/CookingCardDesktop.vue'
+// import CookingFeed from '~/components/CookingFeed.vue'
 
 export default {
     props: ['artist'],
@@ -231,11 +206,11 @@ export default {
         TeachersCard,
         StudentsCardDesktop,
         TeachersCardDesktop,
-        CookingCardSharing,
-        CookingCardSharingDesktop,
-        CookingCard,
-        CookingCardDesktop,
-        CookingFeed
+        // CookingCardSharing,
+        // CookingCardSharingDesktop,
+        // CookingCard,
+        // CookingCardDesktop,
+        // CookingFeed
     }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser','usersTeachers','userHasTeachers']),
@@ -276,16 +251,16 @@ export default {
             try {
             const teachers_response = await EventService.getEach1Teach1_teachers(params.username)
             const students_response = await EventService.getEach1Teach1_students(params.username)
-            const cooking_response = await EventService.getStudentsCooking(params.username)
-            const cooking_own_response = await EventService.getWhatsCookingUsername(params.username)
+            // const cooking_response = await EventService.getStudentsCooking(params.username)
+            // const cooking_own_response = await EventService.getWhatsCookingUsername(params.username)
             this.teachers = teachers_response.data.results
             this.students = students_response.data.results
-            this.cooking = cooking_response.data.results
-            this.own_cooking = cooking_own_response.data
+            // this.cooking = cooking_response.data.results
+            // this.own_cooking = cooking_own_response.data
             // console.log(this.own_cooking);
             this.teachers_page = teachers_response.data.next
             this.students_page = students_response.data.next
-            this.cooking_page = cooking_response.data.next
+            // this.cooking_page = cooking_response.data.next
             this.firstLoad = false
             // console.log(response);
             } catch (e) {
@@ -294,21 +269,21 @@ export default {
                 // error({statusCode:503, message: "unable to fetch shaaring data at this point"})
             }
         },
-        infiniteScrollingCooking() {
-        if(this.cooking_page){
-        const key = 'id';
-        this.$axios.get(this.cooking_page).then(response => {
-            this.cooking_page= response.data.next;
-            response.data.results.forEach(item => this.cooking.push(item));
-            // filter array so no duplicates
-            this.cooking = [...new Map(this.cooking.map(item =>
-            [item[key], item])).values()];
-        })
-        .catch(err => {
-            console.log(err);
-        });
-        }
-        },
+        // infiniteScrollingCooking() {
+        // if(this.cooking_page){
+        // const key = 'id';
+        // this.$axios.get(this.cooking_page).then(response => {
+        //     this.cooking_page= response.data.next;
+        //     response.data.results.forEach(item => this.cooking.push(item));
+        //     // filter array so no duplicates
+        //     this.cooking = [...new Map(this.cooking.map(item =>
+        //     [item[key], item])).values()];
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        // });
+        // }
+        // },
         infiniteScrollingTeacher(entries, observer, isIntersecting) {
             if(this.teachers_page)
             {
@@ -347,11 +322,11 @@ export default {
     return {
         teachers_page:"",
         students_page:"",
-        cooking_page:"",
+        // cooking_page:"", 
         teachers:[],
         students:[],
-        cooking:[],
-        own_cooking:[],
+        // cooking:[],
+        // own_cooking:[],
         looploader:[1,1,1,1,1,1,1,1,1],
         loading: true,
         firstLoad: true,

@@ -240,7 +240,7 @@
                 </center>
         </div>
         </v-container>
-        <v-container class="pa-0">
+        <!-- <v-container class="pa-0">
         <v-row class="mx-0 mb-4" v-if="cookingLoaded">
             <v-layout  v-if="cookingsfiltered.length>0" wrap row justify-start class="hidden-md-and-up" style="max-width:381px; margin:auto; padding-left:12px; padding-right:12px">
             <div v-for="learn in cookingsfiltered" :key ="learn.index">
@@ -266,7 +266,7 @@
             </v-layout> 
         </v-row>
         
-        </v-container>
+        </v-container> -->
         <v-container class="mx-auto" fluid style="max-width:750px">
         <!-- <v-card v-intersect="infiniteScrollingCooking"></v-card> -->
         <v-divider></v-divider>
@@ -348,7 +348,7 @@ import ReadMore from 'vue-read-more';
 import PersonalMessagesCard from '~/components/PersonalMessagesCard.vue'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
-import CookingCard from '~/components/CookingCard.vue'
+// import CookingCard from '~/components/CookingCard.vue'
 export default {
     head() {
         return {
@@ -369,7 +369,7 @@ export default {
         this.videoId = videoId //assigning the id to <youtube> video id
         } 
         this.$store.dispatch("check_share_love", this.e1t1.id)
-        this.get_cookings_filtered(this.e1t1.username,this.e1t1.id);
+        // this.get_cookings_filtered(this.e1t1.username,this.e1t1.id);
     },
     components:{
         CountryFlag,
@@ -378,7 +378,7 @@ export default {
         ReadMore,
         PersonalMessagesCard,
         Youtube,
-        CookingCard 
+        // CookingCard 
     },
     data(){
           return {
@@ -461,41 +461,40 @@ export default {
         }
     },
     methods:{
-        get_cookings_filtered(username,id){
-            // console.log("filtering..",username,id);
-            EventService.getWhatsCookingUsername(username).then(res =>
-            {
-                this.cookings = res.data
-                if(this.cookings.length>0)
-            {
-            let taggedteacherpresent = this.cookings.filter(obj => obj.taggedteachers.length>0)
-            let arr=[];
-            for(let i=0 ; i<taggedteacherpresent.length; i++)
-            {
-                for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
-                arr.push(taggedteacherpresent[i].taggedteachers[j]);
-            }
-            let final = arr.filter(obj => obj.shareidobj!=null)
-            let f2=[];
-            let f3 =[];
-            f2 = final.filter(obj => obj.shareidobj.id ==id);
+        // get_cookings_filtered(username,id){
+        //     // console.log("filtering..",username,id);
+        //     EventService.getWhatsCookingUsername(username).then(res =>
+        //     {
+        //         this.cookings = res.data
+        //         if(this.cookings.length>0)
+        //     {
+        //     let taggedteacherpresent = this.cookings.filter(obj => obj.taggedteachers.length>0)
+        //     let arr=[];
+        //     for(let i=0 ; i<taggedteacherpresent.length; i++)
+        //     {
+        //         for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+        //         arr.push(taggedteacherpresent[i].taggedteachers[j]);
+        //     }
+        //     let final = arr.filter(obj => obj.shareidobj!=null)
+        //     let f2=[];
+        //     let f3 =[];
+        //     f2 = final.filter(obj => obj.shareidobj.id ==id);
 
-            f2.forEach(element => f3.push(element.id));
-            for(let i=0 ; i<taggedteacherpresent.length; i++)
-            {
-                for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
-                {
-                if(f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id))
-                {
-                    // console.log("only put this", this.cookingsfiltered);
-                    this.cookingsfiltered.push(taggedteacherpresent[i])
-                }
-                }
-            }
-            this.cookingLoaded = true
-            }
-            })
-        },
+        //     f2.forEach(element => f3.push(element.id));
+        //     for(let i=0 ; i<taggedteacherpresent.length; i++)
+        //     {
+        //         for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+        //         {
+        //         if(f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id))
+        //         {
+        //             this.cookingsfiltered.push(taggedteacherpresent[i])
+        //         }
+        //         }
+        //     }
+        //     this.cookingLoaded = true
+        //     }
+        //     })
+        // },
         async capture(){
             // send gebbles card post request
             this.cardDialog =true

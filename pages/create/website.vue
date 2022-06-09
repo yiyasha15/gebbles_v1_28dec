@@ -354,6 +354,9 @@
             Changes saved successfully.
         </div>
         </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            Some error occured. Please try again.
+        </v-snackbar>
     </v-container>
 </template>
 <script>
@@ -470,6 +473,7 @@ data(){
         inputFace: false,
         inputMail: false,
         snackbar: false,
+        error_snackbar: false,
         text: 'Website created successfully.',
         overlay: false,
         progressbar: false,
@@ -898,23 +902,7 @@ methods: {
     //         this.bio.gallery4 = files[0];
     //     }
     // },
-    putimage(image){
-        console.log("imageee",image);
-        let res = this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-        if(res.statusCode == 200)
-        {
-            delete this.$axios.defaults.headers.common['Authorization']
-            let filename = res.key
-            let url = res.body
-            console.log(res);
-            url = url.slice(1, -1);
-            this.$axios.$put(url, image).then((value) => {
-            console.log("image is put", value);
-            this.artist_data.cover = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
-            console.log("this.artist_data.cover ", this.artist_data.cover );
-            }); 
-        }
-    },
+    
     // onPick() 
     // {
     //     this.$refs.fileInput.click()
@@ -955,35 +943,6 @@ methods: {
         }
     return new File([u8arr], filename, {type:mime});
     },
-    async sendApiRequest(){
-        const config = {
-            headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
-                }
-        };
-        let formPortfolio = new FormData();
-        let formBio= new FormData();
-        
-        for (let data in this.artist_data) //append
-        {
-            formPortfolio.append(data, this.artist_data[data]);
-        }
-        for (let data in this.bio) {
-            formBio.append(data, this.bio[data]);
-        }
-        try {
-            await this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config)
-            await this.$axios.$post("/v1/artist/bios/", formBio, config)
-            this.progressbar =false
-            this.$store.dispatch("check_user_portfolio");
-            this.$store.dispatch("check_user_bio");
-            this.snackbar = true;
-            this.$router.push("/" + this.bio.username);
-        } catch (e) {
-            this.progressbar =false
-            console.log(e);
-        }
-    },
     submit(){
         this.progressbar =true
             let url = this.cropImage.generateDataUrl();
@@ -1004,27 +963,75 @@ methods: {
                 url = url.slice(1, -1);
                 this.$axios.$put(url, fileData).then((value) => {
                 console.log("image is put", value);
-                this.artist_data.cover = "https://presignedurl1.s3.us-east-2.amazonaws.com/" + filename
+                this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
+                        }
+                };
+                let formPortfolio = new FormData();
+                let formBio= new FormData();
+                
+                for (let data in this.artist_data) //append
+                {
+                    formPortfolio.append(data, this.artist_data[data]);
+                }
+                for (let data in this.bio) {
+                    formBio.append(data, this.bio[data]);
+                }
+                try {
+                    this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(res =>{this.$store.dispatch("check_user_portfolio");})
+                    this.$axios.$post("/v1/artist/bios/", formBio, config).then(res => { this.$store.dispatch("check_user_bio")})
+                    this.progressbar =false
+                    this.snackbar = true;
+                    this.$router.push("/" + this.bio.username);
+                } catch (e) {
+                    this.error_snackbar = true
+                    this.progressbar =false
+                    console.log(e);
+                }
                 }); 
             }
-            sendApiRequest();
             // style is taken as array and made into a string
         //required attributes check..
     },
     async update() {
         this.progressbar =true
-        const config = {
+        let url = this.cropImage.generateDataUrl();
+        if (url){
+            console.log("url");
+            let fileData = this.dataURLtoFile(url, "coverimage.png");
+            console.log(fileData);
+            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+            console.log(res);
+            if(res.statusCode == 200)
+            {
+                console.log("200");
+                delete this.$axios.defaults.headers.common['Authorization']
+                let filename = res.key
+                let url = res.body
+                console.log(res);
+                url = url.slice(1, -1);
+                this.$axios.$put(url, fileData).then((value) => {
+                console.log("image is put", value);
+                this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                this.callApi();
+            
+            })
+            }
+            // this.artist_data.cover = fileData;
+        }
+    },
+    async callApi(){
+        try {
+            const config = {
             headers: {
                 "content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
         };
-        let url = this.cropImage.generateDataUrl();
-        if (url){
-            console.log("url");
-            let fileData = this.dataURLtoFile(url, "coverimage.png");
-            this.artist_data.cover = fileData;
-        }
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
@@ -1071,6 +1078,11 @@ methods: {
         this.$store.dispatch("check_user_portfolio");
         this.snackbar = true;
         this.$router.push("/" + this.bio.username);
+        } catch (error) {
+            console.log(error);
+            this.progressbar =false
+            this.error_snackbar = true
+        }
     },
     async deleted() {
         const config = {

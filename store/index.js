@@ -558,6 +558,7 @@ export const mutations = {
   },
   usersJourney(state, journey)
   {
+    console.log("is it checking");
     state.journey = []
     if(journey.results.length)
     {

@@ -28,7 +28,7 @@
         <center class="mt-6">
         <v-row  style="max-width:370px; margin:auto">
           <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h5 class="font-weight-light">community</h5></nuxt-link></v-col>
-          <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h5 class="font-weight-light">what's cooking</h5></nuxt-link></v-col>
+          <!-- <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h5 class="font-weight-light">what's cooking</h5></nuxt-link></v-col> -->
           <!-- <v-col><nuxt-link to="/feed/" class="text-decoration-none "><h5 class="font-weight-light">explore</h5></nuxt-link></v-col> -->
           <v-col v-if="!userHasPortfolio"><nuxt-link to="/create/" class="text-decoration-none "><h5 class="font-weight-light">get started</h5></nuxt-link></v-col>
         </v-row>
@@ -37,7 +37,8 @@
     <v-container v-else class="pa-0" >
     <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down">
       <v-col cols="12" md="8"  class="justify-center pa-1">
-        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link>
+        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> 
+        <!-- / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link> -->
       </v-col>
       <v-col cols="12" md="4" class= "justify-end pa-1" >
         <v-text-field
@@ -52,7 +53,8 @@
     </v-row>
     <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up" >
       <v-col cols="12" md="8"  class="justify-center px-1">
-        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link>
+        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> 
+        <!-- / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link> -->
       </v-col>
       <v-col cols="12" md="4" class= "justify-end pa-0" >
         <v-text-field
