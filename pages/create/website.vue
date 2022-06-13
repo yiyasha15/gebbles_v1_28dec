@@ -92,7 +92,7 @@
                                 :maxlength="120">
                             </v-text-field>
                             <v-textarea
-                                v-model= "bio.introduction"
+                                v-model= "artist_data.introduction"
                                 label="A little background">
                             </v-textarea>
                             <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn>
@@ -425,7 +425,6 @@ data(){
         bio: {
             username: this.$store.state.auth.user.user.username,
             style: "",
-            introduction: "",
             quote: "",
             crew: "",
             ig: "",
@@ -445,6 +444,8 @@ data(){
             username: this.$store.state.auth.user.user.username,
             country: "",
             cover: "",
+            introduction: "",
+            thumb:""
         },
         rm:"",
         dummy_style:[], //keep style in string from array
