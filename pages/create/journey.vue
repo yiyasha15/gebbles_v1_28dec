@@ -128,6 +128,11 @@
                         :rules="[() => !!journey.joevent || 'This field is required']"
                         :maxlength="50">
                     </v-text-field>
+                    <v-text-field
+                        v-model = "journey.city"
+                        label= "City"
+                        :maxlength="50">
+                    </v-text-field>
                     <v-select label="Country" v-model= "journey.country"
                         :items="countries"
                         item-text="name"
@@ -282,7 +287,6 @@
             </v-row>
         </v-col> -->
         </v-row>
-        {{editing_obj}}
         <v-snackbar v-model="posted_snackbar">
             Posted.
         </v-snackbar>
@@ -339,6 +343,7 @@ export default {
                 jophoto1: "",
                 jophoto2: "",
                 country:"",
+                city:"",
                 // jophoto3: "",
                 // jophoto4: "",
                 // jophoto5: "",
@@ -693,8 +698,6 @@ export default {
         },
         onFileChange1(e) {
             this.lockButton = true;
-            console.log("this.lockButton",this.lockButton);
-            console.log("click");
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
@@ -718,7 +721,6 @@ export default {
                                 this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                                 this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                                 this.lockButton = false;
-                                console.log("this.lockButton",this.lockButton);
                                 console.log(this.journey.jophoto1);
                                 });
                             }
@@ -733,7 +735,7 @@ export default {
         },
         onFileChange2(e) {
             this.lockButton = true;
-            console.log("this.lockButton",this.lockButton);
+            // console.log("this.lockButton",this.lockButton);
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
@@ -756,8 +758,8 @@ export default {
                                 this.journey.jophoto2 =''
                                 this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                                 this.lockButton = false;
-                                console.log("this.lockButton",this.lockButton);
-                                console.log(this.journey.jophoto2);
+                                // console.log("this.lockButton",this.lockButton);
+                                // console.log(this.journey.jophoto2);
                                 });
                             }
                         }

@@ -93,7 +93,7 @@
                             </v-text-field>
                             <v-textarea
                                 v-model= "artist_data.introduction"
-                                label="A little background">
+                                label="A little background*">
                             </v-textarea>
                             <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn>
                             <v-text-field
@@ -256,7 +256,7 @@
                             </v-container>  -->
                             <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="black" dark
                                 @click="submit" :loading="progressbar">Submit</v-btn>
-                                <v-btn v-if="userHasBio || userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
+                                <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
                                 @click="update" :loading="progressbar">Update</v-btn>
                             <v-dialog  v-model="dialog" width="500">
                             <template v-slot:activator="{ on, attrs }">
@@ -267,7 +267,7 @@
                                 <p>Are you sure you want to delete your website?</p>
                                 <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn small class="px-4 text-decoration-none"  color="error" dark 
+                                <v-btn small class="px-4 text-decoration-none"  color="error" dark :loading="delete_progressbar"
                                     @click="deleted">Delete</v-btn>
                                 <v-btn color="black" small class="px-4 text-decoration-none"  dark outlined  @click="dialog = false">
                                     Cancel
@@ -350,9 +350,13 @@
             </v-col> -->
         </v-row>
         <v-snackbar v-model="snackbar" >
-        <div>
             Changes saved successfully.
-        </div>
+        </v-snackbar>
+        <v-snackbar v-model="fill_image_snackbar">
+            Please upload an image.
+        </v-snackbar>
+        <v-snackbar v-model="fill_intro_snackbar">
+            Please fill your introduction.
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">
             Some error occured. Please try again.
@@ -475,6 +479,9 @@ data(){
         inputMail: false,
         snackbar: false,
         error_snackbar: false,
+        delete_progressbar:false,
+        fill_image_snackbar:false,
+        fill_intro_snackbar:false,
         text: 'Website created successfully.',
         overlay: false,
         progressbar: false,
@@ -944,17 +951,19 @@ methods: {
         }
     return new File([u8arr], filename, {type:mime});
     },
-    submit(){
+    async submit(){
         this.progressbar =true
-            let url = this.cropImage.generateDataUrl();
-            let fileData;
-            if (!url){
-                console.log("no image1");}
-            else{
-                fileData = this.dataURLtoFile(url, "coverimage.png");
-                // this.artist_data.cover = fileData;
-            }
-            let res = this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+        let url = this.cropImage.generateDataUrl();
+        let fileData;
+        if(this.artist_data.introduction!=""){
+            if (!url ){
+            this.fill_image_snackbar=true
+            this.progressbar =false
+            console.log("no image1");}
+        else{
+            fileData = this.dataURLtoFile(url, "coverimage.png");
+            // this.artist_data.cover = fileData;
+            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
             if(res.statusCode == 200)
             {
                 delete this.$axios.defaults.headers.common['Authorization']
@@ -981,26 +990,45 @@ methods: {
                 for (let data in this.bio) {
                     formBio.append(data, this.bio[data]);
                 }
-                try {
-                    this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(res =>{this.$store.dispatch("check_user_portfolio");})
-                    this.$axios.$post("/v1/artist/bios/", formBio, config).then(res => { this.$store.dispatch("check_user_bio")})
-                    this.progressbar =false
-                    this.snackbar = true;
-                    this.$router.push("/" + this.bio.username);
+                console.log(this.artist_data.cover,this.artist_data.thumb,this.artist_data.introduction);
+                if(this.artist_data.cover && this.artist_data.thumb ){
+                    try {
+                    this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(
+                        res =>{
+                            console.log(res,"portfolio done");
+                            this.$store.dispatch("check_user_portfolio");
+                            this.$axios.$post("/v1/artist/bios/", formBio, config).then(
+                        res => { 
+                            console.log(res,"bio done");
+                            this.$store.dispatch("check_user_bio")})
+                            this.progressbar =false
+                            this.snackbar = true;
+                            this.$router.push("/" + this.bio.username);
+                            })
                 } catch (e) {
                     this.error_snackbar = true
                     this.progressbar =false
                     console.log(e);
                 }
+                }else{
+                    this.fill_image_snackbar=true
+                    this.progressbar =false
+                }
                 }); 
             }
+        }
+        }
+        else{
+            this.progressbar = false
+            this.fill_intro_snackbar=true
+        }
             // style is taken as array and made into a string
         //required attributes check..
     },
     async update() {
         this.progressbar =true
         let url = this.cropImage.generateDataUrl();
-        if (url){
+        if (url && this.artist_data.introduction){
             console.log("url");
             let fileData = this.dataURLtoFile(url, "coverimage.png");
             console.log(fileData);
@@ -1019,10 +1047,18 @@ methods: {
                 this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.callApi();
-            
             })
             }
+            else{
+                console.log("not 200 res");
+                this.progressbar =false
+                this.error_snackbar = true
+            }
             // this.artist_data.cover = fileData;
+        }
+        else{
+            this.progressbar =false
+            this.fill_image_snackbar = true
         }
     },
     async callApi(){
@@ -1086,6 +1122,7 @@ methods: {
         }
     },
     async deleted() {
+        this.delete_progressbar = true
         const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -1104,7 +1141,9 @@ methods: {
             }
             this.artist_data.artist_name = ''
             this.artist_data.country = ''
-            this.artist_data.cover = null
+            this.artist_data.thumb = ''
+            this.artist_data.introduction = ''
+            this.artist_data.cover = ''
             this.artist_data.username= this.$store.state.auth.user.user.username,
             this.imageData = ''
             this.bio.username= this.$store.state.auth.user.user.username,
@@ -1127,9 +1166,11 @@ methods: {
             this.cropImage.remove()
             this.dialog =false,
             this.snackbar = true;
+            this.delete_progressbar = false
             this.$router.push("/create/website");
         } catch (e) {
             console.log(e);
+            this.delete_progressbar = false
         }
     },
 }

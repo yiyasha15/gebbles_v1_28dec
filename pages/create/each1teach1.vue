@@ -165,12 +165,12 @@
                     </div>
                 </blockquote>  -->
             
-            
+            <p class="caption" v-if="lockButton"> Please wait..</p>
             <v-btn v-if="!share_obj" outlined small class="text-decoration-none" 
-             color="black" dark :loading="progressbar"
+             color="black" :loading="progressbar" :disabled="lockButton"
             @click="submit">Submit</v-btn>
             <v-btn v-else outlined small class="text-decoration-none"  color="black"
-             dark :loading="progressbar"
+             :loading="progressbar" :disabled="lockButton"
             @click="update">Update</v-btn>
             <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
             <v-btn color="primary" text small @click="goback">Cancel</v-btn>
@@ -241,6 +241,7 @@ export default {
     },
     data(){
         return {
+            lockButton:false,
             countries:[
                     {"name": "Afghanistan", "code": "AF"},
                     {"name": "Åland Islands", "code": "AX"},
@@ -577,6 +578,7 @@ export default {
             this.$refs.fileInput.click()
         },
         onFileChange(e) {
+            this.lockButton = true;
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
@@ -600,10 +602,13 @@ export default {
                                 this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                                 this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                                 console.log(this.sharing);
+                                this.lockButton = false;
                                 });
                             }
                         }
                     )
+                }else{
+                    this.lockButton = false;
                 }
             }
         },

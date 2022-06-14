@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import PlainHeader from '@/components/PlainHeader'
+// import PlainHeader from '@/components/PlainHeader'
 import TheFooter from '@/components/TheFooter'
 export default {
   components:{
-    PlainHeader,
+    // PlainHeader,
     TheFooter
   },
   head() {  //head function (a property of vue-meta), returns an object

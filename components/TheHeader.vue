@@ -79,12 +79,12 @@
                 </v-list-item>
             </v-list>
         </v-menu>
-            <v-btn small v-if="isAuthenticated && notifications_notseen>0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-badge color="error" overlap :content='notifications_notseen'>
         <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
         </v-badge>
         </v-btn>
-        <v-btn small v-if="isAuthenticated && notifications_notseen==0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
         </v-btn>
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
@@ -92,18 +92,17 @@
                 <div v-bind="attrs" class="mr-2"
                 v-on="on">
                 <v-btn icon small
-                v-if=" isAuthenticated  && userHasPortfolio"
                 class="text-decoration-none mr-1"
                 >
-                <v-avatar size="26" v-if="usersPortfolio.thumb">
+                <v-avatar size="26" v-if="usersPortfolio && usersPortfolio.thumb">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
                     :src = "usersPortfolio.thumb" 
                     alt="img"
                 >
                 </v-avatar>
-                <v-avatar size="26" color="black" v-else >
-                    <v-icon dark>
+                <v-avatar size="26" v-else >
+                    <v-icon dark  color="black">
                         mdi-account-circle
                     </v-icon>
                 </v-avatar>
@@ -111,7 +110,7 @@
                 </div>
             </template>
             <v-list>
-                <v-list-item
+                <v-list-item  v-if="userHasPortfolio"
                 :to="'/'+ loggedInUser.user.username"
                 class="text-decoration-none pl-5"
                 >

@@ -1,7 +1,12 @@
 <template>
   <v-app>
     <!-- <v-container> -->
-    <v-row class="ma-0">
+    <template v-if="userNotFound" >
+        <the-header></the-header>
+        <h4 class="mx-auto my-12">Artist portfolio not found.</h4>
+    </template>
+    <template v-else>
+    <v-row class="ma-0" >
         <v-col cols="12" sm="6" >
             <v-layout align-center>
                 <nuxt-link :to="'/'" class="text-decoration-none">
@@ -529,12 +534,14 @@
     </v-dialog>
     <!-- </v-container> -->
     <nuxt-child :artist='artist' :bio='bio' />
+    </template>
   </v-app>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import EventService from '@/services/EventService.js'
+import TheHeader from '@/components/TheHeader.vue'
 export default {
     head() {
         return {
@@ -550,6 +557,7 @@ export default {
     },
     data() {
       return {
+            userNotFound:false,
             loginDialog: false,
             registerDialog: false,
             errorEmail:'',
@@ -985,10 +993,17 @@ export default {
             artist: artist_response.data,
             bio: bio_response.data,
         }} catch (err) {
-        error({statusCode:503,  message: err.message})
+            error('userNotFound');
+            if(err.response.status=='404')
+            {
+                console.log("user doesn't exist");
+            }
         }
     },
-    layout: 'username'
+    layout: 'username',
+    components:{
+        TheHeader
+    }
     
 }
 </script>
