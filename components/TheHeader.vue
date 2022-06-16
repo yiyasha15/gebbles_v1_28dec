@@ -91,9 +91,9 @@
             <template v-slot:activator="{ on, attrs }">
                 <div v-bind="attrs" class="mr-2"
                 v-on="on">
-                <v-btn icon small
+                <!-- <v-btn icon small
                 class="text-decoration-none mr-1"
-                >
+                > -->
                 <v-avatar size="26" v-if="usersPortfolio && usersPortfolio.thumb">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
@@ -106,7 +106,7 @@
                         mdi-account-circle
                     </v-icon>
                 </v-avatar>
-                </v-btn>
+                <!-- </v-btn> -->
                 </div>
             </template>
             <v-list>

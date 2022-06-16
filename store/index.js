@@ -284,11 +284,13 @@ export const actions = {
   },
   check_user_journey({commit, state}, username){
     let config;
-    if(state.auth.loggedIn) {
+    if(state.auth.loggedIn && state.auth.user.user.username == username) {
+      // console.log(state.auth.loggedIn, state.auth);  
       config = {
       headers: {"content-type": "multipart/form-data",
         "Authorization": "Bearer " + state.auth.user.access_token}
-      };}
+      };
+    }
       EventService.getUpcoming(username,config).then(res =>
       {
         commit('usersUpcoming',res.data)

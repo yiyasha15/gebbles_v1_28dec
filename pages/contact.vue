@@ -5,7 +5,7 @@
             <div class="my-6 mx-auto" style="max-width:540px;">
                 <h3 class="my-4">We would love to hear from you.</h3>
                 <h5 class="my-4 font-weight-light">gebbles is an entirely homegrown community platform, hence in this version we apologize if you find bugs or error during your use.
-                    Simply contact us using any of the below addresses and send us your queries/issues and we will try and solve it for you.
+                    simply contact us using any of the below addresses and send us your queries/issues and we will try and solve it for you.
                     <!-- Thankyou. -->
                     </h5>
                 <h4 class="py-2">Email <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</h4>

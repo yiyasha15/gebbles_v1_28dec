@@ -286,9 +286,10 @@
                 </v-tooltip>
             </v-row>
         </v-col> -->
+        {{journey}}
         </v-row>
         <v-snackbar v-model="posted_snackbar">
-            Posted.
+            Journey posted.
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">
             Some error occured. Please try again.
@@ -721,7 +722,7 @@ export default {
                                 this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                                 this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                                 this.lockButton = false;
-                                console.log(this.journey.jophoto1);
+                                console.log(this.journey.jophoto1, this.journey.jp1thumb);
                                 });
                             }
                         }
