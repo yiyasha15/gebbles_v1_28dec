@@ -30,6 +30,7 @@
           </v-btn>
           </v-row>
               <v-row align="center" justify="center" class="ma-0">
+                {{fullJourney}}
                 <client-only>
                   <Slider 
                   class="hidden-sm-and-down"
@@ -37,7 +38,7 @@
                       width="768px" height="510px"
                       >
                       <div v-if="fullJourney">
-                      <div v-if="fullJourney.jophoto1 !=null">
+                      <div v-if="fullJourney.jophoto1 !=''">
                       <SliderItem>
                       <v-img
                             :src="fullJourney.jophoto1"
@@ -47,7 +48,7 @@
                           ></v-img>
                       </SliderItem>
                       </div>
-                      <div v-if="fullJourney.jophoto2!=null">
+                      <div v-if="fullJourney.jophoto2!=''">
                       <SliderItem>
                       <v-img
                             :src="fullJourney.jophoto2"
@@ -57,7 +58,7 @@
                           ></v-img>
                       </SliderItem>
                       </div>
-                      <div v-if="fullJourney.jophoto3!=null">
+                      <!-- <div v-if="fullJourney.jophoto3!=null">
                       <SliderItem>
                       <v-img
                             :src="fullJourney.jophoto3"
@@ -86,7 +87,7 @@
                             width="768px"
                           ></v-img>
                       </SliderItem>
-                      </div>
+                      </div> -->
                       </div>
                   </Slider>
                   <Slider 
@@ -95,7 +96,7 @@
                       width="768px" height="310px"
                       >
                       <div v-if="fullJourney">
-                      <div v-if="fullJourney.jophoto1 !=null">
+                      <div v-if="fullJourney.jophoto1 !=''">
                       <SliderItem>
                       <v-img
                             :src="fullJourney.jophoto1"
@@ -105,7 +106,7 @@
                           ></v-img>
                       </SliderItem>
                       </div>
-                      <div v-if="fullJourney.jophoto2!=null">
+                      <div v-if="fullJourney.jophoto2!=''">
                       <SliderItem>
                       <v-img
                             :src="fullJourney.jophoto2"
@@ -115,7 +116,7 @@
                           ></v-img>
                       </SliderItem>
                       </div>
-                      <div v-if="fullJourney.jophoto3!=null">
+                      <!-- <div v-if="fullJourney.jophoto3!=null">
                       <SliderItem>
                       <v-img
                             :src="fullJourney.jophoto3"
@@ -144,7 +145,7 @@
                             width="768px"
                           ></v-img>
                       </SliderItem>
-                      </div>
+                      </div> -->
                       </div>
                   </Slider>
                 </client-only>

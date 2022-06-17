@@ -84,7 +84,7 @@
                         </v-tooltip>
                     </template>
                     <v-card class="pa-4">
-                        <p>Are you sure you want to delete this experience?</p>
+                        <p>Are you sure you want to delete the shoutout?</p>
                         <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"

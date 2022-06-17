@@ -6,11 +6,11 @@
         </div>
         <v-row >
         <v-col class="pa-0">
-             <h2 class="my-8" align="center" justify="center">Share your journey</h2>
-            <v-stepper v-model="e6" vertical >
+             <h2 class="my-8" align="center" justify="center">About the event</h2>
+            <v-stepper v-model="e6" vertical>
                 <!-- {{editing_obj}} -->
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                Share images* 
+                Share event posters* 
                 <!-- <small>Summarize if needed</small> -->
                 </v-stepper-step>
                 <v-stepper-content step="1" width="100%" class="ma-0"> 
@@ -120,11 +120,11 @@
                 <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Caption*</v-stepper-step>
+                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event details*</v-stepper-step>
                 <v-stepper-content step="2" class="ma-0">
                     <v-text-field
                         v-model = "journey.joevent"
-                        label= "Title*"
+                        label= "Event name*"
                         :rules="[() => !!journey.joevent || 'This field is required']"
                         :maxlength="50">
                     </v-text-field>
@@ -141,7 +141,7 @@
                     ></v-select>
                     <v-textarea
                         v-model = "journey.jocontent"
-                        label= "Caption">
+                        label= "About the event">
                     </v-textarea>
                     <p class="caption">If the date is in the future it will be added as an upcoming event.</p>
                     <v-menu
@@ -162,7 +162,7 @@
                             v-on="on"
                             ></v-text-field>
                         </template>
-                        <v-date-picker v-model= "journey.jodate" no-title scrollable>
+                        <v-date-picker range v-model= "journey.jodate" no-title scrollable>
                             <v-spacer></v-spacer>
                             <v-btn text small color="black" @click="menu = false">Cancel</v-btn>
                             <v-btn text small color="black" @click="$refs.menu.save(date)">OK</v-btn>

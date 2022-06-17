@@ -42,6 +42,13 @@
     "_name": "_6a4e72d8"
   },
   {
+    "name": "events",
+    "path": "/events",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/events/index.vue",
+    "chunkName": "pages/events/index",
+    "_name": "_36934671"
+  },
+  {
     "name": "explore",
     "path": "/explore",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/explore.vue",
@@ -131,6 +138,13 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/each1teach1.vue",
     "chunkName": "pages/create/each1teach1",
     "_name": "_0da0c1ee"
+  },
+  {
+    "name": "create-events",
+    "path": "/create/events",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/events.vue",
+    "chunkName": "pages/create/events",
+    "_name": "_bbe17f72"
   },
   {
     "name": "create-journey",

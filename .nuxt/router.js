@@ -10,6 +10,7 @@ const _2c58404c = () => interopDefault(import('../pages/blogs.vue' /* webpackChu
 const _af938f32 = () => interopDefault(import('../pages/blogs.vue/index.vue' /* webpackChunkName: "pages/blogs.vue/index" */))
 const _3d39c31b = () => interopDefault(import('../pages/contact.vue' /* webpackChunkName: "pages/contact" */))
 const _6a4e72d8 = () => interopDefault(import('../pages/create/index.vue' /* webpackChunkName: "pages/create/index" */))
+const _36934671 = () => interopDefault(import('../pages/events/index.vue' /* webpackChunkName: "pages/events/index" */))
 const _3717afe4 = () => interopDefault(import('../pages/explore.vue' /* webpackChunkName: "pages/explore" */))
 const _571cafb3 = () => interopDefault(import('../pages/feed.vue' /* webpackChunkName: "pages/feed" */))
 const _337a0fd6 = () => interopDefault(import('../pages/help.vue' /* webpackChunkName: "pages/help" */))
@@ -23,6 +24,7 @@ const _404d3538 = () => interopDefault(import('../pages/settings.vue' /* webpack
 const _d9ad562c = () => interopDefault(import('../pages/whatiscooking/index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
 const _246f0a57 = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
+const _bbe17f72 = () => interopDefault(import('../pages/create/events.vue' /* webpackChunkName: "pages/create/events" */))
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
@@ -80,6 +82,10 @@ export const routerOptions = {
     component: _6a4e72d8,
     name: "create"
   }, {
+    path: "/events",
+    component: _36934671,
+    name: "events"
+  }, {
     path: "/explore",
     component: _3717afe4,
     name: "explore"
@@ -131,6 +137,10 @@ export const routerOptions = {
     path: "/create/each1teach1",
     component: _0da0c1ee,
     name: "create-each1teach1"
+  }, {
+    path: "/create/events",
+    component: _bbe17f72,
+    name: "create-events"
   }, {
     path: "/create/journey",
     component: _6cd0c402,
