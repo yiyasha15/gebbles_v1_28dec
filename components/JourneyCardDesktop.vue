@@ -30,7 +30,6 @@
           </v-btn>
           </v-row>
               <v-row align="center" justify="center" class="ma-0">
-                {{fullJourney}}
                 <client-only>
                   <Slider 
                   class="hidden-sm-and-down"
@@ -188,6 +187,8 @@
               </div>
               <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}" v-if="journey.jodate">
                 <h5 class="font-weight-light">{{dateFormat(journey.jodate).date}}</h5>
+                <v-spacer></v-spacer>
+                <h5 class="font-weight-light">{{fullJourney.city}}</h5>
               </v-row>
               <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}" v-if="fullJourney">
                 <!-- {{fullJourney}} -->
@@ -237,14 +238,15 @@
 <script>
 import {mapGetters} from 'vuex'
 import { Slider, SliderItem } from "vue-easy-slider";
-
+import CountryFlag from 'vue-country-flag'
 export default {
   props: {
     journey: Object,
   },
   components: {
     Slider,
-    SliderItem
+    SliderItem,
+    CountryFlag
   },
   methods:{
     dateFormat(recdate){

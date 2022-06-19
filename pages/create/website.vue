@@ -1094,7 +1094,8 @@ methods: {
                 formName.append(keyObj1[i], valueObj2[i]);
                 console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
                 formName.append("username", this.artist_data['username']);
-                await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
+                let res = await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
+                // console.log("patch on portfolio",res);
             } 
         }
         for(var i=0; i<keyObj3.length; i++) { 
@@ -1106,7 +1107,8 @@ methods: {
                 formName.append(keyObj3[i], valueObj4[i]);
                 formName.append("username", this.bio['username']);
                 // console.log("key obj3: "+keyObj3[i]+"\nkeyobj4: "+keyObj4[i]+'\n myObj3 value: '+ valueObj3[i] + '\nmyObj4 value: '+ valueObj4[i] +'\n');
-                await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName, config).catch(function(err){console.log(err.response.data);})
+                let res = await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName, config).catch(function(err){console.log(err.response.data);})
+                // console.log("patch on portfolio",res);
                 // console.log( valueObj3[i] ," changed"); 
             } 
         }
