@@ -7,191 +7,30 @@
       :elevation="hover ? 12 : 0"
       outlined
       width="115"
-       max-height="105"
-    >
+       max-height="105">
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
         :lazy-src= "journey.jp1thumb" 
         class="grey lighten-2 white--text"
         height="73"
-        width="115"
-      />
+        width="115"/>
       <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73"
         width="115" contain/>
       <v-dialog
-      max-width="800"
+        max-width="800"
         v-model="dialog"
         persistent
-        class="ma-12 ma-md-24 overflow-hidden">
+        class="ma-12 overflow-hidden">
         <div class="rounded-lg white" max-width="800"> 
-          <v-row align="end" justify="end" class="pa-4 ma-0" >
+          <v-row align="end" justify="end" class="px-2 pt-2 ma-0" >
           <v-btn icon color="error" @click="closeDialog"  align="end" justify="end" >
             <v-icon >mdi-close</v-icon>
           </v-btn>
           </v-row>
-              <v-row align="center" justify="center" class="ma-0">
-                <client-only>
-                  <Slider 
-                  class="hidden-sm-and-down"
-                      :autoplay = false
-                      width="768px" height="510px"
-                      >
-                      <div v-if="fullJourney">
-                      <div v-if="fullJourney.jophoto1 !=''">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto1"
-                            contain
-                            max-height="510px"
-                            max-width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto2!=''">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto2"
-                            contain
-                            height="510px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <!-- <div v-if="fullJourney.jophoto3!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto3"
-                            contain
-                            height="510px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto4!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto4"
-                            contain
-                            height="510px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto5!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto5"
-                            contain
-                            height="510px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div> -->
-                      </div>
-                  </Slider>
-                  <Slider 
-                  class="hidden-md-and-up"
-                      :autoplay = false
-                      width="768px" height="310px"
-                      >
-                      <div v-if="fullJourney">
-                      <div v-if="fullJourney.jophoto1 !=''">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto1"
-                            contain
-                            max-height="310px"
-                            max-width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto2!=''">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto2"
-                            contain
-                            height="310px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <!-- <div v-if="fullJourney.jophoto3!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto3"
-                            contain
-                            height="310px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto4!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto4"
-                            contain
-                            height="310px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto5!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto5"
-                            contain
-                            height="310px"
-                            width="768px"
-                          ></v-img>
-                      </SliderItem>
-                      </div> -->
-                      </div>
-                  </Slider>
-                </client-only>
-              </v-row>
-              <v-container style="margin:auto; max-width:768px; " >
-              <div v-if="loggedInUser">
-              <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="pa-2">
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon small>
-                      <v-icon  color="black" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Edit</span>
-                </v-tooltip>
-                <v-dialog v-model="dialogDelete" width="500">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-tooltip top v-bind="attrs" v-on="on">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn small icon >
-                                <v-icon color="error" small  @click="saveJourneyId(journey.id)" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </template>
-                        <span>Delete</span>
-                      </v-tooltip>
-                    </template>
-                    <v-card class="pa-4">
-                        <p> Are you sure you want to delete this journey?</p>
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn class="px-4 text-decoration-none" small color="error" dark :loading="deleteLoading"
-                            @click="confirmDelete(rm)">Delete</v-btn>
-                        <v-btn color="black" class="px-4 text-decoration-none" small outlined  @click="dialogDelete = false">
-                            Cancel
-                        </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-              </v-row>
-              </div>
-              <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}" v-if="journey.jodate">
-                <h5 class="font-weight-light">{{dateFormat(journey.jodate).date}}</h5>
-              </v-row>
-              <v-row :class="{'mt-4 px-2': $vuetify.breakpoint.smAndDown, 'mt-4': $vuetify.breakpoint.mdAndUp}" v-if="fullJourney">
-                <!-- {{fullJourney}} -->
-                  <h4>{{fullJourney.joevent}}</h4> 
-                  <v-spacer></v-spacer>
+          <v-container style="margin:auto; max-width:768px; " class="pt-0 pb-1" >
+          <v-row class="ma-0 pl-2" v-if="fullJourney">
+                <h5 v-if="journey.jodate" class="font-weight-light pt-2">{{dateFormat(journey.jodate).date}}</h5>
+                <v-spacer></v-spacer>
                 <v-btn v-if="fullJourney.jolink"  icon color="black" @click="openlink">
                   <v-icon >mdi-link</v-icon>
                 </v-btn>
@@ -213,11 +52,119 @@
                   </template>
                   <span>This is your private post.</span>
                 </v-tooltip>
-              </v-row>
-              <v-row :class="{'my-8 px-2': $vuetify.breakpoint.smAndDown, 'my-8': $vuetify.breakpoint.mdAndUp}">
-                <p><nuxt-link :to="'/'+ journey.username"><b>{{journey.username}}</b> </nuxt-link> <span v-if="fullJourney">{{fullJourney.jocontent}}</span></p>
-              </v-row>
-              </v-container>
+          </v-row>
+          </v-container>
+          <v-row align="center" justify="center" class="ma-0">
+            <client-only>
+              <Slider 
+                  :autoplay = false
+                  width="768px" height="310px"
+                  >
+                  <div v-if="fullJourney">
+                  <div v-if="fullJourney.jophoto1 !=''">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto1"
+                        contain
+                        max-height="310px"
+                        max-width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div>
+                  <div v-if="fullJourney.jophoto2!=''">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto2"
+                        contain
+                        height="310px"
+                        width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div>
+                  <!-- <div v-if="fullJourney.jophoto3!=null">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto3"
+                        contain
+                        height="310px"
+                        width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div>
+                  <div v-if="fullJourney.jophoto4!=null">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto4"
+                        contain
+                        height="310px"
+                        width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div>
+                  <div v-if="fullJourney.jophoto5!=null">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto5"
+                        contain
+                        height="310px"
+                        width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div> -->
+                  </div>
+              </Slider>
+            </client-only>
+          </v-row>
+          <v-container style="margin:auto; max-width:768px; " >
+            <v-row class="pt-2 px-2 ma-0">
+            <h5><nuxt-link :to="'/'+ journey.username" class="text-decoration-none">{{journey.username}} </nuxt-link> </h5>
+            <v-spacer></v-spacer>
+            <div v-if="loggedInUser">
+          <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="pa-2">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon small>
+                  <v-icon  color="black" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
+                </v-btn>
+              </template>
+              <span>Edit</span>
+            </v-tooltip>
+            <v-dialog v-model="dialogDelete" width="500">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-tooltip top v-bind="attrs" v-on="on">
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn small icon >
+                            <v-icon color="error" small  @click="saveJourneyId(journey.id)" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Delete</span>
+                  </v-tooltip>
+                </template>
+                <v-card class="pa-4">
+                    <p> Are you sure you want to delete this journey?</p>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn class="px-4 text-decoration-none" small color="error" dark :loading="deleteLoading"
+                        @click="confirmDelete(rm)">Delete</v-btn>
+                    <v-btn color="black" class="px-4 text-decoration-none" small outlined  @click="dialogDelete = false">
+                        Cancel
+                    </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+          </v-row>
+            </div>
+          </v-row>
+          <v-row class="pt-2 px-2 ma-0" v-if="fullJourney">
+              <h5>{{fullJourney.joevent}}</h5> 
+              <v-spacer></v-spacer>
+              <h5 v-if="fullJourney.city" class="font-weight-light pr-1 ">{{fullJourney.city}}</h5>
+            <country-flag v-if="fullJourney.country" :country= fullJourney.country />
+          </v-row>
+          <v-row class="py-2 px-2 ma-0">
+          <h5 class="font-weight-light" v-if="fullJourney">{{fullJourney.jocontent}}</h5>
+          </v-row>
+          </v-container>
         </div>
       </v-dialog>
       <v-card-actions height="32px">
@@ -236,6 +183,8 @@
 <script>
 import {mapGetters} from 'vuex'
 import { Slider, SliderItem } from "vue-easy-slider";
+import EventService from '@/services/EventService.js'
+import CountryFlag from 'vue-country-flag'
 
 export default {
   props: {
@@ -243,7 +192,8 @@ export default {
   },
   components: {
     Slider,
-    SliderItem
+    SliderItem,
+    CountryFlag
   },
   methods:{
     dateFormat(recdate){
@@ -262,11 +212,20 @@ export default {
       },
     openDialog() {
     this.dialog= true
-    this.$store.dispatch("check_full_journey", this.journey.id,this.journey.username);
+    let config ={};
+      if(this.loggedInUser && this.loggedInUser.username == this.journey.username){
+         config = {
+          headers: {"content-type": "multipart/form-data",
+              "Authorization": "Bearer " + state.auth.user.access_token}
+          };
+      }
+        EventService.getFullJourney(this.journey.id,config).then(res =>
+        {
+          this.fullJourney = res.data
+        })
     },
     closeDialog() {
     this.dialog= false
-    this.$store.dispatch("remove_full_journey");
     },
     openlink(){
       var url = this.fullJourney.jolink;
@@ -306,11 +265,12 @@ export default {
       },
     },
     computed: {
-        ...mapGetters(['loggedInUser','fullJourney']),
+        ...mapGetters(['loggedInUser']),
     },
     
     data() {
       return {
+        fullJourney:null,
         deleteLoading:false,
         dialog: false,
         dialogDelete:false,

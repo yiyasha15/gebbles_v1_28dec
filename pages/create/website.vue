@@ -1028,12 +1028,11 @@ methods: {
     async update() {
         this.progressbar =true
         let url = this.cropImage.generateDataUrl();
-        if (url && this.artist_data.introduction){
+        if(this.artist_data.introduction!=""){
+            if (url){
             console.log("url");
             let fileData = this.dataURLtoFile(url, "coverimage.png");
-            console.log(fileData);
             let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-            console.log(res);
             if(res.statusCode == 200)
             {
                 console.log("200");
@@ -1055,10 +1054,15 @@ methods: {
                 this.error_snackbar = true
             }
             // this.artist_data.cover = fileData;
+            }
+            else{
+                this.progressbar =false
+                this.fill_image_snackbar = true
+            }
         }
         else{
-            this.progressbar =false
-            this.fill_image_snackbar = true
+            this.progressbar = false
+            this.fill_intro_snackbar=true
         }
     },
     async callApi(){
@@ -1088,11 +1092,11 @@ methods: {
         // now compare their keys and values  
         for(var i=0; i<keyObj1.length; i++) { 
             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
-                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
+                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
             } else {
                 let formName = new FormData();
                 formName.append(keyObj1[i], valueObj2[i]);
-                console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
+                // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
                 formName.append("username", this.artist_data['username']);
                 let res = await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
                 // console.log("patch on portfolio",res);
@@ -1100,7 +1104,7 @@ methods: {
         }
         for(var i=0; i<keyObj3.length; i++) { 
             if(keyObj3[i] == keyObj4[i] && valueObj3[i] == valueObj4[i]) { 
-                console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
+                // console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
             } else { 
                 // it prints keys have different values 
                 let formName = new FormData();

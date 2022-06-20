@@ -215,6 +215,7 @@ import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 import InstagramEmbed from 'vue-instagram-embed';
 import EventService from '@/services/EventService.js'
+
 export default {
     middleware : 'check_auth',
     components: {
@@ -627,10 +628,11 @@ export default {
                     }
                     // console.log(this.sharing);
                     try {
-                        let response = this.$axios.$post("/v1/e1t1/sharing/", formData, config);
+                        let response =  await this.$axios.$post("/v1/e1t1/sharing/", formData, config);
+                        console.log(response);
                         this.progressbar =false;
                         this.$store.dispatch("check_user_teachers");
-                        this.$router.push("/"+this.sharing.username+"/each1teach1/");
+                        this.$router.push("/e1t1/"+response.uuid);
                     } catch (e) {
                         this.progressbar =false;
                         this.error_snackbar=true;
@@ -696,7 +698,7 @@ export default {
             this.progressbar =false;
             this.$store.dispatch("check_user_teachers");
             this.$store.dispatch("remove_share_obj");
-            this.$router.push("/"+this.$store.state.auth.user.user.username+"/each1teach1");
+            window.history.back();
         },
         addTeacher(){
             let t_name = typeof this.teacher_obj;

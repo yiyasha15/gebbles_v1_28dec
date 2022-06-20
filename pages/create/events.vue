@@ -304,6 +304,7 @@
 import { Slider, SliderItem } from "vue-easy-slider";
 import { mapGetters } from 'vuex'
 import CountryFlag from 'vue-country-flag'
+
 export default {
     middleware : 'check_auth',
     components: {

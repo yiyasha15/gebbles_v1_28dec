@@ -12,7 +12,6 @@ export const state = () => ({
   editing_obj: null, //object to edit data
   portfolio: null, //store portfolio data of the logged in user
   bio: null, //store bio data of the logged in user
-  fullJourney: null, //store currrently selected journey card
   personalMessages: [],
   notifications:[],
   notifications_notseen:0,
@@ -100,9 +99,6 @@ export const getters = {
   },
   notifications_notseen(state){
     return state.notifications_notseen
-  },
-  fullJourney(state){
-    return state.fullJourney
   },
   artists(state) {
     return state.artists
@@ -200,26 +196,6 @@ export const actions = {
   change_info({commit})
   {
     commit('changeInfo')
-  },
-  check_full_journey({commit, state}, id, username){
-    if(state.auth.user ){
-      if(state.auth.user.user.username == username){ //check if logged in user is checking its private journey
-        const config = {
-        headers: {"content-type": "multipart/form-data",
-            "Authorization": "Bearer " + state.auth.user.access_token}
-        };
-      EventService.getFullJourney(id,config).then(res =>
-      {
-        commit('fullJourney',res.data)
-        return;
-      })
-    }
-  }
-  EventService.getFullJourney(id).then(res =>
-    {
-      commit('fullJourney',res.data)
-      return;
-    })
   },
   check_share_love({commit}, id){
     EventService.getShareLove(id).then(res =>
@@ -468,10 +444,6 @@ export const actions = {
   remove_journey({commit, state})
   {
       commit('clearJourney')
-  },
-  remove_full_journey({commit})
-  {
-      commit('clearFullJourney')
   },
   remove_share_obj({commit, state})
   {
@@ -865,11 +837,6 @@ export const mutations = {
       state.page_teachers = teachers.next
     }
   },
-  fullJourney(state, fullJourney){
-    if(fullJourney)
-    {
-      state.fullJourney = fullJourney}
-  },
   get_personal_messages(state, personalMessages)
   {
     state.personalMessages = personalMessages.results
@@ -898,10 +865,6 @@ export const mutations = {
   clearTeachers(state){
     state.teachers =[]
     state.hasTeachers = false
-  },
-  clearFullJourney(state) //if user has portfolio change state to true
-  {
-    state.fullJourney =null
   },
   clear_personal_messages(state)
   {

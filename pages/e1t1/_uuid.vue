@@ -8,12 +8,12 @@
         <v-container class="mx-auto" fluid style="max-width:750px" >
         <v-row class="pb-4">
             <v-col cols="12" md="6" align="center" justify="center">
-                <v-img :src = "e1t1.image" class="centerImage" maxHeight="520px"></v-img>
+                <v-img :src = "e1t1.image" class="centerImage" maxHeight="380px" contain></v-img>
             </v-col>
             <v-col cols="12" md="6" >
                 <v-row>
                     <v-col >
-                    <h5 class="caption mt-1" > {{e1t1.s_date}}</h5>
+                    <h5 class="caption mt-1" > {{e1t1.s_date}}</h5><h5 class="caption mt-1" > {{e1t1.s_location}}</h5>
                     </v-col>
                     <div v-if="loggedInUser">
                     <v-col v-if="loggedInUser.user.username == e1t1.username" >
@@ -38,7 +38,7 @@
                     <v-col cols="12" >
                     <v-row class="mt-4">
                         <v-col cols="12" class="justify-center ">
-                            <h4 class ="font-weight-light">Get your gebbles card for {{e1t1.s_teacher_name}}  </h4> 
+                            <h5 class ="font-weight-light">Get your gebbles card for {{e1t1.s_teacher_name}}  </h5> 
                         </v-col>
                         <v-col cols="12" class="justify-center ">
                             <v-img v-if="gebbles_card_url" :src = "gebbles_card_url" maxHeight="420px" contain >
@@ -102,10 +102,10 @@
                 <v-layout row wrap justify-space-between class="mt-3 mx-0">
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
-                            <h4 >{{e1t1.teacher}}</h4> 
+                            <h5 >{{e1t1.teacher}}</h5> 
                         </nuxt-link>
                         <div v-else>
-                            <h4>{{e1t1.s_teacher_name}}</h4> 
+                            <h5>{{e1t1.s_teacher_name}}</h5> 
                         </div>
                     </v-flex>
                     <v-flex xs2 md2>
@@ -115,7 +115,7 @@
                     </v-flex>
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
-                                <h4 >{{e1t1.username}}</h4> 
+                                <h5 >{{e1t1.username}}</h5> 
                             </nuxt-link>
                     </v-flex>
                     <v-flex xs2 md2>
@@ -141,14 +141,14 @@
                 </div>
                 <v-row>
                     <v-col >
-                    <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
+                    <h5 v-if="e1t1.s_appreciation">Appreciation</h5>
                     <!-- <read-more more-str="read more" :text="msg" link="#" less-str="read less" :max-chars="50"></read-more> -->
                     <div style="
-                        height:200px;
+                        max-height:200px;
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
-                    <h4 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h4>
+                    <h5 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h5>
                     </div>
                     <v-btn class="mt-4" small outlined color="black" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
                     <span v-if="e1t1.teacher!= null && loggedInUser">
@@ -168,8 +168,8 @@
                 </v-btn>
                 <!-- </v-col> -->
                 <v-col cols="12" >
-                <h4 >Learning</h4>
-                <h4 class="font-weight-light my-2">{{e1t1.s_learnings}}</h4>
+                <h5 >Learning</h5>
+                <h5 class="font-weight-light my-2">{{e1t1.s_learnings}}</h5>
                 </v-col>
                 </v-container>
                 </v-dialog> 
