@@ -17,14 +17,12 @@
                     <v-slide-group
                     min-width="2px"
                     v-model="model"
-                    class="py-4 ma-0"
+                    class="pb-4 ma-0"
                     show-arrows>
                     <v-slide-item>
-                        <div class=" rounded-lg grey lighten-4">
-                            <v-img :src="imageData1" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="black" small @click="onPick(1)">mdi-image-plus</v-icon>
-                            </v-btn>
+                        <div>
+                        <div v-if="!imageData1" @click="onPick(1)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                            <v-icon class="pa-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
                             name = "gallery" 
@@ -33,17 +31,20 @@
                             accept="image/*"
                             required
                             @change="onFileChange1">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(1)">mdi-delete-outline</v-icon>
+                        </div>
+                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <v-img :src="imageData1" height="auto" width="150px" id="imgOne" contain>
+                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
+                            <v-icon color="black" small>mdi-close</v-icon>
                             </v-btn>
+                        </v-img>
+                        </div>
                         </div>
                     </v-slide-item>
-                    <v-slide-item v-if="imageData1">
-                        <div class="mx-2 rounded-lg grey lighten-4">
-                            <v-img :src="imageData2" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="black" small @click="onPick(2)">mdi-image-plus</v-icon>
-                            </v-btn>
+                    <v-slide-item >
+                        <div class="mx-2">
+                        <div v-if="!imageData2" @click="onPick(2)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                            <v-icon class="pa-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
                             name = "gallery" 
@@ -52,9 +53,14 @@
                             accept="image/*"
                             required
                             @change="onFileChange2">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(2)">mdi-delete-outline</v-icon>
+                        </div>
+                        <div v-else  > 
+                        <v-img :src="imageData2" height="auto" width="150px" contain>
+                            <v-btn style="background:white " icon small class="float-right ma-1" @click="removeImage(2)">
+                            <v-icon color="black" small >mdi-close</v-icon>
                             </v-btn>
+                        </v-img>
+                        </div>
                         </div>
                     </v-slide-item>
                     <!-- <v-slide-item v-if="imageData2">
@@ -337,6 +343,7 @@ export default {
     },
     data(){
         return {
+            rotation:0,
             journey: {
                 username: this.$store.state.auth.user.user.username,
                 jocontent: "",
@@ -617,6 +624,16 @@ export default {
         }
     },
     methods: {
+        rotateImg1(){
+            this.rotation += 90; // add 90 degrees, you can change this as you want
+            let rotation = this.rotation;
+            console.log(this.rotation);
+            if (rotation === 360) { 
+                // 360 means rotate back to 0
+                rotation = 0;
+            }
+            document.querySelector("#imgOne").style.transform = `rotate(${rotation}deg)`;
+        },
         checkLink(){
             let urlLink = this.journey.jolink;
             if(urlLink){ //if link exists check if it's valid
@@ -676,6 +693,8 @@ export default {
                 case 1:
                     {this.imageData1 = ""
                     this.journey.jophoto1 = ""
+                    this.journey.jp1thumb = ""
+                    console.log(this.journey);
                     break;}
                 case 2:
                     {this.imageData2 = ""
@@ -759,9 +778,10 @@ export default {
                                 this.$axios.$put(url, this.journey.jophoto2).then((value) => {
                                 this.journey.jophoto2 =''
                                 this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                                // this.jp2thumb =  "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                                 this.lockButton = false;
                                 // console.log("this.lockButton",this.lockButton);
-                                // console.log(this.journey.jophoto2);
+                                console.log(this.journey.jophoto2);
                                 });
                             }
                         }
@@ -771,44 +791,11 @@ export default {
                 }
             }
         },
-        // onFileChange3(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData3 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto3 = files[0];
-        //     }
-        // },
-        // onFileChange4(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData4 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto4 = files[0];
-        //     }
-        // },
-        // onFileChange5(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData5 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto5 = files[0];
-        //     }
-        // },
         openlink(){
             var url = this.journey.jolink;
             var win = window.open(url, '_blank');
             win.focus();
-            },
+        },
         refresh(){
             this.date ="";
             this.imageData1 = '',
@@ -820,8 +807,9 @@ export default {
             this.journey.jocontent= "";
             this.journey.joevent= "";
             this.journey.jodate= "";
-            this.journey.jophoto1= null;
-            this.journey.jophoto2= null;
+            this.journey.jophoto1= "";
+            this.journey.jophoto2= "";
+            this.journey.jp1thumb = "";
             // this.journey.jophoto3= null;
             // this.journey.jophoto4= null;
             // this.journey.jophoto5= null;
@@ -830,6 +818,12 @@ export default {
             this.journey.isprivate = false;
         },
         async submit(){
+            console.log(this.journey);
+            if(this.journey.jophoto1== '' && this.journey.jophoto2 !=''){
+                this.journey.jophoto1 = this.journey.jophoto2
+                this.journey.jp1thumb = this.journey.jophoto2
+                this.journey.jophoto2 = ""
+            }
             if(this.journey.joevent != "" && this.journey.jophoto1)
             { 
             this.progressbar =true

@@ -526,25 +526,6 @@ export default {
         // infiniteScrollingComments(entries, observer, isIntersecting) {
         //     this.$store.dispatch("update_user_comments");
         // },
-        onPick() 
-        {
-            this.$refs.fileInputVideo.click()
-        },
-        onFileChange(e) {
-            let files = e.target.files;
-            if (files[0]) {
-            console.log(files[0]);
-            let i = Math.floor(files[0].size * 0.000001)
-            if(i>=120){ 
-                this.sizeExceed = true;
-            }
-            else{
-                this.putVideo = files[0]
-                let blobURL = URL.createObjectURL(files[0]);
-                document.getElementById("videoPreview").src = blobURL;
-            };
-            }
-        },
         formatTime() {
         const options = {
             month: '2-digit',

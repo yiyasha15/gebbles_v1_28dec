@@ -141,9 +141,9 @@
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
-                <h5 class="mb-5 font-weight-light" style="line-height:1.7em;text-align:justify;">
+                <h4 class="mb-5 font-weight-light" style="line-height:1.7em;text-align:justify;">
                     {{ artist.introduction }}
-                </h5></div>
+                </h4></div>
                 <h4 class="mb-2 mt-12 font-weight-medium" v-if="bio.crew">
                     Representing: {{bio.crew}}
                 </h4>

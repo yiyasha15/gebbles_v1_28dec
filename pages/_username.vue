@@ -49,6 +49,13 @@
                 <v-list-item-title>Upload a gebble</v-list-item-title>
                 </v-list-item> -->
                 <v-list-item
+                v-if="userHasPortfolio"
+                :to="'/create/events'"
+                class="text-decoration-none pl-6 pr-12"
+                ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
+                <v-list-item-title>Create an event page</v-list-item-title>
+                </v-list-item>
+                <v-list-item
                 v-if="!userHasPortfolio"
                 :to="'/create/website'"
                 class="text-decoration-none pl-6 pr-12"
@@ -193,6 +200,13 @@
                 ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
                 <v-list-item-title>Upload a gebble</v-list-item-title>
                 </v-list-item> -->
+                <v-list-item
+                v-if="userHasPortfolio"
+                :to="'/create/events'"
+                class="text-decoration-none pl-6 pr-12"
+                ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
+                <v-list-item-title>Create an event page</v-list-item-title>
+                </v-list-item>
                 <v-list-item
                 v-if="!userHasPortfolio"
                 :to="'/create/website'"

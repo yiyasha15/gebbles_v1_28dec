@@ -31,6 +31,7 @@ const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* w
 const _4ad990a2 = () => interopDefault(import('../pages/whatiscooking/sharings.vue' /* webpackChunkName: "pages/whatiscooking/sharings" */))
 const _3e15aee2 = () => interopDefault(import('../pages/blogs.vue/_id.vue' /* webpackChunkName: "pages/blogs.vue/_id" */))
 const _1042bc09 = () => interopDefault(import('../pages/e1t1/_uuid.vue' /* webpackChunkName: "pages/e1t1/_uuid" */))
+const _67dab38e = () => interopDefault(import('../pages/events/_uuid.vue' /* webpackChunkName: "pages/events/_uuid" */))
 const _28a8b4b2 = () => interopDefault(import('../pages/whatiscooking/_uuid.vue' /* webpackChunkName: "pages/whatiscooking/_uuid" */))
 const _7e1c48e6 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 const _a29e8c20 = () => interopDefault(import('../pages/_username.vue' /* webpackChunkName: "pages/_username" */))
@@ -165,6 +166,10 @@ export const routerOptions = {
     path: "/e1t1/:uuid?",
     component: _1042bc09,
     name: "e1t1-uuid"
+  }, {
+    path: "/events/:uuid",
+    component: _67dab38e,
+    name: "events-uuid"
   }, {
     path: "/whatiscooking/:uuid",
     component: _28a8b4b2,

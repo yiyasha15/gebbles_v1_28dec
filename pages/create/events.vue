@@ -1,6 +1,6 @@
 <template>
 <v-app>
-    <v-container class="ma-24" style="max-width:550px;">
+    <v-container class="ma-24" style="max-width:520px;">
         <div>
             <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
@@ -8,142 +8,43 @@
         <v-col class="pa-0">
              <h2 class="my-8" align="center" justify="center">About the event</h2>
             <v-stepper v-model="e6" vertical>
-                <!-- {{editing_obj}} -->
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                Share event posters* 
+                Event poster* 
                 <!-- <small>Summarize if needed</small> -->
                 </v-stepper-step>
                 <v-stepper-content step="1" width="100%" class="ma-0"> 
-                    <v-slide-group
-                    min-width="2px"
-                    v-model="model"
-                    class="py-4 ma-0"
-                    show-arrows>
-                    <v-slide-item>
-                        <div class=" rounded-lg grey lighten-4">
-                            <v-img :src="imageData1" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="black" small @click="onPick(1)">mdi-image-plus</v-icon>
-                            </v-btn>
-                            <input 
-                            type="file" 
-                            name = "gallery" 
-                            style="display:none" 
-                            ref="fileInput1" 
-                            accept="image/*"
-                            required
-                            @change="onFileChange1">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(1)">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </div>
-                    </v-slide-item>
-                    <v-slide-item v-if="imageData1">
-                        <div class="mx-2 rounded-lg grey lighten-4">
-                            <v-img :src="imageData2" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="black" small @click="onPick(2)">mdi-image-plus</v-icon>
-                            </v-btn>
-                            <input 
-                            type="file" 
-                            name = "gallery" 
-                            style="display:none" 
-                            ref="fileInput2" 
-                            accept="image/*"
-                            required
-                            @change="onFileChange2">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(2)">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </div>
-                    </v-slide-item>
-                    <!-- <v-slide-item v-if="imageData2">
-                        <div class="mx-2 rounded-lg grey lighten-4">
-                            <v-img :src="imageData3" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="black" small @click="onPick(3)">mdi-image-plus</v-icon>
-                            </v-btn>
-                            <input 
-                            type="file" 
-                            name = "gallery" 
-                            style="display:none" 
-                            ref="fileInput3" 
-                            accept="image/*"
-                            required
-                            @change="onFileChange3">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(3)">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </div>
-                    </v-slide-item>
-                    <v-slide-item v-if="imageData3">
-                        <div class="mx-2 rounded-lg grey lighten-4">
-                            <v-img :src="imageData4" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="black" small @click="onPick(4)">mdi-image-plus</v-icon>
-                            </v-btn>
-                            <input 
-                            type="file" 
-                            name = "gallery" 
-                            style="display:none" 
-                            ref="fileInput4" 
-                            accept="image/*"
-                            required
-                            @change="onFileChange4">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(4)">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </div>
-                    </v-slide-item>
-                    <v-slide-item v-if="imageData4">
-                        <div class="mx-2 rounded-lg grey lighten-4">
-                            <v-img :src="imageData5" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="black" small @click="onPick(5)">mdi-image-plus</v-icon>
-                            </v-btn>
-                            <input 
-                            type="file" 
-                            name = "gallery" 
-                            style="display:none" 
-                            ref="fileInput5" 
-                            accept="image/*"
-                            required
-                            @change="onFileChange5">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(5)">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </div>
-                    </v-slide-item> -->
-                    </v-slide-group>
+                <div>
+                <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer;  width:152px;" class="mb-4 rounded-lg grey lighten-4" >
+                    <v-icon class="pa-16">mdi-plus</v-icon>
+                    <input 
+                    type="file" 
+                    name = "poster" 
+                    style="display:none" 
+                    ref="fileInput1" 
+                    accept="image/*"
+                    required
+                    @change="onFileChange1">
+                </div>
+                <div v-else class="mb-4">
+                <v-img v-if="typeof(event.poster) === 'string'" :src="event.poster" class="mx-auto" height="auto" width="352px" contain>
+                    <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
+                    <v-icon color="black" small>mdi-close</v-icon>
+                    </v-btn>
+                </v-img>
+                </div>
+                </div>
                 <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
-                <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->
                 <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event details*</v-stepper-step>
                 <v-stepper-content step="2" class="ma-0">
                     <v-text-field
-                        v-model = "journey.joevent"
+                        v-model = "event.name"
                         label= "Event name*"
-                        :rules="[() => !!journey.joevent || 'This field is required']"
-                        :maxlength="50">
+                        :rules="[() => !!event.name || 'This field is required']"
+                        :maxlength="255">
                     </v-text-field>
-                    <v-text-field
-                        v-model = "journey.city"
-                        label= "City"
-                        :maxlength="50">
-                    </v-text-field>
-                    <v-select label="Country" v-model= "journey.country"
-                        :items="countries"
-                        item-text="name"
-                        item-value="code"
-                        required
-                    ></v-select>
-                    <v-textarea
-                        v-model = "journey.jocontent"
-                        label= "About the event">
-                    </v-textarea>
-                    <p class="caption">If the date is in the future it will be added as an upcoming event.</p>
                     <v-menu
                         ref="menu"
                         :close-on-content-click="false"
@@ -154,25 +55,52 @@
                         >
                         <template v-slot:activator="{ on, attrs }">
                             <v-text-field
-                            v-model= "journey.jodate"
-                            label="Date"
-                            prepend-icon="mdi-calendar"        
-                            readonly
-                            v-bind="attrs"
-                            v-on="on"
+                                v-model= "event.start_date"
+                                label="Date"
+                                prepend-icon="mdi-calendar"
+                                readonly clearable
+                                v-bind="attrs"
+                                v-on="on"
                             ></v-text-field>
                         </template>
-                        <v-date-picker range v-model= "journey.jodate" no-title scrollable>
-                            <v-spacer></v-spacer>
-                            <v-btn text small color="black" @click="menu = false">Cancel</v-btn>
-                            <v-btn text small color="black" @click="$refs.menu.save(date)">OK</v-btn>
-                        </v-date-picker>
+                        <v-date-picker
+                            v-model= "event.start_date"
+                            :active-picker.sync="activePicker"
+                            :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                            min="1950-01-01"
+                            @change="save(event.start_date,1)"
+                            ></v-date-picker>
                     </v-menu>
                     <v-text-field
+                        v-model = "event.venue"
+                        label= "Event venue"
+                        :maxlength="255">
+                    </v-text-field>
+                    <v-text-field
+                        v-model = "event.city"
+                        label= "City"
+                        :maxlength="50">
+                    </v-text-field>
+                    <v-select label="Country" v-model= "event.country"
+                        :items="countries"
+                        item-text="name"
+                        item-value="code"
+                        required
+                    ></v-select>
+                    <v-textarea
+                        v-model = "event.about"
+                        label= "About the event">
+                    </v-textarea>
+                    <v-text-field
                         :error-messages="linkError"
-                        v-model = "journey.jolink"
+                        v-model = "event.videolink"
+                        label= "Youtube video link"
+                        @change="checkLink">
+                    </v-text-field>
+                    <v-text-field
+                        :error-messages="linkError"
+                        v-model = "event.link"
                         label= "Add a link"
-                        :maxlength="50"
                         @change="checkLink">
                     </v-text-field>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
@@ -180,122 +108,642 @@
                     <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Privacy</v-stepper-step>
+                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Add categories</v-stepper-step>
                 <v-stepper-content step="3" class="ma-0">
-                    <h4 class="font-weight-light">Add to highlights</h4>
-                        <v-radio-group
-                            v-model="journey.ishighlight"
-                            row
-                            >
-                            <v-radio
-                                label="Yes"
-                                :value="true"
-                            ></v-radio>
-                            <v-radio
-                                label="No"
-                                :value="false"
-                            ></v-radio>
-                        </v-radio-group>
-                    <h4 class="font-weight-light">Do you want to keep it private?</h4>
-                        <v-radio-group
-                            v-model="journey.isprivate"
-                            row
-                            >
-                            <v-radio
-                                label="Yes"
-                                :value="true"
-                            ></v-radio>
-                            <v-radio
-                                label="No"
-                                :value="false"
-                            ></v-radio>
-                        </v-radio-group>
-                        <p class="caption" v-if="lockButton"> Please wait..</p>
+                    <!-- {{this.categories}} -->
+                    <v-row class="mb-2 pa-0 hidden-xs-only">
+                        <v-col >
+                            <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="workshop_dialog = true">
+                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-4" style="underline:yellow;">Workshop</h5></template>
+                            </div>
+                        </v-col>
+                        <v-col >
+                            <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="battle_dialog = true">
+                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-8">Battle</h5></template>
+                            </div>
+                        </v-col>
+                        <v-col >
+                            <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="cypher_dialog = true">
+                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-7">Cypher</h5></template>
+                            </div>
+                        </v-col>
+                        <v-col >
+                            <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 " @click="showcase_dialog = true">
+                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-4">Showcase</h5></template >
+                            </div>
+                        </v-col>
+                        <v-col >
+                            <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1" @click="competition_dialog = true">
+                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-2">Competition</h5></template >
+                            </div>
+                        </v-col>
+                        <v-col >
+                            <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1" @click="otherCategory_dialog = true">
+                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-8">Other</h5></template >
+                            </div>
+                        </v-col>
+                    </v-row>
+                    <v-row class="mb-3 pa-0 hidden-sm-and-up">
+                        <v-col class="pa-0" cols="12">
+                            <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="workshop_dialog = true">
+                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Workshop</h5></center >
+                            </div>
+                        </v-col>
+                        <v-col class="pa-0" cols="12">
+                            <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="battle_dialog = true">
+                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Battle</h5></center >
+                            </div>
+                        </v-col>
+                        <v-col class="pa-0" cols="12">
+                            <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="cypher_dialog = true">
+                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Cypher</h5></center >
+                            </div>
+                        </v-col>
+                        <v-col class="pa-0" cols="12">
+                            <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="showcase_dialog = true">
+                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Showcase</h5></center >
+                            </div>
+                        </v-col>
+                        <v-col class="pa-0" cols="12">
+                            <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="competition_dialog = true">
+                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Competition</h5></center >
+                            </div>
+                        </v-col>
+                        <v-col class="pa-0" cols="12">
+                            <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="otherCategory_dialog = true">
+                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Other</h5></center >
+                            </div>
+                        </v-col>
+                    </v-row>
+                    <v-row class="pa-0 ma-0">
+                        <v-list two-line style="width:100%;">
+                                <template v-for="(item, index) in this.categories">
+                                <v-list-item
+                                    :key="index">
+                                    <template @click="openCat(item)">
+                                    <v-list-item-avatar v-if="item.poster" size="30">
+                                    <v-img :src="item.poster"></v-img>
+                                    </v-list-item-avatar>
+                                    <v-list-item-avatar v-else-if="item.type == 'workshop'" color="yellow" size="30">
+                                    </v-list-item-avatar>
+                                    <v-list-item-avatar v-else-if="item.type == 'battle'" color="red" size="30">
+                                    </v-list-item-avatar>
+                                    <v-list-item-avatar v-else-if="item.type == 'cypher'" color="green" size="30">
+                                    </v-list-item-avatar>
+                                    <v-list-item-avatar v-else-if="item.type == 'showcase'" color="blue" size="30">
+                                    </v-list-item-avatar>
+                                    <v-list-item-avatar v-else-if="item.type == 'competition'" color="purple" size="30">
+                                    </v-list-item-avatar>
+                                    <v-list-item-avatar v-else-if="item.type == 'other'" color="black" size="30">
+                                    </v-list-item-avatar>
+                                    <v-list-item-content @click="openCat(item)">
+                                    <v-list-item-title v-html="item.name"></v-list-item-title>
+                                    <v-list-item-subtitle class="caption" v-html="item.about"></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    </template>
+                                    <v-spacer></v-spacer>
+                                    <v-btn icon color="error" @click="removeCat(item)">
+                                    <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                </v-list-item>
+                                </template>
+                            </v-list>
+                        <!-- <v-col cols="4" v-for="category in this.categories"  :key ="category.index">
+                            <category-card :category="category"></category-card>
+                        </v-col> -->
+                    </v-row>
                     <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="submit" :loading="progressbar" :disabled="lockButton">Submit</v-btn>
+                    @click="submit" :loading="progressbar" >Submit</v-btn>
                     <v-btn v-else outlined small class="text-decoration-none"  color="black"
-                    @click="update" :loading="progressbar" :disabled="lockButton">Update</v-btn>
+                    @click="update" :loading="progressbar" >Update</v-btn>
                     <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>
         </v-col>
-        <!-- <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl hidden-sm-and-down">
-            <h3 class="ma-4">Preview your journey</h3>
-            <v-row v-if="journey.jodate" class="pb-2">
-                <caption class="ma-6">{{journey.jodate}} </caption>
-            </v-row>
-            <v-row v-if="journey.joevent" class="pb-6 justify-center text-center">
-                <h3 class="text-center font-weight-light ">{{journey.joevent}} </h3>
-                <v-btn v-if="journey.country " icon class="text-decoration-none pb-2 pl-4" >
-                <country-flag :country= journey.country />
-            </v-btn>
-            </v-row>
-            <client-only>
-                  <Slider v-if="imageData1"
-                      :autoplay = false
-                      width="320px"
-                      height="200px">
-                      <div v-if="imageData1">
-                      <SliderItem >
-                      <v-img
-                            :src="imageData1"
-                            contain
-                            height="200px"
-                            width="320px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="imageData2">
-                      <SliderItem>
-                      <v-img
-                            :src="imageData2"
-                            contain
-                            height="200px"
-                            width="320px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                  </Slider>
-            </client-only>
-            
-            <v-row v-if="journey.jocontent" class="pb-6 pt-4 justify-center text-center">
-                <h4 class=" text-center font-weight-light "> {{journey.username}}: {{journey.jocontent}} </h4>
-            </v-row>
-            <v-row v-if="journey.jolink" class="pb-6 justify-center text-center">
-                <v-btn v-if="journey.jolink"  icon color="black" @click="openlink">
-                  <v-icon >mdi-link</v-icon>
-                </v-btn>
-                <v-tooltip v-if="journey.ishighlight" top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs"
-                        v-on="on">
-                        <v-icon class="pl-2 float-right" small color="orange">mdi-star</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>This is a highlighted post.</span>
-                </v-tooltip>
-                <v-tooltip v-if="journey.isprivate" top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs"
-                        v-on="on">
-                        <v-icon class="pl-2 float-right" small>mdi-lock</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>This is your private post.</span>
-                </v-tooltip>
-            </v-row>
-        </v-col> -->
-        <!-- {{journey}} -->
         </v-row>
+        <v-dialog
+        :retain-focus="false"
+        v-model="battle_dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="close_battle_dialog ">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add battle</h3>
+        <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput2" 
+            accept="image/*"
+            required
+            @change="onFileChange2">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(battle_category.poster) === 'string'" :src="battle_category.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(2)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "battle_category.name"
+            label= "Title"
+            :maxlength="50">
+        </v-text-field>
+        <v-menu
+            ref="menu1"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="battle_category.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly clearable
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="battle_category.date"
+                :active-picker.sync="activePicker"
+                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                min="1950-01-01"
+                @change="save(battle_category.date, 2)"
+                ></v-date-picker>
+        </v-menu>
+        <v-menu
+        ref="menu"
+        v-model="menutime"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="battle_category.date_time"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="battle_category.date_time"
+            label="Time"
+            prepend-icon="mdi-clock-time-four-outline"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="menutime"
+          v-model="battle_category.date_time"
+          full-width
+          @click:minute="$refs.menu.save(battle_category.date_time)"
+        ></v-time-picker>
+      </v-menu>
+        <v-text-field
+            v-model = "battle_category.venue"
+            label= "Venue"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "battle_category.mc"
+            label= "Emcee"
+            :maxlength="250">
+        </v-text-field>
+        <v-text-field
+            v-model = "battle_category.dj"
+            label= "DJ"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "battle_category.judges"
+            label= "Judges"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "battle_category.about"
+            label= "About"
+            :maxlength="250">
+        </v-text-field>
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addBattle()">Add</v-btn>
+        </v-container>
+        </v-dialog> 
+        <v-dialog
+        :retain-focus="false"
+        v-model="workshop_dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="close_category_dialog">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add workshop</h3>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput3" 
+            accept="image/*"
+            required
+            @change="onFileChange3">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "category.name"
+            label= "Title"
+            :maxlength="50">
+        </v-text-field>
+        <v-menu
+            ref="menu2"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="category.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly clearable
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="category.date"
+                :active-picker.sync="activePicker"
+                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                min="1950-01-01"
+                @change="save(category.date,3)"
+                ></v-date-picker>
+        </v-menu>
+        <v-text-field
+            v-model = "category.venue"
+            label= "Venue"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "category.artist"
+            label= "Artist"
+            :maxlength="250">
+        </v-text-field>
+        <v-text-field
+            v-model = "category.about"
+            label= "About"
+            :maxlength="250">
+        </v-text-field>
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addWorkshop()" >Add</v-btn>
+        </v-container>
+        </v-dialog> 
+        <v-dialog
+        :retain-focus="false"
+        v-model="competition_dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="close_category_dialog">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add Competition</h3>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput3" 
+            accept="image/*"
+            required
+            @change="onFileChange3">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "category.name"
+            label= "Title"
+            :maxlength="50">
+        </v-text-field>
+        <v-menu
+            ref="menu3"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="category.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly clearable
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="category.date"
+                :active-picker.sync="activePicker"
+                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                min="1950-01-01"
+                @change="save(category.date,4)"
+                ></v-date-picker>
+        </v-menu>
+        <v-text-field
+            v-model = "category.venue"
+            label= "Venue"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "category.about"
+            label= "About"
+            :maxlength="250">
+        </v-text-field>
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addCompetition()" >Add</v-btn>
+        </v-container>
+        </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="showcase_dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="close_category_dialog">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add Showcase</h3>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput3" 
+            accept="image/*"
+            required
+            @change="onFileChange3">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "category.name"
+            label= "Title"
+            :maxlength="50">
+        </v-text-field>
+        <v-menu
+            ref="menu4"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="category.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly clearable
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="category.date"
+                :active-picker.sync="activePicker"
+                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                min="1950-01-01"
+                @change="save(category.date,5)"
+                ></v-date-picker>
+        </v-menu>
+        <v-text-field
+            v-model = "category.venue"
+            label= "Venue"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "category.artist"
+            label= "Artist"
+            :maxlength="250">
+        </v-text-field>
+        <v-text-field
+            v-model = "category.about"
+            label= "About"
+            :maxlength="250">
+        </v-text-field>
+        
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addShowcase()" >Add</v-btn>
+        </v-container>
+        </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="cypher_dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="close_category_dialog">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add Cypher</h3>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput3" 
+            accept="image/*"
+            required
+            @change="onFileChange3">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "category.name"
+            label= "Title"
+            :maxlength="50">
+        </v-text-field>
+        <v-menu
+            ref="menu5"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="category.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly clearable
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="category.date"
+                :active-picker.sync="activePicker"
+                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                min="1950-01-01"
+                @change="save(category.date, 6)"
+                ></v-date-picker>
+        </v-menu>
+        <v-text-field
+            v-model = "category.venue"
+            label= "Venue"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "category.about"
+            label= "About"
+            :maxlength="250">
+        </v-text-field>
+        
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addCypher()"  >Add</v-btn>
+        </v-container>
+        </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="otherCategory_dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="close_category_dialog">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add Category</h3>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput3" 
+            accept="image/*"
+            required
+            @change="onFileChange3">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "category.name"
+            label= "Title"
+            :maxlength="50">
+        </v-text-field>
+        <v-menu
+            ref="menu6"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="category.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly clearable
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="category.date"
+                :active-picker.sync="activePicker"
+                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                min="1950-01-01"
+                @change="save(category.date, 7)"
+                ></v-date-picker>
+        </v-menu>
+        <v-text-field
+            v-model = "category.venue"
+            label= "Venue"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "category.artist"
+            label= "Artist"
+            :maxlength="250">
+        </v-text-field>
+        <v-text-field
+            v-model = "category.about"
+            label= "About"
+            :maxlength="250">
+        </v-text-field>
+        
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addOtherCategory()" >Add</v-btn>
+        </v-container>
+        </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="open_category_dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="open_category_dialog = false">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3 class="font-weight-light">{{openCategoryItem.type}}</h3>
+        <v-img v-if="typeof(openCategoryItem.poster) === 'string'" :src="openCategoryItem.poster" class="mx-auto my-6" height="auto" width="352px" contain>
+        </v-img>
+        <h3  class="font-weight-light">{{openCategoryItem.name}}</h3>
+        </v-container>
+        </v-dialog>
         <v-snackbar v-model="posted_snackbar">
-            Journey posted.
+            Event posted.
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">
             Some error occured. Please try again.
         </v-snackbar>
         <v-snackbar v-model="valid_snackbar">
-            Please fill the required details.
+            Please fill the required details.(name, poster, country, date)
         </v-snackbar>
     </v-container>
 </v-app>
@@ -304,32 +752,24 @@
 import { Slider, SliderItem } from "vue-easy-slider";
 import { mapGetters } from 'vuex'
 import CountryFlag from 'vue-country-flag'
-
+import CategoryCard from '@/components/CategoryCard.vue'
+import Vue from "vue";
+import Croppa from "vue-croppa";
+import "vue-croppa/dist/vue-croppa.css";
+import check_auth from '~/middleware/check_auth';
+Vue.use(Croppa);
 export default {
     middleware : 'check_auth',
     components: {
         Slider,
         SliderItem,
         CountryFlag,
+        CategoryCard
     },
     created (){
         if(this.$store.state.editing_obj)
         {
-            this.journey = Object.assign({}, this.$store.getters.editing_obj);
-            this.imageData1 = this.journey.jophoto1
-            this.imageData2 = this.journey.jophoto2
-            // this.imageData3 = this.journey.jophoto3
-            // this.imageData4 = this.journey.jophoto4
-            // this.imageData5 = this.journey.jophoto5
-            if(this.journey.ishighlight){
-                this.journey.ishighlight = true
-            }else{this.journey.ishighlight =false}
-            if(this.journey.isprivate){
-                this.journey.isprivate =true
-            }else{this.journey.isprivate =false}
-            if(this.journey.isevent){
-                this.journey.isevent =true
-            }else{this.journey.isevent =false}
+            this.event = Object.assign({}, this.$store.getters.editing_obj);
         }
     },
     computed: {
@@ -337,32 +777,144 @@ export default {
     },
     data(){
         return {
-            journey: {
-                username: this.$store.state.auth.user.user.username,
-                jocontent: "",
-                joevent: "",
-                jodate: "",
-                jophoto1: "",
-                jophoto2: "",
-                country:"",
+            event: {
+                username: null,
+                name: "",  // # must
+                venue: "",
+                start_date: null, // # must
+                link: "",
+                poster: "", // # must
+                country:null, // # must
                 city:"",
-                // jophoto3: "",
-                // jophoto4: "",
-                // jophoto5: "",
-                jp1thumb:"",
-                jolink: "",
-                ishighlight: false,
-                isprivate: false,
+                about:"",
+                videolink:''
             },
+            battle_category:{
+                event:'', // # must
+                type:'battle',
+                poster:'',
+                name:'', // # must
+                dj:'',
+                mc:'',
+                judges:'',
+                date:'',
+                date_time:'',
+                venue:'',
+                about:'',
+                rules:'',
+                prizes:'',
+                guest1:'',
+                name1:'',
+                photo1:'',
+                videolink1:'',
+                country1:'',
+                info1:'',
+                guest2:'',
+                name2:'',
+                photo2:'',
+                videolink2:'',
+                country2:'',
+                info2:'',
+                guest3:'',
+                name3:'',
+                photo3:'',
+                videolink3:'',
+                country3:'',
+                info3:'',
+                guest4:'',
+                name4:'',
+                photo4:'',
+                videolink4:'',
+                country4:'',
+                info4:'',
+                guest5:'',
+                name5:'',
+                photo5:'',
+                videolink5:'',
+                country5:'',
+                info5:'',
+                guest6:'',
+                name6:'',
+                photo6:'',
+                videolink6:'',
+                country6:'',
+                info6:'',
+                guest7:'',
+                name7:'',
+                photo7:'',
+                videolink7:'',
+                country7:'',
+                info7:'',
+                dj1:'',
+                djname1:'',
+                djphoto1:'',
+                djvideolink1:'',
+                djcountry1:'',
+                djinfo1:'',
+                dj2:'',
+                djname2:'',
+                djphoto2:'',
+                djvideolink2:'',
+                djcountry2:'',
+                djinfo2:'',
+                mc1:'',
+                mcname1:'',
+                mcphoto1:'',
+                mcvideolink1:'',
+                mccountry1:'',
+                mcinfo1:'',
+                mc2:'',
+                mcname2:'',
+                mcphoto2:'',
+                mcvideolink2:'',
+                mccountry2:'',
+                mcinfo2:'',
+            },
+            category:{
+                event:'', // # must
+                category:'',
+                poster:'',
+                name:'', // # must
+                event:'',
+                artist:'',
+                judges:'',
+                date:'',
+                date_time:'',
+                venue:'',
+                about:'',
+                guest1:'',
+                name1:'',
+                photo1:'',
+                videolink1:'',
+                country1:'',
+                info1:'',
+                guest2:'',
+                name2:'',
+                photo2:'',
+                videolink2:'',
+                country2:'',
+                info2:'',
+            },
+            categories:[],
+            activePicker: null,
+            menu: false,
+            menu1: false,
+            menu2: false,
+            menu3: false,
+            menu4: false,
+            menu5: false,
+            menu6: false,
+            menutime: false,
+            competition_dialog:false,
+            battle_dialog:false,
+            showcase_dialog:false,
+            workshop_dialog:false,
+            cypher_dialog:false,
+            otherCategory_dialog:false,
             lockButton: false,
             progressbar: false,
-            date:"",
+            date:null,
             slide: null,
-            imageData1: "",
-            imageData2: "",
-            // imageData3: "",
-            // imageData4: "",
-            // imageData5: "",
             e6: 1,
             linkError:'',
             model:"",
@@ -613,12 +1165,117 @@ export default {
                 {"name": "Yemen", "code": "YE"},
                 {"name": "Zambia", "code": "ZM"},
                 {"name": "Zimbabwe", "code": "ZW"}
-                ],
+            ],
+            open_category_dialog:false,
+            openCategoryItem:{},
+            workshop:'yellow',
+            battle:'red',
+            competition:'purple',
+            cypher:'green',
+            showcase:'blue',
+            other:'black',
         }
     },
+    watch: {
+        menu (val) {
+        val && setTimeout(() => (this.activePicker = 'YEAR'))
+        },
+    },
     methods: {
+        openCat(item){
+            this.openCategoryItem = item
+            this.open_category_dialog = true
+        },
+        removeCat(item){
+            this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.type === item.type),1);
+            console.log(this.categories);
+        },
+        close_battle_dialog(){
+            for (var key in this.battle_category) {
+                this.battle_category[key] = '';
+            }
+            console.log(this.battle_category);
+            this.battle_dialog=false;
+        },
+        close_category_dialog(){
+            for (var key in this.category) {
+                this.category[key] = '';
+            }
+            this.workshop_dialog=false;
+            this.competition_dialog=false;
+            this.showcase_dialog=false;
+            this.cypher_dialog=false;
+            this.otherCategory_dialog=false;
+        },
+        save(date, num){
+            this.$refs.menu.save(date)
+            switch(num) {
+                case 1:
+                    this.$refs.menu.save(date)
+                    break;
+                case 2:
+                    this.$refs.menu1.save(date)
+                    break; 
+                case 3:
+                    this.$refs.menu2.save(date)
+                    break; 
+                case 4:
+                    this.$refs.menu3.save(date)
+                    break;
+                case 5:
+                    this.$refs.menu4.save(date)
+                    break; 
+                case 6:
+                    this.$refs.menu5.save(date)
+                    break; 
+                case 7:
+                    this.$refs.menu6.save(date)
+                    break; 
+                default:
+                    // code block
+                }
+        },
+        addBattle(){
+            if(this.battle_category.name){this.battle_category.type = "battle";
+            let clone = {...this.battle_category}
+            this.categories.push(clone)
+            this.close_battle_dialog()}
+            else{
+                console.log("add title");
+            }
+        },
+        addWorkshop(){
+            if(this.category.name){this.category.type = "workshop"
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.close_category_dialog()}
+        },
+        addShowcase(){
+            if(this.category.name){this.category.type = "showcase"
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.close_category_dialog()}
+        },
+        addCypher(){
+            if(this.category.name){this.category.type = "cypher"
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.close_category_dialog()}
+        },
+        addCompetition(){
+            if(this.category.name){this.category.type = "competition"
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.close_category_dialog()}
+        },
+        addOtherCategory(){
+            if(this.category.name){this.category.type = "other"
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.close_category_dialog()}
+        },
         checkLink(){
-            let urlLink = this.journey.jolink;
+            let urlLink = this.event.link;
             if(urlLink){ //if link exists check if it's valid
                 var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
                 '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
@@ -626,16 +1283,16 @@ export default {
                 '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
                 '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
                 '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                let check = !!pattern.test(this.journey.jolink);
+                let check = !!pattern.test(this.event.link);
                 if(check){
                     let checkStartsHttp = urlLink.startsWith('http')
                     console.log( "checkStartsHttp", checkStartsHttp);
                     if(!checkStartsHttp)
                     {
                         console.log("doesn't start with http")
-                        console.log("url",this.journey.jolink);
-                        this.journey.jolink = 'http://'+ this.journey.jolink
-                        console.log("url",this.journey.jolink);
+                        console.log("url",this.event.link);
+                        this.event.link = 'http://'+ this.event.link
+                        console.log("url",this.event.link);
                         this.linkError=``
                         //add http to url
                     }
@@ -657,16 +1314,10 @@ export default {
                     break;
                 case 2:
                     this.$refs.fileInput2.click()
-                    break;
+                    break; 
                 case 3:
                     this.$refs.fileInput3.click()
-                    break;
-                case 4:
-                    this.$refs.fileInput4.click()
-                    break;
-                case 5:
-                    this.$refs.fileInput5.click()
-                    break;
+                    break; 
                 default:
                     // code block
                 }
@@ -674,186 +1325,128 @@ export default {
         removeImage(num){
             switch(num) {
                 case 1:
-                    {this.imageData1 = ""
-                    this.journey.jophoto1 = ""
+                    {
+                    this.event.poster = ""
                     break;}
-                case 2:
-                    {this.imageData2 = ""
-                    this.journey.jophoto2 =""
-                    console.log(this.journey);
+                case 2:{
+                    this.battle_category.poster =""
+                    break;}
+                case 3:{
+                    this.category.poster =""
                     break;}
                 // case 3:
-                //     {this.imageData3 = ""
-                //     this.journey.jophoto3 =""
+                //     {this.posterDataBattle = ""
+                //     this.category.image =""
                 //     break;}
                 // case 4:
-                //     {this.imageData4 = ""
-                //     this.journey.jophoto4 =""
+                //     {this.imageDataCypher = ""
+                //     this.category.image =""
                 //     break;}
                 // case 5:
-                //     {this.imageData5 = ""
-                //     this.journey.jophoto5 =""
+                //     {this.imageDataShowcase = ""
+                //     this.category.image =""
+                //     break;}
+                // case 6:
+                //     {this.imageDataCompetition= ""
+                //     this.category.image =""
+                //     break;}
+                // case 7:
+                //     {this.imageDataOther = ""
+                //     this.category.image =""
                 //     break;}
                 default:
                     // code block
                 }
         },
         onFileChange1(e) {
-            this.lockButton = true;
             let files = e.target.files || e.dataTransfer.files;
-            if (files) {
+            if (files[0]) {
             const fileReader = new FileReader()
             fileReader.onload = (e) => {
-                    this.imageData1 = e.target.result;
+                this.event.poster = e.target.result;
             }
-            if(files[0])
-                {
-                    fileReader.readAsDataURL(files[0]);
-                    this.journey.jophoto1 = files[0];
-                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                        res => {
-                            if(res.statusCode == 200)
-                            {
-                                delete this.$axios.defaults.headers.common['Authorization']
-                                let filename = res.key
-                                let url = res.body
-                                url = url.slice(1, -1);
-                                this.$axios.$put(url, this.journey.jophoto1).then((value) => {
-                                this.journey.jophoto1 =''
-                                this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                this.lockButton = false;
-                                console.log(this.journey.jophoto1, this.journey.jp1thumb);
-                                });
-                            }
-                        }
-                    )
-                }else{
-                    this.lockButton = false;
-                }
-            // fileReader.readAsDataURL(files[0]);
-            // this.journey.jophoto1 = files[0];
+            fileReader.readAsDataURL(files[0]);
+            this.event.poster = files[0];
             }
         },
         onFileChange2(e) {
-            this.lockButton = true;
-            // console.log("this.lockButton",this.lockButton);
             let files = e.target.files || e.dataTransfer.files;
-            if (files) {
+            if (files[0]) {
             const fileReader = new FileReader()
             fileReader.onload = (e) => {
-                    this.imageData2 = e.target.result;
-                }
-            if(files[0])
-                {
-                    fileReader.readAsDataURL(files[0]);
-                    this.journey.jophoto2 = files[0];
-                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                        res => {
-                            if(res.statusCode == 200)
-                            {
-                                delete this.$axios.defaults.headers.common['Authorization']
-                                let filename = res.key
-                                let url = res.body
-                                url = url.slice(1, -1);
-                                this.$axios.$put(url, this.journey.jophoto2).then((value) => {
-                                this.journey.jophoto2 =''
-                                this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                this.lockButton = false;
-                                // console.log("this.lockButton",this.lockButton);
-                                // console.log(this.journey.jophoto2);
-                                });
-                            }
-                        }
-                    )
-                }else{
-                    this.lockButton = false;
-                }
+                this.battle_category.poster = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.battle_category.poster = files[0];
             }
         },
-        // onFileChange3(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData3 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto3 = files[0];
-        //     }
-        // },
-        // onFileChange4(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData4 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto4 = files[0];
-        //     }
-        // },
-        // onFileChange5(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData5 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto5 = files[0];
-        //     }
-        // },
-        openlink(){
-            var url = this.journey.jolink;
-            var win = window.open(url, '_blank');
-            win.focus();
-            },
-        refresh(){
-            this.date ="";
-            this.imageData1 = '',
-            this.imageData2='',
-            // this.imageData3='',
-            // this.imageData4='',
-            // this.imageData5='',
-            this.journey.username = this.$store.state.auth.user.user.username;
-            this.journey.jocontent= "";
-            this.journey.joevent= "";
-            this.journey.jodate= "";
-            this.journey.jophoto1= null;
-            this.journey.jophoto2= null;
-            // this.journey.jophoto3= null;
-            // this.journey.jophoto4= null;
-            // this.journey.jophoto5= null;
-            this.journey.jolink= "";
-            this.journey.ishighlight= false;
-            this.journey.isprivate = false;
+        onFileChange3(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files[0]) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                this.category.poster = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.category.poster = files[0];
+            }
+        },
+        dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+            }
+        return new File([u8arr], filename, {type:mime});
         },
         async submit(){
-            if(this.journey.joevent != "" && this.journey.jophoto1)
+            // console.log(this.event.poster);
+            this.event.username= this.$store.state.auth.user.user.username
+            if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
             { 
             this.progressbar =true
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
-            };
-            let formData = new FormData();
-            for (let data in this.journey) {
-                formData.append(data, this.journey[data]);
-            }
-            try {
-                await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
+            let fileData = this.dataURLtoFile(this.event.poster, "coverimage.png");
+            console.log("uploading");
+            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+            if(res.statusCode == 200)
+            {
+                console.log("uploading");
+                delete this.$axios.defaults.headers.common['Authorization']
+                let filename = res.key
+                let url = res.body
+                console.log(res);
+                url = url.slice(1, -1);
+                this.$axios.$put(url, fileData).then((value) => {
+                this.event.poster = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                console.log("uploaded");
+                console.log(this.event.poster);
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+                };
+                let formData = new FormData();
+                for (let data in this.event) {
+                    formData.append(data, this.event[data]);
+                    console.log(this.event[data]);
+                }
+                console.log(this.event);
+                try {
+                    this.$axios.$post("/v1/events/create/", formData, config).then(res =>{
                     console.log(res);
-                    this.refresh();
                     this.progressbar =false;
                     this.posted_snackbar = true;
-                    this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
-                })
-            } catch (e) {
-                this.progressbar =false;
-                this.error_snackbar =true
-                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
-                console.log(e);
+                    this.$router.push("/events/"+res.uuid);
+                    }).then( res =>
+                        {
+                            console.log("battle posts", res);}
+
+                    )
+                } catch (e) {
+                    console.log("err ");
+                    this.progressbar = false;
+                    this.error_snackbar =true
+                    console.log(e.response);}
+                }) 
             }
             }
             else{
@@ -861,7 +1454,7 @@ export default {
             }
         },
         async update() {
-            if(this.journey.joevent != "" && this.journey.jophoto1)
+            if(this.event.name != "" && this.event.poster)
             {this.progressbar =true;
             const config = {
                 headers: {"content-type": "multipart/form-data",
@@ -869,7 +1462,7 @@ export default {
                 }
             };
             let myObj1 = this.editing_obj 
-            let myObj2 = this.journey
+            let myObj2 = this.event
             // find keys 
             let keyObj1 = Object.keys(myObj1); 
             let keyObj2 = Object.keys(myObj2);
@@ -888,29 +1481,34 @@ export default {
                     // it prints keys have different values 
                     let formName = new FormData();
                     formName.append(keyObj1[i], valueObj2[i]);
-                    formName.append("id", this.journey['id']);
+                    formName.append("id", this.event['id']);
 
                     console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                    await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config).then(res => {
+                    await this.$axios.$patch("/v1/artist/event/"+this.editing_obj.id, formName, config).then(res => {
                         console.log( valueObj2[i] ,res," changed"); 
-                        // this.$store.dispatch("check_user_journey");
+                        // this.$store.dispatch("check_user_event");
                     })
                 } 
             }
             this.$store.dispatch("remove_editing_obj");
             this.progressbar =false
             this.posted_snackbar = true;
-            this.refresh();
             } catch (error) {
                 console.log("error",error);
                 this.error_snackbar =true
                 this.progressbar =false
             }
-            this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");}
+            this.$router.push("/"+this.$store.state.auth.user.user.username+"/event");}
             else{
                 this.valid_snackbar=true
             }
         }, 
     },
+    middleware : 'check_auth',
     }
 </script>
+<style scoped>
+div .hover:hover {
+  background: #E0E0E0;
+}
+</style>
