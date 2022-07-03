@@ -66,8 +66,6 @@
                         <v-date-picker
                             v-model= "event.start_date"
                             :active-picker.sync="activePicker"
-                            :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                            min="1950-01-01"
                             @change="save(event.start_date,1)"
                             ></v-date-picker>
                     </v-menu>
@@ -745,6 +743,9 @@
         <v-snackbar v-model="valid_snackbar">
             Please fill the required details.(name, poster, country, date)
         </v-snackbar>
+        <v-snackbar v-model="cat_valid_snackbar">
+            Title is required.
+        </v-snackbar>
     </v-container>
 </v-app>
 </template>
@@ -1174,6 +1175,7 @@ export default {
             cypher:'green',
             showcase:'blue',
             other:'black',
+            cat_valid_snackbar:false,
         }
     },
     watch: {
@@ -1241,6 +1243,7 @@ export default {
             this.categories.push(clone)
             this.close_battle_dialog()}
             else{
+                this.cat_valid_snackbar = true
                 console.log("add title");
             }
         },
@@ -1248,31 +1251,31 @@ export default {
             if(this.category.name){this.category.type = "workshop"
             let clone = {...this.category}
             this.categories.push(clone)
-            this.close_category_dialog()}
+            this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         addShowcase(){
             if(this.category.name){this.category.type = "showcase"
             let clone = {...this.category}
             this.categories.push(clone)
-            this.close_category_dialog()}
+            this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         addCypher(){
             if(this.category.name){this.category.type = "cypher"
             let clone = {...this.category}
             this.categories.push(clone)
-            this.close_category_dialog()}
+            this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         addCompetition(){
             if(this.category.name){this.category.type = "competition"
             let clone = {...this.category}
             this.categories.push(clone)
-            this.close_category_dialog()}
+            this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         addOtherCategory(){
             if(this.category.name){this.category.type = "other"
             let clone = {...this.category}
             this.categories.push(clone)
-            this.close_category_dialog()}
+            this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         checkLink(){
             let urlLink = this.event.link;
