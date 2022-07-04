@@ -274,8 +274,6 @@
             <v-date-picker
                 v-model="battle_category.date"
                 :active-picker.sync="activePicker"
-                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                min="1950-01-01"
                 @change="save(battle_category.date, 2)"
                 ></v-date-picker>
         </v-menu>
@@ -322,11 +320,22 @@
             label= "DJ"
             :maxlength="50">
         </v-text-field>
-        <v-text-field
-            v-model = "battle_category.judges"
+        <v-text-field @click="judgesDialog = true"
             label= "Judges"
-            :maxlength="50">
+            :maxlength="0"
+            >
         </v-text-field>
+        <!-- <div v-for="obj in battleJudges" :key="obj.id"  class="text-decoration-none"> -->
+          <v-chip v-for="obj in battleJudges" :key="obj.id"  color="black grey" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="obj.poster">
+              <v-img :src="obj.poster"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{obj.name}}
+          </v-chip>
+        <!-- </div> -->
         <v-text-field
             v-model = "battle_category.about"
             label= "About"
@@ -390,8 +399,6 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                min="1950-01-01"
                 @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
@@ -468,8 +475,6 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                min="1950-01-01"
                 @change="save(category.date,4)"
                 ></v-date-picker>
         </v-menu>
@@ -541,8 +546,6 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                min="1950-01-01"
                 @change="save(category.date,5)"
                 ></v-date-picker>
         </v-menu>
@@ -620,8 +623,6 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                min="1950-01-01"
                 @change="save(category.date, 6)"
                 ></v-date-picker>
         </v-menu>
@@ -694,8 +695,6 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                min="1950-01-01"
                 @change="save(category.date, 7)"
                 ></v-date-picker>
         </v-menu>
@@ -732,6 +731,49 @@
         <v-img v-if="typeof(openCategoryItem.poster) === 'string'" :src="openCategoryItem.poster" class="mx-auto my-6" height="auto" width="352px" contain>
         </v-img>
         <h3  class="font-weight-light">{{openCategoryItem.name}}</h3>
+        </v-container>
+        </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="judgesDialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="judgesDialogClose">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add Judges</h3>
+        <div v-if="!judges.poster" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput4" 
+            accept="image/*"
+            required
+            @change="onFileChange4">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(judges.poster) === 'string'" :src="judges.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "judges.name"
+            label= "Name"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "judges.info"
+            label= "Info"
+            :maxlength="250">
+        </v-text-field>
+        
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addJudges()" >Add</v-btn>
         </v-container>
         </v-dialog>
         <v-snackbar v-model="posted_snackbar">
@@ -896,7 +938,15 @@ export default {
                 country2:'',
                 info2:'',
             },
+            judges:{
+                guest:'',
+                name:'',
+                poster:'',
+                info:'',
+            },
             categories:[],
+            battleJudges:[],
+            judgesDialog: false,
             activePicker: null,
             menu: false,
             menu1: false,
@@ -1184,6 +1234,55 @@ export default {
         },
     },
     methods: {
+        addJudges(){
+            if(this.judges.name){
+                if(this.battle_category.guest1==''){
+                    this.battle_category.guest1 = this.judges.name;
+                    this.battle_category.info1 = this.judges.info;
+                    this.battle_category.photo1 = this.judges.poster;
+                }else if(this.battle_category.guest2==''){
+                    this.battle_category.guest2 = this.judges.name;
+                    this.battle_category.info2 = this.judges.info;
+                    this.battle_category.photo2 = this.judges.poster;
+                }else if(this.battle_category.guest3==''){
+                    this.battle_category.guest3 = this.judges.name;
+                    this.battle_category.info3 = this.judges.info;
+                    this.battle_category.photo3 = this.judges.poster;
+                }else if(this.battle_category.guest4==''){
+                    this.battle_category.guest4 = this.judges.name;
+                    this.battle_category.info4 = this.judges.info;
+                    this.battle_category.photo4 = this.judges.poster;
+                }else if(this.battle_category.guest5==''){
+                    this.battle_category.guest5 = this.judges.name;
+                    this.battle_category.info5 = this.judges.info;
+                    this.battle_category.photo5 = this.judges.poster;
+                }else if(this.battle_category.guest6==''){
+                    this.battle_category.guest6 = this.judges.name;
+                    this.battle_category.info6 = this.judges.info;
+                    this.battle_category.photo6 = this.judges.poster;
+                }else if(this.battle_category.guest7==''){
+                    this.battle_category.guest7 = this.judges.name;
+                    this.battle_category.info7 = this.judges.info;
+                    this.battle_category.photo7 = this.judges.poster;
+                }else{
+                    console.log("once 7 guests allowed");
+                }
+                let clone = {...this.judges}
+                this.battleJudges.push(clone)
+                this.judges.name = ''
+                this.judges.info = ''
+                this.judges.poster = ''
+                this.judgesDialog = false;
+            }else{
+                console.log("add name");
+            }
+            console.log(this.battle_category);
+        },
+        judgesDialogClose(){
+            this.judgesDialog = false
+            console.log("add to array");
+            // add the judges info from here to array where it belongs
+        },
         openCat(item){
             this.openCategoryItem = item
             this.open_category_dialog = true
@@ -1238,10 +1337,11 @@ export default {
                 }
         },
         addBattle(){
-            if(this.battle_category.name){this.battle_category.type = "battle";
-            let clone = {...this.battle_category}
-            this.categories.push(clone)
-            this.close_battle_dialog()}
+            if(this.battle_category.name){
+                this.battle_category.type = "battle";
+                let clone = {...this.battle_category}
+                this.categories.push(clone)
+                this.close_battle_dialog()}
             else{
                 this.cat_valid_snackbar = true
                 console.log("add title");
@@ -1321,6 +1421,9 @@ export default {
                 case 3:
                     this.$refs.fileInput3.click()
                     break; 
+                case 4:
+                    this.$refs.fileInput4.click()
+                    break; 
                 default:
                     // code block
                 }
@@ -1337,6 +1440,9 @@ export default {
                 case 3:{
                     this.category.poster =""
                     break;}
+                case 4:{
+                    this.judges.poster =""
+                break;}
                 // case 3:
                 //     {this.posterDataBattle = ""
                 //     this.category.image =""
@@ -1392,6 +1498,17 @@ export default {
             }
             fileReader.readAsDataURL(files[0]);
             this.category.poster = files[0];
+            }
+        },
+        onFileChange4(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files[0]) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                this.judges.poster = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.judges.poster = files[0];
             }
         },
         dataURLtoFile(dataurl, filename) {

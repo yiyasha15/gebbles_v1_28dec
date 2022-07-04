@@ -8,7 +8,7 @@
         <v-container class="mx-auto" fluid style="max-width:750px" >
         <v-row class="pb-4">
             <v-col cols="12" md="6" align="center" justify="center">
-                <v-img :src = "e1t1.image" class="centerImage" maxHeight="380px" contain></v-img>
+                <v-img :src = "e1t1.image"  maxHeight="380px" contain></v-img>
             </v-col>
             <v-col cols="12" md="6" >
                 <v-row>
@@ -102,10 +102,10 @@
                 <v-layout row wrap justify-space-between class="mt-3 mx-0">
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
-                            <h5 >{{e1t1.teacher}}</h5> 
+                            <h4 >{{e1t1.teacher}}</h4> 
                         </nuxt-link>
                         <div v-else>
-                            <h5>{{e1t1.s_teacher_name}}</h5> 
+                            <h4>{{e1t1.s_teacher_name}}</h4> 
                         </div>
                     </v-flex>
                     <v-flex xs2 md2>
@@ -115,7 +115,7 @@
                     </v-flex>
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
-                                <h5 >{{e1t1.username}}</h5> 
+                                <h4 >{{e1t1.username}}</h4> 
                             </nuxt-link>
                     </v-flex>
                     <v-flex xs2 md2>
@@ -141,18 +141,21 @@
                 </div>
                 <v-row>
                     <v-col >
-                    <h5 v-if="e1t1.s_appreciation">Appreciation</h5>
+                    <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
                     <!-- <read-more more-str="read more" :text="msg" link="#" less-str="read less" :max-chars="50"></read-more> -->
                     <div style="
                         max-height:200px;
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
-                    <h5 class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h5>
+                    <h5  class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h5>
                     </div>
-                    <v-btn class="mt-4" small outlined color="black" @click="learntDialog=true" v-if="e1t1.s_learnings">Learning</v-btn>
+                    <v-btn class="mt-4" small outlined color="black" @click="learntDialog=true" v-if="e1t1.s_learnings">
+                        <h4 class="font-weight-medium" style="text-transform: capitalize;">Learning</h4>
+                        </v-btn>
                     <span v-if="e1t1.teacher!= null && loggedInUser">
-                        <v-btn class="mt-4" small outlined color="black" @click="personalDialog=true" v-if="loggedInUser.user.username == e1t1.teacher || loggedInUser.user.username == e1t1.username">Say hi <v-icon small class="pl-1">mdi-lock-outline</v-icon></v-btn>
+                        <v-btn class="mt-4" small outlined color="black" @click="personalDialog=true" v-if="loggedInUser.user.username == e1t1.teacher || loggedInUser.user.username == e1t1.username">
+                            <h4 class="font-weight-medium" style="text-transform: capitalize;">Say Hi</h4><v-icon x-small class="pl-1">mdi-lock-outline</v-icon></v-btn>
                     </span>
                     </v-col>
                 </v-row>
@@ -320,12 +323,6 @@
         </div>
         <v-card v-intersect="infiniteScrollingComments"></v-card> -->
     </v-container>
-    <v-snackbar v-model="sizeExceed">
-        Size exceeded.
-    </v-snackbar>
-    <v-snackbar v-model="valid_snackbar1">
-        Select a video.
-    </v-snackbar>
     <v-snackbar v-model="valid_snackbar2">
         Write something to post.
     </v-snackbar>
@@ -391,10 +388,8 @@ export default {
             videoId:'',
             addDedicated:false,
             dialog: false,
-            sizeExceed:false,
             learntDialog:false,
             personalDialog: false,
-            valid_snackbar1: false,
             valid_snackbar2: false,
             login_snackbar: false,
             thankyou_snackbar: false,

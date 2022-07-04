@@ -1,13 +1,13 @@
 <template>
 <div>
   <v-hover v-slot:default="{ hover }">
-    <v-card style="margin:auto;"
+    <v-card style="margin:2px;"
       data-view
       @click="opendialog"
       :elevation="hover ? 12 : 0"
       outlined
-      width="115" 
-      height="115"
+      width="200" 
+      height="200"
       class="pa-2"
     >
       <v-img
@@ -15,11 +15,11 @@
         height="100"
         width="100"
       />
-      <div v-else
+      <div v-else class="text-center py-14"
         height="100"
         width="100">
-        <h5 class="font-weight-light">{{category.name}}</h5>
-        <h6 class="caption">{{category.start_date}}</h6>
+        <h3 class="font-weight-light">{{category.name}}</h3>
+        <h6 class="caption">{{category.date}}</h6>
       </div>
     </v-card>
   </v-hover>
@@ -32,10 +32,10 @@
         <v-btn icon color="error" class="float-right" @click="dialog=false; ">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        <h5 class="font-weight-light">{{category.name}}</h5>
+        <h3 class="font-weight-light">{{category.name}}</h3>
         {{category}}
         </v-container>
-  </v-dialog>  
+    </v-dialog>  
 </div>
 </template>
 <script>
@@ -45,7 +45,7 @@
           title: 'events categories',
           }
       },
-      name: 'CategoryCard',
+      name: 'CategoryCardDesktop',
       props: {
         category: Object
       },
