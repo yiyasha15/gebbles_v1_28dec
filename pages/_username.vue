@@ -432,6 +432,7 @@
     :rules="countryRules" 
         :error-messages="errorCountry" 
         :items="countries"
+        prepend-icon="mdi-earth"
         item-text="name"
         item-value="code"
         color="#cead8f"

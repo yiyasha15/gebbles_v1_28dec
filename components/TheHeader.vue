@@ -261,6 +261,7 @@
         <v-select label="Representing" v-model= "registrationInfo.country" 
         :rules=" countryRules" 
         :error-messages="errorCountry" 
+        prepend-icon="mdi-earth"
             :items="countries"
             item-text="name"
             item-value="code"

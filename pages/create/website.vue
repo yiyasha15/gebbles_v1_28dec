@@ -55,10 +55,11 @@
                                     required 
                                     v-model = "artist_data.artist_name"
                                     label="Name"
+                                    prepend-icon="mdi-account-edit-outline"
                                     :maxlength="30">
                                 </v-text-field>
                                 <v-select label="Representing(country)" v-model= "artist_data.country"
-                                    :items="countries"
+                                    :items="countries" prepend-icon="mdi-earth"
                                     item-text="name"
                                     item-value="code"
                                     required
@@ -83,6 +84,7 @@
                             </v-autocomplete>
                             <v-text-field
                                 v-model= "bio.crew"
+                                prepend-icon="mdi-account-group-outline"
                                 label="Crew you represent"
                                 :maxlength="120">
                             </v-text-field>
@@ -105,7 +107,7 @@
                                 label="Instagram ID"
                                 @click:append="bio.ig=''; inputInsta=!inputInsta">
                             </v-text-field>
-                            <v-btn v-show="!inputFace &&!bio.fb" icon color=black @click="inputFace=true"><v-icon>mdi-facebook</v-icon></v-btn>
+                            <v-btn v-show="!inputFace &&!bio.fb" icon color=blue @click="inputFace=true"><v-icon>mdi-facebook</v-icon></v-btn>
                             <v-text-field
                                 v-show="inputFace || bio.fb"
                                 prepend-icon="mdi-facebook"
@@ -132,7 +134,7 @@
                                 color="red"
                                 v-model= "bio.vid1"
                                 label="Add upto four YouTube links"
-                                prepend-icon="mdi-plus"
+                                prepend-icon="mdi-youtube"
                                 append-icon="mdi-close"
                                 @input="showYoutubeVideo(1)"
                                 @click:append="bio.vid1 ='';showYoutubeVideo(1)"

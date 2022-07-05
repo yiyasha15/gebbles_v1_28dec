@@ -48,7 +48,7 @@
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
         <div v-for="event in events" :key ="event.index">
-          <events-card :event="event" ></events-card> 
+          <events-card-desktop :event="event" ></events-card-desktop> 
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
@@ -65,7 +65,7 @@
 
 <script>
 import EventsCard from '@/components/EventsCard.vue'
-// import ArtistCardDesktop from '@/components/ArtistCardDesktop.vue'
+import EventsCardDesktop from '@/components/EventsCardDesktop.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
 export default {
@@ -130,7 +130,7 @@ export default {
     },
   },
   components: {
-      EventsCard,
+      EventsCard, EventsCardDesktop
 
   },
   data() {

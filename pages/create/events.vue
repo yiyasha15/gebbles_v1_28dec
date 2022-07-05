@@ -70,6 +70,7 @@
                             ></v-date-picker>
                     </v-menu>
                     <v-text-field
+                    prepend-icon="mdi-map-marker-outline"
                         v-model = "event.venue"
                         label= "Event venue"
                         :maxlength="255">
@@ -80,22 +81,26 @@
                         :maxlength="50">
                     </v-text-field>
                     <v-select label="Country" v-model= "event.country"
+                    prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
                         item-value="code"
                         required
                     ></v-select>
                     <v-textarea
+                    prepend-icon="mdi-information-outline"
                         v-model = "event.about"
                         label= "About the event">
                     </v-textarea>
                     <v-text-field
                         :error-messages="linkError"
+                        prepend-icon="mdi-youtube"
                         v-model = "event.videolink"
                         label= "Youtube video link"
                         @change="checkLink">
                     </v-text-field>
                     <v-text-field
+                    prepend-icon="mdi-link"
                         :error-messages="linkError"
                         v-model = "event.link"
                         label= "Add a link"
@@ -174,7 +179,7 @@
                         </v-col>
                     </v-row>
                     <v-row class="pa-0 ma-0">
-                        <v-list two-line style="width:100%;">
+                        <!-- <v-list two-line style="width:100%;">
                                 <template v-for="(item, index) in this.categories">
                                 <v-list-item
                                     :key="index">
@@ -205,10 +210,7 @@
                                     </v-btn>
                                 </v-list-item>
                                 </template>
-                            </v-list>
-                        <!-- <v-col cols="4" v-for="category in this.categories"  :key ="category.index">
-                            <category-card :category="category"></category-card>
-                        </v-col> -->
+                            </v-list> -->
                     </v-row>
                     <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
                     @click="submit" :loading="progressbar" >Submit</v-btn>
@@ -218,6 +220,14 @@
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>
+            <v-row class="pa-0 ma-0">
+                <v-col cols="4" v-for="category in this.categories"  :key ="category.index">
+                    <v-btn icon color="error" @click="removeCat(category)">
+                    <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <category-card :category="category"></category-card>
+                </v-col>
+            </v-row>
         </v-col>
         </v-row>
         <v-dialog
@@ -308,25 +318,16 @@
         <v-text-field
             v-model = "battle_category.venue"
             label= "Venue"
+            prepend-icon="mdi-map-marker-outline"
             :maxlength="50">
         </v-text-field>
-        <v-text-field
+        <v-text-field @click="emceeDialog = true"
+            prepend-icon="mdi-microphone-variant"
             v-model = "battle_category.mc"
             label= "Emcee"
-            :maxlength="250">
+            :maxlength="0">
         </v-text-field>
-        <v-text-field
-            v-model = "battle_category.dj"
-            label= "DJ"
-            :maxlength="50">
-        </v-text-field>
-        <v-text-field @click="judgesDialog = true"
-            label= "Judges"
-            :maxlength="0"
-            >
-        </v-text-field>
-        <!-- <div v-for="obj in battleJudges" :key="obj.id"  class="text-decoration-none"> -->
-          <v-chip v-for="obj in battleJudges" :key="obj.id"  color="black grey" dark outlined class="ma-1" style="cursor:pointer;">
+        <v-chip v-for="obj in battleEmcee" :key="obj.id" close-icon="mdi-close" close @click:close="battleEmcee.splice(battleEmcee.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
             <v-avatar left v-if="obj.poster">
               <v-img :src="obj.poster"></v-img>
             </v-avatar>
@@ -335,8 +336,38 @@
             </v-avatar>
             {{obj.name}}
           </v-chip>
-        <!-- </div> -->
+        <v-text-field @click="djDialog = true"
+            prepend-icon="mdi-music"
+            v-model = "battle_category.dj"
+            label= "DJ"
+            :maxlength="0">
+        </v-text-field>
+        <v-chip v-for="obj in battleDj" :key="obj.id" close-icon="mdi-close" close @click:close="battleDj.splice(battleDj.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="obj.poster">
+              <v-img :src="obj.poster"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{obj.name}}
+          </v-chip>
+        <v-text-field @click="judgesDialog = true"
+            label= "Judges"
+            prepend-icon="mdi-hand-heart-outline"
+            :maxlength="0"
+            >
+        </v-text-field>
+          <v-chip v-for="obj in battleJudges" :key="obj.id" close-icon="mdi-close" close @click:close="battleJudges.splice(battleJudges.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="obj.poster">
+              <v-img :src="obj.poster"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{obj.name}}
+          </v-chip>
         <v-text-field
+        prepend-icon="mdi-information-outline"
             v-model = "battle_category.about"
             label= "About"
             :maxlength="250">
@@ -402,7 +433,7 @@
                 @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-text-field
+        <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
             :maxlength="50">
@@ -731,6 +762,7 @@
         <v-img v-if="typeof(openCategoryItem.poster) === 'string'" :src="openCategoryItem.poster" class="mx-auto my-6" height="auto" width="352px" contain>
         </v-img>
         <h3  class="font-weight-light">{{openCategoryItem.name}}</h3>
+        {{openCategoryItem}}
         </v-container>
         </v-dialog>
         <v-dialog
@@ -776,6 +808,92 @@
           @click="addJudges()" >Add</v-btn>
         </v-container>
         </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="emceeDialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="judgesDialogClose">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add Emcee</h3>
+        <div v-if="!judges.poster" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput4" 
+            accept="image/*"
+            required
+            @change="onFileChange4">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(judges.poster) === 'string'" :src="judges.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "judges.name"
+            label= "Name"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "judges.info"
+            label= "Info"
+            :maxlength="250">
+        </v-text-field>
+        
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addEmcee()" >Add</v-btn>
+        </v-container>
+        </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="djDialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="judgesDialogClose">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add DJ</h3>
+        <div v-if="!judges.poster" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput4" 
+            accept="image/*"
+            required
+            @change="onFileChange4">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(judges.poster) === 'string'" :src="judges.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "judges.name"
+            label= "Name"
+            :maxlength="50">
+        </v-text-field>
+        <v-text-field
+            v-model = "judges.info"
+            label= "Info"
+            :maxlength="250">
+        </v-text-field>
+        
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addDj()" >Add</v-btn>
+        </v-container>
+        </v-dialog>
         <v-snackbar v-model="posted_snackbar">
             Event posted.
         </v-snackbar>
@@ -786,7 +904,16 @@
             Please fill the required details.(name, poster, country, date)
         </v-snackbar>
         <v-snackbar v-model="cat_valid_snackbar">
-            Title is required.
+            Name is required.
+        </v-snackbar>
+        <v-snackbar v-model="max_judges_snackbar">
+            Maximum 7 artists.
+        </v-snackbar>
+        <v-snackbar v-model="max_emcee_snackbar">
+            Maximum 2 emcees.
+        </v-snackbar>
+        <v-snackbar v-model="max_dj_snackbar">
+            Maximum 7 DJs.
         </v-snackbar>
     </v-container>
 </v-app>
@@ -799,7 +926,6 @@ import CategoryCard from '@/components/CategoryCard.vue'
 import Vue from "vue";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
-import check_auth from '~/middleware/check_auth';
 Vue.use(Croppa);
 export default {
     middleware : 'check_auth',
@@ -946,7 +1072,11 @@ export default {
             },
             categories:[],
             battleJudges:[],
+            battleEmcee:[],
+            battleDj:[],
             judgesDialog: false,
+            emceeDialog: false,
+            djDialog: false,
             activePicker: null,
             menu: false,
             menu1: false,
@@ -1226,6 +1356,9 @@ export default {
             showcase:'blue',
             other:'black',
             cat_valid_snackbar:false,
+            max_judges_snackbar:false,
+            max_dj_snackbar:false,
+            max_emcee_snackbar:false,
         }
     },
     watch: {
@@ -1235,53 +1368,91 @@ export default {
     },
     methods: {
         addJudges(){
-            if(this.judges.name){
-                if(this.battle_category.guest1==''){
-                    this.battle_category.guest1 = this.judges.name;
-                    this.battle_category.info1 = this.judges.info;
-                    this.battle_category.photo1 = this.judges.poster;
-                }else if(this.battle_category.guest2==''){
-                    this.battle_category.guest2 = this.judges.name;
-                    this.battle_category.info2 = this.judges.info;
-                    this.battle_category.photo2 = this.judges.poster;
-                }else if(this.battle_category.guest3==''){
-                    this.battle_category.guest3 = this.judges.name;
-                    this.battle_category.info3 = this.judges.info;
-                    this.battle_category.photo3 = this.judges.poster;
-                }else if(this.battle_category.guest4==''){
-                    this.battle_category.guest4 = this.judges.name;
-                    this.battle_category.info4 = this.judges.info;
-                    this.battle_category.photo4 = this.judges.poster;
-                }else if(this.battle_category.guest5==''){
-                    this.battle_category.guest5 = this.judges.name;
-                    this.battle_category.info5 = this.judges.info;
-                    this.battle_category.photo5 = this.judges.poster;
-                }else if(this.battle_category.guest6==''){
-                    this.battle_category.guest6 = this.judges.name;
-                    this.battle_category.info6 = this.judges.info;
-                    this.battle_category.photo6 = this.judges.poster;
-                }else if(this.battle_category.guest7==''){
-                    this.battle_category.guest7 = this.judges.name;
-                    this.battle_category.info7 = this.judges.info;
-                    this.battle_category.photo7 = this.judges.poster;
-                }else{
-                    console.log("once 7 guests allowed");
-                }
+            if(this.battleJudges.length <6){if(this.judges.name){
+                // if(this.battle_category.guest1==''){
+                //     this.battle_category.guest1 = this.judges.name;
+                //     this.battle_category.info1 = this.judges.info;
+                //     this.battle_category.photo1 = this.judges.poster;
+                // }else if(this.battle_category.guest2==''){
+                //     this.battle_category.guest2 = this.judges.name;
+                //     this.battle_category.info2 = this.judges.info;
+                //     this.battle_category.photo2 = this.judges.poster;
+                // }else if(this.battle_category.guest3==''){
+                //     this.battle_category.guest3 = this.judges.name;
+                //     this.battle_category.info3 = this.judges.info;
+                //     this.battle_category.photo3 = this.judges.poster;
+                // }else if(this.battle_category.guest4==''){
+                //     this.battle_category.guest4 = this.judges.name;
+                //     this.battle_category.info4 = this.judges.info;
+                //     this.battle_category.photo4 = this.judges.poster;
+                // }else if(this.battle_category.guest5==''){
+                //     this.battle_category.guest5 = this.judges.name;
+                //     this.battle_category.info5 = this.judges.info;
+                //     this.battle_category.photo5 = this.judges.poster;
+                // }else if(this.battle_category.guest6==''){
+                //     this.battle_category.guest6 = this.judges.name;
+                //     this.battle_category.info6 = this.judges.info;
+                //     this.battle_category.photo6 = this.judges.poster;
+                // }else if(this.battle_category.guest7==''){
+                //     this.battle_category.guest7 = this.judges.name;
+                //     this.battle_category.info7 = this.judges.info;
+                //     this.battle_category.photo7 = this.judges.poster;
+                // }else{
+                //     console.log("once 7 guests allowed");
+                // }
                 let clone = {...this.judges}
                 this.battleJudges.push(clone)
+                console.log(this.battleJudges);
                 this.judges.name = ''
                 this.judges.info = ''
                 this.judges.poster = ''
                 this.judgesDialog = false;
             }else{
                 console.log("add name");
+                this.cat_valid_snackbar =true
+            }}else{
+                this.max_judges_snackbar = true
             }
-            console.log(this.battle_category);
+        },
+        addDj(){
+            if(this.battleDj.length <2){if(this.judges.name){
+                let clone = {...this.judges}
+                this.battleDj.push(clone)
+                console.log(this.battleDj);
+                this.judges.name = ''
+                this.judges.info = ''
+                this.judges.poster = ''
+                this.djDialog = false;
+            }else{
+                this.cat_valid_snackbar =true
+            }}else{
+                this.max_dj_snackbar = true
+            }
+        },
+        addEmcee(){
+            if(this.battleEmcee.length <2){if(this.judges.name){
+                let clone = {...this.judges}
+                this.battleEmcee.push(clone)
+                console.log(this.battleEmcee);
+                this.judges.name = ''
+                this.judges.info = ''
+                this.judges.poster = ''
+                this.emceeDialog = false;
+            }else{
+                this.cat_valid_snackbar =true
+            }}else{
+                this.max_emcee_snackbar = true
+            }
         },
         judgesDialogClose(){
             this.judgesDialog = false
-            console.log("add to array");
-            // add the judges info from here to array where it belongs
+            this.djDialog = false
+            this.emceeDialog = false
+            this.judges.name =''
+            this.judges.poster =''
+            this.judges.info =''
+            console.log("add to array", this.judges);
+            //clear form
         },
         openCat(item){
             this.openCategoryItem = item
@@ -1339,9 +1510,11 @@ export default {
         addBattle(){
             if(this.battle_category.name){
                 this.battle_category.type = "battle";
+                //add guest from this.battlejudges
                 let clone = {...this.battle_category}
                 this.categories.push(clone)
-                this.close_battle_dialog()}
+                this.close_battle_dialog()
+                }
             else{
                 this.cat_valid_snackbar = true
                 console.log("add title");

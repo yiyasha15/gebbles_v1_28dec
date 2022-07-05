@@ -13,40 +13,44 @@
         </v-btn>
         <v-row class="ma-0">
             <v-col cols="12" md="6" >
-                <v-row>
-                   <h1 class="mt-4">{{event.name}}</h1>
+                <v-row class="mt-4">
+                <v-col cols="10" class="px-0"> <h1 >{{event.name}}</h1></v-col>
+                <v-col cols="2"><country-flag class="mt-1 ml-2" :country= 'event.country'/></v-col>
                 </v-row>
                 <v-row>
-                   <h2 v-if="event.start_date" class="red--text mt-1" >  {{getTime(event.start_date).date}} at 12:45am</h2>
+                   <h3 v-if="event.start_date" class="red--text mt-1 font-weight-light" >  {{getTime(event.start_date).date}}</h3>
                 </v-row>
                 <v-row>
-                   <h4 v-if="event.city || event.venue" class=" font-weight-light" >{{event.venue}} <b>{{event.city}}</b></h4><country-flag class="ml-2" :country= 'event.country'/>
+                   <h3 class="red--text font-weight-light">  12:45am</h3>
                 </v-row>
                 <v-row>
-                    <v-btn small  class="elevation-0 text-decoration-none mt-6" @click="openLink">
+                   <h4 v-if="event.city || event.venue" class=" font-weight-light" >{{event.venue}} <b>{{event.city}}</b></h4>
+                </v-row>
+                <v-row>
+                    <v-btn small v-if="event.link" class="elevation-0 text-decoration-none mt-6" @click="openLink">
                         <h4 class="font-weight-medium" style="text-transform: capitalize;">More Info</h4>
                     </v-btn>
                 </v-row>
             </v-col>
             <v-col cols="12" md="6" align="center" justify="center" class="px-0">
-                <v-img :src = "event.poster"  contain></v-img>
+                <v-img :src = "event.poster" contain></v-img>
             </v-col>
         </v-row>
         <v-row class="ma-0">
         <h4 class="my-6 font-weight-light" > {{event.about}}</h4>
         </v-row>
-        <v-row class="ma-0">
-            <youtube class="hidden-sm-and-down mx-auto" aspect-ratio="1" :video-id= 'videoId'></youtube>
-            <youtube style="max-width:90%; margin:auto;height:auto;" class="hidden-md-and-up" :video-id= 'videoId'></youtube>
+        <v-row class="ma-0 mt-10">
+            <youtube v-if="videoId" class="hidden-sm-and-down mx-auto" aspect-ratio="1" :video-id= 'videoId'></youtube>
+            <youtube v-if="videoId"  style="max-width:90%; margin:auto;height:auto;" class="hidden-md-and-up" :video-id= 'videoId'></youtube>
         </v-row>
         <h2 class="my-6 font-weight-light" > Programs</h2>
         <v-row class="ma-0">
-            <v-col cols="4"  v-for="category in battle_categories" :key ="category.index" class=" hidden-md-and-up">
+            <v-col cols="12" md="6" v-for="category in battle_categories" :key ="category.index" class="px-0">
             <category-card :category="category"></category-card>
             </v-col>
-            <v-col cols="4"  v-for="category in battle_categories" :key ="category.index" class=" hidden-sm-and-down">
+            <!-- <v-col cols="6"  v-for="category in battle_categories" :key ="category.index" class="px-0 hidden-sm-and-down">
             <category-card-desktop :category="category"></category-card-desktop>
-            </v-col>
+            </v-col> -->
         </v-row>
         </v-container>
   </v-app>
@@ -54,7 +58,7 @@
 
 <script>
 import CategoryCard from '@/components/CategoryCard.vue'
-import CategoryCardDesktop from '@/components/CategoryCardDesktop.vue'
+// import CategoryCardDesktop from '@/components/CategoryCardDesktop.vue'
 import EventService from '@/services/EventService.js'
 import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
@@ -82,8 +86,7 @@ export default {
     components:{
         Youtube,
         CountryFlag,
-        CategoryCard,
-        CategoryCardDesktop
+        CategoryCard
     },
     data(){
           return {
@@ -103,87 +106,65 @@ export default {
             {
                 event:'', // # must
                 type:'battle',
-                poster:'',
+                poster:'https://mediumthumbnails.s3.us-east-2.amazonaws.com/5cddcbdc-b426-4d4e-83cf-c0b944bb0a75.png',
                 name:'Hiphop 1 on 1', // # must
                 dj:'DJ Piggo',
                 mc:'MC Jenisha',
                 judges:'Martha Nabwire',
-                date:'',
-                date_time:'',
+                date:'12 july 2022',
+                date_time:'12:45am',
                 venue:'Ratopul',
-                about:'',
-                rules:'',
+                about:'Dancers from around the world gather in the city of Amsterdam each year in August. Seven days to enjoy an international dance feast, packed with the best of today and the great promises of tomorrow. Organized in several venues around town, expect a great variety of dance performances, next level battles and workshops to refresh and boost your skills. A true summer in one of Europe’s hottest cities, soaked in dance, to be remembered forever. Forever…and ever…and ever…',
+                rules:'Dancers , Dancers, Dancers',
                 prizes:'',
-                guest1:'',
-                name1:'',
-                photo1:'',
-                videolink1:'',
-                country1:'',
-                info1:'',
+                guest1:'martha',
+                name1:'martha',
+                photo1:'https://mediumthumbnails.s3.us-east-2.amazonaws.com/5cddcbdc-b426-4d4e-83cf-c0b944bb0a75.png',
+                info1:'martha is martha',
                 guest2:'',
                 name2:'',
                 photo2:'',
-                videolink2:'',
-                country2:'',
                 info2:'',
                 guest3:'',
                 name3:'',
                 photo3:'',
-                videolink3:'',
-                country3:'',
                 info3:'',
                 guest4:'',
                 name4:'',
                 photo4:'',
-                videolink4:'',
-                country4:'',
                 info4:'',
                 guest5:'',
                 name5:'',
                 photo5:'',
-                videolink5:'',
-                country5:'',
                 info5:'',
                 guest6:'',
                 name6:'',
                 photo6:'',
-                videolink6:'',
-                country6:'',
                 info6:'',
                 guest7:'',
                 name7:'',
                 photo7:'',
-                videolink7:'',
-                country7:'',
                 info7:'',
-                dj1:'',
-                djname1:'',
-                djphoto1:'',
-                djvideolink1:'',
-                djcountry1:'',
-                djinfo1:'',
+                dj1:'Piggo',
+                djname1:'piggo',
+                djphoto1:'https://mediumthumbnails.s3.us-east-2.amazonaws.com/5cddcbdc-b426-4d4e-83cf-c0b944bb0a75.png',
+                djinfo1:' Piggo is Piggo',
                 dj2:'',
                 djname2:'',
                 djphoto2:'',
-                djvideolink2:'',
-                djcountry2:'',
                 djinfo2:'',
-                mc1:'',
-                mcname1:'',
-                mcphoto1:'',
-                mcvideolink1:'',
-                mccountry1:'',
-                mcinfo1:'',
+                mc1:'MCPiggo',
+                mcname1:'mcpiggo',
+                mcphoto1:'https://mediumthumbnails.s3.us-east-2.amazonaws.com/5cddcbdc-b426-4d4e-83cf-c0b944bb0a75.png',
+                mcinfo1:'Piggo PiggoPiggo',
                 mc2:'',
                 mcname2:'',
                 mcphoto2:'',
-                mcvideolink2:'',
-                mccountry2:'',
                 mcinfo2:'',
             },
             {
                 event:'', // # must
-                type:'workhop',
+                type:'workshop',
                 poster:'',
                 name:'Hiphop workshop by Martha', // # must
                 dj:'',
@@ -262,87 +243,7 @@ export default {
                 mccountry2:'',
                 mcinfo2:'',
             },
-            {
-                event:'', // # must
-                type:'workhop',
-                poster:'',
-                name:'Hiphop workshop by Kefton', // # must
-                dj:'',
-                mc:'',
-                judges:'',
-                date:'',
-                date_time:'',
-                venue:'Ratopul',
-                about:'',
-                rules:'',
-                prizes:'',
-                guest1:'',
-                name1:'',
-                photo1:'',
-                videolink1:'',
-                country1:'',
-                info1:'',
-                guest2:'',
-                name2:'',
-                photo2:'',
-                videolink2:'',
-                country2:'',
-                info2:'',
-                guest3:'',
-                name3:'',
-                photo3:'',
-                videolink3:'',
-                country3:'',
-                info3:'',
-                guest4:'',
-                name4:'',
-                photo4:'',
-                videolink4:'',
-                country4:'',
-                info4:'',
-                guest5:'',
-                name5:'',
-                photo5:'',
-                videolink5:'',
-                country5:'',
-                info5:'',
-                guest6:'',
-                name6:'',
-                photo6:'',
-                videolink6:'',
-                country6:'',
-                info6:'',
-                guest7:'',
-                name7:'',
-                photo7:'',
-                videolink7:'',
-                country7:'',
-                info7:'',
-                dj1:'',
-                djname1:'',
-                djphoto1:'',
-                djvideolink1:'',
-                djcountry1:'',
-                djinfo1:'',
-                dj2:'',
-                djname2:'',
-                djphoto2:'',
-                djvideolink2:'',
-                djcountry2:'',
-                djinfo2:'',
-                mc1:'',
-                mcname1:'',
-                mcphoto1:'',
-                mcvideolink1:'',
-                mccountry1:'',
-                mcinfo1:'',
-                mc2:'',
-                mcname2:'',
-                mcphoto2:'',
-                mcvideolink2:'',
-                mccountry2:'',
-                mcinfo2:'',
-            },
+            
             ]
             }
     },

@@ -139,7 +139,7 @@
                         label= "City"
                         :maxlength="50">
                     </v-text-field>
-                    <v-select label="Country" v-model= "journey.country"
+                    <v-select label="Country" v-model= "journey.country" prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
                         item-value="code"
