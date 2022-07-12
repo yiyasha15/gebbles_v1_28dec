@@ -136,13 +136,13 @@
                             </div>
                         </v-col>
                         <v-col >
-                            <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1" @click="competition_dialog = true">
-                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-2">Competition</h5></template >
+                            <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1" @click="party_dialog = true">
+                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-8">Party</h5></template >
                             </div>
                         </v-col>
                         <v-col >
                             <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1" @click="otherCategory_dialog = true">
-                                <template class="pa-7"> <h5 class="font-weight-light py-10 px-8">Other</h5></template >
+                                <template class="pa-7"> <h5 class="  caption font-weight-light py-10 px-2">CommunityTalk</h5></template >
                             </div>
                         </v-col>
                     </v-row>
@@ -168,13 +168,13 @@
                             </div>
                         </v-col>
                         <v-col class="pa-0" cols="12">
-                            <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="competition_dialog = true">
-                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Competition</h5></center >
+                            <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="party_dialog = true">
+                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Party</h5></center >
                             </div>
                         </v-col>
                         <v-col class="pa-0" cols="12">
                             <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="otherCategory_dialog = true">
-                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Other</h5></center >
+                                <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">CommunityTalk</h5></center >
                             </div>
                         </v-col>
                     </v-row>
@@ -195,7 +195,7 @@
                                     </v-list-item-avatar>
                                     <v-list-item-avatar v-else-if="item.type == 'showcase'" color="blue" size="30">
                                     </v-list-item-avatar>
-                                    <v-list-item-avatar v-else-if="item.type == 'competition'" color="purple" size="30">
+                                    <v-list-item-avatar v-else-if="item.type == 'party'" color="purple" size="30">
                                     </v-list-item-avatar>
                                     <v-list-item-avatar v-else-if="item.type == 'other'" color="black" size="30">
                                     </v-list-item-avatar>
@@ -222,10 +222,12 @@
             </v-stepper>
             <v-row class="pa-0 ma-0">
                 <v-col cols="4" v-for="category in this.categories"  :key ="category.index">
-                    <v-btn icon color="error" @click="removeCat(category)">
-                    <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <category-card :category="category"></category-card>
+                    <div style="border: 1px solid; height:150px">
+                        <v-btn  icon color="error" @click="removeCat(category)">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                        <category-card-create :category="category"></category-card-create>
+                    </div>
                 </v-col>
             </v-row>
         </v-col>
@@ -444,6 +446,7 @@
             :maxlength="250">
         </v-text-field>
         <v-text-field
+        prepend-icon="mdi-info"
             v-model = "category.about"
             label= "About"
             :maxlength="250">
@@ -454,14 +457,14 @@
         </v-dialog> 
         <v-dialog
         :retain-focus="false"
-        v-model="competition_dialog"
+        v-model="party_dialog"
         width="480px" 
         persistent>
         <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        <h3>Add Competition</h3>
+        <h3>Add party</h3>
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
             <v-icon class="pa-16">mdi-plus</v-icon>
             <input 
@@ -520,7 +523,7 @@
             :maxlength="250">
         </v-text-field>
         <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addCompetition()" >Add</v-btn>
+          @click="addparty()" >Add</v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -846,7 +849,6 @@
             label= "Info"
             :maxlength="250">
         </v-text-field>
-        
         <v-btn outlined small class="text-decoration-none"  color="black"
           @click="addEmcee()" >Add</v-btn>
         </v-container>
@@ -913,7 +915,7 @@
             Maximum 2 emcees.
         </v-snackbar>
         <v-snackbar v-model="max_dj_snackbar">
-            Maximum 7 DJs.
+            Maximum 2 DJs.
         </v-snackbar>
     </v-container>
 </v-app>
@@ -922,7 +924,7 @@
 import { Slider, SliderItem } from "vue-easy-slider";
 import { mapGetters } from 'vuex'
 import CountryFlag from 'vue-country-flag'
-import CategoryCard from '@/components/CategoryCard.vue'
+import CategoryCardCreate from '@/components/CategoryCardCreate.vue'
 import Vue from "vue";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
@@ -933,7 +935,7 @@ export default {
         Slider,
         SliderItem,
         CountryFlag,
-        CategoryCard
+        CategoryCardCreate
     },
     created (){
         if(this.$store.state.editing_obj)
@@ -959,17 +961,15 @@ export default {
                 videolink:''
             },
             battle_category:{
+                username: this.$store.state.auth.user.user.username,
                 event:'', // # must
                 type:'battle',
                 poster:'',
                 name:'', // # must
-                dj:'',
-                mc:'',
-                judges:'',
-                date:'',
+                date:null,
                 date_time:'',
                 venue:'',
-                about:'',
+                // about:'',
                 rules:'',
                 prizes:'',
                 guest1:'',
@@ -1041,28 +1041,19 @@ export default {
             },
             category:{
                 event:'', // # must
-                category:'',
-                poster:'',
+                category:'',//
+                poster:'',//
                 name:'', // # must
-                event:'',
-                artist:'',
-                judges:'',
                 date:'',
                 date_time:'',
                 venue:'',
-                about:'',
                 guest1:'',
                 name1:'',
                 photo1:'',
                 videolink1:'',
                 country1:'',
                 info1:'',
-                guest2:'',
-                name2:'',
-                photo2:'',
-                videolink2:'',
-                country2:'',
-                info2:'',
+                username:this.$store.state.auth.user.user.username
             },
             judges:{
                 guest:'',
@@ -1070,6 +1061,7 @@ export default {
                 poster:'',
                 info:'',
             },
+            battle_categories:[],
             categories:[],
             battleJudges:[],
             battleEmcee:[],
@@ -1086,7 +1078,7 @@ export default {
             menu5: false,
             menu6: false,
             menutime: false,
-            competition_dialog:false,
+            party_dialog:false,
             battle_dialog:false,
             showcase_dialog:false,
             workshop_dialog:false,
@@ -1351,7 +1343,7 @@ export default {
             openCategoryItem:{},
             workshop:'yellow',
             battle:'red',
-            competition:'purple',
+            party:'purple',
             cypher:'green',
             showcase:'blue',
             other:'black',
@@ -1415,7 +1407,8 @@ export default {
             }
         },
         addDj(){
-            if(this.battleDj.length <2){if(this.judges.name){
+            if(this.battleDj.length <2){
+                if(this.judges.name){
                 let clone = {...this.judges}
                 this.battleDj.push(clone)
                 console.log(this.battleDj);
@@ -1451,7 +1444,6 @@ export default {
             this.judges.name =''
             this.judges.poster =''
             this.judges.info =''
-            console.log("add to array", this.judges);
             //clear form
         },
         openCat(item){
@@ -1466,7 +1458,9 @@ export default {
             for (var key in this.battle_category) {
                 this.battle_category[key] = '';
             }
-            console.log(this.battle_category);
+            this.battleEmcee =[];
+            this.battleJudges=[];
+            this.battleDj=[];
             this.battle_dialog=false;
         },
         close_category_dialog(){
@@ -1474,7 +1468,7 @@ export default {
                 this.category[key] = '';
             }
             this.workshop_dialog=false;
-            this.competition_dialog=false;
+            this.party_dialog=false;
             this.showcase_dialog=false;
             this.cypher_dialog=false;
             this.otherCategory_dialog=false;
@@ -1511,6 +1505,87 @@ export default {
             if(this.battle_category.name){
                 this.battle_category.type = "battle";
                 //add guest from this.battlejudges
+                console.log("this.battleDj.length ",this.battleDj.length );
+                if(this.battleDj.length != 0){
+                    //from the battleDj array put the selected ones to the battle category json.
+                    for(let i =0; i<this.battleDj.length;i++)
+                    {
+                        if(this.battle_category.djname1 == '')
+                        {
+                            this.battle_category.djname1 = this.battleDj[i].name;
+                            this.battle_category.djinfo1 = this.battleDj[i].info;
+                            this.battle_category.djposter1 = this.battleDj[i].poster;
+                            // add tags -> this.battle_category.dj1
+                        }else{
+                            this.battle_category.djname2 = this.battleDj[i].name;
+                            this.battle_category.djinfo2 = this.battleDj[i].info;
+                            this.battle_category.djposter2 = this.battleDj[i].poster;
+                        }
+                        console.log(this.battleDj,this.battle_category);
+                    }
+                }
+                console.log("this.battle_category",this.battle_category);
+                if(this.battleEmcee.length != 0){
+                    //from the battleEmcee array put the selected ones to the battle category json.
+                    for(let i =0; i<this.battleEmcee.length;i++)
+                    {
+                        if(this.battle_category.mcname1 == '')
+                        {
+                            this.battle_category.mcname1 = this.battleEmcee[i].name;
+                            this.battle_category.mcinfo1 = this.battleEmcee[i].info;
+                            this.battle_category.mcposter1 = this.battleEmcee[i].poster;
+                            // add tags -> this.battle_category.dj1
+                        }else{
+                            this.battle_category.mcname2 = this.battleEmcee[i].name;
+                            this.battle_category.mcinfo2 = this.battleEmcee[i].info;
+                            this.battle_category.mcposter2 = this.battleEmcee[i].poster;
+                        }
+                        console.log(this.battleEmcee,this.battle_category);
+                    }
+                }
+                if(this.battleJudges.length != 0){
+                    //from the battlejudges array put the selected ones to the battle category json.
+                    for(let i =0; i<this.battleJudges.length;i++)
+                    {
+                        if(this.battle_category.name1 == '')
+                        {
+                            this.battle_category.name1 = this.battleJudges[i].name;
+                            this.battle_category.info1 = this.battleJudges[i].info;
+                            this.battle_category.poster1 = this.battleJudges[i].poster;
+                            // add tags -> this.battle_category.dj1
+                        }else if(this.battle_category.name2 == '')
+                        {
+                            this.battle_category.name2 = this.battleJudges[i].name;
+                            this.battle_category.info2 = this.battleJudges[i].info;
+                            this.battle_category.poster2 = this.battleJudges[i].poster;
+                        }else if(this.battle_category.name3 == '')
+                        {
+                            this.battle_category.name3 = this.battleJudges[i].name;
+                            this.battle_category.info3 = this.battleJudges[i].info;
+                            this.battle_category.poster3 = this.battleJudges[i].poster;
+                        }else if(this.battle_category.name4 == '')
+                        {
+                            this.battle_category.name4 = this.battleJudges[i].name;
+                            this.battle_category.info4 = this.battleJudges[i].info;
+                            this.battle_category.poster4 = this.battleJudges[i].poster;
+                        }else if(this.battle_category.name5 == '')
+                        {
+                            this.battle_category.name5 = this.battleJudges[i].name;
+                            this.battle_category.info5 = this.battleJudges[i].info;
+                            this.battle_category.poster5 = this.battleJudges[i].poster;
+                        }else if(this.battle_category.name6 == '')
+                        {
+                            this.battle_category.name6 = this.battleJudges[i].name;
+                            this.battle_category.info6 = this.battleJudges[i].info;
+                            this.battle_category.poster6 = this.battleJudges[i].poster;
+                        }else if(this.battle_category.name7 == ''){
+                            this.battle_category.name7 = this.battleJudges[i].name;
+                            this.battle_category.info7 = this.battleJudges[i].info;
+                            this.battle_category.poster7 = this.battleJudges[i].poster;
+                        }
+                        console.log(this.battleEmcee,this.battle_category);
+                    }
+                }
                 let clone = {...this.battle_category}
                 this.categories.push(clone)
                 this.close_battle_dialog()
@@ -1538,14 +1613,14 @@ export default {
             this.categories.push(clone)
             this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
-        addCompetition(){
-            if(this.category.name){this.category.type = "competition"
+        addparty(){
+            if(this.category.name){this.category.type = "party"
             let clone = {...this.category}
             this.categories.push(clone)
             this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         addOtherCategory(){
-            if(this.category.name){this.category.type = "other"
+            if(this.category.name){this.category.type = "community_talk"
             let clone = {...this.category}
             this.categories.push(clone)
             this.close_category_dialog()}else this.cat_valid_snackbar = true
@@ -1629,7 +1704,7 @@ export default {
                 //     this.category.image =""
                 //     break;}
                 // case 6:
-                //     {this.imageDataCompetition= ""
+                //     {this.imageDataparty= ""
                 //     this.category.image =""
                 //     break;}
                 // case 7:
@@ -1693,58 +1768,109 @@ export default {
         return new File([u8arr], filename, {type:mime});
         },
         async submit(){
-            // console.log(this.event.poster);
-            this.event.username= this.$store.state.auth.user.user.username
-            if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
-            { 
-            this.progressbar =true
-            let fileData = this.dataURLtoFile(this.event.poster, "coverimage.png");
-            console.log("uploading");
-            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-            if(res.statusCode == 200)
-            {
-                console.log("uploading");
-                delete this.$axios.defaults.headers.common['Authorization']
-                let filename = res.key
-                let url = res.body
-                console.log(res);
-                url = url.slice(1, -1);
-                this.$axios.$put(url, fileData).then((value) => {
-                this.event.poster = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                console.log("uploaded");
-                console.log(this.event.poster);
+            try{
+                this.event.username= this.$store.state.auth.user.user.username
+                if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
+                { 
+                this.progressbar =true
+                this.event.poster = await this.putImage(this.event.poster);
                 const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
                 };
                 let formData = new FormData();
+                console.log("this.event",JSON.stringify(this.event));
                 for (let data in this.event) {
                     formData.append(data, this.event[data]);
-                    console.log(this.event[data]);
                 }
-                console.log(this.event);
-                try {
-                    this.$axios.$post("/v1/events/create/", formData, config).then(res =>{
-                    console.log(res);
-                    this.progressbar =false;
-                    this.posted_snackbar = true;
-                    this.$router.push("/events/"+res.uuid);
-                    }).then( res =>
-                        {
-                            console.log("battle posts", res);}
+                let resp = await this.$axios.$post("/v1/events/create/", formData, config)
+                console.log("event created response",resp);
+                // if categories are added
+                if(this.categories.length >0){
+                console.log("battle posts");
+                //add event object to all categories
+                this.categories.forEach(category => category.event = resp.uuid);
+                console.log(this.categories);
+                let battle_category_array = this.categories.filter(item => item.type == 'battle')
+                let other_category_array = this.categories.filter(item => item.type != 'battle')
+                console.log("battle_category_array",battle_category_array);
+                console.log("other_category_array", other_category_array);
+                //put all images inside battle category in s3 bucket..
+                for (const item of battle_category_array) {
+                    console.log("of",item);
+                    if(item.poster){
+                        item.poster = await this.putImage(item.poster)
+                        console.log("item.poster",item.poster);
+                    }
+                    if(item.photo1){
+                        item.photo1 = await this.putImage(item.photo1)
+                        console.log("item.photo1",item.photo1);
+                    }
+                    if(item.photo2){
+                        item.photo2 = await this.putImage(item.photo2)
+                        console.log("item.photo2", item.photo2);
+                    }
+                    if(item.photo3){
+                        item.photo3 = await this.putImage(item.photo3)
+                    }
+                    if(item.photo4){
+                        item.photo4 = await this.putImage(item.photo4)
+                    }
+                    if(item.photo5){
+                        item.photo5 = await this.putImage(item.photo5)
+                    }
+                    if(item.photo6){
+                        item.photo6 = await this.putImage(item.photo6)
+                    }
+                    if(item.photo7){
+                        item.photo7 = await this.putImage(item.photo7)
+                    }
+                    if(item.djphoto1){
+                        item.djphoto1 = await this.putImage(item.djphoto1)
+                    }
+                    if(item.djphoto2){
+                        item.djphoto2 = await this.putImage(item.djphoto2)
+                    }
+                    if(item.mcphoto1){
+                        item.mcphoto1 = await this.putImage(item.mcphoto1)
+                    }
+                    if(item.mcphoto2){
+                        item.mcphoto2 = await this.putImage(item.mcphoto2)
+                    }
+                }
+                console.log("battle_category_array ready",battle_category_array);
+                // battle json readayyy
 
-                    )
-                } catch (e) {
-                    console.log("err ");
-                    this.progressbar = false;
-                    this.error_snackbar =true
-                    console.log(e.response);}
-                }) 
-            }
-            }
+                let formData2 = new FormData();
+                // add uuid to all categories
+                for (let data in this.battle_category_array) {
+                    formData2.append(data, battle_category_array[data]);
+                }
+
+                console.log("this.battle event",JSON.stringify(battle_category_array));
+                
+                let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
+                console.log(postBattle);}
+                this.progressbar =false;
+                this.posted_snackbar = true;
+                    // this.$router.push("/events/"+resp.uuid);
+                }
             else{
                 this.valid_snackbar =true
+            }}
+            catch(e){
+                console.log(e);
             }
+        },
+        async putImage(image){
+            let fileData = this.dataURLtoFile(image, "coverimage.png");
+            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1")
+            delete this.$axios.defaults.headers.common['Authorization']
+            let filename = res.key
+            let url = res.body
+            url = url.slice(1, -1);
+            let put = await this.$axios.$put(url, fileData)
+            return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
         },
         async update() {
             if(this.event.name != "" && this.event.poster)

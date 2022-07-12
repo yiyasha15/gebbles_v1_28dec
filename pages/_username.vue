@@ -53,7 +53,7 @@
                 :to="'/create/events'"
                 class="text-decoration-none pl-6 pr-12"
                 ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
-                <v-list-item-title>Create an event page</v-list-item-title>
+                <v-list-item-title>Create your event</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 v-if="!userHasPortfolio"
@@ -205,7 +205,7 @@
                 :to="'/create/events'"
                 class="text-decoration-none pl-6 pr-12"
                 ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
-                <v-list-item-title>Create an event page</v-list-item-title>
+                <v-list-item-title>Create your event</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 v-if="!userHasPortfolio"

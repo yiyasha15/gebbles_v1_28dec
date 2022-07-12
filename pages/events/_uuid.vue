@@ -13,6 +13,29 @@
         </v-btn>
         <v-row class="ma-0">
             <v-col cols="12" md="6" >
+                <v-dialog v-if="isAuthenticated && loggedInUser.user.username == event.username" v-model="deletedialog" width="500">
+            <template v-slot:activator="{ on, attrs }">
+                <v-tooltip top v-bind="attrs" v-on="on">
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn small icon >
+                    <v-icon small color="error" @click="deletedialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
+                    </v-btn>
+                </template>
+                <span>Delete</span>
+                </v-tooltip>
+            </template>
+            <v-card class="pa-4">
+                <p>Are you sure you want to delete this event?</p>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
+                    @click="deleted">Delete</v-btn>
+                <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="deletedialog = false">
+                    Cancel
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
                 <v-row class="mt-4">
                 <v-col cols="10" class="px-0"> <h1 >{{event.name}}</h1></v-col>
                 <v-col cols="2"><country-flag class="mt-1 ml-2" :country= 'event.country'/></v-col>
@@ -90,6 +113,8 @@ export default {
     },
     data(){
           return {
+              deletedialog:false,
+              deleteLoading:false,
             looploader:[1,1,1,1,1,1],
             loading: true,
             dynamic_height: 50,
@@ -297,7 +322,26 @@ export default {
         let monthtype = months[month-1]
         date = datetype+" "+monthtype +" "+yeartype;
         return{ date}
-      }
+      },
+    
+    deleted(){
+        this.deleteLoading = true;
+        const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            }
+        };
+        try {
+            this.$axios.$delete("/v1/events/"+this.event.uuid, config).then(res=>{
+              console.log("event deleted",res);
+              this.deleteLoading = false;
+              this.$router.push("/events");
+            })
+        } catch (e) {
+            console.log(e.response);
+            this.deleteLoading = false;
+        }
+      },
     }
     
 }
