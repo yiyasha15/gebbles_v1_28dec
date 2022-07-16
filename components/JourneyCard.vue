@@ -255,12 +255,14 @@ export default {
           this.dialogDelete =false;
           this.dialog = false
           this.snackbar = true;
+          // this.$router.push("/"+this.$store.state.auth.user.user.username+"/about");
           //send event to parent component i.e journey page
-          // this.$emit('delete',this.journey.username)
+          this.$emit('delete',this.journey.username)
       } 
       catch (e) {
           console.log(e);
           this.deleteLoading =false
+          // this.$router.push("/"+this.$store.state.auth.user.user.username+"/about");
       }
       },
     },

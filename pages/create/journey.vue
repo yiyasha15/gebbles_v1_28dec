@@ -6,6 +6,7 @@
         </div>
         <v-row >
         <v-col class="pa-0">
+            <!-- {{journey}} -->
              <h2 class="my-8" align="center" justify="center">Share your journey</h2>
             <v-stepper v-model="e6" vertical >
                 <!-- {{editing_obj}} -->
@@ -675,15 +676,6 @@ export default {
                 case 2:
                     this.$refs.fileInput2.click()
                     break;
-                case 3:
-                    this.$refs.fileInput3.click()
-                    break;
-                case 4:
-                    this.$refs.fileInput4.click()
-                    break;
-                case 5:
-                    this.$refs.fileInput5.click()
-                    break;
                 default:
                     // code block
                 }
@@ -718,7 +710,7 @@ export default {
                 }
         },
         onFileChange1(e) {
-            this.lockButton = true;
+            // this.lockButton = true;
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
@@ -729,24 +721,8 @@ export default {
                 {
                     fileReader.readAsDataURL(files[0]);
                     this.journey.jophoto1 = files[0];
-                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                        res => {
-                            if(res.statusCode == 200)
-                            {
-                                delete this.$axios.defaults.headers.common['Authorization']
-                                let filename = res.key
-                                let url = res.body
-                                url = url.slice(1, -1);
-                                this.$axios.$put(url, this.journey.jophoto1).then((value) => {
-                                this.journey.jophoto1 =''
-                                this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                this.lockButton = false;
-                                console.log(this.journey.jophoto1, this.journey.jp1thumb);
-                                });
-                            }
-                        }
-                    )
+                    console.log(this.journey);
+                    console.log(typeof this.journey.jophoto1 );
                 }else{
                     this.lockButton = false;
                 }
@@ -755,7 +731,7 @@ export default {
             }
         },
         onFileChange2(e) {
-            this.lockButton = true;
+            // this.lockButton = true;
             // console.log("this.lockButton",this.lockButton);
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
@@ -767,25 +743,7 @@ export default {
                 {
                     fileReader.readAsDataURL(files[0]);
                     this.journey.jophoto2 = files[0];
-                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                        res => {
-                            if(res.statusCode == 200)
-                            {
-                                delete this.$axios.defaults.headers.common['Authorization']
-                                let filename = res.key
-                                let url = res.body
-                                url = url.slice(1, -1);
-                                this.$axios.$put(url, this.journey.jophoto2).then((value) => {
-                                this.journey.jophoto2 =''
-                                this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                // this.jp2thumb =  "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                this.lockButton = false;
-                                // console.log("this.lockButton",this.lockButton);
-                                console.log(this.journey.jophoto2);
-                                });
-                            }
-                        }
-                    )
+                    console.log(this.journey);
                 }else{
                     this.lockButton = false;
                 }
@@ -817,16 +775,7 @@ export default {
             this.journey.ishighlight= false;
             this.journey.isprivate = false;
         },
-        async submit(){
-            console.log(this.journey);
-            if(this.journey.jophoto1== '' && this.journey.jophoto2 !=''){
-                this.journey.jophoto1 = this.journey.jophoto2
-                this.journey.jp1thumb = this.journey.jophoto2
-                this.journey.jophoto2 = ""
-            }
-            if(this.journey.joevent != "" && this.journey.jophoto1)
-            { 
-            this.progressbar =true
+        async formPost(){
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
@@ -849,14 +798,8 @@ export default {
                 this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
                 console.log(e);
             }
-            }
-            else{
-                this.valid_snackbar =true
-            }
         },
-        async update() {
-            if(this.journey.joevent != "" && this.journey.jophoto1)
-            {this.progressbar =true;
+        async formUpdate(){
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -900,9 +843,190 @@ export default {
                 this.error_snackbar =true
                 this.progressbar =false
             }
-            this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");}
+            this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
+            
+        },
+        async submit(){
+            this.progressbar=true;
+            if(this.journey.joevent== '')
+            this.valid_snackbar =true;
             else{
-                this.valid_snackbar=true
+            if(this.journey.jophoto1== '' && this.journey.jophoto2 =='')
+            this.valid_snackbar =true;
+            else{
+            if(this.journey.jophoto1== '' && this.journey.jophoto2 !=''){
+                this.journey.jophoto1 = this.journey.jophoto2
+                this.journey.jophoto2 = ""
+            }
+            //post first image
+            this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    if(this.journey.jophoto2)
+                    {
+                        this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                        if(res.statusCode == 200)
+                        {
+                            delete this.$axios.defaults.headers.common['Authorization']
+                            let filename = res.key
+                            let url = res.body
+                            url = url.slice(1, -1);
+                            this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                            this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                            this.formPost();
+                            });
+                        }
+                        })
+                    }
+                    else{
+                        this.formPost();
+                        //post with 1 image
+                    }
+
+                    });
+                }
+            })
+            }
+            }
+            
+        },
+        async update() {
+             this.progressbar=true;
+            if(this.journey.joevent== '')
+            this.valid_snackbar =true;
+            else{
+            if(this.journey.jophoto1== '' && this.journey.jophoto2 =='')
+            this.valid_snackbar =true;
+            else if(this.journey.jophoto1== ''){
+            if(this.journey.jophoto2 !='' && typeof this.journey.jophoto2 == 'string'){
+                this.journey.jophoto1 = this.journey.jophoto2
+                this.journey.jophoto2 = ""
+                this.formUpdate();
+            }
+            else if(this.journey.jophoto2 !='' && typeof this.journey.jophoto2 == 'object'){
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })}
+            //post first image
+            }
+            else if(this.journey.jophoto2== ''){
+            if(this.journey.jophoto1 !='' && typeof this.journey.jophoto1 == 'string'){
+                this.formUpdate();
+               //do nothing
+            }
+            else if(this.journey.jophoto1 !='' && typeof this.journey.jophoto1 == 'object'){
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })}
+            //post first image
+            }
+            else if(typeof this.journey.jophoto1 == 'string' && typeof this.journey.jophoto2 == 'object'){
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                    this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })
+            }
+            else if(typeof this.journey.jophoto1 == 'object' && typeof this.journey.jophoto2 == 'string'){
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })
+            }
+            else if(typeof this.journey.jophoto1 == 'object' && typeof this.journey.jophoto2 == 'object'){
+                 this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    if(this.journey.jophoto2)
+                    {
+                        this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                        if(res.statusCode == 200)
+                        {
+                            delete this.$axios.defaults.headers.common['Authorization']
+                            let filename = res.key
+                            let url = res.body
+                            url = url.slice(1, -1);
+                            this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                            this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                            this.formUpdate();
+                            });
+                        }
+                        })
+                    }
+                    else{
+                        this.formUpdate();
+                        //post with 1 image
+                    }
+
+                    });
+                }
+            })
+            }
+            else{
+                this.formUpdate();
+            }
             }
         }, 
     },

@@ -120,8 +120,8 @@ export default {
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser',
-    //  'journey','upcoming','highlights', 
-    //  'journeyLoaded'
+     'journey','upcoming','highlights', 
+     'journeyLoaded'
      ]),
     },
     props: ["artist"],
@@ -130,42 +130,42 @@ export default {
     },
     data() {
         return {
-        journeyLoaded:true,
+        // journeyLoaded:true,
         search: "",
         pageHighlights:null,
         pageJourney:null,
         pageUpcoming:null,
-        highlights:[],
-        journey:[],
-        upcoming:[],
+        // highlights:[],
+        // journey:[],
+        // upcoming:[],
         looploader:[1,1,1,1,1,1,1,1,1],
         loading: true,
         }
     },
     methods: {
     async getJourneyApi(params){
-        // this.$store.dispatch("remove_journey");
-        // this.$store.dispatch("check_user_journey", params.username)
-    try {
-        let config;
-        if(this.isAuthenticated &&this.$store.state.auth.user.user.username == params.username)
-        {config = {
-        headers: {"content-type": "multipart/form-data",
-            "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
-        };}
-        let journey_response = await EventService.getJourney(params.username,config)
-        let upcoming_response = await EventService.getUpcoming(params.username,config)
-        let highlights_response = await EventService.getHighlights(params.username,config)
-        this.journey= journey_response.data.results;
-        this.upcoming= upcoming_response.data.results;
-        this.highlights= highlights_response.data.results;
-        this.pageJourney = journey_response.data.next;
-        this.pageUpcoming = upcoming_response.data.next;
-        this.pageHighlights = highlights_response.data.next;
-        this.journeyLoaded = false
-    } catch (err) {
-        console.log(err.response);
-    }
+        this.$store.dispatch("remove_journey");
+        this.$store.dispatch("check_user_journey", params.username)
+    // try {
+    //     let config;
+    //     if(this.isAuthenticated &&this.$store.state.auth.user.user.username == params.username)
+    //     {config = {
+    //     headers: {"content-type": "multipart/form-data",
+    //         "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+    //     };}
+    //     let journey_response = await EventService.getJourney(params.username,config)
+    //     let upcoming_response = await EventService.getUpcoming(params.username,config)
+    //     let highlights_response = await EventService.getHighlights(params.username,config)
+    //     this.journey= journey_response.data.results;
+    //     this.upcoming= upcoming_response.data.results;
+    //     this.highlights= highlights_response.data.results;
+    //     this.pageJourney = journey_response.data.next;
+    //     this.pageUpcoming = upcoming_response.data.next;
+    //     this.pageHighlights = highlights_response.data.next;
+    //     this.journeyLoaded = false
+    // } catch (err) {
+    //     console.log(err.response);
+    // }
     },
     infiniteScrollingJourney(entries, observer, isIntersecting) {
         this.$store.dispatch("update_user_journey")

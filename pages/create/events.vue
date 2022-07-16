@@ -1514,12 +1514,12 @@ export default {
                         {
                             this.battle_category.djname1 = this.battleDj[i].name;
                             this.battle_category.djinfo1 = this.battleDj[i].info;
-                            this.battle_category.djposter1 = this.battleDj[i].poster;
+                            this.battle_category.djphoto1 = this.battleDj[i].poster;
                             // add tags -> this.battle_category.dj1
                         }else{
                             this.battle_category.djname2 = this.battleDj[i].name;
                             this.battle_category.djinfo2 = this.battleDj[i].info;
-                            this.battle_category.djposter2 = this.battleDj[i].poster;
+                            this.battle_category.djphotor2 = this.battleDj[i].poster;
                         }
                         console.log(this.battleDj,this.battle_category);
                     }
@@ -1533,12 +1533,12 @@ export default {
                         {
                             this.battle_category.mcname1 = this.battleEmcee[i].name;
                             this.battle_category.mcinfo1 = this.battleEmcee[i].info;
-                            this.battle_category.mcposter1 = this.battleEmcee[i].poster;
+                            this.battle_category.mcphoto1 = this.battleEmcee[i].poster;
                             // add tags -> this.battle_category.dj1
                         }else{
                             this.battle_category.mcname2 = this.battleEmcee[i].name;
                             this.battle_category.mcinfo2 = this.battleEmcee[i].info;
-                            this.battle_category.mcposter2 = this.battleEmcee[i].poster;
+                            this.battle_category.mcphoto2 = this.battleEmcee[i].poster;
                         }
                         console.log(this.battleEmcee,this.battle_category);
                     }
@@ -1551,37 +1551,37 @@ export default {
                         {
                             this.battle_category.name1 = this.battleJudges[i].name;
                             this.battle_category.info1 = this.battleJudges[i].info;
-                            this.battle_category.poster1 = this.battleJudges[i].poster;
+                            this.battle_category.photo1 = this.battleJudges[i].poster;
                             // add tags -> this.battle_category.dj1
                         }else if(this.battle_category.name2 == '')
                         {
                             this.battle_category.name2 = this.battleJudges[i].name;
                             this.battle_category.info2 = this.battleJudges[i].info;
-                            this.battle_category.poster2 = this.battleJudges[i].poster;
+                            this.battle_category.photo2 = this.battleJudges[i].poster;
                         }else if(this.battle_category.name3 == '')
                         {
                             this.battle_category.name3 = this.battleJudges[i].name;
                             this.battle_category.info3 = this.battleJudges[i].info;
-                            this.battle_category.poster3 = this.battleJudges[i].poster;
+                            this.battle_category.photo3 = this.battleJudges[i].poster;
                         }else if(this.battle_category.name4 == '')
                         {
                             this.battle_category.name4 = this.battleJudges[i].name;
                             this.battle_category.info4 = this.battleJudges[i].info;
-                            this.battle_category.poster4 = this.battleJudges[i].poster;
+                            this.battle_category.photo4 = this.battleJudges[i].poster;
                         }else if(this.battle_category.name5 == '')
                         {
                             this.battle_category.name5 = this.battleJudges[i].name;
                             this.battle_category.info5 = this.battleJudges[i].info;
-                            this.battle_category.poster5 = this.battleJudges[i].poster;
+                            this.battle_category.photo5 = this.battleJudges[i].poster;
                         }else if(this.battle_category.name6 == '')
                         {
                             this.battle_category.name6 = this.battleJudges[i].name;
                             this.battle_category.info6 = this.battleJudges[i].info;
-                            this.battle_category.poster6 = this.battleJudges[i].poster;
+                            this.battle_category.photo6 = this.battleJudges[i].poster;
                         }else if(this.battle_category.name7 == ''){
                             this.battle_category.name7 = this.battleJudges[i].name;
                             this.battle_category.info7 = this.battleJudges[i].info;
-                            this.battle_category.poster7 = this.battleJudges[i].poster;
+                            this.battle_category.photo7 = this.battleJudges[i].poster;
                         }
                         console.log(this.battleEmcee,this.battle_category);
                     }
@@ -1789,8 +1789,9 @@ export default {
                 if(this.categories.length >0){
                 console.log("battle posts");
                 //add event object to all categories
-                this.categories.forEach(category => category.event = resp.uuid);
-                console.log(this.categories);
+                this.categories.forEach(category => category.event = resp.id);
+                console.log("this.categories ready to be uploaded??",this.categories);
+
                 let battle_category_array = this.categories.filter(item => item.type == 'battle')
                 let other_category_array = this.categories.filter(item => item.type != 'battle')
                 console.log("battle_category_array",battle_category_array);
@@ -1837,6 +1838,7 @@ export default {
                     if(item.mcphoto2){
                         item.mcphoto2 = await this.putImage(item.mcphoto2)
                     }
+                    console.log("done");
                 }
                 console.log("battle_category_array ready",battle_category_array);
                 // battle json readayyy
