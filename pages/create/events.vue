@@ -223,15 +223,28 @@
             <v-row class="pa-0 ma-0">
                 <v-col cols="4" v-for="category in this.categories"  :key ="category.index">
                     <div style="border: 1px solid; height:150px">
+                        <v-row align="end" justify="end" class="pa-0 ma-0" >
                         <v-btn  icon color="error" @click="removeCat(category)">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
+                        </v-row>
+                        <category-card-create :category="category"></category-card-create>
+                    </div>
+                </v-col>
+                <v-col cols="4" v-for="category in this.battle_categories"  :key ="category.index">
+                    <div style="border: 1px solid; height:150px">
+                        <v-row align="end" justify="end" class="pa-0 ma-0" >
+                        <v-btn  icon color="error" @click="removeBatCat(category)">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                        </v-row>
                         <category-card-create :category="category"></category-card-create>
                     </div>
                 </v-col>
             </v-row>
         </v-col>
         </v-row>
+        <!-- add battle dialog -->
         <v-dialog
         :retain-focus="false"
         v-model="battle_dialog"
@@ -290,7 +303,7 @@
                 ></v-date-picker>
         </v-menu>
         <v-menu
-        ref="menu"
+        ref="menutime"
         v-model="menutime"
         :close-on-content-click="false"
         :nudge-right="40"
@@ -314,7 +327,7 @@
           v-if="menutime"
           v-model="battle_category.date_time"
           full-width
-          @click:minute="$refs.menu.save(battle_category.date_time)"
+          @click:minute="$refs.menutime.save(battle_category.date_time)"
         ></v-time-picker>
       </v-menu>
         <v-text-field
@@ -368,6 +381,18 @@
             </v-avatar>
             {{obj.name}}
           </v-chip>
+          <v-text-field
+        prepend-icon="mdi-book-outline"
+            v-model = "battle_category.rules"
+            label= "Rules"
+            :maxlength="150">
+        </v-text-field>
+        <v-text-field
+        prepend-icon="mdi-license"
+            v-model = "battle_category.prizes"
+            label= "Prizes"
+            :maxlength="150">
+        </v-text-field>
         <v-text-field
         prepend-icon="mdi-information-outline"
             v-model = "battle_category.about"
@@ -435,23 +460,61 @@
                 @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
+        <v-menu
+        ref="menutime_ws"
+        v-model="menutime_ws"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="category.date_time"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="category.date_time"
+            label="Time"
+            prepend-icon="mdi-clock-time-four-outline"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="menutime_ws"
+          v-model="category.date_time"
+          full-width
+          @click:minute="$refs.menutime_ws.save(category.date_time)"
+        ></v-time-picker>
+        </v-menu>
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
             :maxlength="50">
         </v-text-field>
-        <v-text-field
-            v-model = "category.artist"
+        <v-text-field @click="artistDialog = true"
+            prepend-icon="mdi-hand-heart-outline"
             label= "Artist"
-            :maxlength="250">
+            :maxlength="0">
         </v-text-field>
-        <v-text-field
+        <v-chip v-if="category.name1" close-icon="mdi-close" close @click:close="category.name1='';category.photo1='';category.info1='';category.guest1=''" color="black " dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo1">
+              <v-img :src="category.photo1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name1}}
+        </v-chip>
+        <br>
+        <!-- <v-text-field
         prepend-icon="mdi-info"
             v-model = "category.about"
             label= "About"
             :maxlength="250">
-        </v-text-field>
-        <v-btn outlined small class="text-decoration-none"  color="black"
+        </v-text-field> -->
+        <v-btn outlined small class="text-decoration-none "  color="black"
           @click="addWorkshop()" >Add</v-btn>
         </v-container>
         </v-dialog> 
@@ -489,7 +552,7 @@
             :maxlength="50">
         </v-text-field>
         <v-menu
-            ref="menu3"
+            ref="menu2"
             :close-on-content-click="false"
             :return-value.sync="date"
             transition="scale-transition"
@@ -509,21 +572,44 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                @change="save(category.date,4)"
+                @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-text-field
+        <v-menu
+        ref="menutime_pa"
+        v-model="menutime_pa"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="category.date_time"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="category.date_time"
+            label="Time"
+            prepend-icon="mdi-clock-time-four-outline"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="menutime_pa"
+          v-model="category.date_time"
+          full-width
+          @click:minute="$refs.menutime_pa.save(category.date_time)"
+        ></v-time-picker>
+        </v-menu>
+        <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
             :maxlength="50">
         </v-text-field>
-        <v-text-field
-            v-model = "category.about"
-            label= "About"
-            :maxlength="250">
-        </v-text-field>
         <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addparty()" >Add</v-btn>
+          @click="addParty()" >Add</v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -560,7 +646,7 @@
             :maxlength="50">
         </v-text-field>
         <v-menu
-            ref="menu4"
+            ref="menu2"
             :close-on-content-click="false"
             :return-value.sync="date"
             transition="scale-transition"
@@ -580,25 +666,63 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                @change="save(category.date,5)"
+                @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-text-field
+        <v-menu
+        ref="menutime_sh"
+        v-model="menutime_sh"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="category.date_time"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="category.date_time"
+            label="Time"
+            prepend-icon="mdi-clock-time-four-outline"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="menutime_sh"
+          v-model="category.date_time"
+          full-width
+          @click:minute="$refs.menutime_sh.save(category.date_time)"
+        ></v-time-picker>
+        </v-menu>
+        <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
             :maxlength="50">
         </v-text-field>
-        <v-text-field
-            v-model = "category.artist"
+        <v-text-field @click="artistDialog = true"
+            prepend-icon="mdi-hand-heart-outline"
             label= "Artist"
-            :maxlength="250">
+            :maxlength="0">
         </v-text-field>
-        <v-text-field
+        <v-chip v-if="category.name1" close-icon="mdi-close" close @click:close="category.name1='';category.photo1='';category.info1='';category.guest1=''" color="black " dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo1">
+              <v-img :src="category.photo1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name1}}
+        </v-chip>
+        <br>
+        <!-- <v-text-field
+        prepend-icon="mdi-info"
             v-model = "category.about"
             label= "About"
             :maxlength="250">
-        </v-text-field>
-        
+        </v-text-field> -->
         <v-btn outlined small class="text-decoration-none"  color="black"
           @click="addShowcase()" >Add</v-btn>
         </v-container>
@@ -637,7 +761,7 @@
             :maxlength="50">
         </v-text-field>
         <v-menu
-            ref="menu5"
+            ref="menu2"
             :close-on-content-click="false"
             :return-value.sync="date"
             transition="scale-transition"
@@ -657,20 +781,48 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                @change="save(category.date, 6)"
+                @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-text-field
+        <v-menu
+        ref="menutime_cy"
+        v-model="menutime_cy"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="category.date_time"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="category.date_time"
+            label="Time"
+            prepend-icon="mdi-clock-time-four-outline"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="menutime_cy"
+          v-model="category.date_time"
+          full-width
+          @click:minute="$refs.menutime_cy.save(category.date_time)"
+        ></v-time-picker>
+        </v-menu>
+        <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
             :maxlength="50">
         </v-text-field>
-        <v-text-field
+        <!-- <v-text-field
+        prepend-icon="mdi-info"
             v-model = "category.about"
             label= "About"
             :maxlength="250">
-        </v-text-field>
-        
+        </v-text-field> -->
         <v-btn outlined small class="text-decoration-none"  color="black"
           @click="addCypher()"  >Add</v-btn>
         </v-container>
@@ -684,7 +836,7 @@
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        <h3>Add Category</h3>
+        <h3>Community Talk</h3>
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
             <v-icon class="pa-16">mdi-plus</v-icon>
             <input 
@@ -709,7 +861,7 @@
             :maxlength="50">
         </v-text-field>
         <v-menu
-            ref="menu6"
+            ref="menu2"
             :close-on-content-click="false"
             :return-value.sync="date"
             transition="scale-transition"
@@ -729,25 +881,63 @@
             <v-date-picker
                 v-model="category.date"
                 :active-picker.sync="activePicker"
-                @change="save(category.date, 7)"
+                @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-text-field
+        <v-menu
+        ref="menutime_ct"
+        v-model="menutime_ct"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="category.date_time"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="category.date_time"
+            label="Time"
+            prepend-icon="mdi-clock-time-four-outline"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="menutime_ct"
+          v-model="category.date_time"
+          full-width
+          @click:minute="$refs.menutime_ct.save(category.date_time)"
+        ></v-time-picker>
+        </v-menu>
+        <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
             :maxlength="50">
         </v-text-field>
-        <v-text-field
-            v-model = "category.artist"
+        <v-text-field @click="artistDialog = true"
+            prepend-icon="mdi-hand-heart-outline"
             label= "Artist"
-            :maxlength="250">
+            :maxlength="0">
         </v-text-field>
-        <v-text-field
+        <v-chip v-if="category.name1" close-icon="mdi-close" close @click:close="category.name1='';category.photo1='';category.info1='';category.guest1=''" color="black " dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo1">
+              <v-img :src="category.photo1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name1}}
+        </v-chip>
+        <br>
+        <!-- <v-text-field
+        prepend-icon="mdi-info"
             v-model = "category.about"
             label= "About"
             :maxlength="250">
-        </v-text-field>
-        
+        </v-text-field> -->
         <v-btn outlined small class="text-decoration-none"  color="black"
           @click="addOtherCategory()" >Add</v-btn>
         </v-container>
@@ -758,9 +948,11 @@
         width="480px" 
         persistent>
         <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
-        <v-btn icon color="error" class="float-right" @click="open_category_dialog = false">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
+            <v-row align="end" justify="end" class="pa-0 ma-0" >
+            <v-btn icon color="error" class="float-right" @click="open_category_dialog = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+            </v-row>
         <h3 class="font-weight-light">{{openCategoryItem.type}}</h3>
         <v-img v-if="typeof(openCategoryItem.poster) === 'string'" :src="openCategoryItem.poster" class="mx-auto my-6" height="auto" width="352px" contain>
         </v-img>
@@ -896,6 +1088,105 @@
           @click="addDj()" >Add</v-btn>
         </v-container>
         </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="artistDialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="judgesDialogClose">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Add Artist</h3>
+        <div v-if="!category.photo1" @click="onPick(5)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput5" 
+            accept="image/*"
+            required
+            @change="onFileChange5">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(category.photo1) === 'string'" :src="category.photo1" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(5)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "category.name1"
+            label= "Name"
+            :maxlength="50">
+        </v-text-field>
+        <v-combobox
+                v-model="teacher_obj"
+                :items="artists"
+                prepend-icon="mdi-account-search-outline"
+                label="Search artists..."
+                item-text="artist_name"
+                item-value="username"
+                ref="artistListComboBox"
+                @change="onAutoCompleteSelection"
+                @keyup="customOnChangeHandler"
+                @paste="customOnChangeHandler"
+                @input="addTeacher"
+                >
+                <template v-slot:selection="data">
+                    <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click:close="teacher_obj = ''"
+                    >
+                    <v-avatar v-if="data.item.thumb" left>
+                        <v-img :src="data.item.thumb"></v-img>
+                    </v-avatar>
+                    <v-avatar v-else left>
+                        <v-icon dark>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-avatar>
+                    <template  v-if="data.item.username" >
+                    {{ data.item.username }}
+                    </template>
+                    <template v-else >
+                    {{ data.item}}
+                    </template>
+                    </v-chip>
+                </template>
+                <template v-slot:item="data">
+                    <template v-if="typeof data.item !== 'object'">
+                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
+                    </template>
+                    <template v-else>
+                    <v-list-item-avatar v-if="data.item.thumb">
+                        <img :src="data.item.thumb">
+                    </v-list-item-avatar>
+                    <v-list-item-avatar v-else >
+                        <v-icon>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content v-if="data.item.username">
+                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
+                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
+                    </v-list-item-content>
+                    </template>
+                </template>
+            </v-combobox>
+        <v-text-field
+            v-model = "category.info1"
+            label= "Info"
+            :maxlength="250">
+        </v-text-field>
+        
+        <v-btn outlined small class="text-decoration-none"  color="black"
+          @click="addArtist()" >Ok</v-btn>
+        </v-container>
+        </v-dialog>
         <v-snackbar v-model="posted_snackbar">
             Event posted.
         </v-snackbar>
@@ -917,10 +1208,14 @@
         <v-snackbar v-model="max_dj_snackbar">
             Maximum 2 DJs.
         </v-snackbar>
+        <v-snackbar v-model="max_artist_snackbar">
+            Only 1 artist.
+        </v-snackbar>
     </v-container>
 </v-app>
 </template>
 <script>
+import EventService from '@/services/EventService.js'
 import { Slider, SliderItem } from "vue-easy-slider";
 import { mapGetters } from 'vuex'
 import CountryFlag from 'vue-country-flag'
@@ -949,7 +1244,7 @@ export default {
     data(){
         return {
             event: {
-                username: null,
+                username: this.$store.state.auth.user.user.username,
                 name: "",  // # must
                 venue: "",
                 start_date: null, // # must
@@ -963,10 +1258,9 @@ export default {
             battle_category:{
                 username: this.$store.state.auth.user.user.username,
                 event:'', // # must
-                type:'battle',
                 poster:'',
                 name:'', // # must
-                date:null,
+                date: '',
                 date_time:'',
                 venue:'',
                 // about:'',
@@ -1066,6 +1360,8 @@ export default {
             battleJudges:[],
             battleEmcee:[],
             battleDj:[],
+            otherArtist:[],
+            artistDialog: false,
             judgesDialog: false,
             emceeDialog: false,
             djDialog: false,
@@ -1077,7 +1373,12 @@ export default {
             menu4: false,
             menu5: false,
             menu6: false,
-            menutime: false,
+            menutime_ws: false,
+            menutime_sh: false,
+            menutime_pa: false,
+            menutime_cy: false,
+            menutime_ct: false,
+            menutime:false,
             party_dialog:false,
             battle_dialog:false,
             showcase_dialog:false,
@@ -1350,15 +1651,72 @@ export default {
             cat_valid_snackbar:false,
             max_judges_snackbar:false,
             max_dj_snackbar:false,
+            max_artist_snackbar:false,
             max_emcee_snackbar:false,
+            teacher_obj:null,
+            artists:[],
+            debounce: null,
+            comboBoxModel: null,
         }
     },
     watch: {
         menu (val) {
         val && setTimeout(() => (this.activePicker = 'YEAR'))
         },
+        teacher_obj: function() {
+        if(this.teacher_obj)
+        {
+            EventService.getSearchedArtist(this.teacher_obj).then((value) => {
+            this.artists = value.data});
+        }
+      }
     },
     methods: {
+        searchArtists(){
+        this.artists=[]
+        clearTimeout(this.debounce)
+        this.debounce = setTimeout(() => {
+        if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
+        this.artists = value.data
+        });}
+        }, 100)
+        },
+        onAutoCompleteSelection(){
+            this.comboBoxModel = this.teacher_obj;
+            this.searchArtists();
+        },
+        customOnChangeHandler(){
+        let vm = this;
+        setTimeout(function(){
+            if(vm.$refs.artistListComboBox){
+            vm.comboBoxModel = vm.$refs.artistListComboBox.internalSearch;
+            vm.searchArtists();
+            }
+        });
+        },
+        addTeacher(){
+            let t_name = typeof this.teacher_obj;
+            // console.log(this.teacher_obj);
+            // console.log(t_name);
+            // console.log(this.teacher_obj);
+            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            {
+                console.log("object",  this.teacher_obj );
+            }
+            else
+            {
+                console.log("no object",  this.teacher_obj );
+                //making null because no artists to tag.
+            }
+        },
+        addArtist(){
+            this.artistDialog = false;
+            // if(this.category.name1){
+            //     this.artistDialog = false;
+            // }else{
+            //     this.cat_valid_snackbar =true
+            // }
+        },
         addJudges(){
             if(this.battleJudges.length <6){if(this.judges.name){
                 // if(this.battle_category.guest1==''){
@@ -1394,7 +1752,6 @@ export default {
                 // }
                 let clone = {...this.judges}
                 this.battleJudges.push(clone)
-                console.log(this.battleJudges);
                 this.judges.name = ''
                 this.judges.info = ''
                 this.judges.poster = ''
@@ -1441,6 +1798,7 @@ export default {
             this.judgesDialog = false
             this.djDialog = false
             this.emceeDialog = false
+            this.artistDialog = false
             this.judges.name =''
             this.judges.poster =''
             this.judges.info =''
@@ -1454,10 +1812,15 @@ export default {
             this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.type === item.type),1);
             console.log(this.categories);
         },
+        removeBatCat(item){
+            this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.type === item.type),1);
+            console.log(this.battle_categories);
+        },
         close_battle_dialog(){
             for (var key in this.battle_category) {
                 this.battle_category[key] = '';
             }
+            this.battle_category.username = this.$store.state.auth.user.user.username
             this.battleEmcee =[];
             this.battleJudges=[];
             this.battleDj=[];
@@ -1467,6 +1830,8 @@ export default {
             for (var key in this.category) {
                 this.category[key] = '';
             }
+            this.otherArtist=[]
+            this.category.username = this.$store.state.auth.user.user.username
             this.workshop_dialog=false;
             this.party_dialog=false;
             this.showcase_dialog=false;
@@ -1503,7 +1868,6 @@ export default {
         },
         addBattle(){
             if(this.battle_category.name){
-                this.battle_category.type = "battle";
                 //add guest from this.battlejudges
                 console.log("this.battleDj.length ",this.battleDj.length );
                 if(this.battleDj.length != 0){
@@ -1524,7 +1888,6 @@ export default {
                         console.log(this.battleDj,this.battle_category);
                     }
                 }
-                console.log("this.battle_category",this.battle_category);
                 if(this.battleEmcee.length != 0){
                     //from the battleEmcee array put the selected ones to the battle category json.
                     for(let i =0; i<this.battleEmcee.length;i++)
@@ -1587,7 +1950,7 @@ export default {
                     }
                 }
                 let clone = {...this.battle_category}
-                this.categories.push(clone)
+                this.battle_categories.push(clone)
                 this.close_battle_dialog()
                 }
             else{
@@ -1596,31 +1959,38 @@ export default {
             }
         },
         addWorkshop(){
-            if(this.category.name){this.category.type = "workshop"
-            let clone = {...this.category}
-            this.categories.push(clone)
-            this.close_category_dialog()}else this.cat_valid_snackbar = true
+            if(this.category.name){
+                //1:workshop
+                this.category.category = "1"
+                let clone = {...this.category}
+                this.categories.push(clone)
+                this.close_category_dialog()
+            }else this.cat_valid_snackbar = true
         },
         addShowcase(){
-            if(this.category.name){this.category.type = "showcase"
-            let clone = {...this.category}
-            this.categories.push(clone)
-            this.close_category_dialog()}else this.cat_valid_snackbar = true
+            if(this.category.name){
+                this.category.category = "2"
+                let clone = {...this.category}
+                this.categories.push(clone)
+                this.close_category_dialog()
+            }else this.cat_valid_snackbar = true
         },
         addCypher(){
-            if(this.category.name){this.category.type = "cypher"
-            let clone = {...this.category}
-            this.categories.push(clone)
-            this.close_category_dialog()}else this.cat_valid_snackbar = true
+            if(this.category.name){
+                this.category.category = "4"
+                let clone = {...this.category}
+                this.categories.push(clone)
+                this.close_category_dialog()
+                }else this.cat_valid_snackbar = true
         },
-        addparty(){
-            if(this.category.name){this.category.type = "party"
+        addParty(){
+            if(this.category.name){this.category.category = "3"
             let clone = {...this.category}
             this.categories.push(clone)
             this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         addOtherCategory(){
-            if(this.category.name){this.category.type = "community_talk"
+            if(this.category.name){this.category.category = "5"
             let clone = {...this.category}
             this.categories.push(clone)
             this.close_category_dialog()}else this.cat_valid_snackbar = true
@@ -1672,6 +2042,9 @@ export default {
                 case 4:
                     this.$refs.fileInput4.click()
                     break; 
+                case 5:
+                this.$refs.fileInput5.click()
+                break; 
                 default:
                     // code block
                 }
@@ -1690,6 +2063,9 @@ export default {
                     break;}
                 case 4:{
                     this.judges.poster =""
+                break;}
+                case 5:{
+                    this.category.photo1 =""
                 break;}
                 // case 3:
                 //     {this.posterDataBattle = ""
@@ -1759,6 +2135,17 @@ export default {
             this.judges.poster = files[0];
             }
         },
+        onFileChange5(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files[0]) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                this.category.photo1 = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.category.photo1 = files[0];
+            }
+        },
         dataURLtoFile(dataurl, filename) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -1769,35 +2156,29 @@ export default {
         },
         async submit(){
             try{
-                this.event.username= this.$store.state.auth.user.user.username
+                // this.event.username= this.$store.state.auth.user.user.username
                 if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
                 { 
                 this.progressbar =true
+                // console.log(this.event.poster);
                 this.event.poster = await this.putImage(this.event.poster);
                 const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
                 };
                 let formData = new FormData();
-                console.log("this.event",JSON.stringify(this.event));
                 for (let data in this.event) {
                     formData.append(data, this.event[data]);
                 }
                 let resp = await this.$axios.$post("/v1/events/create/", formData, config)
                 console.log("event created response",resp);
                 // if categories are added
-                if(this.categories.length >0){
+                if(this.battle_categories.length >0){
                 console.log("battle posts");
                 //add event object to all categories
-                this.categories.forEach(category => category.event = resp.id);
-                console.log("this.categories ready to be uploaded??",this.categories);
-
-                let battle_category_array = this.categories.filter(item => item.type == 'battle')
-                let other_category_array = this.categories.filter(item => item.type != 'battle')
-                console.log("battle_category_array",battle_category_array);
-                console.log("other_category_array", other_category_array);
+                this.battle_categories.forEach(category => category.event = resp.uuid);
                 //put all images inside battle category in s3 bucket..
-                for (const item of battle_category_array) {
+                for (const item of this.battle_categories) {
                     console.log("of",item);
                     if(item.poster){
                         item.poster = await this.putImage(item.poster)
@@ -1838,28 +2219,65 @@ export default {
                     if(item.mcphoto2){
                         item.mcphoto2 = await this.putImage(item.mcphoto2)
                     }
-                    console.log("done");
+                    console.log("done",this.battle_categories);
                 }
-                console.log("battle_category_array ready",battle_category_array);
                 // battle json readayyy
 
+                console.log("this.battle_categories ready to be uploaded??",this.battle_categories);
                 let formData2 = new FormData();
-                // add uuid to all categories
-                for (let data in this.battle_category_array) {
-                    formData2.append(data, battle_category_array[data]);
+                for (let data of this.battle_categories) {
+                    for (let data2 in data) {
+                        formData2.append(data2, data[data2]);
+                    }
+                    try {
+                        let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
+                        console.log("battle posted",postBattle);
+                    } catch (error) {
+                        console.log(error.response);
+                    }
                 }
+                }
+                if(this.categories.length >0)
+                {
+                    console.log("categories posts");
+                //add event object to all categories
+                this.categories.forEach(category => category.event = resp.uuid);
+                //put all images inside category in s3 bucket..
+                for (const item of this.categories) {
+                    if(item.poster){
+                        item.poster = await this.putImage(item.poster)
+                        console.log("item.poster",item.poster);
+                    }
+                    if(item.photo1){
+                        item.photo1 = await this.putImage(item.photo1)
+                        console.log("item.photo1",item.photo1);
+                    }
+                    console.log("done",this.categories);
+                }
+                // battle json readayyy
 
-                console.log("this.battle event",JSON.stringify(battle_category_array));
-                
-                let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
-                console.log(postBattle);}
+                console.log("this.battle_categories ready to be uploaded??",this.categories);
+                let formData2 = new FormData();
+                for (let data of this.categories) {
+                    for (let data2 in data) {
+                        formData2.append(data2, data[data2]);
+                    }
+                    try {
+                        let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formData2, config)
+                        console.log("categories posted",postCategory);
+                    } catch (error) {
+                        console.log(error.response);
+                    }
+                }
+                }
                 this.progressbar =false;
                 this.posted_snackbar = true;
-                    // this.$router.push("/events/"+resp.uuid);
+                this.$router.push("/events/"+resp.uuid);
                 }
-            else{
-                this.valid_snackbar =true
-            }}
+                else{
+                    this.valid_snackbar =true
+                }
+            }
             catch(e){
                 console.log(e);
             }
@@ -1874,56 +2292,6 @@ export default {
             let put = await this.$axios.$put(url, fileData)
             return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
         },
-        async update() {
-            if(this.event.name != "" && this.event.poster)
-            {this.progressbar =true;
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
-            let myObj1 = this.editing_obj 
-            let myObj2 = this.event
-            // find keys 
-            let keyObj1 = Object.keys(myObj1); 
-            let keyObj2 = Object.keys(myObj2);
-                
-            // find values 
-            let valueObj1 = Object.values(myObj1); 
-            let valueObj2 = Object.values(myObj2); 
-            
-            // now compare their keys and values  
-            try {
-                for(var i=0; i<keyObj1.length; i++) { 
-                if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                    // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-                } 
-                else { 
-                    // it prints keys have different values 
-                    let formName = new FormData();
-                    formName.append(keyObj1[i], valueObj2[i]);
-                    formName.append("id", this.event['id']);
-
-                    console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                    await this.$axios.$patch("/v1/artist/event/"+this.editing_obj.id, formName, config).then(res => {
-                        console.log( valueObj2[i] ,res," changed"); 
-                        // this.$store.dispatch("check_user_event");
-                    })
-                } 
-            }
-            this.$store.dispatch("remove_editing_obj");
-            this.progressbar =false
-            this.posted_snackbar = true;
-            } catch (error) {
-                console.log("error",error);
-                this.error_snackbar =true
-                this.progressbar =false
-            }
-            this.$router.push("/"+this.$store.state.auth.user.user.username+"/event");}
-            else{
-                this.valid_snackbar=true
-            }
-        }, 
     },
     middleware : 'check_auth',
     }

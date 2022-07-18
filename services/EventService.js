@@ -41,7 +41,7 @@ export default {
         return apiClient1.get('/events/list')
     },
     getEvent(uuid) {
-        return apiClient1.get('/events/'+uuid)
+        return apiClient1.get('/events/list/'+uuid)
     },
     getLegacyArtists(){
         return apiClient1.get('/artist/portfolios/legacy/list/')

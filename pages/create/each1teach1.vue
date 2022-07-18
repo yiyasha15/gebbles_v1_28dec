@@ -17,7 +17,7 @@
             <v-combobox
                 v-model="teacher_obj"
                 :items="artists"
-                prepend-icon="mdi-earth"
+                prepend-icon="mdi-account-search-outline"
                 label="Search artists..."
                 item-text="artist_name"
                 item-value="username"
@@ -116,16 +116,19 @@
             <v-textarea
             counter :maxlength="485"
                 v-model = "sharing.s_appreciation"
+                prepend-icon="mdi-account-heart-outline"
                 label= "Share the one thing you remember the most about her/him.*"
                 clearable>
             </v-textarea>
             <v-text-field 
+            prepend-icon="mdi-map-marker-outline"
                 v-model = "sharing.s_location"
                 label= "Where did you meet?"
                 :maxlength="50"
                 clearable>
             </v-text-field>
             <v-textarea
+            prepend-icon="mdi-book-outline"
                 :maxlength="485"
                 v-model = "sharing.s_learnings"
                 label= "Share about what you learnt from them."
@@ -545,6 +548,23 @@ export default {
             }
         });
         },
+        addTeacher(){
+            let t_name = typeof this.teacher_obj;
+            // console.log(this.teacher_obj);
+            // console.log(t_name);
+            // console.log(this.teacher_obj);
+            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            {
+                this.sharing.teacher = this.teacher_obj.username
+                this.sharing.s_teacher_name = this.teacher_obj.username 
+                this.sharing.s_teacher_country = this.teacher_obj.country
+            }
+            else
+            {
+                this.sharing.s_teacher_name = this.teacher_obj 
+                this.sharing.teacher = "" //making null because no artists to tag.
+            }
+        },
         showYoutubeVideo(){
             let url= this.sharing.s_teacher_video
             if (url != undefined || url != '') {        
@@ -695,23 +715,6 @@ export default {
             this.$store.dispatch("check_user_teachers");
             this.$store.dispatch("remove_share_obj");
             window.history.back();
-        },
-        addTeacher(){
-            let t_name = typeof this.teacher_obj;
-            // console.log(this.teacher_obj);
-            // console.log(t_name);
-            // console.log(this.teacher_obj);
-            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
-            {
-                this.sharing.teacher = this.teacher_obj.username
-                this.sharing.s_teacher_name = this.teacher_obj.username 
-                this.sharing.s_teacher_country = this.teacher_obj.country
-            }
-            else
-            {
-                this.sharing.s_teacher_name = this.teacher_obj 
-                this.sharing.teacher = "" //making null because no artists to tag.
-            }
         }
     },
     }

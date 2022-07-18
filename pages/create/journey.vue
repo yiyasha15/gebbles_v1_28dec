@@ -721,8 +721,6 @@ export default {
                 {
                     fileReader.readAsDataURL(files[0]);
                     this.journey.jophoto1 = files[0];
-                    console.log(this.journey);
-                    console.log(typeof this.journey.jophoto1 );
                 }else{
                     this.lockButton = false;
                 }
@@ -783,7 +781,9 @@ export default {
             let formData = new FormData();
             for (let data in this.journey) {
                 formData.append(data, this.journey[data]);
+                console.log(data,this.journey[data]);
             }
+            console.log(formData);
             try {
                 await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
                     console.log(res);
