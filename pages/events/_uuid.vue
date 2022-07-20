@@ -46,7 +46,7 @@
                 </v-row>
             </v-col>
             <v-col v-if="event.poster" cols="12" md="6" align="center" justify="center" class="px-0">
-                <v-img :src = "event.poster" contain></v-img>
+                <v-img :src = "event.poster" contain max-height="400px"></v-img>
             </v-col>
         </v-row>
         <v-row v-if="event.about" class="ma-0">
@@ -95,9 +95,10 @@ export default {
         }
     },
     created(){
-        let url1 =this.event.videolink //getting value of youtube video urls
+        if(this.event.videolink )
+        {let url1 =this.event.videolink //getting value of youtube video urls
         if(url1)
-        this.videoId = getIdFromURL(url1) //getting id from video url
+        this.videoId = getIdFromURL(url1) }//getting id from video url
     },
     components:{
         Youtube,

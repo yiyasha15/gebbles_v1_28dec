@@ -34,7 +34,7 @@
                             @change="onFileChange1">
                         </div>
                         <div v-else class=" rounded-lg grey lighten-4" >
-                        <v-img :src="imageData1" height="auto" width="150px" id="imgOne" contain>
+                        <v-img :src="imageData1" height="150px" width="150px" id="imgOne" contain>
                             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
                             <v-icon color="black" small>mdi-close</v-icon>
                             </v-btn>
@@ -55,8 +55,8 @@
                             required
                             @change="onFileChange2">
                         </div>
-                        <div v-else  > 
-                        <v-img :src="imageData2" height="auto" width="150px" contain>
+                        <div v-else class=" rounded-lg grey lighten-4" > 
+                        <v-img :src="imageData2" height="150px" width="150px" contain>
                             <v-btn style="background:white " icon small class="float-right ma-1" @click="removeImage(2)">
                             <v-icon color="black" small >mdi-close</v-icon>
                             </v-btn>
@@ -242,13 +242,13 @@
                   <Slider v-if="imageData1"
                       :autoplay = false
                       width="320px"
-                      height="200px">
+                      height="150px">
                       <div v-if="imageData1">
                       <SliderItem >
                       <v-img
                             :src="imageData1"
                             contain
-                            height="200px"
+                            height="150px"
                             width="320px"
                           ></v-img>
                       </SliderItem>
@@ -258,7 +258,7 @@
                       <v-img
                             :src="imageData2"
                             contain
-                            height="200px"
+                            height="150px"
                             width="320px"
                           ></v-img>
                       </SliderItem>

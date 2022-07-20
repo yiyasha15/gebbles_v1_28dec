@@ -512,10 +512,11 @@ export default {
     },
     watch: {
     teacher_obj: function() {
-        // console.log(this.teacher_obj);
+        console.log(this.teacher_obj);
         if(this.teacher_obj)
         {
             EventService.getSearchedArtist(this.teacher_obj).then((value) => {
+                console.log("how",value);
             this.artists = value.data});
         }
       }
@@ -525,6 +526,7 @@ export default {
         this.artists=[]
         clearTimeout(this.debounce)
         this.debounce = setTimeout(() => {
+            // console.log(this.comboBoxModel);
         if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
         this.artists = value.data
         });}

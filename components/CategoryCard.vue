@@ -36,11 +36,9 @@
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-row>
-        <v-img class="mt-6 mx-auto"
+        <v-img class="mt-4 mx-auto" max-height="400px" contain
         v-if = category.poster :src = "category.poster" 
-        :lazy-src= "category.poster" 
-        height=100%
-        width=80% />
+        :lazy-src= "category.poster"  />
         <h3 class="font-weight-medium mt-4">{{ category.name}}</h3>
         <v-chip v-if="typeof category.category == 'number'" outlined class="mr-1 pl-1 grey" x-small style="cursor:pointer;">
         <v-icon v-if="category.category == 1" color="yellow">mdi-circle-medium</v-icon>
@@ -173,14 +171,16 @@
         v-model="chipDialog"
         width="480px" 
         persistent>
-        <v-container class="rounded-lg white" :class="{'pa-2': $vuetify.breakpoint.smAndDown  ,'pa-4': $vuetify.breakpoint.mdAndUp}">
+        <v-container class="rounded-lg white pa-4">
           <v-row align="end" justify="end" class="pa-0 ma-0" >
           <v-btn icon  color="error" class="float-right" @click="chipDialog =false; temp.name='';temp.photo =''; temp.info=''">
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-row>
-        <v-img class="mt-8 mx-auto" v-if="temp.photo" :src="temp.photo"></v-img>
-        <h3 class="font-weight-light mt-2">{{temp.name}}</h3>
+        <v-img class="mt-4 mx-auto" v-if="temp.photo"  max-height="400px" contain :src="temp.photo"></v-img>
+
+        <nuxt-link v-if="temp.guest" :to="'/' + temp.guest" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{temp.name}}</h3></nuxt-link>
+        <h3 v-else class="font-weight-light mt-2">{{temp.name}}</h3>
         <h3 class="font-weight-light mt-2">{{temp.info}}</h3>
         </v-container>
     </v-dialog> 
@@ -207,6 +207,7 @@
           photo:'',
           info:'',
           guest:'',
+          country:''
         }
       }
     },
@@ -216,57 +217,68 @@
         {this.temp.name = this.category.mcname1
         this.temp.guest = this.category.mc1
         this.temp.photo = this.category.mcphoto1
-        this.temp.info = this.category.mcinfo1}
+        this.temp.info = this.category.mcinfo1
+        this.temp.country = this.category.mccountry1}
         else if(artist == 'mc2')
         {this.temp.name = this.category.mcname2
         this.temp.guest = this.category.mc2
         this.temp.photo = this.category.mcphoto2
-        this.temp.info = this.category.mcinfo2}
+        this.temp.info = this.category.mcinfo2
+        this.temp.country = this.category.mccountry2}
         else if(artist == 'dj1')
         {this.temp.name = this.category.djname1
         this.temp.guest = this.category.dj1
         this.temp.photo = this.category.djphoto1
-        this.temp.info = this.category.djinfo1}
+        this.temp.info = this.category.djinfo1
+        this.temp.country = this.category.djcountry1}
         else if(artist == 'dj2')
         {this.temp.name = this.category.djname2
         this.temp.guest = this.category.dj2
         this.temp.photo = this.category.djphoto2
-        this.temp.info = this.category.djinfo2}
+        this.temp.info = this.category.djinfo2
+        this.temp.country = this.category.djcountry1}
         else if(artist == 'n1')
         {this.temp.name = this.category.name1
         this.temp.guest = this.category.guest1
         this.temp.photo = this.category.photo1
-        this.temp.info = this.category.info1}
+        this.temp.info = this.category.info1
+        this.temp.country = this.category.country1}
         else if(artist == 'n2')
         {this.temp.name = this.category.name2
         this.temp.guest = this.category.guest2
         this.temp.photo = this.category.photo2
-        this.temp.info = this.category.info2}
+        this.temp.info = this.category.info2
+        this.temp.country = this.category.country2}
         else if(artist == 'n3')
         {this.temp.name = this.category.name3
         this.temp.guest = this.category.guest3
         this.temp.photo = this.category.photo3
-        this.temp.info = this.category.info3}
+        this.temp.info = this.category.info3
+        this.temp.country = this.category.country3}
         else if(artist == 'n4')
         {this.temp.name = this.category.name4
         this.temp.guest = this.category.guest4
         this.temp.photo = this.category.photo4
-        this.temp.info = this.category.info4}
+        this.temp.info = this.category.info4
+        this.temp.country = this.category.country4}
         else if(artist == 'n5')
         {this.temp.name = this.category.name5
         this.temp.guest = this.category.guest5
         this.temp.photo = this.category.photo5
-        this.temp.info = this.category.info5}
+        this.temp.info = this.category.info5
+        this.temp.country = this.category.country5}
         else if(artist == 'n6')
         {this.temp.name = this.category.name6
         this.temp.guest = this.category.guest6
         this.temp.photo = this.category.photo6
-        this.temp.info = this.category.info6}
+        this.temp.info = this.category.info6
+        this.temp.country = this.category.country6}
         else if(artist == 'n7')
         {this.temp.name = this.category.name7
         this.temp.guest = this.category.guest7
         this.temp.photo = this.category.photo7
-        this.temp.info = this.category.info7}
+        this.temp.info = this.category.info7
+        this.temp.country = this.category.country7}
         this.chipDialog = true
       },
       opendialog(){

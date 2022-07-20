@@ -26,7 +26,7 @@
                     @change="onFileChange1">
                 </div>
                 <div v-else class="mb-4">
-                <v-img v-if="typeof(event.poster) === 'string'" :src="event.poster" class="mx-auto" height="auto" width="352px" contain>
+                <v-img v-if="typeof(event.poster) === 'string'" :src="event.poster" class="mx-auto" height="300px" width="352px" contain>
                     <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
                     <v-icon color="black" small>mdi-close</v-icon>
                     </v-btn>
@@ -111,7 +111,7 @@
                     <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Add categories</v-stepper-step>
+                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Add categories and guests</v-stepper-step>
                 <v-stepper-content step="3" class="ma-0">
                     <!-- {{this.categories}} -->
                     <v-row class="mb-2 pa-0 hidden-xs-only">
@@ -988,11 +988,78 @@
             </v-btn>
         </v-img>
         </div>
-         <v-text-field
+         <!-- <v-text-field
             v-model= "judges.name"
             label= "Name"
             :maxlength="50">
-        </v-text-field>
+        </v-text-field> -->
+        <v-combobox
+                v-model="artist_obj"
+                :items="artists"
+                prepend-icon="mdi-account-search-outline"
+                label="Search artists..."
+                item-text="artist_name"
+                item-value="username"
+                ref="artistListComboBox"
+                @change="onAutoCompleteSelection"
+                @keyup="customOnChangeHandler"
+                @paste="customOnChangeHandler"
+                @input="addBattleArtists"
+                >
+                <!-- when its a chip -->
+                <template v-slot:selection="data">
+                    <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click:close="artist_obj = ''"
+                    >
+                    <v-avatar v-if="data.item.thumb" left>
+                        <v-img :src="data.item.thumb"></v-img>
+                    </v-avatar>
+                    <v-avatar v-else left>
+                        <v-icon dark>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-avatar>
+                    <template  v-if="data.item.username" >
+                    {{ data.item.username }}
+                    </template>
+                    <template v-else >
+                    {{ data.item}}
+                    </template>
+                    </v-chip>
+                </template>
+                <!-- when it loads -->
+                <template v-slot:item="data">
+                    <template v-if="typeof data.item !== 'object'">
+                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
+                    </template>
+                    <template v-else>
+                    <v-list-item-avatar v-if="data.item.thumb">
+                        <img :src="data.item.thumb">
+                    </v-list-item-avatar>
+                    <v-list-item-avatar v-else >
+                        <v-icon>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content v-if="data.item.username">
+                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
+                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
+                    </v-list-item-content>
+                    </template>
+                </template>
+        </v-combobox>
+        <v-select
+        prepend-icon="mdi-earth"
+        :items="countries"
+        item-text="name"
+        item-value="code"
+        v-model = "judges.country"
+        label= "Country they are from"
+        clearable>
+        </v-select>
         <v-text-field
             v-model = "judges.info"
             label= "Info"
@@ -1031,11 +1098,73 @@
             </v-btn>
         </v-img>
         </div>
-         <v-text-field
-            v-model= "judges.name"
-            label= "Name"
-            :maxlength="50">
-        </v-text-field>
+         <v-combobox
+                v-model="artist_obj"
+                :items="artists"
+                prepend-icon="mdi-account-search-outline"
+                label="Search artists..."
+                item-text="artist_name"
+                item-value="username"
+                ref="artistListComboBox"
+                @change="onAutoCompleteSelection"
+                @keyup="customOnChangeHandler"
+                @paste="customOnChangeHandler"
+                @input="addBattleArtists"
+                >
+                <!-- when its a chip -->
+                <template v-slot:selection="data">
+                    <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click:close="artist_obj = ''"
+                    >
+                    <v-avatar v-if="data.item.thumb" left>
+                        <v-img :src="data.item.thumb"></v-img>
+                    </v-avatar>
+                    <v-avatar v-else left>
+                        <v-icon dark>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-avatar>
+                    <template  v-if="data.item.username" >
+                    {{ data.item.username }}
+                    </template>
+                    <template v-else >
+                    {{ data.item}}
+                    </template>
+                    </v-chip>
+                </template>
+                <!-- when it loads -->
+                <template v-slot:item="data">
+                    <template v-if="typeof data.item !== 'object'">
+                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
+                    </template>
+                    <template v-else>
+                    <v-list-item-avatar v-if="data.item.thumb">
+                        <img :src="data.item.thumb">
+                    </v-list-item-avatar>
+                    <v-list-item-avatar v-else >
+                        <v-icon>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content v-if="data.item.username">
+                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
+                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
+                    </v-list-item-content>
+                    </template>
+                </template>
+        </v-combobox>
+        <v-select
+        prepend-icon="mdi-earth"
+        :items="countries"
+        item-text="name"
+        item-value="code"
+        v-model = "judges.country"
+        label= "Country they are from"
+        clearable>
+        </v-select>
         <v-text-field
             v-model = "judges.info"
             label= "Info"
@@ -1073,11 +1202,73 @@
             </v-btn>
         </v-img>
         </div>
-         <v-text-field
-            v-model= "judges.name"
-            label= "Name"
-            :maxlength="50">
-        </v-text-field>
+         <v-combobox
+                v-model="artist_obj"
+                :items="artists"
+                prepend-icon="mdi-account-search-outline"
+                label="Search artists..."
+                item-text="artist_name"
+                item-value="username"
+                ref="artistListComboBox"
+                @change="onAutoCompleteSelection"
+                @keyup="customOnChangeHandler"
+                @paste="customOnChangeHandler"
+                @input="addBattleArtists"
+                >
+                <!-- when its a chip -->
+                <template v-slot:selection="data">
+                    <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click:close="artist_obj = ''"
+                    >
+                    <v-avatar v-if="data.item.thumb" left>
+                        <v-img :src="data.item.thumb"></v-img>
+                    </v-avatar>
+                    <v-avatar v-else left>
+                        <v-icon dark>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-avatar>
+                    <template  v-if="data.item.username" >
+                    {{ data.item.username }}
+                    </template>
+                    <template v-else >
+                    {{ data.item}}
+                    </template>
+                    </v-chip>
+                </template>
+                <!-- when it loads -->
+                <template v-slot:item="data">
+                    <template v-if="typeof data.item !== 'object'">
+                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
+                    </template>
+                    <template v-else>
+                    <v-list-item-avatar v-if="data.item.thumb">
+                        <img :src="data.item.thumb">
+                    </v-list-item-avatar>
+                    <v-list-item-avatar v-else >
+                        <v-icon>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content v-if="data.item.username">
+                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
+                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
+                    </v-list-item-content>
+                    </template>
+                </template>
+        </v-combobox>
+        <v-select
+        prepend-icon="mdi-earth"
+        :items="countries"
+        item-text="name"
+        item-value="code"
+        v-model = "judges.country"
+        label= "Country they are from"
+        clearable>
+        </v-select>
         <v-text-field
             v-model = "judges.info"
             label= "Info"
@@ -1116,13 +1307,13 @@
             </v-btn>
         </v-img>
         </div>
-         <v-text-field
+         <!-- <v-text-field
             v-model= "category.name1"
             label= "Name"
             :maxlength="50">
-        </v-text-field>
+        </v-text-field> -->
         <v-combobox
-                v-model="teacher_obj"
+                v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
                 label="Search artists..."
@@ -1132,14 +1323,15 @@
                 @change="onAutoCompleteSelection"
                 @keyup="customOnChangeHandler"
                 @paste="customOnChangeHandler"
-                @input="addTeacher"
+                @input="addCategoryArtist"
                 >
+                <!-- when its a chip -->
                 <template v-slot:selection="data">
                     <v-chip
                     v-bind="data.attrs"
                     :input-value="data.selected"
                     close
-                    @click:close="teacher_obj = ''"
+                    @click:close="artist_obj = ''"
                     >
                     <v-avatar v-if="data.item.thumb" left>
                         <v-img :src="data.item.thumb"></v-img>
@@ -1157,6 +1349,7 @@
                     </template>
                     </v-chip>
                 </template>
+                <!-- when it loads -->
                 <template v-slot:item="data">
                     <template v-if="typeof data.item !== 'object'">
                     <v-list-item-content v-text="data.item.username"></v-list-item-content>
@@ -1176,7 +1369,16 @@
                     </v-list-item-content>
                     </template>
                 </template>
-            </v-combobox>
+        </v-combobox>
+        <v-select
+        prepend-icon="mdi-earth"
+        :items="countries"
+        item-text="name"
+        item-value="code"
+        v-model = "category.country1"
+        label= "Country they are from"
+        clearable>
+        </v-select>
         <v-text-field
             v-model = "category.info1"
             label= "Info"
@@ -1187,6 +1389,8 @@
           @click="addArtist()" >Ok</v-btn>
         </v-container>
         </v-dialog>
+        <!-- {{battle_categories}}
+        {{categories}} -->
         <v-snackbar v-model="posted_snackbar">
             Event posted.
         </v-snackbar>
@@ -1353,6 +1557,7 @@ export default {
                 guest:'',
                 name:'',
                 poster:'',
+                country:'',
                 info:'',
             },
             battle_categories:[],
@@ -1653,7 +1858,7 @@ export default {
             max_dj_snackbar:false,
             max_artist_snackbar:false,
             max_emcee_snackbar:false,
-            teacher_obj:null,
+            artist_obj:null,
             artists:[],
             debounce: null,
             comboBoxModel: null,
@@ -1663,10 +1868,11 @@ export default {
         menu (val) {
         val && setTimeout(() => (this.activePicker = 'YEAR'))
         },
-        teacher_obj: function() {
-        if(this.teacher_obj)
+        artist_obj: function() {
+        if(this.artist_obj)
         {
-            EventService.getSearchedArtist(this.teacher_obj).then((value) => {
+            console.log("this.artist_obj", this.artist_obj);
+            EventService.getSearchedArtist(this.artist_obj).then((value) => {
             this.artists = value.data});
         }
       }
@@ -1676,13 +1882,15 @@ export default {
         this.artists=[]
         clearTimeout(this.debounce)
         this.debounce = setTimeout(() => {
+            console.log("debounce search");
         if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
         this.artists = value.data
+        console.log(this.artists);
         });}
         }, 100)
         },
         onAutoCompleteSelection(){
-            this.comboBoxModel = this.teacher_obj;
+            this.comboBoxModel = this.artist_obj;
             this.searchArtists();
         },
         customOnChangeHandler(){
@@ -1690,23 +1898,45 @@ export default {
         setTimeout(function(){
             if(vm.$refs.artistListComboBox){
             vm.comboBoxModel = vm.$refs.artistListComboBox.internalSearch;
+            console.log(vm.comboBoxModel);
             vm.searchArtists();
             }
         });
         },
-        addTeacher(){
-            let t_name = typeof this.teacher_obj;
-            // console.log(this.teacher_obj);
-            // console.log(t_name);
-            // console.log(this.teacher_obj);
+        addCategoryArtist(){
+            let t_name = typeof this.artist_obj;
             if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {
-                console.log("object",  this.teacher_obj );
+                if(this.artist_obj.artist_name)
+                this.category.name1 = this.artist_obj.artist_name
+                else
+                this.category.name1 = this.artist_obj.username
+
+                this.category.guest1 = this.artist_obj.username
+                this.category.country1 = this.artist_obj.country
+                // this.category.photo1 = this.artist_obj.thumb
             }
             else
             {
-                console.log("no object",  this.teacher_obj );
-                //making null because no artists to tag.
+                this.category.name1 = this.artist_obj
+            }
+        },
+        addBattleArtists(){
+            let t_name = typeof this.artist_obj;
+            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            {
+                if(this.artist_obj.artist_name)
+                this.judges.name = this.artist_obj.artist_name
+                else
+                this.judges.name = this.artist_obj.username
+
+                this.judges.guest = this.artist_obj.username
+                this.judges.country = this.artist_obj.country
+                // this.category.photo1 = this.artist_obj.thumb
+            }
+            else
+            {
+                this.judges.name = this.artist_obj
             }
         },
         addArtist(){
@@ -1718,42 +1948,15 @@ export default {
             // }
         },
         addJudges(){
-            if(this.battleJudges.length <6){if(this.judges.name){
-                // if(this.battle_category.guest1==''){
-                //     this.battle_category.guest1 = this.judges.name;
-                //     this.battle_category.info1 = this.judges.info;
-                //     this.battle_category.photo1 = this.judges.poster;
-                // }else if(this.battle_category.guest2==''){
-                //     this.battle_category.guest2 = this.judges.name;
-                //     this.battle_category.info2 = this.judges.info;
-                //     this.battle_category.photo2 = this.judges.poster;
-                // }else if(this.battle_category.guest3==''){
-                //     this.battle_category.guest3 = this.judges.name;
-                //     this.battle_category.info3 = this.judges.info;
-                //     this.battle_category.photo3 = this.judges.poster;
-                // }else if(this.battle_category.guest4==''){
-                //     this.battle_category.guest4 = this.judges.name;
-                //     this.battle_category.info4 = this.judges.info;
-                //     this.battle_category.photo4 = this.judges.poster;
-                // }else if(this.battle_category.guest5==''){
-                //     this.battle_category.guest5 = this.judges.name;
-                //     this.battle_category.info5 = this.judges.info;
-                //     this.battle_category.photo5 = this.judges.poster;
-                // }else if(this.battle_category.guest6==''){
-                //     this.battle_category.guest6 = this.judges.name;
-                //     this.battle_category.info6 = this.judges.info;
-                //     this.battle_category.photo6 = this.judges.poster;
-                // }else if(this.battle_category.guest7==''){
-                //     this.battle_category.guest7 = this.judges.name;
-                //     this.battle_category.info7 = this.judges.info;
-                //     this.battle_category.photo7 = this.judges.poster;
-                // }else{
-                //     console.log("once 7 guests allowed");
-                // }
+            console.log(this.battleJudges);
+            if(this.battleJudges.length <7){if(this.judges.name){
                 let clone = {...this.judges}
                 this.battleJudges.push(clone)
+                this.artist_obj = null
                 this.judges.name = ''
+                this.judges.guest = ''
                 this.judges.info = ''
+                this.judges.country =''
                 this.judges.poster = ''
                 this.judgesDialog = false;
             }else{
@@ -1769,8 +1972,11 @@ export default {
                 let clone = {...this.judges}
                 this.battleDj.push(clone)
                 console.log(this.battleDj);
+                this.artist_obj = null
                 this.judges.name = ''
+                this.judges.guest = ''
                 this.judges.info = ''
+                this.judges.country =''
                 this.judges.poster = ''
                 this.djDialog = false;
             }else{
@@ -1784,8 +1990,11 @@ export default {
                 let clone = {...this.judges}
                 this.battleEmcee.push(clone)
                 console.log(this.battleEmcee);
+                this.artist_obj = null
                 this.judges.name = ''
                 this.judges.info = ''
+                this.judges.country =''
+                this.judges.guest = ''
                 this.judges.poster = ''
                 this.emceeDialog = false;
             }else{
@@ -1799,8 +2008,11 @@ export default {
             this.djDialog = false
             this.emceeDialog = false
             this.artistDialog = false
+            this.artist_obj = null
             this.judges.name =''
+            this.judges.guest = ''
             this.judges.poster =''
+            this.judges.country =''
             this.judges.info =''
             //clear form
         },
@@ -1820,6 +2032,7 @@ export default {
             for (var key in this.battle_category) {
                 this.battle_category[key] = '';
             }
+            this.artist_obj= null
             this.battle_category.username = this.$store.state.auth.user.user.username
             this.battleEmcee =[];
             this.battleJudges=[];
@@ -1830,6 +2043,7 @@ export default {
             for (var key in this.category) {
                 this.category[key] = '';
             }
+            this.artist_obj= null
             this.otherArtist=[]
             this.category.username = this.$store.state.auth.user.user.username
             this.workshop_dialog=false;
@@ -1879,11 +2093,15 @@ export default {
                             this.battle_category.djname1 = this.battleDj[i].name;
                             this.battle_category.djinfo1 = this.battleDj[i].info;
                             this.battle_category.djphoto1 = this.battleDj[i].poster;
+                            this.battle_category.dj1 = this.battleDj[i].guest;
+                            this.battle_category.djcountry1 = this.battleDj[i].country;
                             // add tags -> this.battle_category.dj1
                         }else{
                             this.battle_category.djname2 = this.battleDj[i].name;
                             this.battle_category.djinfo2 = this.battleDj[i].info;
                             this.battle_category.djphotor2 = this.battleDj[i].poster;
+                            this.battle_category.dj2 = this.battleDj[i].guest;
+                            this.battle_category.djcountry2 = this.battleDj[i].country;
                         }
                         console.log(this.battleDj,this.battle_category);
                     }
@@ -1897,11 +2115,15 @@ export default {
                             this.battle_category.mcname1 = this.battleEmcee[i].name;
                             this.battle_category.mcinfo1 = this.battleEmcee[i].info;
                             this.battle_category.mcphoto1 = this.battleEmcee[i].poster;
+                            this.battle_category.mc1 = this.battleEmcee[i].guest;
+                            this.battle_category.mccountry1 = this.battleEmcee[i].country;
                             // add tags -> this.battle_category.dj1
                         }else{
                             this.battle_category.mcname2 = this.battleEmcee[i].name;
                             this.battle_category.mcinfo2 = this.battleEmcee[i].info;
                             this.battle_category.mcphoto2 = this.battleEmcee[i].poster;
+                            this.battle_category.mc2 = this.battleEmcee[i].guest;
+                            this.battle_category.mccountry2 = this.battleEmcee[i].country;
                         }
                         console.log(this.battleEmcee,this.battle_category);
                     }
@@ -1915,36 +2137,50 @@ export default {
                             this.battle_category.name1 = this.battleJudges[i].name;
                             this.battle_category.info1 = this.battleJudges[i].info;
                             this.battle_category.photo1 = this.battleJudges[i].poster;
+                            this.battle_category.guest1 = this.battleJudges[i].guest;
+                            this.battle_category.country1 = this.battleJudges[i].country;
                             // add tags -> this.battle_category.dj1
                         }else if(this.battle_category.name2 == '')
                         {
                             this.battle_category.name2 = this.battleJudges[i].name;
                             this.battle_category.info2 = this.battleJudges[i].info;
                             this.battle_category.photo2 = this.battleJudges[i].poster;
+                            this.battle_category.guest2 = this.battleJudges[i].guest;
+                            this.battle_category.country2 = this.battleJudges[i].country;
                         }else if(this.battle_category.name3 == '')
                         {
                             this.battle_category.name3 = this.battleJudges[i].name;
                             this.battle_category.info3 = this.battleJudges[i].info;
                             this.battle_category.photo3 = this.battleJudges[i].poster;
+                            this.battle_category.guest3 = this.battleJudges[i].guest;
+                            this.battle_category.country3 = this.battleJudges[i].country;
                         }else if(this.battle_category.name4 == '')
                         {
                             this.battle_category.name4 = this.battleJudges[i].name;
                             this.battle_category.info4 = this.battleJudges[i].info;
                             this.battle_category.photo4 = this.battleJudges[i].poster;
+                            this.battle_category.guest4 = this.battleJudges[i].guest;
+                            this.battle_category.country4 = this.battleJudges[i].country;
                         }else if(this.battle_category.name5 == '')
                         {
                             this.battle_category.name5 = this.battleJudges[i].name;
                             this.battle_category.info5 = this.battleJudges[i].info;
                             this.battle_category.photo5 = this.battleJudges[i].poster;
+                            this.battle_category.guest5 = this.battleJudges[i].guest;
+                            this.battle_category.country5 = this.battleJudges[i].country;
                         }else if(this.battle_category.name6 == '')
                         {
                             this.battle_category.name6 = this.battleJudges[i].name;
                             this.battle_category.info6 = this.battleJudges[i].info;
                             this.battle_category.photo6 = this.battleJudges[i].poster;
+                            this.battle_category.guest6 = this.battleJudges[i].guest;
+                            this.battle_category.country6 = this.battleJudges[i].country;
                         }else if(this.battle_category.name7 == ''){
                             this.battle_category.name7 = this.battleJudges[i].name;
                             this.battle_category.info7 = this.battleJudges[i].info;
                             this.battle_category.photo7 = this.battleJudges[i].poster;
+                            this.battle_category.guest7 = this.battleJudges[i].guest;
+                            this.battle_category.country7 = this.battleJudges[i].country;
                         }
                         console.log(this.battleEmcee,this.battle_category);
                     }
