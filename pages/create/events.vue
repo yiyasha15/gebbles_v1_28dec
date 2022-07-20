@@ -997,7 +997,7 @@
                 v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
-                label="Search artists..."
+                label="Tag artists..."
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -1057,10 +1057,11 @@
         item-text="name"
         item-value="code"
         v-model = "judges.country"
-        label= "Country they are from"
+        label= "Country"
         clearable>
         </v-select>
         <v-text-field
+        prepend-icon="mdi-information-outline"
             v-model = "judges.info"
             label= "Info"
             :maxlength="250">
@@ -1102,7 +1103,7 @@
                 v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
-                label="Search artists..."
+                label="Tag artists..."
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -1162,10 +1163,11 @@
         item-text="name"
         item-value="code"
         v-model = "judges.country"
-        label= "Country they are from"
+        label= "Country"
         clearable>
         </v-select>
         <v-text-field
+        prepend-icon="mdi-information-outline"
             v-model = "judges.info"
             label= "Info"
             :maxlength="250">
@@ -1206,7 +1208,7 @@
                 v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
-                label="Search artists..."
+                label="Tag artists..."
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -1266,10 +1268,11 @@
         item-text="name"
         item-value="code"
         v-model = "judges.country"
-        label= "Country they are from"
+        label= "Country"
         clearable>
         </v-select>
         <v-text-field
+        prepend-icon="mdi-information-outline"
             v-model = "judges.info"
             label= "Info"
             :maxlength="250">
@@ -1316,7 +1319,7 @@
                 v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
-                label="Search artists..."
+                label="Tag artists..."
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -1376,10 +1379,11 @@
         item-text="name"
         item-value="code"
         v-model = "category.country1"
-        label= "Country they are from"
+        label= "Country"
         clearable>
         </v-select>
         <v-text-field
+            prepend-icon="mdi-information-outline"
             v-model = "category.info1"
             label= "Info"
             :maxlength="250">
@@ -1883,6 +1887,7 @@ export default {
         clearTimeout(this.debounce)
         this.debounce = setTimeout(() => {
             console.log("debounce search");
+            console.log("this.comboBoxModel", this.comboBoxModel, this.artist_obj);
         if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
         this.artists = value.data
         console.log(this.artists);
@@ -1898,7 +1903,8 @@ export default {
         setTimeout(function(){
             if(vm.$refs.artistListComboBox){
             vm.comboBoxModel = vm.$refs.artistListComboBox.internalSearch;
-            console.log(vm.comboBoxModel);
+            console.log(vm.$refs.artistListComboBox);
+            console.log("vm.comboBoxModel",vm.comboBoxModel);
             vm.searchArtists();
             }
         });
@@ -1953,6 +1959,7 @@ export default {
                 let clone = {...this.judges}
                 this.battleJudges.push(clone)
                 this.artist_obj = null
+                this.artists = []
                 this.judges.name = ''
                 this.judges.guest = ''
                 this.judges.info = ''
@@ -1973,6 +1980,7 @@ export default {
                 this.battleDj.push(clone)
                 console.log(this.battleDj);
                 this.artist_obj = null
+                this.artists = []
                 this.judges.name = ''
                 this.judges.guest = ''
                 this.judges.info = ''
@@ -1991,6 +1999,7 @@ export default {
                 this.battleEmcee.push(clone)
                 console.log(this.battleEmcee);
                 this.artist_obj = null
+                this.artists = []
                 this.judges.name = ''
                 this.judges.info = ''
                 this.judges.country =''
@@ -2009,6 +2018,7 @@ export default {
             this.emceeDialog = false
             this.artistDialog = false
             this.artist_obj = null
+            this.artists = []
             this.judges.name =''
             this.judges.guest = ''
             this.judges.poster =''
