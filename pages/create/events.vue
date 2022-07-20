@@ -43,7 +43,7 @@
                         v-model = "event.name"
                         label= "Event name*"
                         :rules="[() => !!event.name || 'This field is required']"
-                        :maxlength="255">
+                        :maxlength="350">
                     </v-text-field>
                     <v-menu
                         ref="menu"
@@ -73,12 +73,12 @@
                     prepend-icon="mdi-map-marker-outline"
                         v-model = "event.venue"
                         label= "Event venue"
-                        :maxlength="255">
+                        :maxlength="250">
                     </v-text-field>
                     <v-text-field
                         v-model = "event.city"
                         label= "City"
-                        :maxlength="50">
+                        :maxlength="250">
                     </v-text-field>
                     <v-select label="Country" v-model= "event.country"
                     prepend-icon="mdi-earth"
@@ -178,8 +178,8 @@
                             </div>
                         </v-col>
                     </v-row>
-                    <v-row class="pa-0 ma-0">
-                        <!-- <v-list two-line style="width:100%;">
+                    <!-- <v-row class="pa-0 ma-0">
+                        <v-list two-line style="width:100%;">
                                 <template v-for="(item, index) in this.categories">
                                 <v-list-item
                                     :key="index">
@@ -210,8 +210,9 @@
                                     </v-btn>
                                 </v-list-item>
                                 </template>
-                            </v-list> -->
-                    </v-row>
+                            </v-list>
+                    </v-row> -->
+                    <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
                     <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
                     @click="submit" :loading="progressbar" >Submit</v-btn>
                     <v-btn v-else outlined small class="text-decoration-none"  color="black"
@@ -276,7 +277,7 @@
          <v-text-field
             v-model= "battle_category.name"
             label= "Title"
-            :maxlength="50">
+            :maxlength="150">
         </v-text-field>
         <v-menu
             ref="menu1"
@@ -334,12 +335,13 @@
             v-model = "battle_category.venue"
             label= "Venue"
             prepend-icon="mdi-map-marker-outline"
-            :maxlength="50">
+            :maxlength="150">
         </v-text-field>
         <v-text-field @click="emceeDialog = true"
             prepend-icon="mdi-microphone-variant"
             v-model = "battle_category.mc"
             label= "Emcee"
+            hint="you can add upto 2 emcees"
             :maxlength="0">
         </v-text-field>
         <v-chip v-for="obj in battleEmcee" :key="obj.id" close-icon="mdi-close" close @click:close="battleEmcee.splice(battleEmcee.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
@@ -355,6 +357,7 @@
             prepend-icon="mdi-music"
             v-model = "battle_category.dj"
             label= "DJ"
+            hint="you can add upto 2 djs"
             :maxlength="0">
         </v-text-field>
         <v-chip v-for="obj in battleDj" :key="obj.id" close-icon="mdi-close" close @click:close="battleDj.splice(battleDj.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
@@ -370,6 +373,7 @@
             label= "Judges"
             prepend-icon="mdi-hand-heart-outline"
             :maxlength="0"
+            hint="you can add upto 7 judges"
             >
         </v-text-field>
           <v-chip v-for="obj in battleJudges" :key="obj.id" close-icon="mdi-close" close @click:close="battleJudges.splice(battleJudges.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
@@ -385,19 +389,18 @@
         prepend-icon="mdi-book-outline"
             v-model = "battle_category.rules"
             label= "Rules"
-            :maxlength="150">
+            :maxlength="550">
         </v-text-field>
         <v-text-field
         prepend-icon="mdi-license"
             v-model = "battle_category.prizes"
             label= "Prizes"
-            :maxlength="150">
+            :maxlength="550">
         </v-text-field>
         <v-text-field
         prepend-icon="mdi-information-outline"
             v-model = "battle_category.about"
-            label= "About"
-            :maxlength="250">
+            label= "About">
         </v-text-field>
         <v-btn outlined small class="text-decoration-none"  color="black"
           @click="addBattle()">Add</v-btn>
@@ -434,7 +437,7 @@
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="50">
+            :maxlength="250">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -491,7 +494,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="50">
+            :maxlength="250">
         </v-text-field>
         <v-text-field @click="artistDialog = true"
             prepend-icon="mdi-hand-heart-outline"
@@ -549,7 +552,7 @@
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="50">
+            :maxlength="250">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -606,7 +609,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="50">
+            :maxlength="150">
         </v-text-field>
         <v-btn outlined small class="text-decoration-none"  color="black"
           @click="addParty()" >Add</v-btn>
@@ -643,7 +646,7 @@
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="50">
+            :maxlength="250">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -700,7 +703,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="50">
+            :maxlength="150">
         </v-text-field>
         <v-text-field @click="artistDialog = true"
             prepend-icon="mdi-hand-heart-outline"
@@ -758,7 +761,7 @@
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="50">
+            :maxlength="250">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -815,7 +818,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="50">
+            :maxlength="150">
         </v-text-field>
         <!-- <v-text-field
         prepend-icon="mdi-info"
@@ -858,7 +861,7 @@
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="50">
+            :maxlength="250">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -915,7 +918,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="50">
+            :maxlength="150">
         </v-text-field>
         <v-text-field @click="artistDialog = true"
             prepend-icon="mdi-hand-heart-outline"
@@ -988,16 +991,16 @@
             </v-btn>
         </v-img>
         </div>
-         <!-- <v-text-field
+         <v-text-field
             v-model= "judges.name"
             label= "Name"
-            :maxlength="50">
-        </v-text-field> -->
+            :maxlength="150">
+        </v-text-field>
         <v-combobox
                 v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
-                label="Tag artists..."
+                label="Tag artist..."
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -1012,7 +1015,7 @@
                     v-bind="data.attrs"
                     :input-value="data.selected"
                     close
-                    @click:close="artist_obj = ''"
+                    @click:close="artist_obj = null"
                     >
                     <v-avatar v-if="data.item.thumb" left>
                         <v-img :src="data.item.thumb"></v-img>
@@ -1099,11 +1102,16 @@
             </v-btn>
         </v-img>
         </div>
+         <v-text-field
+            v-model= "judges.name"
+            label= "Name"
+            :maxlength="150">
+        </v-text-field>
          <v-combobox
                 v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
-                label="Tag artists..."
+                label="Tag artist..."
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -1118,7 +1126,7 @@
                     v-bind="data.attrs"
                     :input-value="data.selected"
                     close
-                    @click:close="artist_obj = ''"
+                    @click:close="artist_obj = null"
                     >
                     <v-avatar v-if="data.item.thumb" left>
                         <v-img :src="data.item.thumb"></v-img>
@@ -1204,11 +1212,16 @@
             </v-btn>
         </v-img>
         </div>
+         <v-text-field
+            v-model= "judges.name"
+            label= "Name"
+            :maxlength="150">
+        </v-text-field>
          <v-combobox
                 v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
-                label="Tag artists..."
+                label="Tag artist..."
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -1223,7 +1236,7 @@
                     v-bind="data.attrs"
                     :input-value="data.selected"
                     close
-                    @click:close="artist_obj = ''"
+                    @click:close="artist_obj = null"
                     >
                     <v-avatar v-if="data.item.thumb" left>
                         <v-img :src="data.item.thumb"></v-img>
@@ -1310,16 +1323,16 @@
             </v-btn>
         </v-img>
         </div>
-         <!-- <v-text-field
+         <v-text-field
             v-model= "category.name1"
             label= "Name"
-            :maxlength="50">
-        </v-text-field> -->
+            :maxlength="150">
+        </v-text-field>
         <v-combobox
                 v-model="artist_obj"
                 :items="artists"
                 prepend-icon="mdi-account-search-outline"
-                label="Tag artists..."
+                label="Tag artist..."
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -1334,7 +1347,7 @@
                     v-bind="data.attrs"
                     :input-value="data.selected"
                     close
-                    @click:close="artist_obj = ''"
+                    @click:close="artist_obj = null"
                     >
                     <v-avatar v-if="data.item.thumb" left>
                         <v-img :src="data.item.thumb"></v-img>

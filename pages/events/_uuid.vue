@@ -7,8 +7,8 @@
         <v-dialog v-if="isAuthenticated && loggedInUser.user.username == event.username" v-model="deletedialog" width="500">    
             <template v-slot:activator="{ on, attrs }">
                 <v-row align="end" justify="end" class="pa-0 ma-0" >
-                <v-btn color="error" outlined small> <h4 class="font-weight-medium" style="text-transform: capitalize;">delete event</h4>
-                <v-icon small color="error" @click="deletedialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
+                <v-btn color="error" @click="deletedialog = true" outlined small> <h4 class="font-weight-medium" style="text-transform: capitalize;">delete event</h4>
+                <v-icon small color="error" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
                 </v-btn>
                 </v-row>
             </template>
@@ -46,7 +46,7 @@
                 </v-row>
             </v-col>
             <v-col v-if="event.poster" cols="12" md="6" align="center" justify="center" class="px-0">
-                <v-img :src = "event.poster" contain max-height="400px"></v-img>
+                <v-img :src = "event.poster" contain max-height="440px"></v-img>
             </v-col>
         </v-row>
         <v-row v-if="event.about" class="ma-0">
@@ -54,9 +54,9 @@
         </v-row>
         <v-row v-if="videoId" class="ma-0 mt-10">
             <youtube class="hidden-sm-and-down mx-auto" aspect-ratio="1" :video-id= 'videoId'></youtube>
-            <youtube style="max-width:90%; margin:auto;height:auto;" class="hidden-md-and-up" :video-id= 'videoId'></youtube>
+            <youtube style="max-width:95%; margin:auto;height:auto;" class="hidden-md-and-up" :video-id= 'videoId'></youtube>
         </v-row>
-        <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6 font-weight-light" > Programs</h2>
+        <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6  text-center" > Programs</h2>
         <v-row class="ma-0">
             <v-col cols="12" md="6" v-for="category in event.event_battles" :key ="category.index" class="px-0">
             <category-card :category="category"></category-card>
@@ -67,6 +67,9 @@
             <!-- <v-col cols="6" v-for="category in event.event_subevents" :key ="category.index" class="px-0 hidden-sm-and-down">
             <category-card-desktop :category="category"></category-card-desktop>
             </v-col> -->
+        </v-row>
+        <v-row>
+            <p>Contact organisers</p>
         </v-row>
         </v-container>
   </v-app>
