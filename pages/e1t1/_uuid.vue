@@ -190,7 +190,7 @@
                 <v-col cols="12" >
                 <v-row class="mt-4">
                     <v-col cols="12" class="justify-center ">
-                        <h3 class ="font-weight-light">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}})</h3>
+                        <h4 class ="font-weight-light">Chat room<span class= "caption"> ({{e1t1.s_teacher_name}}, {{e1t1.username}})</span></h4>
                     </v-col>
                 </v-row> 
                 <v-layout class="pt-6">

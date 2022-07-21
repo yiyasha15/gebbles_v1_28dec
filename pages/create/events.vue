@@ -1,18 +1,22 @@
 <template>
 <v-app>
     <v-container class="ma-24" style="max-width:520px;">
-        <div>
-            <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        <div align="left" justify="left">
+            <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
         <v-row >
+            <!-- {{event.uuid}}
+            <p v-if="editing_event_obj">{{editing_event_obj.event_battles}}<br></p>
+            Event HERE
+            {{this.battle_categories}} -->
         <v-col class="pa-0">
-             <h2 class="my-8" align="center" justify="center">About the event</h2>
-            <v-stepper v-model="e6" vertical>
+             <h2 class="mb-md-8 mb-4" align="center" justify="center">About the event</h2>
+            <v-stepper v-model="e6" vertical class="my-2">
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Event poster* 
                 <!-- <small>Summarize if needed</small> -->
                 </v-stepper-step>
-                <v-stepper-content step="1" width="100%" class="ma-0"> 
+                <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0"> 
                 <div>
                 <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer;  width:152px;" class="mb-4 rounded-lg grey lighten-4" >
                     <v-icon class="pa-16">mdi-plus</v-icon>
@@ -34,11 +38,11 @@
                 </div>
                 </div>
                 <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
-                <v-btn text @click="goback" small color="primary">Cancel</v-btn>
+                <!-- <v-btn text @click="goback" small color="primary">Cancel</v-btn> -->
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event details*</v-stepper-step>
-                <v-stepper-content step="2" class="ma-0">
+                <v-stepper-content step="2" style="border-left: none;" class="ma-0">
                     <v-text-field
                         v-model = "event.name"
                         label= "Event name*"
@@ -108,11 +112,18 @@
                     </v-text-field>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
-                    <v-btn text @click="goback" small color="primary">Cancel</v-btn>
+                    <!-- <v-btn text @click="goback" small color="primary">Cancel</v-btn> -->
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Add categories and guests</v-stepper-step>
-                <v-stepper-content step="3" class="ma-0">
+                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Add guests</v-stepper-step>
+                <v-stepper-content step="3"  style=" border-left: none;" class="ma-0" >
+                    
+                    <v-btn color="black" text small outlined @click="e6 = 4">Next</v-btn>
+                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                    <!-- <v-btn text small @click="goback" color="primary">Cancel</v-btn> -->
+                </v-stepper-content>
+                <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Add categories</v-stepper-step>
+                <v-stepper-content step="4"  style=" border-left: none; max-width:400px; margin:auto">
                     <!-- {{this.categories}} -->
                     <v-row class="mb-2 pa-0 hidden-xs-only">
                         <v-col >
@@ -178,48 +189,15 @@
                             </div>
                         </v-col>
                     </v-row>
-                    <!-- <v-row class="pa-0 ma-0">
-                        <v-list two-line style="width:100%;">
-                                <template v-for="(item, index) in this.categories">
-                                <v-list-item
-                                    :key="index">
-                                    <template @click="openCat(item)">
-                                    <v-list-item-avatar v-if="item.poster" size="30">
-                                    <v-img :src="item.poster"></v-img>
-                                    </v-list-item-avatar>
-                                    <v-list-item-avatar v-else-if="item.type == 'workshop'" color="yellow" size="30">
-                                    </v-list-item-avatar>
-                                    <v-list-item-avatar v-else-if="item.type == 'battle'" color="red" size="30">
-                                    </v-list-item-avatar>
-                                    <v-list-item-avatar v-else-if="item.type == 'cypher'" color="green" size="30">
-                                    </v-list-item-avatar>
-                                    <v-list-item-avatar v-else-if="item.type == 'showcase'" color="blue" size="30">
-                                    </v-list-item-avatar>
-                                    <v-list-item-avatar v-else-if="item.type == 'party'" color="purple" size="30">
-                                    </v-list-item-avatar>
-                                    <v-list-item-avatar v-else-if="item.type == 'other'" color="black" size="30">
-                                    </v-list-item-avatar>
-                                    <v-list-item-content @click="openCat(item)">
-                                    <v-list-item-title v-html="item.name"></v-list-item-title>
-                                    <v-list-item-subtitle class="caption" v-html="item.about"></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                    </template>
-                                    <v-spacer></v-spacer>
-                                    <v-btn icon color="error" @click="removeCat(item)">
-                                    <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                </v-list-item>
-                                </template>
-                            </v-list>
-                    </v-row> -->
-                    <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
-                    <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="submit" :loading="progressbar" >Submit</v-btn>
-                    <v-btn v-else outlined small class="text-decoration-none"  color="black"
-                    @click="update" :loading="progressbar" >Update</v-btn>
-                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
-                    <v-btn text small @click="goback" color="primary">Cancel</v-btn>
+                    <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
+                    <!-- <v-btn text small @click="goback" color="primary">Cancel</v-btn> -->
                 </v-stepper-content>
+                <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
+                    <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none ml-12"  color="black"
+                    @click="submit" :loading="progressbar" >Submit</v-btn>
+                    <v-btn v-else outlined small class="text-decoration-none ml-12"  color="black"
+                    @click="update" :loading="progressbar" >Update</v-btn>
+                    <v-btn text small @click="goback" color="primary">Cancel</v-btn>
             </v-stepper>
             <v-row class="pa-0 ma-0">
                 <v-col cols="4" v-for="category in this.categories"  :key ="category.index">
@@ -1454,13 +1432,18 @@ export default {
         CategoryCardCreate
     },
     created (){
-        if(this.$store.state.editing_obj)
+        if(this.$store.state.editing_event_obj)
         {
-            this.event = Object.assign({}, this.$store.getters.editing_obj);
+            this.event = Object.assign({}, this.$store.getters.editing_event_obj);
+            this.battle_categories = this.$store.getters.editing_event_obj.event_battles.map(a => Object.assign({}, a));
+            this.categories = this.$store.getters.editing_event_obj.event_subevents.map(a => Object.assign({}, a));
+
+            // this.battle_categories = this.$store.getters.editing_event_obj.event_battles;
+            // this.categories = this.$store.getters.editing_event_obj.event_subevents;
         }
     },
     computed: {
-        ...mapGetters(['editing_obj'])
+        ...mapGetters(['editing_event_obj'])
     },
     data(){
         return {
@@ -2283,7 +2266,7 @@ export default {
             }
         },
         goback(){
-            this.$store.dispatch("remove_editing_obj")
+            this.$store.dispatch("remove_editing_event_obj")
             window.history.back();
         },
         onPick(num) //changing the click from button to input using refs
@@ -2550,6 +2533,78 @@ export default {
             url = url.slice(1, -1);
             let put = await this.$axios.$put(url, fileData)
             return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+        },
+        async update(){
+            try{
+                // this.event.username= this.$store.state.auth.user.user.username
+                if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
+                { 
+                this.progressbar =true
+                // console.log(this.event.poster);
+                if(this.event.poster == 'object')
+                this.event.poster = await this.putImage(this.event.poster).then(res=>
+                {this.formUpdate();})
+                else
+                this.formUpdate();
+                }
+            }
+            catch(e){
+                console.log(e);
+            }
+            // let ids = new Set(this.editing_event_obj.event_battles.map(({ uuid }) => uuid));
+            // let ids2 = new Set(this.battle_categories.map(({ uuid }) => uuid));
+            // //remove ids value if ids value matches ids2
+            // ids2.forEach((x) => {
+            //     ids.delete(x);
+            // });
+            // console.log( ids);
+        },
+        async formUpdate(){
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+            };
+            let myObj1 = this.editing_event_obj 
+            let myObj2 = this.event
+            // find keys 
+            let keyObj1 = Object.keys(myObj1); 
+            let keyObj2 = Object.keys(myObj2);
+                
+            // find values 
+            let valueObj1 = Object.values(myObj1); 
+            let valueObj2 = Object.values(myObj2); 
+            
+            // now compare their keys and values  
+            try {
+                for(var i=0; i<keyObj1.length; i++) { 
+                if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                    console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                } 
+                else { 
+                    // it prints keys have different values 
+                    if(!keyObj1[i]=='event_battles' && !keyObj1[i]=='event_subevents'){
+                        let formName = new FormData();
+                        formName.append(keyObj1[i], valueObj2[i]);
+                        formName.append("id", this.journey['id']);
+
+                        console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                        await this.$axios.$patch("/v1/events/battles/"+this.event.id, formName, config).then(res => {
+                        console.log( valueObj2[i] ,res," changed"); 
+                    })}
+                } 
+            }
+            this.$store.dispatch("remove_editing_event_obj");
+            this.progressbar =false
+            this.posted_snackbar = true;
+            // this.refresh();
+            } catch (error) {
+                console.log("error",error);
+                this.error_snackbar =true
+                this.progressbar =false
+            }
+            this.$router.push("/events/"+this.event.uuid);
+            
         },
     },
     middleware : 'check_auth',

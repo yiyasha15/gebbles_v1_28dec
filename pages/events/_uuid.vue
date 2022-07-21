@@ -4,20 +4,45 @@
         <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
-        <v-dialog v-if="isAuthenticated && loggedInUser.user.username == event.username" v-model="deletedialog" width="500">    
-            <template v-slot:activator="{ on, attrs }">
-                <v-row align="end" justify="end" class="pa-0 ma-0" >
-                <v-btn color="error" @click="deletedialog = true" outlined small> <h4 class="font-weight-medium" style="text-transform: capitalize;">delete event</h4>
-                <v-icon small color="error" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                </v-btn>
-                </v-row>
-            </template>
+        <v-row align="end" justify="end" class="pa-0 ma-0" v-if="isAuthenticated && loggedInUser.user.username == event.username">
+            <v-menu v-if="isAuthenticated && loggedInUser.user.username == event.username" transition="slide-y-transition" open-on-hover offset-y bottom left>
+                <template v-slot:activator="{ on, attrs }">
+                    <div v-bind="attrs"
+                    v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                    </div>
+                </template>
+                <v-list>
+                    <v-list-item
+                    class="text-decoration-none pl-6 pr-12"
+                    color="black"
+                    @click="editEvent(event)"
+                    >
+                    <v-list-item-title>Edit</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                    color="error"
+                    class="text-decoration-none pl-6 pr-12"
+                    @click="deletedialog = true"
+                    >
+                    <v-list-item-title>Delete</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
+        <!-- <v-btn @click="editEvent" outlined small> <h4 class="font-weight-medium" style="text-transform: capitalize;">edit event</h4>
+        <v-icon small v-bind="attrs" v-on="on">mdi-edit-outline</v-icon>
+        </v-btn>
+        <v-btn color="error" @click="deletedialog = true" outlined small> <h4 class="font-weight-medium" style="text-transform: capitalize;">delete event</h4>
+        <v-icon small color="error">mdi-delete-outline</v-icon>
+        </v-btn> -->
+        </v-row>
+        <v-dialog v-model="deletedialog" width="500">    
         <v-card class="pa-4">
             <p>Are you sure you want to delete this event?</p>
             <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
-                @click="deleted">Delete</v-btn>
+                @click="deleteEvent">Delete</v-btn>
             <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="deletedialog = false">
                 Cancel
             </v-btn>
@@ -68,9 +93,9 @@
             <category-card-desktop :category="category"></category-card-desktop>
             </v-col> -->
         </v-row>
-        <v-row>
+        <!-- <v-row>
             <p>Contact organisers</p>
-        </v-row>
+        </v-row> -->
         </v-container>
   </v-app>
 </template>
@@ -146,9 +171,6 @@ export default {
         return now;
         },
         goback(){
-            this.$store.dispatch("remove_share_obj")
-            this.$store.dispatch("remove_learnings")
-            this.$store.dispatch("remove_love")
             window.history.back();
         },
         openLink(){
@@ -157,36 +179,41 @@ export default {
             win.focus();
         },
         getTime(timestamp){
-        const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        let date = timestamp;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartype = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        date = datetype+" "+monthtype +" "+yeartype;
-        return{ date}
-      },
-    
-    deleted(){
-        this.deleteLoading = true;
-        const config = {
-            headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            let date = timestamp;
+            let datetype= date.slice(8, 10);
+            let month = date.slice(5, 7);
+            let yeartype = date.slice(0, 4)
+            const regex = new RegExp("^0+(?!$)",'g');
+            month = month.replaceAll(regex, "");
+            let monthtype = months[month-1]
+            date = datetype+" "+monthtype +" "+yeartype;
+            return{ date}
+        },
+        
+        deleteEvent(){
+            this.deleteLoading = true;
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+            };
+            try {
+                this.$axios.$delete("/v1/events/"+this.event.uuid, config).then(res=>{
+                console.log("event deleted",res);
+                this.deleteLoading = false;
+                this.$router.push("/events");
+                })
+            } catch (e) {
+                console.log(e.response);
+                this.deleteLoading = false;
             }
-        };
-        try {
-            this.$axios.$delete("/v1/events/"+this.event.uuid, config).then(res=>{
-              console.log("event deleted",res);
-              this.deleteLoading = false;
-              this.$router.push("/events");
-            })
-        } catch (e) {
-            console.log(e.response);
-            this.deleteLoading = false;
-        }
-      },
+        },
+        editEvent(event){
+        console.log("edit");
+        this.$store.dispatch("check_editing_event_obj", event);
+        this.$router.push("/create/events");
+        },
     }
     
 }

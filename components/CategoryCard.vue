@@ -19,10 +19,15 @@
         <h6 v-if="category.date" class="caption white--text mt-12">{{getTime(category.date).date}}</h6>
       </div>
       </v-img>
-      <div v-else class="text-center">
+      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+         v-else
+        height="300"
+        width=100%>
+      <div class="text-center">
         <h3 style="height:55px; overflow:hidden; margin-top: 100px" class="font-weight-light px-6">{{category.name}}</h3>
         <h6 v-if="category.date" class="caption mt--12">{{getTime(category.date).date}}</h6>
       </div>
+      </v-img>
     </v-card>
   </v-hover>
   <v-dialog

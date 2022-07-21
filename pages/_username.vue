@@ -34,6 +34,15 @@
             >
             <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
+            <v-btn icon small
+            v-if="isAuthenticated"
+            :to="'/events'"
+            class="text-decoration-none mx-1 hidden-sm-and-up"
+        >
+            <v-icon size="26" color="black" >
+                mdi-google-circles-communities
+            </v-icon>
+        </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" class="mx-1 hidden-sm-and-up"
@@ -186,6 +195,15 @@
             >
             <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
+            <v-btn icon small
+            v-if="isAuthenticated"
+            :to="'/events'"
+            class="text-decoration-none mx-1 d-none d-sm-flex"
+        >
+            <v-icon size="26" color="black" >
+                mdi-google-circles-communities
+            </v-icon>
+        </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" class="mx-1 d-none d-sm-flex"

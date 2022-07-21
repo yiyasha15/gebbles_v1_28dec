@@ -2,19 +2,20 @@
 <v-app>
     <v-container class="ma-24" style="max-width:550px;">
         <div>
-            <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+            <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
         <v-row >
         <v-col class="pa-0">
             <!-- {{journey}} -->
-             <h2 class="my-8" align="center" justify="center">Share your journey</h2>
+            
+             <h2 class="mb-md-8 mb-4" align="center" justify="center">Share your journey</h2>
             <v-stepper v-model="e6" vertical >
                 <!-- {{editing_obj}} -->
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Share images* 
                 <!-- <small>Summarize if needed</small> -->
                 </v-stepper-step>
-                <v-stepper-content step="1" width="100%" class="ma-0"> 
+                <v-stepper-content style="border-left: none;" step="1" width="100%" class="ma-0"> 
                     <v-slide-group
                     min-width="2px"
                     v-model="model"
@@ -128,7 +129,7 @@
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Caption*</v-stepper-step>
-                <v-stepper-content step="2" class="ma-0">
+                <v-stepper-content step="2" class="ma-0" style="border-left: none;">
                     <v-text-field
                         v-model = "journey.joevent"
                         label= "Title*"
@@ -188,7 +189,7 @@
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Privacy</v-stepper-step>
-                <v-stepper-content step="3" class="ma-0">
+                <v-stepper-content step="3" class="ma-0" style="border-left: none;">
                     <h4 class="font-weight-light">Add to highlights</h4>
                         <v-radio-group
                             v-model="journey.ishighlight"
@@ -710,7 +711,6 @@ export default {
                 }
         },
         onFileChange1(e) {
-            // this.lockButton = true;
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
@@ -721,16 +721,10 @@ export default {
                 {
                     fileReader.readAsDataURL(files[0]);
                     this.journey.jophoto1 = files[0];
-                }else{
-                    this.lockButton = false;
                 }
-            // fileReader.readAsDataURL(files[0]);
-            // this.journey.jophoto1 = files[0];
             }
         },
         onFileChange2(e) {
-            // this.lockButton = true;
-            // console.log("this.lockButton",this.lockButton);
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
@@ -742,8 +736,6 @@ export default {
                     fileReader.readAsDataURL(files[0]);
                     this.journey.jophoto2 = files[0];
                     console.log(this.journey);
-                }else{
-                    this.lockButton = false;
                 }
             }
         },

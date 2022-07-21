@@ -1,19 +1,17 @@
 <template>
     <v-container class="ma-24" style="max-width:550px;">
+            <div align="left" justify="left">
+            <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        </div>
         <v-row>
-            <v-col>
-                <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-                <h2 align="center" justify="center">Each One Teach One</h2>
-            </v-col>
-        </v-row>
-        <v-row>
-        <v-col  >
+        <v-col>
+            <h2 align="center" justify="center">Each One Teach One</h2>
         <v-stepper  v-model="e6" vertical>
         <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
             Mention the person that inspired you.*
         <small>If that person is not yet in this platform, mention them and tag them later when they join.<br></small>
         </v-stepper-step>
-        <v-stepper-content step="1">
+        <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0">
             <v-combobox
                 v-model="teacher_obj"
                 :items="artists"
@@ -85,7 +83,7 @@
         <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Upload an image together.*
             <small>(or, you can add their image.)</small>
         </v-stepper-step>
-        <v-stepper-content step="2" style="border-left: none;">
+        <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
             <div>
             <div v-if="!imageData" @click="onPick" style="cursor:pointer;  width:152px;" class="mb-4 rounded-lg grey lighten-4" >
                 <v-icon class="pa-16">mdi-plus</v-icon>
@@ -99,7 +97,7 @@
                 @change="onFileChange">
             </div>
             <div v-else class="mb-4">
-            <v-img :src="imageData" height="auto" width="152px" contain>
+            <v-img :src="imageData" height="auto" width="242px" class="mx-auto" contain>
                 <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage">
                 <v-icon color="black" small>mdi-close</v-icon>
                 </v-btn>
@@ -112,7 +110,7 @@
         </v-stepper-content>
     
         <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
-        <v-stepper-content step="3" style="border-left: none;">
+        <v-stepper-content step="3" style="border-left: none;" width="100%" class="ma-0">
             <v-textarea
             counter :maxlength="485"
                 v-model = "sharing.s_appreciation"
@@ -134,13 +132,6 @@
                 label= "Share about what you learnt from them."
                 clearable>
             </v-textarea>
-            <v-btn color="black" small text outlined @click="e6 = 4">Next</v-btn>
-            <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
-            <v-btn color="primary" text small @click="goback">Cancel</v-btn>
-        </v-stepper-content>
-    
-        <v-stepper-step step="4"  @click.native="e6 = 4" style="cursor:pointer">Share a video</v-stepper-step>
-        <v-stepper-content step="4" style="border-left: none;">
             <v-text-field
                 :error-messages="ytLinkError" 
                 color="red"
@@ -153,20 +144,15 @@
             </v-text-field>
             <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
                 <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
-                <!-- <instagram-embed
-                :url="'https://www.instagram.com/p/CEeXLVAAoYl/'"
-                :max-width=300
-                :hide-caption=true
-                /> -->
-                </v-row>
-            <p class="caption" v-if="lockButton"> Please wait..</p>
+            </v-row>
+            <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
             <v-btn v-if="!share_obj" outlined small class="text-decoration-none" 
-             color="black" :loading="progressbar" :disabled="lockButton"
+             color="black" :loading="progressbar"
             @click="submit">Submit</v-btn>
             <v-btn v-else outlined small class="text-decoration-none"  color="black"
-             :loading="progressbar" :disabled="lockButton"
+             :loading="progressbar" 
             @click="update">Update</v-btn>
-            <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
+            <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
             <v-btn color="primary" text small @click="goback">Cancel</v-btn>
         </v-stepper-content>
         </v-stepper>
@@ -236,7 +222,6 @@ export default {
     },
     data(){
         return {
-            lockButton:false,
             countries:[
                     {"name": "Afghanistan", "code": "AF"},
                     {"name": "Åland Islands", "code": "AX"},
@@ -597,7 +582,6 @@ export default {
             this.$refs.fileInput.click()
         },
         onFileChange(e) {
-            this.lockButton = true;
             let files = e.target.files || e.dataTransfer.files;
             if (files) {
             const fileReader = new FileReader()
@@ -608,26 +592,7 @@ export default {
                 {
                     fileReader.readAsDataURL(files[0]);
                     this.sharing.image = files[0];
-                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                        res => {
-                            if(res.statusCode == 200)
-                            {
-                                delete this.$axios.defaults.headers.common['Authorization']
-                                let filename = res.key
-                                let url = res.body
-                                url = url.slice(1, -1);
-                                this.$axios.$put(url, this.sharing.image).then((value) => {
-                                this.sharing.image =''
-                                this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                                console.log(this.sharing);
-                                this.lockButton = false;
-                                });
-                            }
-                        }
-                    )
-                }else{
-                    this.lockButton = false;
+                    
                 }
             }
         },
@@ -636,27 +601,23 @@ export default {
             {
                 this.progressbar =true
                 this.sharing.s_student_country = this.usersPortfolio.country;
-                const config = {
-                    headers: { "content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
-                };
-                    let formData = new FormData();
-                    for (let data in this.sharing) {
-                        formData.append(data, this.sharing[data]);
-                    }
-                    // console.log(this.sharing);
-                    try {
-                        let response =  await this.$axios.$post("/v1/e1t1/sharing/", formData, config);
-                        console.log(response);
-                        this.progressbar =false;
-                        this.$store.dispatch("check_user_teachers");
-                        this.$router.push("/e1t1/"+response.uuid);
-                    } catch (e) {
-                        this.progressbar =false;
-                        this.error_snackbar=true;
-                        this.$router.push("/"+this.sharing.username+"/each1teach1/");
-                        console.log("cant post!",e.response.data);
-                    }
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.sharing.image).then((value) => {
+                    this.sharing.image =''
+                    this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formPost();
+                    });
+                }
+            })
+                    
             }
             else{
                 this.progressbar =false;
@@ -665,11 +626,6 @@ export default {
         },
         async update() {
             this.progressbar =true
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
             let urlLink = this.sharing.s_teacher_video;
             if(urlLink!= this.share_obj.s_teacher_video){ //if link exists check if it's valid
                 var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -688,6 +644,59 @@ export default {
                     return;
                 }
             }
+            if(typeof this.sharing.image == 'object')
+            {
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.sharing.image).then((value) => {
+                    this.sharing.image =''
+                    this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })
+            }
+            else
+            this.formUpdate();
+           
+        },
+        async formPost(){
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+            };
+            let formData = new FormData();
+                    for (let data in this.sharing) {
+                        formData.append(data, this.sharing[data]);
+                    }
+                    // console.log(this.sharing);
+                    try {
+                        let response =  await this.$axios.$post("/v1/e1t1/sharing/", formData, config);
+                        console.log(response);
+                        this.progressbar =false;
+                        this.$store.dispatch("check_user_teachers");
+                        this.$router.push("/e1t1/"+response.uuid);
+                    } catch (e) {
+                        this.progressbar =false;
+                        this.error_snackbar=true;
+                        this.$router.push("/"+this.sharing.username+"/each1teach1/");
+                        console.log("cant post!",e.response.data);
+                    }
+        },
+        async formUpdate(){
+             const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+            };
             let myObj1 = this.share_obj 
             let myObj2 = this.sharing
             // find keys 
@@ -701,14 +710,14 @@ export default {
             // now compare their keys and values  
             for(var i=0; i<keyObj1.length; i++) { 
                 if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                    console.log("no change ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                    // console.log("no change ",keyObj1[i]+' -> '+valueObj2[i]);	 
                 } 
                 else{
                     // it prints keys have different values 
                     let formName = new FormData();
                     formName.append(keyObj1[i], valueObj2[i]);
                     formName.append("id", this.sharing['id']);
-                    console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                    // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
                     await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
                     // console.log( valueObj1[i] ," changed"); 
                 } 
