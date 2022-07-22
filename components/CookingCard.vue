@@ -39,7 +39,7 @@ import CookingFeed from '@/components/CookingFeed.vue'
     export default {
         head() {  
         return {
-            title: "What's cookin",
+            title: "gebbles -What's cookin",
             }
         },
         name: 'CookingCard',

@@ -42,7 +42,7 @@ import CountryFlag from 'vue-country-flag'
     export default {
       head() {  //head function (a property of vue-meta), returns an object
       return {
-          title: 'gebbles community',
+          title: 'gebbles event',
           }
       },
       name: 'eventCard',

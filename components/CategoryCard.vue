@@ -6,26 +6,28 @@
       @click="opendialog"
       :elevation="hover ? 12 : 0"
       outlined
-      width=95%
-      height="300"
+      :width="card_width"
+      :height="img_height"
       class="pa-0 mx-auto"
     >
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         v-if = category.poster :src = "category.poster" 
-        height="300"
-        width=100%>
+        :height="img_height"
+        :width="img_width">
         <div class="text-center" >
-        <h3 style="height:55px; overflow:hidden; margin-top: 100px" class="font-weight-light px-6 white--text" >{{category.name}}</h3>
-        <h6 v-if="category.date" class="caption white--text mt-12">{{getTime(category.date).date}}</h6>
+        <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
+        <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-light px-6  white--text hidden-xs-only" >{{category.name}}</h3>
+        <h6 v-if="category.date" class="caption white--text mt-sm-12 mt-4">{{getTime(category.date).date}}</h6>
       </div>
       </v-img>
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
          v-else
-        height="300"
-        width=100%>
+        :height="img_height"
+        :width="img_width">
       <div class="text-center">
-        <h3 style="height:55px; overflow:hidden; margin-top: 100px" class="font-weight-light px-6">{{category.name}}</h3>
-        <h6 v-if="category.date" class="caption mt--12">{{getTime(category.date).date}}</h6>
+        <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
+        <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-light px-6  white--text hidden-xs-only" >{{category.name}}</h3>
+        <h6 v-if="category.date" class="caption mt-sm-12 mt-4 white--text">{{getTime(category.date).date}}</h6>
       </div>
       </v-img>
     </v-card>
@@ -195,14 +197,42 @@
   export default {
     head() {  //head function (a property of vue-meta), returns an object
     return {
-        title: 'events categories',
+        title: 'gebbles categories',
         }
     },
     name: 'CategoryCard',
     props: {
       category: Object
     },
-    
+    computed: {
+    img_height () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 180
+        case 'sm': return 300
+        case 'md': return 300
+        case 'lg': return 300
+        case 'xl': return 300
+      }
+    },
+    img_width () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '100%'
+        case 'sm': return '100%'
+        case 'md': return '100%'
+        case 'lg': return '100%'
+        case 'xl': return '100%'
+      }
+    },
+    card_width() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 180
+        case 'sm': return '95%'
+        case 'md': return '95%'
+        case 'lg': return '95%'
+        case 'xl': return '95%'
+      }
+    }
+  },
     data(){
       return{
         dialog: false,

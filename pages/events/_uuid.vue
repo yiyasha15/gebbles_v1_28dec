@@ -83,10 +83,10 @@
         </v-row>
         <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6  text-center" > Programs</h2>
         <v-row class="ma-0">
-            <v-col cols="12" md="6" v-for="category in event.event_battles" :key ="category.index" class="px-0">
+            <v-col cols="6" sm="6" v-for="category in event.event_battles" :key ="category.index" class="px-1 py-1 py-sm-4 px-sm-0">
             <category-card :category="category"></category-card>
             </v-col>
-            <v-col cols="12" md="6" v-for="category in event.event_subevents" :key ="category.index" class="px-0">
+            <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="px-1 py-1 py-sm-4 px-sm-0">
             <category-card :category="category"></category-card>
             </v-col>
             <!-- <v-col cols="6" v-for="category in event.event_subevents" :key ="category.index" class="px-0 hidden-sm-and-down">

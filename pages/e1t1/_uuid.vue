@@ -349,7 +349,7 @@ import { getIdFromURL } from 'vue-youtube-embed'
 export default {
     head() {
         return {
-            title: 'e1t1',     //do not miss "this"
+            title: 'gebbles - each one teach one',     //do not miss "this"
             meta: [
                 {
                     hid: 'description',

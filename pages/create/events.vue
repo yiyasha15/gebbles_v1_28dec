@@ -38,7 +38,7 @@
                 </div>
                 </div>
                 <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
-                <!-- <v-btn text @click="goback" small color="primary">Cancel</v-btn> -->
+                <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event details*</v-stepper-step>
@@ -112,19 +112,129 @@
                     </v-text-field>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
-                    <!-- <v-btn text @click="goback" small color="primary">Cancel</v-btn> -->
+                    <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Add guests</v-stepper-step>
+                <!-- <small>dj's, emcees, judges, invitees</small> -->
+                <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start class="my-md-4 my-2 pa-6"  style="max-width:370px; margin:auto;" >
+                    <div v-for="guest in this.selectedGuests" :key ="guest.index">
+                        <guest-card-create :guest="guest" @removeGuest="removeGuest"></guest-card-create>
+                    </div>
+                </v-layout>
                 <v-stepper-content step="3"  style=" border-left: none;" class="ma-0" >
-                    
+                    <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+                        <v-icon class="pa-16">mdi-plus</v-icon>
+                        <input 
+                        type="file" 
+                        name = "poster" 
+                        style="display:none" 
+                        ref="fileInput4" 
+                        accept="image/*"
+                        required
+                        @change="onFileChange4">
+                    </div>
+                    <div v-else class="ma-4">
+                    <v-img v-if="typeof(guest.photo) === 'string'" :src="guest.photo" class="mx-auto" height="auto" width="352px" contain>
+                        <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
+                        <v-icon color="black" small>mdi-close</v-icon>
+                        </v-btn>
+                    </v-img>
+                    </div>
+                    <v-text-field
+                        v-model= "guest.name"
+                        label= "Name"
+                        :maxlength="150">
+                    </v-text-field>
+                    <v-combobox
+                        v-model="artist_obj"
+                        :items="artists"
+                        prepend-icon="mdi-account-search-outline"
+                        label="Tag artist..."
+                        item-text="artist_name"
+                        item-value="username"
+                        ref="artistListComboBox"
+                        @change="onAutoCompleteSelection"
+                        @keyup="customOnChangeHandler"
+                        @paste="customOnChangeHandler"
+                        @input="addSearchGuest"
+                        >
+                        <!-- when its a chip -->
+                        <template v-slot:selection="data">
+                            <v-chip
+                            v-bind="data.attrs"
+                            :input-value="data.selected"
+                            close
+                            @click:close="artist_obj = null"
+                            >
+                            <v-avatar v-if="data.item.thumb" left>
+                                <v-img :src="data.item.thumb"></v-img>
+                            </v-avatar>
+                            <v-avatar v-else left>
+                                <v-icon dark>
+                                    mdi-account-circle
+                                </v-icon>
+                            </v-avatar>
+                            <template  v-if="data.item.username" >
+                            {{ data.item.username }}
+                            </template>
+                            <template v-else >
+                            {{ data.item}}
+                            </template>
+                            </v-chip>
+                        </template>
+                        <!-- when it loads -->
+                        <template v-slot:item="data">
+                            <template v-if="typeof data.item !== 'object'">
+                            <v-list-item-content v-text="data.item.username"></v-list-item-content>
+                            </template>
+                            <template v-else>
+                            <v-list-item-avatar v-if="data.item.thumb">
+                                <img :src="data.item.thumb">
+                            </v-list-item-avatar>
+                            <v-list-item-avatar v-else >
+                                <v-icon>
+                                    mdi-account-circle
+                                </v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content v-if="data.item.username">
+                                <v-list-item-title v-html="data.item.username"></v-list-item-title>
+                                <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
+                            </v-list-item-content>
+                            </template>
+                        </template>
+                    </v-combobox>
+                    <v-select
+                    prepend-icon="mdi-earth"
+                    :items="countries"
+                    item-text="name"
+                    item-value="code"
+                    v-model = "guest.country"
+                    label= "Country"
+                    clearable>
+                    </v-select>
+                    <v-text-field
+                        prepend-icon="mdi-information-outline"
+                        v-model = "guest.info"
+                        label= "Info"
+                        :maxlength="250">
+                    </v-text-field>
+                    <v-btn outlined small class="text-decoration-none"  color="black"
+                    @click="addGuests" >Add guest</v-btn>
                     <v-btn color="black" text small outlined @click="e6 = 4">Next</v-btn>
                     <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
-                    <!-- <v-btn text small @click="goback" color="primary">Cancel</v-btn> -->
+                    <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
                 <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Add categories</v-stepper-step>
+                <v-layout v-if="this.categories.length>0 || this.battle_categories.length>0" wrap row justify-start class="my-md-4 my-2 pa-6"  style="max-width:400px; margin:auto;" >
+                    <div v-for="category in this.categories"  :key ="category.index">
+                        <category-card-create :category="category" @removeCategory="removeCategory"></category-card-create>
+                    </div>
+                    <div v-for="category in this.battle_categories"  :key ="category.index">
+                        <category-card-create :category="category" @removeBattleCategory="removeBattleCategory"></category-card-create>
+                    </div>
+                </v-layout>
                 <v-stepper-content step="4"  style=" border-left: none; max-width:400px; margin:auto">
-                    <!-- {{this.categories}} -->
                     <v-row class="mb-2 pa-0 hidden-xs-only">
                         <v-col >
                             <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="workshop_dialog = true">
@@ -189,38 +299,16 @@
                             </div>
                         </v-col>
                     </v-row>
-                    <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
-                    <!-- <v-btn text small @click="goback" color="primary">Cancel</v-btn> -->
-                </v-stepper-content>
-                <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
-                    <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none ml-12"  color="black"
+                    <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
+                    <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="submit" :loading="progressbar" >Submit</v-btn>
-                    <v-btn v-else outlined small class="text-decoration-none ml-12"  color="black"
+                    <v-btn v-else outlined small class="text-decoration-none"  color="black"
                     @click="update" :loading="progressbar" >Update</v-btn>
+                    <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
+                </v-stepper-content>
+                
             </v-stepper>
-            <v-row class="pa-0 ma-0">
-                <v-col cols="4" v-for="category in this.categories"  :key ="category.index">
-                    <div style="border: 1px solid; height:150px">
-                        <v-row align="end" justify="end" class="pa-0 ma-0" >
-                        <v-btn  icon color="error" @click="removeCat(category)">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                        </v-row>
-                        <category-card-create :category="category"></category-card-create>
-                    </div>
-                </v-col>
-                <v-col cols="4" v-for="category in this.battle_categories"  :key ="category.index">
-                    <div style="border: 1px solid; height:150px">
-                        <v-row align="end" justify="end" class="pa-0 ma-0" >
-                        <v-btn  icon color="error" @click="removeBatCat(category)">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                        </v-row>
-                        <category-card-create :category="category"></category-card-create>
-                    </div>
-                </v-col>
-            </v-row>
         </v-col>
         </v-row>
         <!-- add battle dialog -->
@@ -315,54 +403,156 @@
             prepend-icon="mdi-map-marker-outline"
             :maxlength="150">
         </v-text-field>
-        <v-text-field @click="emceeDialog = true"
+        <v-combobox
+            class="pt-4"
+            v-model="battleEmcee"
+            :items="selectedGuests"
             prepend-icon="mdi-microphone-variant"
-            v-model = "battle_category.mc"
-            label= "Emcee"
-            hint="you can add upto 2 emcees"
-            :maxlength="0">
-        </v-text-field>
-        <v-chip v-for="obj in battleEmcee" :key="obj.id" close-icon="mdi-close" close @click:close="battleEmcee.splice(battleEmcee.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
-            <v-avatar left v-if="obj.poster">
-              <v-img :src="obj.poster"></v-img>
-            </v-avatar>
-            <v-avatar left v-else>
-              <v-icon>mdi-account-circle</v-icon>
-            </v-avatar>
-            {{obj.name}}
-          </v-chip>
-        <v-text-field @click="djDialog = true"
-            prepend-icon="mdi-music"
-            v-model = "battle_category.dj"
-            label= "DJ"
-            hint="you can add upto 2 djs"
-            :maxlength="0">
-        </v-text-field>
-        <v-chip v-for="obj in battleDj" :key="obj.id" close-icon="mdi-close" close @click:close="battleDj.splice(battleDj.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
-            <v-avatar left v-if="obj.poster">
-              <v-img :src="obj.poster"></v-img>
-            </v-avatar>
-            <v-avatar left v-else>
-              <v-icon>mdi-account-circle</v-icon>
-            </v-avatar>
-            {{obj.name}}
-          </v-chip>
-        <v-text-field @click="judgesDialog = true"
-            label= "Judges"
-            prepend-icon="mdi-hand-heart-outline"
-            :maxlength="0"
-            hint="you can add upto 7 judges"
+            clearable
+            label="Emcee"
+            item-text="name"
+            return-object 
+            hide-selected
+            multiple
             >
-        </v-text-field>
-          <v-chip v-for="obj in battleJudges" :key="obj.id" close-icon="mdi-close" close @click:close="battleJudges.splice(battleJudges.findIndex(e => e.name === obj.name),1);" color="black " dark outlined class="ma-1" style="cursor:pointer;">
-            <v-avatar left v-if="obj.poster">
-              <v-img :src="obj.poster"></v-img>
-            </v-avatar>
-            <v-avatar left v-else>
-              <v-icon>mdi-account-circle</v-icon>
-            </v-avatar>
-            {{obj.name}}
-          </v-chip>
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="battleEmcee.splice(battleEmcee.findIndex(e => e.name === data.item.name),1)"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span v-if="data.item.name" class="pl-1">{{ data.item.name }}</span>
+                <span v-else class="pl-1">{{ data.item }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-if="data.item.name" v-html="data.item.name"></v-list-item-title>
+                    <v-list-item-title v-else v-html="data.item"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-combobox>
+        <!-- {{battleDj}} -->
+        <v-autocomplete
+            class="pt-4"
+            v-model="battleDj"
+            :items="selectedGuests"
+            prepend-icon="mdi-music"
+            clearable
+            label="DJ"
+            item-text="name"
+            item-value="name"
+            return-object 
+            hide-selected
+            multiple
+            >
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="selectedGuest={}"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span v-if="data.item.name" class="pl-1">{{ data.item.name }}</span>
+                <span v-else class="pl-1">{{ data.item }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-if="data.item.name" v-html="data.item.name"></v-list-item-title>
+                    <v-list-item-title v-else v-html="data.item"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-autocomplete>
+        <v-autocomplete
+            class="pt-4"
+            v-model="battleJudges"
+            :items="selectedGuests"
+            prepend-icon="mdi-hand-heart-outline"
+            clearable
+            label="Judges"
+            item-text="name"
+            item-value="name"
+            return-object 
+            hide-selected
+            multiple
+            >
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="selectedGuest={}"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span v-if="data.item.name" class="pl-1">{{ data.item.name }}</span>
+                <span v-else class="pl-1">{{ data.item }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-if="data.item.name" v-html="data.item.name"></v-list-item-title>
+                    <v-list-item-title v-else v-html="data.item"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-autocomplete>
           <v-text-field
         prepend-icon="mdi-book-outline"
             v-model = "battle_category.rules"
@@ -474,27 +664,52 @@
             label= "Venue"
             :maxlength="250">
         </v-text-field>
-        <v-text-field @click="artistDialog = true"
+        <v-autocomplete
+            class="pt-4"
+            v-model="selectedGuest"
+            :items="selectedGuests"
             prepend-icon="mdi-hand-heart-outline"
-            label= "Artist"
-            :maxlength="0">
-        </v-text-field>
-        <v-chip v-if="category.name1" close-icon="mdi-close" close @click:close="category.name1='';category.photo1='';category.info1='';category.guest1=''" color="black " dark outlined class="ma-1" style="cursor:pointer;">
-            <v-avatar left v-if="category.photo1">
-              <v-img :src="category.photo1"></v-img>
-            </v-avatar>
-            <v-avatar left v-else>
-              <v-icon>mdi-account-circle</v-icon>
-            </v-avatar>
-            {{category.name1}}
-        </v-chip>
-        <br>
-        <!-- <v-text-field
-        prepend-icon="mdi-info"
-            v-model = "category.about"
-            label= "About"
-            :maxlength="250">
-        </v-text-field> -->
+            clearable
+            label="Artist"
+            item-text="name"
+            return-object
+            @input="addGuestToCategory()"
+            >
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="selectedGuest={}"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span class="pl-1">{{ data.item.name }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-autocomplete>
         <v-btn outlined small class="text-decoration-none "  color="black"
           @click="addWorkshop()" >Add</v-btn>
         </v-container>
@@ -683,27 +898,53 @@
             label= "Venue"
             :maxlength="150">
         </v-text-field>
-        <v-text-field @click="artistDialog = true"
+        
+        <v-autocomplete
+            class="pt-4"
+            v-model="selectedGuest"
+            :items="selectedGuests"
             prepend-icon="mdi-hand-heart-outline"
-            label= "Artist"
-            :maxlength="0">
-        </v-text-field>
-        <v-chip v-if="category.name1" close-icon="mdi-close" close @click:close="category.name1='';category.photo1='';category.info1='';category.guest1=''" color="black " dark outlined class="ma-1" style="cursor:pointer;">
-            <v-avatar left v-if="category.photo1">
-              <v-img :src="category.photo1"></v-img>
-            </v-avatar>
-            <v-avatar left v-else>
-              <v-icon>mdi-account-circle</v-icon>
-            </v-avatar>
-            {{category.name1}}
-        </v-chip>
-        <br>
-        <!-- <v-text-field
-        prepend-icon="mdi-info"
-            v-model = "category.about"
-            label= "About"
-            :maxlength="250">
-        </v-text-field> -->
+            clearable
+            label="Artist"
+            item-text="name"
+            return-object
+            @input="addGuestToCategory()"
+            >
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="selectedGuest={}"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span class="pl-1">{{ data.item.name }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-autocomplete>
         <v-btn outlined small class="text-decoration-none"  color="black"
           @click="addShowcase()" >Add</v-btn>
         </v-container>
@@ -898,496 +1139,64 @@
             label= "Venue"
             :maxlength="150">
         </v-text-field>
-        <v-text-field @click="artistDialog = true"
+        <v-autocomplete
+            class="pt-4"
+            v-model="selectedGuest"
+            :items="selectedGuests"
             prepend-icon="mdi-hand-heart-outline"
-            label= "Artist"
-            :maxlength="0">
-        </v-text-field>
-        <v-chip v-if="category.name1" close-icon="mdi-close" close @click:close="category.name1='';category.photo1='';category.info1='';category.guest1=''" color="black " dark outlined class="ma-1" style="cursor:pointer;">
-            <v-avatar left v-if="category.photo1">
-              <v-img :src="category.photo1"></v-img>
-            </v-avatar>
-            <v-avatar left v-else>
-              <v-icon>mdi-account-circle</v-icon>
-            </v-avatar>
-            {{category.name1}}
-        </v-chip>
-        <br>
-        <!-- <v-text-field
-        prepend-icon="mdi-info"
-            v-model = "category.about"
-            label= "About"
-            :maxlength="250">
-        </v-text-field> -->
+            clearable
+            label="Artist"
+            item-text="name"
+            return-object
+            @input="addGuestToCategory()"
+            >
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="selectedGuest={}"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span class="pl-1">{{ data.item.name }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-autocomplete>
         <v-btn outlined small class="text-decoration-none"  color="black"
           @click="addOtherCategory()" >Add</v-btn>
         </v-container>
         </v-dialog>
-        <v-dialog
-        :retain-focus="false"
-        v-model="open_category_dialog"
-        width="480px" 
-        persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
-            <v-row align="end" justify="end" class="pa-0 ma-0" >
-            <v-btn icon color="error" class="float-right" @click="open_category_dialog = false">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-            </v-row>
-        <h3 class="font-weight-light">{{openCategoryItem.type}}</h3>
-        <v-img v-if="typeof(openCategoryItem.poster) === 'string'" :src="openCategoryItem.poster" class="mx-auto my-6" height="auto" width="352px" contain>
-        </v-img>
-        <h3  class="font-weight-light">{{openCategoryItem.name}}</h3>
-        {{openCategoryItem}}
-        </v-container>
-        </v-dialog>
-        <v-dialog
-        :retain-focus="false"
-        v-model="judgesDialog"
-        width="480px" 
-        persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
-        <v-btn icon color="error" class="float-right" @click="judgesDialogClose">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <h3>Add Judges</h3>
-        <div v-if="!judges.poster" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
-            <input 
-            type="file" 
-            name = "poster" 
-            style="display:none" 
-            ref="fileInput4" 
-            accept="image/*"
-            required
-            @change="onFileChange4">
-        </div>
-        <div v-else class="ma-4">
-        <v-img v-if="typeof(judges.poster) === 'string'" :src="judges.poster" class="mx-auto" height="auto" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
-            <v-icon color="black" small>mdi-close</v-icon>
-            </v-btn>
-        </v-img>
-        </div>
-         <v-text-field
-            v-model= "judges.name"
-            label= "Name"
-            :maxlength="150">
-        </v-text-field>
-        <v-combobox
-                v-model="artist_obj"
-                :items="artists"
-                prepend-icon="mdi-account-search-outline"
-                label="Tag artist..."
-                item-text="artist_name"
-                item-value="username"
-                ref="artistListComboBox"
-                @change="onAutoCompleteSelection"
-                @keyup="customOnChangeHandler"
-                @paste="customOnChangeHandler"
-                @input="addBattleArtists"
-                >
-                <!-- when its a chip -->
-                <template v-slot:selection="data">
-                    <v-chip
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    close
-                    @click:close="artist_obj = null"
-                    >
-                    <v-avatar v-if="data.item.thumb" left>
-                        <v-img :src="data.item.thumb"></v-img>
-                    </v-avatar>
-                    <v-avatar v-else left>
-                        <v-icon dark>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-avatar>
-                    <template  v-if="data.item.username" >
-                    {{ data.item.username }}
-                    </template>
-                    <template v-else >
-                    {{ data.item}}
-                    </template>
-                    </v-chip>
-                </template>
-                <!-- when it loads -->
-                <template v-slot:item="data">
-                    <template v-if="typeof data.item !== 'object'">
-                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
-                    </template>
-                    <template v-else>
-                    <v-list-item-avatar v-if="data.item.thumb">
-                        <img :src="data.item.thumb">
-                    </v-list-item-avatar>
-                    <v-list-item-avatar v-else >
-                        <v-icon>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-list-item-avatar>
-                    <v-list-item-content v-if="data.item.username">
-                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
-                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
-                    </v-list-item-content>
-                    </template>
-                </template>
-        </v-combobox>
-        <v-select
-        prepend-icon="mdi-earth"
-        :items="countries"
-        item-text="name"
-        item-value="code"
-        v-model = "judges.country"
-        label= "Country"
-        clearable>
-        </v-select>
-        <v-text-field
-        prepend-icon="mdi-information-outline"
-            v-model = "judges.info"
-            label= "Info"
-            :maxlength="250">
-        </v-text-field>
-        
-        <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addJudges()" >Add</v-btn>
-        </v-container>
-        </v-dialog>
-        <v-dialog
-        :retain-focus="false"
-        v-model="emceeDialog"
-        width="480px" 
-        persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
-        <v-btn icon color="error" class="float-right" @click="judgesDialogClose">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <h3>Add Emcee</h3>
-        <div v-if="!judges.poster" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
-            <input 
-            type="file" 
-            name = "poster" 
-            style="display:none" 
-            ref="fileInput4" 
-            accept="image/*"
-            required
-            @change="onFileChange4">
-        </div>
-        <div v-else class="ma-4">
-        <v-img v-if="typeof(judges.poster) === 'string'" :src="judges.poster" class="mx-auto" height="auto" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
-            <v-icon color="black" small>mdi-close</v-icon>
-            </v-btn>
-        </v-img>
-        </div>
-         <v-text-field
-            v-model= "judges.name"
-            label= "Name"
-            :maxlength="150">
-        </v-text-field>
-         <v-combobox
-                v-model="artist_obj"
-                :items="artists"
-                prepend-icon="mdi-account-search-outline"
-                label="Tag artist..."
-                item-text="artist_name"
-                item-value="username"
-                ref="artistListComboBox"
-                @change="onAutoCompleteSelection"
-                @keyup="customOnChangeHandler"
-                @paste="customOnChangeHandler"
-                @input="addBattleArtists"
-                >
-                <!-- when its a chip -->
-                <template v-slot:selection="data">
-                    <v-chip
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    close
-                    @click:close="artist_obj = null"
-                    >
-                    <v-avatar v-if="data.item.thumb" left>
-                        <v-img :src="data.item.thumb"></v-img>
-                    </v-avatar>
-                    <v-avatar v-else left>
-                        <v-icon dark>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-avatar>
-                    <template  v-if="data.item.username" >
-                    {{ data.item.username }}
-                    </template>
-                    <template v-else >
-                    {{ data.item}}
-                    </template>
-                    </v-chip>
-                </template>
-                <!-- when it loads -->
-                <template v-slot:item="data">
-                    <template v-if="typeof data.item !== 'object'">
-                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
-                    </template>
-                    <template v-else>
-                    <v-list-item-avatar v-if="data.item.thumb">
-                        <img :src="data.item.thumb">
-                    </v-list-item-avatar>
-                    <v-list-item-avatar v-else >
-                        <v-icon>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-list-item-avatar>
-                    <v-list-item-content v-if="data.item.username">
-                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
-                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
-                    </v-list-item-content>
-                    </template>
-                </template>
-        </v-combobox>
-        <v-select
-        prepend-icon="mdi-earth"
-        :items="countries"
-        item-text="name"
-        item-value="code"
-        v-model = "judges.country"
-        label= "Country"
-        clearable>
-        </v-select>
-        <v-text-field
-        prepend-icon="mdi-information-outline"
-            v-model = "judges.info"
-            label= "Info"
-            :maxlength="250">
-        </v-text-field>
-        <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addEmcee()" >Add</v-btn>
-        </v-container>
-        </v-dialog>
-        <v-dialog
-        :retain-focus="false"
-        v-model="djDialog"
-        width="480px" 
-        persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
-        <v-btn icon color="error" class="float-right" @click="judgesDialogClose">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <h3>Add DJ</h3>
-        <div v-if="!judges.poster" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
-            <input 
-            type="file" 
-            name = "poster" 
-            style="display:none" 
-            ref="fileInput4" 
-            accept="image/*"
-            required
-            @change="onFileChange4">
-        </div>
-        <div v-else class="ma-4">
-        <v-img v-if="typeof(judges.poster) === 'string'" :src="judges.poster" class="mx-auto" height="auto" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
-            <v-icon color="black" small>mdi-close</v-icon>
-            </v-btn>
-        </v-img>
-        </div>
-         <v-text-field
-            v-model= "judges.name"
-            label= "Name"
-            :maxlength="150">
-        </v-text-field>
-         <v-combobox
-                v-model="artist_obj"
-                :items="artists"
-                prepend-icon="mdi-account-search-outline"
-                label="Tag artist..."
-                item-text="artist_name"
-                item-value="username"
-                ref="artistListComboBox"
-                @change="onAutoCompleteSelection"
-                @keyup="customOnChangeHandler"
-                @paste="customOnChangeHandler"
-                @input="addBattleArtists"
-                >
-                <!-- when its a chip -->
-                <template v-slot:selection="data">
-                    <v-chip
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    close
-                    @click:close="artist_obj = null"
-                    >
-                    <v-avatar v-if="data.item.thumb" left>
-                        <v-img :src="data.item.thumb"></v-img>
-                    </v-avatar>
-                    <v-avatar v-else left>
-                        <v-icon dark>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-avatar>
-                    <template  v-if="data.item.username" >
-                    {{ data.item.username }}
-                    </template>
-                    <template v-else >
-                    {{ data.item}}
-                    </template>
-                    </v-chip>
-                </template>
-                <!-- when it loads -->
-                <template v-slot:item="data">
-                    <template v-if="typeof data.item !== 'object'">
-                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
-                    </template>
-                    <template v-else>
-                    <v-list-item-avatar v-if="data.item.thumb">
-                        <img :src="data.item.thumb">
-                    </v-list-item-avatar>
-                    <v-list-item-avatar v-else >
-                        <v-icon>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-list-item-avatar>
-                    <v-list-item-content v-if="data.item.username">
-                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
-                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
-                    </v-list-item-content>
-                    </template>
-                </template>
-        </v-combobox>
-        <v-select
-        prepend-icon="mdi-earth"
-        :items="countries"
-        item-text="name"
-        item-value="code"
-        v-model = "judges.country"
-        label= "Country"
-        clearable>
-        </v-select>
-        <v-text-field
-        prepend-icon="mdi-information-outline"
-            v-model = "judges.info"
-            label= "Info"
-            :maxlength="250">
-        </v-text-field>
-        
-        <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addDj()" >Add</v-btn>
-        </v-container>
-        </v-dialog>
-        <v-dialog
-        :retain-focus="false"
-        v-model="artistDialog"
-        width="480px" 
-        persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
-        <v-btn icon color="error" class="float-right" @click="judgesDialogClose">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <h3>Add Artist</h3>
-        <div v-if="!category.photo1" @click="onPick(5)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
-            <input 
-            type="file" 
-            name = "poster" 
-            style="display:none" 
-            ref="fileInput5" 
-            accept="image/*"
-            required
-            @change="onFileChange5">
-        </div>
-        <div v-else class="ma-4">
-        <v-img v-if="typeof(category.photo1) === 'string'" :src="category.photo1" class="mx-auto" height="auto" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(5)">
-            <v-icon color="black" small>mdi-close</v-icon>
-            </v-btn>
-        </v-img>
-        </div>
-         <v-text-field
-            v-model= "category.name1"
-            label= "Name"
-            :maxlength="150">
-        </v-text-field>
-        <v-combobox
-                v-model="artist_obj"
-                :items="artists"
-                prepend-icon="mdi-account-search-outline"
-                label="Tag artist..."
-                item-text="artist_name"
-                item-value="username"
-                ref="artistListComboBox"
-                @change="onAutoCompleteSelection"
-                @keyup="customOnChangeHandler"
-                @paste="customOnChangeHandler"
-                @input="addCategoryArtist"
-                >
-                <!-- when its a chip -->
-                <template v-slot:selection="data">
-                    <v-chip
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    close
-                    @click:close="artist_obj = null"
-                    >
-                    <v-avatar v-if="data.item.thumb" left>
-                        <v-img :src="data.item.thumb"></v-img>
-                    </v-avatar>
-                    <v-avatar v-else left>
-                        <v-icon dark>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-avatar>
-                    <template  v-if="data.item.username" >
-                    {{ data.item.username }}
-                    </template>
-                    <template v-else >
-                    {{ data.item}}
-                    </template>
-                    </v-chip>
-                </template>
-                <!-- when it loads -->
-                <template v-slot:item="data">
-                    <template v-if="typeof data.item !== 'object'">
-                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
-                    </template>
-                    <template v-else>
-                    <v-list-item-avatar v-if="data.item.thumb">
-                        <img :src="data.item.thumb">
-                    </v-list-item-avatar>
-                    <v-list-item-avatar v-else >
-                        <v-icon>
-                            mdi-account-circle
-                        </v-icon>
-                    </v-list-item-avatar>
-                    <v-list-item-content v-if="data.item.username">
-                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
-                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
-                    </v-list-item-content>
-                    </template>
-                </template>
-        </v-combobox>
-        <v-select
-        prepend-icon="mdi-earth"
-        :items="countries"
-        item-text="name"
-        item-value="code"
-        v-model = "category.country1"
-        label= "Country"
-        clearable>
-        </v-select>
-        <v-text-field
-            prepend-icon="mdi-information-outline"
-            v-model = "category.info1"
-            label= "Info"
-            :maxlength="250">
-        </v-text-field>
-        
-        <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addArtist()" >Ok</v-btn>
-        </v-container>
-        </v-dialog>
-        <!-- {{battle_categories}}
-        {{categories}} -->
         <v-snackbar v-model="posted_snackbar">
             Event posted.
+        </v-snackbar>
+        <v-snackbar v-model="guest_added_snackbar">
+            Guest added.
+        </v-snackbar>
+        <v-snackbar v-model="category_added_snackbar">
+            Category added.
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">
             Some error occured. Please try again.
@@ -1422,16 +1231,32 @@ import CategoryCardCreate from '@/components/CategoryCardCreate.vue'
 import Vue from "vue";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
+import GuestCardCreate from '~/components/GuestCardCreate.vue';
 Vue.use(Croppa);
 export default {
     middleware : 'check_auth',
+    head() {  //head function (a property of vue-meta), returns an object
+    return {
+        title: 'gebbles - event',
+        }
+    },
     components: {
         Slider,
         SliderItem,
         CountryFlag,
-        CategoryCardCreate
+        CategoryCardCreate,
+        GuestCardCreate
     },
     created (){
+        // let image ="https://mediumthumbnails.s3.us-east-2.amazonaws.com/";
+        // let image2="https://minithumbnais.s3.us-east-2.amazonaws.com/"
+        // console.log(image.includes("minithumbnails.s3"), image.includes("mediumthumbnails.s3"));
+        // if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3")){
+        //     console.log("s3ed mini");
+        // }
+        // if(image2.includes("minithumbnails.s3")||image2.includes("mediumthumbnails.s3")){
+        //     console.log("s3ed");
+        // }
         if(this.$store.state.editing_event_obj)
         {
             this.event = Object.assign({}, this.$store.getters.editing_event_obj);
@@ -1553,23 +1378,21 @@ export default {
                 info1:'',
                 username:this.$store.state.auth.user.user.username
             },
-            judges:{
-                guest:'',
+            guest:{
                 name:'',
-                poster:'',
+                guest:'',
+                photo:'',
                 country:'',
                 info:'',
+                videolink:'',
+                event:'',
+                username:this.$store.state.auth.user.user.username
             },
             battle_categories:[],
             categories:[],
             battleJudges:[],
             battleEmcee:[],
             battleDj:[],
-            otherArtist:[],
-            artistDialog: false,
-            judgesDialog: false,
-            emceeDialog: false,
-            djDialog: false,
             activePicker: null,
             menu: false,
             menu1: false,
@@ -1590,7 +1413,6 @@ export default {
             workshop_dialog:false,
             cypher_dialog:false,
             otherCategory_dialog:false,
-            lockButton: false,
             progressbar: false,
             date:null,
             slide: null,
@@ -1600,6 +1422,8 @@ export default {
             valid_snackbar: false,
             error_snackbar:false,
             posted_snackbar: false,
+            guest_added_snackbar:false,
+            category_added_snackbar:false,
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
                 {"name": "Åland Islands", "code": "AX"},
@@ -1846,7 +1670,6 @@ export default {
                 {"name": "Zimbabwe", "code": "ZW"}
             ],
             open_category_dialog:false,
-            openCategoryItem:{},
             workshop:'yellow',
             battle:'red',
             party:'purple',
@@ -1860,33 +1683,55 @@ export default {
             max_emcee_snackbar:false,
             artist_obj:null,
             artists:[],
+            selectedGuests:[],
+            selectedGuest:{},
             debounce: null,
             comboBoxModel: null,
+            isUpdating: false,
         }
     },
     watch: {
         menu (val) {
         val && setTimeout(() => (this.activePicker = 'YEAR'))
         },
+        isUpdating (val) {
+        if (val) {
+                setTimeout(() => (this.isUpdating = false), 3000)
+            }
+        },
         artist_obj: function() {
-        if(this.artist_obj)
-        {
-            console.log("this.artist_obj", this.artist_obj);
-            EventService.getSearchedArtist(this.artist_obj).then((value) => {
-            this.artists = value.data});
-        }
-      }
+            if(this.artist_obj)
+            {
+                EventService.getSearchedArtist(this.artist_obj).then((value) => {
+                this.artists = value.data});
+            }
+        },
+        battleEmcee (val, prev) {
+        if (val.length === prev.length) return
+        // console.log(val,prev);
+        // if(this.battleEmcee.length<3)
+        this.battleEmcee = val.map(v => {
+            if (typeof v === 'string') {
+            v = {
+                name: v,
+                guest:'',
+                photo:'',
+                country:'',
+                info:''
+            }
+
+            this.battleEmcee.push(v)
+            }
+            return v})
+        },
     },
     methods: {
         searchArtists(){
         this.artists=[]
         clearTimeout(this.debounce)
         this.debounce = setTimeout(() => {
-            console.log("debounce search");
-            console.log("this.comboBoxModel", this.comboBoxModel, this.artist_obj);
         if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
         this.artists = value.data
-        console.log(this.artists);
         });}
         }, 100)
         },
@@ -1899,146 +1744,35 @@ export default {
         setTimeout(function(){
             if(vm.$refs.artistListComboBox){
             vm.comboBoxModel = vm.$refs.artistListComboBox.internalSearch;
-            console.log(vm.$refs.artistListComboBox);
-            console.log("vm.comboBoxModel",vm.comboBoxModel);
             vm.searchArtists();
             }
         });
         },
-        addCategoryArtist(){
+        addSearchGuest(){
             let t_name = typeof this.artist_obj;
             if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {
-                if(this.artist_obj.artist_name)
-                this.category.name1 = this.artist_obj.artist_name
-                else
-                this.category.name1 = this.artist_obj.username
-
-                this.category.guest1 = this.artist_obj.username
-                this.category.country1 = this.artist_obj.country
-                // this.category.photo1 = this.artist_obj.thumb
+                this.guest.guest = this.artist_obj.username
+                this.guest.country = this.artist_obj.country
+                if(this.guest.photo =='' && this.artist_obj.thumb!='')
+                this.guest.photo = this.artist_obj.thumb
+                if(this.guest.name =='' && this.artist_obj.artist_name!='')
+                this.guest.name = this.artist_obj.artist_name
             }
             else
             {
-                this.category.name1 = this.artist_obj
+                // this.category.name1 = this.artist_obj
             }
         },
-        addBattleArtists(){
-            let t_name = typeof this.artist_obj;
-            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
-            {
-                if(this.artist_obj.artist_name)
-                this.judges.name = this.artist_obj.artist_name
-                else
-                this.judges.name = this.artist_obj.username
-
-                this.judges.guest = this.artist_obj.username
-                this.judges.country = this.artist_obj.country
-                // this.category.photo1 = this.artist_obj.thumb
-            }
-            else
-            {
-                this.judges.name = this.artist_obj
-            }
-        },
-        addArtist(){
-            this.artistDialog = false;
-            // if(this.category.name1){
-            //     this.artistDialog = false;
-            // }else{
-            //     this.cat_valid_snackbar =true
-            // }
-        },
-        addJudges(){
-            console.log(this.battleJudges);
-            if(this.battleJudges.length <7){if(this.judges.name){
-                let clone = {...this.judges}
-                this.battleJudges.push(clone)
-                this.artist_obj = null
-                this.artists = []
-                this.judges.name = ''
-                this.judges.guest = ''
-                this.judges.info = ''
-                this.judges.country =''
-                this.judges.poster = ''
-                this.judgesDialog = false;
-            }else{
-                console.log("add name");
-                this.cat_valid_snackbar =true
-            }}else{
-                this.max_judges_snackbar = true
-            }
-        },
-        addDj(){
-            if(this.battleDj.length <2){
-                if(this.judges.name){
-                let clone = {...this.judges}
-                this.battleDj.push(clone)
-                console.log(this.battleDj);
-                this.artist_obj = null
-                this.artists = []
-                this.judges.name = ''
-                this.judges.guest = ''
-                this.judges.info = ''
-                this.judges.country =''
-                this.judges.poster = ''
-                this.djDialog = false;
-            }else{
-                this.cat_valid_snackbar =true
-            }}else{
-                this.max_dj_snackbar = true
-            }
-        },
-        addEmcee(){
-            if(this.battleEmcee.length <2){if(this.judges.name){
-                let clone = {...this.judges}
-                this.battleEmcee.push(clone)
-                console.log(this.battleEmcee);
-                this.artist_obj = null
-                this.artists = []
-                this.judges.name = ''
-                this.judges.info = ''
-                this.judges.country =''
-                this.judges.guest = ''
-                this.judges.poster = ''
-                this.emceeDialog = false;
-            }else{
-                this.cat_valid_snackbar =true
-            }}else{
-                this.max_emcee_snackbar = true
-            }
-        },
-        judgesDialogClose(){
-            this.judgesDialog = false
-            this.djDialog = false
-            this.emceeDialog = false
-            this.artistDialog = false
-            this.artist_obj = null
-            this.artists = []
-            this.judges.name =''
-            this.judges.guest = ''
-            this.judges.poster =''
-            this.judges.country =''
-            this.judges.info =''
-            //clear form
-        },
-        openCat(item){
-            this.openCategoryItem = item
-            this.open_category_dialog = true
-        },
-        removeCat(item){
-            this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.type === item.type),1);
-            console.log(this.categories);
-        },
-        removeBatCat(item){
-            this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.type === item.type),1);
-            console.log(this.battle_categories);
+        removeBattleCategory(item){
+            this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.category === item.category),1);
         },
         close_battle_dialog(){
             for (var key in this.battle_category) {
                 this.battle_category[key] = '';
             }
             this.artist_obj= null
+            this.selectedGuest={}
             this.battle_category.username = this.$store.state.auth.user.user.username
             this.battleEmcee =[];
             this.battleJudges=[];
@@ -2050,7 +1784,7 @@ export default {
                 this.category[key] = '';
             }
             this.artist_obj= null
-            this.otherArtist=[]
+            this.selectedGuest={}
             this.category.username = this.$store.state.auth.user.user.username
             this.workshop_dialog=false;
             this.party_dialog=false;
@@ -2089,7 +1823,6 @@ export default {
         addBattle(){
             if(this.battle_category.name){
                 //add guest from this.battlejudges
-                console.log("this.battleDj.length ",this.battleDj.length );
                 if(this.battleDj.length != 0){
                     //from the battleDj array put the selected ones to the battle category json.
                     for(let i =0; i<this.battleDj.length;i++)
@@ -2098,14 +1831,14 @@ export default {
                         {
                             this.battle_category.djname1 = this.battleDj[i].name;
                             this.battle_category.djinfo1 = this.battleDj[i].info;
-                            this.battle_category.djphoto1 = this.battleDj[i].poster;
+                            this.battle_category.djphoto1 = this.battleDj[i].photo;
                             this.battle_category.dj1 = this.battleDj[i].guest;
                             this.battle_category.djcountry1 = this.battleDj[i].country;
                             // add tags -> this.battle_category.dj1
                         }else{
                             this.battle_category.djname2 = this.battleDj[i].name;
                             this.battle_category.djinfo2 = this.battleDj[i].info;
-                            this.battle_category.djphotor2 = this.battleDj[i].poster;
+                            this.battle_category.djphotor2 = this.battleDj[i].photo;
                             this.battle_category.dj2 = this.battleDj[i].guest;
                             this.battle_category.djcountry2 = this.battleDj[i].country;
                         }
@@ -2120,14 +1853,14 @@ export default {
                         {
                             this.battle_category.mcname1 = this.battleEmcee[i].name;
                             this.battle_category.mcinfo1 = this.battleEmcee[i].info;
-                            this.battle_category.mcphoto1 = this.battleEmcee[i].poster;
+                            this.battle_category.mcphoto1 = this.battleEmcee[i].photo;
                             this.battle_category.mc1 = this.battleEmcee[i].guest;
                             this.battle_category.mccountry1 = this.battleEmcee[i].country;
                             // add tags -> this.battle_category.dj1
                         }else{
                             this.battle_category.mcname2 = this.battleEmcee[i].name;
                             this.battle_category.mcinfo2 = this.battleEmcee[i].info;
-                            this.battle_category.mcphoto2 = this.battleEmcee[i].poster;
+                            this.battle_category.mcphoto2 = this.battleEmcee[i].photo;
                             this.battle_category.mc2 = this.battleEmcee[i].guest;
                             this.battle_category.mccountry2 = this.battleEmcee[i].country;
                         }
@@ -2142,7 +1875,7 @@ export default {
                         {
                             this.battle_category.name1 = this.battleJudges[i].name;
                             this.battle_category.info1 = this.battleJudges[i].info;
-                            this.battle_category.photo1 = this.battleJudges[i].poster;
+                            this.battle_category.photo1 = this.battleJudges[i].photo;
                             this.battle_category.guest1 = this.battleJudges[i].guest;
                             this.battle_category.country1 = this.battleJudges[i].country;
                             // add tags -> this.battle_category.dj1
@@ -2150,41 +1883,41 @@ export default {
                         {
                             this.battle_category.name2 = this.battleJudges[i].name;
                             this.battle_category.info2 = this.battleJudges[i].info;
-                            this.battle_category.photo2 = this.battleJudges[i].poster;
+                            this.battle_category.photo2 = this.battleJudges[i].photo;
                             this.battle_category.guest2 = this.battleJudges[i].guest;
                             this.battle_category.country2 = this.battleJudges[i].country;
                         }else if(this.battle_category.name3 == '')
                         {
                             this.battle_category.name3 = this.battleJudges[i].name;
                             this.battle_category.info3 = this.battleJudges[i].info;
-                            this.battle_category.photo3 = this.battleJudges[i].poster;
+                            this.battle_category.photo3 = this.battleJudges[i].photo;
                             this.battle_category.guest3 = this.battleJudges[i].guest;
                             this.battle_category.country3 = this.battleJudges[i].country;
                         }else if(this.battle_category.name4 == '')
                         {
                             this.battle_category.name4 = this.battleJudges[i].name;
                             this.battle_category.info4 = this.battleJudges[i].info;
-                            this.battle_category.photo4 = this.battleJudges[i].poster;
+                            this.battle_category.photo4 = this.battleJudges[i].photo;
                             this.battle_category.guest4 = this.battleJudges[i].guest;
                             this.battle_category.country4 = this.battleJudges[i].country;
                         }else if(this.battle_category.name5 == '')
                         {
                             this.battle_category.name5 = this.battleJudges[i].name;
                             this.battle_category.info5 = this.battleJudges[i].info;
-                            this.battle_category.photo5 = this.battleJudges[i].poster;
+                            this.battle_category.photo5 = this.battleJudges[i].photo;
                             this.battle_category.guest5 = this.battleJudges[i].guest;
                             this.battle_category.country5 = this.battleJudges[i].country;
                         }else if(this.battle_category.name6 == '')
                         {
                             this.battle_category.name6 = this.battleJudges[i].name;
                             this.battle_category.info6 = this.battleJudges[i].info;
-                            this.battle_category.photo6 = this.battleJudges[i].poster;
+                            this.battle_category.photo6 = this.battleJudges[i].photo;
                             this.battle_category.guest6 = this.battleJudges[i].guest;
                             this.battle_category.country6 = this.battleJudges[i].country;
                         }else if(this.battle_category.name7 == ''){
                             this.battle_category.name7 = this.battleJudges[i].name;
                             this.battle_category.info7 = this.battleJudges[i].info;
-                            this.battle_category.photo7 = this.battleJudges[i].poster;
+                            this.battle_category.photo7 = this.battleJudges[i].photo;
                             this.battle_category.guest7 = this.battleJudges[i].guest;
                             this.battle_category.country7 = this.battleJudges[i].country;
                         }
@@ -2203,38 +1936,44 @@ export default {
         addWorkshop(){
             if(this.category.name){
                 //1:workshop
-                this.category.category = "1"
+                this.category.category = 1
                 let clone = {...this.category}
                 this.categories.push(clone)
+                this.category_added_snackbar=true
                 this.close_category_dialog()
             }else this.cat_valid_snackbar = true
         },
         addShowcase(){
             if(this.category.name){
-                this.category.category = "2"
+                this.category.category = 2
                 let clone = {...this.category}
                 this.categories.push(clone)
+                this.category_added_snackbar=true
                 this.close_category_dialog()
             }else this.cat_valid_snackbar = true
         },
+        addParty(){
+            if(this.category.name){
+                this.category.category = 3
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.category_added_snackbar=true
+            this.close_category_dialog()}else this.cat_valid_snackbar = true
+        },
         addCypher(){
             if(this.category.name){
-                this.category.category = "4"
+                this.category.category = 4
                 let clone = {...this.category}
                 this.categories.push(clone)
+                this.category_added_snackbar=true
                 this.close_category_dialog()
                 }else this.cat_valid_snackbar = true
         },
-        addParty(){
-            if(this.category.name){this.category.category = "3"
-            let clone = {...this.category}
-            this.categories.push(clone)
-            this.close_category_dialog()}else this.cat_valid_snackbar = true
-        },
         addOtherCategory(){
-            if(this.category.name){this.category.category = "5"
+            if(this.category.name){this.category.category = 5
             let clone = {...this.category}
             this.categories.push(clone)
+            this.category_added_snackbar=true
             this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         checkLink(){
@@ -2280,12 +2019,9 @@ export default {
                     break; 
                 case 3:
                     this.$refs.fileInput3.click()
-                    break; 
+                    break;
                 case 4:
-                    this.$refs.fileInput4.click()
-                    break; 
-                case 5:
-                this.$refs.fileInput5.click()
+                this.$refs.fileInput4.click()
                 break; 
                 default:
                     // code block
@@ -2304,10 +2040,7 @@ export default {
                     this.category.poster =""
                     break;}
                 case 4:{
-                    this.judges.poster =""
-                break;}
-                case 5:{
-                    this.category.photo1 =""
+                    this.guest.photo =""
                 break;}
                 // case 3:
                 //     {this.posterDataBattle = ""
@@ -2371,24 +2104,14 @@ export default {
             if (files[0]) {
             const fileReader = new FileReader()
             fileReader.onload = (e) => {
-                this.judges.poster = e.target.result;
+                this.guest.photo = e.target.result;
             }
             fileReader.readAsDataURL(files[0]);
-            this.judges.poster = files[0];
-            }
-        },
-        onFileChange5(e) {
-            let files = e.target.files || e.dataTransfer.files;
-            if (files[0]) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                this.category.photo1 = e.target.result;
-            }
-            fileReader.readAsDataURL(files[0]);
-            this.category.photo1 = files[0];
+            this.guest.photo = files[0];
             }
         },
         dataURLtoFile(dataurl, filename) {
+            // console.log( dataurl, filename);
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
             while(n--){
@@ -2413,26 +2136,58 @@ export default {
                     formData.append(data, this.event[data]);
                 }
                 let resp = await this.$axios.$post("/v1/events/create/", formData, config)
-                console.log("event created response",resp);
+                // console.log("event created response",resp);
                 // if categories are added
+                if(this.selectedGuests.length >0)
+                {
+                    // console.log("guests posts");
+                //add event object to all categories
+                this.selectedGuests.forEach(guest => guest.event = resp.uuid);
+                //put all images inside category in s3 bucket..
+                // console.log("this.selectedGuests",this.selectedGuests);
+                for (const item of this.selectedGuests) {
+                    if(item.photo){
+                        //check if s3 needed
+                        if(item.photo.includes("minithumbnails.s3")|| item.photo.includes("mediumthumbnails.s3") || item.photo.includes("thumbnails"))
+                        {
+                            // console.log("s3ed",item.photo);
+                        }
+                        else
+                        item.photo = await this.putImage(item.photo)
+                    }
+                    // console.log("done",this.selectedGuests);
+                }
+                let formGuestData = new FormData();
+                for (let data of this.selectedGuests) {
+                    console.log(this.selectedGuests);
+                    for (let data2 in data) {
+                        formGuestData.append(data2, data[data2]);
+                    }
+                    try {
+                        let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
+                        // console.log("guest posted",postGuest);
+                    } catch (error) {
+                        console.log(error.response);
+                    }
+                }
+                }
                 if(this.battle_categories.length >0){
-                console.log("battle posts");
+                // console.log("battle posts");
                 //add event object to all categories
                 this.battle_categories.forEach(category => category.event = resp.uuid);
                 //put all images inside battle category in s3 bucket..
                 for (const item of this.battle_categories) {
-                    console.log("of",item);
+                    // console.log("of",item);
                     if(item.poster){
                         item.poster = await this.putImage(item.poster)
-                        console.log("item.poster",item.poster);
+                        // console.log("item.poster",item.poster);
                     }
+                    
                     if(item.photo1){
                         item.photo1 = await this.putImage(item.photo1)
-                        console.log("item.photo1",item.photo1);
                     }
                     if(item.photo2){
                         item.photo2 = await this.putImage(item.photo2)
-                        console.log("item.photo2", item.photo2);
                     }
                     if(item.photo3){
                         item.photo3 = await this.putImage(item.photo3)
@@ -2461,11 +2216,11 @@ export default {
                     if(item.mcphoto2){
                         item.mcphoto2 = await this.putImage(item.mcphoto2)
                     }
-                    console.log("done",this.battle_categories);
+                    // console.log("done",this.battle_categories);
                 }
                 // battle json readayyy
 
-                console.log("this.battle_categories ready to be uploaded??",this.battle_categories);
+                // console.log("this.battle_categories ready to be uploaded??",this.battle_categories);
                 let formData2 = new FormData();
                 for (let data of this.battle_categories) {
                     for (let data2 in data) {
@@ -2473,7 +2228,7 @@ export default {
                     }
                     try {
                         let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
-                        console.log("battle posted",postBattle);
+                        // console.log("battle posted",postBattle);
                     } catch (error) {
                         console.log(error.response);
                     }
@@ -2481,24 +2236,17 @@ export default {
                 }
                 if(this.categories.length >0)
                 {
-                    console.log("categories posts");
                 //add event object to all categories
                 this.categories.forEach(category => category.event = resp.uuid);
                 //put all images inside category in s3 bucket..
                 for (const item of this.categories) {
                     if(item.poster){
                         item.poster = await this.putImage(item.poster)
-                        console.log("item.poster",item.poster);
                     }
                     if(item.photo1){
                         item.photo1 = await this.putImage(item.photo1)
-                        console.log("item.photo1",item.photo1);
                     }
-                    console.log("done",this.categories);
                 }
-                // battle json readayyy
-
-                console.log("this.battle_categories ready to be uploaded??",this.categories);
                 let formData2 = new FormData();
                 for (let data of this.categories) {
                     for (let data2 in data) {
@@ -2506,12 +2254,13 @@ export default {
                     }
                     try {
                         let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formData2, config)
-                        console.log("categories posted",postCategory);
+                        // console.log("categories posted",postCategory);
                     } catch (error) {
                         console.log(error.response);
                     }
                 }
                 }
+                
                 this.progressbar =false;
                 this.posted_snackbar = true;
                 this.$router.push("/events/"+resp.uuid);
@@ -2525,6 +2274,11 @@ export default {
             }
         },
         async putImage(image){
+            if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
+            {
+            // console.log("already s3ed",image);
+            return image
+            }
             let fileData = this.dataURLtoFile(image, "coverimage.png");
             let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1")
             delete this.$axios.defaults.headers.common['Authorization']
@@ -2605,6 +2359,32 @@ export default {
             }
             this.$router.push("/events/"+this.event.uuid);
             
+        },
+        removeGuest (item) {
+        this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
+        },
+        addGuests(){
+            if(this.guest.name){
+                let clone = {...this.guest}
+                this.selectedGuests.push(clone)
+                this.guest_added_snackbar=true
+                for (var key in this.guest) {
+                    this.guest[key] = '';
+                }
+                this.guest.username=this.$store.state.auth.user.user.username
+                this.artist_obj= null
+            }
+            else this.cat_valid_snackbar = true
+        },
+        addGuestToCategory(){
+            this.category.name1 = this.selectedGuest.name
+            this.category.guest1 = this.selectedGuest.guest
+            this.category.photo1 = this.selectedGuest.photo
+            this.category.country1 = this.selectedGuest.country
+            this.category.info1 = this.selectedGuest.info
+        },
+        removeCategory(item){
+            this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.category === item.category),1);
         },
     },
     middleware : 'check_auth',

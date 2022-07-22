@@ -3,26 +3,41 @@
   <v-hover v-slot:default="{ hover }">
     <v-card 
       data-view
-      @click="opendialog"
+      @click="dialog = true"
       :elevation="hover ? 12 : 0"
       outlined
-      width=95%
+      width="100"
       height="100"
-      class="pa-0 mx-auto"
+      class="pa-0 ma-1"
     >
+
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         v-if = category.poster :src = "category.poster" 
         height="100"
-        width=100%>
-        <div class="text-center" style="padding: 30px 0px">
-        <h5 style="height:40px; overflow:hidden;" class="font-weight-light px-1 white--text" >{{category.name}}</h5>
-        <h6 v-if="category.date" class="caption white--text">{{getTime(category.date).date}}</h6>
+        width="100">
+        <v-btn v-if="typeof category.category == 'number'" style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeCategory',category)">
+        <v-icon color="black" small>mdi-close</v-icon>
+        </v-btn>
+        <!-- to remove battle category -->
+        <v-btn v-else style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeBattleCategory',category)">
+        <v-icon color="black" small>mdi-close</v-icon>
+        </v-btn>
+      </v-img>
+      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+         v-else
+        height="100"
+        width="100">
+        <v-btn v-if="typeof category.category == 'number'" style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeCategory',category)">
+        <v-icon color="black" small>mdi-close</v-icon>
+        </v-btn>
+        <!-- to remove battle category -->
+        <v-btn v-else style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeBattleCategory',category)">
+        <v-icon color="black" small>mdi-close</v-icon>
+        </v-btn>
+      <div class="text-center">
+        <p style="height:45px; overflow:hidden;" class="font-weight-light white--text mt-md-24 mt-10 pb-0  ">{{category.name}}</p>
       </div>
       </v-img>
-      <div v-else class="text-center" style="padding: 30px 0px">
-        <h5 style="height:40px; overflow:hidden;" class="font-weight-light px-1">{{category.name}}</h5>
-        <h6 v-if="category.date" class="caption">{{getTime(category.date).date}}</h6>
-      </div>
     </v-card>
   </v-hover>
   <v-dialog
@@ -36,6 +51,7 @@
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-row>
+          {{category}}
         <v-img class=" mx-auto"
         v-if = category.poster :src = "category.poster" 
         :lazy-src= "category.poster" 
@@ -166,24 +182,24 @@
             {{category.name7}}
         </v-chip>
         </v-container>
-    </v-dialog> 
-    <v-dialog
-        :retain-focus="false"
-        v-model="chipDialog"
-        width="480px" 
-        persistent>
-        <v-container class="rounded-lg white" :class="{'pa-2': $vuetify.breakpoint.smAndDown  ,'pa-4': $vuetify.breakpoint.mdAndUp}">
-          <v-row align="end" justify="end" class="pa-0 ma-0" >
-          <v-btn icon  color="error" class="float-right" @click="chipDialog =false; temp.name='';temp.photo =''; temp.info=''">
-              <v-icon>mdi-close</v-icon>
-          </v-btn>
-          </v-row>
-        <v-img class="mt-8 mx-auto"  max-height="400px" contain v-if="temp.photo" :src="temp.photo"></v-img>
-        <nuxt-link v-if="temp.guest" :to="'/' + temp.guest" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{temp.name}}</h3></nuxt-link>
-        <h3 v-else class="font-weight-light mt-2">{{temp.name}}</h3>
-        <h3 class="font-weight-light mt-2">{{temp.info}}</h3>
-        </v-container>
-    </v-dialog> 
+  </v-dialog> 
+  <v-dialog
+      :retain-focus="false"
+      v-model="chipDialog"
+      width="480px" 
+      persistent>
+      <v-container class="rounded-lg white" :class="{'pa-2': $vuetify.breakpoint.smAndDown  ,'pa-4': $vuetify.breakpoint.mdAndUp}">
+        <v-row align="end" justify="end" class="pa-0 ma-0" >
+        <v-btn icon  color="error" class="float-right" @click="chipDialog =false; temp.name='';temp.photo =''; temp.info=''">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        </v-row>
+      <v-img class="mt-8 mx-auto"  max-height="400px" contain v-if="temp.photo" :src="temp.photo"></v-img>
+      <nuxt-link v-if="temp.guest" :to="'/' + temp.guest" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{temp.name}}</h3></nuxt-link>
+      <h3 v-else class="font-weight-light mt-2">{{temp.name}}</h3>
+      <h3 class="font-weight-light mt-2">{{temp.info}}</h3>
+      </v-container>
+  </v-dialog> 
 </div>
 </template>
 <script>
@@ -207,7 +223,7 @@
           info:'',
           guest:'',
           country:''
-        }
+        },
       }
     },
     methods:{
@@ -279,10 +295,6 @@
         this.temp.info = this.category.info7
         this.temp.country = this.category.country7}
         this.chipDialog = true
-      },
-      opendialog(){
-        this.dialog = true
-        console.log("ope1n", this.category);
       },
       getTime(timestamp){
         const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
