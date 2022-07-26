@@ -4,9 +4,6 @@
       <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down">
         <v-col cols="12" md="8"  class="justify-center pa-1">
           <h2 class ="xs12 d-inline font-weight-light">Community</h2>
-          <!-- <v-btn v-if="isAuthenticated" small icon outlined color="black" class="mb-2 ml-2" to="/create/website/">
-          <v-icon small>mdi-plus</v-icon>
-          </v-btn> -->
         </v-col>
         <v-col cols="12" md="4" class= "justify-end pa-1" >
           <v-text-field
@@ -34,16 +31,16 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+      <v-layout wrap row justify-start v-if="firstLoad" style="max-width:357px; margin:auto;" >
         <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+          <v-skeleton-loader style="margin:2px;" :width="card_width" :max-height="card_height" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;"  width="215" max-height="185" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+      <!-- <v-layout wrap row justify-start v-show="!firstLoad" style="max-width:670px; margin:auto;" >
+        <div v-for="artist in artists" :key ="artist.index">
+          <ArtistCard :artist="artist" ></ArtistCard> 
         </div>
-      </v-layout>
+      </v-layout> -->
       <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
         <div v-for="artist in artists" :key ="artist.index">
           <ArtistCard :artist="artist" ></ArtistCard> 
@@ -147,11 +144,30 @@ export default {
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
+    card_height () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 185
+          case 'lg': return 185
+          case 'xl': return 185
+        }
+      },
+      card_width () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 115
+          case 'sm': return 115
+          case 'md': return 215
+          case 'lg': return 215
+          case 'xl': return 215
+        }
+      },
     // filterApi: function(){
     //   return this.artists.filter((artist) => {
     //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
     //   });
     // }
   },
+      
 }
 </script>

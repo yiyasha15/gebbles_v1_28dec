@@ -66,11 +66,11 @@
     computed: {
     img_height () {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 100
-        case 'sm': return 100
-        case 'md': return 200
-        case 'lg': return 200
-        case 'xl': return 200
+        case 'xs': return 160
+        case 'sm': return 200
+        case 'md': return 300
+        case 'lg': return 300
+        case 'xl': return 300
       }
     }
   },

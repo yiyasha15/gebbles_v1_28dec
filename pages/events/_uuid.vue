@@ -4,10 +4,10 @@
         <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
-        <v-row align="end" justify="end" class="pa-0 ma-0" v-if="isAuthenticated && loggedInUser.user.username == event.username">
-            <v-menu v-if="isAuthenticated && loggedInUser.user.username == event.username" transition="slide-y-transition" open-on-hover offset-y bottom left>
+        <!-- <v-row align="end" justify="end" class="pa-0 ma-0" > -->
+            <v-menu v-if="isAuthenticated && loggedInUser.user.username == event.username"  transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs"
+                    <div v-bind="attrs" class="float-right"
                     v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                     </div>
@@ -29,13 +29,7 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-        <!-- <v-btn @click="editEvent" outlined small> <h4 class="font-weight-medium" style="text-transform: capitalize;">edit event</h4>
-        <v-icon small v-bind="attrs" v-on="on">mdi-edit-outline</v-icon>
-        </v-btn>
-        <v-btn color="error" @click="deletedialog = true" outlined small> <h4 class="font-weight-medium" style="text-transform: capitalize;">delete event</h4>
-        <v-icon small color="error">mdi-delete-outline</v-icon>
-        </v-btn> -->
-        </v-row>
+        <!-- </v-row> -->
         <v-dialog v-model="deletedialog" width="500">    
         <v-card class="pa-4">
             <p>Are you sure you want to delete this event?</p>
@@ -53,7 +47,7 @@
             <v-col cols="12" md="6" >
                 <v-row class="mt-4">
                 <v-col cols="10" class="px-0"> <h1 >{{event.name}}</h1></v-col>
-                <v-col cols="2"><country-flag class="mt-1 ml-2" :country= 'event.country'/></v-col>
+                <v-col cols="2"><country-flag class="mt-1" :country= 'event.country'/></v-col>
                 </v-row>
                 <v-row>
                    <h3 v-if="event.start_date" class="red--text mt-1 font-weight-light" >  {{getTime(event.start_date).date}}</h3>
@@ -78,20 +72,23 @@
         <h4 class="my-6 font-weight-light" > {{event.about}}</h4>
         </v-row>
         <v-row v-if="videoId" class="ma-0 mt-10">
-            <youtube class="hidden-sm-and-down mx-auto" aspect-ratio="1" :video-id= 'videoId'></youtube>
-            <youtube style="max-width:95%; margin:auto;height:auto;" class="hidden-md-and-up" :video-id= 'videoId'></youtube>
+            <youtube class=" mx-auto" aspect-ratio="1" :video-id= 'videoId'></youtube>
+            <!-- <youtube style="max-width:95%; margin:auto;height:auto;" class="hidden-sm-and-up" :video-id= 'videoId'></youtube> -->
+        </v-row>
+        <h2 v-if="event.event_guests && event.event_guests.length>0" class="my-6  text-center" > Guests</h2>
+        <v-row class="ma-0" justify="center">
+            <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="px-1 py-1 py-sm-4 px-sm-0">
+            <guest-card :guest="guest" ></guest-card>
+            </v-col>
         </v-row>
         <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6  text-center" > Programs</h2>
-        <v-row class="ma-0">
+        <v-row class="ma-0" justify="center">
             <v-col cols="6" sm="6" v-for="category in event.event_battles" :key ="category.index" class="px-1 py-1 py-sm-4 px-sm-0">
             <category-card :category="category"></category-card>
             </v-col>
             <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="px-1 py-1 py-sm-4 px-sm-0">
             <category-card :category="category"></category-card>
             </v-col>
-            <!-- <v-col cols="6" v-for="category in event.event_subevents" :key ="category.index" class="px-0 hidden-sm-and-down">
-            <category-card-desktop :category="category"></category-card-desktop>
-            </v-col> -->
         </v-row>
         <!-- <v-row>
             <p>Contact organisers</p>
@@ -108,6 +105,7 @@ import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
+import GuestCard from '~/components/GuestCard.vue'
 // import CookingCard from '~/components/CookingCard.vue'
 export default {
     head() {
@@ -131,7 +129,8 @@ export default {
     components:{
         Youtube,
         CountryFlag,
-        CategoryCard
+        CategoryCard,
+        GuestCard
     },
     data(){
           return {

@@ -101,7 +101,7 @@ export default {
     },
     infiniteScrolling(entries, observer, isIntersecting) {
         if(this.page){
-        const key = 'username';
+        const key = 'uuid';
         this.$axios.get(this.page).then(response => {
               this.page= response.data.next;
               response.data.results.forEach(item => this.events.push(item));

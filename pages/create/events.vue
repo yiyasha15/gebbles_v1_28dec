@@ -115,7 +115,7 @@
                     <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Add guests</v-stepper-step>
+                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Event Guests </v-stepper-step>
                 <!-- <small>dj's, emcees, judges, invitees</small> -->
                 <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start class="my-md-4 my-2 pa-6"  style="max-width:370px; margin:auto;" >
                     <div v-for="guest in this.selectedGuests" :key ="guest.index">
@@ -219,13 +219,13 @@
                         label= "Info"
                         :maxlength="250">
                     </v-text-field>
-                    <v-btn outlined small class="text-decoration-none"  color="black"
-                    @click="addGuests" >Add guest</v-btn>
+                    <v-btn outlined small class="text-decoration-none mb-4"  color="black"
+                    @click="addGuests" >Add guest</v-btn><br>
                     <v-btn color="black" text small outlined @click="e6 = 4">Next</v-btn>
                     <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
-                <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Add categories</v-stepper-step>
+                <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Event categories</v-stepper-step>
                 <v-layout v-if="this.categories.length>0 || this.battle_categories.length>0" wrap row justify-start class="my-md-4 my-2 pa-6"  style="max-width:400px; margin:auto;" >
                     <div v-for="category in this.categories"  :key ="category.index">
                         <category-card-create :category="category" @removeCategory="removeCategory"></category-card-create>
@@ -321,7 +321,7 @@
         <v-btn icon color="error" class="float-right" @click="close_battle_dialog ">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        <h3>Add battle</h3>
+        <h3>Battles</h3>
         <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
             <v-icon class="pa-16">mdi-plus</v-icon>
             <input 
@@ -403,14 +403,66 @@
             prepend-icon="mdi-map-marker-outline"
             :maxlength="150">
         </v-text-field>
-        <v-combobox
+        <!-- <v-combobox
+            class="pt-4"
+            v-model="battleEmcee"
+            :items="selectedGuests"
+            prepend-icon="mdi-microphone-variant"
+            clearable
+            counter= 2
+            label="Emcee"
+            item-text="name"
+            return-object 
+            hide-selected
+            multiple>
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="battleEmcee.splice(battleEmcee.findIndex(e => e.name === data.item.name),1)"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span v-if="data.item.name" class="pl-1">{{ data.item.name }}</span>
+                <span v-else class="pl-1">{{ data.item }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-if="data.item.name" v-html="data.item.name"></v-list-item-title>
+                    <v-list-item-title v-else v-html="data.item"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-combobox> -->
+        <!-- {{battleDj}} -->
+        <v-autocomplete
             class="pt-4"
             v-model="battleEmcee"
             :items="selectedGuests"
             prepend-icon="mdi-microphone-variant"
             clearable
             label="Emcee"
+            counter="2"
             item-text="name"
+            item-value="name"
             return-object 
             hide-selected
             multiple
@@ -451,15 +503,15 @@
                 </v-list-item-content>
                 </template>
             </template>
-        </v-combobox>
-        <!-- {{battleDj}} -->
+        </v-autocomplete>
         <v-autocomplete
             class="pt-4"
             v-model="battleDj"
             :items="selectedGuests"
             prepend-icon="mdi-music"
             clearable
-            label="DJ"
+            label="Deejay"
+            counter="2"
             item-text="name"
             item-value="name"
             return-object 
@@ -472,7 +524,7 @@
                 :input-value="data.selected"
                 close
                 @click="data.select"
-                @click:close="selectedGuest={}"
+                @click:close="battleDj.splice(battleDj.findIndex(e => e.name === data.item.name),1)"
                 >
                 <v-avatar v-if="data.item.photo" left>
                     <v-img :src="data.item.photo"></v-img>
@@ -510,6 +562,7 @@
             prepend-icon="mdi-hand-heart-outline"
             clearable
             label="Judges"
+            counter="7"
             item-text="name"
             item-value="name"
             return-object 
@@ -522,7 +575,7 @@
                 :input-value="data.selected"
                 close
                 @click="data.select"
-                @click:close="selectedGuest={}"
+                @click:close="battleJudges.splice(battleJudges.findIndex(e => e.name === data.item.name),1)"
                 >
                 <v-avatar v-if="data.item.photo" left>
                     <v-img :src="data.item.photo"></v-img>
@@ -583,7 +636,7 @@
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        <h3>Add workshop</h3>
+        <h3>Workshops</h3>
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
             <v-icon class="pa-16">mdi-plus</v-icon>
             <input 
@@ -723,7 +776,7 @@
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        <h3>Add party</h3>
+        <h3>Party</h3>
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
             <v-icon class="pa-16">mdi-plus</v-icon>
             <input 
@@ -817,7 +870,7 @@
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        <h3>Add Showcase</h3>
+        <h3>Showcases</h3>
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
             <v-icon class="pa-16">mdi-plus</v-icon>
             <input 
@@ -958,7 +1011,7 @@
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        <h3>Add Cypher</h3>
+        <h3>Cypher Sessions</h3>
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
             <v-icon class="pa-16">mdi-plus</v-icon>
             <input 
@@ -1214,7 +1267,7 @@
             Maximum 2 emcees.
         </v-snackbar>
         <v-snackbar v-model="max_dj_snackbar">
-            Maximum 2 DJs.
+            Maximum 2 Deejays.
         </v-snackbar>
         <v-snackbar v-model="max_artist_snackbar">
             Only 1 artist.
@@ -1688,6 +1741,11 @@ export default {
             debounce: null,
             comboBoxModel: null,
             isUpdating: false,
+            maxEmcee :2,
+            maxJudges :7,
+            menuProps: {
+            disabled: false
+            },
         }
     },
     watch: {
@@ -1708,8 +1766,9 @@ export default {
         },
         battleEmcee (val, prev) {
         if (val.length === prev.length) return
-        // console.log(val,prev);
-        // if(this.battleEmcee.length<3)
+        if(this.battleEmcee.length<3) {
+            console.log(this.battleEmcee, this.battleEmcee.length<3, "this.battleEmcee.length<3");
+        }
         this.battleEmcee = val.map(v => {
             if (typeof v === 'string') {
             v = {
@@ -2147,19 +2206,11 @@ export default {
                 // console.log("this.selectedGuests",this.selectedGuests);
                 for (const item of this.selectedGuests) {
                     if(item.photo){
-                        //check if s3 needed
-                        if(item.photo.includes("minithumbnails.s3")|| item.photo.includes("mediumthumbnails.s3") || item.photo.includes("thumbnails"))
-                        {
-                            // console.log("s3ed",item.photo);
-                        }
-                        else
                         item.photo = await this.putImage(item.photo)
                     }
-                    // console.log("done",this.selectedGuests);
                 }
                 let formGuestData = new FormData();
                 for (let data of this.selectedGuests) {
-                    console.log(this.selectedGuests);
                     for (let data2 in data) {
                         formGuestData.append(data2, data[data2]);
                     }
