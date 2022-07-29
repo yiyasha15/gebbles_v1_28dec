@@ -67,6 +67,7 @@
         <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{getTime(category.date).date}}</h3>
         <h3 class="red--text mt-1 font-weight-light" > {{category.date_time}} </h3>
         <h3 v-if="category.about" class="font-weight-light mt-2">About: {{category.about}}</h3>
+        <div v-if="typeof category.category != 'number'">
         <h3 v-if="category.rules" class="font-weight-light mt-2">Rules: {{category.rules}}</h3>
         <h3 v-if="category.prizes" class="font-weight-light mt-2">Prizes: {{category.prizes}}</h3>
         <h3 v-if="category.mcname1" class="font-weight-light mt-2">Emcee: </h3>
@@ -171,6 +172,19 @@
             </v-avatar>
             {{category.name7}}
         </v-chip>
+        </div>
+        <div v-else>
+        <h3 v-if="category.name1" class="font-weight-light mt-2">Artist:</h3>
+           <v-chip v-if="category.name1" color="black " @click="openChipDialog('n1')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo1">
+              <v-img :src="category.photo1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name1}}
+        </v-chip>
+        </div>
         </v-container>
     </v-dialog>  
     <v-dialog

@@ -6,8 +6,16 @@
           <h2 class ="xs12 d-inline font-weight-light">Events</h2>
         </v-col>
         <v-col cols="12" md="4" class= "justify-end pa-1" >
-          <v-text-field
+          <!-- <v-text-field
             label="Show events by country"
+            rounded
+            solo
+            prepend-inner-icon="mdi-magnify"
+            v-model="search"
+            @input="debounceSearch"
+          ></v-text-field> -->
+          <v-text-field
+            label="Show events by country2"
             rounded
             solo
             prepend-inner-icon="mdi-magnify"
@@ -42,12 +50,12 @@
         </div>
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
-        <div v-for="event in events" :key ="event.index">
+        <div v-for="event in filterApi" :key ="event.index">
           <events-card :event="event" ></events-card> 
         </div>
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="event in events" :key ="event.index">
+        <div v-for="event in filterApi" :key ="event.index">
           <events-card-desktop :event="event" ></events-card-desktop> 
         </div>
       </v-layout>
@@ -146,11 +154,11 @@ export default {
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
-    // filterApi: function(){
-    //   return this.events.filter((event) => {
-    //     return event.country.toLowerCase().match(this.search.toLowerCase())||event.country.toLowerCase().match(this.search.toLowerCase());
-    //   });
-    // }
+    filterApi: function(){
+      return this.events.filter((event) => {
+        return event.country.toLowerCase().match(this.search.toLowerCase())||event.name.toLowerCase().match(this.search.toLowerCase());
+      });
+    }
   },
 }
 </script>

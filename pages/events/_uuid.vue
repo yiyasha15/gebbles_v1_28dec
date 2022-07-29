@@ -75,18 +75,18 @@
             <youtube class=" mx-auto" aspect-ratio="1" :video-id= 'videoId'></youtube>
             <!-- <youtube style="max-width:95%; margin:auto;height:auto;" class="hidden-sm-and-up" :video-id= 'videoId'></youtube> -->
         </v-row>
-        <h2 v-if="event.event_guests && event.event_guests.length>0" class="my-6  text-center" > Guests</h2>
-        <v-row class="ma-0" justify="center">
-            <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="px-1 py-1 py-sm-4 px-sm-0">
+        <h2 v-if="event.event_guests && event.event_guests.length>0" class="my-6" > Guests</h2>
+        <v-row class="ma-0" >
+            <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="pa-0 py-sm-4 px-sm-0">
             <guest-card :guest="guest" ></guest-card>
             </v-col>
         </v-row>
-        <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6  text-center" > Programs</h2>
-        <v-row class="ma-0" justify="center">
-            <v-col cols="6" sm="6" v-for="category in event.event_battles" :key ="category.index" class="px-1 py-1 py-sm-4 px-sm-0">
+        <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6" > Programs</h2>
+        <v-row class="ma-0" >
+            <v-col cols="6" sm="6" v-for="category in event.event_battles" :key ="category.index" class="pa-0 py-sm-4 px-sm-0">
             <category-card :category="category"></category-card>
             </v-col>
-            <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="px-1 py-1 py-sm-4 px-sm-0">
+            <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="pa-0 py-sm-4 px-sm-0">
             <category-card :category="category"></category-card>
             </v-col>
         </v-row>

@@ -8,9 +8,8 @@
       outlined
       width="100"
       height="100"
-      class="pa-0 ma-1"
+      class="pa-0 "
     >
-
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         v-if = category.poster :src = "category.poster" 
         height="100"

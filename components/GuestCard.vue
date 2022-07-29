@@ -8,7 +8,7 @@
       outlined
       :width="img_height"
       :height="img_height"
-      class="pa-0 ma-1"
+      class="pa-0"
     >
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         v-if = guest.photo :src = "guest.photo" 
@@ -53,7 +53,7 @@
         title: 'events guests',
         }
     },
-    name: 'Guest Card',
+    name: 'GuestCard',
     props: {
       guest: Object
     },
@@ -66,7 +66,7 @@
     computed: {
     img_height () {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 160
+        case 'xs': return 180
         case 'sm': return 200
         case 'md': return 300
         case 'lg': return 300

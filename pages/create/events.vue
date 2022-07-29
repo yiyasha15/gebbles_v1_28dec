@@ -5,11 +5,10 @@
             <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
         <v-row >
-            <!-- {{event.uuid}}
-            <p v-if="editing_event_obj">{{editing_event_obj.event_battles}}<br></p>
-            Event HERE
-            {{this.battle_categories}} -->
         <v-col class="pa-0">
+            <!-- {{event}}
+            {{editing_event_obj}}
+             -->
              <h2 class="mb-md-8 mb-4" align="center" justify="center">About the event</h2>
             <v-stepper v-model="e6" vertical class="my-2">
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
@@ -37,6 +36,9 @@
                 </v-img>
                 </div>
                 </div>
+                <p v-if="poster_progressbar" class="caption"> updating the poster, please wait :)</p>
+                <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
+                    @click="updatePoster" :loading="poster_progressbar" >Update</v-btn>
                 <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
                 <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
@@ -110,19 +112,20 @@
                         label= "Add a link"
                         @change="checkLink">
                     </v-text-field>
+                    <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
+                    @click="update" :loading="progressbar" >Update</v-btn>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
                     <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Event Guests </v-stepper-step>
-                <!-- <small>dj's, emcees, judges, invitees</small> -->
-                <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start class="my-md-4 my-2 pa-6"  style="max-width:370px; margin:auto;" >
-                    <div v-for="guest in this.selectedGuests" :key ="guest.index">
-                        <guest-card-create :guest="guest" @removeGuest="removeGuest"></guest-card-create>
-                    </div>
-                </v-layout>
                 <v-stepper-content step="3"  style=" border-left: none;" class="ma-0" >
+                    <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
+                        <div v-for="guest in this.selectedGuests" :key ="guest.index">
+                            <guest-card-create :guest="guest" @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
+                        </div>
+                    </v-layout>
                     <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
                         <v-icon class="pa-16">mdi-plus</v-icon>
                         <input 
@@ -165,7 +168,7 @@
                             v-bind="data.attrs"
                             :input-value="data.selected"
                             close
-                            @click:close="artist_obj = null"
+                            @click:close="artist_obj = null; guest.guest = ''"
                             >
                             <v-avatar v-if="data.item.thumb" left>
                                 <v-img :src="data.item.thumb"></v-img>
@@ -219,22 +222,25 @@
                         label= "Info"
                         :maxlength="250">
                     </v-text-field>
-                    <v-btn outlined small class="text-decoration-none mb-4"  color="black"
-                    @click="addGuests" >Add guest</v-btn><br>
+                    <v-btn outlined small class="text-decoration-none mb-3"  color="black"
+                    @click="addGuests" v-if="!editing_guest_process" >Add guest</v-btn>
+                    <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none mb-3"  color="black"
+                    @click="updateGuests" :loading="guest_progressbar">Update guest</v-btn><br>
                     <v-btn color="black" text small outlined @click="e6 = 4">Next</v-btn>
                     <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
+
                 <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Event categories</v-stepper-step>
-                <v-layout v-if="this.categories.length>0 || this.battle_categories.length>0" wrap row justify-start class="my-md-4 my-2 pa-6"  style="max-width:400px; margin:auto;" >
-                    <div v-for="category in this.categories"  :key ="category.index">
-                        <category-card-create :category="category" @removeCategory="removeCategory"></category-card-create>
-                    </div>
-                    <div v-for="category in this.battle_categories"  :key ="category.index">
-                        <category-card-create :category="category" @removeBattleCategory="removeBattleCategory"></category-card-create>
-                    </div>
-                </v-layout>
                 <v-stepper-content step="4"  style=" border-left: none; max-width:400px; margin:auto">
+                    <v-layout v-if="this.categories.length>0 || this.battle_categories.length>0" wrap row justify-start   style="max-width:340px; margin:auto;" >
+                        <div v-for="category in this.categories"  :key ="category.index">
+                            <category-card-create :category="category" @removeCategory="removeCategory"></category-card-create>
+                        </div>
+                        <div v-for="category in this.battle_categories"  :key ="category.index">
+                            <category-card-create :category="category" @removeBattleCategory="removeBattleCategory"></category-card-create>
+                        </div>
+                    </v-layout>
                     <v-row class="mb-2 pa-0 hidden-xs-only">
                         <v-col >
                             <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="workshop_dialog = true">
@@ -302,12 +308,12 @@
                     <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
                     <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="submit" :loading="progressbar" >Submit</v-btn>
-                    <v-btn v-else outlined small class="text-decoration-none"  color="black"
+                    <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="update" :loading="progressbar" >Update</v-btn>
                     <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
-                
+
             </v-stepper>
         </v-col>
         </v-row>
@@ -655,6 +661,52 @@
             </v-btn>
         </v-img>
         </div>
+        <v-autocomplete
+            class="pt-4"
+            v-model="selectedGuest"
+            :items="selectedGuests"
+            prepend-icon="mdi-hand-heart-outline"
+            clearable
+            label="Artist"
+            item-text="name"
+            return-object
+            @input="addGuestToCategory()"
+            >
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="selectedGuest={}"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span class="pl-1">{{ data.item.name }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-autocomplete>
          <v-text-field
             v-model= "category.name"
             label= "Title"
@@ -717,52 +769,6 @@
             label= "Venue"
             :maxlength="250">
         </v-text-field>
-        <v-autocomplete
-            class="pt-4"
-            v-model="selectedGuest"
-            :items="selectedGuests"
-            prepend-icon="mdi-hand-heart-outline"
-            clearable
-            label="Artist"
-            item-text="name"
-            return-object
-            @input="addGuestToCategory()"
-            >
-            <template v-slot:selection="data">
-                <v-chip
-                v-bind="data.attrs"
-                :input-value="data.selected"
-                close
-                @click="data.select"
-                @click:close="selectedGuest={}"
-                >
-                <v-avatar v-if="data.item.photo" left>
-                    <v-img :src="data.item.photo"></v-img>
-                </v-avatar>
-                <v-avatar v-else >
-                <v-icon>
-                    mdi-account-circle
-                </v-icon>
-                </v-avatar>
-                <span class="pl-1">{{ data.item.name }}</span>
-                </v-chip>
-            </template>
-            <template v-slot:item="data">
-                <template>
-                <v-list-item-avatar v-if="data.item.photo">
-                    <img :src="data.item.photo">
-                </v-list-item-avatar>
-                <v-list-item-avatar v-else>
-                    <v-icon>
-                    mdi-account-circle
-                </v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                </v-list-item-content>
-                </template>
-            </template>
-        </v-autocomplete>
         <v-btn outlined small class="text-decoration-none "  color="black"
           @click="addWorkshop()" >Add</v-btn>
         </v-container>
@@ -1242,8 +1248,36 @@
           @click="addOtherCategory()" >Add</v-btn>
         </v-container>
         </v-dialog>
+        <v-dialog v-model="delete_guest_dialog" width="500">    
+        <v-card class="pa-4">
+            <p>Are you sure you want to delete this guest?</p>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
+                @click="deleteGuest">Delete</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="delete_guest_dialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
         <v-snackbar v-model="posted_snackbar">
             Event posted.
+        </v-snackbar>
+        <v-snackbar v-model="image_update_snackbar">
+            Event poster updated.
+        </v-snackbar>
+        <v-snackbar v-model="valid_poster_snackbar">
+            Event poster is required.
+        </v-snackbar>
+        <v-snackbar v-model="detail_update_snackbar">
+            Event details updated.
+        </v-snackbar>
+        <v-snackbar v-model="guest_update_snackbar">
+            Event guests updated.
+        </v-snackbar>
+        <v-snackbar v-model="program_update_snackbar">
+            Event programs updated.
         </v-snackbar>
         <v-snackbar v-model="guest_added_snackbar">
             Guest added.
@@ -1315,7 +1349,7 @@ export default {
             this.event = Object.assign({}, this.$store.getters.editing_event_obj);
             this.battle_categories = this.$store.getters.editing_event_obj.event_battles.map(a => Object.assign({}, a));
             this.categories = this.$store.getters.editing_event_obj.event_subevents.map(a => Object.assign({}, a));
-
+            this.selectedGuests = this.$store.getters.editing_event_obj.event_guests.map(a => Object.assign({}, a));
             // this.battle_categories = this.$store.getters.editing_event_obj.event_battles;
             // this.categories = this.$store.getters.editing_event_obj.event_subevents;
         }
@@ -1441,6 +1475,8 @@ export default {
                 event:'',
                 username:this.$store.state.auth.user.user.username
             },
+            delete_guest_dialog:false,
+            deleteLoading:false,
             battle_categories:[],
             categories:[],
             battleJudges:[],
@@ -1467,6 +1503,9 @@ export default {
             cypher_dialog:false,
             otherCategory_dialog:false,
             progressbar: false,
+            poster_progressbar:false,
+            guest_progressbar:false,
+            program_progressbasr:false,
             date:null,
             slide: null,
             e6: 1,
@@ -1475,8 +1514,13 @@ export default {
             valid_snackbar: false,
             error_snackbar:false,
             posted_snackbar: false,
+            image_update_snackbar: false,
+            detail_update_snackbar: false,
+            guest_update_snackbar: false,
+            program_update_snackbar: false,
             guest_added_snackbar:false,
             category_added_snackbar:false,
+            valid_poster_snackbar:false,
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
                 {"name": "Åland Islands", "code": "AX"},
@@ -1744,8 +1788,10 @@ export default {
             maxEmcee :2,
             maxJudges :7,
             menuProps: {
-            disabled: false
+            disabled: false,
             },
+            editing_guest_process:false,//if we click on edit guest( this is to know if we will update guest or add guests!)
+            temp_guest_item:'',
         }
     },
     watch: {
@@ -2339,22 +2385,117 @@ export default {
             let put = await this.$axios.$put(url, fileData)
             return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
         },
+        async updatePoster(){
+            try {
+                if(this.event.poster != "" && this.event.poster != this.editing_event_obj.poster)
+                {
+                    this.poster_progressbar =true
+                    this.event.poster = await this.putImage(this.event.poster);
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    };
+                    let formName = new FormData();
+                    formName.append("poster", this.event.poster);
+                    formName.append("id", this.event['id']);
+                    await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
+                    console.log(res); 
+                    this.poster_progressbar =false
+                    this.image_update_snackbar = true;
+                    this.$router.push("/events/"+this.event.uuid);
+                    })
+                }
+                else{
+                    valid_poster_snackbar=true
+                }
+                
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async updateGuests(){
+            if(this.editing_event_obj){
+                if(this.guest.name != "")
+                {
+                    this.guest_progressbar = true
+                    this.guest.photo = await this.putImage(this.guest.photo);
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    };
+                    let myObj1 = this.selectedGuest 
+                    let myObj2 = this.guest
+                    // find keys 
+                    let keyObj1 = Object.keys(myObj1); 
+                    let keyObj2 = Object.keys(myObj2);
+                        
+                    // find values 
+                    let valueObj1 = Object.values(myObj1); 
+                    let valueObj2 = Object.values(myObj2); 
+                    
+                    // now compare their keys and values  
+                    try {
+                        for(var i=0; i<keyObj1.length; i++) {
+                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                            } 
+                            else { 
+
+                                console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                                // it prints keys have different values 
+                                let formName = new FormData();
+                                formName.append(keyObj1[i], valueObj2[i]);
+                                formName.append("id", this.event['id']);
+                                // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                                await this.$axios.$patch("/v1/events/guests/"+this.selectedGuest.uuid, formName, config).then(res => {
+                                console.log( valueObj2[i] ,res," changed"); 
+                            })
+                            }
+                        }
+                        this.addGuests();
+                        this.guest_progressbar =false
+                        this.guest_update_snackbar = true;
+                    } catch (error) {
+                        console.log("error!!!!! ",error, error.response);
+                        this.error_snackbar =true
+                        this.guest_progressbar =false
+                    }
+                }
+                else{
+                    this.cat_valid_snackbar=true
+                }
+            }
+            else{
+                if(this.guest.name){
+                    let clone = {...this.guest}
+                    this.selectedGuests.push(clone)
+                    this.guest_added_snackbar=true
+                    for (var key in this.guest) {
+                        this.guest[key] = '';
+                    }
+                    this.guest.username=this.$store.state.auth.user.user.username
+                    this.artist_obj= null
+                }
+                else this.cat_valid_snackbar = true
+            }
+            this.editing_guest_process = false
+        },
         async update(){
             try{
                 // this.event.username= this.$store.state.auth.user.user.username
-                if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
+                if(this.event.name != "" && this.event.start_date != "" && this.event.country != "")
                 { 
                 this.progressbar =true
-                // console.log(this.event.poster);
-                if(this.event.poster == 'object')
-                this.event.poster = await this.putImage(this.event.poster).then(res=>
-                {this.formUpdate();})
-                else
                 this.formUpdate();
+                }
+                else{
+                    this.valid_snackbar=true
                 }
             }
             catch(e){
-                console.log(e);
+                console.log(e, e.response, e.data);
             }
             // let ids = new Set(this.editing_event_obj.event_battles.map(({ uuid }) => uuid));
             // let ids2 = new Set(this.battle_categories.map(({ uuid }) => uuid));
@@ -2383,49 +2524,139 @@ export default {
             // now compare their keys and values  
             try {
                 for(var i=0; i<keyObj1.length; i++) { 
-                if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                    console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-                } 
-                else { 
-                    // it prints keys have different values 
-                    if(!keyObj1[i]=='event_battles' && !keyObj1[i]=='event_subevents'){
-                        let formName = new FormData();
-                        formName.append(keyObj1[i], valueObj2[i]);
-                        formName.append("id", this.journey['id']);
+                    if(keyObj1[i]=='event_battles'){}
+                    else if(keyObj1[i]=='event_subevents'){}
+                    else if(keyObj1[i]=='poster'){}
+                    else if (keyObj1[i]=='event_guests'){}
+                    else
+                    {
+                        if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                            // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                        } 
+                        else { 
+                            // it prints keys have different values 
+                            let formName = new FormData();
+                            formName.append(keyObj1[i], valueObj2[i]);
+                            formName.append("id", this.event['id']);
 
-                        console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                        await this.$axios.$patch("/v1/events/battles/"+this.event.id, formName, config).then(res => {
-                        console.log( valueObj2[i] ,res," changed"); 
-                    })}
-                } 
-            }
-            this.$store.dispatch("remove_editing_event_obj");
-            this.progressbar =false
-            this.posted_snackbar = true;
-            // this.refresh();
+                            // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                            await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
+                            console.log( valueObj2[i] ,res," changed"); 
+                        })
+                        } 
+                    }
+                }
+                this.$store.dispatch("remove_editing_event_obj");
+                console.log("updatded");
+                this.progressbar =false
+                this.posted_snackbar = true;
+                // this.refresh();
             } catch (error) {
-                console.log("error",error);
+                console.log("error!!!!! ",error, error.response);
                 this.error_snackbar =true
                 this.progressbar =false
             }
-            this.$router.push("/events/"+this.event.uuid);
-            
+            // this.$router.push("/events/"+this.event.uuid);
         },
         removeGuest (item) {
-        this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
+            this.delete_guest_dialog = true
+            this.temp_guest_item = item
         },
-        addGuests(){
-            if(this.guest.name){
-                let clone = {...this.guest}
-                this.selectedGuests.push(clone)
-                this.guest_added_snackbar=true
-                for (var key in this.guest) {
-                    this.guest[key] = '';
+        async deleteGuest(){
+            if(this.editing_event_obj)
+            {
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                };
+                try {
+                    let response = await this.$axios.$delete("/v1/events/guests/"+ item.uuid, config)
+                    console.log(response);
+                    this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
+                    this.delete_guest_dialog = false
+                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
+                    //guest removed
+                } catch (e) {
+                    console.log(e.response);
                 }
-                this.guest.username=this.$store.state.auth.user.user.username
-                this.artist_obj= null
+                //remove from api too
+            }else{
+                this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
+                this.delete_guest_dialog = false
             }
-            else this.cat_valid_snackbar = true
+        },
+        editGuest (item) {
+            this.editing_guest_process =true
+            this.selectedGuest = Object.assign({}, item);
+            this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
+            this.guest= item
+            // console.log(this.guest,item );
+            // this.guest.name = item.name;
+            // this.guest.photo = item.photo;
+            // this.guest.videolink = item.videolink;
+            // this.guest.country = item.country;
+            // this.guest.event = this.event.uuid;
+            // this.guest.info = item.info;
+            if(typeof item.guest == 'object')
+            {
+                // this.guest.guest = item.guest.username
+                this.artist_obj = item.guest
+            }else if (item.guest && typeof item.guest == 'string'){
+                // this.guest.guest = item.guest
+                console.log(item.guest, typeof item.guest);
+                EventService.getArtist(item.guest).then((value) => {
+                this.artist_obj = value.data;});
+            }
+        },
+        async addGuests(){
+            if(this.guest.name){
+                if(this.editing_event_obj){
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                }
+                if(typeof this.guest.guest=='object')
+                this.guest.guest = this.guest.guest.username
+                this.guest.event = this.editing_event_obj.uuid;
+                this.guest.photo = await this.putImage(this.guest.photo)
+                let formGuestData = new FormData();
+                for (let data in this.guest) {
+                    formGuestData.append(data, this.guest[data]);
+                }
+                try {
+                    let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
+                    console.log("guest posted",postGuest);
+                    this.guest_added_snackbar=true
+                    this.addGuestToSelectedGuestArray();
+                    for (var key in this.guest) {
+                        this.guest[key] = '';
+                    }
+                    this.guest.username=this.$store.state.auth.user.user.username
+                    this.artist_obj= null
+                    this.selectedGuest = {}
+                } catch (error) {
+                    console.log(error,error.response);
+                    this.error_snackbar = true;
+                }
+                }
+                else
+                {
+                    this.addGuestToSelectedGuestArray();
+                }
+            }else this.cat_valid_snackbar = true
+        },
+        addGuestToSelectedGuestArray(){
+            let clone = {...this.guest}
+            this.selectedGuests.push(clone)
+            this.guest_added_snackbar=true
+            for (var key in this.guest) {
+                this.guest[key] = '';
+            }
+            this.guest.username=this.$store.state.auth.user.user.username
+            this.artist_obj= null
+            this.selectedGuest = {}
         },
         addGuestToCategory(){
             this.category.name1 = this.selectedGuest.name
