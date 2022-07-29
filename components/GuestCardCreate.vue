@@ -8,7 +8,7 @@
       outlined
       width="100"
       height="100"
-      class="pa-0"
+      class="pa-0" style="margin:2px"
     >
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         v-if ="guest.photo && guest.photo!='undefined'" :src = "guest.photo" 
