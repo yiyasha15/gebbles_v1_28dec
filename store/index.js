@@ -11,6 +11,9 @@ export const state = () => ({
   cook_obj:null,
   editing_obj: null, //object to edit data
   editing_event_obj: null,
+  store_battle_categories:[],
+  store_categories:[],
+  store_guests:[],
   portfolio: null, //store portfolio data of the logged in user
   bio: null, //store bio data of the logged in user
   personalMessages: [],

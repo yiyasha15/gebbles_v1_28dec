@@ -222,10 +222,15 @@
                         label= "Info"
                         :maxlength="250">
                     </v-text-field>
-                    <v-btn outlined small class="text-decoration-none mb-3"  color="black"
-                    @click="addGuests" v-if="!editing_guest_process" >Add guest</v-btn>
-                    <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none mb-3"  color="black"
-                    @click="updateGuests" :loading="guest_progressbar">Update guest</v-btn><br>
+                    <v-btn outlined small class="text-decoration-none"  color="black"
+                    @click="addGuests" v-if="!editing_guest_process" :loading="guest_progressbar">Add guest</v-btn>
+                    <!-- <v-btn outlined small class="text-decoration-none mb-3"  color="black"
+                    @click="removeGuestFromForm" v-if="this.guest.name" >Remove guest</v-btn> -->
+                    <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
+                    @click="updateGuests" :loading="guest_progressbar">Update guest</v-btn>
+                    <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
+                    @click="cancel_edit_guest" >Cancel</v-btn><br>
+                    <v-divider class="my-3"></v-divider>
                     <v-btn color="black" text small outlined @click="e6 = 4">Next</v-btn>
                     <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
@@ -1306,6 +1311,12 @@
         <v-snackbar v-model="max_artist_snackbar">
             Only 1 artist.
         </v-snackbar>
+        <v-snackbar v-model="all_good_snackbar">
+            All good, check out the events.
+        </v-snackbar>
+        <v-snackbar v-model="remove_guest_form_snackbar">
+            Remove the guest on edit.
+        </v-snackbar>
     </v-container>
 </v-app>
 </template>
@@ -1355,7 +1366,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['editing_event_obj'])
+        ...mapGetters(['editing_event_obj',])
     },
     data(){
         return {
@@ -1521,6 +1532,7 @@ export default {
             guest_added_snackbar:false,
             category_added_snackbar:false,
             valid_poster_snackbar:false,
+            remove_guest_form_snackbar:false,
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
                 {"name": "Åland Islands", "code": "AX"},
@@ -1778,6 +1790,7 @@ export default {
             max_dj_snackbar:false,
             max_artist_snackbar:false,
             max_emcee_snackbar:false,
+            all_good_snackbar:false,
             artist_obj:null,
             artists:[],
             selectedGuests:[],
@@ -1789,6 +1802,7 @@ export default {
             maxJudges :7,
             menuProps: {
             disabled: false,
+
             },
             editing_guest_process:false,//if we click on edit guest( this is to know if we will update guest or add guests!)
             temp_guest_item:'',
@@ -2136,16 +2150,16 @@ export default {
             switch(num) {
                 case 1:
                     {
-                    this.event.poster = ""
+                    this.event.poster = "";
                     break;}
                 case 2:{
-                    this.battle_category.poster =""
+                    this.battle_category.poster ="";
                     break;}
                 case 3:{
-                    this.category.poster =""
+                    this.category.poster ="";
                     break;}
                 case 4:{
-                    this.guest.photo =""
+                    this.guest.photo = "";
                 break;}
                 // case 3:
                 //     {this.posterDataBattle = ""
@@ -2264,6 +2278,7 @@ export default {
                         let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
                         // console.log("guest posted",postGuest);
                     } catch (error) {
+                        this.error_snackbar = true
                         console.log(error.response);
                     }
                 }
@@ -2327,6 +2342,7 @@ export default {
                         let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
                         // console.log("battle posted",postBattle);
                     } catch (error) {
+                        this.error_snackbar = true
                         console.log(error.response);
                     }
                 }
@@ -2353,6 +2369,7 @@ export default {
                         let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formData2, config)
                         // console.log("categories posted",postCategory);
                     } catch (error) {
+                        this.error_snackbar = true
                         console.log(error.response);
                     }
                 }
@@ -2403,14 +2420,16 @@ export default {
                     console.log(res); 
                     this.poster_progressbar =false
                     this.image_update_snackbar = true;
-                    this.$router.push("/events/"+this.event.uuid);
+                    // this.$router.push("/events/"+this.event.uuid);
                     })
                 }
                 else{
-                    valid_poster_snackbar=true
+                    this.all_good_snackbar = true;
+                    console.log("nothing to change");
                 }
                 
             } catch (error) {
+                this.error_snackbar = true
                 console.log(error);
             }
         },
@@ -2419,7 +2438,10 @@ export default {
                 if(this.guest.name != "")
                 {
                     this.guest_progressbar = true
-                    this.guest.photo = await this.putImage(this.guest.photo);
+                    if(this.guest.photo)
+                    {
+                        this.guest.photo = await this.putImage(this.guest.photo);
+                    }
                     const config = {
                         headers: {"content-type": "multipart/form-data",
                             "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -2471,7 +2493,7 @@ export default {
                 if(this.guest.name){
                     let clone = {...this.guest}
                     this.selectedGuests.push(clone)
-                    this.guest_added_snackbar=true
+                    this.guest_update_snackbar=true
                     for (var key in this.guest) {
                         this.guest[key] = '';
                     }
@@ -2495,6 +2517,7 @@ export default {
                 }
             }
             catch(e){
+                this.error_snackbar = true
                 console.log(e, e.response, e.data);
             }
             // let ids = new Set(this.editing_event_obj.event_battles.map(({ uuid }) => uuid));
@@ -2546,10 +2569,9 @@ export default {
                         } 
                     }
                 }
-                this.$store.dispatch("remove_editing_event_obj");
-                console.log("updatded");
+                // this.$store.dispatch("remove_editing_event_obj");
                 this.progressbar =false
-                this.posted_snackbar = true;
+                this.detail_update_snackbar = true;
                 // this.refresh();
             } catch (error) {
                 console.log("error!!!!! ",error, error.response);
@@ -2559,35 +2581,42 @@ export default {
             // this.$router.push("/events/"+this.event.uuid);
         },
         removeGuest (item) {
+            this.temp_guest_item = item;
             this.delete_guest_dialog = true
-            this.temp_guest_item = item
         },
         async deleteGuest(){
+            console.log(this.temp_guest_item);
             if(this.editing_event_obj)
             {
+                this.deleteLoading = true
                 const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                     }
                 };
                 try {
-                    let response = await this.$axios.$delete("/v1/events/guests/"+ item.uuid, config)
-                    console.log(response);
+                    let response = await this.$axios.$delete("/v1/events/guests/"+ this.temp_guest_item.uuid, config)
+                    // console.log(response);
                     this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
                     this.delete_guest_dialog = false
+                    this.deleteLoading = false
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
-                    console.log(e.response);
+                    this.deleteLoading = false
+                    this.error_snackbar = true
+                    console.log(e,e.response);
                 }
                 //remove from api too
             }else{
                 this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
                 this.delete_guest_dialog = false
+
             }
         },
         editGuest (item) {
-            this.editing_guest_process =true
+            if(!this.editing_guest_process)
+            {this.editing_guest_process =true
             this.selectedGuest = Object.assign({}, item);
             this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
             this.guest= item
@@ -2607,39 +2636,47 @@ export default {
                 console.log(item.guest, typeof item.guest);
                 EventService.getArtist(item.guest).then((value) => {
                 this.artist_obj = value.data;});
+            }}else{
+                this.remove_guest_form_snackbar = true
             }
         },
         async addGuests(){
             if(this.guest.name){
                 if(this.editing_event_obj){
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    this.guest_progressbar =true
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
                     }
-                }
-                if(typeof this.guest.guest=='object')
-                this.guest.guest = this.guest.guest.username
-                this.guest.event = this.editing_event_obj.uuid;
-                this.guest.photo = await this.putImage(this.guest.photo)
-                let formGuestData = new FormData();
-                for (let data in this.guest) {
-                    formGuestData.append(data, this.guest[data]);
-                }
-                try {
-                    let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
-                    console.log("guest posted",postGuest);
-                    this.guest_added_snackbar=true
-                    this.addGuestToSelectedGuestArray();
-                    for (var key in this.guest) {
-                        this.guest[key] = '';
+                    if(this.guest.guest && typeof this.guest.guest=='object')
+                    this.guest.guest = this.guest.guest.username
+                    this.guest.event = this.editing_event_obj.uuid;
+                    if(this.guest.photo)
+                    this.guest.photo = await this.putImage(this.guest.photo)
+                    let formGuestData = new FormData();
+                    for (let data in this.guest) {
+                        formGuestData.append(data, this.guest[data]);
                     }
-                    this.guest.username=this.$store.state.auth.user.user.username
-                    this.artist_obj= null
-                    this.selectedGuest = {}
-                } catch (error) {
-                    console.log(error,error.response);
-                    this.error_snackbar = true;
-                }
+                    try {
+                        let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
+                        console.log("guest posted",postGuest);
+                        this.guest = {...postGuest}
+                        console.log(this.guest);
+                        this.guest_added_snackbar=true
+                        this.guest_progressbar =false
+                        this.addGuestToSelectedGuestArray();
+                        for (var key in this.guest) {
+                            this.guest[key] = '';
+                        }
+                        this.guest.username=this.$store.state.auth.user.user.username
+                        this.artist_obj= null
+                        this.selectedGuest = {}
+                    } catch (error) {
+                        console.log(error,error.response);
+                        this.error_snackbar = true;
+                        this.guest_progressbar =false
+                    }
                 }
                 else
                 {
@@ -2668,6 +2705,17 @@ export default {
         removeCategory(item){
             this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.category === item.category),1);
         },
+        cancel_edit_guest(){
+            let clone = {...this.selectedGuest}
+            this.selectedGuests.push(clone)
+            for (var key in this.guest) {
+                this.guest[key] = '';
+            }
+            this.guest.username=this.$store.state.auth.user.user.username
+            this.artist_obj= null
+            this.selectedGuest = {}
+            this.editing_guest_process = false
+        }
     },
     middleware : 'check_auth',
     }

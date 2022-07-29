@@ -11,7 +11,7 @@
       class="pa-0"
     >
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-        v-if = guest.photo :src = "guest.photo" 
+        v-if ="guest.photo && guest.photo!='undefined'" :src = "guest.photo" 
         height="100"
         width="100">
         <v-btn style="background:white" icon small class="float-right ma-1" @click.stop="$emit('editGuest',guest)">
