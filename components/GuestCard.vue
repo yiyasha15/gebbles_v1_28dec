@@ -8,7 +8,6 @@
       outlined
       :width="img_height"
       :height="img_height"
-      class="pa-0"
     >
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         v-if = guest.photo :src = "guest.photo" 

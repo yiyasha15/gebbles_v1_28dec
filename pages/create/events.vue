@@ -1484,6 +1484,7 @@ export default {
                 info:'',
                 videolink:'',
                 event:'',
+                uuid:'',
                 username:this.$store.state.auth.user.user.username
             },
             delete_guest_dialog:false,
@@ -1805,7 +1806,7 @@ export default {
 
             },
             editing_guest_process:false,//if we click on edit guest( this is to know if we will update guest or add guests!)
-            temp_guest_item:'',
+            temp_guest_item:{},
         }
     },
     watch: {
@@ -2581,6 +2582,8 @@ export default {
             // this.$router.push("/events/"+this.event.uuid);
         },
         removeGuest (item) {
+            console.log(item);
+            console.log(this.temp_guest_item);
             this.temp_guest_item = item;
             this.delete_guest_dialog = true
         },
@@ -2600,6 +2603,7 @@ export default {
                     this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
                     this.delete_guest_dialog = false
                     this.deleteLoading = false
+                    this.temp_guest_item = {}
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
@@ -2666,12 +2670,6 @@ export default {
                         this.guest_added_snackbar=true
                         this.guest_progressbar =false
                         this.addGuestToSelectedGuestArray();
-                        for (var key in this.guest) {
-                            this.guest[key] = '';
-                        }
-                        this.guest.username=this.$store.state.auth.user.user.username
-                        this.artist_obj= null
-                        this.selectedGuest = {}
                     } catch (error) {
                         console.log(error,error.response);
                         this.error_snackbar = true;
