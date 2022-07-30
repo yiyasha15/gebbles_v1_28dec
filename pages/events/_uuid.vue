@@ -46,17 +46,17 @@
         <v-row class="ma-0">
             <v-col cols="12" md="6" >
                 <v-row class="mt-4">
-                <v-col cols="10" class="px-0"> <h1 >{{event.name}}</h1></v-col>
-                <v-col cols="2"><country-flag class="mt-1" :country= 'event.country'/></v-col>
+                <v-col cols="12" class="px-0"> <h1 >{{event.name}}</h1></v-col>
+                <!-- <v-col cols="2"><country-flag class="mt-1" :country= 'event.country'/></v-col> -->
                 </v-row>
                 <v-row>
-                   <h3 v-if="event.start_date" class="red--text mt-1 font-weight-light" >  {{getTime(event.start_date).date}}</h3>
+                   <h3 v-if="event.start_date" class="red--text mt-1 font-weight-light" > <v-icon class="mr-2" >mdi-calendar</v-icon> {{getTime(event.start_date).date}}</h3>
                 </v-row>
                 <v-row>
                    <h3 class="red--text font-weight-light"> {{event.date_time}}</h3>
                 </v-row>
-                <v-row>
-                   <h4 v-if="event.city || event.venue" class=" font-weight-light" >{{event.venue}} <b>{{event.city}}</b></h4>
+                <v-row >
+                    <h4 v-if="event.city || event.venue" class=" font-weight-light" ><v-icon class="mr-2">mdi-map-marker-outline</v-icon>{{event.venue}} <b>{{event.city}}</b></h4><country-flag class="mt-1" :country= 'event.country'/>
                 </v-row>
                 <v-row>
                     <v-btn small v-if="event.link" class="elevation-0 text-decoration-none mt-6" @click="openLink">

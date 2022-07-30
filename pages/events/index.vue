@@ -98,7 +98,7 @@ export default {
     async getEvents(){
       try {
       const response = await EventService.getEvents()
-      console.log(response);
+      // console.log(response);
       this.events = response.data.results
       this.page = response.data.next
       this.firstLoad = false

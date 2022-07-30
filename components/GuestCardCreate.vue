@@ -48,7 +48,6 @@
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-row>
-          {{guest}}
         <v-img class="mt-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
 
         <nuxt-link v-if="guest.guest" :to="'/' + guest.guest" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{guest.name}}</h3></nuxt-link>
