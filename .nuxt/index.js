@@ -13,13 +13,14 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_7b157dcf from 'nuxt_plugin_plugin_7b157dcf' // Source: ./vuetify/plugin.js (mode: 'all')
-import nuxt_plugin_workbox_2f72381e from 'nuxt_plugin_workbox_2f72381e' // Source: ./workbox.js (mode: 'client')
-import nuxt_plugin_metaplugin_4679aa04 from 'nuxt_plugin_metaplugin_4679aa04' // Source: ./pwa/meta.plugin.js (mode: 'all')
-import nuxt_plugin_axios_6503bfd6 from 'nuxt_plugin_axios_6503bfd6' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_plugin_6dc982f3 from 'nuxt_plugin_plugin_6dc982f3' // Source: ./vuetify/plugin.js (mode: 'all')
+import nuxt_plugin_workbox_d532c166 from 'nuxt_plugin_workbox_d532c166' // Source: ./workbox.js (mode: 'client')
+import nuxt_plugin_metaplugin_ab736d40 from 'nuxt_plugin_metaplugin_ab736d40' // Source: ./pwa/meta.plugin.js (mode: 'all')
+import nuxt_plugin_iconplugin_a2242258 from 'nuxt_plugin_iconplugin_a2242258' // Source: ./pwa/icon.plugin.js (mode: 'all')
+import nuxt_plugin_axios_da65fb1e from 'nuxt_plugin_axios_da65fb1e' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuexpersist_13f465a2 from 'nuxt_plugin_vuexpersist_13f465a2' // Source: ../plugins/vuex-persist (mode: 'client')
 import nuxt_plugin_aos_3e747fca from 'nuxt_plugin_aos_3e747fca' // Source: ../plugins/aos.client (mode: 'client')
-import nuxt_plugin_plugin_11900991 from 'nuxt_plugin_plugin_11900991' // Source: ./auth/plugin.js (mode: 'all')
+import nuxt_plugin_plugin_676ab6ed from 'nuxt_plugin_plugin_676ab6ed' // Source: ./auth/plugin.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -76,7 +77,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"titleTemplate":"%s - Gebbles","title":"gebbles","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"a thread connecting music, movement and artists."},{"hid":"charset","charset":"utf-8"},{"hid":"mobile-web-app-capable","name":"mobile-web-app-capable","content":"yes"},{"hid":"apple-mobile-web-app-title","name":"apple-mobile-web-app-title","content":"gebbles"},{"hid":"author","name":"author","content":"inmygroove"},{"hid":"og:type","name":"og:type","property":"og:type","content":"website"},{"hid":"og:title","name":"og:title","property":"og:title","content":"gebbles"},{"hid":"og:site_name","name":"og:site_name","property":"og:site_name","content":"gebbles"},{"hid":"og:description","name":"og:description","property":"og:description","content":"a thread connecting music, movement and artists."}],"link":[{"rel":"icon","type":"image\u002Fpng","href":"\u002Fgebbleslogo.png"},{"rel":"manifest","href":"\u002F_nuxt\u002Fmanifest.91e2c758.json","hid":"manifest"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"style":[],"script":[],"htmlAttrs":{"lang":"en"}},
+    head: {"titleTemplate":"%s - gebbles","title":"gebbles","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"a thread connecting music, movement and artists."}],"link":[{"rel":"icon","type":"image\u002Fpng","href":"\u002Fgebbleslogo.png"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"style":[],"script":[]},
 
     store,
     router,
@@ -205,20 +206,24 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_7b157dcf === 'function') {
-    await nuxt_plugin_plugin_7b157dcf(app.context, inject)
+  if (typeof nuxt_plugin_plugin_6dc982f3 === 'function') {
+    await nuxt_plugin_plugin_6dc982f3(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_workbox_2f72381e === 'function') {
-    await nuxt_plugin_workbox_2f72381e(app.context, inject)
+  if (process.client && typeof nuxt_plugin_workbox_d532c166 === 'function') {
+    await nuxt_plugin_workbox_d532c166(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_metaplugin_4679aa04 === 'function') {
-    await nuxt_plugin_metaplugin_4679aa04(app.context, inject)
+  if (typeof nuxt_plugin_metaplugin_ab736d40 === 'function') {
+    await nuxt_plugin_metaplugin_ab736d40(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_6503bfd6 === 'function') {
-    await nuxt_plugin_axios_6503bfd6(app.context, inject)
+  if (typeof nuxt_plugin_iconplugin_a2242258 === 'function') {
+    await nuxt_plugin_iconplugin_a2242258(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_axios_da65fb1e === 'function') {
+    await nuxt_plugin_axios_da65fb1e(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_vuexpersist_13f465a2 === 'function') {
@@ -229,8 +234,8 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_aos_3e747fca(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_11900991 === 'function') {
-    await nuxt_plugin_plugin_11900991(app.context, inject)
+  if (typeof nuxt_plugin_plugin_676ab6ed === 'function') {
+    await nuxt_plugin_plugin_676ab6ed(app.context, inject)
   }
 
   // Lock enablePreview in context

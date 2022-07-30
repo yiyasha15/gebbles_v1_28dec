@@ -1,145 +1,44 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card
-      class="ma-1"
+      style="margin:2px;"
       data-view
       @click="openDialog(journey.id)" 
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="160" 
-    >
+      width="115"
+       max-height="105">
       <v-img
-        v-if = journey.jophoto1 :src = "journey.jophoto1" 
-        :lazy-src= "journey.jophoto1" 
+        v-if = journey.jp1thumb :src = "journey.jp1thumb" 
+        :lazy-src= "journey.jp1thumb" 
         class="grey lighten-2 white--text"
-        height="100"
-        width="160"
-      />
+        height="73"
+        width="115"/>
+      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73"
+        width="115" contain/>
       <v-dialog
+        max-width="800"
         v-model="dialog"
         persistent
-        width="70%">
-        <div class="rounded-lg white">
-          <v-col cols="12" align="end" justify="end"  class="mt-2">
-          <v-btn icon color="error" @click="closeDialog" >
+        class="ma-12 overflow-hidden">
+        <div class="rounded-lg white" max-width="800"> 
+          <v-row align="end" justify="end" class="px-2 pt-2 ma-0" >
+          <v-btn icon color="error" @click="closeDialog"  align="end" justify="end" >
             <v-icon >mdi-close</v-icon>
           </v-btn>
-          </v-col>
-          <v-row>
-            <v-col cols="12" md="6" align="center" justify="center">
-              <v-row>
-                <client-only>
-                  <Slider
-                      :autoplay = false
-                      width="600px"
-                      height="500px">
-                      <div v-if="fullJourney">
-                      <div v-if="fullJourney.jophoto1 !=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto1"
-                            contain
-                            height="500px"
-                            width="800px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto2!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto2"
-                            contain
-                            height="500px"
-                            width="800px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto3!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto3"
-                            contain
-                            height="500px"
-                            width="800px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto4!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto4"
-                            contain
-                            height="500px"
-                            width="800px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="fullJourney.jophoto5!=null">
-                      <SliderItem>
-                      <v-img
-                            :src="fullJourney.jophoto5"
-                            contain
-                            height="500px"
-                            width="800px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      </div>
-                  </Slider>
-                </client-only>
-              </v-row>
-            </v-col>
-            <v-col cols="12" md="6" class="pl-6">
-              <div v-if="loggedInUser">
-              <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="px-7 pt-2">
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon small>
-                      <v-icon color="indigo" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
-                    </v-btn>
-                    </template>
-                    <span>Edit</span>
-                    </v-tooltip>
-                <v-dialog v-model="dialogDelete" width="500">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-tooltip top v-bind="attrs" v-on="on">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn small icon>
-                                <v-icon color="error" small  @click="saveJourneyId(journey.id)" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </template>
-                        <span>Delete</span>
-                      </v-tooltip>
-                    </template>
-                    <v-card class="pa-4">
-                        <p> Are you sure you want to delete this journey?</p>
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn class="px-4 text-decoration-none" small rounded color="error" dark
-                            @click="confirmDelete(rm)">Delete</v-btn>
-                        <v-btn color="indigo" class="px-4 text-decoration-none" small rounded outlined  @click="dialogDelete = false">
-                            Cancel
-                        </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-              </v-row>
-              </div>
-              <v-row class="px-4">
-                <h5 class="font-weight-light">{{journey.jodate}}</h5>
-              </v-row>
-              <v-row class="px-4 pt-4" v-if="fullJourney">
-                <!-- {{fullJourney}} -->
-                  <h4>{{fullJourney.joevent}}</h4> 
-                  <v-spacer></v-spacer>
-                <v-btn v-if="fullJourney.jolink"  icon color="indigo" @click="openlink">
+          </v-row>
+          <v-container style="margin:auto; max-width:768px; " class="pt-0 pb-1" >
+          <v-row class="ma-0 pl-2" v-if="fullJourney">
+                <h5 v-if="journey.jodate" class="font-weight-light pt-2">{{dateFormat(journey.jodate).date}}</h5>
+                <v-spacer></v-spacer>
+                <v-btn v-if="fullJourney.jolink"  icon color="black" @click="openlink">
                   <v-icon >mdi-link</v-icon>
                 </v-btn>
                 <v-tooltip v-if="fullJourney.ishighlight" top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs"
                         v-on="on">
-                        <v-icon class="pl-2 float-right" yellow small>mdi-star</v-icon>
+                        <v-icon class="pl-2 float-right" color="orange" small>mdi-star</v-icon>
                     </v-btn>
                   </template>
                   <span>This is a highlighted post.</span>
@@ -153,20 +52,130 @@
                   </template>
                   <span>This is your private post.</span>
                 </v-tooltip>
-              </v-row>
-              <v-row class="pa-4 ">
-                <p><nuxt-link :to="'/'+ journey.username"><b>{{journey.username}}</b> </nuxt-link> <span v-if="fullJourney">{{fullJourney.jocontent}}</span></p>
-              </v-row>
-            </v-col>
           </v-row>
+          </v-container>
+          <v-row align="center" justify="center" class="ma-0">
+            <client-only>
+              <Slider 
+                  :autoplay = false
+                  width="768px" height="310px"
+                  >
+                  <div v-if="fullJourney">
+                  <div v-if="fullJourney.jophoto1 !=''">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto1"
+                        contain
+                        max-height="310px"
+                        max-width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div>
+                  <div v-if="fullJourney.jophoto2!=''">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto2"
+                        contain
+                        height="310px"
+                        width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div>
+                  <!-- <div v-if="fullJourney.jophoto3!=null">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto3"
+                        contain
+                        height="310px"
+                        width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div>
+                  <div v-if="fullJourney.jophoto4!=null">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto4"
+                        contain
+                        height="310px"
+                        width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div>
+                  <div v-if="fullJourney.jophoto5!=null">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto5"
+                        contain
+                        height="310px"
+                        width="768px"
+                      ></v-img>
+                  </SliderItem>
+                  </div> -->
+                  </div>
+              </Slider>
+            </client-only>
+          </v-row>
+          <v-container style="margin:auto; max-width:768px; " >
+            <v-row class="pt-2 px-2 ma-0">
+            <h5><nuxt-link :to="'/'+ journey.username" class="text-decoration-none">{{journey.username}} </nuxt-link> </h5>
+            <v-spacer></v-spacer>
+            <div v-if="loggedInUser">
+          <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="pa-2">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon small>
+                  <v-icon  color="black" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
+                </v-btn>
+              </template>
+              <span>Edit</span>
+            </v-tooltip>
+            <v-dialog v-model="dialogDelete" width="500">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-tooltip top v-bind="attrs" v-on="on">
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn small icon >
+                            <v-icon color="error" small  @click="saveJourneyId(journey.id)" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Delete</span>
+                  </v-tooltip>
+                </template>
+                <v-card class="pa-4">
+                    <p> Are you sure you want to delete this journey?</p>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn class="px-4 text-decoration-none" small color="error" dark :loading="deleteLoading"
+                        @click="confirmDelete(rm)">Delete</v-btn>
+                    <v-btn color="black" class="px-4 text-decoration-none" small outlined  @click="dialogDelete = false">
+                        Cancel
+                    </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+          </v-row>
+            </div>
+          </v-row>
+          <v-row class="pt-2 px-2 ma-0" v-if="fullJourney">
+              <h5>{{fullJourney.joevent}}</h5> 
+              <v-spacer></v-spacer>
+              <h5 v-if="fullJourney.city" class="font-weight-light pr-1 ">{{fullJourney.city}}</h5>
+            <country-flag v-if="fullJourney.country" :country= fullJourney.country />
+          </v-row>
+          <v-row class="py-2 px-2 ma-0">
+          <h5 class="font-weight-light" v-if="fullJourney">{{fullJourney.jocontent}}</h5>
+          </v-row>
+          </v-container>
         </div>
       </v-dialog>
-      <v-card-actions >
-        <div width="100" class="text-decoration-none caption" style="max-width: fit-content; height:2em; overflow:hidden">
-        <p class="font-weight-bold">{{ journey.joevent }} </p>
+      <v-card-actions height="32px">
+        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
+          line-height: initial;
+          overflow: hidden">
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ journey.joevent }} </p>
         </div>
         <v-spacer></v-spacer>
-        <v-icon v-if="journey.isprivate" class="pl-2 float-right" small>mdi-lock</v-icon>
+         <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
+        <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -174,6 +183,8 @@
 <script>
 import {mapGetters} from 'vuex'
 import { Slider, SliderItem } from "vue-easy-slider";
+import EventService from '@/services/EventService.js'
+import CountryFlag from 'vue-country-flag'
 
 export default {
   props: {
@@ -181,16 +192,40 @@ export default {
   },
   components: {
     Slider,
-    SliderItem
+    SliderItem,
+    CountryFlag
   },
   methods:{
+    dateFormat(recdate){
+      if(recdate){
+        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let date = recdate;
+        let datetype= date.slice(8, 10);
+        let month = date.slice(5, 7);
+        let yeartype = date.slice(0, 4)
+        const regex = new RegExp("^0+(?!$)",'g');
+        month = month.replaceAll(regex, "");
+        let monthtype = months[month-1]
+        date = datetype+" "+monthtype +" "+yeartype
+        return{date}
+        }
+      },
     openDialog() {
     this.dialog= true
-    this.$store.dispatch("check_full_journey", this.journey.id,this.journey.username);
+    let config ={};
+      if(this.loggedInUser && this.loggedInUser.username == this.journey.username){
+         config = {
+          headers: {"content-type": "multipart/form-data",
+              "Authorization": "Bearer " + state.auth.user.access_token}
+          };
+      }
+        EventService.getFullJourney(this.journey.id,config).then(res =>
+        {
+          this.fullJourney = res.data
+        })
     },
     closeDialog() {
     this.dialog= false
-    this.$store.dispatch("remove_full_journey");
     },
     openlink(){
       var url = this.fullJourney.jolink;
@@ -202,37 +237,49 @@ export default {
       this.rm=id;
     },
     editJourney(journey){
+      console.log("edit");
       this.$store.dispatch("check_editing_obj", journey);
       this.$router.push("/create/journey");
     },
     async confirmDelete(id){
+      this.deleteLoading =true
       const config = {
       headers: {"content-type": "multipart/form-data",
           "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
       };
       try {
           await this.$axios.$delete("/v1/artist/journey/"+id , config);
+          console.log("Journey deleted!");
+          this.$store.dispatch("check_user_journey", this.$store.state.auth.user.user.username)
+          this.deleteLoading =false
           this.dialogDelete =false;
           this.dialog = false
           this.snackbar = true;
+          // this.$router.push("/"+this.$store.state.auth.user.user.username+"/about");
           //send event to parent component i.e journey page
-          // this.$emit('delete',this.journey.username)
-          this.$router.push("/create/journey");
-          // this.$router.push("/"+this.journey.username+"/journey");
+          this.$emit('delete',this.journey.username)
       } 
       catch (e) {
           console.log(e);
+          this.deleteLoading =false
+          // this.$router.push("/"+this.$store.state.auth.user.user.username+"/about");
       }
       },
     },
     computed: {
-        ...mapGetters(['loggedInUser','fullJourney']),
-	  },
+        ...mapGetters(['loggedInUser']),
+    },
+    
     data() {
       return {
+        fullJourney:null,
+        deleteLoading:false,
         dialog: false,
         dialogDelete:false,
-        rm:""
+        rm:"",
+        list: [
+        { width: '100%', height: '100%' },
+      ],
         }
     }
   }

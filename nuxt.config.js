@@ -7,7 +7,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    titleTemplate: '%s - ' + 'Gebbles',
+    titleTemplate: '%s - ' + 'gebbles',
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -64,12 +64,12 @@ export default {
           success: colors.green.accent3
         },
         light: {
-          
-          background: '#f3f4f7' ,
-          primary: '#3f51b5',
-          secondary: '#b0bec5',
+          // background-color: '#ece0c7',
+          // background: '#ece0c7' ,
+          primary: '#815A44',
+          secondary: '#815A44',
           accent: '#8c9eff',
-          error: '#b71c1c',
+          error: '#A30000',
         },
       }
     }
@@ -103,7 +103,7 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {},
-    transpile:['vue-youtube-embed', 'vuex-persist'],
+    transpile:['vue-youtube-embed', 'vuex-persist', 'vue-instagram-embed'],
   },
   //nuxt auth module for authenticating users.
   auth: {
@@ -111,9 +111,9 @@ export default {
       local: {
         endpoints: {
           login: { url: 'v1/auth/login/', method: 'post', propertyName: 'token' },
-          refresh: { url: 'v1/auth/refresh', method: 'post', propertyName: false },
+          // refresh: { url: 'v1/auth/refresh', method: 'post', propertyName: false },
           logout: {url: 'v1/auth/logout/', method: 'post'},
-          user: { url: 'v1/auth/user/', method: 'post' }
+          // user: { url: 'v1/auth/user/', method: 'post' }
         },
         tokenType: ''
       }

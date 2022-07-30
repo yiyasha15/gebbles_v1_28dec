@@ -3,17 +3,19 @@ import Vue from 'vue'
 import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch, promisify, globalHandleError, urlJoin, sanitizeComponent } from './utils'
 import NuxtError from '../layouts/error.vue'
 import NuxtLoading from './components/nuxt-loading.vue'
+import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
 import '../assets/style.css'
 
 import '../layouts/global.css'
 
+import '../node_modules/vuetify/dist/vuetify.css'
+
 import _6f6c098b from '../layouts/default.vue'
-import _2d22509f from '../layouts/e1t1.vue'
-import _77a66d33 from '../layouts/login.vue'
+import _ee76a6e4 from '../layouts/signup.vue'
 import _47d7becc from '../layouts/username.vue'
 
-const layouts = { "_default": sanitizeComponent(_6f6c098b),"_e1t1": sanitizeComponent(_2d22509f),"_login": sanitizeComponent(_77a66d33),"_username": sanitizeComponent(_47d7becc) }
+const layouts = { "_default": sanitizeComponent(_6f6c098b),"_signup": sanitizeComponent(_ee76a6e4),"_username": sanitizeComponent(_47d7becc) }
 
 export default {
   render (h, props) {
@@ -48,7 +50,7 @@ export default {
       }
     }, [
       loadingEl,
-
+      h(NuxtBuildIndicator),
       transitionEl
     ])
   },
@@ -99,10 +101,6 @@ export default {
 
     isFetching () {
       return this.nbFetching > 0
-    },
-
-    isPreview () {
-      return Boolean(this.$options.previewData)
     },
   },
 
@@ -188,6 +186,10 @@ export default {
     },
 
     setLayout (layout) {
+      if(layout && typeof layout !== 'string') {
+        throw new Error('[nuxt] Avoid using non-string value as layout property.')
+      }
+
       if (!layout || !layouts['_' + layout]) {
         layout = 'default'
       }

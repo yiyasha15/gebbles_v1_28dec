@@ -1,102 +1,225 @@
 <template>
-    <v-app class="ma-2">
-        <div v-if="upcoming.length >0">
-        <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Upcoming events</h3>
-        <div class="d-flex flex-wrap pa-0 my-4" >
-            <div v-for = "upcoming in upcoming" :key = "upcoming.index" class="pa-0">
-                <journey-card :journey = "upcoming" ></journey-card>
-            </div>
+    <v-app>
+        <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:670px;">
+        <!-- <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 hidden-sm-and-down">
+            <h3 class="d-inline pl-2 font-weight-medium">Share your journey</h3>
+            <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
+                <v-icon >mdi-plus</v-icon>
+            </v-btn>
         </div>
+        <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" class="my-4 hidden-md-and-up"
+        style="max-width:357px; margin:auto;">
+            <h3 class="d-inline pl-2 font-weight-medium">Share your journey</h3>
+            <v-btn x-small icon outlined color="black" class="ml-2" @click="createJourney"> 
+                <v-icon >mdi-plus</v-icon>
+            </v-btn>
+        </div> -->
+        <div v-if="upcoming.length || journey.length || highlights.length"> 
+        <!-- check if journey is available -->
+        <div v-if="upcoming.length">
+        <div class="my-4">
+        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Upcoming events</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Upcoming events</h3>
+        </div>
+        <v-layout wrap row justify-start class="my-2 hidden-md-and-up" style="max-width:357px; margin:auto;">
+            <div v-for="journey in upcoming" :key ="journey.index">
+                <journey-card :journey = "journey" ></journey-card>
+            </div>
+        </v-layout>
+        <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
+            <div v-for="journey in upcoming" :key ="journey.index">
+                <journey-card-desktop :journey = "journey" ></journey-card-desktop>
+            </div>
+        </v-layout>
+        <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
+        </div>
+        <div v-if="highlights.length">
+        <div class="my-4" >
+        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Highlights</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Highlights</h3>
+        
+        </div>
+        <v-layout wrap row justify-start class="my-2 hidden-md-and-up" style="max-width:357px; margin:auto;" >
+            <div v-for="journey in highlights" :key ="journey.index">
+                <journey-card :journey = "journey" ></journey-card>
+            </div>
+        </v-layout>
+        <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
+            <div v-for="journey in highlights" :key ="journey.index">
+                <journey-card-desktop :journey = "journey" ></journey-card-desktop>
+            </div>
+        </v-layout>
+        <v-card v-intersect="infiniteScrollingHighlights"></v-card>
         </div>
         <div v-if="journey.length">
-            <h3 class="font-weight-light mb-4 ml-2 mt-4 d-inline">Highlights</h3>
-            <v-btn x-small v-if="isAuthenticated && loggedInUser.user.username==artist.username" 
-            icon outlined color="indigo" class="ml-2" @click="createJourney">
-                <v-icon >mdi-plus</v-icon>
-            </v-btn>
-            <div class="d-flex flex-wrap pa-0 my-4" >
-                <div v-for = "journey in journey" :key = "journey.index" class="pa-0">
-                    <journey-card :journey = "journey" v-if="journey.ishighlight" ></journey-card>
-                </div>
-            </div>
-            <div >
-                <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Journey</h3>
-                <div class="d-flex flex-wrap" >
-                    <div v-for = "journey in journey" :key = "journey.index" >
-                        <journey-card :journey = "journey" v-if="!journey.ishighlight"></journey-card>
-                    </div>
-                </div>
-            </div>
+        <div class="my-4">
+        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Journey</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Journey</h3>
         </div>
-        <div v-else >
-            <div v-if="isAuthenticated && loggedInUser.user.username==artist.username" >
-            <h3 class="font-weight-light mb-4 pl-4 mt-4 d-inline">Share your journey</h3>
-            <v-btn x-small icon outlined color="indigo" class="ml-2" @click="createJourney">
-                <v-icon >mdi-plus</v-icon>
-            </v-btn>
-            </div>
+            <v-layout wrap row justify-start class="my-2 hidden-md-and-up" style="max-width:357px; margin:auto;">
+                <div v-for="journey in journey" :key ="journey.index">
+                    <journey-card :journey = "journey" ></journey-card>
+                </div>
+            </v-layout>
+            <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
+                <div v-for="journey in journey" :key ="journey.index">
+                    <journey-card-desktop :journey = "journey" ></journey-card-desktop>
+                </div>
+            </v-layout>
+            <v-card v-intersect="infiniteScrollingJourney"></v-card>
+        </div>
+        </div>
+        <div v-else>
             <center>
-                <img class="mt-12" src="@/assets/no_posts.png" height="auto" width="30%">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo.png')"/>
+                <h3>No posts yet. </h3>
             </center>
         </div>
+        </v-container>
+        <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
+            <div class="my-4">
+        <h3 class="font-weight-light pl-2 hidden-md-and-up" style="max-width:357px; margin:auto;">Journey</h3>
+        <h3 class="font-weight-light pl-2 hidden-sm-and-down" style="max-width:670px; margin:auto;">Journey</h3>
+        </div>
+            <v-layout wrap row justify-start class="my-2 hidden-md-and-up" style="max-width:357px; margin:auto;">
+                <div v-for="n in this.looploader" :key ="n.index">
+                        <v-skeleton-loader style="margin:2px" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                    </div>
+            </v-layout>
+            <v-layout wrap row justify-start class="my-2 hidden-sm-and-down" style="max-width: 670px; margin:auto;" >
+                <div v-for="n in this.looploader" :key ="n.index">
+                        <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                    </div>
+            </v-layout>
+        </v-container>
     </v-app>
 </template>
 <script>
 import { mapGetters} from 'vuex'
 import EventService from '@/services/EventService.js'
 import JourneyCard from "@/components/JourneyCard.vue"
+import JourneyCardDesktop from "@/components/JourneyCardDesktop.vue"
 export default {
     head() {
         return {
-            title: this.artist.username,     //do not miss "this"
-            meta: [
-                {
-                    hid: 'description',
-                    name: 'description',
-                    content: 'What you need to know about this artist #' + this.artist.name
-                }
-            ]
+        title: this.artist.username,     //do not miss "this"
+        meta: [
+            {
+                hid: 'description',
+                name: 'description',
+                content: 'What you need to know about this artist #' + this.artist.name
+            }
+        ]
         }
     },
     components:{
-        JourneyCard
+        JourneyCard, JourneyCardDesktop
     },
     computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser']),
+    ...mapGetters(['isAuthenticated', 'loggedInUser',
+     'journey','upcoming','highlights', 
+     'journeyLoaded'
+     ]),
     },
     props: ["artist"],
-    async asyncData({error, params, store}) {
-        if(store.state.auth.user ){ //if user is logged in
-            if(store.state.auth.user.user.username == params.username){ //if user is checking own data
-                const config = {
-                headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + store.state.auth.user.access_token}
-                };
-                try {
-                let journey_response = await EventService.getJourney(params.username, config)
-                let upcoming_events = await EventService.getUpcomingEvents(params.username, config)
-                return {
-                        journey: journey_response.data,
-                        upcoming: upcoming_events.data
-                    }
-                } catch (err) {
-                    console.log(err);
-                    error({statusCode:503,  message: err.message})
-                    } 
-            }}
-        try {
-        let journey_response = await EventService.getJourney(params.username)
-        let upcoming_events = await EventService.getUpcomingEvents(params.username)
+    created(){
+        this.getJourneyApi(this.$route.params);
+    },
+    data() {
         return {
-                journey: journey_response.data,
-                upcoming: upcoming_events.data
-            }
-        } catch (err) {
-            console.log(err);
-            error({statusCode:503,  message: err.message})
+        // journeyLoaded:true,
+        search: "",
+        pageHighlights:null,
+        pageJourney:null,
+        pageUpcoming:null,
+        // highlights:[],
+        // journey:[],
+        // upcoming:[],
+        looploader:[1,1,1,1,1,1,1,1,1],
+        loading: true,
         }
     },
     methods: {
+    async getJourneyApi(params){
+        this.$store.dispatch("remove_journey");
+        this.$store.dispatch("check_user_journey", params.username)
+    // try {
+    //     let config;
+    //     if(this.isAuthenticated &&this.$store.state.auth.user.user.username == params.username)
+    //     {config = {
+    //     headers: {"content-type": "multipart/form-data",
+    //         "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+    //     };}
+    //     let journey_response = await EventService.getJourney(params.username,config)
+    //     let upcoming_response = await EventService.getUpcoming(params.username,config)
+    //     let highlights_response = await EventService.getHighlights(params.username,config)
+    //     this.journey= journey_response.data.results;
+    //     this.upcoming= upcoming_response.data.results;
+    //     this.highlights= highlights_response.data.results;
+    //     this.pageJourney = journey_response.data.next;
+    //     this.pageUpcoming = upcoming_response.data.next;
+    //     this.pageHighlights = highlights_response.data.next;
+    //     this.journeyLoaded = false
+    // } catch (err) {
+    //     console.log(err.response);
+    // }
+    },
+    infiniteScrollingJourney(entries, observer, isIntersecting) {
+        this.$store.dispatch("update_user_journey")
+        // if(this.pageJourney)
+        // { 
+        //     const key = 'id';
+        //     this.$axios.get(this.pageJourney).then(response => {
+        //     this.pageJourney= response.data.next;
+        //     response.data.results.forEach(item => this.journey.push(item));
+        //     // filter array so no duplicates
+        //     this.journey = [...new Map(this.journey.map(item =>
+        //         [item[key], item])).values()];
+            
+        // })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
+        // }
+    },
+    infiniteScrollingUpcoming(entries, observer, isIntersecting) {
+        this.$store.dispatch("update_user_upcoming")
+        // if(this.pageUpcoming)
+        // { 
+        //     const key = 'id';
+        //     this.$axios.get(this.pageUpcoming).then(response => {
+        //     this.pageUpcoming= response.data.next;
+        //     response.data.results.forEach(item => this.upcoming.push(item));
+        //     // filter array so no duplicates
+        //     this.upcoming = [...new Map(this.upcoming.map(item =>
+        //     [item[key], item])).values()];
+        // })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
+        // }
+    },
+    infiniteScrollingHighlights(entries, observer, isIntersecting) {
+        this.$store.dispatch("update_user_highlights")
+        // if(this.pageHighlights)
+        // { 
+        //     const key = 'id';
+        //     this.$axios.get(this.pageHighlights).then(response => {
+        //     this.pageHighlights= response.data.next;
+        //     response.data.results.forEach(item => this.highlights.push(item));
+        //     // filter array so no duplicates
+        //     this.highlights = [...new Map(this.highlights.map(item =>
+        //         [item[key], item])).values()];
+            
+        // })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
+        // }
+    },
     goback(){
         window.history.back();
     },

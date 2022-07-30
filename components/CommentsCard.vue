@@ -1,22 +1,23 @@
 <template>
-  <v-container class="ma-2 px-8">
-    <section>
+  <div >
+    <section >
       <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start">
-        <div v-for="artist in artists" :key ="artist.index">
           <nuxt-link :to="'/'+ comment.username">
-              <v-list-item-avatar size="36" v-if=" comment.username == artist.username && artist.thumb">
-                <img :src = "artist.thumb" alt="img">
+          <center>
+              <v-list-item-avatar size="36" v-if=" comment.artist_metadata.thumb">
+                <img :src = "comment.artist_metadata.thumb" alt="img">
               </v-list-item-avatar>
-              <v-list-item-avatar size="36" v-if=" comment.username == artist.username && !artist.thumb">
+              <v-list-item-avatar size="36" v-else>
                 <v-icon>
                       mdi-account-circle
                   </v-icon>
               </v-list-item-avatar>
+          </center>
           </nuxt-link>
+        <div class="mb-2">
+          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{getTime(comment.timestamp).date}}</p>
+          <h5 class="mr-4"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}} </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span></h5>
         </div>
-        <div>
-          <div class="subtitle grey--text text-decoration-none"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none">{{comment.username}} </nuxt-link> <template> <p class="caption">{{comment.timestamp}}</p></template></div>
-          <p class="commentFormat">{{comment.comment}}</p></div>
             <v-spacer></v-spacer>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
@@ -36,14 +37,13 @@
                     </v-list-item>
                     <v-list-item
                     v-else
-                    class="text-decoration-none pl -6 pr-12"
+                    class="text-decoration-none pl-6 pr-12"
                     @click="reported(comment)"
                     >
                     <v-list-item-title>Report</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
-            <!-- <v-divider v-if="i + 1 < comments.length"></v-divider> -->
       </div>
     </section>
     <v-snackbar v-model="delete_snackbar">
@@ -52,7 +52,7 @@
     <v-snackbar v-model="report_snackbar">
         We have reported this comment.
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -68,7 +68,7 @@ import { mapGetters } from 'vuex'
         }
     },
     computed: {
-      ...mapGetters(['loggedInUser', 'artists' ,'isAuthenticated']),
+      ...mapGetters(['loggedInUser' ,'isAuthenticated']),
     },
     methods:{
       async deleted(comment){
@@ -92,10 +92,23 @@ import { mapGetters } from 'vuex'
             }
         };
         try {
+          console.log(comment);
           this.report_snackbar =true
         } catch (e) {
             console.log(e);
         }
+      },
+      getTime(timestamp){
+        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let date = timestamp;
+        let datetype= date.slice(8, 10);
+        let month = date.slice(5, 7);
+        let yeartype = date.slice(0, 4)
+        const regex = new RegExp("^0+(?!$)",'g');
+        month = month.replaceAll(regex, "");
+        let monthtype = months[month-1]
+        date = datetype+" "+monthtype +" "+yeartype;
+        return{ date}
       }
     }
   }
@@ -105,4 +118,3 @@ import { mapGetters } from 'vuex'
    white-space: pre-line;  
 }
 </style>
-

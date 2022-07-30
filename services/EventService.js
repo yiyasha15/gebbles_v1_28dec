@@ -18,8 +18,36 @@ const apiClient1 = axios.create({
 })
 
 export default {
+    getWhatsCooking() {
+        return apiClient1.get('/whatiscooking/list/')
+    },
+    getWhatsCookingId(uuid) {
+        return apiClient1.get('/whatiscooking/list/'+ uuid)
+    },
+    getWhatsCookingUsername(username) {
+        return apiClient1.get('/whatiscooking/mycookings/?username='+ username)
+    },
+    getStudentsCooking(username)
+    {
+        return apiClient1.get('/whatiscooking/my-students-videos/?teacher='+ username)
+    },
+    // getSearchedCooking() {
+    //     return apiClient1.get('/whatiscooking/search/?query='+ query)
+    // },
     getArtists() {
         return apiClient1.get('/artist/portfolios/list/')
+    },
+    getEvents() {
+        return apiClient1.get('/events/list')
+    },
+    getEvent(uuid) {
+        return apiClient1.get('/events/list/'+uuid)
+    },
+    getLegacyArtists(){
+        return apiClient1.get('/artist/portfolios/legacy/list/')
+    },
+    getSearchedArtist(query) {
+        return apiClient1.get('/artist/search/?query='+ query)
     },
     getArtist(username) {
         // return apiClient1.get('/artist/portfolios/' + username)
@@ -34,8 +62,11 @@ export default {
     getFullJourney(id,config) {
         return apiClient1.get('/artist/journey/' + id, config)
     },
-    getUpcomingEvents(username,config) {
+    getUpcoming(username,config) {
         return apiClient1.get('/artist/journey/upcomingevents/?username=' + username, config)
+    },
+    getHighlights(username,config) {
+        return apiClient1.get('/artist/journey/highlights/?username=' + username, config)
     },
     getEach1Teach1(id) {
         return apiClient1.get('/e1t1/sharing/' + id)
@@ -44,10 +75,13 @@ export default {
         return apiClient1.get('/e1t1/sharing/')
     },
     getPersonalMessages(id){
-        return apiClient1.get('/e1t1/qna/?shareid=' + id)
+        return apiClient1.get('/chat/?shareid=' + id)
     },
-    getEach1Teach1_user(username) {
-        return apiClient1.get('/e1t1/sharing/?username=' + username)
+    getEach1Teach1_teachers(username) {
+        return apiClient1.get('/e1t1/sharing/list/teachers/?username=' + username)
+    },
+    getEach1Teach1_students(username) {
+        return apiClient1.get('/e1t1/sharing/list/students/?username=' + username)
     },
     getShareLove(id){
         return apiClient1.get('/e1t1/sharing/love/?shareidobj=' + id)
@@ -55,11 +89,11 @@ export default {
     getShareComments(id){
         return apiClient1.get('/e1t1/sharing/comments/?shareidobj=' + id)
     },
-    getLearnReaction(id){
-        return apiClient1.get('/e1t1/learnings/likes/?learningidobj=' + id)
+    getCookReaction(id){
+        return apiClient1.get('/whatiscooking/cooking/likes/?cookingidobj=' + id)
     },
-    getLearnComments(id){
-        return apiClient1.get('/e1t1/learnings/comments/?learningidobj=' + id)
+    getCookComments(id){
+        return apiClient1.get('/whatiscooking/cooking/comments/?cookingidobj=' + id)
     },
     getNotificationsSharing(username,config){
         return apiClient1.get('/notifications/e1t1/?receiver=' + username, config)

@@ -1,149 +1,137 @@
 <template>
-    <v-container class="ma-24">
-        <v-row>
-            <v-col>
-                <v-container>
-                    <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-                    <h2 align="center" justify="center">Each One Teach One</h2>
-                    <h3 class="text-xs-center ma-6" align = "center">
-                        Here we can acknowledge all those HipHop artists who passed their knowledge,
-                        skill and experience to make us better at our own craft. You can tag and appreciate 
-                        your teachers and peers and let them know how much their words and teachings meant to 
-                        you in your own journey. Similarly you will have a complete database of all your 
-                        students and peers who learned something from you when they tag you.
-                    </h3>
-                </v-container>
-                <!-- {{sharing}} <br><br>
-                {{share_obj}} -->
-
-            </v-col>
-        </v-row>
+    <v-container class="ma-24" style="max-width:550px;">
+            <div align="left" justify="left">
+            <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        </div>
         <v-row>
         <v-col>
-        <v-stepper v-model="e6" vertical>
-        <div>
-            <v-stepper-step :complete="e6 > 1" step="1">
-            Mention your teacher
-            <!-- <small>Summarize if needed</small> -->
-            </v-stepper-step>
-
-            <v-stepper-content step="1">
-                <v-combobox
-                    v-model="teacher_obj"
-                    :items="artists"
-                    color="blue-grey lighten-2"
-                    label="Teacher name"
-                    item-text="artist_name"
-                    item-value="username"
-                    @input="addTeacher"
-                    >
-                    <template v-slot:selection="data">
-                        <v-chip
-                        v-bind="data.attrs"
-                        :input-value="data.selected"
-                        close
-                        @click:close="teacher_obj = ''"
-                        >
-                        <v-avatar v-if="data.item.thumb" left>
-                            <v-img :src="data.item.thumb"></v-img>
-                        </v-avatar>
-                        <v-avatar v-else left>
-                            <v-icon dark>
-                                mdi-account-circle
-                            </v-icon>
-                        </v-avatar>
-                        <template  v-if="data.item.username" >
-                        {{ data.item.username }}
-                        </template>
-                        <template v-else >
-                        {{ data.item}}
-                        </template>
-                        </v-chip>
-                    </template>
-                    <template v-slot:item="data">
-                        <template v-if="typeof data.item !== 'object'">
-                        <v-list-item-content v-text="data.item.username"></v-list-item-content>
-                        </template>
-                        <template v-else>
-                        <v-list-item-avatar v-if="data.item.thumb">
-                            <img :src="data.item.thumb">
-                        </v-list-item-avatar>
-                        <v-list-item-avatar v-else >
-                            <v-icon>
-                                mdi-account-circle
-                            </v-icon>
-                        </v-list-item-avatar>
-                        <v-list-item-content v-if="data.item.username">
-                            <v-list-item-title v-html="data.item.username"></v-list-item-title>
-                            <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
-                        </v-list-item-content>
-                        </template>
-                    </template>
-                </v-combobox>
-                <v-select
-                :items="countries"
-                item-text="name"
-                item-value="code"
-                v-model = "sharing.s_teacher_country"
-                label= "Teacher's country"
-                clearable>
-                </v-select>
-            <v-btn color="primary" text outlined @click="e6 = 2">Continue</v-btn>
-            <v-btn color="primary" text @click="goback">Cancel</v-btn>
-            </v-stepper-content>
-        </div>
-    
-        <v-stepper-step :complete="e6 > 2" step="2">Do you have a click with your teacher?
-            <small>(if not, you can add their image.)</small>
+            <h2 align="center" justify="center">Each One Teach One</h2>
+        <v-stepper  v-model="e6" vertical>
+        <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
+            Mention the person that inspired you.*
+        <small>If that person is not yet in this platform, mention them and tag them later when they join.<br></small>
         </v-stepper-step>
-        <v-stepper-content step="2" style="border-left: none;">
-                <input
+        <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0">
+            <v-combobox
+                v-model="teacher_obj"
+                :items="artists"
+                prepend-icon="mdi-account-search-outline"
+                label="Search artists..."
+                item-text="artist_name"
+                item-value="username"
+                ref="artistListComboBox"
+                @change="onAutoCompleteSelection"
+                @keyup="customOnChangeHandler"
+                @paste="customOnChangeHandler"
+                @input="addTeacher"
+                >
+                <template v-slot:selection="data">
+                    <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click:close="teacher_obj = ''"
+                    >
+                    <v-avatar v-if="data.item.thumb" left>
+                        <v-img :src="data.item.thumb"></v-img>
+                    </v-avatar>
+                    <v-avatar v-else left>
+                        <v-icon dark>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-avatar>
+                    <template  v-if="data.item.username" >
+                    {{ data.item.username }}
+                    </template>
+                    <template v-else >
+                    {{ data.item}}
+                    </template>
+                    </v-chip>
+                </template>
+                <template v-slot:item="data">
+                    <template v-if="typeof data.item !== 'object'">
+                    <v-list-item-content v-text="data.item.username"></v-list-item-content>
+                    </template>
+                    <template v-else>
+                    <v-list-item-avatar v-if="data.item.thumb">
+                        <img :src="data.item.thumb">
+                    </v-list-item-avatar>
+                    <v-list-item-avatar v-else >
+                        <v-icon>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content v-if="data.item.username">
+                        <v-list-item-title v-html="data.item.username"></v-list-item-title>
+                        <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
+                    </v-list-item-content>
+                    </template>
+                </template>
+            </v-combobox>
+            <v-select
+            prepend-icon="mdi-earth"
+            :items="countries"
+            item-text="name"
+            item-value="code"
+            v-model = "sharing.s_teacher_country"
+            label= "Country they are from"
+            clearable>
+            </v-select>
+        <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
+        <v-btn color="primary" small text @click="goback">Cancel</v-btn>
+        </v-stepper-content>
+        <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Upload an image together.*
+            <small>(or, you can add their image.)</small>
+        </v-stepper-step>
+        <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
+            <div>
+            <div v-if="!imageData" @click="onPick" style="cursor:pointer;  width:152px;" class="mb-4 rounded-lg grey lighten-4" >
+                <v-icon class="pa-16">mdi-plus</v-icon>
+                <input 
                 type="file" 
-                name = "sharing.s_photo" 
+                name = "imageData" 
                 style="display:none" 
                 ref="fileInput" 
                 accept="image/*"
                 required
                 @change="onFileChange">
-                <template v-if="imageData">
-                <v-img :src="imageData" height="300px" width="350px"></v-img>
-                </template>
-                <v-btn v-if="!imageData" outlined color="blue-grey" class="ma-2 white--text" @click="onPick" >
-                    Upload<v-icon right dark> mdi-cloud-upload </v-icon>
+            </div>
+            <div v-else class="mb-4">
+            <v-img :src="imageData" height="auto" width="242px" class="mx-auto" contain>
+                <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage">
+                <v-icon color="black" small>mdi-close</v-icon>
                 </v-btn>
-                <v-btn v-else outlined color="error" class="ma-2" @click="imageData=''; sharing.s_photo = ''" >
-                    Remove<v-icon right dark> mdi-close</v-icon>
-                </v-btn>
-            <v-btn color="primary" text outlined @click="e6 = 3">Continue</v-btn>
-            <v-btn color="primary" text @click="e6 = 1">Previous</v-btn>
-            <v-btn text @click="goback">Cancel</v-btn>
+            </v-img>
+            </div>
+            </div>
+            <v-btn color="black" text outlined @click="e6 = 3" small>Next</v-btn>
+            <v-btn color="error" text @click="e6 = 1" small>Previous</v-btn>
+            <v-btn color="primary" text @click="goback" small>Cancel</v-btn>
         </v-stepper-content>
     
-        <v-stepper-step :complete="e6 > 3" step="3">Each One Teach One</v-stepper-step>
-        <v-stepper-content step="3" style="border-left: none;">
+        <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
+        <v-stepper-content step="3" style="border-left: none;" width="100%" class="ma-0">
             <v-textarea
+            counter :maxlength="485"
                 v-model = "sharing.s_appreciation"
+                prepend-icon="mdi-account-heart-outline"
                 label= "Share the one thing you remember the most about her/him.*"
                 clearable>
             </v-textarea>
-            <v-text-field
+            <v-text-field 
+            prepend-icon="mdi-map-marker-outline"
                 v-model = "sharing.s_location"
                 label= "Where did you meet?"
                 :maxlength="50"
                 clearable>
             </v-text-field>
             <v-textarea
+            prepend-icon="mdi-book-outline"
+                :maxlength="485"
                 v-model = "sharing.s_learnings"
                 label= "Share about what you learnt from them."
                 clearable>
             </v-textarea>
-            <v-btn color="primary" text outlined @click="e6 = 4">Continue</v-btn>
-            <v-btn color="primary" text @click="e6 = 2">Previous</v-btn>
-            <v-btn text @click="goback">Cancel</v-btn>
-        </v-stepper-content>
-    
-        <v-stepper-step step="4">Share a video</v-stepper-step>
-        <v-stepper-content step="4" style="border-left: none;">
             <v-text-field
                 :error-messages="ytLinkError" 
                 color="red"
@@ -154,20 +142,26 @@
                 @input="showYoutubeVideo"
                 >
             </v-text-field>
-            <v-btn v-if="!share_obj" outlined small class="text-decoration-none"  color="indigo" dark
+            <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
+                <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
+            </v-row>
+            <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
+            <v-btn v-if="!share_obj" outlined small class="text-decoration-none" 
+             color="black" :loading="progressbar"
             @click="submit">Submit</v-btn>
-            <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark
+            <v-btn v-else outlined small class="text-decoration-none"  color="black"
+             :loading="progressbar" 
             @click="update">Update</v-btn>
-            <v-btn color="indigo" text @click="e6 = 3">Previous</v-btn>
-            <v-btn text @click="goback">Cancel</v-btn>
+            <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+            <v-btn color="primary" text small @click="goback">Cancel</v-btn>
         </v-stepper-content>
         </v-stepper>
         </v-col>
-        <v-col cols="12" md="6" class="px-sm-8 my-6 grey lighten-4 rounded-xl">
+        <!-- <v-col cols="12" md="6" class="px-sm-8 my-6 hidden-sm-and-down">
                 <v-row class="pb-6 pa-4 justify-center text-center">
-                    <h2> {{sharing.s_teacher_name}}</h2>
+                    <h2 class="font-weight-light"> {{sharing.s_teacher_name}}</h2>
                     <v-spacer></v-spacer>
-                    <h5>{{sharing.s_location}}</h5>
+                    <h5 class="pt-2 font-weight-light">{{sharing.s_location}}</h5>
                     <v-btn icon class="text-decoration-none" >
                         <country-flag :country= sharing.s_teacher_country />
                     </v-btn>
@@ -176,25 +170,21 @@
                     <v-img :src="imageData" height="500px" width="500px"></v-img>
                 </v-row>
                 <v-row class="justify-center text-center">
-                    <h5 class="pb-6 text-center">{{sharing.s_appreciation}} {{sharing.s_date}} </h5>
+                    <h5 class="pb-6 font-weight-light text-center">{{sharing.s_appreciation}} {{sharing.s_date}} </h5>
                 </v-row>
-                <v-row v-if="videoId" class=" justify-center text-center">
-                    <youtube :video-id= 'videoId'></youtube>
+                <v-row v-if="videoId" class=" justify-center text-center ">
+                    <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
                 </v-row>
-        </v-col>
+        </v-col> -->
         </v-row>
         <v-snackbar v-model="mention_teacher_snackbar">
             Please fill the required details.
-            <template v-slot:action="{ attrs }">
-                <v-btn
-                color="error"
-                icon
-                v-bind="attrs"
-                @click="mention_teacher_snackbar = false"
-                >
-                <v-icon>mdi-close</v-icon>
-                </v-btn>
-        </template>
+        </v-snackbar>
+        <v-snackbar v-model="youtube_snackbar">
+            Youtube link is incorrect.
+        </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            Some error occured. Please try again.
         </v-snackbar>
     </v-container>
 </template>
@@ -203,11 +193,14 @@ import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
+import InstagramEmbed from 'vue-instagram-embed';
+import EventService from '@/services/EventService.js'
+
 export default {
     middleware : 'check_auth',
     components: {
         CountryFlag,
-        Youtube
+        Youtube, InstagramEmbed
     },
     created (){
         // this.$store.dispatch("check_artists");
@@ -215,15 +208,17 @@ export default {
         {
             console.log(this.$store.getters.share_obj);
             this.sharing = Object.assign({}, this.$store.getters.share_obj);
-            this.imageData = this.sharing.s_photo;
+            this.imageData = this.sharing.image;
             this.teacher_obj = this.sharing.s_teacher_name;
             let url1 =this.sharing.s_teacher_video //getting value of youtube video urls
+            if(url1){
             let videoId = getIdFromURL(url1) //getting id from video url
             this.videoId = videoId //assigning the id to <youtube> video id
+            }
         }
     },
     computed: {
-        ...mapGetters(['artists', 'share_obj','usersPortfolio'])
+        ...mapGetters([ 'share_obj','usersPortfolio']),
     },
     data(){
         return {
@@ -476,7 +471,8 @@ export default {
                 teacher: "",
                 s_learnings:"",
                 s_teacher_name: "",
-                s_photo: "",
+                image:"",
+                image_mini:"",
                 s_appreciation: "",
                 s_teacher_country: "",
                 s_student_country: "",
@@ -487,24 +483,91 @@ export default {
             },
             imageData: "",
             e6: 1,
-            teacher_obj:"",
+            teacher_obj:null,
+            progressbar:false,
             mention_teacher_snackbar:false,
+            youtube_snackbar:false,
+            error_snackbar:false,
             videoId:'',
             ytLinkError:'',
+            artists:[],
+            debounce: null,
+            comboBoxModel: null,
         }
     },
+    watch: {
+    teacher_obj: function() {
+        console.log(this.teacher_obj);
+        if(this.teacher_obj)
+        {
+            EventService.getSearchedArtist(this.teacher_obj).then((value) => {
+                console.log("how",value);
+            this.artists = value.data});
+        }
+      }
+    },
     methods: {
+        searchArtists(){
+        this.artists=[]
+        clearTimeout(this.debounce)
+        this.debounce = setTimeout(() => {
+            // console.log(this.comboBoxModel);
+        if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
+        this.artists = value.data
+        });}
+        }, 100)
+        },
+        removeImage(){
+            this.imageData = ""
+            this.sharing.image=""
+            this.sharing.image_mini=""
+        },
+        onAutoCompleteSelection(){
+            this.comboBoxModel = this.teacher_obj;
+            this.searchArtists();
+        },
+        customOnChangeHandler(){
+        let vm = this;
+        setTimeout(function(){
+            if(vm.$refs.artistListComboBox){
+            vm.comboBoxModel = vm.$refs.artistListComboBox.internalSearch;
+            vm.searchArtists();
+            }
+        });
+        },
+        addTeacher(){
+            let t_name = typeof this.teacher_obj;
+            // console.log(this.teacher_obj);
+            // console.log(t_name);
+            // console.log(this.teacher_obj);
+            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            {
+                this.sharing.teacher = this.teacher_obj.username
+                this.sharing.s_teacher_name = this.teacher_obj.username 
+                this.sharing.s_teacher_country = this.teacher_obj.country
+            }
+            else
+            {
+                this.sharing.s_teacher_name = this.teacher_obj 
+                this.sharing.teacher = "" //making null because no artists to tag.
+            }
+        },
         showYoutubeVideo(){
             let url= this.sharing.s_teacher_video
             if (url != undefined || url != '') {        
                 var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                var regExpInsta = /(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/g; //instagram red exp
                 var match = url.match(regExp);
-                if (match && match[2].length == 11) {
-                    // Do anything for being valid        
+                var match2 = url.match(regExpInsta)
+                console.log(match,match2);
+                if (match && match[2].length == 11) {     
                     this.ytLinkError =``
-                } else {
+                } else if (match2 && match2[0].length ) {  
+                    this.ytLinkError =``
+                } 
+                else {
                     //invalid youtube url
-                    this.ytLinkError = `Enter a valid Youtube URL.`
+                    this.ytLinkError = `Enter a valid Youtube/Instagram URL.`
                 }
             }
             let videoId = getIdFromURL(url) //getting id from video url
@@ -525,82 +588,115 @@ export default {
             fileReader.onload = (e) => {
                     this.imageData = e.target.result;
                 }
-                fileReader.readAsDataURL(files[0]);
-                console.log(files[0]);
-                this.sharing.s_photo = files[0];
-                console.log(this.sharing);
-            }
-        },
-        addTeacher(){
-            let t_name = typeof this.teacher_obj;
-            console.log(t_name);
-            console.log(this.teacher_obj);
-            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
-            {
-                this.sharing.teacher = this.teacher_obj.username
-                this.sharing.s_teacher_name = this.teacher_obj.username 
-                this.sharing.s_teacher_country = this.teacher_obj.country
-            }
-            else
-            {
-                this.sharing.s_teacher_name = this.teacher_obj 
-                this.sharing.teacher = "" //making null because no artists to tag.
+                if(files[0])
+                {
+                    fileReader.readAsDataURL(files[0]);
+                    this.sharing.image = files[0];
+                    
+                }
             }
         },
         async submit() {
-            if(this.sharing.s_teacher_name != ""&& this.sharing.s_photo != "" && this.sharing.s_appreciation != "")
+            if(this.sharing.s_teacher_name != "" && this.sharing.s_appreciation != "" && this.sharing.image!='')
             {
+                this.progressbar =true
                 this.sharing.s_student_country = this.usersPortfolio.country;
-                const config = {
-                    headers: { "content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
-                };
-                let formData = new FormData();
-                // console.log(this.sharing);
-                for (let data in this.sharing) {
-                    formData.append(data, this.sharing[data]);
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.sharing.image).then((value) => {
+                    this.sharing.image =''
+                    this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formPost();
+                    });
                 }
-                console.log(this.sharing);
-                try {
-                    let response = await this.$axios.$post("/v1/e1t1/sharing/", formData, config);
-                    this.$router.push("/"+this.sharing.username+"/each1teach1/");
-                    console.log(response);
-                } catch (e) {
-                    if(e.response.status=='500')
-                    {
-                        console.log("500 error");
-                        this.$router.push("/"+this.sharing.username+"/each1teach1/");
-                        alert("500 error");
-                    }
-                    console.log("cant post!",e.response);
-                }
+            })
+                    
             }
             else{
+                this.progressbar =false;
                 this.mention_teacher_snackbar = true
             }
         },
         async update() {
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
+            this.progressbar =true
             let urlLink = this.sharing.s_teacher_video;
-            if(urlLink){ //if link exists check if it's valid
+            if(urlLink!= this.share_obj.s_teacher_video){ //if link exists check if it's valid
                 var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
                 '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
                 '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
                 '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
                 '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
                 '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                let check = !!pattern.test(this.share_obj.s_teacher_video);
-                console.log("pattern",pattern);
-                console.log("check",check);
+                let check = !pattern.test(this.share_obj.s_teacher_video);
+                // console.log("pattern",pattern);
+                // console.log("check",check);
                 if(!check){
+                    this.youtube_snackbar =true
+                    this.progressbar =false;
                     console.log("incorrect yt link");
                     return;
                 }
             }
+            if(typeof this.sharing.image == 'object')
+            {
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.sharing.image).then((value) => {
+                    this.sharing.image =''
+                    this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })
+            }
+            else
+            this.formUpdate();
+           
+        },
+        async formPost(){
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+            };
+            let formData = new FormData();
+                    for (let data in this.sharing) {
+                        formData.append(data, this.sharing[data]);
+                    }
+                    // console.log(this.sharing);
+                    try {
+                        let response =  await this.$axios.$post("/v1/e1t1/sharing/", formData, config);
+                        console.log(response);
+                        this.progressbar =false;
+                        this.$store.dispatch("check_user_teachers");
+                        this.$router.push("/e1t1/"+response.uuid);
+                    } catch (e) {
+                        this.progressbar =false;
+                        this.error_snackbar=true;
+                        this.$router.push("/"+this.sharing.username+"/each1teach1/");
+                        console.log("cant post!",e.response.data);
+                    }
+        },
+        async formUpdate(){
+             const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+            };
             let myObj1 = this.share_obj 
             let myObj2 = this.sharing
             // find keys 
@@ -614,22 +710,23 @@ export default {
             // now compare their keys and values  
             for(var i=0; i<keyObj1.length; i++) { 
                 if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                    console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                    // console.log("no change ",keyObj1[i]+' -> '+valueObj2[i]);	 
                 } 
-                else { 
+                else{
                     // it prints keys have different values 
                     let formName = new FormData();
                     formName.append(keyObj1[i], valueObj2[i]);
                     formName.append("id", this.sharing['id']);
-
-                    console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                    await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.id, formName, config);
-                    console.log( valueObj1[i] ," changed"); 
+                    // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                    await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
+                    // console.log( valueObj1[i] ," changed"); 
                 } 
             }
+            this.progressbar =false;
+            this.$store.dispatch("check_user_teachers");
             this.$store.dispatch("remove_share_obj");
-            this.$router.push("/"+this.$store.state.auth.user.user.username+"/each1teach1");
-        },
+            window.history.back();
+        }
     },
     }
 </script>

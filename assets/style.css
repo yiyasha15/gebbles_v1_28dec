@@ -1,7 +1,5 @@
-h1, h2, h3, h4, h5, h6, p {
-    /* font-family: 'Poiret One', cursive; */
+/* h1, h2, h3, h4, h5, h6, p {
     font-family: 'Poiret One',  cursive, sans-serif;
-    /* font-family: 'Sacramento', cursive; */
 }
 @font-face{
   font-family: 'Poiret One',  cursive sans-serif !important;
@@ -9,10 +7,18 @@ h1, h2, h3, h4, h5, h6, p {
 }
 .v-application {
   font-family: 'Poiret One',  cursive sans-serif !important;
-}
-/* h3, h4, h5, h6{
-  font-family: 'Poppins', sans-serif;
 } */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800;900&display=swap');
+h1, h2, h3, h4, h5, h6, p {
+  font-family: 'Poppins', sans-serif;
+}
+@font-face{
+font-family: 'Poppins',  cursive sans-serif !important;
+src: url('Poppins/Poppins-Regular.ttf') format('truetype')
+}
+.theme--light.v-application {
+font-family: 'Poppins',  cursive sans-serif !important;
+}
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.4s;
@@ -21,6 +27,14 @@ h1, h2, h3, h4, h5, h6, p {
 .page-leave-to {
   opacity: 0;
 }
-.app{
-  background-color: #f0f2f5;
+#app{
+  overflow-x: hidden;
 }
+.v-tab {
+  letter-spacing: 0 !important;
+padding: 0px 8px !important;}
+.v-tabs:not(.v-tabs--vertical):not(.v-tabs--right) > .v-slide-group--is-overflowing.v-tabs-bar--is-mobile:not(.v-slide-group--has-affixes) .v-slide-group__prev {
+  display: none !important ;}
+  .v-stepper--vertical .v-stepper__content {
+     padding: 24px !important;
+  }

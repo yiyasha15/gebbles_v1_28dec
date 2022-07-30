@@ -2,27 +2,27 @@
   <v-app>
     <!-- <plain-header/> -->
       <nuxt/>
-    <the-footer />
+    <!-- <the-footer /> -->
   </v-app>
 </template>
 
 <script>
-import PlainHeader from '@/components/PlainHeader'
+// import PlainHeader from '@/components/PlainHeader'
 import TheFooter from '@/components/TheFooter'
 export default {
   components:{
-    PlainHeader,
+    // PlainHeader,
     TheFooter
   },
   head() {  //head function (a property of vue-meta), returns an object
     return {
-      titleTemplate: '%s - InMyGroove',
+      titleTemplate: '%s - gebbles',
       meta: [
         {
           hid: 'description', //create page overrides the description, hid helps to stop redundancy
           name: 'description',
           content: 
-            'InMyGroove - The thread connecting music, movement and artists, connecting HipHop Elements'
+            'gebbles - The thread connecting music, movement and artists, connecting HipHop Elements'
         }
       ]
     }

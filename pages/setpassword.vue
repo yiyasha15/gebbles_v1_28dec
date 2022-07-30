@@ -3,7 +3,7 @@
         <v-container>
         <v-card width="490" class="mx-auto mt-16 ">
             <v-card-title class="justify-center align-center">
-                <h3>Set new password</h3>
+                <h3 >Set new password</h3>
             </v-card-title>
             <div style="padding:18px">
             <v-text-field     
@@ -25,7 +25,7 @@
 					:append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
 					@click:append="showPassword2 = !showPassword2"
 				/><v-card-actions class="mb-3 pb-6 justify-center">
-                <v-btn small class="text-decoration-none" outlined :loading="progressbar" color="indigo" dark
+                <v-btn small class="text-decoration-none" outlined :loading="progressbar" color="black" dark
                     @click="reset">Set new password</v-btn>
             </v-card-actions>
             </div>
@@ -65,7 +65,6 @@ export default {
     mounted(){
         let token = window.location.search; 
         token = token.substring(1);
-        console.log(token);
         this.token = token;
     },
     methods: {

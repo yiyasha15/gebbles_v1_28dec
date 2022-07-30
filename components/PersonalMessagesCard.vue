@@ -28,14 +28,14 @@
                 v-if="message.username == loggedInUser.user.username"
                 class="text-decoration-none pl-6 pr-12"
                 color="error"
-                @click="deleted(message.shareid)"
+                @click="deleted(message.uuid,message.shareid)"
                 >
                 <v-list-item-title>Delete</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 v-else
                 class="text-decoration-none pl-6 pr-12"
-                @click="reported(message.shareid)"
+                @click="reported(message.uuid)"
                 >
                 <v-list-item-title>Report</v-list-item-title>
                 </v-list-item>
@@ -45,7 +45,7 @@
         </div>
     </section>
     <v-snackbar v-model="delete_snackbar">
-            Deleted.
+            Message deleted.
             <template v-slot:action="{ attrs }">
             <v-btn
                 color="error"
@@ -58,7 +58,7 @@
             </template>
     </v-snackbar>
     <v-snackbar v-model="report_snackbar">
-        Reported.
+        Message reported.
         <template v-slot:action="{ attrs }">
         <v-btn
             color="error"
@@ -87,21 +87,21 @@ import store from 'vuex'
         }
     },
     mounted(){
-      // console.log(this.events);
+      // console.log(this.messages);
     },
     computed: {
         ...mapGetters(['loggedInUser', 'artists' ,'isAuthenticated']),
     },
     methods:{
-      async deleted(id){
+      async deleted(uuid, shareid){
         const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
         };
         try {
-            let response = await this.$axios.$delete("/v1/e1t1/qna/"+ id, config)
-            this.$store.dispatch("check_personal_room", id)
+            let response = await this.$axios.$delete("/v1/chat/"+ uuid, config)
+            this.$store.dispatch("check_personal_room", shareid)
             this.delete_snackbar =true
         } catch (e) {
             console.log(e.response);

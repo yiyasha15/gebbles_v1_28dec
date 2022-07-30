@@ -1,43 +1,65 @@
 <template>
-    <v-container >
+    <v-container style="max-width:1072px;">
         <div class="text-xs-center mb-6" align = "center">
             <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-            <!-- <v-btn small outlined  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/highlights/`">test</v-btn>
-            <v-btn small dark color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
-            <v-btn small outlined color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
+            <!-- <v-btn small outlined  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/highlights/`">test</v-btn>
+            <v-btn small dark color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
+            <v-btn small outlined color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
          </div>
+            <h2 class="mt-4" align="center" justify="center">Create your portfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row>
-            <v-col cols="12" md="6" class="pl-sm-6">
-                <v-row>
-                <v-col cols="8">
-                    <h3 class="mt-4">Build your website</h3>
-                </v-col>
-                <v-col cols="2">
-                    <v-row class="justify-end mt-4 mr-8">
-                    <v-tooltip right>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn icon v-bind="attrs" v-on="on" color="indigo"><v-icon>mdi-information-outline</v-icon></v-btn>
-                    </template>
-                    <span>Share about yourself. Who you are. What you like.<br> 
-                        The dance styles/crew that you represent along with your social handles.<br>
-                        You can preview it while uploading the information. <br>
-                        Time to upload contents, let's go.</span>
-                    </v-tooltip>
+                <!-- hidden-sm-and-down -->
+            <v-col cols="12" md="6" class="mt-12">
+                <v-row class="pb-6 justify-center text-center">
+                        <croppa
+                            v-model="cropImage"
+                            canvas-color="transparent"
+                            :width="350"
+                            :height="350"
+                            :show-loading="true"
+                            :initial-image="initialImage"
+                            :prevent-white-space="true"
+                            :remove-button-color="'black'"
+                        ></croppa>
                     </v-row>
-                </v-col>
-                </v-row>
+            </v-col>
+            <v-col cols="12" md="6">
                 <v-form v-on:submit.prevent="submit_about">
+                    <!-- <v-row class="py-4 justify-center text-center hidden-md-and-up">
+                            <croppa
+                                v-model="cropImage1"
+                                canvas-color="transparent"
+                                :width="320"
+                                :height="320"
+                                :show-loading="true"
+                                :initial-image="initialImage"
+                                :prevent-white-space="true"
+                                :remove-button-color="'black'"
+                            ></croppa>
+                        </v-row> -->
+                        <!-- <v-row class="py-4 justify-center text-center hidden-sm-and-down">
+                        <croppa
+                            v-model="cropImage"
+                            canvas-color="transparent"
+                            :width="580"
+                            :height="580"
+                            :show-loading="true"
+                            :initial-image="initialImage"
+                            :prevent-white-space="true"
+                            :remove-button-color="'black'"
+                        ></croppa></v-row> -->
                         <v-row>
-                            <v-col cols="12" md="9">
+                            <v-col cols="12" md="10">
                                 <v-text-field
                                     required 
                                     v-model = "artist_data.artist_name"
                                     label="Name"
+                                    prepend-icon="mdi-account-edit-outline"
                                     :maxlength="30">
                                 </v-text-field>
                                 <v-select label="Representing(country)" v-model= "artist_data.country"
-                                    :items="countries"
+                                    :items="countries" prepend-icon="mdi-earth"
                                     item-text="name"
                                     item-value="code"
                                     required
@@ -47,7 +69,7 @@
                     </v-form>
                 <v-form v-on:submit.prevent="submit">
                     <v-row>
-                        <v-col cols="12" md="9">
+                        <v-col cols="12" md="10">
                             <v-autocomplete 
                                 v-model= "dummy_style" 
                                 :items="styles" 
@@ -56,12 +78,13 @@
                                 hide-selected
                                 clearable
                                 deletable-chips
-                                label="Dance Style" 
+                                label="Style you represent" 
                                 @input="makeString"
                                 multiple>
                             </v-autocomplete>
                             <v-text-field
                                 v-model= "bio.crew"
+                                prepend-icon="mdi-account-group-outline"
                                 label="Crew you represent"
                                 :maxlength="120">
                             </v-text-field>
@@ -71,8 +94,8 @@
                                 :maxlength="120">
                             </v-text-field>
                             <v-textarea
-                                v-model= "bio.introduction"
-                                label="A little background">
+                                v-model= "artist_data.introduction"
+                                label="A little background*">
                             </v-textarea>
                             <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn>
                             <v-text-field
@@ -84,7 +107,7 @@
                                 label="Instagram ID"
                                 @click:append="bio.ig=''; inputInsta=!inputInsta">
                             </v-text-field>
-                            <v-btn v-show="!inputFace &&!bio.fb" icon color=indigo @click="inputFace=true"><v-icon>mdi-facebook</v-icon></v-btn>
+                            <v-btn v-show="!inputFace &&!bio.fb" icon color=blue @click="inputFace=true"><v-icon>mdi-facebook</v-icon></v-btn>
                             <v-text-field
                                 v-show="inputFace || bio.fb"
                                 prepend-icon="mdi-facebook"
@@ -93,27 +116,28 @@
                                 label="Facebook ID"
                                 @click:append="bio.fb=''; inputFace=!inputFace">
                             </v-text-field>
-                            <v-btn v-show="!inputMail &&!bio.site" icon color=blue @click="inputMail=true"><v-icon>mdi-mail</v-icon></v-btn>
+                            <v-btn v-show="!inputMail &&!bio.site" icon color=blue @click="inputMail=true"><v-icon>mdi-email</v-icon></v-btn>
                             <v-text-field
+                            :error-messages="linkError"
                                 v-show="inputMail ||bio.site"
                                 prepend-icon="mdi-email"
                                 v-model= "bio.site"
                                 append-icon="mdi-close"
                                 label="Personal Website URL"
+                                @change="checkLink"
                                 @click:append="bio.site=''; inputMail=!inputMail"
                                 >
                             </v-text-field>
-                            <v-btn v-show="!bio.vid1 && !yt" icon color=red @click="yt=true"><v-icon>mdi-youtube</v-icon></v-btn>
+                            <!-- <v-btn v-show="!bio.vid1 && !yt" icon color=red @click="yt=true"><v-icon>mdi-youtube</v-icon></v-btn> -->
                             <v-text-field
                                 :error-messages="ytLinkError1"
-                                v-show="yt || bio.vid1"
                                 color="red"
                                 v-model= "bio.vid1"
-                                label="Youtube link"
-                                prepend-icon="mdi-plus"
+                                label="Add upto four YouTube links"
+                                prepend-icon="mdi-youtube"
                                 append-icon="mdi-close"
                                 @input="showYoutubeVideo(1)"
-                                @click:append="bio.vid1 =''; yt=!yt;showYoutubeVideo(1)"
+                                @click:append="bio.vid1 ='';showYoutubeVideo(1)"
                                 @click:prepend="yt1=true"
                                 >
                             </v-text-field>
@@ -151,13 +175,14 @@
                                 append-icon="mdi-close"
                                 @click:append="bio.vid4 =''; yt3=!yt3; showYoutubeVideo(4)">
                             </v-text-field>
+                            <!-- {{yt}} -->
                             <!-- <v-container grid-list-md :class="{'pa-1': $vuetify.breakpoint.smAndDown, 'ma-1': $vuetify.breakpoint.mdAndUp}">
                                 <v-layout class="flex-wrap">
                                     <v-flex xs6 md6>
                                         <div class=" rounded-lg grey lighten-4">
                                             <v-img :src="imageData1" height="200px" width="200px"></v-img>
                                             <v-btn icon>
-                                                <v-icon color="indigo" small @click="onPick">mdi-image-plus</v-icon>
+                                                <v-icon color="black" small @click="onPick">mdi-image-plus</v-icon>
                                             </v-btn>
                                             <input 
                                             type="file" 
@@ -176,7 +201,7 @@
                                         <div class="rounded-lg grey lighten-4">
                                             <v-img :src="imageData2" height="200px" width="200px"></v-img>
                                             <v-btn icon>
-                                                <v-icon color="indigo" small @click="onPick1">mdi-image-plus</v-icon>
+                                                <v-icon color="black" small @click="onPick1">mdi-image-plus</v-icon>
                                             </v-btn>
                                             <input 
                                             type="file" 
@@ -195,7 +220,7 @@
                                         <div class="rounded-lg grey lighten-4">
                                             <v-img :src="imageData3" height="200px" width="200px"></v-img>
                                             <v-btn icon>
-                                                <v-icon color="indigo" small @click="onPick2">mdi-image-plus</v-icon>
+                                                <v-icon color="black" small @click="onPick2">mdi-image-plus</v-icon>
                                             </v-btn>
                                             <input 
                                             type="file" 
@@ -214,7 +239,7 @@
                                         <div class="rounded-lg grey lighten-4">
                                             <v-img :src="imageData4" height="200px" width="200px"></v-img>
                                             <v-btn icon>
-                                                <v-icon color="indigo" small @click="onPick3">mdi-image-plus</v-icon>
+                                                <v-icon color="black" small @click="onPick3">mdi-image-plus</v-icon>
                                             </v-btn>
                                             <input 
                                             type="file" 
@@ -231,9 +256,9 @@
                                     </v-flex>
                                 </v-layout>
                             </v-container>  -->
-                            <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="indigo" dark
+                            <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="black" dark
                                 @click="submit" :loading="progressbar">Submit</v-btn>
-                                <v-btn v-if="userHasBio || userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="indigo" dark
+                                <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
                                 @click="update" :loading="progressbar">Update</v-btn>
                             <v-dialog  v-model="dialog" width="500">
                             <template v-slot:activator="{ on, attrs }">
@@ -244,9 +269,9 @@
                                 <p>Are you sure you want to delete your website?</p>
                                 <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn small class="px-4 text-decoration-none"  color="error" dark 
+                                <v-btn small class="px-4 text-decoration-none"  color="error" dark :loading="delete_progressbar"
                                     @click="deleted">Delete</v-btn>
-                                <v-btn color="indigo" small class="px-4 text-decoration-none"  dark outlined  @click="dialog = false">
+                                <v-btn color="black" small class="px-4 text-decoration-none"  dark outlined  @click="dialog = false">
                                     Cancel
                                 </v-btn>
                                 </v-card-actions>
@@ -256,22 +281,22 @@
                     </v-row>
                 </v-form>
             </v-col>
-            <v-col cols="12" md="6" class="pl-sm-6 lighten-4 rounded-xl">
+            <!-- <v-col cols="12" md="6" class="lighten-4 rounded-xl  hidden-sm-and-down">
                 <h3 class="my-4">Preview your website</h3>
                 <v-col>
                     <v-row class="pb-6 justify-center text-center">
-                        <h2> {{artist_data.artist_name}}</h2>
+                        <h2 class="font-weight-light "> {{artist_data.artist_name}}</h2>
                         <v-spacer></v-spacer>
                         <v-btn v-if="artist_data.country " icon class="text-decoration-none" >
                             <country-flag :country= artist_data.country />
                         </v-btn>
-                    </v-row>
+                    </v-row> 
                     <v-row class="pb-6 justify-center text-center">
                         <croppa
                             v-model="cropImage"
                             canvas-color="transparent"
-                            :width="600"
-                            :height="340"
+                            :width="580"
+                            :height="580"
                             :show-loading="true"
                             :initial-image="initialImage"
                             :prevent-white-space="true"
@@ -281,16 +306,16 @@
                     </v-col>
                     <v-col>
                     <v-row class="pb-6 justify-center text-center">
-                        <h5 class=" text-center">{{bio.introduction}} </h5>
+                        <h5 class="font-weight-light text-center">{{bio.introduction}} </h5>
                     </v-row>
                     <v-row v-if="bio.quote" class="pb-6 justify-center text-center">
-                        <h5 class=" text-center font-italic">"{{bio.quote}}" </h5>
+                        <h5 class="font-weight-light  text-center font-italic">"{{bio.quote}}" </h5>
                     </v-row>
                     <v-row v-if="bio.style" class="pb-6 justify-center text-center">
-                        <h5 class="text-center font-italic">{{bio.style}} </h5>
+                        <h5 class="text-center font-weight-light  font-italic">{{bio.style}} </h5>
                     </v-row>
                     <v-row v-if="bio.crew" class="pb-6 justify-center text-center">
-                        <h5 class=" text-center">Representing: {{bio.crew}} 🙏 </h5>
+                        <h5 class="font-weight-light  text-center">Representing: {{bio.crew}} 🙏 </h5>
                     </v-row>
                     <v-row class="pb-6 justify-center text-center">
                         <v-col v-if="bio.ig"><v-icon>mdi-instagram</v-icon></v-col>
@@ -324,12 +349,19 @@
                     <youtube width="auto" height="100%" :video-id= 'videoId4'></youtube>
                     </v-col>
                 </v-row>
-            </v-col>
+            </v-col> -->
         </v-row>
         <v-snackbar v-model="snackbar" >
-        <div>
             Changes saved successfully.
-        </div>
+        </v-snackbar>
+        <v-snackbar v-model="fill_image_snackbar">
+            Please upload an image.
+        </v-snackbar>
+        <v-snackbar v-model="fill_intro_snackbar">
+            Please fill your introduction.
+        </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            Some error occured. Please try again.
         </v-snackbar>
     </v-container>
 </template>
@@ -345,633 +377,655 @@ import "vue-croppa/dist/vue-croppa.css";
 Vue.use(Croppa);
 
 export default {
-    middleware : 'check_auth',
-    components: {
-        CountryFlag,
-        Youtube
-    },
-    computed: {
-        ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser'])
-    },
-    mounted() {
-        this.$store.dispatch("check_user_portfolio");
-        this.$store.dispatch("check_user_bio");
-    },
-    created(){
-        if(this.$store.state.hasPortfolio)
-        {
-            this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
-            this.initialImage = this.artist_data.cover
+middleware : 'check_auth',
+components: {
+    CountryFlag,
+    Youtube
+},
+computed: {
+    ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser'])
+},
+mounted() {
+    this.$store.dispatch("check_user_portfolio");
+    this.$store.dispatch("check_user_bio");
+},
+created(){
+    if(this.$store.state.hasPortfolio)
+    {
+        this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
+        this.initialImage = this.artist_data.cover
+    }
+    if(this.$store.state.hasBio)
+    {
+        this.bio = Object.assign({}, this.$store.getters.usersBio);
+        if(this.bio.style==""){
+            this.dummy_style = [];
         }
-        if(this.$store.state.hasBio) 
-        {
-            this.bio = Object.assign({}, this.$store.getters.usersBio);
-            if(this.bio.style==""){
-                this.dummy_style = [];
+        else{
+            let arr = this.bio.style.split(',');
+        this.dummy_style = arr;}
+        //assigning the bio from store if it exists
+        // this.imageData1 = this.bio.gallery1
+        // this.imageData2 = this.bio.gallery2
+        // this.imageData3 = this.bio.gallery3
+        // this.imageData4 = this.bio.gallery4
+        let url1 = this.bio.vid1 //getting value of youtube video urls
+        let url2 = this.bio.vid2
+        let url3 = this.bio.vid3
+        let url4 = this.bio.vid4
+        let videoId1 = getIdFromURL(url1) //getting id from video url
+        this.videoId1 = videoId1 //assigning the id to <youtube> video id
+        let videoId2 = getIdFromURL(url2)
+        this.videoId2 = videoId2
+        let videoId3 = getIdFromURL(url3)
+        this.videoId3 = videoId3
+        let videoId4 = getIdFromURL(url4)
+        this.videoId4 = videoId4
+    }
+},
+data(){
+    return {
+        websiteRules: [
+        v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',],
+            // this is bio object
+        bio: {
+            username: this.$store.state.auth.user.user.username,
+            style: "",
+            quote: "",
+            crew: "",
+            ig: "",
+            fb: "",
+            site: "",
+            gallery1 : "",
+            gallery2 : "",
+            gallery3 : "",
+            gallery4 : "",
+            vid1:"",
+            vid2:"",
+            vid3:"",
+            vid4:""
+        },
+        artist_data: {
+            artist_name: "",
+            username: this.$store.state.auth.user.user.username,
+            country: "",
+            cover: "",
+            introduction: "",
+            thumb:""
+        },
+        rm:"",
+        dummy_style:[], //keep style in string from array
+        cropImage: null, //imagecropper
+        initialImage:'',
+        dialog: false,
+        styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
+        imageData: "",
+        // imageData1: "",
+        // imageData2: "",
+        // imageData3: "",
+        // imageData4: "",
+        yt1: false,
+        yt2: false,
+        yt3: false,
+        videoId1:'',
+        videoId2:'',
+        videoId3:'',
+        videoId4:'',
+        linkError:'',
+        ytLinkError1:'',
+        ytLinkError2:'',
+        ytLinkError3:'',
+        ytLinkError4:'',
+        inputInsta: false,
+        inputFace: false,
+        inputMail: false,
+        snackbar: false,
+        error_snackbar: false,
+        delete_progressbar:false,
+        fill_image_snackbar:false,
+        fill_intro_snackbar:false,
+        text: 'Website created successfully.',
+        overlay: false,
+        progressbar: false,
+        countries: [
+            {"name": "Afghanistan", "code": "AF"},
+            {"name": "Åland Islands", "code": "AX"},
+            {"name": "Albania", "code": "AL"},
+            {"name": "Algeria", "code": "DZ"},
+            {"name": "American Samoa", "code": "AS"},
+            {"name": "AndorrA", "code": "AD"},
+            {"name": "Angola", "code": "AO"},
+            {"name": "Anguilla", "code": "AI"},
+            {"name": "Antarctica", "code": "AQ"},
+            {"name": "Antigua and Barbuda", "code": "AG"},
+            {"name": "Argentina", "code": "AR"},
+            {"name": "Armenia", "code": "AM"},
+            {"name": "Aruba", "code": "AW"},
+            {"name": "Australia", "code": "AU"},
+            {"name": "Austria", "code": "AT"},
+            {"name": "Azerbaijan", "code": "AZ"},
+            {"name": "Bahamas", "code": "BS"},
+            {"name": "Bahrain", "code": "BH"},
+            {"name": "Bangladesh", "code": "BD"},
+            {"name": "Barbados", "code": "BB"},
+            {"name": "Belarus", "code": "BY"},
+            {"name": "Belgium", "code": "BE"},
+            {"name": "Belize", "code": "BZ"},
+            {"name": "Benin", "code": "BJ"},
+            {"name": "Bermuda", "code": "BM"},
+            {"name": "Bhutan", "code": "BT"},
+            {"name": "Bolivia", "code": "BO"},
+            {"name": "Bosnia and Herzegovina", "code": "BA"},
+            {"name": "Botswana", "code": "BW"},
+            {"name": "Bouvet Island", "code": "BV"},
+            {"name": "Brazil", "code": "BR"},
+            {"name": "British Indian Ocean Territory", "code": "IO"},
+            {"name": "Brunei Darussalam", "code": "BN"},
+            {"name": "Bulgaria", "code": "BG"},
+            {"name": "Burkina Faso", "code": "BF"},
+            {"name": "Burundi", "code": "BI"},
+            {"name": "Cambodia", "code": "KH"},
+            {"name": "Cameroon", "code": "CM"},
+            {"name": "Canada", "code": "CA"},
+            {"name": "Cape Verde", "code": "CV"},
+            {"name": "Cayman Islands", "code": "KY"},
+            {"name": "Central African Republic", "code": "CF"},
+            {"name": "Chad", "code": "TD"},
+            {"name": "Chile", "code": "CL"},
+            {"name": "China", "code": "CN"},
+            {"name": "Christmas Island", "code": "CX"},
+            {"name": "Cocos (Keeling) Islands", "code": "CC"},
+            {"name": "Colombia", "code": "CO"},
+            {"name": "Comoros", "code": "KM"},
+            {"name": "Congo", "code": "CG"},
+            {"name": "Congo, The Democratic Republic of the", "code": "CD"},
+            {"name": "Cook Islands", "code": "CK"},
+            {"name": "Costa Rica", "code": "CR"},
+            {"name": "Cote D'Ivoire", "code": "CI"},
+            {"name": "Croatia", "code": "HR"},
+            {"name": "Cuba", "code": "CU"},
+            {"name": "Cyprus", "code": "CY"},
+            {"name": "Czech Republic", "code": "CZ"},
+            {"name": "Denmark", "code": "DK"},
+            {"name": "Djibouti", "code": "DJ"},
+            {"name": "Dominica", "code": "DM"},
+            {"name": "Dominican Republic", "code": "DO"},
+            {"name": "Ecuador", "code": "EC"},
+            {"name": "Egypt", "code": "EG"},
+            {"name": "El Salvador", "code": "SV"},
+            {"name": "Equatorial Guinea", "code": "GQ"},
+            {"name": "Eritrea", "code": "ER"},
+            {"name": "Estonia", "code": "EE"},
+            {"name": "Ethiopia", "code": "ET"},
+            {"name": "Falkland Islands (Malvinas)", "code": "FK"},
+            {"name": "Faroe Islands", "code": "FO"},
+            {"name": "Fiji", "code": "FJ"},
+            {"name": "Finland", "code": "FI"},
+            {"name": "France", "code": "FR"},
+            {"name": "French Guiana", "code": "GF"},
+            {"name": "French Polynesia", "code": "PF"},
+            {"name": "French Southern Territories", "code": "TF"},
+            {"name": "Gabon", "code": "GA"},
+            {"name": "Gambia", "code": "GM"},
+            {"name": "Georgia", "code": "GE"},
+            {"name": "Germany", "code": "DE"},
+            {"name": "Ghana", "code": "GH"},
+            {"name": "Gibraltar", "code": "GI"},
+            {"name": "Greece", "code": "GR"},
+            {"name": "Greenland", "code": "GL"},
+            {"name": "Grenada", "code": "GD"},
+            {"name": "Guadeloupe", "code": "GP"},
+            {"name": "Guam", "code": "GU"},
+            {"name": "Guatemala", "code": "GT"},
+            {"name": "Guernsey", "code": "GG"},
+            {"name": "Guinea", "code": "GN"},
+            {"name": "Guinea-Bissau", "code": "GW"},
+            {"name": "Guyana", "code": "GY"},
+            {"name": "Haiti", "code": "HT"},
+            {"name": "Heard Island and Mcdonald Islands", "code": "HM"},
+            {"name": "Holy See (Vatican City State)", "code": "VA"},
+            {"name": "Honduras", "code": "HN"},
+            {"name": "Hong Kong", "code": "HK"},
+            {"name": "Hungary", "code": "HU"},
+            {"name": "Iceland", "code": "IS"},
+            {"name": "India", "code": "IN"},
+            {"name": "Indonesia", "code": "ID"},
+            {"name": "Iran, Islamic Republic Of", "code": "IR"},
+            {"name": "Iraq", "code": "IQ"},
+            {"name": "Ireland", "code": "IE"},
+            {"name": "Isle of Man", "code": "IM"},
+            {"name": "Israel", "code": "IL"},
+            {"name": "Italy", "code": "IT"},
+            {"name": "Jamaica", "code": "JM"},
+            {"name": "Japan", "code": "JP"},
+            {"name": "Jersey", "code": "JE"},
+            {"name": "Jordan", "code": "JO"},
+            {"name": "Kazakhstan", "code": "KZ"},
+            {"name": "Kenya", "code": "KE"},
+            {"name": "Kiribati", "code": "KI"},
+            {"name": "Korea, Democratic People'S Republic of", "code": "KP"},
+            {"name": "Korea, Republic of", "code": "KR"},
+            {"name": "Kuwait", "code": "KW"},
+            {"name": "Kyrgyzstan", "code": "KG"},
+            {"name": "Lao People'S Democratic Republic", "code": "LA"},
+            {"name": "Latvia", "code": "LV"},
+            {"name": "Lebanon", "code": "LB"},
+            {"name": "Lesotho", "code": "LS"},
+            {"name": "Liberia", "code": "LR"},
+            {"name": "Libyan Arab Jamahiriya", "code": "LY"},
+            {"name": "Liechtenstein", "code": "LI"},
+            {"name": "Lithuania", "code": "LT"},
+            {"name": "Luxembourg", "code": "LU"},
+            {"name": "Macao", "code": "MO"},
+            {"name": "Macedonia, The Former Yugoslav Republic of", "code": "MK"},
+            {"name": "Madagascar", "code": "MG"},
+            {"name": "Malawi", "code": "MW"},
+            {"name": "Malaysia", "code": "MY"},
+            {"name": "Maldives", "code": "MV"},
+            {"name": "Mali", "code": "ML"},
+            {"name": "Malta", "code": "MT"},
+            {"name": "Marshall Islands", "code": "MH"},
+            {"name": "Martinique", "code": "MQ"},
+            {"name": "Mauritania", "code": "MR"},
+            {"name": "Mauritius", "code": "MU"},
+            {"name": "Mayotte", "code": "YT"},
+            {"name": "Mexico", "code": "MX"},
+            {"name": "Micronesia, Federated States of", "code": "FM"},
+            {"name": "Moldova, Republic of", "code": "MD"},
+            {"name": "Monaco", "code": "MC"},
+            {"name": "Mongolia", "code": "MN"},
+            {"name": "Montserrat", "code": "MS"},
+            {"name": "Morocco", "code": "MA"},
+            {"name": "Mozambique", "code": "MZ"},
+            {"name": "Myanmar", "code": "MM"},
+            {"name": "Namibia", "code": "NA"},
+            {"name": "Nauru", "code": "NR"},
+            {"name": "Nepal", "code": "NP"},
+            {"name": "Netherlands", "code": "NL"},
+            {"name": "Netherlands Antilles", "code": "AN"},
+            {"name": "New Caledonia", "code": "NC"},
+            {"name": "New Zealand", "code": "NZ"},
+            {"name": "Nicaragua", "code": "NI"},
+            {"name": "Niger", "code": "NE"},
+            {"name": "Nigeria", "code": "NG"},
+            {"name": "Niue", "code": "NU"},
+            {"name": "Norfolk Island", "code": "NF"},
+            {"name": "Northern Mariana Islands", "code": "MP"},
+            {"name": "Norway", "code": "NO"},
+            {"name": "Oman", "code": "OM"},
+            {"name": "Pakistan", "code": "PK"},
+            {"name": "Palau", "code": "PW"},
+            {"name": "Palestinian Territory, Occupied", "code": "PS"},
+            {"name": "Panama", "code": "PA"},
+            {"name": "Papua New Guinea", "code": "PG"},
+            {"name": "Paraguay", "code": "PY"},
+            {"name": "Peru", "code": "PE"},
+            {"name": "Philippines", "code": "PH"},
+            {"name": "Pitcairn", "code": "PN"},
+            {"name": "Poland", "code": "PL"},
+            {"name": "Portugal", "code": "PT"},
+            {"name": "Puerto Rico", "code": "PR"},
+            {"name": "Qatar", "code": "QA"},
+            {"name": "Reunion", "code": "RE"},
+            {"name": "Romania", "code": "RO"},
+            {"name": "Russian Federation", "code": "RU"},
+            {"name": "RWANDA", "code": "RW"},
+            {"name": "Saint Helena", "code": "SH"},
+            {"name": "Saint Kitts and Nevis", "code": "KN"},
+            {"name": "Saint Lucia", "code": "LC"},
+            {"name": "Saint Pierre and Miquelon", "code": "PM"},
+            {"name": "Saint Vincent and the Grenadines", "code": "VC"},
+            {"name": "Samoa", "code": "WS"},
+            {"name": "San Marino", "code": "SM"},
+            {"name": "Sao Tome and Principe", "code": "ST"},
+            {"name": "Saudi Arabia", "code": "SA"},
+            {"name": "Senegal", "code": "SN"},
+            {"name": "Serbia and Montenegro", "code": "CS"},
+            {"name": "Seychelles", "code": "SC"},
+            {"name": "Sierra Leone", "code": "SL"},
+            {"name": "Singapore", "code": "SG"},
+            {"name": "Slovakia", "code": "SK"},
+            {"name": "Slovenia", "code": "SI"},
+            {"name": "Solomon Islands", "code": "SB"},
+            {"name": "Somalia", "code": "SO"},
+            {"name": "South Africa", "code": "ZA"},
+            {"name": "South Georgia and the South Sandwich Islands", "code": "GS"},
+            {"name": "Spain", "code": "ES"},
+            {"name": "Sri Lanka", "code": "LK"},
+            {"name": "Sudan", "code": "SD"},
+            {"name": "Suriname", "code": "SR"},
+            {"name": "Svalbard and Jan Mayen", "code": "SJ"},
+            {"name": "Swaziland", "code": "SZ"},
+            {"name": "Sweden", "code": "SE"},
+            {"name": "Switzerland", "code": "CH"},
+            {"name": "Syrian Arab Republic", "code": "SY"},
+            {"name": "Taiwan, Province of China", "code": "TW"},
+            {"name": "Tajikistan", "code": "TJ"},
+            {"name": "Tanzania, United Republic of", "code": "TZ"},
+            {"name": "Thailand", "code": "TH"},
+            {"name": "Timor-Leste", "code": "TL"},
+            {"name": "Togo", "code": "TG"},
+            {"name": "Tokelau", "code": "TK"},
+            {"name": "Tonga", "code": "TO"},
+            {"name": "Trinidad and Tobago", "code": "TT"},
+            {"name": "Tunisia", "code": "TN"},
+            {"name": "Turkey", "code": "TR"},
+            {"name": "Turkmenistan", "code": "TM"},
+            {"name": "Turks and Caicos Islands", "code": "TC"},
+            {"name": "Tuvalu", "code": "TV"},
+            {"name": "Uganda", "code": "UG"},
+            {"name": "Ukraine", "code": "UA"},
+            {"name": "United Arab Emirates", "code": "AE"},
+            {"name": "United Kingdom", "code": "GB"},
+            {"name": "United States", "code": "US"},
+            {"name": "United States Minor Outlying Islands", "code": "UM"},
+            {"name": "Uruguay", "code": "UY"},
+            {"name": "Uzbekistan", "code": "UZ"},
+            {"name": "Vanuatu", "code": "VU"},
+            {"name": "Venezuela", "code": "VE"},
+            {"name": "Viet Nam", "code": "VN"},
+            {"name": "Virgin Islands, British", "code": "VG"},
+            {"name": "Virgin Islands, U.S.", "code": "VI"},
+            {"name": "Wallis and Futuna", "code": "WF"},
+            {"name": "Western Sahara", "code": "EH"},
+            {"name": "Yemen", "code": "YE"},
+            {"name": "Zambia", "code": "ZM"},
+            {"name": "Zimbabwe", "code": "ZW"}
+        ],
+    }
+},
+methods: {
+    checkLink(){
+        let urlLink = this.bio.site;
+        if(urlLink){ //if link exists check if it's valid
+            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+            let check = !!pattern.test(this.bio.site);
+            if(check){
+                let checkStartsHttp = urlLink.startsWith('http')
+                console.log( "checkStartsHttp", checkStartsHttp);
+                if(!checkStartsHttp)
+                {
+                    console.log("doesn't start with http")
+                    console.log("url",this.bio.site);
+                    this.bio.site = 'http://'+ this.bio.site
+                    console.log("url",this.bio.site);
+                    this.linkError=``
+                    //add http to url
+                }
             }
             else{
-                let arr = this.bio.style.split(',');
-            this.dummy_style = arr;}
-            //assigning the bio from store if it exists
-            this.imageData1 = this.bio.gallery1
-            this.imageData2 = this.bio.gallery2
-            this.imageData3 = this.bio.gallery3
-            this.imageData4 = this.bio.gallery4
-            let url1 = this.bio.vid1 //getting value of youtube video urls
-            let url2 = this.bio.vid2
-            let url3 = this.bio.vid3
-            let url4 = this.bio.vid4
-            let videoId1 = getIdFromURL(url1) //getting id from video url
-            this.videoId1 = videoId1 //assigning the id to <youtube> video id
-            let videoId2 = getIdFromURL(url2)
-            this.videoId2 = videoId2
-            let videoId3 = getIdFromURL(url3)
-            this.videoId3 = videoId3
-            let videoId4 = getIdFromURL(url4)
-            this.videoId4 = videoId4
+                this.linkError=`Enter a valid URL.`
+            }
         }
     },
-    data(){
-        return {
-                // this is bio object
-            bio: {
-                username: this.$store.state.auth.user.user.username,
-                style: "",
-                introduction: "",
-                quote: "",
-                crew: "",
-                ig: "",
-                fb: "",
-                site: "",
-                gallery1 : "",
-                gallery2 : "",
-                gallery3 : "",
-                gallery4 : "",
-                vid1:"",
-                vid2:"",
-                vid3:"",
-                vid4:""
-            },
-            artist_data: {
-                artist_name: "",
-                username: this.$store.state.auth.user.user.username,
-                country: "",
-                cover: "",
-            },
-            rm:"",
-            dummy_style:[], //keep style in string from array
-            cropImage: null, //imagecropper
-            initialImage:'',
-            dialog: false,
-            styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
-            imageData: "",
-            imageData1: "",
-            imageData2: "",
-            imageData3: "",
-            imageData4: "",
-            yt: false,
-            yt1: false,
-            yt2: false,
-            yt3: false,
-            videoId1:'',
-            videoId2:'',
-            videoId3:'',
-            videoId4:'',
-            ytLinkError1:'',
-            ytLinkError2:'',
-            ytLinkError3:'',
-            ytLinkError4:'',
-            inputInsta: false,
-            inputFace: false,
-            inputMail: false,
-            snackbar: false,
-            text: 'Website created successfully.',
-            overlay: false,
-            progressbar: false,
-            countries: [
-                {"name": "Afghanistan", "code": "AF"},
-                {"name": "Åland Islands", "code": "AX"},
-                {"name": "Albania", "code": "AL"},
-                {"name": "Algeria", "code": "DZ"},
-                {"name": "American Samoa", "code": "AS"},
-                {"name": "AndorrA", "code": "AD"},
-                {"name": "Angola", "code": "AO"},
-                {"name": "Anguilla", "code": "AI"},
-                {"name": "Antarctica", "code": "AQ"},
-                {"name": "Antigua and Barbuda", "code": "AG"},
-                {"name": "Argentina", "code": "AR"},
-                {"name": "Armenia", "code": "AM"},
-                {"name": "Aruba", "code": "AW"},
-                {"name": "Australia", "code": "AU"},
-                {"name": "Austria", "code": "AT"},
-                {"name": "Azerbaijan", "code": "AZ"},
-                {"name": "Bahamas", "code": "BS"},
-                {"name": "Bahrain", "code": "BH"},
-                {"name": "Bangladesh", "code": "BD"},
-                {"name": "Barbados", "code": "BB"},
-                {"name": "Belarus", "code": "BY"},
-                {"name": "Belgium", "code": "BE"},
-                {"name": "Belize", "code": "BZ"},
-                {"name": "Benin", "code": "BJ"},
-                {"name": "Bermuda", "code": "BM"},
-                {"name": "Bhutan", "code": "BT"},
-                {"name": "Bolivia", "code": "BO"},
-                {"name": "Bosnia and Herzegovina", "code": "BA"},
-                {"name": "Botswana", "code": "BW"},
-                {"name": "Bouvet Island", "code": "BV"},
-                {"name": "Brazil", "code": "BR"},
-                {"name": "British Indian Ocean Territory", "code": "IO"},
-                {"name": "Brunei Darussalam", "code": "BN"},
-                {"name": "Bulgaria", "code": "BG"},
-                {"name": "Burkina Faso", "code": "BF"},
-                {"name": "Burundi", "code": "BI"},
-                {"name": "Cambodia", "code": "KH"},
-                {"name": "Cameroon", "code": "CM"},
-                {"name": "Canada", "code": "CA"},
-                {"name": "Cape Verde", "code": "CV"},
-                {"name": "Cayman Islands", "code": "KY"},
-                {"name": "Central African Republic", "code": "CF"},
-                {"name": "Chad", "code": "TD"},
-                {"name": "Chile", "code": "CL"},
-                {"name": "China", "code": "CN"},
-                {"name": "Christmas Island", "code": "CX"},
-                {"name": "Cocos (Keeling) Islands", "code": "CC"},
-                {"name": "Colombia", "code": "CO"},
-                {"name": "Comoros", "code": "KM"},
-                {"name": "Congo", "code": "CG"},
-                {"name": "Congo, The Democratic Republic of the", "code": "CD"},
-                {"name": "Cook Islands", "code": "CK"},
-                {"name": "Costa Rica", "code": "CR"},
-                {"name": "Cote D'Ivoire", "code": "CI"},
-                {"name": "Croatia", "code": "HR"},
-                {"name": "Cuba", "code": "CU"},
-                {"name": "Cyprus", "code": "CY"},
-                {"name": "Czech Republic", "code": "CZ"},
-                {"name": "Denmark", "code": "DK"},
-                {"name": "Djibouti", "code": "DJ"},
-                {"name": "Dominica", "code": "DM"},
-                {"name": "Dominican Republic", "code": "DO"},
-                {"name": "Ecuador", "code": "EC"},
-                {"name": "Egypt", "code": "EG"},
-                {"name": "El Salvador", "code": "SV"},
-                {"name": "Equatorial Guinea", "code": "GQ"},
-                {"name": "Eritrea", "code": "ER"},
-                {"name": "Estonia", "code": "EE"},
-                {"name": "Ethiopia", "code": "ET"},
-                {"name": "Falkland Islands (Malvinas)", "code": "FK"},
-                {"name": "Faroe Islands", "code": "FO"},
-                {"name": "Fiji", "code": "FJ"},
-                {"name": "Finland", "code": "FI"},
-                {"name": "France", "code": "FR"},
-                {"name": "French Guiana", "code": "GF"},
-                {"name": "French Polynesia", "code": "PF"},
-                {"name": "French Southern Territories", "code": "TF"},
-                {"name": "Gabon", "code": "GA"},
-                {"name": "Gambia", "code": "GM"},
-                {"name": "Georgia", "code": "GE"},
-                {"name": "Germany", "code": "DE"},
-                {"name": "Ghana", "code": "GH"},
-                {"name": "Gibraltar", "code": "GI"},
-                {"name": "Greece", "code": "GR"},
-                {"name": "Greenland", "code": "GL"},
-                {"name": "Grenada", "code": "GD"},
-                {"name": "Guadeloupe", "code": "GP"},
-                {"name": "Guam", "code": "GU"},
-                {"name": "Guatemala", "code": "GT"},
-                {"name": "Guernsey", "code": "GG"},
-                {"name": "Guinea", "code": "GN"},
-                {"name": "Guinea-Bissau", "code": "GW"},
-                {"name": "Guyana", "code": "GY"},
-                {"name": "Haiti", "code": "HT"},
-                {"name": "Heard Island and Mcdonald Islands", "code": "HM"},
-                {"name": "Holy See (Vatican City State)", "code": "VA"},
-                {"name": "Honduras", "code": "HN"},
-                {"name": "Hong Kong", "code": "HK"},
-                {"name": "Hungary", "code": "HU"},
-                {"name": "Iceland", "code": "IS"},
-                {"name": "India", "code": "IN"},
-                {"name": "Indonesia", "code": "ID"},
-                {"name": "Iran, Islamic Republic Of", "code": "IR"},
-                {"name": "Iraq", "code": "IQ"},
-                {"name": "Ireland", "code": "IE"},
-                {"name": "Isle of Man", "code": "IM"},
-                {"name": "Israel", "code": "IL"},
-                {"name": "Italy", "code": "IT"},
-                {"name": "Jamaica", "code": "JM"},
-                {"name": "Japan", "code": "JP"},
-                {"name": "Jersey", "code": "JE"},
-                {"name": "Jordan", "code": "JO"},
-                {"name": "Kazakhstan", "code": "KZ"},
-                {"name": "Kenya", "code": "KE"},
-                {"name": "Kiribati", "code": "KI"},
-                {"name": "Korea, Democratic People'S Republic of", "code": "KP"},
-                {"name": "Korea, Republic of", "code": "KR"},
-                {"name": "Kuwait", "code": "KW"},
-                {"name": "Kyrgyzstan", "code": "KG"},
-                {"name": "Lao People'S Democratic Republic", "code": "LA"},
-                {"name": "Latvia", "code": "LV"},
-                {"name": "Lebanon", "code": "LB"},
-                {"name": "Lesotho", "code": "LS"},
-                {"name": "Liberia", "code": "LR"},
-                {"name": "Libyan Arab Jamahiriya", "code": "LY"},
-                {"name": "Liechtenstein", "code": "LI"},
-                {"name": "Lithuania", "code": "LT"},
-                {"name": "Luxembourg", "code": "LU"},
-                {"name": "Macao", "code": "MO"},
-                {"name": "Macedonia, The Former Yugoslav Republic of", "code": "MK"},
-                {"name": "Madagascar", "code": "MG"},
-                {"name": "Malawi", "code": "MW"},
-                {"name": "Malaysia", "code": "MY"},
-                {"name": "Maldives", "code": "MV"},
-                {"name": "Mali", "code": "ML"},
-                {"name": "Malta", "code": "MT"},
-                {"name": "Marshall Islands", "code": "MH"},
-                {"name": "Martinique", "code": "MQ"},
-                {"name": "Mauritania", "code": "MR"},
-                {"name": "Mauritius", "code": "MU"},
-                {"name": "Mayotte", "code": "YT"},
-                {"name": "Mexico", "code": "MX"},
-                {"name": "Micronesia, Federated States of", "code": "FM"},
-                {"name": "Moldova, Republic of", "code": "MD"},
-                {"name": "Monaco", "code": "MC"},
-                {"name": "Mongolia", "code": "MN"},
-                {"name": "Montserrat", "code": "MS"},
-                {"name": "Morocco", "code": "MA"},
-                {"name": "Mozambique", "code": "MZ"},
-                {"name": "Myanmar", "code": "MM"},
-                {"name": "Namibia", "code": "NA"},
-                {"name": "Nauru", "code": "NR"},
-                {"name": "Nepal", "code": "NP"},
-                {"name": "Netherlands", "code": "NL"},
-                {"name": "Netherlands Antilles", "code": "AN"},
-                {"name": "New Caledonia", "code": "NC"},
-                {"name": "New Zealand", "code": "NZ"},
-                {"name": "Nicaragua", "code": "NI"},
-                {"name": "Niger", "code": "NE"},
-                {"name": "Nigeria", "code": "NG"},
-                {"name": "Niue", "code": "NU"},
-                {"name": "Norfolk Island", "code": "NF"},
-                {"name": "Northern Mariana Islands", "code": "MP"},
-                {"name": "Norway", "code": "NO"},
-                {"name": "Oman", "code": "OM"},
-                {"name": "Pakistan", "code": "PK"},
-                {"name": "Palau", "code": "PW"},
-                {"name": "Palestinian Territory, Occupied", "code": "PS"},
-                {"name": "Panama", "code": "PA"},
-                {"name": "Papua New Guinea", "code": "PG"},
-                {"name": "Paraguay", "code": "PY"},
-                {"name": "Peru", "code": "PE"},
-                {"name": "Philippines", "code": "PH"},
-                {"name": "Pitcairn", "code": "PN"},
-                {"name": "Poland", "code": "PL"},
-                {"name": "Portugal", "code": "PT"},
-                {"name": "Puerto Rico", "code": "PR"},
-                {"name": "Qatar", "code": "QA"},
-                {"name": "Reunion", "code": "RE"},
-                {"name": "Romania", "code": "RO"},
-                {"name": "Russian Federation", "code": "RU"},
-                {"name": "RWANDA", "code": "RW"},
-                {"name": "Saint Helena", "code": "SH"},
-                {"name": "Saint Kitts and Nevis", "code": "KN"},
-                {"name": "Saint Lucia", "code": "LC"},
-                {"name": "Saint Pierre and Miquelon", "code": "PM"},
-                {"name": "Saint Vincent and the Grenadines", "code": "VC"},
-                {"name": "Samoa", "code": "WS"},
-                {"name": "San Marino", "code": "SM"},
-                {"name": "Sao Tome and Principe", "code": "ST"},
-                {"name": "Saudi Arabia", "code": "SA"},
-                {"name": "Senegal", "code": "SN"},
-                {"name": "Serbia and Montenegro", "code": "CS"},
-                {"name": "Seychelles", "code": "SC"},
-                {"name": "Sierra Leone", "code": "SL"},
-                {"name": "Singapore", "code": "SG"},
-                {"name": "Slovakia", "code": "SK"},
-                {"name": "Slovenia", "code": "SI"},
-                {"name": "Solomon Islands", "code": "SB"},
-                {"name": "Somalia", "code": "SO"},
-                {"name": "South Africa", "code": "ZA"},
-                {"name": "South Georgia and the South Sandwich Islands", "code": "GS"},
-                {"name": "Spain", "code": "ES"},
-                {"name": "Sri Lanka", "code": "LK"},
-                {"name": "Sudan", "code": "SD"},
-                {"name": "Suriname", "code": "SR"},
-                {"name": "Svalbard and Jan Mayen", "code": "SJ"},
-                {"name": "Swaziland", "code": "SZ"},
-                {"name": "Sweden", "code": "SE"},
-                {"name": "Switzerland", "code": "CH"},
-                {"name": "Syrian Arab Republic", "code": "SY"},
-                {"name": "Taiwan, Province of China", "code": "TW"},
-                {"name": "Tajikistan", "code": "TJ"},
-                {"name": "Tanzania, United Republic of", "code": "TZ"},
-                {"name": "Thailand", "code": "TH"},
-                {"name": "Timor-Leste", "code": "TL"},
-                {"name": "Togo", "code": "TG"},
-                {"name": "Tokelau", "code": "TK"},
-                {"name": "Tonga", "code": "TO"},
-                {"name": "Trinidad and Tobago", "code": "TT"},
-                {"name": "Tunisia", "code": "TN"},
-                {"name": "Turkey", "code": "TR"},
-                {"name": "Turkmenistan", "code": "TM"},
-                {"name": "Turks and Caicos Islands", "code": "TC"},
-                {"name": "Tuvalu", "code": "TV"},
-                {"name": "Uganda", "code": "UG"},
-                {"name": "Ukraine", "code": "UA"},
-                {"name": "United Arab Emirates", "code": "AE"},
-                {"name": "United Kingdom", "code": "GB"},
-                {"name": "United States", "code": "US"},
-                {"name": "United States Minor Outlying Islands", "code": "UM"},
-                {"name": "Uruguay", "code": "UY"},
-                {"name": "Uzbekistan", "code": "UZ"},
-                {"name": "Vanuatu", "code": "VU"},
-                {"name": "Venezuela", "code": "VE"},
-                {"name": "Viet Nam", "code": "VN"},
-                {"name": "Virgin Islands, British", "code": "VG"},
-                {"name": "Virgin Islands, U.S.", "code": "VI"},
-                {"name": "Wallis and Futuna", "code": "WF"},
-                {"name": "Western Sahara", "code": "EH"},
-                {"name": "Yemen", "code": "YE"},
-                {"name": "Zambia", "code": "ZM"},
-                {"name": "Zimbabwe", "code": "ZW"}
-                ],
+    ...mapActions(['check_user_bio','check_user_portfolio']),
+    showYoutubeVideo(id){
+        switch(id) {
+        case 1:
+            {
+            let url= this.bio.vid1
+            if (url != undefined || url != '') {        
+                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                var match = url.match(regExp);
+                if (match && match[2].length == 11) {
+                    // Do anything for being valid        
+                    this.ytLinkError1 =``
+                } else {
+                    //invalid youtube url
+                    this.ytLinkError1 = `Enter a valid Youtube URL.`
+                }
+            }
+            let videoId1 = getIdFromURL(url) //getting id from video url
+            this.videoId1 = videoId1
+            }
+            break;
+        case 2:
+            {
+                let url= this.bio.vid2
+                if (url != undefined || url != '') {        
+                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                    var match = url.match(regExp);
+                    if (match && match[2].length == 11) {
+                        // Do anything for being valid        
+                        this.ytLinkError2 =``
+                    } else {
+                        //invalid youtube url
+                        this.ytLinkError2 = `Enter a valid Youtube URL.`
+                    }
+                }
+                let videoId2 = getIdFromURL(url) //getting id from video url
+                this.videoId2 = videoId2
+            }
+            break;
+        case 3:
+            {
+                let url= this.bio.vid3
+                if (url != undefined || url != '') {        
+                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                    var match = url.match(regExp);
+                    if (match && match[2].length == 11) {
+                        // Do anything for being valid        
+                        this.ytLinkError3 =``
+                    } else {
+                        //invalid youtube url
+                        this.ytLinkError3 = `Enter a valid Youtube URL.`
+                    }
+                }
+                let videoId3 = getIdFromURL(url) //getting id from video url
+                this.videoId3 = videoId3
+            }
+            break;
+        case 4:
+            {
+                let url= this.bio.vid4
+                if (url != undefined || url != '') {        
+                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                    var match = url.match(regExp);
+                    if (match && match[2].length == 11) {
+                        // Do anything for being valid        
+                        this.ytLinkError4 =``
+                    } else {
+                        //invalid youtube url
+                        this.ytLinkError4 = `Enter a valid Youtube URL.`
+                    }
+                }
+                let videoId4 = getIdFromURL(url) //getting id from video url
+                this.videoId4 = videoId4
+            }
+            break;
+        default:
+            // code block
         }
     },
-    methods: {
-        ...mapActions(['check_user_bio','check_user_portfolio']),
-        showYoutubeVideo(id){
-            switch(id) {
-                case 1:
-                    {
-                        let url= this.bio.vid1
-                        if (url != undefined || url != '') {        
-                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11) {
-                                // Do anything for being valid        
-                                this.ytLinkError1 =``
-                            } else {
-                                //invalid youtube url
-                                this.ytLinkError1 = `Enter a valid Youtube URL.`
-                            }
-                        }
-                        let videoId1 = getIdFromURL(url) //getting id from video url
-                        this.videoId1 = videoId1
-                    }
-                    break;
-                case 2:
-                    {
-                        let url= this.bio.vid2
-                        if (url != undefined || url != '') {        
-                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11) {
-                                // Do anything for being valid        
-                                this.ytLinkError2 =``
-                            } else {
-                                //invalid youtube url
-                                this.ytLinkError2 = `Enter a valid Youtube URL.`
-                            }
-                        }
-                        let videoId2 = getIdFromURL(url) //getting id from video url
-                        this.videoId2 = videoId2
-                    }
-                    break;
-                case 3:
-                    {
-                        let url= this.bio.vid3
-                        if (url != undefined || url != '') {        
-                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11) {
-                                // Do anything for being valid        
-                                this.ytLinkError3 =``
-                            } else {
-                                //invalid youtube url
-                                this.ytLinkError3 = `Enter a valid Youtube URL.`
-                            }
-                        }
-                        let videoId3 = getIdFromURL(url) //getting id from video url
-                        this.videoId3 = videoId3
-                    }
-                    break;
-                case 4:
-                    {
-                        let url= this.bio.vid4
-                        if (url != undefined || url != '') {        
-                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11) {
-                                // Do anything for being valid        
-                                this.ytLinkError4 =``
-                            } else {
-                                //invalid youtube url
-                                this.ytLinkError4 = `Enter a valid Youtube URL.`
-                            }
-                        }
-                        let videoId4 = getIdFromURL(url) //getting id from video url
-                        this.videoId4 = videoId4
-                    }
-                    break;
-                default:
-                    // code block
-                }
-        },
-        goback(){
-            window.history.back();
-        },
-        makeString() //making array as string for backend to accept
+    goback(){
+        window.history.back();
+    },
+    makeString() //making array as string for backend to accept
+    {
+        if(this.dummy_style.length == 0)
         {
-            if(this.dummy_style.length == 0)
+            this.bio.style= ""
+            this.dummy_style=[]
+            // console.log("empty the style");
+            // console.log("style",this.bio.style);
+            // console.log(this.bio);
+            }
+        else{
+            let arr = this.dummy_style;
+            // console.log(this.dummy_style);
+            // console.log(this.bio.style);
+            this.bio.style= arr.join();
+            // console.log(this.bio.style);
+            // console.log("style after JOIN",this.bio.style);
+        }
+    },
+    toShowImage(){
+        if(this.artist_data.cover)
+        this.imageData = URL.createObjectURL(this.artist_data.cover);
+    },
+  
+    dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+        }
+    return new File([u8arr], filename, {type:mime});
+    },
+    async submit(){
+        this.progressbar =true
+        let url = this.cropImage.generateDataUrl();
+        let fileData;
+        if(this.artist_data.introduction!=""){
+            if (!url ){
+            this.fill_image_snackbar=true
+            this.progressbar =false
+            console.log("no image1");}
+        else{
+            fileData = this.dataURLtoFile(url, "coverimage.png");
+            // this.artist_data.cover = fileData;
+            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+            if(res.statusCode == 200)
             {
-                this.bio.style= ""
-                this.dummy_style=[]
-                console.log("empty the style");
-                console.log("style",this.bio.style);
-                console.log(this.bio);
-                }
-            else{
-                let arr = this.dummy_style;
-                console.log(this.dummy_style);
-                console.log(this.bio.style);
-                this.bio.style= arr.join();
-                console.log(this.bio.style);
-                console.log("style after JOIN",this.bio.style);
-            }
-        },
-        toShowImage(){
-            if(this.artist_data.cover)
-	        this.imageData = URL.createObjectURL(this.artist_data.cover);
-        },
-        onFileChange(e) {
-            let files = e.target.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData1 = e.target.result;
-                }
-                fileReader.readAsDataURL(files[0]);
-                this.bio.gallery1 = files[0];
-            }
-        },
-        onFileChange1(e) {
-            let files = e.target.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData2 = e.target.result;
-                }
-                fileReader.readAsDataURL(files[0]);
-                this.bio.gallery2 = files[0];
-            }
-        },
-        onFileChange2(e) {
-            let files = e.target.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData3 = e.target.result;
-                }
-                fileReader.readAsDataURL(files[0]);
-                this.bio.gallery3 = files[0];
-            }
-        },
-        onFileChange3(e) {
-            let files = e.target.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData4 = e.target.result;
-                }
-                fileReader.readAsDataURL(files[0]);
-                this.bio.gallery4 = files[0];
-            }
-        },
-        onPick() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput.click()
-        },
-        onPick1() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput1.click()
-        },
-        onPick2() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput2.click()
-        },
-        onPick3() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput3.click()
-        },
-        removeImage(){
-            this.imageData1 = ""
-            this.bio.gallery1 =''
-        },
-        removeImage1(){
-            this.imageData2 = ""
-            this.bio.gallery2 =''
-        },
-        removeImage2(){
-            this.imageData3 = ""
-            this.bio.gallery3 =''
-        },
-        removeImage3(){
-            this.imageData4 = ''
-            this.bio.gallery4 =''
-        },
-        dataURLtoFile(dataurl, filename) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-            }
-        return new File([u8arr], filename, {type:mime});
-        },
-        
-        async submit(){
-            this.progressbar =true
-            //generating a file object from cropedimage url
-            // console.log(this.cropImage);
-                let url = this.cropImage.generateDataUrl(); 
-                if (!url){
-                    console.log("no image");}
-                else{
-                    var fileData = this.dataURLtoFile(url, "coverimage.png");
-                    this.artist_data.cover = fileData;
-                }
-             // style is taken as array and made into a string
-            //required attributes check..
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
-                    }
-            };
-            let formPortfolio = new FormData();
-            let formBio= new FormData();
-            
-            for (let data in this.artist_data) //append
-            {
-                formPortfolio.append(data, this.artist_data[data]);
-            }
-            for (let data in this.bio) {
-                formBio.append(data, this.bio[data]);
-            }
-            try {
-                await this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config)
-                await this.$axios.$post("/v1/artist/bios/", formBio, config)
-                this.progressbar =false
-                // let [someResult, anotherResult] = await Promise.allSettled([this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config), this.$axios.$post("/v1/artist/bios/", formData, config)]);
-                // console.log('res from portfolio',someResult);
-                // console.log('res from bio',anotherResult);
-                this.$store.dispatch("check_user_portfolio");
-                this.$store.dispatch("check_user_bio");
-                this.snackbar = true;
-                this.$router.push("/" + this.bio.username);
-            } catch (e) {
-                this.progressbar =false
-                console.log(e);
-            }
-        },
-        async update() {
-            this.progressbar =true
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
-            let url = this.cropImage.generateDataUrl(); 
-                if (!url){
-                    console.log("no image");}
-                else{
-                    var fileData = this.dataURLtoFile(url, "coverimage.png");
-                    this.artist_data.cover = fileData;
-                }
-            let myObj1 = this.usersPortfolio 
-            let myObj2 = this.artist_data
-            let myObj3 = this.usersBio
-            let myObj4 = this.bio
-            // find keys 
-            let keyObj1 = Object.keys(myObj1); 
-            let keyObj2 = Object.keys(myObj2); 
-            let keyObj3 = Object.keys(myObj3); 
-            let keyObj4 = Object.keys(myObj4); 
+                delete this.$axios.defaults.headers.common['Authorization']
+                let filename = res.key
+                let url = res.body
+                console.log(res);
+                url = url.slice(1, -1);
+                this.$axios.$put(url, fileData).then((value) => {
+                console.log("image is put", value);
+                this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
+                        }
+                };
+                let formPortfolio = new FormData();
+                let formBio= new FormData();
                 
-            // find values 
-            let valueObj1 = Object.values(myObj1); 
-            let valueObj2 = Object.values(myObj2); 
-            let valueObj3 = Object.values(myObj3); 
-            let valueObj4 = Object.values(myObj4); 
-	
+                for (let data in this.artist_data) //append
+                {
+                    formPortfolio.append(data, this.artist_data[data]);
+                }
+                for (let data in this.bio) {
+                    formBio.append(data, this.bio[data]);
+                }
+                console.log(this.artist_data.cover,this.artist_data.thumb,this.artist_data.introduction);
+                if(this.artist_data.cover && this.artist_data.thumb ){
+                    try {
+                    this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(
+                        res =>{
+                            console.log(res,"portfolio done");
+                            this.$store.dispatch("check_user_portfolio");
+                            this.$axios.$post("/v1/artist/bios/", formBio, config).then(
+                        res => { 
+                            console.log(res,"bio done");
+                            this.$store.dispatch("check_user_bio")})
+                            this.progressbar =false
+                            this.snackbar = true;
+                            this.$router.push("/" + this.bio.username);
+                            })
+                } catch (e) {
+                    this.error_snackbar = true
+                    this.progressbar =false
+                    console.log(e);
+                }
+                }else{
+                    this.fill_image_snackbar=true
+                    this.progressbar =false
+                }
+                }); 
+            }
+        }
+        }
+        else{
+            this.progressbar = false
+            this.fill_intro_snackbar=true
+        }
+            // style is taken as array and made into a string
+        //required attributes check..
+    },
+    async update() {
+        this.progressbar =true
+        let url = this.cropImage.generateDataUrl();
+        if(this.artist_data.introduction!=""){
+            if (url){
+            console.log("url");
+            let fileData = this.dataURLtoFile(url, "coverimage.png");
+            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+            if(res.statusCode == 200)
+            {
+                console.log("200");
+                delete this.$axios.defaults.headers.common['Authorization']
+                let filename = res.key
+                let url = res.body
+                console.log(res);
+                url = url.slice(1, -1);
+                this.$axios.$put(url, fileData).then((value) => {
+                console.log("image is put", value);
+                this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                this.callApi();
+            })
+            }
+            else{
+                console.log("not 200 res");
+                this.progressbar =false
+                this.error_snackbar = true
+            }
+            // this.artist_data.cover = fileData;
+            }
+            else{
+                this.progressbar =false
+                this.fill_image_snackbar = true
+            }
+        }
+        else{
+            this.progressbar = false
+            this.fill_intro_snackbar=true
+        }
+    },
+    async callApi(){
+        try {
+            const config = {
+            headers: {
+                "content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+            }
+        };
+        let myObj1 = this.usersPortfolio 
+        let myObj2 = this.artist_data
+        let myObj3 = this.usersBio
+        let myObj4 = this.bio
+        // find keys 
+        let keyObj1 = Object.keys(myObj1); 
+        let keyObj2 = Object.keys(myObj2); 
+        let keyObj3 = Object.keys(myObj3); 
+        let keyObj4 = Object.keys(myObj4); 
+            
+        // find values 
+        let valueObj1 = Object.values(myObj1); 
+        let valueObj2 = Object.values(myObj2); 
+        let valueObj3 = Object.values(myObj3); 
+        let valueObj4 = Object.values(myObj4); 
+
         // now compare their keys and values  
         for(var i=0; i<keyObj1.length; i++) { 
-            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-            } else { 
-                // it prints keys have different values 
+            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
+                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
+            } else {
                 let formName = new FormData();
                 formName.append(keyObj1[i], valueObj2[i]);
+                // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
                 formName.append("username", this.artist_data['username']);
-                // console.log("key obj1: "+keyObj1[i]+"keyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
-                // console.log( valueObj1[i] ," changed"); 
+                let res = await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
+                // console.log("patch on portfolio",res);
             } 
         }
         for(var i=0; i<keyObj3.length; i++) { 
@@ -983,7 +1037,8 @@ export default {
                 formName.append(keyObj3[i], valueObj4[i]);
                 formName.append("username", this.bio['username']);
                 // console.log("key obj3: "+keyObj3[i]+"\nkeyobj4: "+keyObj4[i]+'\n myObj3 value: '+ valueObj3[i] + '\nmyObj4 value: '+ valueObj4[i] +'\n');
-                await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName, config).catch(function(err){console.log(err.response.data);})
+                let res = await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName, config).catch(function(err){console.log(err.response.data);})
+                // console.log("patch on portfolio",res);
                 // console.log( valueObj3[i] ," changed"); 
             } 
         }
@@ -992,55 +1047,64 @@ export default {
         this.$store.dispatch("check_user_portfolio");
         this.snackbar = true;
         this.$router.push("/" + this.bio.username);
-        },
-        async deleted() {
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
-            try {
-                if(this.usersBio) await this.$axios.$delete("/v1/artist/bios/"+this.usersBio.username, config)
-                if(this.usersPortfolio) await this.$axios.$delete("/v1/artist/portfolios/"+this.usersPortfolio.username, config)
-                console.log("Artist Bio deleted.");
-                console.log("Artist portfolio deleted.");
-                //update store
-                this.$store.dispatch("remove_portfolio")
-                this.$store.dispatch("remove_bio")
-                for (let data in this.bio) {
-                    this.bio[data] = ''
-                }
-                this.artist_data.artist_name = ''
-                this.artist_data.country = ''
-                this.artist_data.cover = null
-                this.artist_data.username= this.$store.state.auth.user.user.username,
-                this.imageData = ''
-                this.bio.username= this.$store.state.auth.user.user.username,
-                this.imageData4 = ''
-                this.imageData2 = ''
-                this.imageData1 = ''
-                this.imageData3 = ''
-                this.yt= false,
-                this.yt1= false,
-                this.yt2= false,
-                this.yt3= false,
-                this.videoId1='',
-                this.videoId2='',
-                this.videoId3='',
-                this.videoId4='',
-                this.ytLinkError1='',
-                this.ytLinkError2='',
-                this.ytLinkError3='',
-                this.ytLinkError4='',
-                this.dummy_style =[],
-                this.cropImage.remove()
-                this.dialog =false,
-                this.snackbar = true;
-                this.$router.push("/create/website");
-            } catch (e) {
-                console.log(e);
+        } catch (error) {
+            console.log(error);
+            this.progressbar =false
+            this.error_snackbar = true
+        }
+    },
+    async deleted() {
+        this.delete_progressbar = true
+        const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
-        },
-    }
+        };
+        try {
+            if(this.usersBio) await this.$axios.$delete("/v1/artist/bios/"+this.usersBio.username, config)
+            if(this.usersPortfolio) await this.$axios.$delete("/v1/artist/portfolios/"+this.usersPortfolio.username, config)
+            // console.log("Artist Bio deleted.");
+            // console.log("Artist portfolio deleted.");
+            //update store
+            this.$store.dispatch("remove_portfolio")
+            this.$store.dispatch("remove_bio")
+            for (let data in this.bio) {
+                this.bio[data] = ''
+            }
+            this.artist_data.artist_name = ''
+            this.artist_data.country = ''
+            this.artist_data.thumb = ''
+            this.artist_data.introduction = ''
+            this.artist_data.cover = ''
+            this.artist_data.username= this.$store.state.auth.user.user.username,
+            this.imageData = ''
+            this.bio.username= this.$store.state.auth.user.user.username,
+            // this.imageData4 = ''
+            // this.imageData2 = ''
+            // this.imageData1 = ''
+            // this.imageData3 = ''
+            this.yt1= false,
+            this.yt2= false,
+            this.yt3= false,
+            this.videoId1='',
+            this.videoId2='',
+            this.videoId3='',
+            this.videoId4='',
+            this.ytLinkError1='',
+            this.ytLinkError2='',
+            this.ytLinkError3='',
+            this.ytLinkError4='',
+            this.dummy_style =[],
+            this.cropImage.remove()
+            this.dialog =false,
+            this.snackbar = true;
+            this.delete_progressbar = false
+            this.$router.push("/create/website");
+        } catch (e) {
+            console.log(e);
+            this.delete_progressbar = false
+        }
+    },
+}
 }
 </script>

@@ -1,208 +1,191 @@
 <template>
-<v-container>
+<div>
     <v-card
-      
-      class="ma-1"
+      style="margin:2px;"
       data-view
       @click="openDialog(learning.id,learning.timestamp)"
       outlined
-      width="160" 
-      height="145"
+      width="115" 
+      max-height="110"
     >
     <v-img
         :src="require('@/assets/play_button1.png')"
-        class="grey lighten-2 white--text"
-        height="100"
-        width="160"
+        height="73" width="115"
       />
-      <v-card-actions height="24px">
-        <div  width="100" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;
+      <v-card-actions height="32px">
+        <div width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p>{{ learning.lesson }} </p>
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ learning.lesson }}</p>
         </div>
         <v-spacer></v-spacer>
         <v-menu v-if=" isAuthenticated && learning.username == loggedInUser.user.username " transition="slide-y-transition" open-on-hover offset-y bottom left>
-          <template v-slot:activator="{ on, attrs }">
-              <div v-bind="attrs"
-              v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
-              </div>
-          </template>
-          <v-list>
-              <v-list-item
-              class="text-decoration-none pl-6 pr-12"
-              color="error"
-              @click="deleteLearning(learning.id,learning.shareidobj)"
-              >
-              <v-list-item-title>Delete</v-list-item-title>
-              </v-list-item>
-          </v-list>
+        <template v-slot:activator="{ on, attrs }">
+            <div v-bind="attrs" 
+            v-on="on">
+            <v-icon small>mdi-dots-vertical</v-icon>
+            </div>
+        </template>
+        <v-list>
+            <v-list-item
+            class="text-decoration-none pl-6 pr-12"
+            color="error"
+            @click="deleteLearning(learning.id,learning.shareidobj)"
+            >
+            <v-list-item-title>Delete</v-list-item-title>
+            </v-list-item>
+        </v-list>
         </v-menu>
       </v-card-actions>
     </v-card>
     <v-dialog
         :retain-focus="false"
         v-model="videoDialog"
-        width="860px"
+        width="700px"
         persistent>
-        <v-container class="rounded-lg white pa-8">
-        <v-col cols="12" align="end" justify="end">
-          <v-btn icon color="error" @click="closeDialog(learn_obj.video)">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        </v-col>
-        <!-- <div v-if="loggedInUser && learn_obj" align="end" justify="end">
-        <v-col class="ma-0" v-if="loggedInUser.user.username == learn_obj.username" >
-        <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn small icon v-bind="attrs"
-            v-on="on">
-            <v-icon small color="indigo" @click="editLearning">mdi-circle-edit-outline</v-icon>
-        </v-btn>
-        </template>
-        <span>Edit</span>
-        </v-tooltip>
-        <v-dialog v-if="loggedInUser" v-model="deleteLearnDialog" width="500">
-        <template v-slot:activator="{ on, attrs }">
-            <v-tooltip top v-bind="attrs" v-on="on">
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn small icon >
-                <v-icon small color="error" @click="deleteLearnDialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                </v-btn>
-            </template>
-            <span>Delete</span>
-            </v-tooltip>
-        </template>
-        <v-card class="pa-4">
-            <p>Are you sure you want to delete this lesson?</p>
-            <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn small class="px-4 text-decoration-none" color="error" dark
-                @click="deleteLearning(learn_obj.id,learn_obj.shareidobj)">Delete</v-btn>
-            <v-btn small color="indigo" class="px-4text-decoration-none" outlined  @click="deleteLearnDialog = false">
-                Cancel
-            </v-btn>
-            </v-card-actions>
-        </v-card>
-        </v-dialog>
-        </v-col>
-        </div> -->
-
-        <v-col cols="12" align="center" justify="center" v-if="learn_obj" >
-          <!-- {{learn_obj}}
-          <video id="videoId" max-width="300px" height="300px" controls v-if="learn_obj.video" class="hidden-xs-only">
-            <source src="https://presignedurl1.s3.us-east-2.amazonaws.com/c8e4e77b-96b5-47c6-ab04-0936555b351a" type="video/mp4">
-            Your browser does not support the video tag.
-        </video> -->
-        <video id="videoId" max-width="300px" height="300px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-xs-only">
-            <source :src="learn_obj.video" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <video id="videoId" height="150px" controls controlsList="nodownload" v-if="learn_obj.video" class="hidden-sm-and-up">
-            <source :src="learn_obj.video" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div align="left" justify="left">
-        <div class="my-4">
-          <h5 class="caption">Posted on {{learndate}}</h5>
-        </div>
-        <div class="my-4" >
-        <h4>{{learn_obj.lesson}}</h4>
-        </div>
+        <v-container class="rounded-lg white pa-2" v-show="!loadingLearning">
+          <v-col cols="12" align="end" justify="end">
+            <v-btn icon color="error" @click="closeDialog(cook_obj.video)">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-col>
+          <v-col cols="12"  v-if="cook_obj" >
+          <video id="videoId" width="100%" height="300px" controls controlsList="nodownload" v-if="cook_obj.video" class="hidden-xs-only">
+              <source :src="cook_obj.video" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>
+          <video id="videoId" width="100%" height="150px" controls controlsList="nodownload" v-if="cook_obj.video" class="hidden-sm-and-up">
+              <source :src="cook_obj.video" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>
+          <div align="left" justify="left">
           <div class="my-4">
-            <v-btn icon @click="react_like()" class="mx-1">
-              <v-icon color="black" v-if="!learn_has_like">mdi-heart-outline</v-icon>
-              <v-icon color="red" v-else>mdi-heart</v-icon>
-              <div v-if="like.length">{{like.length}}</div>
-            </v-btn>
-            <v-btn icon @click="react_dope()" class="mx-1">
-              <v-icon color="black" v-if="!learn_has_dope">mdi-fire</v-icon>
-              <v-icon color="orange" v-else>mdi-fire</v-icon>
-              <div v-if="dope.length">{{dope.length}}</div>
-            </v-btn>
-            <v-btn icon @click="react_info()" class="mx-1">
-              <v-icon color="black" v-if="!learn_has_info">mdi-head-flash-outline</v-icon>
-              <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
-              <div v-if="info.length">{{info.length}}</div>
-            </v-btn>
-        </div>
-        </div>
-        <div>
-          <v-row class="my-4 pl-2">
-              <h3 class="font-weight-light">
-                Comments <span v-if="learning_comments_list.length" >{{learning_comments_list.length}}</span>
-              </h3>
-          </v-row>
-          <v-row no-gutters style="flex-wrap: nowrap;">
-              <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
-              <img
-                  :src = "usersPortfolio.thumb" 
-                  alt="img"
-              >
-              </v-avatar>
-              <v-avatar size="36" color="indigo" v-else >
-              <v-icon dark>
-                  mdi-account-circle
-              </v-icon>
-              </v-avatar>
-              <v-textarea v-if="isAuthenticated && userHasPortfolio" class="mx-4"
-                  v-model= "comments.comment"
-                  outlined
-                  auto-grow
-                  rows="1"
-                  row-height="15"
-                  max-width= "200"
-                  label="Share your thoughts">
-              </v-textarea>
-              <v-textarea v-else class="mx-4"
-                  @click="logindialog=true"
-                  outlined
-                  rows="1"
-                  row-height="15"
-                  max-width= "200"
-                  label="Share your thoughts">
-              </v-textarea>
-              <v-btn v-if="isAuthenticated && userHasPortfolio"
-                  small class="text-decoration-none mt-2" 
-                  @click="post_comment(learn_obj.id)"
-                      color="indigo" dark >Post
+            <h5 class="caption"> {{learndate}}</h5>
+          </div>
+          <div class="my-4" >
+          <h4>{{cook_obj.lesson}}</h4>
+          </div>
+          <div class="my-4">
+            <nuxt-link to="/batalla" class="text-decoration-none">
+          <v-chip color="black" dark outlined class="mr-1" style="cursor:pointer;">
+            <v-avatar left>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            batalla
+          </v-chip></nuxt-link>
+          <v-chip color="black" dark>
+            <v-avatar left>
+              <!-- <img
+                    :src = "usersPortfolio.thumb" 
+                    alt="img"
+                > -->
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            martha
+          </v-chip>
+          </div>
+            <div class="my-4">
+              <v-btn icon @click="react_like()" class="mr-1">
+                <v-icon color="black" v-if="!cook_has_like">mdi-heart-outline</v-icon>
+                <v-icon color="red" v-else>mdi-heart</v-icon>
+                <div v-if="like.length">{{like.length}}</div>
               </v-btn>
-          </v-row>
-          <v-row class="px-4" v-if="learning_comments_list.length">
-            <learning-comments-card :comments = "learning_comments_list"></learning-comments-card>
-          </v-row>
-        </div>
-        </v-col>
-    </v-container>
+              <v-btn icon @click="react_dope()" class="mx-1">
+                <v-icon color="black" v-if="!cook_has_dope">mdi-fire</v-icon>
+                <v-icon color="orange" v-else>mdi-fire</v-icon>
+                <div v-if="dope.length">{{dope.length}}</div>
+              </v-btn>
+              <v-btn icon @click="react_info()" class="mx-1">
+                <v-icon color="black" v-if="!cook_has_info">mdi-head-flash-outline</v-icon>
+                <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
+                <div v-if="info.length">{{info.length}}</div>
+              </v-btn>
+          </div>
+          </div>
+          <div>
+            <v-row class="my-4 pl-2">
+                <h3 class="font-weight-light">
+                  Comments <span v-if="learning_comments_list.length" >{{learning_comments_list.length}}</span>
+                </h3>
+            </v-row>
+            <v-row no-gutters style="flex-wrap: nowrap;">
+                <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
+                <img
+                    :src = "usersPortfolio.thumb" 
+                    alt="img"
+                >
+                </v-avatar>
+                <v-avatar size="36" color="black" v-else >
+                <v-icon dark>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <v-textarea v-if="isAuthenticated && userHasPortfolio" class="mx-4"
+                    v-model= "comments.comment"
+                    outlined
+                    auto-grow
+                    rows="1"
+                    row-height="15"
+                    max-width= "200"
+                    label="Share your thoughts">
+                </v-textarea>
+                <v-textarea v-else class="mx-4"
+                    @click="login_snackbar=true"
+                    outlined
+                    rows="1"
+                    row-height="15"
+                    max-width= "200"
+                    label="Share your thoughts">
+                </v-textarea>
+                <v-btn v-if="isAuthenticated && userHasPortfolio"
+                    small class="text-decoration-none mt-2" 
+                    @click="post_comment(cook_obj.id)"
+                        color="black" dark >Post
+                </v-btn>
+            </v-row>
+            <v-row v-if="learning_comments_list.length" class="mt-0">
+              <learning-comments-card :comments = "learning_comments_list"></learning-comments-card>
+            </v-row>
+          </div>
+          </v-col>
+        </v-container>
+        <v-container class="rounded-lg white pa-2" v-if="loadingLearning" >
+          <v-col cols="12" align="end" justify="end">
+            <v-btn icon color="error" @click="closeDialog(null)">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-col>
+          <v-col cols="12">
+          <v-skeleton-loader width="100%" height="300px"  :loading="loading" type="card" ></v-skeleton-loader>
+          <div align="left" justify="left">
+            <div class="my-2">
+              <v-btn icon class="mr-1">
+                <v-icon color="black" >mdi-heart</v-icon>
+                <div v-if="like.length">{{like.length}}</div>
+              </v-btn>
+              <v-btn icon class="mx-1">
+                <v-icon color="black" >mdi-fire</v-icon>
+                <div v-if="dope.length">{{dope.length}}</div>
+              </v-btn>
+              <v-btn icon  class="mx-1">
+                <v-icon color="black" >mdi-head-flash-outline</v-icon>
+                <div v-if="info.length">{{info.length}}</div>
+              </v-btn>
+          </div>
+          </div>
+          <div>
+            <v-row class="my-2 pl-2">
+                <h3 class="font-weight-light">
+                  Comments 
+                </h3>
+            </v-row>
+            <v-row class="px-4">
+              <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+            </v-row>
+          </div>
+          </v-col>
+        </v-container>
     </v-dialog> 
-    <v-dialog
-    v-model="logindialog"
-    width="500" >
-    <v-card class="pa-4">
-      <v-card-title>
-        Log in and make your portfolio to continue.
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          color="primary"
-          class="ml-4 px-4" text 
-          @click="create_portfolio"
-        >
-          Okay
-        </v-btn>
-        <v-btn
-          color="error"
-          class="ml-4 px-4" text 
-          @click="logindialog = false"
-        >
-          Maybe, later
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-    </v-dialog>
     <v-dialog
       v-model="updateLearning"
       width="800">
@@ -225,11 +208,11 @@
                     </video>
                     <!-- <video id="videoPreview" width="300" height="300" controls></video> -->
                     <v-text-field
-                        v-if="learn_obj "
-                        v-model = "learn_obj.lesson"
+                        v-if="cook_obj "
+                        v-model = "cook_obj.lesson"
                         label= "Describe the lessons you learnt.">
                     </v-text-field>
-                        <v-btn class="text-decoration-none" outlined  color="indigo" dark
+                        <v-btn class="text-decoration-none" outlined  color="black" dark
                         @click="updateLearningBtn">Update</v-btn>
                 </v-col>
             </v-row>
@@ -240,13 +223,12 @@
         Write something to post.
     </v-snackbar>
     <v-snackbar v-model="login_snackbar">
-        Please login first.
+        Please sign in first.
     </v-snackbar>
     <v-snackbar v-model="thankyou_snackbar">
           Thank you for sharing.
     </v-snackbar>
-  
-</v-container>
+</div>
 </template>
 <script>
 import LearningCommentsCard from '~/components/LearningCommentsCard.vue'
@@ -266,9 +248,9 @@ import { mapGetters } from 'vuex'
         timeLearn:'',
         valid_snackbar: false,
         login_snackbar: false,
-        logindialog: false,
         thankyou_snackbar: false,
         videoDialog: false,
+        loading:true,
         learndate:'',
         comments : {
             username : "",
@@ -290,29 +272,20 @@ import { mapGetters } from 'vuex'
     },
     computed: {
       ...mapGetters(['loggedInUser', 'userHasPortfolio', 'usersPortfolio', 'artists' ,'isAuthenticated',
-      'like', 'dope', 'info', 'learning_comments_list', 'learn_has_like','learn_has_like_id', 
-      'learn_has_dope','learn_has_dope_id','learn_has_info','learn_has_info_id','learn_obj']),
+      'like', 'dope', 'info', 'learning_comments_list', 'cook_has_like','cook_has_like_id', 
+      'cook_has_dope','cook_has_dope_id','cook_has_info','cook_has_info_id','cook_obj' ,'loadingLearning']),
     },
     methods:{
       closeUpdateLearning(){
-        this.$store.dispatch("remove_learn_obj");
+        this.$store.dispatch("remove_cook_obj");
         this.updateLearning = false
       },
       async updateLearningBtn(){
           
       },
-      create_portfolio()
-        {
-            if(this.loggedInUser){
-                this.$router.push("/create/about");
-            }
-            else{
-                this.$router.push("/login");
-            }
-      },
       editLearning(){
-        // this.$store.dispatch("check_learn_obj",id);
-        console.log(this.learn_obj);
+        // this.$store.dispatch("check_cook_obj",id);
+        console.log(this.cook_obj);
         this.updateLearning = true
       },
       dateFormat(recdate){
@@ -329,17 +302,16 @@ import { mapGetters } from 'vuex'
       async openDialog(id, time){
         //check likes and comments for particular opened learning id
         this.dateFormat(time)
-        this.$store.dispatch("check_learn_obj",id);
-        this.$store.dispatch("check_learn_reactions",id);
-        this.$store.dispatch("check_learn_comments",id);
+        this.$store.dispatch("check_cook_obj",id);
+        this.$store.dispatch("check_cook_reactions",id);
+        this.$store.dispatch("check_cook_comments",id);
         this.videoDialog= true;
       },
       closeDialog(video) //pressing outside dialog pauses video
       {
         //remove likes and comments for particular opened learning id
-        this.$store.dispatch("remove_learn_reactions");
-        this.$store.dispatch("remove_learn_obj");
-        // this.$store.dispatch("remove_learnings")
+        this.$store.dispatch("remove_cook_reactions");
+        this.$store.dispatch("remove_cook_obj");
         this.videoDialog =false;
         this.learndate =""
         if(video){
@@ -386,17 +358,17 @@ import { mapGetters } from 'vuex'
       async react_like(){
           if(this.isAuthenticated){
           this.reactForm.username = this.$store.state.auth.user.user.username;
-          this.reactForm.learningidobj = this.learn_obj.id
+          this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'LO'
-          if(this.learn_has_like){
+          if(this.cook_has_like){
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.learn_has_like_id , config)
-                this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_like_id , config)
+                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
                 //store make learn love false
             } catch (e) {
                 console.log(e);
@@ -414,7 +386,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               await this.$axios.$post("/v1/e1t1/learnings/likes/", formData, config)
-              this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+              this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
           } catch (e) {
               console.log(e);
           }
@@ -427,17 +399,17 @@ import { mapGetters } from 'vuex'
       async react_dope(){
         if(this.isAuthenticated){
           this.reactForm.username = this.$store.state.auth.user.user.username;
-          this.reactForm.learningidobj = this.learn_obj.id
+          this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'FI'
-          if(this.learn_has_dope){
+          if(this.cook_has_dope){
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.learn_has_dope_id , config)
-                this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_dope_id , config)
+                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
                 //store make learn love false
             } catch (e) {
                 console.log(e);
@@ -455,7 +427,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               await this.$axios.$post("/v1/e1t1/learnings/likes/", formData, config)
-              this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+              this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
           } catch (e) {
               console.log(e);
           }
@@ -468,17 +440,17 @@ import { mapGetters } from 'vuex'
       async react_info(){
         if(this.isAuthenticated){
           this.reactForm.username = this.$store.state.auth.user.user.username;
-          this.reactForm.learningidobj = this.learn_obj.id
+          this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'DE'
-          if(this.learn_has_info){
+          if(this.cook_has_info){
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
             };
               try {
-                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.learn_has_info_id , config)
-                this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+                await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_info_id , config)
+                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
                 //store make learn love false
             } catch (e) {
                 console.log(e);
@@ -496,7 +468,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               await this.$axios.$post("/v1/e1t1/learnings/likes/", formData, config)
-              this.$store.dispatch("check_learn_reactions", this.learn_obj.id)
+              this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
           } catch (e) {
               console.log(e);
           }
@@ -523,7 +495,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               let response = await this.$axios.$post("/v1/e1t1/learnings/comments/", formData, config)
-              this.$store.dispatch("check_learn_comments",id)
+              this.$store.dispatch("check_cook_comments",id)
               this.comments.comment = ''
               this.thankyou_snackbar = true
           } catch (e) {

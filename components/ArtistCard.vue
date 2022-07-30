@@ -1,46 +1,38 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card
-      class="ma-1"
+    <v-card style="margin:2px;"
       data-view
       :to="'/' + artist.username" 
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="160" 
-      max-height="160"
+      :width="img_width" 
+      :max-height="card_height"
     >
       <v-img
         v-if = artist.thumb :src = "artist.thumb" 
         :lazy-src= "artist.thumb" 
-        class="grey lighten-2 white--text"
-        height="100"
-        width="160"
+        :height="img_height"
+        :width="img_width" 
       />
       <v-img
-        v-else :src="require('@/assets/each1teach1.jpeg')"
-        class="grey lighten-2 white--text"
-        height="100"
-        width="160"
+        v-else :src="require('@/assets/gebbleslogo3.png')"
+        contain
+        :height="img_height"
+        :width="img_width" 
       />
-    <!-- <v-card-subtitle>
-      {{ artist.artist_name }} <country-flag size=small :country= 'artist.country' />
-    </v-card-subtitle> -->
       <v-card-actions height="32px">
-        <div v-if="artist.artist_name" width="100" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;
+        <div v-if="artist.artist_name" width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p>{{ artist.artist_name }} </p>
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ artist.artist_name }} </p>
         </div>
-        <div v-else width="100" class="text-decoration-none caption" style="max-width: fit-content; height: 1.3em;
+        <div v-else width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
-        <p>{{ artist.username }} </p>
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ artist.username }} </p>
         </div>
         <v-spacer></v-spacer>
         <country-flag size=small  :country= 'artist.country' />
-        <!-- <v-btn icon class="text-decoration-none" >
-          <country-flag size=small  :country= 'artist.country' />
-        </v-btn> -->
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -50,7 +42,7 @@ import CountryFlag from 'vue-country-flag'
     export default {
       head() {  //head function (a property of vue-meta), returns an object
       return {
-          title: 'InMyGroove Community',
+          title: 'gebbles community',
           }
       },
       name: 'ArtistCard',
@@ -60,6 +52,35 @@ import CountryFlag from 'vue-country-flag'
       components: {
         CountryFlag
       },
+      computed: {
+      img_height () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 73
+          case 'sm': return 73
+          case 'md': return 134
+          case 'lg': return 134
+          case 'xl': return 134
+        }
+      },
+      img_width () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 115
+          case 'sm': return 115
+          case 'md': return 215
+          case 'lg': return 215
+          case 'xl': return 215
+        }
+      },
+      card_height() {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
+        }
+      }
+    },
       }
 </script>
 

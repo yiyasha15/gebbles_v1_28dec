@@ -1,17 +1,22 @@
 <template>
+  <v-app>
   <v-container>
-    <v-col align="center" justify="center">
-      <h1 v-if="error.statusCode === 404">
-        Oops! Sorry. {{ pageNotFound }}
-        <img src="@/assets/vivi.png" width="150px">
-      </h1>
-      <h1 v-else>
-        Oops! Sorry. {{ otherError }}
-        <img src="@/assets/vivi.png"  width="150px">
-      </h1>
-      <h1> <NuxtLink to="/">Let's return to the home page.</NuxtLink></h1>
+      <v-btn class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+      <v-col align="center" justify="center">
+      <h3 v-if="error.message === 'userNotFound'" class="font-weight-light">
+        artist's portfolio not found.
+      </h3>
+      <h2 v-else-if="error.statusCode === 404" class="font-weight-light">
+        Oops! {{ pageNotFound }}
+        <!-- <img src="@/assets/vivi.png" width="150px"> -->
+      </h2>
+      <h2 v-else class="font-weight-light">
+        Oops! {{ otherError }}
+        <!-- <img src="@/assets/vivi.png"  width="150px"> -->
+      </h2>
     </v-col>
   </v-container>
+  </v-app>
 </template>
 
 <script>
@@ -23,8 +28,14 @@ export default {
       default: null
     }
   },
+  methods:{
+    goback(){
+            window.history.back();
+        },
+  },
   data () {
     return {
+      artistNotfound: 'Artist Not Found.',
       pageNotFound: '404 Not Found',
       otherError: 'An error occurred'
     }

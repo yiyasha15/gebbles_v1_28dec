@@ -1,34 +1,30 @@
 <template>
 <v-app>
-    <v-container class="ma-24">
-        <div class="text-xs-center mb-6" align = "center">
-            <!-- <v-btn small outlined  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/judging/`">test</v-btn> -->
-            <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-           <!-- <v-btn small outlined  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
-            <v-btn small dark  color="indigo" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
+    <v-container class="ma-24" style="max-width:550px;">
+        <div>
+            <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
-            <!-- <v-divider class="ma-4" ></v-divider> -->
-            <!-- <h4 class="ma-4">Share your journey</h4> -->
-        <v-row class="mx-2">
-        <v-col cols="12" md="6" class="pa-0">
-             <h3 class="ma-4">Share your journey</h3>
+        <v-row >
+        <v-col class="pa-0">
+            <!-- {{journey}} -->
+            
+             <h2 class="mb-md-8 mb-4" align="center" justify="center">Share your journey</h2>
             <v-stepper v-model="e6" vertical >
-                <v-stepper-step :complete="e6 > 1" step="1">
+                <!-- {{editing_obj}} -->
+                <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Share images* 
                 <!-- <small>Summarize if needed</small> -->
                 </v-stepper-step>
-                <v-stepper-content step="1" width="100%" class="ma-0"> 
+                <v-stepper-content style="border-left: none;" step="1" width="100%" class="ma-0"> 
                     <v-slide-group
                     min-width="2px"
                     v-model="model"
-                    class="py-4 ma-0"
+                    class="pb-4 ma-0"
                     show-arrows>
                     <v-slide-item>
-                        <div class=" rounded-lg grey lighten-4">
-                            <v-img :src="imageData1" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(1)">mdi-image-plus</v-icon>
-                            </v-btn>
+                        <div>
+                        <div v-if="!imageData1" @click="onPick(1)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                            <v-icon class="pa-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
                             name = "gallery" 
@@ -37,17 +33,20 @@
                             accept="image/*"
                             required
                             @change="onFileChange1">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(1)">mdi-delete-outline</v-icon>
+                        </div>
+                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <v-img :src="imageData1" height="150px" width="150px" id="imgOne" contain>
+                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
+                            <v-icon color="black" small>mdi-close</v-icon>
                             </v-btn>
+                        </v-img>
+                        </div>
                         </div>
                     </v-slide-item>
-                    <v-slide-item v-if="imageData1">
-                        <div class="mx-2 rounded-lg grey lighten-4">
-                            <v-img :src="imageData2" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(2)">mdi-image-plus</v-icon>
-                            </v-btn>
+                    <v-slide-item >
+                        <div class="mx-2">
+                        <div v-if="!imageData2" @click="onPick(2)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                            <v-icon class="pa-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
                             name = "gallery" 
@@ -56,16 +55,21 @@
                             accept="image/*"
                             required
                             @change="onFileChange2">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(2)">mdi-delete-outline</v-icon>
+                        </div>
+                        <div v-else class=" rounded-lg grey lighten-4" > 
+                        <v-img :src="imageData2" height="150px" width="150px" contain>
+                            <v-btn style="background:white " icon small class="float-right ma-1" @click="removeImage(2)">
+                            <v-icon color="black" small >mdi-close</v-icon>
                             </v-btn>
+                        </v-img>
+                        </div>
                         </div>
                     </v-slide-item>
                     <!-- <v-slide-item v-if="imageData2">
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData3" height="150px" width="150px"></v-img>
                             <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(3)">mdi-image-plus</v-icon>
+                                <v-icon color="black" small @click="onPick(3)">mdi-image-plus</v-icon>
                             </v-btn>
                             <input 
                             type="file" 
@@ -84,7 +88,7 @@
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData4" height="150px" width="150px"></v-img>
                             <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(4)">mdi-image-plus</v-icon>
+                                <v-icon color="black" small @click="onPick(4)">mdi-image-plus</v-icon>
                             </v-btn>
                             <input 
                             type="file" 
@@ -103,7 +107,7 @@
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData5" height="150px" width="150px"></v-img>
                             <v-btn icon>
-                                <v-icon color="indigo" small @click="onPick(5)">mdi-image-plus</v-icon>
+                                <v-icon color="black" small @click="onPick(5)">mdi-image-plus</v-icon>
                             </v-btn>
                             <input 
                             type="file" 
@@ -119,23 +123,35 @@
                         </div>
                     </v-slide-item> -->
                     </v-slide-group>
-                <v-btn color="indigo" text outlined @click="e6 = 2">Continue</v-btn>
-                <!-- <v-btn color="indigo" text @click="e6 = 1">Previous</v-btn> -->
-                <v-btn text @click="goback">Cancel</v-btn>
+                <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
+                <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->
+                <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 2" step="2">Caption</v-stepper-step>
-                <v-stepper-content step="2" class="ma-0">
+                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Caption*</v-stepper-step>
+                <v-stepper-content step="2" class="ma-0" style="border-left: none;">
                     <v-text-field
                         v-model = "journey.joevent"
                         label= "Title*"
                         :rules="[() => !!journey.joevent || 'This field is required']"
                         :maxlength="50">
                     </v-text-field>
+                    <v-text-field
+                        v-model = "journey.city"
+                        label= "City"
+                        :maxlength="50">
+                    </v-text-field>
+                    <v-select label="Country" v-model= "journey.country" prepend-icon="mdi-earth"
+                        :items="countries"
+                        item-text="name"
+                        item-value="code"
+                        required
+                    ></v-select>
                     <v-textarea
                         v-model = "journey.jocontent"
                         label= "Caption">
                     </v-textarea>
+                    <p class="caption">If the date is in the future it will be added as an upcoming event.</p>
                     <v-menu
                         ref="menu"
                         :close-on-content-click="false"
@@ -156,8 +172,8 @@
                         </template>
                         <v-date-picker v-model= "journey.jodate" no-title scrollable>
                             <v-spacer></v-spacer>
-                            <v-btn text color="indigo" @click="menu = false">Cancel</v-btn>
-                            <v-btn text color="indigo" @click="$refs.menu.save(date)">OK</v-btn>
+                            <v-btn text small color="black" @click="menu = false">Cancel</v-btn>
+                            <v-btn text small color="black" @click="$refs.menu.save(date)">OK</v-btn>
                         </v-date-picker>
                     </v-menu>
                     <v-text-field
@@ -167,13 +183,13 @@
                         :maxlength="50"
                         @change="checkLink">
                     </v-text-field>
-                    <v-btn color="indigo" text outlined @click="e6 = 3">Continue</v-btn>
-                    <v-btn color="indigo" text @click="e6 = 1">Previous</v-btn>
-                    <v-btn text @click="goback">Cancel</v-btn>
+                    <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
+                    <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
+                    <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 3" step="3">Privacy</v-stepper-step>
-                <v-stepper-content step="3" class="ma-0">
+                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Privacy</v-stepper-step>
+                <v-stepper-content step="3" class="ma-0" style="border-left: none;">
                     <h4 class="font-weight-light">Add to highlights</h4>
                         <v-radio-group
                             v-model="journey.ishighlight"
@@ -202,37 +218,39 @@
                                 :value="false"
                             ></v-radio>
                         </v-radio-group>
-                    <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="indigo" dark
-                    @click="submit" :loading="progressbar">Submit</v-btn>
-                    <v-btn v-else outlined small class="text-decoration-none"  color="indigo" dark
-                    @click="update" :loading="progressbar">Update</v-btn>
-                    <v-btn color="indigo" text @click="e6 = 2">Previous</v-btn>
-                    <v-btn text @click="goback">Cancel</v-btn>
+                        <p class="caption" v-if="lockButton"> Please wait..</p>
+                    <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
+                    @click="submit" :loading="progressbar" :disabled="lockButton">Submit</v-btn>
+                    <v-btn v-else outlined small class="text-decoration-none"  color="black"
+                    @click="update" :loading="progressbar" :disabled="lockButton">Update</v-btn>
+                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                    <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
             </v-stepper>
         </v-col>
-        <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl">
+        <!-- <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl hidden-sm-and-down">
             <h3 class="ma-4">Preview your journey</h3>
-            <!-- {{editing_obj}}
-            {{journey}} -->
             <v-row v-if="journey.jodate" class="pb-2">
                 <caption class="ma-6">{{journey.jodate}} </caption>
             </v-row>
             <v-row v-if="journey.joevent" class="pb-6 justify-center text-center">
-                <h3 class="text-center">{{journey.joevent}} </h3>
+                <h3 class="text-center font-weight-light ">{{journey.joevent}} </h3>
+                <v-btn v-if="journey.country " icon class="text-decoration-none pb-2 pl-4" >
+                <country-flag :country= journey.country />
+            </v-btn>
             </v-row>
             <client-only>
                   <Slider v-if="imageData1"
                       :autoplay = false
-                      width="520px"
-                      height="500px">
+                      width="320px"
+                      height="150px">
                       <div v-if="imageData1">
                       <SliderItem >
                       <v-img
                             :src="imageData1"
                             contain
-                            height="500px"
-                            width="800px"
+                            height="150px"
+                            width="320px"
                           ></v-img>
                       </SliderItem>
                       </div>
@@ -241,86 +259,26 @@
                       <v-img
                             :src="imageData2"
                             contain
-                            height="500px"
-                            width="800px"
+                            height="150px"
+                            width="320px"
                           ></v-img>
                       </SliderItem>
                       </div>
-                      <!-- <div v-if="imageData3">
-                      <SliderItem >
-                      <v-img
-                            :src="imageData3"
-                            contain
-                            height="500px"
-                            width="800px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="imageData4">
-                      <SliderItem >
-                      <v-img
-                            :src="imageData4"
-                            contain
-                            height="500px"
-                            width="800px"
-                          ></v-img>
-                      </SliderItem>
-                      </div>
-                      <div v-if="imageData5">
-                      <SliderItem >
-                      <v-img
-                            :src="imageData5"
-                            contain
-                            height="500px"
-                            width="800px"
-                          ></v-img>
-                      </SliderItem>
-                      </div> -->
                   </Slider>
-                </client-only>
-            <!-- <v-slide-group
-                min-width="2px"
-                v-model="model"
-                class="pb-8 ma-0"
-                show-arrows>
-                <v-slide-item>
-                     <div class=" rounded-lg grey lighten-4">
-                        <v-img :src="imageData1" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-                <v-slide-item>
-                     <div class="mx-2 rounded-lg grey lighten-4">
-                        <v-img :src="imageData2" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-                <v-slide-item>
-                     <div class="mx-2 rounded-lg grey lighten-4">
-                        <v-img :src="imageData3" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-                <v-slide-item>
-                     <div class="mx-2 rounded-lg grey lighten-4">
-                        <v-img :src="imageData4" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-                <v-slide-item>
-                     <div class="mx-2 rounded-lg grey lighten-4">
-                        <v-img :src="imageData5" height="250px" width="250px"></v-img>
-                    </div>
-                </v-slide-item>
-            </v-slide-group> -->
+            </client-only>
+            
             <v-row v-if="journey.jocontent" class="pb-6 pt-4 justify-center text-center">
-                <h4 class=" text-center"> {{journey.username}}: {{journey.jocontent}} </h4>
+                <h4 class=" text-center font-weight-light "> {{journey.username}}: {{journey.jocontent}} </h4>
             </v-row>
             <v-row v-if="journey.jolink" class="pb-6 justify-center text-center">
-                <v-btn v-if="journey.jolink"  icon color="indigo" @click="openlink">
+                <v-btn v-if="journey.jolink"  icon color="black" @click="openlink">
                   <v-icon >mdi-link</v-icon>
                 </v-btn>
                 <v-tooltip v-if="journey.ishighlight" top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs"
                         v-on="on">
-                        <v-icon class="pl-2 float-right" yellow small>mdi-star</v-icon>
+                        <v-icon class="pl-2 float-right" small color="orange">mdi-star</v-icon>
                     </v-btn>
                   </template>
                   <span>This is a highlighted post.</span>
@@ -335,9 +293,15 @@
                   <span>This is your private post.</span>
                 </v-tooltip>
             </v-row>
-             <!-- preview -->
-        </v-col>
+        </v-col> -->
+        <!-- {{journey}} -->
         </v-row>
+        <v-snackbar v-model="posted_snackbar">
+            Journey posted.
+        </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            Some error occured. Please try again.
+        </v-snackbar>
         <v-snackbar v-model="valid_snackbar">
             Please fill the required details.
         </v-snackbar>
@@ -347,11 +311,14 @@
 <script>
 import { Slider, SliderItem } from "vue-easy-slider";
 import { mapGetters } from 'vuex'
+import CountryFlag from 'vue-country-flag'
+
 export default {
     middleware : 'check_auth',
     components: {
         Slider,
-        SliderItem
+        SliderItem,
+        CountryFlag,
     },
     created (){
         if(this.$store.state.editing_obj)
@@ -378,6 +345,7 @@ export default {
     },
     data(){
         return {
+            rotation:0,
             journey: {
                 username: this.$store.state.auth.user.user.username,
                 jocontent: "",
@@ -385,13 +353,17 @@ export default {
                 jodate: "",
                 jophoto1: "",
                 jophoto2: "",
+                country:"",
+                city:"",
                 // jophoto3: "",
                 // jophoto4: "",
                 // jophoto5: "",
+                jp1thumb:"",
                 jolink: "",
                 ishighlight: false,
                 isprivate: false,
             },
+            lockButton: false,
             progressbar: false,
             date:"",
             slide: null,
@@ -404,9 +376,266 @@ export default {
             linkError:'',
             model:"",
             valid_snackbar: false,
+            error_snackbar:false,
+            posted_snackbar: false,
+            countries: [
+                {"name": "Afghanistan", "code": "AF"},
+                {"name": "Åland Islands", "code": "AX"},
+                {"name": "Albania", "code": "AL"},
+                {"name": "Algeria", "code": "DZ"},
+                {"name": "American Samoa", "code": "AS"},
+                {"name": "AndorrA", "code": "AD"},
+                {"name": "Angola", "code": "AO"},
+                {"name": "Anguilla", "code": "AI"},
+                {"name": "Antarctica", "code": "AQ"},
+                {"name": "Antigua and Barbuda", "code": "AG"},
+                {"name": "Argentina", "code": "AR"},
+                {"name": "Armenia", "code": "AM"},
+                {"name": "Aruba", "code": "AW"},
+                {"name": "Australia", "code": "AU"},
+                {"name": "Austria", "code": "AT"},
+                {"name": "Azerbaijan", "code": "AZ"},
+                {"name": "Bahamas", "code": "BS"},
+                {"name": "Bahrain", "code": "BH"},
+                {"name": "Bangladesh", "code": "BD"},
+                {"name": "Barbados", "code": "BB"},
+                {"name": "Belarus", "code": "BY"},
+                {"name": "Belgium", "code": "BE"},
+                {"name": "Belize", "code": "BZ"},
+                {"name": "Benin", "code": "BJ"},
+                {"name": "Bermuda", "code": "BM"},
+                {"name": "Bhutan", "code": "BT"},
+                {"name": "Bolivia", "code": "BO"},
+                {"name": "Bosnia and Herzegovina", "code": "BA"},
+                {"name": "Botswana", "code": "BW"},
+                {"name": "Bouvet Island", "code": "BV"},
+                {"name": "Brazil", "code": "BR"},
+                {"name": "British Indian Ocean Territory", "code": "IO"},
+                {"name": "Brunei Darussalam", "code": "BN"},
+                {"name": "Bulgaria", "code": "BG"},
+                {"name": "Burkina Faso", "code": "BF"},
+                {"name": "Burundi", "code": "BI"},
+                {"name": "Cambodia", "code": "KH"},
+                {"name": "Cameroon", "code": "CM"},
+                {"name": "Canada", "code": "CA"},
+                {"name": "Cape Verde", "code": "CV"},
+                {"name": "Cayman Islands", "code": "KY"},
+                {"name": "Central African Republic", "code": "CF"},
+                {"name": "Chad", "code": "TD"},
+                {"name": "Chile", "code": "CL"},
+                {"name": "China", "code": "CN"},
+                {"name": "Christmas Island", "code": "CX"},
+                {"name": "Cocos (Keeling) Islands", "code": "CC"},
+                {"name": "Colombia", "code": "CO"},
+                {"name": "Comoros", "code": "KM"},
+                {"name": "Congo", "code": "CG"},
+                {"name": "Congo, The Democratic Republic of the", "code": "CD"},
+                {"name": "Cook Islands", "code": "CK"},
+                {"name": "Costa Rica", "code": "CR"},
+                {"name": "Cote D'Ivoire", "code": "CI"},
+                {"name": "Croatia", "code": "HR"},
+                {"name": "Cuba", "code": "CU"},
+                {"name": "Cyprus", "code": "CY"},
+                {"name": "Czech Republic", "code": "CZ"},
+                {"name": "Denmark", "code": "DK"},
+                {"name": "Djibouti", "code": "DJ"},
+                {"name": "Dominica", "code": "DM"},
+                {"name": "Dominican Republic", "code": "DO"},
+                {"name": "Ecuador", "code": "EC"},
+                {"name": "Egypt", "code": "EG"},
+                {"name": "El Salvador", "code": "SV"},
+                {"name": "Equatorial Guinea", "code": "GQ"},
+                {"name": "Eritrea", "code": "ER"},
+                {"name": "Estonia", "code": "EE"},
+                {"name": "Ethiopia", "code": "ET"},
+                {"name": "Falkland Islands (Malvinas)", "code": "FK"},
+                {"name": "Faroe Islands", "code": "FO"},
+                {"name": "Fiji", "code": "FJ"},
+                {"name": "Finland", "code": "FI"},
+                {"name": "France", "code": "FR"},
+                {"name": "French Guiana", "code": "GF"},
+                {"name": "French Polynesia", "code": "PF"},
+                {"name": "French Southern Territories", "code": "TF"},
+                {"name": "Gabon", "code": "GA"},
+                {"name": "Gambia", "code": "GM"},
+                {"name": "Georgia", "code": "GE"},
+                {"name": "Germany", "code": "DE"},
+                {"name": "Ghana", "code": "GH"},
+                {"name": "Gibraltar", "code": "GI"},
+                {"name": "Greece", "code": "GR"},
+                {"name": "Greenland", "code": "GL"},
+                {"name": "Grenada", "code": "GD"},
+                {"name": "Guadeloupe", "code": "GP"},
+                {"name": "Guam", "code": "GU"},
+                {"name": "Guatemala", "code": "GT"},
+                {"name": "Guernsey", "code": "GG"},
+                {"name": "Guinea", "code": "GN"},
+                {"name": "Guinea-Bissau", "code": "GW"},
+                {"name": "Guyana", "code": "GY"},
+                {"name": "Haiti", "code": "HT"},
+                {"name": "Heard Island and Mcdonald Islands", "code": "HM"},
+                {"name": "Holy See (Vatican City State)", "code": "VA"},
+                {"name": "Honduras", "code": "HN"},
+                {"name": "Hong Kong", "code": "HK"},
+                {"name": "Hungary", "code": "HU"},
+                {"name": "Iceland", "code": "IS"},
+                {"name": "India", "code": "IN"},
+                {"name": "Indonesia", "code": "ID"},
+                {"name": "Iran, Islamic Republic Of", "code": "IR"},
+                {"name": "Iraq", "code": "IQ"},
+                {"name": "Ireland", "code": "IE"},
+                {"name": "Isle of Man", "code": "IM"},
+                {"name": "Israel", "code": "IL"},
+                {"name": "Italy", "code": "IT"},
+                {"name": "Jamaica", "code": "JM"},
+                {"name": "Japan", "code": "JP"},
+                {"name": "Jersey", "code": "JE"},
+                {"name": "Jordan", "code": "JO"},
+                {"name": "Kazakhstan", "code": "KZ"},
+                {"name": "Kenya", "code": "KE"},
+                {"name": "Kiribati", "code": "KI"},
+                {"name": "Korea, Democratic People'S Republic of", "code": "KP"},
+                {"name": "Korea, Republic of", "code": "KR"},
+                {"name": "Kuwait", "code": "KW"},
+                {"name": "Kyrgyzstan", "code": "KG"},
+                {"name": "Lao People'S Democratic Republic", "code": "LA"},
+                {"name": "Latvia", "code": "LV"},
+                {"name": "Lebanon", "code": "LB"},
+                {"name": "Lesotho", "code": "LS"},
+                {"name": "Liberia", "code": "LR"},
+                {"name": "Libyan Arab Jamahiriya", "code": "LY"},
+                {"name": "Liechtenstein", "code": "LI"},
+                {"name": "Lithuania", "code": "LT"},
+                {"name": "Luxembourg", "code": "LU"},
+                {"name": "Macao", "code": "MO"},
+                {"name": "Macedonia, The Former Yugoslav Republic of", "code": "MK"},
+                {"name": "Madagascar", "code": "MG"},
+                {"name": "Malawi", "code": "MW"},
+                {"name": "Malaysia", "code": "MY"},
+                {"name": "Maldives", "code": "MV"},
+                {"name": "Mali", "code": "ML"},
+                {"name": "Malta", "code": "MT"},
+                {"name": "Marshall Islands", "code": "MH"},
+                {"name": "Martinique", "code": "MQ"},
+                {"name": "Mauritania", "code": "MR"},
+                {"name": "Mauritius", "code": "MU"},
+                {"name": "Mayotte", "code": "YT"},
+                {"name": "Mexico", "code": "MX"},
+                {"name": "Micronesia, Federated States of", "code": "FM"},
+                {"name": "Moldova, Republic of", "code": "MD"},
+                {"name": "Monaco", "code": "MC"},
+                {"name": "Mongolia", "code": "MN"},
+                {"name": "Montserrat", "code": "MS"},
+                {"name": "Morocco", "code": "MA"},
+                {"name": "Mozambique", "code": "MZ"},
+                {"name": "Myanmar", "code": "MM"},
+                {"name": "Namibia", "code": "NA"},
+                {"name": "Nauru", "code": "NR"},
+                {"name": "Nepal", "code": "NP"},
+                {"name": "Netherlands", "code": "NL"},
+                {"name": "Netherlands Antilles", "code": "AN"},
+                {"name": "New Caledonia", "code": "NC"},
+                {"name": "New Zealand", "code": "NZ"},
+                {"name": "Nicaragua", "code": "NI"},
+                {"name": "Niger", "code": "NE"},
+                {"name": "Nigeria", "code": "NG"},
+                {"name": "Niue", "code": "NU"},
+                {"name": "Norfolk Island", "code": "NF"},
+                {"name": "Northern Mariana Islands", "code": "MP"},
+                {"name": "Norway", "code": "NO"},
+                {"name": "Oman", "code": "OM"},
+                {"name": "Pakistan", "code": "PK"},
+                {"name": "Palau", "code": "PW"},
+                {"name": "Palestinian Territory, Occupied", "code": "PS"},
+                {"name": "Panama", "code": "PA"},
+                {"name": "Papua New Guinea", "code": "PG"},
+                {"name": "Paraguay", "code": "PY"},
+                {"name": "Peru", "code": "PE"},
+                {"name": "Philippines", "code": "PH"},
+                {"name": "Pitcairn", "code": "PN"},
+                {"name": "Poland", "code": "PL"},
+                {"name": "Portugal", "code": "PT"},
+                {"name": "Puerto Rico", "code": "PR"},
+                {"name": "Qatar", "code": "QA"},
+                {"name": "Reunion", "code": "RE"},
+                {"name": "Romania", "code": "RO"},
+                {"name": "Russian Federation", "code": "RU"},
+                {"name": "RWANDA", "code": "RW"},
+                {"name": "Saint Helena", "code": "SH"},
+                {"name": "Saint Kitts and Nevis", "code": "KN"},
+                {"name": "Saint Lucia", "code": "LC"},
+                {"name": "Saint Pierre and Miquelon", "code": "PM"},
+                {"name": "Saint Vincent and the Grenadines", "code": "VC"},
+                {"name": "Samoa", "code": "WS"},
+                {"name": "San Marino", "code": "SM"},
+                {"name": "Sao Tome and Principe", "code": "ST"},
+                {"name": "Saudi Arabia", "code": "SA"},
+                {"name": "Senegal", "code": "SN"},
+                {"name": "Serbia and Montenegro", "code": "CS"},
+                {"name": "Seychelles", "code": "SC"},
+                {"name": "Sierra Leone", "code": "SL"},
+                {"name": "Singapore", "code": "SG"},
+                {"name": "Slovakia", "code": "SK"},
+                {"name": "Slovenia", "code": "SI"},
+                {"name": "Solomon Islands", "code": "SB"},
+                {"name": "Somalia", "code": "SO"},
+                {"name": "South Africa", "code": "ZA"},
+                {"name": "South Georgia and the South Sandwich Islands", "code": "GS"},
+                {"name": "Spain", "code": "ES"},
+                {"name": "Sri Lanka", "code": "LK"},
+                {"name": "Sudan", "code": "SD"},
+                {"name": "Suriname", "code": "SR"},
+                {"name": "Svalbard and Jan Mayen", "code": "SJ"},
+                {"name": "Swaziland", "code": "SZ"},
+                {"name": "Sweden", "code": "SE"},
+                {"name": "Switzerland", "code": "CH"},
+                {"name": "Syrian Arab Republic", "code": "SY"},
+                {"name": "Taiwan, Province of China", "code": "TW"},
+                {"name": "Tajikistan", "code": "TJ"},
+                {"name": "Tanzania, United Republic of", "code": "TZ"},
+                {"name": "Thailand", "code": "TH"},
+                {"name": "Timor-Leste", "code": "TL"},
+                {"name": "Togo", "code": "TG"},
+                {"name": "Tokelau", "code": "TK"},
+                {"name": "Tonga", "code": "TO"},
+                {"name": "Trinidad and Tobago", "code": "TT"},
+                {"name": "Tunisia", "code": "TN"},
+                {"name": "Turkey", "code": "TR"},
+                {"name": "Turkmenistan", "code": "TM"},
+                {"name": "Turks and Caicos Islands", "code": "TC"},
+                {"name": "Tuvalu", "code": "TV"},
+                {"name": "Uganda", "code": "UG"},
+                {"name": "Ukraine", "code": "UA"},
+                {"name": "United Arab Emirates", "code": "AE"},
+                {"name": "United Kingdom", "code": "GB"},
+                {"name": "United States", "code": "US"},
+                {"name": "United States Minor Outlying Islands", "code": "UM"},
+                {"name": "Uruguay", "code": "UY"},
+                {"name": "Uzbekistan", "code": "UZ"},
+                {"name": "Vanuatu", "code": "VU"},
+                {"name": "Venezuela", "code": "VE"},
+                {"name": "Viet Nam", "code": "VN"},
+                {"name": "Virgin Islands, British", "code": "VG"},
+                {"name": "Virgin Islands, U.S.", "code": "VI"},
+                {"name": "Wallis and Futuna", "code": "WF"},
+                {"name": "Western Sahara", "code": "EH"},
+                {"name": "Yemen", "code": "YE"},
+                {"name": "Zambia", "code": "ZM"},
+                {"name": "Zimbabwe", "code": "ZW"}
+                ],
         }
     },
     methods: {
+        rotateImg1(){
+            this.rotation += 90; // add 90 degrees, you can change this as you want
+            let rotation = this.rotation;
+            console.log(this.rotation);
+            if (rotation === 360) { 
+                // 360 means rotate back to 0
+                rotation = 0;
+            }
+            document.querySelector("#imgOne").style.transform = `rotate(${rotation}deg)`;
+        },
         checkLink(){
             let urlLink = this.journey.jolink;
             if(urlLink){ //if link exists check if it's valid
@@ -448,15 +677,6 @@ export default {
                 case 2:
                     this.$refs.fileInput2.click()
                     break;
-                case 3:
-                    this.$refs.fileInput3.click()
-                    break;
-                case 4:
-                    this.$refs.fileInput4.click()
-                    break;
-                case 5:
-                    this.$refs.fileInput5.click()
-                    break;
                 default:
                     // code block
                 }
@@ -465,11 +685,13 @@ export default {
             switch(num) {
                 case 1:
                     {this.imageData1 = ""
-                    this.journey.jophoto1 = null
+                    this.journey.jophoto1 = ""
+                    this.journey.jp1thumb = ""
+                    console.log(this.journey);
                     break;}
                 case 2:
                     {this.imageData2 = ""
-                    this.journey.jophoto2 =null
+                    this.journey.jophoto2 =""
                     console.log(this.journey);
                     break;}
                 // case 3:
@@ -494,9 +716,12 @@ export default {
             const fileReader = new FileReader()
             fileReader.onload = (e) => {
                     this.imageData1 = e.target.result;
+            }
+            if(files[0])
+                {
+                    fileReader.readAsDataURL(files[0]);
+                    this.journey.jophoto1 = files[0];
                 }
-                fileReader.readAsDataURL(files[0]);
-                this.journey.jophoto1 = files[0];
             }
         },
         onFileChange2(e) {
@@ -506,48 +731,19 @@ export default {
             fileReader.onload = (e) => {
                     this.imageData2 = e.target.result;
                 }
-                fileReader.readAsDataURL(files[0]);
-                this.journey.jophoto2 = files[0];
+            if(files[0])
+                {
+                    fileReader.readAsDataURL(files[0]);
+                    this.journey.jophoto2 = files[0];
+                    console.log(this.journey);
+                }
             }
         },
-        // onFileChange3(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData3 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto3 = files[0];
-        //     }
-        // },
-        // onFileChange4(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData4 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto4 = files[0];
-        //     }
-        // },
-        // onFileChange5(e) {
-        //     let files = e.target.files || e.dataTransfer.files;
-        //     if (files) {
-        //     const fileReader = new FileReader()
-        //     fileReader.onload = (e) => {
-        //             this.imageData5 = e.target.result;
-        //         }
-        //         fileReader.readAsDataURL(files[0]);
-        //         this.journey.jophoto5 = files[0];
-        //     }
-        // },
         openlink(){
             var url = this.journey.jolink;
             var win = window.open(url, '_blank');
             win.focus();
-            },
+        },
         refresh(){
             this.date ="";
             this.imageData1 = '',
@@ -559,8 +755,9 @@ export default {
             this.journey.jocontent= "";
             this.journey.joevent= "";
             this.journey.jodate= "";
-            this.journey.jophoto1= null;
-            this.journey.jophoto2= null;
+            this.journey.jophoto1= "";
+            this.journey.jophoto2= "";
+            this.journey.jp1thumb = "";
             // this.journey.jophoto3= null;
             // this.journey.jophoto4= null;
             // this.journey.jophoto5= null;
@@ -568,10 +765,7 @@ export default {
             this.journey.ishighlight= false;
             this.journey.isprivate = false;
         },
-        async submit(){
-            if(this.journey.joevent != "" && this.journey.jophoto1)
-            { 
-            this.progressbar =true
+        async formPost(){
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
@@ -579,26 +773,25 @@ export default {
             let formData = new FormData();
             for (let data in this.journey) {
                 formData.append(data, this.journey[data]);
+                console.log(data,this.journey[data]);
             }
+            console.log(formData);
             try {
-                let response = await this.$axios.$post("/v1/artist/journey/", formData, config);
-                this.$store.dispatch("check_user_journey");
-                this.refresh();
-                this.progressbar =false;
-                this.snackbar = true;
-                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
+                await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
+                    console.log(res);
+                    this.refresh();
+                    this.progressbar =false;
+                    this.posted_snackbar = true;
+                    this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
+                })
             } catch (e) {
                 this.progressbar =false;
+                this.error_snackbar =true
+                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
                 console.log(e);
             }
-            }
-            else{
-                this.valid_snackbar =true
-            }
         },
-        async update() {
-            if(this.journey.joevent != "" && this.journey.jophoto1)
-            {this.progressbar =true;
+        async formUpdate(){
             const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -618,7 +811,7 @@ export default {
             try {
                 for(var i=0; i<keyObj1.length; i++) { 
                 if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                    console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                    // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
                 } 
                 else { 
                     // it prints keys have different values 
@@ -627,23 +820,205 @@ export default {
                     formName.append("id", this.journey['id']);
 
                     console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                    await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config);
-                    console.log( valueObj2[i] ," changed"); 
+                    await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config).then(res => {
+                        console.log( valueObj2[i] ,res," changed"); 
+                        // this.$store.dispatch("check_user_journey");
+                    })
                 } 
             }
-            this.$store.dispatch("check_user_journey");
             this.$store.dispatch("remove_editing_obj");
-            this.refresh();
             this.progressbar =false
-            this.snackbar = true;
+            this.posted_snackbar = true;
+            this.refresh();
             } catch (error) {
                 console.log("error",error);
+                this.error_snackbar =true
                 this.progressbar =false
             }
+            this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
             
-            this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");}
+        },
+        async submit(){
+            this.progressbar=true;
+            if(this.journey.joevent== '')
+            this.valid_snackbar =true;
             else{
-                this.valid_snackbar=true
+            if(this.journey.jophoto1== '' && this.journey.jophoto2 =='')
+            this.valid_snackbar =true;
+            else{
+            if(this.journey.jophoto1== '' && this.journey.jophoto2 !=''){
+                this.journey.jophoto1 = this.journey.jophoto2
+                this.journey.jophoto2 = ""
+            }
+            //post first image
+            this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    if(this.journey.jophoto2)
+                    {
+                        this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                        if(res.statusCode == 200)
+                        {
+                            delete this.$axios.defaults.headers.common['Authorization']
+                            let filename = res.key
+                            let url = res.body
+                            url = url.slice(1, -1);
+                            this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                            this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                            this.formPost();
+                            });
+                        }
+                        })
+                    }
+                    else{
+                        this.formPost();
+                        //post with 1 image
+                    }
+
+                    });
+                }
+            })
+            }
+            }
+            
+        },
+        async update() {
+             this.progressbar=true;
+            if(this.journey.joevent== '')
+            this.valid_snackbar =true;
+            else{
+            if(this.journey.jophoto1== '' && this.journey.jophoto2 =='')
+            this.valid_snackbar =true;
+            else if(this.journey.jophoto1== ''){
+            if(this.journey.jophoto2 !='' && typeof this.journey.jophoto2 == 'string'){
+                this.journey.jophoto1 = this.journey.jophoto2
+                this.journey.jophoto2 = ""
+                this.formUpdate();
+            }
+            else if(this.journey.jophoto2 !='' && typeof this.journey.jophoto2 == 'object'){
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })}
+            //post first image
+            }
+            else if(this.journey.jophoto2== ''){
+            if(this.journey.jophoto1 !='' && typeof this.journey.jophoto1 == 'string'){
+                this.formUpdate();
+               //do nothing
+            }
+            else if(this.journey.jophoto1 !='' && typeof this.journey.jophoto1 == 'object'){
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })}
+            //post first image
+            }
+            else if(typeof this.journey.jophoto1 == 'string' && typeof this.journey.jophoto2 == 'object'){
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                    this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })
+            }
+            else if(typeof this.journey.jophoto1 == 'object' && typeof this.journey.jophoto2 == 'string'){
+                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.formUpdate();
+                    });
+                }
+            })
+            }
+            else if(typeof this.journey.jophoto1 == 'object' && typeof this.journey.jophoto2 == 'object'){
+                 this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                res => {
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
+                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    if(this.journey.jophoto2)
+                    {
+                        this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                        if(res.statusCode == 200)
+                        {
+                            delete this.$axios.defaults.headers.common['Authorization']
+                            let filename = res.key
+                            let url = res.body
+                            url = url.slice(1, -1);
+                            this.$axios.$put(url, this.journey.jophoto2).then((value) => {
+                            this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                            this.formUpdate();
+                            });
+                        }
+                        })
+                    }
+                    else{
+                        this.formUpdate();
+                        //post with 1 image
+                    }
+
+                    });
+                }
+            })
+            }
+            else{
+                this.formUpdate();
+            }
             }
         }, 
     },

@@ -1,27 +1,22 @@
 <template>
   <v-container>
-    <section>
+    <section >
       <div v-for="(comment, i) in comments" :key="i" class="d-flex align-start">
-        <div v-for="artist in artists" :key ="artist.index">
-          <nuxt-link :to="'/'+ comment.username">
-              <v-list-item-avatar size="36" v-if=" comment.username == artist.username && artist.thumb">
-                <img :src = "artist.thumb" alt="img">
+          <nuxt-link :to="'/'+ comment.username" class="text-decoration-none">
+          <center>
+              <v-list-item-avatar size="36" v-if=" comment.artist_metadata.thumb">
+                <img :src = "comment.artist_metadata.thumb" alt="img">
               </v-list-item-avatar>
-              <v-list-item-avatar size="36" v-if=" comment.username == artist.username && !artist.thumb">
-                <v-icon>
-                      mdi-account-circle
-                  </v-icon>
+              <v-list-item-avatar color="black" size="36" v-else >
+                <v-icon dark>
+                  mdi-account-circle
+                </v-icon>
               </v-list-item-avatar>
+          </center>
           </nuxt-link>
-        </div>
-        <div>
-          <div justify="left" align="left" class="subtitle grey--text text-decoration-none mt-2">
-            <nuxt-link :to="'/'+ comment.username" class="text-decoration-none">
-            {{comment.username}} 
-            </nuxt-link> 
-            <template>{{comment.timestamp}}</template>
-          </div>
-          <p justify="left" align="left" class="mt-4">{{comment.comment}}</p>
+        <div class="mb-2">
+          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{getTime(comment.timestamp).date}}</p>
+          <nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}}: </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span>
         </div>
             <v-spacer></v-spacer>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
@@ -42,14 +37,13 @@
                     </v-list-item>
                     <v-list-item
                     v-else
-                    class="text-decoration-none pl -6 pr-12"
+                    class="text-decoration-none pl-6 pr-12"
                     @click="reported(comment)"
                     >
                     <v-list-item-title>Report</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
-            <!-- <v-divider v-if="i + 1 < comments.length"></v-divider> -->
       </div>
     </section>
     <v-snackbar v-model="delete_snackbar">
@@ -74,7 +68,7 @@ import { mapGetters } from 'vuex'
         }
     },
     computed: {
-      ...mapGetters(['loggedInUser', 'artists' ,'isAuthenticated']),
+      ...mapGetters(['loggedInUser' ,'isAuthenticated']),
     },
     methods:{
       async deleted(comment){
@@ -84,8 +78,9 @@ import { mapGetters } from 'vuex'
             }
         };
         try {
-            let response = await this.$axios.$delete("/v1/e1t1/learnings/comments/"+ comment.id, config)
-            this.$store.dispatch("check_learn_comments", comment.learningidobj)
+            let response = await this.$axios.$delete("/v1/whatiscooking/cooking/comments/"+ comment.id, config)
+            this.$store.dispatch("check_cook_comments", comment.cookingidobj)
+            this.$emit("commentDelete"); 
             this.delete_snackbar =true
         } catch (e) {
             console.log(e.response);
@@ -102,6 +97,19 @@ import { mapGetters } from 'vuex'
         } catch (e) {
             console.log(e);
         }
+      },
+      getTime(timestamp){
+        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let date = timestamp;
+        let datetype= date.slice(8, 10);
+        let month = date.slice(5, 7);
+        let yeartype = date.slice(0, 4)
+        const regex = new RegExp("^0+(?!$)",'g');
+        month = month.replaceAll(regex, "");
+        let monthtype = months[month-1]
+        date = datetype+" "+monthtype +" "+yeartype;
+        // console.log(date);
+        return{ date}
       }
     }
   }

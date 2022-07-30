@@ -1,23 +1,25 @@
 <template>
 <v-hover v-slot:default="{ hover }">
-    <v-card
-      class="ma-1"
+  <v-card
+      style="margin:2px;"
       data-view
-      :to="'/e1t1/' + e1t1.id"
+      :to="'/e1t1/' + e1t1.uuid"
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="160" 
-      max-height="175">
-      <div class="caption pa-2">{{e1t1.username}}
-        <country-flag :country= 'e1t1.s_student_country' size='small'/>
-      </div>
-      <div v-if = "e1t1.s_photo">
-        <v-img :src = "e1t1.s_photo" width="160px" height="100px"></v-img>
-      </div>
-        <div class="caption pa-2">
-          {{e1t1.s_teacher_name}}
-          <country-flag :country= 'e1t1.s_teacher_country' size='small'/>
+      width="115" 
+      max-height="105"
+    >
+    <v-img v-if = e1t1.image_mini  :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" height="73" width="115"></v-img>
+    <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73"  width="115" contain/>
+      <v-card-actions height="32px">
+        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
+          line-height: initial;
+          overflow: hidden">
+        <p style="max-width:78px; font-size:0.6rem!important;">{{e1t1.s_teacher_name}} </p>
         </div>
+        <v-spacer></v-spacer>
+          <country-flag :country= 'e1t1.s_teacher_country' size='small'/>
+      </v-card-actions>
     </v-card>
   </v-hover>
 </template>

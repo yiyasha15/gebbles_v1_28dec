@@ -1,25 +1,26 @@
 <template>
 <v-hover v-slot:default="{ hover }">
     <v-card
-      class="ma-1"
+      style="margin:2px;"
       data-view
-      :to="'/e1t1/' + share.id" 
+      :to="'/e1t1/' + share.uuid" 
       :elevation="hover ? 12 : 0"
       outlined
-      min-width="160" 
-      max-height="160">
-          <div v-for = "artist in artists" :key = "artist.index">
-            <v-img v-if="share.username === artist.username"
-              :src = "artist.thumb"
-              height="100" width="160"/>
-          </div>
-          <v-card-actions>
-        <div width="100" class="text-decoration-none caption">
-        {{share.username}}
+      width="115" 
+      max-height="105">
+      <v-img v-if="share.image_mini"
+          :src = "share.image_mini"
+          height="73" width="115"/>
+      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73" width="115" contain/>
+      <v-card-actions height="32px">
+        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
+          line-height: initial;
+          overflow: hidden">
+        <p style="max-width:78px; font-size:0.6rem!important;">{{share.username}}</p>
         </div>
         <v-spacer></v-spacer>
-        <country-flag size=small :country= 'share.s_student_country' />
-          </v-card-actions>
+          <country-flag :country= 'share.s_student_country' size='small'/>
+      </v-card-actions>
     </v-card>
   </v-hover>
 </template>
@@ -37,7 +38,7 @@ import { mapGetters } from 'vuex'
          CountryFlag
       },
       computed: {
-        ...mapGetters(['artists', 'userHasPortfolio'])
+        ...mapGetters([ 'userHasPortfolio'])
       },
       
       
