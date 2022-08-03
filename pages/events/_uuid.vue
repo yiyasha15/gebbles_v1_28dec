@@ -5,6 +5,7 @@
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
         <!-- <v-row align="end" justify="end" class="pa-0 ma-0" > -->
+            <!-- {{event.event_guests}} -->
             <v-menu v-if="isAuthenticated && loggedInUser.user.username == event.username"  transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs" class="float-right"
@@ -44,8 +45,8 @@
         </v-card>
         </v-dialog>
         <v-row class="ma-0">
-            <v-col cols="12" md="6" >
-                <v-row class="mt-4">
+            <v-col cols="12" md="6" class="mt-md-16">
+                <v-row class="mt-md-8">
                 <v-col cols="12" class="px-0"> <h1 >{{event.name}}</h1></v-col>
                 <!-- <v-col cols="2"><country-flag class="mt-1" :country= 'event.country'/></v-col> -->
                 </v-row>
@@ -55,8 +56,8 @@
                 <v-row>
                    <h3 class="red--text font-weight-light"> {{event.date_time}}</h3>
                 </v-row>
-                <v-row >
-                    <h4 v-if="event.city || event.venue" class=" font-weight-light" ><v-icon class="mr-2">mdi-map-marker-outline</v-icon>{{event.venue}} <b>{{event.city}}</b></h4><country-flag class="mt-1" :country= 'event.country'/>
+                <v-row>
+                    <h4 v-if="event.city || event.venue || event.country" class="mr-2 mt-2 font-weight-light" ><v-icon class="mr-2">mdi-map-marker-outline</v-icon>{{event.venue}} <b>{{event.city}}</b></h4><country-flag style="margin-top:3px" :country= 'event.country'/>
                 </v-row>
                 <v-row>
                     <v-btn small v-if="event.link" class="elevation-0 text-decoration-none mt-6" @click="openLink">
@@ -77,16 +78,16 @@
         </v-row>
         <h2 v-if="event.event_guests && event.event_guests.length>0" class="my-6" > Guests</h2>
         <v-row class="ma-0" >
-            <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="pa-0 py-sm-4 px-sm-0">
+            <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="pa-1">
             <guest-card :guest="guest" ></guest-card>
             </v-col>
         </v-row>
         <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6" > Programs</h2>
         <v-row class="ma-0" >
-            <v-col cols="6" sm="6" v-for="category in event.event_battles" :key ="category.index" class="pa-0 py-sm-4 px-sm-0">
+            <v-col cols="6" sm="6" v-for="category in event.event_battles" :key ="category.index" class="pa-1">
             <category-card :category="category"></category-card>
             </v-col>
-            <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="pa-0 py-sm-4 px-sm-0">
+            <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="pa-1">
             <category-card :category="category"></category-card>
             </v-col>
         </v-row>

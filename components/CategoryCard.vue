@@ -221,7 +221,7 @@
     computed: {
       img_height () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 180
+          case 'xs': return 185
           case 'sm': return 300
           case 'md': return 300
           case 'lg': return 300
@@ -239,11 +239,11 @@
       },
       card_width() {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 180
-          case 'sm': return '95%'
-          case 'md': return '95%'
-          case 'lg': return '95%'
-          case 'xl': return '95%'
+          case 'xs': return 185
+          case 'sm': return '100%'
+          case 'md': return '100%'
+          case 'lg': return '100%'
+          case 'xl': return '100%'
         }
       }
     },

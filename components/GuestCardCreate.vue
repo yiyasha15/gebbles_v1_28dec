@@ -49,7 +49,7 @@
           </v-btn>
           </v-row>
         <v-img class="mt-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
-
+        {{guest}}
         <nuxt-link v-if="guest.guest" :to="'/' + guest.guest" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{guest.name}}</h3></nuxt-link>
         <h3 v-else class="font-weight-light mt-2">{{guest.name}}</h3>
         <h3 class="font-weight-light mt-2">{{guest.info}}</h3>

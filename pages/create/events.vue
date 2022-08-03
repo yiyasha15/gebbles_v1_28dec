@@ -240,12 +240,17 @@
                 <v-stepper-content step="4"  style=" border-left: none; max-width:400px; margin:auto">
                     <v-layout v-if="this.categories.length>0 || this.battle_categories.length>0" wrap row justify-start   style="max-width:340px; margin:auto;" >
                         <div v-for="category in this.categories"  :key ="category.index">
-                            <category-card-create :category="category" @removeCategory="removeCategory"></category-card-create>
+                            <category-card-create :category="category" @removeCategory="removeCategory" @editCategory="editCategory"></category-card-create>
                         </div>
                         <div v-for="category in this.battle_categories"  :key ="category.index">
-                            <category-card-create :category="category" @removeBattleCategory="removeBattleCategory"></category-card-create>
+                            <category-card-create :category="category" @removeBattleCategory="removeBattleCategory" @editBattleCategory="editBattleCategory"></category-card-create>
                         </div>
                     </v-layout>
+                    <!-- {{this.editing_event_obj}}
+                     -->
+                     temp_guest_item{{ temp_guest_item}}
+          temp_category_item {{ temp_category_item}}
+          {{battle_category}}
                     <v-row class="mb-2 pa-0 hidden-xs-only">
                         <v-col >
                             <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="workshop_dialog = true">
@@ -313,8 +318,8 @@
                     <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
                     <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="submit" :loading="progressbar" >Submit</v-btn>
-                    <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="update" :loading="progressbar" >Update</v-btn>
+                    <!-- <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
+                    @click="update" :loading="progressbar" >Update</v-btn> -->
                     <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
@@ -351,6 +356,7 @@
             </v-btn>
         </v-img>
         </div>
+        <!-- {{battle_category}} {{battleEmcee}} {{battleDj}} -->
          <v-text-field
             v-model= "battle_category.name"
             label= "Title"
@@ -463,7 +469,8 @@
                 </template>
             </template>
         </v-combobox> -->
-        <!-- {{battleDj}} -->
+        <!-- {{battle_category}} -->
+        
         <v-autocomplete
             class="pt-4"
             v-model="battleEmcee"
@@ -634,7 +641,7 @@
             v-model = "battle_category.about"
             label= "About">
         </v-text-field>
-        <v-btn outlined small class="text-decoration-none"  color="black"
+        <v-btn outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
           @click="addBattle()">Add</v-btn>
         </v-container>
         </v-dialog> 
@@ -774,104 +781,14 @@
             label= "Venue"
             :maxlength="250">
         </v-text-field>
-        <v-btn outlined small class="text-decoration-none "  color="black"
-          @click="addWorkshop()" >Add</v-btn>
+        <v-btn outlined small class="text-decoration-none" 
+            v-if="!editing_category_process" 
+            color="black" :loading="program_progressbar"
+            @click="addWorkshop(1)" >Add</v-btn>
+        <v-btn v-else outlined small class="text-decoration-none"  color="black"
+        @click="updateWorkshop" >Update </v-btn>
         </v-container>
         </v-dialog> 
-        <v-dialog
-        :retain-focus="false"
-        v-model="party_dialog"
-        width="480px" 
-        persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
-        <v-btn icon color="error" class="float-right" @click="close_category_dialog">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <h3>Party</h3>
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
-            <input 
-            type="file" 
-            name = "poster" 
-            style="display:none" 
-            ref="fileInput3" 
-            accept="image/*"
-            required
-            @change="onFileChange3">
-        </div>
-        <div v-else class="ma-4">
-        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
-            <v-icon color="black" small>mdi-close</v-icon>
-            </v-btn>
-        </v-img>
-        </div>
-         <v-text-field
-            v-model= "category.name"
-            label= "Title"
-            :maxlength="250">
-        </v-text-field>
-        <v-menu
-            ref="menu2"
-            :close-on-content-click="false"
-            :return-value.sync="date"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-            >
-            <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                    v-model="category.date"
-                    label="Date"
-                    prepend-icon="mdi-calendar"
-                    readonly clearable
-                    v-bind="attrs"
-                    v-on="on"
-                ></v-text-field>
-            </template>
-            <v-date-picker
-                v-model="category.date"
-                :active-picker.sync="activePicker"
-                @change="save(category.date,3)"
-                ></v-date-picker>
-        </v-menu>
-        <v-menu
-        ref="menutime_pa"
-        v-model="menutime_pa"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="category.date_time"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="category.date_time"
-            label="Time"
-            prepend-icon="mdi-clock-time-four-outline"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-time-picker
-          v-if="menutime_pa"
-          v-model="category.date_time"
-          full-width
-          @click:minute="$refs.menutime_pa.save(category.date_time)"
-        ></v-time-picker>
-        </v-menu>
-        <v-text-field prepend-icon="mdi-map-marker-outline"
-            v-model = "category.venue"
-            label= "Venue"
-            :maxlength="150">
-        </v-text-field>
-        <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addParty()" >Add</v-btn>
-        </v-container>
-        </v-dialog>
         <v-dialog
         :retain-focus="false"
         v-model="showcase_dialog"
@@ -1009,8 +926,102 @@
                 </template>
             </template>
         </v-autocomplete>
-        <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addShowcase()" >Add</v-btn>
+        <v-btn outlined small class="text-decoration-none"  color="black"  :loading="program_progressbar"
+          @click="addWorkshop(2)" >Add</v-btn>
+        </v-container>
+        </v-dialog>
+        <v-dialog
+        :retain-focus="false"
+        v-model="party_dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-btn icon color="error" class="float-right" @click="close_category_dialog">
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h3>Party</h3>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+            <v-icon class="pa-16">mdi-plus</v-icon>
+            <input 
+            type="file" 
+            name = "poster" 
+            style="display:none" 
+            ref="fileInput3" 
+            accept="image/*"
+            required
+            @change="onFileChange3">
+        </div>
+        <div v-else class="ma-4">
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-icon color="black" small>mdi-close</v-icon>
+            </v-btn>
+        </v-img>
+        </div>
+         <v-text-field
+            v-model= "category.name"
+            label= "Title"
+            :maxlength="250">
+        </v-text-field>
+        <v-menu
+            ref="menu2"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="category.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly clearable
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="category.date"
+                :active-picker.sync="activePicker"
+                @change="save(category.date,3)"
+                ></v-date-picker>
+        </v-menu>
+        <v-menu
+        ref="menutime_pa"
+        v-model="menutime_pa"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="category.date_time"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="category.date_time"
+            label="Time"
+            prepend-icon="mdi-clock-time-four-outline"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="menutime_pa"
+          v-model="category.date_time"
+          full-width
+          @click:minute="$refs.menutime_pa.save(category.date_time)"
+        ></v-time-picker>
+        </v-menu>
+        <v-text-field prepend-icon="mdi-map-marker-outline"
+            v-model = "category.venue"
+            label= "Venue"
+            :maxlength="150">
+        </v-text-field>
+        <v-btn outlined small class="text-decoration-none"  color="black"  :loading="program_progressbar"
+          @click="addWorkshop(3)" >Add</v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1109,8 +1120,8 @@
             label= "About"
             :maxlength="250">
         </v-text-field> -->
-        <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addCypher()"  >Add</v-btn>
+        <v-btn outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
+          @click="addWorkshop(4)"  >Add</v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1249,8 +1260,8 @@
                 </template>
             </template>
         </v-autocomplete>
-        <v-btn outlined small class="text-decoration-none"  color="black"
-          @click="addOtherCategory()" >Add</v-btn>
+        <v-btn outlined small class="text-decoration-none"  color="black"  :loading="program_progressbar"
+          @click="addWorkshop(5)" >Add</v-btn>
         </v-container>
         </v-dialog>
         <v-dialog v-model="delete_guest_dialog" width="500">    
@@ -1261,6 +1272,32 @@
             <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
                 @click="deleteGuest">Delete</v-btn>
             <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="delete_guest_dialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
+        <v-dialog v-model="delete_category_dialog" width="500">    
+        <v-card class="pa-4">
+            <p>Are you sure you want to delete this catgegory?</p>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
+                @click="deleteCategory">Delete</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="delete_category_dialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
+        <v-dialog v-model="delete_battle_category_dialog" width="500">    
+        <v-card class="pa-4">
+            <p>Are you sure you want to delete this catgegory?</p>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
+                @click="deleteBattleCategory">Delete</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="delete_battle_category_dialog = false">
                 Cancel
             </v-btn>
             </v-card-actions>
@@ -1279,16 +1316,22 @@
             Event details updated.
         </v-snackbar>
         <v-snackbar v-model="guest_update_snackbar">
-            Event guests updated.
+            Event guest updated.
         </v-snackbar>
         <v-snackbar v-model="program_update_snackbar">
-            Event programs updated.
+            Event program updated.
         </v-snackbar>
         <v-snackbar v-model="guest_added_snackbar">
-            Guest added.
+            Event guest added.
         </v-snackbar>
         <v-snackbar v-model="category_added_snackbar">
-            Category added.
+            Event category added.
+        </v-snackbar>
+        <v-snackbar v-model="guest_delete_snackbar">
+            Event guest deleted.
+        </v-snackbar>
+        <v-snackbar v-model="program_delete_snackbar">
+            Event program deleted.
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">
             Some error occured. Please try again.
@@ -1316,6 +1359,9 @@
         </v-snackbar>
         <v-snackbar v-model="remove_guest_form_snackbar">
             Remove the guest on edit.
+        </v-snackbar>
+        <v-snackbar v-model="remove_category_form_snackbar">
+            Remove the category on edit.
         </v-snackbar>
     </v-container>
 </v-app>
@@ -1361,8 +1407,6 @@ export default {
             this.battle_categories = this.$store.getters.editing_event_obj.event_battles.map(a => Object.assign({}, a));
             this.categories = this.$store.getters.editing_event_obj.event_subevents.map(a => Object.assign({}, a));
             this.selectedGuests = this.$store.getters.editing_event_obj.event_guests.map(a => Object.assign({}, a));
-            // this.battle_categories = this.$store.getters.editing_event_obj.event_battles;
-            // this.categories = this.$store.getters.editing_event_obj.event_subevents;
         }
     },
     computed: {
@@ -1489,6 +1533,8 @@ export default {
             },
             delete_guest_dialog:false,
             deleteLoading:false,
+            delete_category_dialog:false,
+            delete_battle_category_dialog:false,
             battle_categories:[],
             categories:[],
             battleJudges:[],
@@ -1517,7 +1563,7 @@ export default {
             progressbar: false,
             poster_progressbar:false,
             guest_progressbar:false,
-            program_progressbasr:false,
+            program_progressbar:false,
             date:null,
             slide: null,
             e6: 1,
@@ -1530,10 +1576,13 @@ export default {
             detail_update_snackbar: false,
             guest_update_snackbar: false,
             program_update_snackbar: false,
+            guest_delete_snackbar:false,
+            program_delete_snackbar:false,
             guest_added_snackbar:false,
             category_added_snackbar:false,
             valid_poster_snackbar:false,
             remove_guest_form_snackbar:false,
+            remove_category_form_snackbar:false,
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
                 {"name": "Åland Islands", "code": "AX"},
@@ -1803,10 +1852,11 @@ export default {
             maxJudges :7,
             menuProps: {
             disabled: false,
-
             },
             editing_guest_process:false,//if we click on edit guest( this is to know if we will update guest or add guests!)
+            editing_category_process:false,
             temp_guest_item:{},
+            temp_category_item:{},
         }
     },
     watch: {
@@ -1884,9 +1934,6 @@ export default {
                 // this.category.name1 = this.artist_obj
             }
         },
-        removeBattleCategory(item){
-            this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.category === item.category),1);
-        },
         close_battle_dialog(){
             for (var key in this.battle_category) {
                 this.battle_category[key] = '';
@@ -1939,162 +1986,6 @@ export default {
                 default:
                     // code block
                 }
-        },
-        addBattle(){
-            if(this.battle_category.name){
-                //add guest from this.battlejudges
-                if(this.battleDj.length != 0){
-                    //from the battleDj array put the selected ones to the battle category json.
-                    for(let i =0; i<this.battleDj.length;i++)
-                    {
-                        if(this.battle_category.djname1 == '')
-                        {
-                            this.battle_category.djname1 = this.battleDj[i].name;
-                            this.battle_category.djinfo1 = this.battleDj[i].info;
-                            this.battle_category.djphoto1 = this.battleDj[i].photo;
-                            this.battle_category.dj1 = this.battleDj[i].guest;
-                            this.battle_category.djcountry1 = this.battleDj[i].country;
-                            // add tags -> this.battle_category.dj1
-                        }else{
-                            this.battle_category.djname2 = this.battleDj[i].name;
-                            this.battle_category.djinfo2 = this.battleDj[i].info;
-                            this.battle_category.djphotor2 = this.battleDj[i].photo;
-                            this.battle_category.dj2 = this.battleDj[i].guest;
-                            this.battle_category.djcountry2 = this.battleDj[i].country;
-                        }
-                        console.log(this.battleDj,this.battle_category);
-                    }
-                }
-                if(this.battleEmcee.length != 0){
-                    //from the battleEmcee array put the selected ones to the battle category json.
-                    for(let i =0; i<this.battleEmcee.length;i++)
-                    {
-                        if(this.battle_category.mcname1 == '')
-                        {
-                            this.battle_category.mcname1 = this.battleEmcee[i].name;
-                            this.battle_category.mcinfo1 = this.battleEmcee[i].info;
-                            this.battle_category.mcphoto1 = this.battleEmcee[i].photo;
-                            this.battle_category.mc1 = this.battleEmcee[i].guest;
-                            this.battle_category.mccountry1 = this.battleEmcee[i].country;
-                            // add tags -> this.battle_category.dj1
-                        }else{
-                            this.battle_category.mcname2 = this.battleEmcee[i].name;
-                            this.battle_category.mcinfo2 = this.battleEmcee[i].info;
-                            this.battle_category.mcphoto2 = this.battleEmcee[i].photo;
-                            this.battle_category.mc2 = this.battleEmcee[i].guest;
-                            this.battle_category.mccountry2 = this.battleEmcee[i].country;
-                        }
-                        console.log(this.battleEmcee,this.battle_category);
-                    }
-                }
-                if(this.battleJudges.length != 0){
-                    //from the battlejudges array put the selected ones to the battle category json.
-                    for(let i =0; i<this.battleJudges.length;i++)
-                    {
-                        if(this.battle_category.name1 == '')
-                        {
-                            this.battle_category.name1 = this.battleJudges[i].name;
-                            this.battle_category.info1 = this.battleJudges[i].info;
-                            this.battle_category.photo1 = this.battleJudges[i].photo;
-                            this.battle_category.guest1 = this.battleJudges[i].guest;
-                            this.battle_category.country1 = this.battleJudges[i].country;
-                            // add tags -> this.battle_category.dj1
-                        }else if(this.battle_category.name2 == '')
-                        {
-                            this.battle_category.name2 = this.battleJudges[i].name;
-                            this.battle_category.info2 = this.battleJudges[i].info;
-                            this.battle_category.photo2 = this.battleJudges[i].photo;
-                            this.battle_category.guest2 = this.battleJudges[i].guest;
-                            this.battle_category.country2 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name3 == '')
-                        {
-                            this.battle_category.name3 = this.battleJudges[i].name;
-                            this.battle_category.info3 = this.battleJudges[i].info;
-                            this.battle_category.photo3 = this.battleJudges[i].photo;
-                            this.battle_category.guest3 = this.battleJudges[i].guest;
-                            this.battle_category.country3 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name4 == '')
-                        {
-                            this.battle_category.name4 = this.battleJudges[i].name;
-                            this.battle_category.info4 = this.battleJudges[i].info;
-                            this.battle_category.photo4 = this.battleJudges[i].photo;
-                            this.battle_category.guest4 = this.battleJudges[i].guest;
-                            this.battle_category.country4 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name5 == '')
-                        {
-                            this.battle_category.name5 = this.battleJudges[i].name;
-                            this.battle_category.info5 = this.battleJudges[i].info;
-                            this.battle_category.photo5 = this.battleJudges[i].photo;
-                            this.battle_category.guest5 = this.battleJudges[i].guest;
-                            this.battle_category.country5 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name6 == '')
-                        {
-                            this.battle_category.name6 = this.battleJudges[i].name;
-                            this.battle_category.info6 = this.battleJudges[i].info;
-                            this.battle_category.photo6 = this.battleJudges[i].photo;
-                            this.battle_category.guest6 = this.battleJudges[i].guest;
-                            this.battle_category.country6 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name7 == ''){
-                            this.battle_category.name7 = this.battleJudges[i].name;
-                            this.battle_category.info7 = this.battleJudges[i].info;
-                            this.battle_category.photo7 = this.battleJudges[i].photo;
-                            this.battle_category.guest7 = this.battleJudges[i].guest;
-                            this.battle_category.country7 = this.battleJudges[i].country;
-                        }
-                        console.log(this.battleEmcee,this.battle_category);
-                    }
-                }
-                let clone = {...this.battle_category}
-                this.battle_categories.push(clone)
-                this.close_battle_dialog()
-                }
-            else{
-                this.cat_valid_snackbar = true
-                console.log("add title");
-            }
-        },
-        addWorkshop(){
-            if(this.category.name){
-                //1:workshop
-                this.category.category = 1
-                let clone = {...this.category}
-                this.categories.push(clone)
-                this.category_added_snackbar=true
-                this.close_category_dialog()
-            }else this.cat_valid_snackbar = true
-        },
-        addShowcase(){
-            if(this.category.name){
-                this.category.category = 2
-                let clone = {...this.category}
-                this.categories.push(clone)
-                this.category_added_snackbar=true
-                this.close_category_dialog()
-            }else this.cat_valid_snackbar = true
-        },
-        addParty(){
-            if(this.category.name){
-                this.category.category = 3
-            let clone = {...this.category}
-            this.categories.push(clone)
-            this.category_added_snackbar=true
-            this.close_category_dialog()}else this.cat_valid_snackbar = true
-        },
-        addCypher(){
-            if(this.category.name){
-                this.category.category = 4
-                let clone = {...this.category}
-                this.categories.push(clone)
-                this.category_added_snackbar=true
-                this.close_category_dialog()
-                }else this.cat_valid_snackbar = true
-        },
-        addOtherCategory(){
-            if(this.category.name){this.category.category = 5
-            let clone = {...this.category}
-            this.categories.push(clone)
-            this.category_added_snackbar=true
-            this.close_category_dialog()}else this.cat_valid_snackbar = true
         },
         checkLink(){
             let urlLink = this.event.link;
@@ -2162,26 +2053,6 @@ export default {
                 case 4:{
                     this.guest.photo = "";
                 break;}
-                // case 3:
-                //     {this.posterDataBattle = ""
-                //     this.category.image =""
-                //     break;}
-                // case 4:
-                //     {this.imageDataCypher = ""
-                //     this.category.image =""
-                //     break;}
-                // case 5:
-                //     {this.imageDataShowcase = ""
-                //     this.category.image =""
-                //     break;}
-                // case 6:
-                //     {this.imageDataparty= ""
-                //     this.category.image =""
-                //     break;}
-                // case 7:
-                //     {this.imageDataOther = ""
-                //     this.category.image =""
-                //     break;}
                 default:
                     // code block
                 }
@@ -2290,10 +2161,9 @@ export default {
                 this.battle_categories.forEach(category => category.event = resp.uuid);
                 //put all images inside battle category in s3 bucket..
                 for (const item of this.battle_categories) {
-                    // console.log("of",item);
+                    console.log(item);
                     if(item.poster){
                         item.poster = await this.putImage(item.poster)
-                        // console.log("item.poster",item.poster);
                     }
                     
                     if(item.photo1){
@@ -2477,7 +2347,11 @@ export default {
                             })
                             }
                         }
-                        this.addGuests();
+                        //remove from array
+                        //addGuestToSelectedGuestArray
+
+                        this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.id === this.selectedGuest.id),1);
+                        this.addGuestToSelectedGuestArray();
                         this.guest_progressbar =false
                         this.guest_update_snackbar = true;
                     } catch (error) {
@@ -2492,6 +2366,8 @@ export default {
             }
             else{
                 if(this.guest.name){
+                    //remove prev obj
+                    this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.selectedGuest.name),1);
                     let clone = {...this.guest}
                     this.selectedGuests.push(clone)
                     this.guest_update_snackbar=true
@@ -2604,6 +2480,7 @@ export default {
                     this.delete_guest_dialog = false
                     this.deleteLoading = false
                     this.temp_guest_item = {}
+                    this.guest_delete_snackbar =true
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
@@ -2618,12 +2495,12 @@ export default {
 
             }
         },
-        editGuest (item) {
+        editGuest(item){
             if(!this.editing_guest_process)
             {this.editing_guest_process =true
             this.selectedGuest = Object.assign({}, item);
-            this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
-            this.guest= item
+            // this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
+            this.guest= Object.assign({}, item);
             // console.log(this.guest,item );
             // this.guest.name = item.name;
             // this.guest.photo = item.photo;
@@ -2644,6 +2521,55 @@ export default {
                 this.remove_guest_form_snackbar = true
             }
         },
+        editBattleCategory(item){
+            if(!this.editing_category_process)
+            {
+                this.editing_category_process= true
+                this.battle_dialog= true
+                this.battle_category = item
+                this.temp_category_item = Object.assign({}, item);
+                console.log("this.battle_category ",this.battle_category ,"temp_category_item",this.temp_category_item);
+            }
+            else{
+                this.remove_category_form_snackbar = true
+            }
+        },
+        editCategory(item){
+            if(!this.editing_category_process)
+            {
+                this.editing_category_process = true
+                this.category = item
+                //1:workshop
+                //2:showcase
+                //3:party
+                //4:cypher
+                //5:community talk
+                let num = item.category;
+                switch(num) {
+                case 1:
+                    {
+                    this.workshop_dialog=true
+                    break;}
+                case 2:{
+                    this.showcase_dialog=true
+                    break;}
+                case 3:{
+                    this.party_dialog= true
+                    break;}
+                case 4:{
+                    this.cypher_dialog =true
+                break;}
+                case 5:{
+                    this.otherCategory_dialog = true
+                break;}
+                default:
+                    // code block
+                }
+            }
+            else{
+                this.remove_category_form_snackbar = true
+            }
+        },
         async addGuests(){
             if(this.guest.name){
                 if(this.editing_event_obj){
@@ -2653,11 +2579,11 @@ export default {
                             "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                         }
                     }
-                    if(this.guest.guest && typeof this.guest.guest=='object')
-                    this.guest.guest = this.guest.guest.username
                     this.guest.event = this.editing_event_obj.uuid;
+                    if(this.guest.guest && typeof this.guest.guest=='object')
+                    {this.guest.guest = this.guest.guest.username}
                     if(this.guest.photo)
-                    this.guest.photo = await this.putImage(this.guest.photo)
+                    {this.guest.photo = await this.putImage(this.guest.photo)}
                     let formGuestData = new FormData();
                     for (let data in this.guest) {
                         formGuestData.append(data, this.guest[data]);
@@ -2682,6 +2608,231 @@ export default {
                 }
             }else this.cat_valid_snackbar = true
         },
+        async addBattle(){
+            if(this.battle_category.name){
+                if(this.battleDj.length != 0){
+                    //from the battleDj array put the selected ones to the battle category json.
+                    for(let i =0; i<this.battleDj.length;i++)
+                    {
+                        if(this.battle_category.djname1 == '')
+                        {
+                            this.battle_category.djname1 = this.battleDj[i].name;
+                            this.battle_category.djinfo1 = this.battleDj[i].info;
+                            this.battle_category.djphoto1 = this.battleDj[i].photo;
+                            if(this.battleDj[i].guest && typeof this.battleDj[i].guest=='object')
+                            {this.battle_category.dj1 = this.battleDj[i].guest.username}
+                            // this.battle_category.dj1 = this.battleDj[i].guest;
+                            this.battle_category.djcountry1 = this.battleDj[i].country;
+                            // add tags -> this.battle_category.dj1
+                        }else{
+                            this.battle_category.djname2 = this.battleDj[i].name;
+                            this.battle_category.djinfo2 = this.battleDj[i].info;
+                            this.battle_category.djphotor2 = this.battleDj[i].photo;
+                            // this.battle_category.dj2 = this.battleDj[i].guest;
+                            if(this.battleDj[i].guest && typeof this.battleDj[i].guest=='object')
+                            {this.battle_category.dj2 = this.battleDj[i].guest.username}
+                            this.battle_category.djcountry2 = this.battleDj[i].country;
+                        }
+                        console.log(this.battleDj,this.battle_category);
+                    }
+                }
+                if(this.battleEmcee.length != 0){
+                    //from the battleEmcee array put the selected ones to the battle category json.
+                    for(let i =0; i<this.battleEmcee.length;i++)
+                    {
+                        if(this.battle_category.mcname1 == '')
+                        {
+                            this.battle_category.mcname1 = this.battleEmcee[i].name;
+                            this.battle_category.mcinfo1 = this.battleEmcee[i].info;
+                            this.battle_category.mcphoto1 = this.battleEmcee[i].photo;
+                            // this.battle_category.mc1 = this.battleEmcee[i].guest;
+                            if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
+                            {this.battle_category.mc1 = this.battleEmcee[i].guest.username}
+                            this.battle_category.mccountry1 = this.battleEmcee[i].country;
+                            // add tags -> this.battle_category.dj1
+                        }else{
+                            this.battle_category.mcname2 = this.battleEmcee[i].name;
+                            this.battle_category.mcinfo2 = this.battleEmcee[i].info;
+                            this.battle_category.mcphoto2 = this.battleEmcee[i].photo;
+                            // this.battle_category.mc2 = this.battleEmcee[i].guest;
+                            if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
+                            {this.battle_category.mc2 = this.battleEmcee[i].guest.username}
+                            this.battle_category.mccountry2 = this.battleEmcee[i].country;
+                        }
+                        console.log(this.battleEmcee,this.battle_category);
+                    }
+                }
+                if(this.battleJudges.length != 0){
+                    //from the battlejudges array put the selected ones to the battle category json.
+                    for(let i =0; i<this.battleJudges.length;i++)
+                    {
+                        if(this.battle_category.name1 == '')
+                        {
+                            this.battle_category.name1 = this.battleJudges[i].name;
+                            this.battle_category.info1 = this.battleJudges[i].info;
+                            this.battle_category.photo1 = this.battleJudges[i].photo;
+                            // this.battle_category.guest1 = this.battleJudges[i].guest;
+                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                            {this.battle_category.guest1 = this.battleJudges[i].guest.username}
+                            this.battle_category.country1 = this.battleJudges[i].country;
+                            // add tags -> this.battle_category.dj1
+                        }else if(this.battle_category.name2 == '')
+                        {
+                            this.battle_category.name2 = this.battleJudges[i].name;
+                            this.battle_category.info2 = this.battleJudges[i].info;
+                            this.battle_category.photo2 = this.battleJudges[i].photo;
+                            // this.battle_category.guest2 = this.battleJudges[i].guest;
+                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                            {this.battle_category.guest2 = this.battleJudges[i].guest.username}
+                            this.battle_category.country2 = this.battleJudges[i].country;
+                        }else if(this.battle_category.name3 == '')
+                        {
+                            this.battle_category.name3 = this.battleJudges[i].name;
+                            this.battle_category.info3 = this.battleJudges[i].info;
+                            this.battle_category.photo3 = this.battleJudges[i].photo;
+                            // this.battle_category.guest3 = this.battleJudges[i].guest;
+                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                            {this.battle_category.guest3 = this.battleJudges[i].guest.username}
+                            this.battle_category.country3 = this.battleJudges[i].country;
+                        }else if(this.battle_category.name4 == '')
+                        {
+                            this.battle_category.name4 = this.battleJudges[i].name;
+                            this.battle_category.info4 = this.battleJudges[i].info;
+                            this.battle_category.photo4 = this.battleJudges[i].photo;
+                            // this.battle_category.guest4 = this.battleJudges[i].guest;
+                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                            {this.battle_category.guest4 = this.battleJudges[i].guest.username}
+                            this.battle_category.country4 = this.battleJudges[i].country;
+                        }else if(this.battle_category.name5 == '')
+                        {
+                            this.battle_category.name5 = this.battleJudges[i].name;
+                            this.battle_category.info5 = this.battleJudges[i].info;
+                            this.battle_category.photo5 = this.battleJudges[i].photo;
+                            // this.battle_category.guest5 = this.battleJudges[i].guest;
+                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                            {this.battle_category.guest5 = this.battleJudges[i].guest.username}
+                            this.battle_category.country5 = this.battleJudges[i].country;
+                        }else if(this.battle_category.name6 == '')
+                        {
+                            this.battle_category.name6 = this.battleJudges[i].name;
+                            this.battle_category.info6 = this.battleJudges[i].info;
+                            this.battle_category.photo6 = this.battleJudges[i].photo;
+                            // this.battle_category.guest6 = this.battleJudges[i].guest;
+                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                            {this.battle_category.guest6 = this.battleJudges[i].guest.username}
+                            this.battle_category.country6 = this.battleJudges[i].country;
+                        }else if(this.battle_category.name7 == ''){
+                            this.battle_category.name7 = this.battleJudges[i].name;
+                            this.battle_category.info7 = this.battleJudges[i].info;
+                            this.battle_category.photo7 = this.battleJudges[i].photo;
+                            // this.battle_category.guest7 = this.battleJudges[i].guest;
+                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                            {this.battle_category.guest7 = this.battleJudges[i].guest.username}
+                            this.battle_category.country7 = this.battleJudges[i].country;
+                        }
+                        console.log(this.battleEmcee,this.battle_category);
+                    }
+                }
+                if(this.editing_event_obj){
+                    this.program_progressbar =true
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    }
+                    this.battle_category.event = this.editing_event_obj.uuid;
+                    if(this.battle_category.poster)
+                    {this.battle_category.poster = await this.putImage(this.battle_category.poster)}
+                    let formBattleCategoryData = new FormData();
+                    for (let data in this.battle_category) {
+                        formBattleCategoryData.append(data, this.battle_category[data]);
+                    }
+                    try {
+                        let postBattleCategory= await this.$axios.$post("/v1/events/battles/create/", formBattleCategoryData, config)
+                        console.log("battle_category posted",postBattleCategory);
+                        this.battle_category = {...postBattleCategory}
+                        console.log(this.battle_category);
+                        this.category_added_snackbar=true
+                        this.program_progressbar =false
+                        this.addBattleToArray();
+                    } catch (error) {
+                        console.log(error,error.response);
+                        this.error_snackbar = true;
+                        this.program_progressbar =false
+                    }
+                }
+                else
+                {
+                    this.addBattleToArray();
+                }
+            }else this.cat_valid_snackbar = true
+        },
+        addWorkshop(num){
+            if(this.category.name){
+                //1:workshop
+                //2:showcase
+                //3:party
+                //4:cypher
+                //5:community talk
+                switch(num) {
+                case 1:
+                    {
+                    this.category.category = 1
+                    break;}
+                case 2:{
+                    this.category.category = 2
+                    break;}
+                case 3:{
+                    this.category.category = 3
+                    break;}
+                case 4:{
+                    this.category.category = 4
+                break;}
+                case 5:{
+                    this.category.category = 5
+                break;}
+                default:
+                    // code block
+                }
+                if(this.editing_event_obj){
+                    this.postCategoryApi();
+                }
+                else
+                {
+                    this.addCategoryToArray();
+                }
+            }else this.cat_valid_snackbar = true
+        },
+        async postCategoryApi(){
+            this.program_progressbar =true
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    }
+                    this.category.event = this.editing_event_obj.uuid;
+                    if(this.category.poster)
+                    {this.category.poster = await this.putImage(this.category.poster)}
+                    if(this.category.guest1 && typeof this.category.guest1=='object')
+                    {this.category.guest1 = this.category.guest1.username}
+                    let formCategoryData = new FormData();
+                    for (let data in this.category) {
+                        formCategoryData.append(data, this.category[data]);
+                    }
+                    try {
+                        let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formCategoryData, config)
+                        console.log("category posted",postCategory);
+                        this.category = {...postCategory}
+                        console.log(this.category);
+                        this.category_added_snackbar=true
+                        this.program_progressbar =false
+                        this.addCategoryToArray();
+                    } catch (error) {
+                        console.log(error,error.response);
+                        this.error_snackbar = true;
+                        this.program_progressbar =false
+                    }
+        },
         addGuestToSelectedGuestArray(){
             let clone = {...this.guest}
             this.selectedGuests.push(clone)
@@ -2693,6 +2844,18 @@ export default {
             this.artist_obj= null
             this.selectedGuest = {}
         },
+        addBattleToArray(){
+            let clone = {...this.battle_category}
+            this.battle_categories.push(clone)
+            this.category_added_snackbar=true
+            this.close_battle_dialog()
+        },
+        addCategoryToArray(){
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.category_added_snackbar=true
+            this.close_category_dialog()
+        },
         addGuestToCategory(){
             this.category.name1 = this.selectedGuest.name
             this.category.guest1 = this.selectedGuest.guest
@@ -2701,11 +2864,18 @@ export default {
             this.category.info1 = this.selectedGuest.info
         },
         removeCategory(item){
-            this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.category === item.category),1);
+            this.temp_category_item = item
+            this.delete_category_dialog = true
+            // this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.category === item.category),1);
+        },
+        removeBattleCategory(item){
+            this.temp_category_item = item
+            this.delete_battle_category_dialog = true
+            // this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.category === item.category),1);
         },
         cancel_edit_guest(){
-            let clone = {...this.selectedGuest}
-            this.selectedGuests.push(clone)
+            // let clone = {...this.selectedGuest}
+            // this.selectedGuests.push(clone)
             for (var key in this.guest) {
                 this.guest[key] = '';
             }
@@ -2713,7 +2883,70 @@ export default {
             this.artist_obj= null
             this.selectedGuest = {}
             this.editing_guest_process = false
-        }
+        },
+        async deleteCategory(){
+            if(this.editing_event_obj)
+            {
+                this.deleteLoading = true
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                };
+                try {
+                    let response = await this.$axios.$delete("/v1/events/workshops/"+ this.temp_category_item.uuid, config)
+                    // console.log(response);
+                    this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
+                    this.delete_category_dialog = false
+                    this.deleteLoading = false
+                    this.temp_category_item = {}
+                    this.program_delete_snackbar = true
+                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
+                    //guest removed
+                } catch (e) {
+                    this.deleteLoading = false
+                    this.error_snackbar = true
+                    console.log(e,e.response);
+                }
+                //remove from api too
+            }else{
+                this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
+                this.delete_category_dialog = false
+
+            }
+        },
+        async deleteBattleCategory(){
+            if(this.editing_event_obj)
+            {
+                this.deleteLoading = true
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                };
+                try {
+                    let response = await this.$axios.$delete("/v1/events/battles/"+ this.temp_category_item.uuid, config)
+                    // console.log(response);
+                    this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
+                    this.delete_battle_category_dialog = false
+                    this.deleteLoading = false
+                    this.temp_category_item = {}
+                    this.program_delete_snackbar = true
+                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
+                    //guest removed
+                } catch (e) {
+                    this.deleteLoading = false
+                    this.error_snackbar = true
+                    console.log(e,e.response);
+                }
+                //remove from api too
+            }else{
+                // this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.category === item.category),1);
+                this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name && e.category === temp_category_item.category),1);
+                this.delete_battle_category_dialog = false
+
+            }
+        },
     },
     middleware : 'check_auth',
     }

@@ -8,6 +8,7 @@
       outlined
       :width="img_height"
       :height="img_height"
+      class="pa-0 mx-auto"
     >
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         v-if = guest.photo :src = "guest.photo" 
@@ -19,8 +20,8 @@
         :height="img_height"
         :width="img_height">
       <div class="text-center">
-        <h4 style="height:55px; overflow:hidden;" class="font-weight-light white--text mt-md-24 mt-6 hidden-xs-only">{{guest.name}}</h4>
-        <p style="height:45px; overflow:hidden;" class="font-weight-light white--text mt-md-24 mt-7 pb-0  hidden-sm-and-up">{{guest.name}}</p>
+        <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{guest.name}}</h3>
+        <h3 style="height:55px; overflow:hidden; margin-top:120px" class="font-weight-light px-6  white--text hidden-xs-only" >{{guest.name}}</h3>
       </div>
       </v-img>
     </v-card>
@@ -65,8 +66,8 @@
     computed: {
     img_height () {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 180
-        case 'sm': return 200
+        case 'xs': return 185
+        case 'sm': return 300
         case 'md': return 300
         case 'lg': return 300
         case 'xl': return 300
