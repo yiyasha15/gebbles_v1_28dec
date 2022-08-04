@@ -86,6 +86,11 @@
                         label= "City"
                         :maxlength="250">
                     </v-text-field>
+                    <v-text-field
+                        v-model = "event.country"
+                        label= "country"
+                        :maxlength="250">
+                    </v-text-field>
                     <v-select label="Country" v-model= "event.country"
                     prepend-icon="mdi-earth"
                         :items="countries"
@@ -2483,7 +2488,7 @@ export default {
             if(this.battle_category.name!= "")
             {
                 this.updateBattleGuests();
-                console.log("json updated", this.battle_category);
+                // console.log("json updated", this.battle_category);
                 if(this.editing_event_obj){
                     this.program_progressbar = true
                     if(this.battle_category.poster)
@@ -2921,7 +2926,7 @@ export default {
                 this.battle_dialog= true
                 this.battle_category = Object.assign({}, item);
                 this.temp_category_item = Object.assign({}, item);
-                console.log("initial", this.battle_category,this.temp_category_item);
+                // console.log("initial", this.battle_category,this.temp_category_item);
                 //find object from guests -> name1 == item.name1
                 // that object is selectedGuest 
                 if(item.name1)

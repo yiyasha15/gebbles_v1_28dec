@@ -49,6 +49,9 @@ export default {
     getSearchedArtist(query) {
         return apiClient1.get('/artist/search/?query='+ query)
     },
+    getSearchedEvent(query) {
+        return apiClient1.get('/events/search/?query='+ query)
+    },
     getArtist(username) {
         // return apiClient1.get('/artist/portfolios/' + username)
         return apiClient1.get('/artist/portfolios/' + username)
