@@ -248,9 +248,6 @@
                     </v-layout>
                     <!-- {{this.editing_event_obj}}
                      -->
-                     temp_guest_item{{ temp_guest_item}}
-          temp_category_item {{ temp_category_item}}
-          {{battle_category}}
                     <v-row class="mb-2 pa-0 hidden-xs-only">
                         <v-col >
                             <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="workshop_dialog = true">
@@ -655,6 +652,7 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Workshops</h3>
+        {{selectedGuest}}
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
             <v-icon class="pa-16">mdi-plus</v-icon>
             <input 
@@ -785,8 +783,8 @@
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
             @click="addWorkshop(1)" >Add</v-btn>
-        <v-btn v-else outlined small class="text-decoration-none"  color="black"
-        @click="updateWorkshop" >Update </v-btn>
+        <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
+        @click="updateWorkshop()" >Update </v-btn>
         </v-container>
         </v-dialog> 
         <v-dialog
@@ -926,8 +924,12 @@
                 </template>
             </template>
         </v-autocomplete>
-        <v-btn outlined small class="text-decoration-none"  color="black"  :loading="program_progressbar"
-          @click="addWorkshop(2)" >Add</v-btn>
+        <v-btn outlined small class="text-decoration-none" 
+            v-if="!editing_category_process" 
+            color="black" :loading="program_progressbar"
+            @click="addWorkshop(2)" >Add</v-btn>
+        <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
+        @click="updateWorkshop()" >Update </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1020,8 +1022,12 @@
             label= "Venue"
             :maxlength="150">
         </v-text-field>
-        <v-btn outlined small class="text-decoration-none"  color="black"  :loading="program_progressbar"
-          @click="addWorkshop(3)" >Add</v-btn>
+        <v-btn outlined small class="text-decoration-none" 
+            v-if="!editing_category_process" 
+            color="black" :loading="program_progressbar"
+            @click="addWorkshop(3)" >Add</v-btn>
+        <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
+        @click="updateWorkshop()" >Update </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1120,8 +1126,12 @@
             label= "About"
             :maxlength="250">
         </v-text-field> -->
-        <v-btn outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-          @click="addWorkshop(4)"  >Add</v-btn>
+        <v-btn outlined small class="text-decoration-none" 
+            v-if="!editing_category_process" 
+            color="black" :loading="program_progressbar"
+            @click="addWorkshop(4)" >Add</v-btn>
+        <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
+        @click="updateWorkshop()" >Update </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1260,8 +1270,12 @@
                 </template>
             </template>
         </v-autocomplete>
-        <v-btn outlined small class="text-decoration-none"  color="black"  :loading="program_progressbar"
-          @click="addWorkshop(5)" >Add</v-btn>
+        <v-btn outlined small class="text-decoration-none" 
+            v-if="!editing_category_process" 
+            color="black" :loading="program_progressbar"
+            @click="addWorkshop(5)" >Add</v-btn>
+        <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
+        @click="updateWorkshop()" >Update </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog v-model="delete_guest_dialog" width="500">    
@@ -1935,6 +1949,7 @@ export default {
             }
         },
         close_battle_dialog(){
+            this.editing_category_process = false;
             for (var key in this.battle_category) {
                 this.battle_category[key] = '';
             }
@@ -1947,6 +1962,7 @@ export default {
             this.battle_dialog=false;
         },
         close_category_dialog(){
+            this.editing_category_process = false;
             for (var key in this.category) {
                 this.category[key] = '';
             }
@@ -2305,9 +2321,9 @@ export default {
             }
         },
         async updateGuests(){
-            if(this.editing_event_obj){
-                if(this.guest.name != "")
-                {
+            if(this.guest.name!= "")
+            {
+                if(this.editing_event_obj){
                     this.guest_progressbar = true
                     if(this.guest.photo)
                     {
@@ -2361,11 +2377,6 @@ export default {
                     }
                 }
                 else{
-                    this.cat_valid_snackbar=true
-                }
-            }
-            else{
-                if(this.guest.name){
                     //remove prev obj
                     this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.selectedGuest.name),1);
                     let clone = {...this.guest}
@@ -2377,9 +2388,86 @@ export default {
                     this.guest.username=this.$store.state.auth.user.user.username
                     this.artist_obj= null
                 }
-                else this.cat_valid_snackbar = true
+            }
+            else{
+                this.cat_valid_snackbar=true
             }
             this.editing_guest_process = false
+        },
+        async updateWorkshop(){
+            if(this.category.name!= "")
+            {
+                if(this.editing_event_obj){
+                    this.program_progressbar = true
+                    if(this.category.poster)
+                    {
+                        this.category.poster = await this.putImage(this.category.poster);
+                    }
+                    if(this.category.guest1 && typeof this.category.guest1=='object')
+                    {this.category.guest1 = this.category.guest1.username}
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    };
+                    let myObj1 = this.temp_category_item;
+                    let myObj2 = this.category;
+                    // find keys 
+                    let keyObj1 = Object.keys(myObj1); 
+                    let keyObj2 = Object.keys(myObj2);
+                    // find values 
+                    let valueObj1 = Object.values(myObj1); 
+                    let valueObj2 = Object.values(myObj2); 
+                    
+                    // now compare their keys and values  
+                    try {
+                        for(var i=0; i<keyObj1.length; i++) {
+                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {
+                                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                            } 
+                            else { 
+                                // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                                // it prints keys have different values 
+                                let formName = new FormData();
+                                formName.append(keyObj1[i], valueObj2[i]);
+                                formName.append("id", this.event['id']);
+                                // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                                await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config).then(res => {
+                                console.log( valueObj2[i] ,res," changed"); 
+                            })
+                            }
+                        }
+                        //remove from array
+                        //addGuestToSelectedGuestArray
+                        this.categories.splice(this.categories.findIndex(e => e.id === this.temp_category_item.id),1);
+                        // this.addGuestToSelectedGuestArray();
+                        this.updateCategoryToArray();
+                        this.program_progressbar =false
+                    } catch (error) {
+                        console.log("error!!!!! ",error, error.response);
+                        this.error_snackbar =true
+                        this.program_progressbar =false
+                    }
+                }
+                else{
+                    //remove prev obj
+                    this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name),1);
+                    let clone = {...this.category}
+                    this.categories.push(clone)
+                    this.program_update_snackbar=true
+                    for (var key in this.guest) {
+                        this.category[key] = '';
+                    }
+                    this.category.username=this.$store.state.auth.user.user.username
+                    this.artist_obj= null
+                    this.close_category_dialog();
+                }
+            }
+            else{
+                this.cat_valid_snackbar=true
+            }
+            this.program_progressbar =false
+            this.editing_category_process = false
         },
         async update(){
             try{
@@ -2526,7 +2614,7 @@ export default {
             {
                 this.editing_category_process= true
                 this.battle_dialog= true
-                this.battle_category = item
+                this.battle_category = Object.assign({}, item);
                 this.temp_category_item = Object.assign({}, item);
                 console.log("this.battle_category ",this.battle_category ,"temp_category_item",this.temp_category_item);
             }
@@ -2538,7 +2626,11 @@ export default {
             if(!this.editing_category_process)
             {
                 this.editing_category_process = true
-                this.category = item
+                this.category = Object.assign({}, item);
+                this.temp_category_item = Object.assign({}, item);
+                //find object from guests -> name1 == item.name1
+                // that object is selectedGuest 
+                this.selectedGuest = this.selectedGuests.find(guest => guest.name === item.name1)
                 //1:workshop
                 //2:showcase
                 //3:party
@@ -2562,8 +2654,7 @@ export default {
                 case 5:{
                     this.otherCategory_dialog = true
                 break;}
-                default:
-                    // code block
+                default:{}
                 }
             }
             else{
@@ -2590,9 +2681,9 @@ export default {
                     }
                     try {
                         let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
-                        console.log("guest posted",postGuest);
+                        // console.log("guest posted",postGuest);
                         this.guest = {...postGuest}
-                        console.log(this.guest);
+                        // console.log(this.guest);
                         this.guest_added_snackbar=true
                         this.guest_progressbar =false
                         this.addGuestToSelectedGuestArray();
@@ -2659,7 +2750,6 @@ export default {
                             {this.battle_category.mc2 = this.battleEmcee[i].guest.username}
                             this.battle_category.mccountry2 = this.battleEmcee[i].country;
                         }
-                        console.log(this.battleEmcee,this.battle_category);
                     }
                 }
                 if(this.battleJudges.length != 0){
@@ -2730,7 +2820,6 @@ export default {
                             {this.battle_category.guest7 = this.battleJudges[i].guest.username}
                             this.battle_category.country7 = this.battleJudges[i].country;
                         }
-                        console.log(this.battleEmcee,this.battle_category);
                     }
                 }
                 if(this.editing_event_obj){
@@ -2821,9 +2910,9 @@ export default {
                     }
                     try {
                         let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formCategoryData, config)
-                        console.log("category posted",postCategory);
+                        // console.log("category posted",postCategory);
                         this.category = {...postCategory}
-                        console.log(this.category);
+                        // console.log(this.category);
                         this.category_added_snackbar=true
                         this.program_progressbar =false
                         this.addCategoryToArray();
@@ -2854,14 +2943,26 @@ export default {
             let clone = {...this.category}
             this.categories.push(clone)
             this.category_added_snackbar=true
-            this.close_category_dialog()
+            this.close_category_dialog();
+        },
+        updateCategoryToArray(){
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.program_update_snackbar = true;
+            this.close_category_dialog();
         },
         addGuestToCategory(){
-            this.category.name1 = this.selectedGuest.name
+            console.log(this.selectedGuest);
+            if(this.selectedGuest){this.category.name1 = this.selectedGuest.name
             this.category.guest1 = this.selectedGuest.guest
             this.category.photo1 = this.selectedGuest.photo
             this.category.country1 = this.selectedGuest.country
-            this.category.info1 = this.selectedGuest.info
+            this.category.info1 = this.selectedGuest.info}
+            else{this.category.name1 = ''
+            this.category.guest1 = ''
+            this.category.photo1 = ''
+            this.category.country1 = ''
+            this.category.info1 = ''}
         },
         removeCategory(item){
             this.temp_category_item = item
@@ -2895,7 +2996,7 @@ export default {
                 };
                 try {
                     let response = await this.$axios.$delete("/v1/events/workshops/"+ this.temp_category_item.uuid, config)
-                    // console.log(response);
+                    console.log("deleted: ",response);
                     this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
                     this.delete_category_dialog = false
                     this.deleteLoading = false
