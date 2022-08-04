@@ -714,10 +714,10 @@ export default {
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
-				// this.$store.dispatch("check_notifications");
-                this.$router.push('/');
+                // this.$store.dispatch("check_notifications");
                 this.progressbar1 = false;
                 this.loginDialog = false;
+                this.$router.push('/');
                 })
 			}catch(error){
                 this.progressbar1 = false;

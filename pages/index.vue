@@ -3,11 +3,16 @@
     <!-- <div>
       <nuxt-link to="/explore/">test</nuxt-link>
     </div> -->
-    <div v-if="!isAuthenticated" class="home">
-      <div align="center" justify="center" class="mt-2">
-      <img src = "~/assets/home.png"  width="100%" alt="portfolio logo">
+    <div v-if="!isAuthenticated" class="mt-md-16 mt-8">
+      <div align="center" justify="center" class="mt-md-16 mt-2">
+        <v-img
+          :lazy-src="require('@/assets/home.png')"
+          max-height="428"
+          max-width="538"
+          :src="require('@/assets/home.png')"
+        ></v-img>
       </div>
-      <v-row justify="center" class="my-3" grey >
+      <v-row justify="center" class="my-3" grey>
         <!-- <h1 class="text-center font-weight-black hidden-sm-and-down " style="font-size:2em">
           Connecting the groove, <br>
           celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
@@ -192,10 +197,10 @@ export default {
 
 </script>
 <style scoped>
-.home{
-  max-width: 860px;
+/* .home{
+  width: 860px;
   margin: auto;
-}
+} */
 h5:hover{
   color: black;
   text-decoration: underline;

@@ -62,7 +62,7 @@
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-row>
-          {{category}}
+          <!-- {{category}} -->
         <v-img class=" mx-auto"
         v-if = category.poster :src = "category.poster" 
         :lazy-src= "category.poster" 

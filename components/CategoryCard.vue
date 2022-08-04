@@ -14,10 +14,45 @@
         v-if = category.poster :src = "category.poster" 
         :height="img_height"
         :width="img_width">
-        <div class="text-center" >
+        <div class="text-center">
         <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
         <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-light px-6  white--text hidden-xs-only" >{{category.name}}</h3>
         <h6 v-if="category.date" class="caption white--text mt-sm-12 mt-4">{{getTime(category.date).date}}</h6>
+      </div>
+      <div style="position:absolute; padding-left:2px; bottom:2px;">
+      <v-avatar size="26px" v-if="category.photo1">
+        <v-img :src="category.photo1"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo2">
+        <v-img :src="category.photo2"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo3">
+        <v-img :src="category.photo3"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo4">
+        <v-img :src="category.photo4"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo5">
+        <v-img :src="category.photo5"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo6">
+        <v-img :src="category.photo6"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo7">
+        <v-img :src="category.photo7"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.mcphoto1">
+        <v-img :src="category.mcphoto1"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.mcphoto2">
+        <v-img :src="category.mcphoto2"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.djphoto1">
+        <v-img :src="category.djphoto1"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.djphoto2">
+        <v-img :src="category.djphoto2"></v-img>
+      </v-avatar>
       </div>
       </v-img>
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
@@ -89,6 +124,15 @@
             </v-avatar>
             {{category.mcname2}}
         </v-chip>
+        <v-chip v-if="category.mcname3" color="black " @click="openChipDialog('mc3')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.mcphoto3">
+              <v-img :src="category.mcphoto3"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.mcname3}}
+        </v-chip>
         <h3 v-if="category.djname1" class="font-weight-light mt-2">DJ: </h3>
         <v-chip v-if="category.djname1" color="black " @click="openChipDialog('dj1')" dark outlined class="ma-1" style="cursor:pointer;">
             <v-avatar left v-if="category.djphoto1">
@@ -107,6 +151,15 @@
               <v-icon>mdi-account-circle</v-icon>
             </v-avatar>
             {{category.djname2}}
+        </v-chip>
+        <v-chip v-if="category.djname3" color="black " @click="openChipDialog('dj3')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.djphoto3">
+              <v-img :src="category.djphoto3"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.djname3}}
         </v-chip>
         <h3 v-if="category.name1" class="font-weight-light mt-2">Judges:</h3>
         <v-chip v-if="category.name1" color="black " @click="openChipDialog('n1')" dark outlined class="ma-1" style="cursor:pointer;">
@@ -274,6 +327,12 @@
         this.temp.photo = this.category.mcphoto2
         this.temp.info = this.category.mcinfo2
         this.temp.country = this.category.mccountry2}
+        else if(artist == 'mc3')
+        {this.temp.name = this.category.mcname3
+        this.temp.guest = this.category.mc3
+        this.temp.photo = this.category.mcphoto3
+        this.temp.info = this.category.mcinfo3
+        this.temp.country = this.category.mccountry3}
         else if(artist == 'dj1')
         {this.temp.name = this.category.djname1
         this.temp.guest = this.category.dj1
@@ -286,6 +345,12 @@
         this.temp.photo = this.category.djphoto2
         this.temp.info = this.category.djinfo2
         this.temp.country = this.category.djcountry1}
+        else if(artist == 'dj3')
+        {this.temp.name = this.category.djname3
+        this.temp.guest = this.category.dj3
+        this.temp.photo = this.category.djphoto3
+        this.temp.info = this.category.djinfo3
+        this.temp.country = this.category.djcountry3}
         else if(artist == 'n1')
         {this.temp.name = this.category.name1
         this.temp.guest = this.category.guest1
