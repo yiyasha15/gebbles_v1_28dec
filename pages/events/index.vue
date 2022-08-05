@@ -14,7 +14,8 @@
             v-model="search"
             @input="debounceSearch"
           ></v-text-field> -->
-          <v-select label="Filter country" v-model= "search"
+          <!-- {{search}} -->
+          <v-select label="Filter country" v-model= "search" solo rounded
               @input="debounceSearch"
               :items="countries" prepend-icon="mdi-earth"
               item-text="name"
@@ -27,7 +28,7 @@
           <h3 class ="xs12 d-inline font-weight-light">Events</h3>
         </v-col>
         <v-col cols="12" md="4" class= "justify-end pa-0" >
-          <v-select label="Filter country" v-model= "search"
+          <v-select label="Filter country" v-model= "search" solo rounded
               @input="debounceSearch"
               :items="countries" prepend-icon="mdi-earth"
               item-text="name"
@@ -64,7 +65,7 @@
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
-      <center v-if="!events && !firstLoad">
+      <center v-if="!events.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
@@ -132,17 +133,19 @@ export default {
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
       if(this.search){EventService.getSearchedEvent(this.search).then((value) => {
+        console.log("this.search",this.search,value.data);
       this.firstLoad = false
       this.events = value.data
       });}
       else{
-        this.getevents();
+        this.getEvents();
       }
       }, 600)
     },
   },
   components: {
-      EventsCard, EventsCardDesktop
+      EventsCard, EventsCardDesktop,
+      "vue-country-select": require("vue-country-select")
 
   },
   data() {
@@ -155,6 +158,7 @@ export default {
       search: "",
       debounce: null,
       countries: [
+            {"name": "All events", "code": ""},
             {"name": "Afghanistan", "code": "AF"},
             {"name": "Åland Islands", "code": "AX"},
             {"name": "Albania", "code": "AL"},

@@ -1014,34 +1014,35 @@ methods: {
         let valueObj2 = Object.values(myObj2); 
         let valueObj3 = Object.values(myObj3); 
         let valueObj4 = Object.values(myObj4); 
-
+        let formName = new FormData();
         // now compare their keys and values  
         for(var i=0; i<keyObj1.length; i++) { 
             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
                 // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
             } else {
-                let formName = new FormData();
                 formName.append(keyObj1[i], valueObj2[i]);
-                // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
-                formName.append("username", this.artist_data['username']);
-                let res = await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
-                // console.log("patch on portfolio",res);
             } 
         }
+        // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
+        formName.append("username", this.artist_data['username']);
+        await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config).then(res => {
+            console.log(res," portfolio changed"); 
+        })
+        let formName2 = new FormData();
         for(var i=0; i<keyObj3.length; i++) { 
             if(keyObj3[i] == keyObj4[i] && valueObj3[i] == valueObj4[i]) { 
                 // console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
             } else { 
                 // it prints keys have different values 
-                let formName = new FormData();
-                formName.append(keyObj3[i], valueObj4[i]);
-                formName.append("username", this.bio['username']);
-                // console.log("key obj3: "+keyObj3[i]+"\nkeyobj4: "+keyObj4[i]+'\n myObj3 value: '+ valueObj3[i] + '\nmyObj4 value: '+ valueObj4[i] +'\n');
-                let res = await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName, config).catch(function(err){console.log(err.response.data);})
-                // console.log("patch on portfolio",res);
-                // console.log( valueObj3[i] ," changed"); 
+                let formName2 = new FormData();
+                formName2.append(keyObj3[i], valueObj4[i]);
             } 
         }
+        formName2.append("username", this.bio['username']);
+        // console.log("key obj3: "+keyObj3[i]+"\nkeyobj4: "+keyObj4[i]+'\n myObj3 value: '+ valueObj3[i] + '\nmyObj4 value: '+ valueObj4[i] +'\n');
+        await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName2, config).then(res => {
+            console.log(res," changed"); 
+        })
         this.progressbar =false
         this.$store.dispatch("check_user_bio");
         this.$store.dispatch("check_user_portfolio");

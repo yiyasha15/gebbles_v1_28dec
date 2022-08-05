@@ -86,11 +86,11 @@
                         label= "City"
                         :maxlength="250">
                     </v-text-field>
-                    <v-text-field
+                    <!-- <v-text-field
                         v-model = "event.country"
                         label= "country"
                         :maxlength="250">
-                    </v-text-field>
+                    </v-text-field> -->
                     <v-select label="Country" v-model= "event.country"
                     prepend-icon="mdi-earth"
                         :items="countries"
@@ -2361,23 +2361,18 @@ export default {
                     
                     // now compare their keys and values  
                     try {
+                        let formName = new FormData();
                         for(var i=0; i<keyObj1.length; i++) {
-                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 	 
                             } 
                             else { 
-
-                                console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-                                // it prints keys have different values 
-                                let formName = new FormData();
                                 formName.append(keyObj1[i], valueObj2[i]);
-                                formName.append("id", this.event['id']);
-                                // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                                await this.$axios.$patch("/v1/events/guests/"+this.selectedGuest.uuid, formName, config).then(res => {
-                                console.log( valueObj2[i] ,res," changed"); 
-                            })
                             }
                         }
+                        formName.append("id", this.event['id']); 
+                        await this.$axios.$patch("/v1/events/guests/"+this.selectedGuest.uuid, formName, config).then(res => {
+                            console.log( res," changed"); 
+                        })
                         //remove from array
                         //addGuestToSelectedGuestArray
 
@@ -2436,21 +2431,17 @@ export default {
                     
                     // now compare their keys and values  
                     try {
+                        let formName = new FormData();
                         for(var i=0; i<keyObj1.length; i++) {
-                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {
-                                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
                             } 
-                            else { 
-                                // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-                                // it prints keys have different values 
-                                let formName = new FormData();
+                            else {
                                 formName.append(keyObj1[i], valueObj2[i]);
-                                formName.append("id", this.event['id']);
-                                // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                                await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config).then(res => {
-                                console.log( valueObj2[i] ,res," changed"); 
-                            })
                             }
+                            formName.append("id", this.event['id']);
+                            await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config).then(res => {
+                                console.log(res," changed"); 
+                            })
                         }
                         //remove from array
                         //addGuestToSelectedGuestArray
@@ -2511,22 +2502,19 @@ export default {
                     
                     // now compare their keys and values  
                     try {
+                        let formName = new FormData();
                         for(var i=0; i<keyObj1.length; i++) {
                             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {
-                                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
                             } 
-                            else { 
-                                console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-                                // it prints keys have different values 
-                                let formName = new FormData();
+                            else {
                                 formName.append(keyObj1[i], valueObj2[i]);
-                                formName.append("id", this.event['id']);
-                                // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                                await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config).then(res => {
-                                console.log(keyObj1[i], valueObj2[i]," changed"); 
-                            })
                             }
                         }
+                        formName.append("id", this.event['id']);
+                        // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                        await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config).then(res => {
+                            console.log(res," changed"); 
+                        })
                         this.battle_categories.splice(this.battle_categories.findIndex(e => e.id === this.temp_category_item.id),1);
                         this.updateBattleToArray();
                         console.log(myObj1,myObj2);
@@ -2821,6 +2809,7 @@ export default {
             
             // now compare their keys and values  
             try {
+                let formName = new FormData();
                 for(var i=0; i<keyObj1.length; i++) { 
                     if(keyObj1[i]=='event_battles'){}
                     else if(keyObj1[i]=='event_subevents'){}
@@ -2833,17 +2822,15 @@ export default {
                         } 
                         else { 
                             // it prints keys have different values 
-                            let formName = new FormData();
                             formName.append(keyObj1[i], valueObj2[i]);
-                            formName.append("id", this.event['id']);
-
-                            // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                            await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
-                            console.log( valueObj2[i] ,res," changed"); 
-                        })
+                            // console.log( valueObj2[i] ," gonna change"); 
                         } 
                     }
                 }
+                formName.append("id", this.event['id']);
+                await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
+                    console.log(res," changed"); 
+                })
                 // this.$store.dispatch("remove_editing_event_obj");
                 this.progressbar =false
                 this.detail_update_snackbar = true;

@@ -706,22 +706,20 @@ export default {
             // find values 
             let valueObj1 = Object.values(myObj1); 
             let valueObj2 = Object.values(myObj2); 
-            
+            let formName = new FormData();
             // now compare their keys and values  
             for(var i=0; i<keyObj1.length; i++) { 
                 if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
                     // console.log("no change ",keyObj1[i]+' -> '+valueObj2[i]);	 
                 } 
                 else{
-                    // it prints keys have different values 
-                    let formName = new FormData();
                     formName.append(keyObj1[i], valueObj2[i]);
-                    formName.append("id", this.sharing['id']);
-                    // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                    await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
-                    // console.log( valueObj1[i] ," changed"); 
                 } 
             }
+            formName.append("id", this.sharing['id']);
+            // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+            await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
+            // console.log( valueObj1[i] ," changed"); 
             this.progressbar =false;
             this.$store.dispatch("check_user_teachers");
             this.$store.dispatch("remove_share_obj");

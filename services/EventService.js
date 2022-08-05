@@ -50,6 +50,7 @@ export default {
         return apiClient1.get('/artist/search/?query='+ query)
     },
     getSearchedEvent(query) {
+        console.log(query,"query");
         return apiClient1.get('/events/search/?query='+ query)
     },
     getArtist(username) {

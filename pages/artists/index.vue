@@ -52,7 +52,7 @@
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
-      <center v-if="!artists && !firstLoad">
+      <center v-if="!artists.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
