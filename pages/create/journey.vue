@@ -5,9 +5,7 @@
             <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
         <v-row >
-        <v-col class="pa-0">
-            <!-- {{journey}} -->
-            
+        <v-col>
              <h2 class="mb-md-8 mb-4" align="center" justify="center">Share your journey</h2>
             <v-stepper v-model="e6" vertical >
                 <!-- {{editing_obj}} -->

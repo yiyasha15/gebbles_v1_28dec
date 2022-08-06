@@ -1,30 +1,15 @@
 <template>
     <v-app>
-      <v-container class="pa-0">
-      <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down">
-        <v-col cols="12" md="8"  class="justify-center pa-1">
+      <v-container class="pa-0 mt-4 mt-md-8" >
+      <v-row class="mx-auto width">
+        <v-col cols="12" md="8"  class="justify-center ">
           <h2 class ="xs12 d-inline font-weight-light">Community</h2>
         </v-col>
-        <v-col cols="12" md="4" class= "justify-end pa-1" >
+        <v-col cols="12" md="4" class= "justify-end py-0 py-md-3" >
           <v-text-field
             label="Search artists"
             rounded
-            solo
-            prepend-inner-icon="mdi-magnify"
-            v-model="search"
-          @input="debounceSearch"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up" >
-        <v-col cols="12" md="8"  class="justify-center px-1">
-          <h3 class ="xs12 d-inline font-weight-light">Community</h3>
-        </v-col>
-        <v-col cols="12" md="4" class= "justify-end pa-0" >
-          <v-text-field
-            label="Search artists"
-            rounded
-            solo
+            solo clearable
             prepend-inner-icon="mdi-magnify"
             v-model="search"
           @input="debounceSearch"

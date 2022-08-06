@@ -6,21 +6,19 @@
       @click="openDialog(journey.id)" 
       :elevation="hover ? 12 : 0"
       outlined
-      width="115"
-       max-height="105">
+      :width="cardwidth"
+       :max-height="cardheight">
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
         :lazy-src= "journey.jp1thumb" 
         class="grey lighten-2 white--text"
-        height="73"
-        width="115"/>
-      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73"
-        width="115" contain/>
+        :height="imgheight"
+        :width="cardwidth"/>
+      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="imgheight"
+        :width="cardwidth" contain/>
       <v-card-actions height="32px">
-        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
-          line-height: initial;
-          overflow: hidden">
-        <p style="max-width:78px; font-size:0.6rem!important;">{{ journey.joevent }} </p>
+        <div class="text-decoration-none caption width" >
+        <p class="event_p">{{ journey.joevent }} </p>
         </div>
         <v-spacer></v-spacer>
          <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
@@ -30,15 +28,15 @@
         max-width="800"
         v-model="dialog"
         persistent
-        class="ma-12 overflow-hidden">
+        class="ma-12 ma-md-24 overflow-hidden">
         <div class="rounded-lg white" max-width="800"> 
-          <v-row align="end" justify="end" class="px-2 pt-2 ma-0" >
+          <v-row align="end" justify="end" class="px-2 pt-2 ma-0 " >
           <v-btn icon color="error" @click="closeDialog"  align="end" justify="end" >
             <v-icon >mdi-close</v-icon>
           </v-btn>
           </v-row>
-          <v-container style="margin:auto; max-width:768px; " class="pt-0 pb-1" >
-          <v-row class="ma-0 pl-2" v-if="fullJourney">
+          <v-container style="margin:auto; max-width:768px; " class="pt-0 pb-3 px-md-0" >
+          <v-row class="ma-0" v-if="fullJourney">
                 <h5 v-if="journey.jodate" class="font-weight-light pt-2">{{dateFormat(journey.jodate).date}}</h5>
                 <v-spacer></v-spacer>
                 <v-btn v-if="fullJourney.jolink"  icon color="black" @click="openlink">
@@ -68,7 +66,7 @@
             <client-only>
               <Slider 
                   :autoplay = false
-                  width="768px" height="310px"
+                  width="768px" :height="sliderheight"
                   >
                   <div v-if="fullJourney">
                   <div v-if="fullJourney.jophoto1 !=''">
@@ -76,7 +74,7 @@
                   <v-img
                         :src="fullJourney.jophoto1"
                         contain
-                        max-height="310px"
+                        :max-height="sliderheight"
                         max-width="768px"
                       ></v-img>
                   </SliderItem>
@@ -86,7 +84,7 @@
                   <v-img
                         :src="fullJourney.jophoto2"
                         contain
-                        height="310px"
+                        :max-height="sliderheight"
                         width="768px"
                       ></v-img>
                   </SliderItem>
@@ -95,8 +93,8 @@
               </Slider>
             </client-only>
           </v-row>
-          <v-container style="margin:auto; max-width:768px; " >
-            <v-row class="pt-2 px-2 ma-0">
+          <v-container style="margin:auto; max-width:768px; " class=" px-md-0">
+            <v-row class="pt-2 ma-0">
             <h5><nuxt-link :to="'/'+ journey.username" class="text-decoration-none">{{journey.username}} </nuxt-link> </h5>
             <v-spacer></v-spacer>
             <div v-if="loggedInUser">
@@ -135,13 +133,13 @@
           </v-row>
             </div>
           </v-row>
-          <v-row class="pt-2 px-2 ma-0" v-if="fullJourney">
+          <v-row class="pt-2 ma-0" v-if="fullJourney">
               <h5>{{fullJourney.joevent}}</h5> 
               <v-spacer></v-spacer>
               <h5 v-if="fullJourney.city" class="font-weight-light pr-1 ">{{fullJourney.city}}</h5>
             <country-flag v-if="fullJourney.country" :country= fullJourney.country />
           </v-row>
-          <v-row class="py-2 px-2 ma-0">
+          <v-row class="py-2 ma-0">
           <h5 class="font-weight-light" v-if="fullJourney">{{fullJourney.jocontent}}</h5>
           </v-row>
           </v-container>
@@ -238,6 +236,42 @@ export default {
     },
     computed: {
         ...mapGetters(['loggedInUser']),
+        cardheight () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
+        }
+      },
+      cardwidth () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 115
+          case 'sm': return 115
+          case 'md': return 215
+          case 'lg': return 215
+          case 'xl': return 215
+        }
+      },
+      imgheight(){
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 73
+          case 'sm': return 73
+          case 'md': return 134
+          case 'lg': return 134
+          case 'xl': return 134
+        }
+      },
+      sliderheight(){
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return '310px'
+          case 'sm': return '310px'
+          case 'md': return '510px'
+          case 'lg': return '510px'
+          case 'xl': return '510px'
+        }
+      }
     },
     
     data() {
@@ -256,5 +290,26 @@ export default {
 </script>
 <style scoped>
 
+.width{
+    /* width: 90px; */
+    height: 1.7em;
+    line-height: initial;
+    overflow: hidden
+  }
+.event_p{
+  /* max-width:134px;  */
+  font-size:0.8rem!important;
+}
+@media only screen and (max-width: 960px) {
+  .width{
+    height: 1.3em;
+    line-height: initial;
+    overflow: hidden
+  }
+  .event_p{
+    /* max-width:78px;  */
+    font-size:0.6rem!important;
+  }
+}
 </style>
 

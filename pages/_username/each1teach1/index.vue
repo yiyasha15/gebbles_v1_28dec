@@ -1,100 +1,13 @@
 <template>
     <v-app>
         <v-container style="max-width:670px;" class="pa-0">
-        <center>
-        <v-tabs style="max-width:670px; margin:auto;" class="hidden-sm-and-down">
+        <v-tabs class="width mx-auto">
         <v-tab>
-            <h4 class="font-weight-light pl-2" style="text-transform: capitalize;">Learning</h4><br>
-            <p class="font-weight-light caption ma-0" style="text-transform: lowercase;">(each one)</p>
-        </v-tab>
-        <v-tab>
-            <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Sharing</h4>
-             <p class="font-weight-light caption ma-0" style="text-transform: lowercase;">(teach one)</p>
-        </v-tab>
-        <!-- <v-tab>
-            <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Videos</h4>
-        </v-tab> -->
-        <v-tab-item v-if="!firstLoad">
-            <div v-if="teachers.length">
-            <v-layout wrap class="my-2">
-                <div v-for="share in teachers" :key ="share.index">
-                        <teachers-card-desktop :e1t1="share" ></teachers-card-desktop>
-                    </div>
-            </v-layout>
-            </div>
-            <center v-if="!teachers.length ">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No learnings yet. </h4>
-            </center>
-            <v-card v-intersect="infiniteScrollingTeacher"></v-card>
-        </v-tab-item>
-        <v-tab-item v-else>
-            <v-layout wrap row justify-start class="my-2" >
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" ></v-skeleton-loader>
-                </div>
-            </v-layout>
-        </v-tab-item>
-        <v-tab-item v-if="!firstLoad">
-            <div v-if="students.length">
-            <v-layout wrap justify-start class="my-2">
-                <div v-for="share in students" :key ="share.index">
-                    <students-card-desktop :share="share" ></students-card-desktop>
-                </div>
-            </v-layout>
-            </div>
-            <center v-if="!students.length">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No students yet. </h4>
-            </center>
-            <v-card v-intersect="infiniteScrollingStudents"></v-card>
-        </v-tab-item>
-        <v-tab-item v-else>
-            <v-layout wrap row justify-start class="my-2" >
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" ></v-skeleton-loader>
-                </div>
-            </v-layout>
-        </v-tab-item>
-        <!-- <v-tab-item v-if="!firstLoad">
-            <div v-if="own_cooking.length">
-            <v-layout wrap  justify-start class="my-2" >
-                <div v-for="cook in own_cooking" :key ="cook.index">
-                <cooking-card-desktop :cook="cook"></cooking-card-desktop>
-                </div>
-            </v-layout>
-            </div>
-            <center v-if="!own_cooking.length && !firstLoad">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No videos yet. </h4>
-            </center>
-            <v-card v-intersect="infiniteScrollingCooking"></v-card>
-        </v-tab-item>
-        <v-tab-item v-else>
-            <v-layout wrap row justify-start class="my-2" >
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" ></v-skeleton-loader>
-                </div>
-            </v-layout>
-        </v-tab-item> -->
-        </v-tabs>
-        </center>
-        <v-tabs style="max-width:357px; margin:auto;" class="hidden-md-and-up">
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Learning</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learning</p>
             <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p>
         </v-tab>
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Sharing</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Sharing</p>
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
         <!-- <v-tab>
@@ -120,7 +33,7 @@
         <v-tab-item v-else>
             <v-layout wrap row justify-start class="my-2">
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
+                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" ></v-skeleton-loader>
             </div>
             </v-layout>
         </v-tab-item>
@@ -144,7 +57,7 @@
         <v-tab-item v-else>
             <v-layout wrap row justify-start class="my-2">
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
+                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" ></v-skeleton-loader>
             </div>
             </v-layout>
         </v-tab-item>
@@ -190,8 +103,6 @@
 import EventService from '@/services/EventService.js'
 import StudentsCard from '@/components/StudentsCard.vue'
 import TeachersCard from '@/components/TeachersCard.vue'
-import StudentsCardDesktop from '@/components/StudentsCardDesktop.vue'
-import TeachersCardDesktop from '@/components/TeachersCardDesktop.vue'
 // import CookingCardSharing from '@/components/CookingCardSharing.vue'
 // import CookingCardSharingDesktop from '@/components/CookingCardSharingDesktop.vue'
 import { mapGetters} from 'vuex'
@@ -204,8 +115,6 @@ export default {
     components: {
         StudentsCard,
         TeachersCard,
-        StudentsCardDesktop,
-        TeachersCardDesktop,
         // CookingCardSharing,
         // CookingCardSharingDesktop,
         // CookingCard,
@@ -214,6 +123,24 @@ export default {
     }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser','usersTeachers','userHasTeachers']),
+    cardheight () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 185
+          case 'lg': return 185
+          case 'xl': return 185
+        }
+      },
+      cardwidth () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 115
+          case 'sm': return 115
+          case 'md': return 215
+          case 'lg': return 215
+          case 'xl': return 215
+        }
+      },
     // filteredTeacher: function(){
     //   return this.teachers.filter((share) => {
     //     return share.username === this.artist.username;
@@ -334,3 +261,14 @@ export default {
   },
 }
 </script>
+<style scoped>
+
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
+</style>

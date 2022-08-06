@@ -1,8 +1,5 @@
 <template>
   <v-app>
-    <!-- <div>
-      <nuxt-link to="/explore/">test</nuxt-link>
-    </div> -->
     <div v-if="!isAuthenticated" class="mt-md-16 mt-8">
       <div align="center" justify="center" class="mt-md-16 mt-2">
         <v-img
@@ -39,29 +36,13 @@
         </v-row>
       </center>
     </div>
-    <v-container v-else class="pa-0" >
-    <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down">
-      <v-col cols="12" md="8"  class="justify-center pa-1">
-        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> 
+    <v-container v-else class="pa-0 mt-4 mt-md-8" >
+    <v-row class="mx-auto width">
+      <v-col cols="12" md="8"  class="justify-center ">
+        <nuxt-link to="/" class="text-decoration-none outlined"><h2 class ="xs12 d-inline font-weight-light">Community</h2></nuxt-link> 
         <!-- / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link> -->
       </v-col>
-      <v-col cols="12" md="4" class= "justify-end pa-1" >
-        <v-text-field
-          label="Search artists"
-          rounded
-          solo
-          prepend-inner-icon="mdi-magnify"
-          v-model="search"
-        @input="debounceSearch"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up" >
-      <v-col cols="12" md="8"  class="justify-center px-1">
-        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> 
-        <!-- / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link> -->
-      </v-col>
-      <v-col cols="12" md="4" class= "justify-end pa-0" >
+      <v-col cols="12" md="4" class= "justify-end py-0 py-md-3" >
         <v-text-field
           label="Search artists"
           rounded

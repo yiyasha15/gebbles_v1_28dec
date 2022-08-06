@@ -12,8 +12,7 @@
           <div v-if="i==0"  > 
             <h3 style="color:black;" class="font-weight-medium pb-4">create your portfolio</h3>
             <img src = "~/assets/create_portfolio.png"  width="60%" alt="portfolio logo">
-            <h4 style="color:black; max-width:550px" class="font-weight-light hidden-sm-and-down"> a simple and beautiful canvas to showcase your art and lifestyle. render your landing page by just filling up a form.</h4>
-            <p style="color:black; max-width:260px" class="font-weight-light hidden-md-and-up"> a simple and beautiful canvas to showcase your art and lifestyle. render your landing page by just filling up a form.</p>
+            <h4 style="color:black; " class="font-weight-light width"> a simple and beautiful canvas to showcase your art and lifestyle. render your landing page by just filling up a form.</h4>
             <div class="mt-2" > 
             <v-icon dark large color="#815A44">mdi-circle-small</v-icon>
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
@@ -34,8 +33,7 @@
           <div v-if="i==2" >
             <h3 style="color:black;" class="font-weight-medium pb-4">each one teach one</h3>
             <img src = "~/assets/create_e1t1.png"  width="60%" alt="e1t1 logo">
-            <h4 style="color:black; max-width:500px" class="font-weight-light hidden-sm-and-down">let them know how you are taking their teachings and ideas to the next level with your own flavour. Let them know that you appreciate their sharings.</h4>
-            <p style="color:black; max-width:260px" class="font-weight-light hidden-md-and-up"> let them know how you are taking their teachings and ideas to the next level with your own flavour. Let them know that you appreciate their sharings.</p>
+            <h4 style="color:black;" class="font-weight-light width">let them know how you are taking their teachings and ideas to the next level with your own flavour. Let them know that you appreciate their sharings.</h4>
           <div class="mt-2" > 
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
@@ -126,4 +124,14 @@ export default {
 .v-image__image--cover {
     background-size: contain !important;
 }
+
+.width{
+     max-width:550px
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width:260px
+}
+}
 </style>
+

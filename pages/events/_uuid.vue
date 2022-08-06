@@ -1,15 +1,18 @@
 <template>
   <v-app>
         <v-container class="mx-auto" fluid style="max-width:950px" >
-        <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
+        <v-btn icon class="elevation-0  hidden-sm-and-down " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
         <v-row class="ma-0">
             <v-col cols="12" md="6" >
-                <v-row>
-                    <v-col >
+                <v-row v-if="isAuthenticated && loggedInUser.user.username == event.username" >
+                    <v-col>
+                        <v-btn icon class="elevation-0 hidden-md-and-up" @click="goback()" style="margin-left:-6px">
+                            <v-icon class="float-left">mdi-arrow-left</v-icon>
+                        </v-btn>
                     </v-col>
-                    <v-col align="end" v-if="isAuthenticated && loggedInUser.user.username == event.username" >
+                    <v-col align="end">
                     <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn small icon v-bind="attrs"
@@ -62,13 +65,13 @@
                     </v-btn>
                 </v-row>
                 <!-- <span v-if="event.about" style=""></span> -->
-                <v-row class="mt-6">
+                <v-row class="mt-6" v-if="event.about">
                 <div style="
                     max-height:190px;
                     overflow-x: hidden;
                     overflow-y: auto;
                     text-align:justify;">
-                <h3 class="font-weight-light ">{{event.about}}</h3>
+                <h4 class="font-weight-light ">{{event.about}}</h4>
                 </div>
                 </v-row>
             </v-col>

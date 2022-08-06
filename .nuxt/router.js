@@ -38,6 +38,7 @@ const _a29e8c20 = () => interopDefault(import('../pages/_username.vue' /* webpac
 const _11b3e71a = () => interopDefault(import('../pages/_username/index.vue' /* webpackChunkName: "pages/_username/index" */))
 const _51239ca4 = () => interopDefault(import('../pages/_username/about.vue' /* webpackChunkName: "pages/_username/about" */))
 const _5fd40d50 = () => interopDefault(import('../pages/_username/each1teach1/index.vue' /* webpackChunkName: "pages/_username/each1teach1/index" */))
+const _012a9370 = () => interopDefault(import('../pages/_username/events.vue' /* webpackChunkName: "pages/_username/events" */))
 const _8a37e3be = () => interopDefault(import('../pages/_username/journey.vue' /* webpackChunkName: "pages/_username/journey" */))
 const _7c9c9b12 = () => interopDefault(import('../pages/_username/myhood.vue' /* webpackChunkName: "pages/_username/myhood" */))
 const _930136ee = () => interopDefault(import('../pages/_username/notifications.vue' /* webpackChunkName: "pages/_username/notifications" */))
@@ -193,6 +194,10 @@ export const routerOptions = {
       path: "each1teach1",
       component: _5fd40d50,
       name: "username-each1teach1"
+    }, {
+      path: "events",
+      component: _012a9370,
+      name: "username-events"
     }, {
       path: "journey",
       component: _8a37e3be,

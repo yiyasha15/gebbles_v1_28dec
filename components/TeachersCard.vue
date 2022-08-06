@@ -6,16 +6,14 @@
       :to="'/e1t1/' + e1t1.uuid"
       :elevation="hover ? 12 : 0"
       outlined
-      width="115" 
-      max-height="105"
+      :width="cardwidth" 
+      :max-height="cardheight"
     >
-    <v-img v-if = e1t1.image_mini  :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" height="73" width="115"></v-img>
-    <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73"  width="115" contain/>
+    <v-img v-if = e1t1.image_mini  :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" :height="img_height" :width="cardwidth"></v-img>
+    <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"  :width="cardwidth" contain/>
       <v-card-actions height="32px">
-        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
-          line-height: initial;
-          overflow: hidden">
-        <p style="max-width:78px; font-size:0.6rem!important;">{{e1t1.s_teacher_name}} </p>
+        <div class="text-decoration-none caption width">
+        <p class="event_p">{{e1t1.s_teacher_name}} </p>
         </div>
         <v-spacer></v-spacer>
           <country-flag :country= 'e1t1.s_teacher_country' size='small'/>
@@ -32,8 +30,62 @@ import CountryFlag from 'vue-country-flag'
         e1t1: Object
       },
       components:{
-         CountryFlag
-         }
+        CountryFlag
+        },
+      computed: {
+        cardheight () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
+        }
+        },
+        cardwidth () {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 115
+            case 'sm': return 115
+            case 'md': return 215
+            case 'lg': return 215
+            case 'xl': return 215
+          }
+        },
+        img_height () {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 73
+            case 'sm': return 73
+            case 'md': return 134
+            case 'lg': return 134
+            case 'xl': return 134
+          }
+        },
+      },
     }
 </script>
+<style scoped>
+
+.width{
+    width: 177px;
+    height: 1.7em;
+    line-height: initial;
+  overflow: hidden
+  }
+.event_p{
+  max-width:177px; 
+  font-size:0.8rem!important;
+}
+@media only screen and (max-width: 960px) {
+  .width{
+  width: 78px;
+  height: 1.3em;
+  line-height: initial;
+  overflow: hidden
+}
+.event_p{
+  max-width:78px;
+   font-size:0.6rem!important;
+}
+}
+</style>
 

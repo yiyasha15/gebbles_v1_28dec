@@ -1,28 +1,25 @@
 <template>
     <v-container style="max-width:1072px;">
-        <div class="text-xs-center mb-6" align = "center">
-            <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-            <!-- <v-btn small outlined  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/highlights/`">test</v-btn>
-            <v-btn small dark color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
-            <v-btn small outlined color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
-         </div>
-            <h2 class="mt-4" align="center" justify="center">Create your portfolio</h2>
+        <div>
+            <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        </div>
+            <h2 align="center" justify="center">Create your portfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
-            <v-row>
+            <v-row  class="mt-md-8 mt-5">
                 <!-- hidden-sm-and-down -->
-            <v-col cols="12" md="6" class="mt-12">
-                <v-row class="pb-6 justify-center text-center">
-                        <croppa
-                            v-model="cropImage"
-                            canvas-color="transparent"
-                            :width="350"
-                            :height="350"
-                            :show-loading="true"
-                            :initial-image="initialImage"
-                            :prevent-white-space="true"
-                            :remove-button-color="'black'"
-                        ></croppa>
-                    </v-row>
+            <v-col cols="12" md="6" >
+                <v-row class="pb-3 justify-center text-center">
+                    <croppa
+                        v-model="cropImage"
+                        canvas-color="transparent"
+                        :width="350"
+                        :height="350"
+                        :show-loading="true"
+                        :initial-image="initialImage"
+                        :prevent-white-space="true"
+                        :remove-button-color="'black'"
+                    ></croppa>
+                </v-row>
             </v-col>
             <v-col cols="12" md="6">
                 <v-form v-on:submit.prevent="submit_about">

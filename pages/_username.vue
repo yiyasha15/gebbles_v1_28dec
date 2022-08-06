@@ -129,16 +129,22 @@
                 </template>
                 <v-list>
                     <v-list-item
-                :to="'/'+ loggedInUser.user.username"
-                class="text-decoration-none pl-5"
-                >
-                <!-- <img
-                    height="28"
-                    :src="require('@/assets/gebbleslogo.png')"
-                    alt="img"
-                > -->
-                <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
-                </v-list-item>
+                    :to="'/'+ loggedInUser.user.username"
+                    class="text-decoration-none pl-5"
+                    >
+                    <!-- <img
+                        height="28"
+                        :src="require('@/assets/gebbleslogo.png')"
+                        alt="img"
+                    > -->
+                    <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                    </v-list-item>
+                    <v-list-item  v-if="userHasPortfolio"
+                    :to="'/'+ loggedInUser.user.username +'/events'"
+                    class="text-decoration-none pl-6 pr-12"
+                    >
+                    <v-list-item-title >My events</v-list-item-title>
+                    </v-list-item>
                     <v-list-item
                     :to="'/settings'"
                     class="text-decoration-none pl-6 pr-12"
@@ -300,6 +306,12 @@
                         alt="img"
                     > -->
                     <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                    </v-list-item>
+                    <v-list-item  v-if="userHasPortfolio"
+                    :to="'/'+ loggedInUser.user.username +'/events'"
+                    class="text-decoration-none pl-6 pr-12"
+                    >
+                    <v-list-item-title >My events</v-list-item-title>
                     </v-list-item>
                     <v-list-item
                     :to="'/settings'"

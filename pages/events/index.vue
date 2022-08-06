@@ -1,11 +1,11 @@
 <template>
     <v-app>
-      <v-container class="pa-0">
-      <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down">
-        <v-col cols="12" md="8"  class="justify-center pa-1">
+      <v-container class="pa-0 mt-4 mt-md-8" >
+      <v-row class="mx-auto width">
+        <v-col cols="12" md="8"  class="justify-center">
           <h2 class ="xs12 d-inline font-weight-light">Events</h2>
         </v-col>
-        <v-col cols="12" md="4" class= "justify-end pa-1" >
+        <v-col cols="12" md="4" class= "justify-end py-0 py-md-3" >
           <v-autocomplete label="Filter country" v-model= "search" solo rounded
               @input="debounceSearch" prepend-inner-icon="mdi-earth"
               :items="countries"
@@ -15,37 +15,14 @@
           ></v-autocomplete>
         </v-col>
       </v-row>
-      <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up" >
-        <v-col cols="12" md="8"  class="justify-center px-1">
-          <h3 class ="xs12 d-inline font-weight-light">Events</h3>
-        </v-col>
-        <v-col cols="12" md="4" class= "justify-end pa-0" >
-          <v-autocomplete label="Filter country" v-model= "search" solo rounded
-              @input="debounceSearch" prepend-inner-icon="mdi-earth"
-              :items="countries"
-              item-text="name"
-              item-value="code"
-          ></v-autocomplete>
-        </v-col>
-      </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+      <v-layout wrap row justify-start v-if="firstLoad" class=" mx-auto width">
         <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+          <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;"  width="215" max-height="185" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+      <v-layout wrap row justify-start v-show="!firstLoad" class=" mx-auto width" >
         <div v-for="event in events" :key ="event.index">
           <events-card :event="event" ></events-card> 
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="event in events" :key ="event.index">
-          <events-card-desktop :event="event" ></events-card-desktop> 
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
@@ -62,7 +39,6 @@
 
 <script>
 import EventsCard from '@/components/EventsCard.vue'
-import EventsCardDesktop from '@/components/EventsCardDesktop.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
 export default {
@@ -128,8 +104,7 @@ export default {
     },
   },
   components: {
-      EventsCard, EventsCardDesktop,
-      "vue-country-select": require("vue-country-select")
+      EventsCard
 
   },
   data() {
@@ -392,6 +367,24 @@ export default {
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
+    cardheight () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
+        }
+      },
+      cardwidth () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 115
+          case 'sm': return 115
+          case 'md': return 215
+          case 'lg': return 215
+          case 'xl': return 215
+        }
+      },
     // filterApi: function(){
     //   return this.events.filter((event) => {
     //     return event.country.toLowerCase().match(this.search.toLowerCase())||event.name.toLowerCase().match(this.search.toLowerCase());
@@ -400,3 +393,14 @@ export default {
   },
 }
 </script>
+<style scoped>
+
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
+</style>

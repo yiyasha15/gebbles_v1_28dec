@@ -5,10 +5,7 @@
             <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
         <v-row >
-        <v-col class="pa-0">
-            <!-- {{event}}
-            {{editing_event_obj}}
-             -->
+        <v-col >
              <h2 class="mb-md-8 mb-4" align="center" justify="center">About the event</h2>
             <v-stepper v-model="e6" vertical class="my-2">
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
@@ -49,7 +46,7 @@
                         v-model = "event.name"
                         label= "Event name*"
                         :rules="[() => !!event.name || 'This field is required']"
-                        :maxlength="350">
+                        :maxlength="255">
                     </v-text-field>
                     <v-menu
                         ref="menu"
@@ -84,7 +81,7 @@
                     <v-text-field
                         v-model = "event.city"
                         label= "City"
-                        :maxlength="250">
+                        :maxlength="50">
                     </v-text-field>
                     <!-- <v-text-field
                         v-model = "event.country"
@@ -101,6 +98,7 @@
                     <v-textarea
                     prepend-icon="mdi-information-outline"
                         v-model = "event.about"
+                        :maxlength="250"
                         label= "About the event">
                     </v-textarea>
                     <v-text-field
@@ -2286,7 +2284,9 @@ export default {
                 }
             }
             catch(e){
-                console.log(e);
+                console.log(e, e.response);
+                this.error_snackbar = true;
+                this.progressbar = false
             }
         },
         async putImage(image){
