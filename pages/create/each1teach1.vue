@@ -68,7 +68,7 @@
                     </template>
                 </template>
             </v-combobox>
-            <v-select
+            <v-autocomplete
             prepend-icon="mdi-earth"
             :items="countries"
             item-text="name"
@@ -76,7 +76,7 @@
             v-model = "sharing.s_teacher_country"
             label= "Country they are from"
             clearable>
-            </v-select>
+            </v-autocomplete>
         <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
         <v-btn color="primary" small text @click="goback">Cancel</v-btn>
         </v-stepper-content>

@@ -58,12 +58,12 @@
                                     prepend-icon="mdi-account-edit-outline"
                                     :maxlength="30">
                                 </v-text-field>
-                                <v-select label="Representing(country)" v-model= "artist_data.country"
+                                <v-autocomplete label="Representing(country)" v-model= "artist_data.country"
                                     :items="countries" prepend-icon="mdi-earth"
                                     item-text="name"
                                     item-value="code"
                                     required
-                                ></v-select>
+                                ></v-autocomplete>
                             </v-col>
                         </v-row>
                     </v-form>

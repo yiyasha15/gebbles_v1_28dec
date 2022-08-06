@@ -12,8 +12,16 @@
               <div>
                 <div class="subtitle grey--text">
                   <nuxt-link :to="'/'+ message.username">{{message.username}}</nuxt-link>
-                  {{message.created}}
+                  {{message.created}} 
+                  hello
+                  <time-ago
+                    :datetime="value"
+                    refresh
+                    :tooltip="true"
+                    :long="true"
+                  />
                 </div>
+
                 <p class="messageFormat">{{message.messagetext}}</p></div>
             <v-spacer></v-spacer>
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
@@ -74,13 +82,15 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import store from 'vuex'
+import { TimeAgo } from "vue2-timeago";
+import "vue2-timeago/dist/vue2-timeago.css";
   export default {
     props: {
       messages: Array,
     },
     data() {
       return {
+        value: new Date(),
         show: false,
         report_snackbar: false,
         delete_snackbar :false
@@ -88,6 +98,9 @@ import store from 'vuex'
     },
     mounted(){
       // console.log(this.messages);
+    },
+    components: {
+      TimeAgo
     },
     computed: {
         ...mapGetters(['loggedInUser', 'artists' ,'isAuthenticated']),
@@ -106,8 +119,8 @@ import store from 'vuex'
         } catch (e) {
             console.log(e.response);
         }
-    },
-    async reported(message){
+      },
+      async reported(message){
         const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access
@@ -118,7 +131,7 @@ import store from 'vuex'
         } catch (e) {
             console.log(e);
         }
-      }
+      },
     }
   }
 </script>

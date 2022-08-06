@@ -10,7 +10,7 @@
       :height="img_height"
       class="pa-0 mx-auto"
     >
-      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+      <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
         v-if = category.poster :src = "category.poster" 
         :height="img_height"
         :width="img_width">
@@ -55,8 +55,8 @@
       </v-avatar>
       </div>
       </v-img>
-      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-         v-else
+      <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
+         v-else :src = "poster" 
         :height="img_height"
         :width="img_width">
       <div class="text-center">
@@ -269,7 +269,8 @@
     },
     name: 'CategoryCard',
     props: {
-      category: Object
+      category: Object,
+      poster: String
     },
     computed: {
       img_height () {

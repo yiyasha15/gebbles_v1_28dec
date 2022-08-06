@@ -20,7 +20,7 @@
         :height="img_height"
         :width="img_width" 
       />
-      <v-card-actions height="32px">
+      <v-card-actions height="32px" class="hidden-md-and-up">
         <div v-if="artist.artist_name" width="70" class="text-decoration-none caption" style=" height: 1.3em;
           line-height: initial;
           overflow: hidden">
@@ -30,6 +30,20 @@
           line-height: initial;
           overflow: hidden">
         <p style="max-width:78px; font-size:0.6rem!important;">{{ artist.username }} </p>
+        </div>
+        <v-spacer></v-spacer>
+        <country-flag size=small  :country= 'artist.country' />
+      </v-card-actions>
+       <v-card-actions height="32px" class="hidden-sm-and-down">
+        <div v-if="artist.artist_name" width="90" class="text-decoration-none caption" style=" height: 1.7em;
+          line-height: initial;
+          overflow: hidden">
+        <p style="max-width:134px; font-size:0.8rem!important;">{{ artist.artist_name }} </p>
+        </div>
+        <div v-else width="70" class="text-decoration-none caption" style=" height: 1.3em;
+          line-height: initial;
+          overflow: hidden">
+        <p style="max-width:134px; font-size:0.8rem!important;">{{ artist.username }} </p>
         </div>
         <v-spacer></v-spacer>
         <country-flag size=small  :country= 'artist.country' />

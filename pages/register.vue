@@ -52,14 +52,14 @@
         @click:append="showPassword2 = !showPassword2"
         color="#cead8f"
       />
-      <v-select label="Representing" v-model= "registrationInfo.country" hide-details="auto" class="mb-4"
+      <v-autocomplete label="Representing" v-model= "registrationInfo.country" hide-details="auto" class="mb-4"
       :error-messages="errorCountry"
       :rules="countryRules" 
         :items="countries"
         item-text="name"
         item-value="code"
         color="#cead8f"
-      ></v-select>
+      ></v-autocomplete>
       <v-radio-group v-model="registrationInfo.gender" :mandatory="true"  :rules="genderRules"  row>
         <v-radio 
             label="Male" 

@@ -258,7 +258,7 @@
             @click:append="showPassword2 = !showPassword2"
             color="#cead8f"
         />
-        <v-select label="Representing" v-model= "registrationInfo.country" 
+        <v-autocomplete label="Representing" v-model= "registrationInfo.country" 
         :rules=" countryRules" 
         :error-messages="errorCountry" 
         prepend-icon="mdi-earth"
@@ -267,7 +267,7 @@
             item-value="code"
             color="#cead8f"
             required
-        ></v-select>
+        ></v-autocomplete>
         <v-radio-group v-model="registrationInfo.gender" :mandatory="true" :rules=" genderRules" row>
             <v-radio 
                 label="Male" 

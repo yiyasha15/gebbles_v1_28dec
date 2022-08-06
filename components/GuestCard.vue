@@ -10,13 +10,13 @@
       :height="img_height"
       class="pa-0 mx-auto"
     >
-      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+      <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
         v-if = guest.photo :src = "guest.photo" 
         :height="img_height"
         :width="img_height">
       </v-img>
-      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-         v-else
+      <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
+         v-else :src = "poster" 
         :height="img_height"
         :width="img_height">
       <div class="text-center">
@@ -38,8 +38,8 @@
           </v-btn>
           </v-row>
         <v-img class="mt-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
-
-        <nuxt-link v-if="guest.username" :to="'/' + guest.username" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{guest.name}}</h3></nuxt-link>
+        <!-- {{guest}} -->
+        <nuxt-link v-if="guest.guest && typeof guest.guest == 'object'" :to="'/' + guest.guest.username" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{guest.name}}</h3></nuxt-link>
         <h3 v-else class="font-weight-light mt-2">{{guest.name}}</h3>
         <h3 class="font-weight-light mt-2">{{guest.info}}</h3>
         </v-container>
@@ -55,7 +55,8 @@
     },
     name: 'GuestCard',
     props: {
-      guest: Object
+      guest: Object,
+      poster: String
     },
     
     data(){

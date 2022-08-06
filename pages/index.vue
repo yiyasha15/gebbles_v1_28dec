@@ -72,24 +72,14 @@
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+    <v-layout wrap row justify-start v-if="firstLoad" class="mx-auto width" >
       <div v-for="n in this.looploader" :key ="n.index">
-        <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+        <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
       </div>
     </v-layout>
-    <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-      <div v-for="n in this.looploader" :key ="n.index">
-        <v-skeleton-loader style="margin:2px;"  width="215" max-height="185" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
-      </div>
-    </v-layout>
-    <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+    <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
       <div v-for="artist in artists" :key ="artist.index">
         <ArtistCard :artist="artist" ></ArtistCard> 
-      </div>
-    </v-layout>
-    <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-      <div v-for="artist in artists" :key ="artist.index">
-        <artist-card-desktop :artist="artist" ></artist-card-desktop>
       </div>
     </v-layout>
     <center v-if="!artists.length && !firstLoad">
@@ -106,7 +96,6 @@
 
 <script>
 import ArtistCard from '@/components/ArtistCard.vue'
-import ArtistCardDesktop from '@/components/ArtistCardDesktop.vue'
 import EventService from '@/services/EventService.js'
 import {mapGetters} from 'vuex'
 export default {
@@ -122,6 +111,7 @@ export default {
         }
   },
   created(){
+    // console.log(Date.now());
     this.$store.dispatch("check_notifications");
     this.getartists();
   },
@@ -168,7 +158,7 @@ export default {
     },
   },
   components: {
-    ArtistCard, ArtistCardDesktop
+    ArtistCard
   },
   data() {
     return {
@@ -182,7 +172,25 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio'])
+    ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio']),
+    cardheight () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 185
+          case 'lg': return 185
+          case 'xl': return 185
+        }
+      },
+      cardwidth () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 115
+          case 'sm': return 115
+          case 'md': return 215
+          case 'lg': return 215
+          case 'xl': return 215
+        }
+      },
   },
 }
 //https://stackoverflow.com/questions/57800048/how-to-enable-dark-mode-with-custom-colors-in-light-theme-in-vuetify
@@ -208,5 +216,13 @@ h5:hover{
 h3:hover{
   color: black;
   text-decoration: underline;
+}
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
 }
 </style>

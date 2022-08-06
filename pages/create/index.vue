@@ -1,7 +1,7 @@
 <template>
 <v-app>
   <v-container style="max-width:672px;">
-    <v-btn icon class="elevation-0 mb-8 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+    <!-- <v-btn icon class="elevation-0 mb-8 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn> -->
     <v-row no-gutters>
       <v-carousel hide-delimiters height="auto">
         <v-carousel-item 

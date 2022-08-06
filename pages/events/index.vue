@@ -6,21 +6,13 @@
           <h2 class ="xs12 d-inline font-weight-light">Events</h2>
         </v-col>
         <v-col cols="12" md="4" class= "justify-end pa-1" >
-          <!-- <v-text-field
-            label="Filter country"
-            rounded
-            solo
-            prepend-inner-icon="mdi-magnify"
-            v-model="search"
-            @input="debounceSearch"
-          ></v-text-field> -->
-          <!-- {{search}} -->
-          <v-select label="Filter country" v-model= "search" solo rounded
-              @input="debounceSearch"
-              :items="countries" prepend-icon="mdi-earth"
+          <v-autocomplete label="Filter country" v-model= "search" solo rounded
+              @input="debounceSearch" prepend-inner-icon="mdi-earth"
+              :items="countries"
               item-text="name"
               item-value="code"
-          ></v-select>
+              value="name"
+          ></v-autocomplete>
         </v-col>
       </v-row>
       <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up" >
@@ -28,20 +20,12 @@
           <h3 class ="xs12 d-inline font-weight-light">Events</h3>
         </v-col>
         <v-col cols="12" md="4" class= "justify-end pa-0" >
-          <v-select label="Filter country" v-model= "search" solo rounded
-              @input="debounceSearch"
-              :items="countries" prepend-icon="mdi-earth"
+          <v-autocomplete label="Filter country" v-model= "search" solo rounded
+              @input="debounceSearch" prepend-inner-icon="mdi-earth"
+              :items="countries"
               item-text="name"
               item-value="code"
-          ></v-select>
-          <!-- <v-text-field
-            label="Search events"
-            rounded
-            solo
-            prepend-inner-icon="mdi-magnify"
-            v-model="search"
-          @input="debounceSearch"
-          ></v-text-field> -->
+          ></v-autocomplete>
         </v-col>
       </v-row>
       <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
@@ -402,7 +386,8 @@ export default {
             {"name": "Yemen", "code": "YE"},
             {"name": "Zambia", "code": "ZM"},
             {"name": "Zimbabwe", "code": "ZW"}
-        ],
+      ],
+      result:null,
     }
   },
   computed: {

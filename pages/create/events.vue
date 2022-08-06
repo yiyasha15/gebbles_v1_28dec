@@ -91,13 +91,13 @@
                         label= "country"
                         :maxlength="250">
                     </v-text-field> -->
-                    <v-select label="Country" v-model= "event.country"
+                    <v-autocomplete label="Country" v-model= "event.country"
                     prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
                         item-value="code"
                         required
-                    ></v-select>
+                    ></v-autocomplete>
                     <v-textarea
                     prepend-icon="mdi-information-outline"
                         v-model = "event.about"
@@ -212,7 +212,7 @@
                             </template>
                         </template>
                     </v-combobox>
-                    <v-select
+                    <v-autocomplete
                     prepend-icon="mdi-earth"
                     :items="countries"
                     item-text="name"
@@ -220,7 +220,7 @@
                     v-model = "guest.country"
                     label= "Country"
                     clearable>
-                    </v-select>
+                    </v-autocomplete>
                     <v-text-field
                         prepend-icon="mdi-information-outline"
                         v-model = "guest.info"

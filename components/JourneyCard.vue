@@ -16,6 +16,16 @@
         width="115"/>
       <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="73"
         width="115" contain/>
+      <v-card-actions height="32px">
+        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
+          line-height: initial;
+          overflow: hidden">
+        <p style="max-width:78px; font-size:0.6rem!important;">{{ journey.joevent }} </p>
+        </div>
+        <v-spacer></v-spacer>
+         <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
+        <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
+      </v-card-actions>
       <v-dialog
         max-width="800"
         v-model="dialog"
@@ -81,36 +91,6 @@
                       ></v-img>
                   </SliderItem>
                   </div>
-                  <!-- <div v-if="fullJourney.jophoto3!=null">
-                  <SliderItem>
-                  <v-img
-                        :src="fullJourney.jophoto3"
-                        contain
-                        height="310px"
-                        width="768px"
-                      ></v-img>
-                  </SliderItem>
-                  </div>
-                  <div v-if="fullJourney.jophoto4!=null">
-                  <SliderItem>
-                  <v-img
-                        :src="fullJourney.jophoto4"
-                        contain
-                        height="310px"
-                        width="768px"
-                      ></v-img>
-                  </SliderItem>
-                  </div>
-                  <div v-if="fullJourney.jophoto5!=null">
-                  <SliderItem>
-                  <v-img
-                        :src="fullJourney.jophoto5"
-                        contain
-                        height="310px"
-                        width="768px"
-                      ></v-img>
-                  </SliderItem>
-                  </div> -->
                   </div>
               </Slider>
             </client-only>
@@ -167,16 +147,6 @@
           </v-container>
         </div>
       </v-dialog>
-      <v-card-actions height="32px">
-        <div  width="70" class="text-decoration-none caption" style=" height: 1.3em;
-          line-height: initial;
-          overflow: hidden">
-        <p style="max-width:78px; font-size:0.6rem!important;">{{ journey.joevent }} </p>
-        </div>
-        <v-spacer></v-spacer>
-         <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
-        <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
-      </v-card-actions>
     </v-card>
   </v-hover>
 </template>

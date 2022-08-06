@@ -141,12 +141,12 @@
                         label= "City"
                         :maxlength="50">
                     </v-text-field>
-                    <v-select label="Country" v-model= "journey.country" prepend-icon="mdi-earth"
+                    <v-autocomplete label="Country" v-model= "journey.country" prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
                         item-value="code"
                         required
-                    ></v-select>
+                    ></v-autocomplete>
                     <v-textarea
                         v-model = "journey.jocontent"
                         label= "Caption">

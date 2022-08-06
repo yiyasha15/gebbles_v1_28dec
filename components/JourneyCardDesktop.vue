@@ -19,6 +19,16 @@
       />
       <v-img v-else :src="require('@/assets/gebbleslogo3.png')" height="134"
         width="215" contain/>
+      <v-card-actions height="32px">
+        <div  width="70" class="text-decoration-none caption" style=" height: 1.7em;
+          line-height: initial;
+          overflow: hidden">
+        <p style="max-width:134px; font-size:0.8rem!important;">{{ journey.joevent }} </p>
+        </div>
+        <v-spacer></v-spacer>
+         <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
+        <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
+      </v-card-actions>
       <v-dialog
       max-width="800"
         v-model="dialog"
@@ -169,16 +179,6 @@
           </v-container>
         </div>
       </v-dialog>
-      <v-card-actions height="32px">
-        <div  width="70" class="text-decoration-none caption" style=" height: 1.7em;
-          line-height: initial;
-          overflow: hidden">
-        <p style="max-width:134px; font-size:0.8rem!important;">{{ journey.joevent }} </p>
-        </div>
-        <v-spacer></v-spacer>
-         <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
-        <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
-      </v-card-actions>
     </v-card>
   </v-hover>
 </template>

@@ -232,7 +232,7 @@
                 </v-col>
                 </v-container>
                 </v-dialog> 
-                </v-col>
+            </v-col>
         </v-row>
         <div v-if="videoId" >
                 <center class="py-6 hidden-xs-only">
