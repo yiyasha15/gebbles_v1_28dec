@@ -68,10 +68,40 @@
                     <v-btn small class="elevation-0 text-decoration-none mt-6" @click="openLink" v-if="event.link">
                         <h4 class="font-weight-medium" style="text-transform: capitalize;"><v-icon small class="pr-2">mdi-info-outline</v-icon>More Info</h4>
                     </v-btn>
-                    <v-btn small class="elevation-0 text-decoration-none mt-6 ml-1" color="#815A44" dark @click="imgoingApi">
+                    <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none mt-6 ml-1" color="#815A44" outlined @click="imgoingApi">
+                        <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
+                    </v-btn>
+                    <v-btn v-else small class="elevation-0 text-decoration-none mt-6 ml-1" color="#815A44" dark @click="imgoingApi">
                         <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
                     </v-btn>
                 </v-row>
+                <v-row v-if="goingList.length>0">
+                    <p class="hover" @click="showGoingList =true">{{goingList.length}} people joining</p>
+                </v-row>
+                <v-dialog
+                :retain-focus="false"
+                v-model="showGoingList"
+                width="480px" 
+                persistent>
+                <v-container class="rounded-lg white pa-4">
+                <v-row align="end" justify="end" class="pa-0 ma-0" >
+                <v-btn icon  color="error" class="float-right" @click="showGoingList =false;">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                </v-row>
+                <p>People attending</p>
+                <v-text-field label="check em out" v-model= "search" solo rounded
+                prepend-inner-icon="mdi-magnify"
+                ></v-text-field>
+                <div v-for="people in filterPeople" :key="people.uuid">
+                    <v-avatar size="26px" v-if="people.artist && people.artist.thumbjs">
+                        <v-img :src="people.artist.thumbjs"></v-img>
+                    </v-avatar>
+                    <!-- {{people}} -->
+                    {{people.username}}
+                </div>
+                </v-container>
+            </v-dialog> 
                 <!-- <span v-if="event.about" style=""></span> -->
                 <v-row class="mt-6" v-if="event.about">
                 <div style="
@@ -120,6 +150,9 @@
         <v-snackbar v-model="login_snackbar">
             Please sign in first.
         </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            Some error occured. Please try again.
+        </v-snackbar>
   </v-app>
 </template>
 
@@ -134,7 +167,7 @@ import GuestCard from '~/components/GuestCard.vue'
 export default {
     head() {
         return {
-            title: 'event',     //do not miss "this"
+            title: 'gebbles - events',     //do not miss "this"
             meta: [
                 {
                     hid: 'description',
@@ -144,11 +177,25 @@ export default {
             ]
         }
     },
+    created(){
+        EventService.getIamGoingList(this.event.uuid).then(res=>{
+            this.goingList = res.data.results;
+            console.log(this.goingList);
+            
+            if(this.isAuthenticated){
+                let isGoing = this.goingList.find(artist => artist.username == this.loggedInUser.user.username);
+                if(isGoing != undefined)
+                {
+                    //change color of button
+                    this.imgoing = true;
+                    this.imgoingId = isGoing.uuid;
+                }
+            }
+        })
+    },
     mounted(){
         if(this.event.videolink )
-        {let url1 =this.event.videolink //getting value of youtube video urls
-        if(url1)
-        this.videoId = getIdFromURL(url1) }//getting id from video url
+        this.videoId = getIdFromURL(this.event.videolink )//getting id from video url
         // this.imgoingId = await EventService.getEvent(params.uuid)
         //call api to see if user exists in imgoing data base
         // this.imgoing = true
@@ -161,6 +208,7 @@ export default {
     },
     data(){
           return {
+              search:'',
             deletedialog:false,
             deleteLoading:false,
             looploader:[1,1,1,1,1,1],
@@ -170,12 +218,16 @@ export default {
             going_snackbar:false,
             notgoing_snackbar:false,
             login_snackbar:false,
+            error_snackbar:false,
             goingForm:{
                 username: "",
                 event:""
             },
+            goingList:[],
+            showGoingList:false,
             imgoing:false,
-            imgoingId:'',countries: [
+            imgoingId:'',
+            countries: [
             {"name": "Afghanistan", "code": "AF"},
             {"name": "Åland Islands", "code": "AX"},
             {"name": "Albania", "code": "AL"},
@@ -419,13 +471,21 @@ export default {
             {"name": "Yemen", "code": "YE"},
             {"name": "Zambia", "code": "ZM"},
             {"name": "Zimbabwe", "code": "ZW"}
-        ],
+            ],
             }
     },
 	computed: {
         ...mapGetters([ 'userHasPortfolio', 'isAuthenticated',
         'loggedInUser', 'usersPortfolio', ]),
-	},
+        filterPeople: function(){
+        if(this.search)
+        {
+            return this.goingList.filter((people) => {
+                return people.username.toLowerCase().match(this.search.toLowerCase());});
+        }
+        else return this.goingList
+        }
+    },
     async asyncData({error, params}) {
       try {
          let event = await EventService.getEvent(params.uuid)
@@ -503,8 +563,8 @@ export default {
             if(this.isAuthenticated){
                 this.goingForm.username = this.loggedInUser.user.username;
                 this.goingForm.event = this.event.uuid;
-                if(this.imgoing){
-                    this.imgoing = !this.imgoing
+                this.imgoing = !this.imgoing
+                if(!this.imgoing){
                     const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -513,12 +573,18 @@ export default {
                     try {
                         await this.$axios.$delete("/v1/events/iamgoing/"+this.imgoingId , config)
                         this.notgoing_snackbar=true;
+                        const indexOfObject = this.goingList.findIndex(object => {
+                        return object.uuid == this.imgoingId;
+                        });
+                        this.goingList.splice(indexOfObject, 1);
+                        this.imgoingId='';
                     } catch (e) {
-                        console.log(e.response);
+                        this.imgoing = !this.imgoing
+                        console.log(e, e.response);
+                        this.error_snackbar = true;
                     }
                 }
                 else{
-                    this.imgoing = !this.imgoing
                     const config = {
                         headers: {"content-type": "multipart/form-data",
                             "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -529,11 +595,15 @@ export default {
                         formData.append(data, this.goingForm[data]);
                     }
                     try {
-                        await this.$axios.$post("/v1/events/iamgoing/create", formData, config)
+                        let res = await this.$axios.$post("/v1/events/iamgoing/create/", formData, config)
+                        this.goingList.push(res);
+                        this.imgoingId = res.uuid
                         this.going_snackbar = true;
-                    } catch (e) {
-                        console.log(e.response);
-                    }
+                        } catch (e) {
+                            this.imgoing = !this.imgoing
+                            console.log(e, e.response);
+                            this.error_snackbar = true;
+                        }
                 }
             }
             else{
@@ -545,5 +615,8 @@ export default {
 }
 </script>
 <style  scoped>
-
+.hover:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
 </style>

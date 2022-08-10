@@ -112,5 +112,8 @@ export default {
     },
     getLearning(id){
         return apiClient1.get('/e1t1/learnings/' + id)
+    },
+    getIamGoingList(uuid){
+        return apiClient1.get('/events/iamgoing/list/?event='+uuid)
     }
 }
