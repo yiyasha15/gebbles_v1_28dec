@@ -93,12 +93,12 @@
                 <v-text-field label="check em out" v-model= "search" solo rounded
                 prepend-inner-icon="mdi-magnify"
                 ></v-text-field>
-                <div v-for="people in filterPeople" :key="people.uuid">
-                    <v-avatar size="26px" v-if="people.artist && people.artist.thumbjs">
-                        <v-img :src="people.artist.thumbjs"></v-img>
+                <div v-for="people in filterPeople" :key="people.uuid" class="mb-2 mb-md-4">
+                    <nuxt-link v-if="people.artist && people.artist.username" :to="'/'+people.artist.username" class="text-decoration-none"><v-avatar size="26px" v-if="people.artist && people.artist.thumb">
+                        <v-img :src="people.artist.thumb"></v-img>
                     </v-avatar>
-                    <!-- {{people}} -->
-                    {{people.username}}
+                     <span class="pl-2">{{people.artist.artist_name}}</span></nuxt-link>
+                    <p v-else>{{people.username}} </p>
                 </div>
                 </v-container>
             </v-dialog> 
@@ -178,20 +178,7 @@ export default {
         }
     },
     created(){
-        EventService.getIamGoingList(this.event.uuid).then(res=>{
-            this.goingList = res.data.results;
-            console.log(this.goingList);
-            
-            if(this.isAuthenticated){
-                let isGoing = this.goingList.find(artist => artist.username == this.loggedInUser.user.username);
-                if(isGoing != undefined)
-                {
-                    //change color of button
-                    this.imgoing = true;
-                    this.imgoingId = isGoing.uuid;
-                }
-            }
-        })
+        this.checkGoing();
     },
     mounted(){
         if(this.event.videolink )
@@ -498,6 +485,22 @@ export default {
         }
     },
     methods:{
+        checkGoing(){
+            EventService.getIamGoingList(this.event.uuid).then(res=>{
+            this.goingList = res.data.results;
+            console.log(this.goingList);
+            
+            if(this.isAuthenticated){
+                let isGoing = this.goingList.find(artist => artist.username == this.loggedInUser.user.username);
+                if(isGoing != undefined)
+                {
+                    //change color of button
+                    this.imgoing = true;
+                    this.imgoingId = isGoing.uuid;
+                }
+            }
+        })
+        },
         formatTime() {
         const options = {
             month: '2-digit',
@@ -596,8 +599,7 @@ export default {
                     }
                     try {
                         let res = await this.$axios.$post("/v1/events/iamgoing/create/", formData, config)
-                        this.goingList.push(res);
-                        this.imgoingId = res.uuid
+                        this.checkGoing();
                         this.going_snackbar = true;
                         } catch (e) {
                             this.imgoing = !this.imgoing
