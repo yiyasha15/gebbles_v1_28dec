@@ -55,6 +55,9 @@ export default {
     getMyOrganizedEvents(username) {
         return apiClient1.get('/events/my-organized-events/?username='+ username)
     },
+    getMyTaggedEvents(username) {
+        return apiClient1.get('/events/my-tagged-events/?guest='+ username)
+    },
     getArtist(username) {
         // return apiClient1.get('/artist/portfolios/' + username)
         return apiClient1.get('/artist/portfolios/' + username)

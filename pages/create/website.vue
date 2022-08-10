@@ -81,48 +81,45 @@
                             </v-autocomplete>
                             <v-text-field
                                 v-model= "bio.crew"
-                                prepend-icon="mdi-account-group-outline"
                                 label="Crew you represent"
-                                :maxlength="120">
+                                :maxlength="120"
+                                clearable>
                             </v-text-field>
                             <v-text-field
+                                clearable
                                 v-model= "bio.quote"
                                 label="How does hiphop empower you?"
                                 :maxlength="120">
                             </v-text-field>
                             <v-textarea
+                                clearable
                                 v-model= "artist_data.introduction"
                                 label="A little background*">
                             </v-textarea>
-                            <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn>
+                            <!-- <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn> -->
+                            <!-- @click:append="bio.ig=''; inputInsta=!inputInsta" -->
                             <v-text-field
-                                v-show="inputInsta || bio.ig"
-                                color="pink"
+                                :rules="websiteRules" 
                                 prepend-icon="mdi-instagram"
                                 v-model= "bio.ig"
-                                append-icon="mdi-close"
+                                clearable
                                 label="Instagram ID"
-                                @click:append="bio.ig=''; inputInsta=!inputInsta">
+                                >
                             </v-text-field>
-                            <v-btn v-show="!inputFace &&!bio.fb" icon color=blue @click="inputFace=true"><v-icon>mdi-facebook</v-icon></v-btn>
                             <v-text-field
-                                v-show="inputFace || bio.fb"
+                                :rules="websiteRules" 
                                 prepend-icon="mdi-facebook"
                                 v-model= "bio.fb"
-                                append-icon="mdi-close"
                                 label="Facebook ID"
-                                @click:append="bio.fb=''; inputFace=!inputFace">
+                                clearable>
                             </v-text-field>
-                            <v-btn v-show="!inputMail &&!bio.site" icon color=blue @click="inputMail=true"><v-icon>mdi-email</v-icon></v-btn>
                             <v-text-field
                             :error-messages="linkError"
-                                v-show="inputMail ||bio.site"
                                 prepend-icon="mdi-email"
                                 v-model= "bio.site"
-                                append-icon="mdi-close"
                                 label="Personal Website URL"
                                 @change="checkLink"
-                                @click:append="bio.site=''; inputMail=!inputMail"
+                                clearable
                                 >
                             </v-text-field>
                             <!-- <v-btn v-show="!bio.vid1 && !yt" icon color=red @click="yt=true"><v-icon>mdi-youtube</v-icon></v-btn> -->
@@ -132,127 +129,38 @@
                                 v-model= "bio.vid1"
                                 label="Add upto four YouTube links"
                                 prepend-icon="mdi-youtube"
-                                append-icon="mdi-close"
+                                clearable
                                 @input="showYoutubeVideo(1)"
-                                @click:append="bio.vid1 ='';showYoutubeVideo(1)"
-                                @click:prepend="yt1=true"
                                 >
                             </v-text-field>
                             <v-text-field
                             :error-messages="ytLinkError2"
                             @input="showYoutubeVideo(2)"
-                                v-show="yt1 || bio.vid2"
                                 color="red"
                                 v-model= "bio.vid2"
                                 label="Youtube link"
-                                prepend-icon="mdi-plus"
-                                append-icon="mdi-close"
-                                @click:append="bio.vid2 =''; yt1=!yt1;showYoutubeVideo(2)"
-                                @click:prepend="yt2=true">
+                                clearable
+                                >
                             </v-text-field>
                             <v-text-field
                             :error-messages="ytLinkError3"
                             @input="showYoutubeVideo(3)"
-                                v-show="yt2 || bio.vid3"
                                 color="red"
                                 v-model= "bio.vid3"
                                 label="Youtube link"
-                                prepend-icon="mdi-plus"
-                                append-icon="mdi-close"
-                                @click:append="bio.vid3 =''; yt2=!yt2;showYoutubeVideo(3)"
-                                @click:prepend="yt3=true">
+                                clearable
+                                >
                             </v-text-field>
                             <v-text-field
                             :error-messages="ytLinkError4"
                             @input="showYoutubeVideo(4)"
-                                v-show="yt3 || bio.vid4"
                                 color="red"
                                 v-model= "bio.vid4"
                                 label="Youtube link"
-                                append-icon="mdi-close"
-                                @click:append="bio.vid4 =''; yt3=!yt3; showYoutubeVideo(4)">
+                                clearable
+                                >
                             </v-text-field>
-                            <!-- {{yt}} -->
-                            <!-- <v-container grid-list-md :class="{'pa-1': $vuetify.breakpoint.smAndDown, 'ma-1': $vuetify.breakpoint.mdAndUp}">
-                                <v-layout class="flex-wrap">
-                                    <v-flex xs6 md6>
-                                        <div class=" rounded-lg grey lighten-4">
-                                            <v-img :src="imageData1" height="200px" width="200px"></v-img>
-                                            <v-btn icon>
-                                                <v-icon color="black" small @click="onPick">mdi-image-plus</v-icon>
-                                            </v-btn>
-                                            <input 
-                                            type="file" 
-                                            name = "gallery" 
-                                            style="display:none" 
-                                            ref="fileInput" 
-                                            accept="image/*"
-                                            required
-                                            @change="onFileChange">
-                                            <v-btn icon>
-                                                <v-icon color="error" small @click="removeImage">mdi-delete-outline</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs6 md6>
-                                        <div class="rounded-lg grey lighten-4">
-                                            <v-img :src="imageData2" height="200px" width="200px"></v-img>
-                                            <v-btn icon>
-                                                <v-icon color="black" small @click="onPick1">mdi-image-plus</v-icon>
-                                            </v-btn>
-                                            <input 
-                                            type="file" 
-                                            name = "gallery" 
-                                            style="display:none" 
-                                            ref="fileInput1" 
-                                            accept="image/*"
-                                            required
-                                            @change="onFileChange1">
-                                            <v-btn icon>
-                                                <v-icon color="error" small @click="removeImage1">mdi-delete-outline</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs6 md6>
-                                        <div class="rounded-lg grey lighten-4">
-                                            <v-img :src="imageData3" height="200px" width="200px"></v-img>
-                                            <v-btn icon>
-                                                <v-icon color="black" small @click="onPick2">mdi-image-plus</v-icon>
-                                            </v-btn>
-                                            <input 
-                                            type="file" 
-                                            name = "gallery" 
-                                            style="display:none" 
-                                            ref="fileInput2" 
-                                            accept="image/*"
-                                            required
-                                            @change="onFileChange2">
-                                            <v-btn icon>
-                                                <v-icon color="error" small @click="removeImage2" >mdi-delete-outline</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs6 md6>
-                                        <div class="rounded-lg grey lighten-4">
-                                            <v-img :src="imageData4" height="200px" width="200px"></v-img>
-                                            <v-btn icon>
-                                                <v-icon color="black" small @click="onPick3">mdi-image-plus</v-icon>
-                                            </v-btn>
-                                            <input 
-                                            type="file" 
-                                            name = "gallery" 
-                                            style="display:none" 
-                                            ref="fileInput3" 
-                                            accept="image/*"
-                                            required
-                                            @change="onFileChange3">
-                                            <v-btn icon>
-                                                <v-icon color="error" small @click="removeImage3" >mdi-delete-outline</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>  -->
+                           
                             <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="black" dark
                                 @click="submit" :loading="progressbar">Submit</v-btn>
                                 <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
@@ -387,38 +295,32 @@ mounted() {
     this.$store.dispatch("check_user_bio");
 },
 created(){
-    if(this.$store.state.hasPortfolio)
+    if(this.userHasPortfolio)
     {
         this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
         this.initialImage = this.artist_data.cover
     }
-    if(this.$store.state.hasBio)
+    if(this.userHasBio)
     {
         this.bio = Object.assign({}, this.$store.getters.usersBio);
-        if(this.bio.style==""){
-            this.dummy_style = [];
-        }
-        else{
+        if(this.bio.style){
             let arr = this.bio.style.split(',');
-        this.dummy_style = arr;}
-        //assigning the bio from store if it exists
-        // this.imageData1 = this.bio.gallery1
-        // this.imageData2 = this.bio.gallery2
-        // this.imageData3 = this.bio.gallery3
-        // this.imageData4 = this.bio.gallery4
+            this.dummy_style = arr;
+        }
         let url1 = this.bio.vid1 //getting value of youtube video urls
         let url2 = this.bio.vid2
         let url3 = this.bio.vid3
         let url4 = this.bio.vid4
-        let videoId1 = getIdFromURL(url1) //getting id from video url
-        this.videoId1 = videoId1 //assigning the id to <youtube> video id
-        let videoId2 = getIdFromURL(url2)
-        this.videoId2 = videoId2
-        let videoId3 = getIdFromURL(url3)
-        this.videoId3 = videoId3
-        let videoId4 = getIdFromURL(url4)
-        this.videoId4 = videoId4
+        if(url1){let videoId1 = getIdFromURL(url1) //getting id from video url
+        this.videoId1 = videoId1} //assigning the id to <youtube> video id
+        if(url2){let videoId2 = getIdFromURL(url2)
+        this.videoId2 = videoId2}
+        if(url3){let videoId3 = getIdFromURL(url3)
+        this.videoId3 = videoId3}
+        if(url4){let videoId4 = getIdFromURL(url4)
+        this.videoId4 = videoId4}
     }
+    console.log(this.usersPortfolio, this.usersBio);
 },
 data(){
     return {
@@ -457,13 +359,6 @@ data(){
         dialog: false,
         styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
         imageData: "",
-        // imageData1: "",
-        // imageData2: "",
-        // imageData3: "",
-        // imageData4: "",
-        yt1: false,
-        yt2: false,
-        yt3: false,
         videoId1:'',
         videoId2:'',
         videoId3:'',
@@ -473,15 +368,11 @@ data(){
         ytLinkError2:'',
         ytLinkError3:'',
         ytLinkError4:'',
-        inputInsta: false,
-        inputFace: false,
-        inputMail: false,
         snackbar: false,
         error_snackbar: false,
         delete_progressbar:false,
         fill_image_snackbar:false,
         fill_intro_snackbar:false,
-        text: 'Website created successfully.',
         overlay: false,
         progressbar: false,
         countries: [
@@ -744,13 +635,10 @@ methods: {
             let check = !!pattern.test(this.bio.site);
             if(check){
                 let checkStartsHttp = urlLink.startsWith('http')
-                console.log( "checkStartsHttp", checkStartsHttp);
+                // console.log( "checkStartsHttp", checkStartsHttp);
                 if(!checkStartsHttp)
                 {
-                    console.log("doesn't start with http")
-                    console.log("url",this.bio.site);
                     this.bio.site = 'http://'+ this.bio.site
-                    console.log("url",this.bio.site);
                     this.linkError=``
                     //add http to url
                 }
@@ -848,24 +736,12 @@ methods: {
         {
             this.bio.style= ""
             this.dummy_style=[]
-            // console.log("empty the style");
-            // console.log("style",this.bio.style);
-            // console.log(this.bio);
             }
         else{
             let arr = this.dummy_style;
-            // console.log(this.dummy_style);
-            // console.log(this.bio.style);
             this.bio.style= arr.join();
-            // console.log(this.bio.style);
-            // console.log("style after JOIN",this.bio.style);
         }
     },
-    toShowImage(){
-        if(this.artist_data.cover)
-        this.imageData = URL.createObjectURL(this.artist_data.cover);
-    },
-  
     dataURLtoFile(dataurl, filename) {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -881,8 +757,7 @@ methods: {
         if(this.artist_data.introduction!=""){
             if (!url ){
             this.fill_image_snackbar=true
-            this.progressbar =false
-            console.log("no image1");}
+            this.progressbar =false}
         else{
             fileData = this.dataURLtoFile(url, "coverimage.png");
             // this.artist_data.cover = fileData;
@@ -892,10 +767,8 @@ methods: {
                 delete this.$axios.defaults.headers.common['Authorization']
                 let filename = res.key
                 let url = res.body
-                console.log(res);
                 url = url.slice(1, -1);
                 this.$axios.$put(url, fileData).then((value) => {
-                console.log("image is put", value);
                 this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 const config = {
@@ -913,17 +786,14 @@ methods: {
                 for (let data in this.bio) {
                     formBio.append(data, this.bio[data]);
                 }
-                console.log(this.artist_data.cover,this.artist_data.thumb,this.artist_data.introduction);
                 if(this.artist_data.cover && this.artist_data.thumb ){
                     try {
                     this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(
                         res =>{
-                            console.log(res,"portfolio done");
                             this.$store.dispatch("check_user_portfolio");
                             this.$axios.$post("/v1/artist/bios/", formBio, config).then(
-                        res => { 
-                            console.log(res,"bio done");
-                            this.$store.dispatch("check_user_bio")})
+                                res => { 
+                                    this.$store.dispatch("check_user_bio")})
                             this.progressbar =false
                             this.snackbar = true;
                             this.$router.push("/" + this.bio.username);
@@ -953,16 +823,13 @@ methods: {
         let url = this.cropImage.generateDataUrl();
         if(this.artist_data.introduction!=""){
             if (url){
-            console.log("url");
             let fileData = this.dataURLtoFile(url, "coverimage.png");
             let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
             if(res.statusCode == 200)
             {
-                console.log("200");
                 delete this.$axios.defaults.headers.common['Authorization']
                 let filename = res.key
                 let url = res.body
-                console.log(res);
                 url = url.slice(1, -1);
                 this.$axios.$put(url, fileData).then((value) => {
                 console.log("image is put", value);
@@ -1022,24 +889,25 @@ methods: {
         }
         // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
         formName.append("username", this.artist_data['username']);
-        await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config).then(res => {
-            console.log(res," portfolio changed"); 
-        })
+        await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
         let formName2 = new FormData();
         for(var i=0; i<keyObj3.length; i++) { 
             if(keyObj3[i] == keyObj4[i] && valueObj3[i] == valueObj4[i]) { 
                 // console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
             } else { 
                 // it prints keys have different values 
-                let formName2 = new FormData();
+                if(keyObj3[i]=='ig' && valueObj4[i].charAt(0)=='@'){
+                    valueObj4[i] = valueObj4[i].substring(1); //remove @ from username
+                }
+                if(keyObj3[i]=='fb' && valueObj4[i].charAt(0)=='@'){
+                    valueObj4[i] = valueObj4[i].substring(1); //remove @ from username
+                }
                 formName2.append(keyObj3[i], valueObj4[i]);
             } 
         }
         formName2.append("username", this.bio['username']);
         // console.log("key obj3: "+keyObj3[i]+"\nkeyobj4: "+keyObj4[i]+'\n myObj3 value: '+ valueObj3[i] + '\nmyObj4 value: '+ valueObj4[i] +'\n');
-        await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName2, config).then(res => {
-            console.log(res," changed"); 
-        })
+        await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName2, config)
         this.progressbar =false
         this.$store.dispatch("check_user_bio");
         this.$store.dispatch("check_user_portfolio");
@@ -1077,13 +945,6 @@ methods: {
             this.artist_data.username= this.$store.state.auth.user.user.username,
             this.imageData = ''
             this.bio.username= this.$store.state.auth.user.user.username,
-            // this.imageData4 = ''
-            // this.imageData2 = ''
-            // this.imageData1 = ''
-            // this.imageData3 = ''
-            this.yt1= false,
-            this.yt2= false,
-            this.yt3= false,
             this.videoId1='',
             this.videoId2='',
             this.videoId3='',
@@ -1100,9 +961,15 @@ methods: {
             this.$router.push("/create/website");
         } catch (e) {
             console.log(e);
+            this.error_snackbar = true
             this.delete_progressbar = false
         }
     },
 }
 }
 </script>
+<style scoped>
+.canvas{
+    width: 100%;
+}
+</style>

@@ -1,7 +1,6 @@
 /*just adding this index.js file inside the store directory enables vuex in nuxt */
 
 import * as Cookies from 'js-cookie'
-import createPersistedState from 'vuex-persistedstate'
 import EventService from '@/services/EventService.js'
 
 export const state = () => ({
@@ -258,8 +257,9 @@ export const actions = {
       if(state.auth.loggedIn) {
           EventService.getArtist(state.auth.user.user.username).then(res =>
           {
+            console.log("checking portfolio");
             commit('usersPortfolio',res.data)
-          })
+          }).catch(err =>{console.log(err.response.data);})
         }  
   },
   check_user_bio({commit, state}){
@@ -267,7 +267,7 @@ export const actions = {
         EventService.getBio(state.auth.user.user.username).then(res =>
         {
           commit('usersBio',res.data)
-        })
+        }).catch(err =>{console.log(err.response.data);})
       }  
   },
   check_user_journey({commit, state}, username){
@@ -282,15 +282,15 @@ export const actions = {
       EventService.getUpcoming(username,config).then(res =>
       {
         commit('usersUpcoming',res.data)
-      })
+      }).catch(err =>{console.log(err.response.data);})
       EventService.getHighlights(username,config).then(res =>
       {
         commit('usersHighlights',res.data)
-      })
+      }).catch(err =>{console.log(err.response.data);})
       EventService.getJourney(username,config).then(res =>
         {
           commit('usersJourney',res.data)
-        })
+        }).catch(err =>{console.log(err.response.data);})
   },
   update_user_journey({commit, state}){
     if(state.page_journey) {
@@ -342,7 +342,7 @@ export const actions = {
         commit('updateUserUpcoming',res.data)
       })
       .catch(err => {
-          console.log(err);
+          console.log(err.response);
       });   
     }
   },
@@ -360,7 +360,7 @@ export const actions = {
         commit('updateUserHighlights',res.data)
       })
       .catch(err => {
-          console.log(err);
+          console.log(err.response);
       });   
     }
   },

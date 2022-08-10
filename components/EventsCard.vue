@@ -21,11 +21,8 @@
         :width="cardwidth"
       />
       <v-card-actions height="32px">
-        <div v-if="event.event_name"  class="text-decoration-none caption width">
+        <div class="text-decoration-none caption width">
         <p class="event_p" >{{ event.name }} </p>
-        </div>
-        <div v-else class="text-decoration-none caption width" >
-        <p class="event_p">{{ event.name }} </p>
         </div>
         <v-spacer></v-spacer>
         <country-flag size=small  :country= 'event.country' />

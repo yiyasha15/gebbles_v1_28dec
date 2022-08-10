@@ -75,7 +75,7 @@ import { mapGetters } from 'vuex'
     width: 177px;
     height: 1.7em;
     line-height: initial;
-  overflow: hidden
+    overflow: hidden
   }
 .event_p{
   max-width:177px; 
@@ -83,13 +83,13 @@ import { mapGetters } from 'vuex'
 }
 @media only screen and (max-width: 960px) {
   .width{
-  width: 78px;
+  width: 80px;
   height: 1.3em;
   line-height: initial;
   overflow: hidden
 }
 .event_p{
-  max-width:78px;
+  max-width:80px;
    font-size:0.6rem!important;
 }
 }

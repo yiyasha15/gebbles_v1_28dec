@@ -15,7 +15,7 @@
           ></v-autocomplete>
         </v-col>
       </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" class=" mx-auto width">
+      <v-layout wrap row justify-start v-if="firstLoad" class="mx-auto width">
         <div v-for="n in this.looploader" :key ="n.index">
           <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
@@ -362,7 +362,6 @@ export default {
             {"name": "Zambia", "code": "ZM"},
             {"name": "Zimbabwe", "code": "ZW"}
       ],
-      result:null,
     }
   },
   computed: {
@@ -371,9 +370,9 @@ export default {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 105
           case 'sm': return 105
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
+          case 'md': return 185
+          case 'lg': return 185
+          case 'xl': return 185
         }
       },
       cardwidth () {

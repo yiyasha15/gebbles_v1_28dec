@@ -1,34 +1,31 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card style="margin:2px;"
-      data-view
-      :to="'/' + artist.username" 
+      data-view v-show="event && event.event"
+      :to="'/events/' + event.event.uuid" 
       :elevation="hover ? 12 : 0"
       outlined
-      :width="img_width" 
-      :max-height="card_height"
+      :width="cardwidth" 
+      :max-height="cardheight"
     >
       <v-img
-        v-if = artist.thumb :src = "artist.thumb" 
-        :lazy-src= "artist.thumb" 
+        v-if = event.event.poster :src = "event.event.poster" 
+        :lazy-src= "event.event.poster" 
         :height="img_height"
-        :width="img_width" 
+        :width="cardwidth"
       />
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"
         contain
         :height="img_height"
-        :width="img_width" 
+        :width="cardwidth"
       />
       <v-card-actions height="32px">
-        <div v-if="artist.artist_name" class="text-decoration-none caption width">
-        <p class="event_p">{{ artist.artist_name }} </p>
-        </div>
-        <div v-else class="text-decoration-none caption width">
-        <p class="event_p">{{ artist.username }} </p>
+        <div v-if="event.event.name" class="text-decoration-none caption width">
+        <p class="event_p" >{{ event.event.name }} </p>
         </div>
         <v-spacer></v-spacer>
-        <country-flag size=small  :country= 'artist.country' />
+        <country-flag size=small  :country= 'event.event.country' />
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -38,36 +35,18 @@ import CountryFlag from 'vue-country-flag'
     export default {
       head() {  //head function (a property of vue-meta), returns an object
       return {
-          title: 'gebbles community',
+          title: 'gebbles event',
           }
       },
-      name: 'ArtistCard',
+      name: 'TaggedEventCard',
       props: {
-        artist: Object
+        event: Object
       },
       components: {
         CountryFlag
       },
-      computed: {
-      img_height () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 73
-          case 'sm': return 73
-          case 'md': return 134
-          case 'lg': return 134
-          case 'xl': return 134
-        }
-      },
-      img_width () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
-      card_height() {
+      computed:{
+        cardheight () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 105
           case 'sm': return 105
@@ -75,8 +54,26 @@ import CountryFlag from 'vue-country-flag'
           case 'lg': return 205
           case 'xl': return 205
         }
-      }
-    },
+        },
+        cardwidth () {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 115
+            case 'sm': return 115
+            case 'md': return 215
+            case 'lg': return 215
+            case 'xl': return 215
+          }
+        },
+        img_height () {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 73
+            case 'sm': return 73
+            case 'md': return 134
+            case 'lg': return 134
+            case 'xl': return 134
+          }
+        },
+      },
       }
 </script>
 <style scoped>
@@ -88,6 +85,7 @@ import CountryFlag from 'vue-country-flag'
     overflow: hidden
   }
 .event_p{
+  max-width:177px; 
   font-size:0.8rem!important;
 }
 @media only screen and (max-width: 960px) {
@@ -98,6 +96,7 @@ import CountryFlag from 'vue-country-flag'
   overflow: hidden
 }
 .event_p{
+  max-width:80px;
    font-size:0.6rem!important;
 }
 }

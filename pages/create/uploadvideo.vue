@@ -8,7 +8,7 @@
         </v-container>
         <h2 align="center" justify="center">Upload your video</h2>
         <v-container class="mx-auto" fluid style="max-width:550px" v-if="isMobile">
-            <v-card :class="{'pa-6': $vuetify.breakpoint.smAndDown, 'pa-8': $vuetify.breakpoint.mdAndUp}">
+            <v-card class="pa-6 pa-md-8">
             <v-form v-on:submit.prevent="submit">
                 <v-row>
                     <v-col cols="12" class="pa-0">

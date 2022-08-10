@@ -2,10 +2,10 @@
     <v-app>
       <v-container class="pa-0 mt-4 mt-md-8" >
       <v-row class="mx-auto width">
-        <v-col cols="12" md="8"  class="justify-center ">
+        <v-col cols="12" md="7"  class="justify-center ">
           <h2 class ="xs12 d-inline font-weight-light">Community</h2>
         </v-col>
-        <v-col cols="12" md="4" class= "justify-end py-0 py-md-3" >
+        <v-col cols="12" md="5" class= "justify-end py-0 py-md-3" >
           <v-text-field
             label="Search artists"
             rounded

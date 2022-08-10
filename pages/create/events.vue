@@ -73,7 +73,7 @@
                             ></v-date-picker>
                     </v-menu>
                     <v-text-field
-                    prepend-icon="mdi-map-marker-outline"
+                        prepend-icon="mdi-map-marker-outline"
                         v-model = "event.venue"
                         label= "Event venue"
                         :maxlength="250">
@@ -81,7 +81,7 @@
                     <v-text-field
                         v-model = "event.city"
                         label= "City"
-                        :maxlength="50">
+                        :maxlength="250">
                     </v-text-field>
                     <!-- <v-text-field
                         v-model = "event.country"
@@ -89,14 +89,14 @@
                         :maxlength="250">
                     </v-text-field> -->
                     <v-autocomplete label="Country" v-model= "event.country"
-                    prepend-icon="mdi-earth"
+                        prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
                         item-value="code"
                         required
                     ></v-autocomplete>
                     <v-textarea
-                    prepend-icon="mdi-information-outline"
+                        prepend-icon="mdi-information-outline"
                         v-model = "event.about"
                         :maxlength="250"
                         label= "About the event">
@@ -109,7 +109,7 @@
                         @change="checkLink">
                     </v-text-field>
                     <v-text-field
-                    prepend-icon="mdi-link"
+                        prepend-icon="mdi-link"
                         :error-messages="linkError"
                         v-model = "event.link"
                         label= "Add a link"
@@ -150,7 +150,7 @@
                     <v-text-field
                         v-model= "guest.name"
                         label= "Name"
-                        :maxlength="150">
+                        :maxlength="250">
                     </v-text-field>
                     <v-combobox
                         v-model="artist_obj"
@@ -222,8 +222,7 @@
                     <v-text-field
                         prepend-icon="mdi-information-outline"
                         v-model = "guest.info"
-                        label= "Info"
-                        :maxlength="250">
+                        label= "Info">
                     </v-text-field>
                     <v-btn outlined small class="text-decoration-none"  color="black"
                     @click="addGuests" v-if="!editing_guest_process" :loading="guest_progressbar">Add guest</v-btn>
@@ -333,7 +332,7 @@
         v-model="battle_dialog"
         width="480px" 
         persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-container class="rounded-lg white pa-4 pa-md-8">
         <v-btn icon color="error" class="float-right" @click="close_battle_dialog ">
             <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -360,7 +359,7 @@
          <v-text-field
             v-model= "battle_category.name"
             label= "Title"
-            :maxlength="150">
+            :maxlength="250">
         </v-text-field>
         <v-menu
             ref="menu1"
@@ -418,7 +417,7 @@
             v-model = "battle_category.venue"
             label= "Venue"
             prepend-icon="mdi-map-marker-outline"
-            :maxlength="150">
+            :maxlength="250">
         </v-text-field>
         <!-- <v-combobox
             class="pt-4"
@@ -625,14 +624,12 @@
           <v-text-field
         prepend-icon="mdi-book-outline"
             v-model = "battle_category.rules"
-            label= "Rules"
-            :maxlength="550">
+            label= "Rules">
         </v-text-field>
         <v-text-field
         prepend-icon="mdi-license"
             v-model = "battle_category.prizes"
-            label= "Prizes"
-            :maxlength="550">
+            label= "Prizes">
         </v-text-field>
         <v-text-field
         prepend-icon="mdi-information-outline"
@@ -652,7 +649,7 @@
         v-model="workshop_dialog"
         width="480px" 
         persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-container class="rounded-lg white pa-4 pa-md-8">
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -796,7 +793,7 @@
         v-model="showcase_dialog"
         width="480px" 
         persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-container class="rounded-lg white pa-4 pa-md-8">
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -879,7 +876,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="150">
+            :maxlength="250">
         </v-text-field>
         
         <v-autocomplete
@@ -941,7 +938,7 @@
         v-model="party_dialog"
         width="480px" 
         persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-container class="rounded-lg white pa-4 pa-md-8">
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -1024,7 +1021,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="150">
+            :maxlength="250">
         </v-text-field>
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
@@ -1039,7 +1036,7 @@
         v-model="cypher_dialog"
         width="480px" 
         persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-container class="rounded-lg white pa-4 pa-md-8">
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -1122,7 +1119,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="150">
+            :maxlength="250">
         </v-text-field>
         <!-- <v-text-field
         prepend-icon="mdi-info"
@@ -1143,7 +1140,7 @@
         v-model="otherCategory_dialog"
         width="480px" 
         persistent>
-        <v-container class="rounded-lg white" :class="{'pa-4': $vuetify.breakpoint.smAndDown  ,'pa-8': $vuetify.breakpoint.mdAndUp}">
+        <v-container class="rounded-lg white pa-4 pa-md-8">
         <v-btn icon color="error" class="float-right" @click="close_category_dialog">
             <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -1226,7 +1223,7 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="150">
+            :maxlength="250">
         </v-text-field>
         <v-autocomplete
             class="pt-4"

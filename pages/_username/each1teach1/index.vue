@@ -10,9 +10,6 @@
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Sharing</p>
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
-        <!-- <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Videos</p>
-        </v-tab> -->
         <v-tab-item v-if="!firstLoad">
             <div v-if="teachers.length">
             <v-layout wrap justify-start class="my-2" >
@@ -86,7 +83,7 @@
             </v-layout>
         </v-tab-item> -->
         </v-tabs>
-        <div v-show="!students.length && !teachers.length  && !firstLoad">
+        <!-- <div v-show="!students.length && !teachers.length  && !firstLoad">
             <center>
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -94,7 +91,7 @@
                 :src="require('@/assets/gebbleslogo.png')"/>
                 <h4>No posts yet. </h4>
             </center>
-        </div>
+        </div> -->
         </v-container>
     </v-app>
 </template>
@@ -104,10 +101,8 @@ import EventService from '@/services/EventService.js'
 import StudentsCard from '@/components/StudentsCard.vue'
 import TeachersCard from '@/components/TeachersCard.vue'
 // import CookingCardSharing from '@/components/CookingCardSharing.vue'
-// import CookingCardSharingDesktop from '@/components/CookingCardSharingDesktop.vue'
 import { mapGetters} from 'vuex'
 // import CookingCard from '~/components/CookingCard.vue'
-// import CookingCardDesktop from '~/components/CookingCardDesktop.vue'
 // import CookingFeed from '~/components/CookingFeed.vue'
 
 export default {
@@ -116,9 +111,7 @@ export default {
         StudentsCard,
         TeachersCard,
         // CookingCardSharing,
-        // CookingCardSharingDesktop,
         // CookingCard,
-        // CookingCardDesktop,
         // CookingFeed
     }, 
     computed: {

@@ -213,7 +213,7 @@
       v-model="chipDialog"
       width="480px" 
       persistent>
-      <v-container class="rounded-lg white" :class="{'pa-2': $vuetify.breakpoint.smAndDown  ,'pa-4': $vuetify.breakpoint.mdAndUp}">
+      <v-container class="rounded-lg white pa-2 pa-md-4">
         <v-row align="end" justify="end" class="pa-0 ma-0" >
         <v-btn icon  color="error" class="float-right" @click="chipDialog =false; temp.name='';temp.photo =''; temp.info=''">
             <v-icon>mdi-close</v-icon>

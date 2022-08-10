@@ -1,17 +1,13 @@
 <template>
 <div>
     <div class="my-2" >   
-    <video id="videoId" width="100%" height="410px" controls playsinline :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-if="cook.video" class="hidden-xs-only">
-        <source :src="cook.video" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <video id="videoId" width="100%" height="220px" controls playsinline :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-if="cook.video" class="hidden-sm-and-up">
+    <video id="videoId" width="100%" :height="height" controls playsinline :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-if="cook.video">
         <source :src="cook.video" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <!-- <div style="float:left;"> -->
         <v-row class="pt-3 pb-2 px-3">
-    <h5 :class="{'pl-3 caption': $vuetify.breakpoint.smAndDown  ,'pl-0 caption': $vuetify.breakpoint.mdAndUp}"> {{created_date}}</h5>
+    <h5 class="pl-3 pl-md-0 caption"> {{created_date}}</h5>
         </v-row>
     <!-- </div> -->
     <div :class="{'px-3': $vuetify.breakpoint.smAndDown}" align="left" justify="left">
@@ -175,6 +171,15 @@ export default {
     },
     computed: {
     ...mapGetters(['loggedInUser', 'userHasPortfolio','usersPortfolio', 'isAuthenticated', 'learning_comments_list']),
+    height () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 220
+          case 'sm': return 410
+          case 'md': return 410
+          case 'lg': return 410
+          case 'xl': return 410
+        }
+      },
     },
     data(){
         return{

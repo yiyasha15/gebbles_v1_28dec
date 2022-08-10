@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'mt-1': $vuetify.breakpoint.smAndDown, 'mt-6': $vuetify.breakpoint.mdAndUp}">
+    <div class="mt-1 mt-md-6">
       <v-container class=" mx-auto" fluid style="max-width:750px" >
         <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>

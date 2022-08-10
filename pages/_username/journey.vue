@@ -1,66 +1,96 @@
 <template>
     <v-app>
-        <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:670px;">
-        <div v-if="upcoming.length || journey.length || highlights.length"> 
-        <!-- check if journey is available -->
-        <div v-if="upcoming.length">
-        <div class="my-4">
-        <h3 class="font-weight-light pl-2 mx-auto width" >Upcoming events</h3>
-        </div>
-        <v-layout wrap row justify-start class="my-2 mx-auto width">
-            <div v-for="journey in upcoming" :key ="journey.index">
-                <journey-card :journey = "journey" ></journey-card>
-            </div>
-        </v-layout>
-        <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
-        </div>
-        <div v-if="highlights.length">
-        <div class="my-4" >
-        <h3 class="font-weight-light pl-2 mx-auto width" >Highlights</h3>
-        </div>
-        <v-layout wrap row justify-start class="my-2 mx-auto width">
-            <div v-for="journey in highlights" :key ="journey.index">
-                <journey-card :journey = "journey" ></journey-card>
-            </div>
-        </v-layout>
-        <v-card v-intersect="infiniteScrollingHighlights"></v-card>
-        </div>
-        <div v-if="journey.length">
-        <div class="my-4">
-        <h3 class="font-weight-light pl-2 mx-auto width" >Journey</h3>
-        </div>
-            <v-layout wrap row justify-start class="my-2 mx-auto width">
-                <div v-for="journey in journey" :key ="journey.index">
-                    <journey-card :journey = "journey" ></journey-card>
+        <v-tabs class="width mx-auto">
+        <v-tab>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Journey</p>
+        </v-tab>
+        <v-tab>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Events</p>
+        </v-tab>
+        <v-tab-item >
+            <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:670px;">
+                <div v-if="upcoming.length || journey.length || highlights.length"> 
+                <!-- check if journey is available -->
+                <!-- <div v-if="upcoming.length">
+                <div class="my-4">
+                <h3 class="font-weight-light pl-2 mx-auto width" >Upcoming events</h3>
                 </div>
-            </v-layout>
-            <v-card v-intersect="infiniteScrollingJourney"></v-card>
-        </div>
-        </div>
-        <div v-else>
-            <center>
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h3>No posts yet. </h3>
-            </center>
-        </div>
-        </v-container>
-        <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
-            <div class="my-4">
-            <h3 class="font-weight-light pl-2 mx-auto width">Journey</h3>
-            </div>
-            <v-layout wrap row justify-start class="mx-auto width" >
+                <v-layout wrap row justify-start class="my-2 mx-auto width">
+                    <div v-for="journey in upcoming" :key ="journey.index">
+                        <journey-card :journey = "journey" ></journey-card>
+                    </div>
+                </v-layout>
+                <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
+                </div> -->
+                <div v-if="highlights.length">
+                <!-- <div class="my-4" >
+                <h3 class="font-weight-light pl-2 mx-auto width" >Highlights</h3>
+                </div> -->
+                <v-layout wrap row justify-start class="mx-auto width" style="margin:2px 0px;">
+                    <div v-for="journey in highlights" :key ="journey.index">
+                        <journey-card :journey = "journey" ></journey-card>
+                    </div>
+                </v-layout>
+                <v-card v-intersect="infiniteScrollingHighlights"></v-card>
+                </div>
+                <div v-if="journey.length">
+                <!-- <div class="my-4">
+                <h3 class="font-weight-light pl-2 mx-auto width" >Journey</h3>
+                </div> -->
+                    <v-layout wrap row justify-start class="mx-auto width" style="margin:2px 0px;">
+                        <div v-for="journey in journey" :key ="journey.index">
+                            <journey-card :journey = "journey" ></journey-card>
+                        </div>
+                    </v-layout>
+                    <v-card v-intersect="infiniteScrollingJourney"></v-card>
+                </div>
+                </div>
+                <div v-else>
+                    <center>
+                        <img
+                        :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                        class="ml-2 mt-6 clickable"
+                        :src="require('@/assets/gebbleslogo.png')"/>
+                        <h3>No posts yet. </h3>
+                    </center>
+                </div>
+            </v-container>
+            <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
+            <v-layout wrap row justify-start class="mx-auto width" style="margin:2px 0px;">
             <div v-for="n in this.looploader" :key ="n.index">
                 <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
             </div>
             </v-layout>
-        </v-container>
+            </v-container>
+        </v-tab-item>
+        <v-tab-item >
+            <!-- tagged events -->
+            <v-layout wrap row justify-start v-if="firstLoad" class="my-2">
+                <div v-for="n in this.looploader" :key ="n.index">
+                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                </div>
+            </v-layout>
+            <v-layout wrap row justify-start v-show="!firstLoad" class=" mx-auto width my-2" >
+                <div v-for="event in taggedEvents" :key ="event.index">
+                <tagged-events-card v-if="event.event" :event="event"></tagged-events-card>
+                </div>
+            </v-layout>
+            <v-card v-intersect="infiniteScrollingTaggedEvents"></v-card>
+            <center v-if="!taggedEvents.length && !firstLoad">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo.png')"/>
+                <h3>No events found. </h3>
+            </center>
+        </v-tab-item>
+        </v-tabs>
     </v-app>
 </template>
 <script>
 import { mapGetters} from 'vuex'
+import TaggedEventsCard from '@/components/TaggedEventsCard.vue'
+import EventService from '@/services/EventService.js'
 import JourneyCard from "@/components/JourneyCard.vue"
 export default {
     head() {
@@ -76,7 +106,7 @@ export default {
         }
     },
     components:{
-        JourneyCard
+        JourneyCard, TaggedEventsCard,
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser',
@@ -104,12 +134,14 @@ export default {
     },
     props: ["artist"],
     created(){
+        this.getTaggedEvents();
         this.getJourneyApi(this.$route.params);
     },
     data() {
         return {
         // journeyLoaded:true,
         search: "",
+        taggedEvents:[],
         pageHighlights:null,
         pageJourney:null,
         pageUpcoming:null,
@@ -118,9 +150,37 @@ export default {
         // upcoming:[],
         looploader:[1,1,1,1,1,1,1,1,1],
         loading: true,
+        page:'',
+        firstLoad:true,
+        seen: new Set()
         }
     },
     methods: {
+        async getTaggedEvents(){
+        try {
+        const response = await EventService.getMyTaggedEvents(this.artist.username);
+        // console.log(response);
+        const taggedEvents = response.data.results
+        //filter events which are duplicate
+            // a Set to track seen events
+            // const seen = new Set();
+            this.taggedEvents = taggedEvents.filter(event => {
+            // check if the current event is a duplicate
+            let isDuplicate;
+            if(event.event){isDuplicate= this.seen.has(event.event.uuid);
+            // add the current event to the Set
+            this.seen.add(event.event.uuid);}
+            // filter() returns the event when isDuplicate is false
+            return !isDuplicate;
+            });
+            // console.log(filtered);
+        this.page = response.data.next
+        this.firstLoad = false
+        } catch (e) {
+            console.log(e);
+            this.firstLoad = false
+        }
+    },
     async getJourneyApi(params){
         this.$store.dispatch("remove_journey");
         this.$store.dispatch("check_user_journey", params.username)
@@ -144,6 +204,35 @@ export default {
     // } catch (err) {
     //     console.log(err.response);
     // }
+    },
+    infiniteScrollingTaggedEvents(entries, observer, isIntersecting) {
+        if(this.page){
+        const key = 'uuid';
+        this.$axios.get(this.page).then(response => {
+            this.page= response.data.next;
+
+            let res = response.data.results
+            //filter events which are duplicate
+            // a Set to track seen events
+            let taggedEventsPage = res.filter(event => {
+            // check if the current event is a duplicate
+            let isDuplicate;
+            if(event.event)
+            { isDuplicate= this.seen.has(event.event.uuid);
+            // add the current event to the Set
+            this.seen.add(event.event.uuid);
+            }
+            // filter() returns the event when isDuplicate is false
+            return !isDuplicate;
+            });
+            taggedEventsPage.forEach(item => this.taggedEvents.push(item));
+            this.taggedEvents = [...new Map(this.taggedEvents.map(item =>
+            [item[key], item])).values()];
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        }
     },
     infiniteScrollingJourney(entries, observer, isIntersecting) {
         this.$store.dispatch("update_user_journey")

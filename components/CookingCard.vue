@@ -1,30 +1,30 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card style="margin:2px;"
+    <v-card class="ma-1" 
       data-view
       @click="dialog=true"
       :elevation="hover ? 12 : 0"
       outlined
-      width="115" 
-      max-height="105"
+      :width="cardwidth" 
+      :max-height="cardheight"
     >
     <v-img v-if="cook.thumbjs"
         :src="cook.thumbjs"
-        height="84"
-        width="115"
+        :height="imgheight"
+        :width="cardwidth" 
       />
       <v-img v-else
         :src="require('@/assets/gebbleslogo3.png')"
         contain
-        height="84"
-        width="115"
+        :height="imgheight"
+       :width="cardwidth" 
       />
       <v-dialog
         :retain-focus="false"
         v-model="dialog"
         width="800px"
         persistent>
-        <v-container class="rounded-lg white pa-2">
+        <v-container class="rounded-lg white pa-2 pa-md-4">
         <v-btn icon color="error" class="float-right" @click="dialog=false; ">
             <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -54,6 +54,35 @@ import CookingFeed from '@/components/CookingFeed.vue'
             dialog:false,
           }
         },
+        computed:{
+          cardheight () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
+        }
+        },
+        cardwidth () {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 115
+            case 'sm': return 115
+            case 'md': return 215
+            case 'lg': return 215
+            case 'xl': return 215
+          }
+        },
+        imgheight () {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 84
+            case 'sm': return 84
+            case 'md': return 134
+            case 'lg': return 134
+            case 'xl': return 134
+          }
+        },
+        },
         methods:{
           postDelete(){
             this.$forceUpdate();
@@ -63,4 +92,3 @@ import CookingFeed from '@/components/CookingFeed.vue'
         }
     }
 </script>
-

@@ -291,13 +291,11 @@ export default {
 <style scoped>
 
 .width{
-    /* width: 90px; */
     height: 1.7em;
     line-height: initial;
     overflow: hidden
   }
 .event_p{
-  /* max-width:134px;  */
   font-size:0.8rem!important;
 }
 @media only screen and (max-width: 960px) {
@@ -307,7 +305,6 @@ export default {
     overflow: hidden
   }
   .event_p{
-    /* max-width:78px;  */
     font-size:0.6rem!important;
   }
 }

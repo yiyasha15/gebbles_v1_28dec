@@ -237,7 +237,6 @@
                 </h5>    
             </v-container>
             </v-col> -->
-            <!-- :class="{'ma-0': $vuetify.breakpoint.smAndDown, 'ma-4': $vuetify.breakpoint.mdAndUp}" -->
             <!-- <v-col cols="12" md="6" >
                 <v-row>
                     <v-col v-if="bio.gallery1"

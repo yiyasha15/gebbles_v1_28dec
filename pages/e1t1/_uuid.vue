@@ -12,7 +12,7 @@
             </v-col>
             <v-col cols="12" md="6" >
                 <v-row>
-                    <v-col >
+                    <v-col>
                     <h5 class="caption mt-1" > {{e1t1.s_date}}</h5><h5 class="caption mt-1" > {{e1t1.s_location}}</h5>
                     </v-col>
                     <div v-if="loggedInUser">
@@ -142,7 +142,6 @@
                 <v-row>
                     <v-col >
                     <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
-                    <!-- <read-more more-str="read more" :text="msg" link="#" less-str="read less" :max-chars="50"></read-more> -->
                     <div style="
                         max-height:200px;
                         overflow-x: hidden;
@@ -220,7 +219,7 @@
                     </v-flex>
                     <v-flex md2 sm3><center>
                         <v-btn small 
-                        @click="post_personal_text" :class="{'px-4': $vuetify.breakpoint.xsAndDown, 'px-8': $vuetify.breakpoint.smAndUp}"
+                        @click="post_personal_text" class="px-4 px-md-8"
                         color="black" dark >Post
                     </v-btn></center>
                     </v-flex>
@@ -341,7 +340,6 @@ import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 // import CommentsCard from '~/components/CommentsCard.vue'
 import LearningCard from '~/components/LearningCard.vue'
-import ReadMore from 'vue-read-more';
 import PersonalMessagesCard from '~/components/PersonalMessagesCard.vue'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
@@ -368,11 +366,30 @@ export default {
         this.$store.dispatch("check_share_love", this.e1t1.id)
         // this.get_cookings_filtered(this.e1t1.username,this.e1t1.id);
     },
+    mounted() {
+        this.$store.dispatch("check_share_love", this.e1t1.id)
+        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let date = this.e1t1.s_date;
+        let datetype= date.slice(8, 10);
+        let month = date.slice(5, 7);
+        let yeartype = date.slice(0, 4)
+        const regex = new RegExp("^0+(?!$)",'g');
+        month = month.replaceAll(regex, "");
+        let monthtype = months[month-1]
+        this.e1t1.s_date = datetype+" "+monthtype +" "+yeartype;
+        if(this.isAuthenticated)
+        {
+        if(this.loggedInUser.user.username == this.e1t1.teacher || this.loggedInUser.user.username ==this.e1t1.username){
+            this.isYourRoom = true
+            this.$store.dispatch("check_personal_room", this.e1t1.id);
+            this.items = this.personalMessages;
+        }
+        }
+	},
     components:{
         CountryFlag,
         // CommentsCard,
         LearningCard,
-        ReadMore,
         PersonalMessagesCard,
         Youtube,
         // CookingCard 
@@ -418,26 +435,7 @@ export default {
             dynamic_height: 50,
             }
     },
-    mounted() {
-        this.$store.dispatch("check_share_love", this.e1t1.id)
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = this.e1t1.s_date;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartype = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        this.e1t1.s_date = datetype+" "+monthtype +" "+yeartype;
-        if(this.isAuthenticated)
-        {
-        if(this.loggedInUser.user.username == this.e1t1.teacher || this.loggedInUser.user.username ==this.e1t1.username){
-            this.isYourRoom = true
-            this.$store.dispatch("check_personal_room", this.e1t1.id);
-            this.items = this.personalMessages;
-        }
-        }
-	},
+    
 	computed: {
         ...mapGetters([ 'userHasPortfolio', 'isAuthenticated',
         'loggedInUser', 'usersPortfolio', 'share_comments_list', 'love', 

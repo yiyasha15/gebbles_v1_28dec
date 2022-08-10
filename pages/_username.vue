@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <!-- <v-container> -->
     <template v-if="userNotFound" >
         <the-header></the-header>
         <h4 class="mx-auto my-12">Artist portfolio not found.</h4>
@@ -38,7 +37,7 @@
             v-if="isAuthenticated"
             :to="'/events'"
             class="text-decoration-none mx-1 hidden-sm-and-up"
-        >
+            >
             <v-icon size="26" color="black" >
                 mdi-google-circles-communities
             </v-icon>
@@ -47,7 +46,7 @@
             <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" class="mx-1 hidden-sm-and-up"
             v-on="on">
-        <v-icon color="black">mdi-plus-circle-outline</v-icon>
+            <v-icon color="black">mdi-plus-circle-outline</v-icon>
             </div>
             </template>
             <v-list>
@@ -119,8 +118,8 @@
                     alt="img"
                 >
                 </v-avatar>
-                <v-avatar size="26" color="black" v-else >
-                    <v-icon dark>
+                <v-avatar size="26" v-else >
+                    <v-icon dark color="black" >
                         mdi-account-circle
                     </v-icon>
                 </v-avatar>
@@ -202,14 +201,14 @@
             <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
             <v-btn icon small
-            v-if="isAuthenticated"
-            :to="'/events'"
-            class="text-decoration-none mx-1 d-none d-sm-flex"
-        >
-            <v-icon size="26" color="black" >
-                mdi-google-circles-communities
-            </v-icon>
-        </v-btn>
+                v-if="isAuthenticated"
+                :to="'/events'"
+                class="text-decoration-none mx-1 d-none d-sm-flex"
+            >
+                <v-icon size="26" color="black" >
+                    mdi-google-circles-communities
+                </v-icon>
+            </v-btn>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" class="mx-1 d-none d-sm-flex"
@@ -286,8 +285,8 @@
                     alt="img"
                 >
                 </v-avatar>
-                <v-avatar size="26" color="black" v-else >
-                    <v-icon dark>
+                <v-avatar size="26" v-else >
+                    <v-icon dark color="black">
                         mdi-account-circle
                     </v-icon>
                 </v-avatar>
@@ -577,7 +576,6 @@
             </v-card>
     </center>
     </v-dialog>
-    <!-- </v-container> -->
     <nuxt-child :artist='artist' :bio='bio' />
     </template>
   </v-app>

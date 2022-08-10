@@ -1,30 +1,17 @@
 <template>
     <v-app>
       <v-container class="pa-0">
-      <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down" >
+      <v-row class="width mx-auto" >
         <h3 class ="xs12 d-inline font-weight-light pl-1 py-2">Sharing</h3>
       </v-row>
-      <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up">
-        <h3 class ="xs12 d-inline font-weight-light pl-1 py-2">Sharing</h3>
-      </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad"  class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+      <v-layout wrap row justify-start v-if="firstLoad"  class="width mx-auto"  >
         <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+          <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;"  width="215" max-height="195" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
+      <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
         <div v-for="cook in cooking" :key ="cook.index">
           <cooking-card-sharing :cook="cook" ></cooking-card-sharing> 
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="cook in cooking" :key ="cook.index">
-          <cooking-card-sharing-desktop :cook="cook" ></cooking-card-sharing-desktop>
         </div>
       </v-layout>
       <center v-if="!cooking.length && !firstLoad">
@@ -41,7 +28,6 @@
 
 <script>
 import CookingCardSharing from '@/components/CookingCardSharing.vue'
-import CookingCardSharingDesktop from '@/components/CookingCardSharingDesktop.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
 export default {
@@ -92,8 +78,7 @@ export default {
     },
   },
   components: {
-    CookingCardSharing,
-    CookingCardSharingDesktop
+    CookingCardSharing
   },
   data() {
     return {
@@ -106,6 +91,46 @@ export default {
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
+    cardheight () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 185
+          case 'lg': return 185
+          case 'xl': return 185
+        }
+      },
+      cardwidth () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 115
+          case 'sm': return 115
+          case 'md': return 215
+          case 'lg': return 215
+          case 'xl': return 215
+        }
+      },
   },
 }
 </script>
+<style scoped>
+/* .home{
+  width: 860px;
+  margin: auto;
+} */
+h5:hover{
+  color: black;
+  text-decoration: underline;
+}
+h3:hover{
+  color: black;
+  text-decoration: underline;
+}
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
+</style>

@@ -11,9 +11,9 @@ export default function({store, redirect }) {
   const isAuthenticated = store.state.auth.loggedIn ? true : false
   if (!isAuthenticated) {
     redirect("/login")
-    console.log("not auth");
+    // console.log("not auth");
   }
   else{
-    console.log("stay on the same page");
+    // console.log("stay on the same page");
   }
 }
