@@ -15,9 +15,9 @@
         :height="img_height"
         :width="img_width">
         <div class="text-center">
-        <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
-        <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-light px-6  white--text hidden-xs-only" >{{category.name}}</h3>
-        <h6 v-if="category.date" class="caption white--text mt-sm-12 mt-4">{{moment(category.date)}}</h6>
+        <h3 style="height:55px; overflow:hidden;" class="font-weight-medium px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
+        <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-medium px-6  white--text hidden-xs-only" >{{category.name}}</h3>
+        <h6 v-if="category.date" class="body-1 white--text mt-sm-12 mt-4">{{moment(category.date)}}</h6>
       </div>
       <div style="position:absolute; padding-left:2px; bottom:2px;">
       <v-avatar size="26px" v-if="category.photo1">

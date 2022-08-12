@@ -75,13 +75,12 @@
                     <v-text-field
                         prepend-icon="mdi-map-marker-outline"
                         v-model = "event.venue"
-                        label= "Event venue"
-                        :maxlength="250">
+                        label= "Event venue">
                     </v-text-field>
                     <v-text-field
                         v-model = "event.city"
                         label= "City"
-                        :maxlength="250">
+                        :maxlength="50">
                     </v-text-field>
                     <!-- <v-text-field
                         v-model = "event.country"
@@ -98,7 +97,6 @@
                     <v-textarea
                         prepend-icon="mdi-information-outline"
                         v-model = "event.about"
-                        :maxlength="250"
                         label= "About the event">
                     </v-textarea>
                     <v-text-field
@@ -150,7 +148,7 @@
                     <v-text-field
                         v-model= "guest.name"
                         label= "Name"
-                        :maxlength="250">
+                        :maxlength="255">
                     </v-text-field>
                     <v-combobox
                         v-model="artist_obj"
@@ -219,11 +217,11 @@
                     label= "Country"
                     clearable>
                     </v-autocomplete>
-                    <v-text-field
+                    <v-textarea
                         prepend-icon="mdi-information-outline"
                         v-model = "guest.info"
                         label= "Info">
-                    </v-text-field>
+                    </v-textarea>
                     <v-btn outlined small class="text-decoration-none"  color="black"
                     @click="addGuests" v-if="!editing_guest_process" :loading="guest_progressbar">Add guest</v-btn>
                     <!-- <v-btn outlined small class="text-decoration-none mb-3"  color="black"
@@ -682,11 +680,11 @@
             v-model = "battle_category.prizes"
             label= "Prizes">
         </v-text-field>
-        <v-text-field
+        <v-textarea
         prepend-icon="mdi-information-outline"
             v-model = "battle_category.about"
             label= "About">
-        </v-text-field>
+        </v-textarea>
           <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"

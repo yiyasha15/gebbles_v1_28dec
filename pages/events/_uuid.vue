@@ -1,86 +1,73 @@
 <template>
   <v-app>
-        <v-container class="mx-auto" fluid style="max-width:950px" >
-        <!-- <v-btn icon class="elevation-0" v-if="isAuthenticated && loggedInUser.user.username != event.username" @click="goback()" style="margin-left:-6px">
+        <v-container class=" mx-auto" fluid style="max-width:950px" >
+        <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
-        </v-btn> -->
-        <v-row class="ma-0">
-            <v-col cols="12" md="6" >
-                <v-row>
-                    <v-col class="px-0">
-                        <v-btn icon class="elevation-0 " @click="goback()" style="margin-left:-6px"
-                        v-if="isAuthenticated && loggedInUser.user.username == event.username">
-                            <v-icon class="float-left">mdi-arrow-left</v-icon>
-                        </v-btn>
-                        <v-btn icon class="elevation-0 " @click="goback()" style="margin-left:-6px" v-else>
-                            <v-icon class="float-left">mdi-arrow-left</v-icon>
-                        </v-btn>
-                    </v-col>
-                    <v-col align="end" class="pt-5 px-0" v-if="isAuthenticated && loggedInUser.user.username == event.username" >
-                    <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn small icon v-bind="attrs"
-                        v-on="on">
-                        <v-icon small color="black" @click="editEvent(event)">mdi-circle-edit-outline</v-icon>
-                    </v-btn>
-                    </template>
-                    <span>Edit</span>
-                    </v-tooltip>
-                    <v-dialog v-model="deletedialog" width="500">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-tooltip top v-bind="attrs" v-on="on">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn small icon >
-                            <v-icon small color="error" @click="deletedialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </template>
-                        <span>Delete</span>
-                        </v-tooltip>
-                    </template>
-                    <v-card class="pa-4">
-                        <p>Are you sure you want to delete this event?</p>
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
-                            @click="deleteEvent">Delete</v-btn>
-                        <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="deletedialog = false">
-                            Cancel
-                        </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                    </v-dialog>
-                    </v-col>
-                </v-row>
-                <div style="max-width:440px" class="mx-auto">
-                <v-row class="mt-md-2">
-                <v-col cols="12" class="pa-0"> <h1 >{{event.name}}</h1></v-col>
-                </v-row>
-                <v-row>
-                <h3 v-if="event.start_date" class="red--text mt-1 font-weight-light " > <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(event.start_date)}}
-                <!-- {{getTime(event.start_date).date}} -->
-                </h3>
-                </v-row>
-                <v-row v-if="event.date_time">
-                <h3 class="red--text font-weight-light"> {{event.date_time}}</h3>
-                </v-row>
-                <v-row v-if="event.city || event.venue || event.country">
-                    <h4 class="mr-2 mt-2 font-weight-light" ><v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>{{event.venue}} <b >{{event.city}}<span v-if="event.city && event.country">, </span> {{countryIs(event.country)}}</b></h4>
-                </v-row>
-                <v-row class="mb-2">
-                    <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none mt-6" color="#815A44" outlined @click="imgoingApi">
-                        <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
-                    </v-btn>
-                    <v-btn v-else small class="elevation-0 text-decoration-none mt-6" color="#815A44" dark @click="imgoingApi">
-                        <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
-                    </v-btn>
-                    <v-btn small class="elevation-0 text-decoration-none mt-6 ml-2" @click="openLink" v-if="event.link">
-                        <h4 class="font-weight-medium" style="text-transform: capitalize;"><v-icon small class="pr-2">mdi-info-outline</v-icon>More Info</h4>
-                    </v-btn>
-                </v-row>
-                <v-row v-if="goingList && goingList.length>0">
-                    <p class="hover" @click="showGoingList =true">{{goingList.length}} people joining</p>
-                </v-row>
-                <v-dialog
+        </v-btn>
+        <!-- <v-spacer></v-spacer> -->
+        <div v-if="isAuthenticated && loggedInUser.user.username == event.username" class="float-right">
+        <v-col class="pa-1" >
+        <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn small icon v-bind="attrs"
+            v-on="on">
+            <v-icon small color="black" @click="editEvent(event)">mdi-circle-edit-outline</v-icon>
+        </v-btn>
+        </template>
+        <span>Edit</span>
+        </v-tooltip>
+        <v-dialog v-model="deletedialog" width="500">
+        <template v-slot:activator="{ on, attrs }">
+            <v-tooltip top v-bind="attrs" v-on="on">
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn small icon >
+                <v-icon small color="error" @click="deletedialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
+                </v-btn>
+            </template>
+            <span>Delete</span>
+            </v-tooltip>
+        </template>
+        <v-card class="pa-4">
+            <p>Are you sure you want to delete this event?</p>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
+                @click="deleteEvent">Delete</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="deletedialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
+        </v-col>
+        </div>
+        </v-container>
+        <v-container class="mx-auto" fluid style="max-width:950px" >
+        <v-row>
+            <v-col cols="12" sm="6" align="center" justify="center">
+                <v-img :src = "event.poster"  maxHeight="515px" contain ></v-img>
+            </v-col>
+            <v-col cols="12" sm="6" > 
+            <h1 class="font-weight-medium display-1">{{event.name}}</h1>
+            <h3 v-if="event.start_date" class="red--text mt-2 font-weight-medium " > 
+                <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(event.start_date)}}
+            </h3>
+            <h3 v-if="event.date_time" class="red--text font-weight-medium "> {{event.date_time}}</h3>
+            <h4 v-if="event.city || event.venue || event.country" class="mr-2 mt-2 font-weight-medium " ><v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>{{event.venue}} <b >{{event.city}}<span v-if="event.city && event.country">, </span> {{countryIs(event.country)}}</b></h4>
+            <div class="py-4 py-md-6">
+            <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none " color="#815A44" outlined @click="imgoingApi">
+                <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
+            </v-btn>
+            <v-btn v-else small class="elevation-0 text-decoration-none" color="#815A44" dark @click="imgoingApi">
+                <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
+            </v-btn>
+            <v-btn small class="elevation-0 text-decoration-none ml-2" @click="openLink" v-if="event.link">
+                <h4 class="font-weight-medium" style="text-transform: capitalize;"><v-icon small class="pr-2">mdi-info-outline</v-icon>More Info</h4>
+            </v-btn>
+            
+            <p v-if="goingList && goingList.length>0" class="hover font-weight-medium mt-2 mb-0" @click="showGoingList =true">{{goingList.length}} people joining</p>
+            </div>
+            <v-dialog
                 :retain-focus="false"
                 v-model="showGoingList"
                 width="480px" 
@@ -99,25 +86,21 @@
                     <nuxt-link v-if="people.artist && people.artist.username" :to="'/'+people.artist.username" class="text-decoration-none"><v-avatar size="26px" v-if="people.artist && people.artist.thumb">
                         <v-img :src="people.artist.thumb"></v-img>
                     </v-avatar>
-                     <span class="pl-2">{{people.artist.artist_name}}</span></nuxt-link>
+                    <span class="pl-2">{{people.artist.artist_name}}</span></nuxt-link>
                     <p v-else>{{people.username}} </p>
                 </div>
                 </v-container>
             </v-dialog> 
-                <!-- <span v-if="event.about" style=""></span> -->
-                <v-row class="mt-6" v-if="event.about">
-                <div style="
-                    max-height:190px;
-                    overflow-x: hidden;
-                    overflow-y: auto;
-                    text-align:justify;">
-                <p class="font-weight-light ">{{event.about}}</p>
-                </div>
-                </v-row>
-                </div>
-            </v-col>
-            <v-col cols="12" md="6" class="px-0">
-                <v-img :src = "event.poster"  maxHeight="415px" contain ></v-img>
+            <!-- <span v-if="event.about" style=""></span> -->
+            <!-- <v-row class="mt-6" v-if="event.about"> -->
+            <div v-if="event.about" style="
+                max-height:190px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                text-align:justify;">
+            <p class="font-weight-light ">{{event.about}}</p>
+            </div>
+            <!-- </v-row> -->
             </v-col>
         </v-row>
         <v-row v-if="videoId" class="ma-0 mt-10">
@@ -139,9 +122,6 @@
             <category-card :category="category" :poster="event.poster"></category-card>
             </v-col>
         </v-row>
-        <!-- <v-row>
-            <p>Contact organisers</p>
-        </v-row> -->
         </v-container>
         <v-snackbar v-model="going_snackbar">
             Great, see you there.
@@ -615,5 +595,13 @@ export default {
 .hover:hover{
     cursor: pointer;
     text-decoration: underline;
+}
+.width{
+    max-width:950px;
+}
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
 }
 </style>
