@@ -98,7 +98,9 @@
                 overflow-x: hidden;
                 overflow-y: auto;
                 text-align:justify;">
-            <p class="font-weight-light ">{{event.about}}</p>
+                <pre>
+                <p class="font-weight-light ">{{event.about}}</p>
+                </pre>
             </div>
             <!-- </v-row> -->
             </v-col>

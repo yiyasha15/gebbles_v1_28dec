@@ -135,15 +135,18 @@
                 :src = "artist.cover"></v-img>
             </v-col>
             <v-col cols="6" class="pr-0">
+               
                 <h2 style="font-size: 2.5rem;" class="mb-9 pt-6 " >about</h2>
-                <div style="
+                 <!-- <pre> -->
+                     <div style=" 
                         height:368px;
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
-                <h4 class="mb-5 font-weight-light" style="line-height:1.7em;text-align:justify;">
+                <h4 class="mb-5 font-weight-light text-pre-wrap" style="line-height:1.7em;text-align:justify;">
                     {{ artist.introduction }}
                 </h4></div>
+                <!-- </pre> -->
                 <h4 class="mb-2 mt-12 font-weight-medium" v-if="bio.crew">
                     Representing: {{bio.crew}}
                 </h4>
@@ -152,7 +155,7 @@
         <v-row v-if="artist.introduction" class="hidden-md-and-up">
             <v-col cols="12" class="my-md-6 pa-4">
                 <h2 style="font-size: 2.0rem;" >about</h2>
-                <h5 class="mb-5 mt-2 font-weight-light" style="line-height:2;text-align:justify;">
+                    <h5 class="mb-5 mt-2 font-weight-light text-pre-wrap" style="line-height:2;text-align:justify;">
                     {{ artist.introduction }}
                 </h5>
                 </v-col>

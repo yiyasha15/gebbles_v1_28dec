@@ -8,7 +8,7 @@
           at gebbles, you can document your HipHop journey & stay connected
           to some of the people who matter the most, your peers, teachers and students in this culture,
           the people who show you the way and the people whom you show it to.
-<br><br>
+          <br><br>
           <p>it is often easy to look past at the beautiful times as it happens, because time really flies when you're having
             fun with your people.
             but by documenting your journey, we can take in and really breathe into these beautiful memories
