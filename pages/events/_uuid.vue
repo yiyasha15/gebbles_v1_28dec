@@ -45,9 +45,9 @@
         <v-container class="mx-auto" fluid style="max-width:950px" >
         <v-row>
             <v-col cols="12" sm="6" align="center" justify="center">
-                <v-img :src = "event.poster"  maxHeight="515px" contain ></v-img>
+                <v-img :src = "event.poster" class="black" maxHeight="500px" contain ></v-img>
             </v-col>
-            <v-col cols="12" sm="6" > 
+            <v-col cols="12" sm="6" justify="center" > 
             <h1 class="font-weight-medium display-1">{{event.name}}</h1>
             <h3 v-if="event.start_date" class="red--text mt-2 font-weight-medium " > 
                 <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(event.start_date)}}
@@ -91,24 +91,25 @@
                 </div>
                 </v-container>
             </v-dialog> 
-            <!-- <span v-if="event.about" style=""></span> -->
-            <!-- <v-row class="mt-6" v-if="event.about"> -->
-            <div v-if="event.about" style="
-                max-height:190px;
+            <div v-if="event.about" class="hidden-xs-only" style="
+                max-height:220px;
                 overflow-x: hidden;
                 overflow-y: auto;
+                align:bottom;
                 text-align:justify;">
-                <pre>
-                <p class="font-weight-light ">{{event.about}}</p>
-                </pre>
+                <p class="font-weight-light text-pre-wrap ">{{event.about}}</p>
             </div>
-            <!-- </v-row> -->
+            <p class="font-weight-light text-pre-wrap hidden-sm-and-up">{{event.about}}</p>
             </v-col>
         </v-row>
-        <v-row v-if="videoId" class="ma-0 mt-10">
-            <youtube class=" mx-auto" aspect-ratio="1" :video-id= 'videoId'></youtube>
-            <!-- <youtube style="max-width:95%; margin:auto;height:auto;" class="hidden-sm-and-up" :video-id= 'videoId'></youtube> -->
-        </v-row>
+        <div v-if="videoId" class="mt-md-10 mt-4">
+            <center class="py-6 hidden-xs-only">
+                <youtube width="100%" height="408" :video-id= 'videoId'></youtube>
+            </center>
+            <center class="my-6 hidden-sm-and-up">
+                <youtube width="100%" height="220" :video-id= 'videoId'></youtube>
+            </center>
+        </div>
         <h2 v-if="event.event_guests && event.event_guests.length>0" class="my-6" > Guests</h2>
         <v-row class="ma-0" >
             <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="pa-1">

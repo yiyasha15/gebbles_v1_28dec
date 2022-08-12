@@ -14,14 +14,18 @@
         v-if = guest.photo :src = "guest.photo" 
         :height="img_height"
         :width="img_height">
+        <!-- <div class="text-center">
+          <h3 style="height:55px; overflow:hidden;" class="font-weight-medium px-2 white--text mt-15 hidden-sm-and-up" >{{guest.name}}</h3>
+          <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-medium px-6  white--text hidden-xs-only" >{{guest.name}}</h3>
+        </div> -->
       </v-img>
       <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
          v-else :src = "poster" 
         :height="img_height"
         :width="img_height">
       <div class="text-center">
-        <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{guest.name}}</h3>
-        <h3 style="height:55px; overflow:hidden; margin-top:120px" class="font-weight-light px-6  white--text hidden-xs-only" >{{guest.name}}</h3>
+        <h3 style="height:55px; overflow:hidden;" class="font-weight-medium px-2 white--text mt-15 hidden-sm-and-up" >{{guest.name}}</h3>
+        <h3 style="height:55px; overflow:hidden; margin-top:120px" class="font-weight-medium px-6  white--text hidden-xs-only" >{{guest.name}}</h3>
       </div>
       </v-img>
     </v-card>
@@ -39,7 +43,7 @@
           </v-row>
         <v-img class="my-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
         <!-- {{guest}} -->
-        <nuxt-link v-if="guest.guest && typeof guest.guest == 'object'" :to="'/' + guest.guest.username" class="primary text-decoration-none d-inline" > <h3 class="font-weight-light">{{guest.name}}</h3></nuxt-link>
+        <nuxt-link v-if="guest.guest && typeof guest.guest == 'object'" :to="'/' + guest.guest.username" class="primary--text text-decoration-none" > <h3 class="font-weight-medium d-inline">{{guest.name}}</h3></nuxt-link>
         <h3 v-else class="font-weight-medium  d-inline">{{guest.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'guest.country' /> </span>
         <h4 class="font-weight-light mt-3 mt-md-5" >{{guest.info}}</h4>
         </v-container>

@@ -20,6 +20,9 @@
         <v-btn style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeGuest',guest)">
         <v-icon color="error" small>mdi-close</v-icon>
         </v-btn>
+        <div class="text-center">
+        <p style="height:45px; overflow:hidden;" class="font-weight-medium white--text mt-md-24 mt-10 pb-0  ">{{guest.name}}</p>
+      </div>
       </v-img>
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
          v-else
@@ -32,7 +35,7 @@
         <v-icon color="error" small>mdi-close</v-icon>
         </v-btn>
       <div class="text-center">
-        <p style="height:45px; overflow:hidden;" class="font-weight-light white--text mt-md-24 mt-10 pb-0  ">{{guest.name}}</p>
+        <p style="height:45px; overflow:hidden;" class="font-weight-medium white--text mt-md-24 mt-10 pb-0  ">{{guest.name}}</p>
       </div>
       </v-img>
     </v-card>

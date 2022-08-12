@@ -88,7 +88,7 @@
         <v-container class="mx-auto" fluid style="max-width:950px" >
         <v-row class="pb-4">
             <v-col cols="12" sm="6" align="center" justify="center">
-                <v-img :src = "e1t1.image"  maxHeight="380px" contain></v-img>
+                <v-img :src = "e1t1.image" class="black" maxHeight="380px" contain></v-img>
             </v-col>
             <v-col cols="12" sm="6" >
                 <v-row>
@@ -314,12 +314,12 @@
             </v-col>
         </v-row>
         <div v-if="videoId" >
-                <center class="py-6 hidden-xs-only">
-                    <youtube width="100%" height="408" :video-id= 'videoId'></youtube>
-                </center>
-                <center class="my-6 hidden-sm-and-up">
-                    <youtube width="100%" height="220" :video-id= 'videoId'></youtube>
-                </center>
+            <center class="py-6 hidden-xs-only">
+                <youtube width="100%" height="408" :video-id= 'videoId'></youtube>
+            </center>
+            <center class="my-6 hidden-sm-and-up">
+                <youtube width="100%" height="220" :video-id= 'videoId'></youtube>
+            </center>
         </div>
         </v-container>
         <!-- <v-container class="pa-0">

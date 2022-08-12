@@ -94,7 +94,7 @@
             </client-only>
           </v-row>
           <v-container style="margin:auto; max-width:768px; " class=" px-md-0">
-            <v-row class="pt-2 ma-0">
+            <v-row class="pt-2 pt-md-4 ma-0">
             <h5><nuxt-link :to="'/'+ journey.username" class="text-decoration-none">{{journey.username}} </nuxt-link> </h5>
             <v-spacer></v-spacer>
             <div v-if="loggedInUser">
@@ -133,14 +133,14 @@
           </v-row>
             </div>
           </v-row>
-          <v-row class="pt-2 ma-0" v-if="fullJourney">
+          <v-row class="pt-2 pt-md-4 ma-0" v-if="fullJourney">
               <h5>{{fullJourney.joevent}}</h5> 
               <v-spacer></v-spacer>
               <h5 v-if="fullJourney.city" class="font-weight-light pr-1 ">{{fullJourney.city}}</h5>
             <country-flag v-if="fullJourney.country" :country= fullJourney.country />
           </v-row>
-          <v-row class="py-2 ma-0">
-          <h5 class="font-weight-light" v-if="fullJourney">{{fullJourney.jocontent}}</h5>
+          <v-row class="py-2 py-md-4 ma-0">
+          <h5 class="font-weight-light text-pre-wrap" v-if="fullJourney">{{fullJourney.jocontent}}</h5>
           </v-row>
           </v-container>
         </div>
@@ -273,7 +273,6 @@ export default {
         }
       }
     },
-    
     data() {
       return {
         fullJourney:null,
