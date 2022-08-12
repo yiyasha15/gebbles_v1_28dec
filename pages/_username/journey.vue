@@ -26,7 +26,7 @@
                 <!-- <div class="my-4" >
                 <h3 class="font-weight-light pl-2 mx-auto width" >Highlights</h3>
                 </div> -->
-                <v-layout wrap row justify-start class="mx-auto width" style="margin:2px 0px;">
+                <v-layout wrap row justify-start class="mx-auto width" style="margin:8px 0px;">
                     <div v-for="journey in highlights" :key ="journey.index">
                         <journey-card :journey = "journey" ></journey-card>
                     </div>
@@ -37,7 +37,7 @@
                 <!-- <div class="my-4">
                 <h3 class="font-weight-light pl-2 mx-auto width" >Journey</h3>
                 </div> -->
-                    <v-layout wrap row justify-start class="mx-auto width" style="margin:2px 0px;">
+                    <v-layout wrap row justify-start class="mx-auto width" style="margin:8px 0px;">
                         <div v-for="journey in journey" :key ="journey.index">
                             <journey-card :journey = "journey" ></journey-card>
                         </div>
@@ -56,7 +56,7 @@
                 </div>
             </v-container>
             <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
-            <v-layout wrap row justify-start class="mx-auto width" style="margin:2px 0px;">
+            <v-layout wrap row justify-start class="mx-auto width" style="margin:8px 0px;">
             <div v-for="n in this.looploader" :key ="n.index">
                 <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
             </div>

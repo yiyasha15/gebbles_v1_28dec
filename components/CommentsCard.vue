@@ -15,7 +15,7 @@
           </center>
           </nuxt-link>
         <div class="mb-2">
-          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{getTime(comment.timestamp).date}}</p>
+          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{moment(comment.timestamp)}} </p>
           <h5 class="mr-4"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}} </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span></h5>
         </div>
             <v-spacer></v-spacer>
@@ -56,6 +56,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import moment from 'moment'
   export default {
     props: {
       comments: Array,
@@ -98,18 +99,10 @@ import { mapGetters } from 'vuex'
             console.log(e);
         }
       },
-      getTime(timestamp){
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = timestamp;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartype = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        date = datetype+" "+monthtype +" "+yeartype;
-        return{ date}
-      }
+      moment(date){
+        //    return moment(date).format("ll")
+           return moment(date).fromNow()
+        },
     }
   }
 </script>

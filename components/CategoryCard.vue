@@ -17,7 +17,7 @@
         <div class="text-center">
         <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
         <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-light px-6  white--text hidden-xs-only" >{{category.name}}</h3>
-        <h6 v-if="category.date" class="caption white--text mt-sm-12 mt-4">{{getTime(category.date).date}}</h6>
+        <h6 v-if="category.date" class="caption white--text mt-sm-12 mt-4">{{moment(category.date)}}</h6>
       </div>
       <div style="position:absolute; padding-left:2px; bottom:2px;">
       <v-avatar size="26px" v-if="category.photo1">
@@ -47,11 +47,26 @@
       <v-avatar size="26px" v-if="category.mcphoto2">
         <v-img :src="category.mcphoto2"></v-img>
       </v-avatar>
+      <v-avatar size="26px" v-if="category.mcphoto3">
+        <v-img :src="category.mcphoto3"></v-img>
+      </v-avatar>
       <v-avatar size="26px" v-if="category.djphoto1">
         <v-img :src="category.djphoto1"></v-img>
       </v-avatar>
       <v-avatar size="26px" v-if="category.djphoto2">
         <v-img :src="category.djphoto2"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.djphoto3">
+        <v-img :src="category.djphoto3"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.bgphoto1">
+        <v-img :src="category.bgphoto1"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.bgphoto2">
+        <v-img :src="category.bgphoto2"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.bgphoto3">
+        <v-img :src="category.bgphoto3"></v-img>
       </v-avatar>
       </div>
       </v-img>
@@ -62,7 +77,7 @@
       <div class="text-center">
         <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
         <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-light px-6  white--text hidden-xs-only" >{{category.name}}</h3>
-        <h6 v-if="category.date" class="caption mt-sm-12 mt-4 white--text">{{getTime(category.date).date}}</h6>
+        <h6 v-if="category.date" class="caption mt-sm-12 mt-4 white--text">{{moment(category.date)}}</h6>
       </div>
       </v-img>
     </v-card>
@@ -99,8 +114,8 @@
            <span> battle</span>
         </v-chip>
         <h3 class="font-weight-light mt-2">{{category.venue}}</h3>
-        <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{getTime(category.date).date}}</h3>
-        <h3 class="red--text mt-1 font-weight-light" > {{category.date_time}} </h3>
+        <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{moment(category.date)}}</h3>
+        <h3 class="red--text mt-1 font-weight-light" v-if="category.date_time" > {{category.date_time}} {{formatTime(category.date_time)}} </h3>
         <h3 v-if="category.about" class="font-weight-light mt-2">About: {{category.about}}</h3>
         <div v-if="typeof category.category != 'number'">
         <h3 v-if="category.rules" class="font-weight-light mt-2">Rules: {{category.rules}}</h3>
@@ -225,6 +240,34 @@
             </v-avatar>
             {{category.name7}}
         </v-chip>
+        <h3 v-if="category.bgname1" class="font-weight-light mt-2">Battle guests: </h3>
+        <v-chip v-if="category.bgname1" color="black " @click="openChipDialog('bg1')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.bgphoto1">
+              <v-img :src="category.bgphoto1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.bgname1}}
+        </v-chip>
+        <v-chip v-if="category.bgname2" color="black " @click="openChipDialog('bg2')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.bgphoto2">
+              <v-img :src="category.bgphoto2"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.bgname2}}
+        </v-chip>
+        <v-chip v-if="category.bgname3" color="black " @click="openChipDialog('bg3')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.bgphoto3">
+              <v-img :src="category.bgphoto3"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.bgname3}}
+        </v-chip>
         </div>
         <div v-else>
         <h3 v-if="category.name1" class="font-weight-light mt-2">Artist:</h3>
@@ -261,6 +304,7 @@
 </div>
 </template>
 <script>
+import moment from 'moment'
   export default {
     head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -352,6 +396,24 @@
         this.temp.photo = this.category.djphoto3
         this.temp.info = this.category.djinfo3
         this.temp.country = this.category.djcountry3}
+        else if(artist == 'bg1')
+        {this.temp.name = this.category.bgname1
+        this.temp.guest = this.category.bg1
+        this.temp.photo = this.category.bgphoto1
+        this.temp.info = this.category.bginfo1
+        this.temp.country = this.category.bgcountry1}
+        else if(artist == 'bg2')
+        {this.temp.name = this.category.bgname2
+        this.temp.guest = this.category.bg2
+        this.temp.photo = this.category.bgphoto2
+        this.temp.info = this.category.bginfo2
+        this.temp.country = this.category.bgcountry1}
+        else if(artist == 'bg3')
+        {this.temp.name = this.category.bgname3
+        this.temp.guest = this.category.bg3
+        this.temp.photo = this.category.bgphoto3
+        this.temp.info = this.category.bginfo3
+        this.temp.country = this.category.bgcountry3}
         else if(artist == 'n1')
         {this.temp.name = this.category.name1
         this.temp.guest = this.category.guest1
@@ -399,17 +461,18 @@
       opendialog(){
         this.dialog = true
       },
-      getTime(timestamp){
-        const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        let date = timestamp;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartype = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        date = datetype+" "+monthtype +" "+yeartype;
-        return{ date}
+      moment(date){
+        //    return moment(date).format("ll")
+           return moment(date).format("ll")
+      },
+      exactmoment(time){
+          return moment(time).format("LLL")
+      },
+      formatTime(time){
+        const hour = time.slice(0, 2);
+        if(hour > 11)
+        return 'pm'
+        else return 'am'
       }
     }
   }

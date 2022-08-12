@@ -407,9 +407,9 @@
           ></v-text-field>
         </template>
         <v-time-picker
+        ampm-in-title
           v-if="menutime"
           v-model="battle_category.date_time"
-          full-width
           @click:minute="$refs.menutime.save(battle_category.date_time)"
         ></v-time-picker>
       </v-menu>
@@ -425,7 +425,7 @@
             :items="selectedGuests"
             prepend-icon="mdi-microphone-variant"
             clearable
-            counter= 2
+            counter= 3
             label="Emcee"
             item-text="name"
             return-object 
@@ -475,7 +475,7 @@
             prepend-icon="mdi-microphone-variant"
             clearable
             label="Emcee"
-            counter="2"
+            counter="3"
             item-text="name"
             item-value="name"
             return-object 
@@ -526,7 +526,7 @@
             prepend-icon="mdi-music"
             clearable
             label="Deejay"
-            counter="2"
+            counter="3"
             item-text="name"
             item-value="name"
             return-object 
@@ -591,6 +591,57 @@
                 close
                 @click="data.select"
                 @click:close="battleJudges.splice(battleJudges.findIndex(e => e.name === data.item.name),1)"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span v-if="data.item.name" class="pl-1">{{ data.item.name }}</span>
+                <span v-else class="pl-1">{{ data.item }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-if="data.item.name" v-html="data.item.name"></v-list-item-title>
+                    <v-list-item-title v-else v-html="data.item"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-autocomplete>
+        <v-autocomplete
+            class="pt-4"
+            v-model="battleGuests"
+            :items="selectedGuests"
+            prepend-icon="mdi-microphone-variant"
+            clearable
+            label="Battle guests"
+            counter="3"
+            item-text="name"
+            item-value="name"
+            return-object 
+            hide-selected
+            multiple
+            >
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="battleGuests.splice(battleGuests.findIndex(e => e.name === data.item.name),1)"
                 >
                 <v-avatar v-if="data.item.photo" left>
                     <v-img :src="data.item.photo"></v-img>
@@ -1361,10 +1412,13 @@
             Maximum 7 artists.
         </v-snackbar>
         <v-snackbar v-model="max_emcee_snackbar">
-            Maximum 2 emcees.
+            Maximum 3 emcees.
+        </v-snackbar>
+        <v-snackbar v-model="max_bguest_snackbar">
+            Maximum 3 battle guests.
         </v-snackbar>
         <v-snackbar v-model="max_dj_snackbar">
-            Maximum 2 Deejays.
+            Maximum 3 Deejays.
         </v-snackbar>
         <v-snackbar v-model="max_artist_snackbar">
             Only 1 artist.
@@ -1530,6 +1584,24 @@ export default {
                 mcvideolink3:'',
                 mccountry3:'',
                 mcinfo3:'',
+                bg1:'',
+                bgname1:'',
+                bgphoto1:'',
+                bgvideolink1:'',
+                bgcountry1:'',
+                bginfo1:'',
+                bg2:'',
+                bgname2:'',
+                bgphoto2:'',
+                bgvideolink2:'',
+                bgcountry2:'',
+                bginfo2:'',
+                bg3:'',
+                bgname3:'',
+                bgphoto3:'',
+                bgvideolink3:'',
+                bgcountry3:'',
+                bginfo3:'',
             },
             category:{
                 event:'', // # must
@@ -1566,6 +1638,7 @@ export default {
             categories:[],
             battleJudges:[],
             battleEmcee:[],
+            battleGuests:[],
             battleDj:[],
             activePicker: null,
             menu: false,
@@ -1599,6 +1672,7 @@ export default {
             valid_snackbar: false,
             error_snackbar:false,
             posted_snackbar: false,
+            max_bguest_snackbar: false,
             image_update_snackbar: false,
             detail_update_snackbar: false,
             guest_update_snackbar: false,
@@ -1875,11 +1949,6 @@ export default {
             debounce: null,
             comboBoxModel: null,
             isUpdating: false,
-            maxEmcee :2,
-            maxJudges :7,
-            menuProps: {
-            disabled: false,
-            },
             editing_guest_process:false,//if we click on edit guest( this is to know if we will update guest or add guests!)
             editing_category_process:false,
             temp_guest_item:{},
@@ -2219,11 +2288,26 @@ export default {
                     if(item.djphoto2){
                         item.djphoto2 = await this.putImage(item.djphoto2)
                     }
+                    if(item.djphoto3){
+                        item.djphoto3 = await this.putImage(item.djphoto3)
+                    }
                     if(item.mcphoto1){
                         item.mcphoto1 = await this.putImage(item.mcphoto1)
                     }
                     if(item.mcphoto2){
                         item.mcphoto2 = await this.putImage(item.mcphoto2)
+                    }
+                    if(item.mcphoto3){
+                        item.mcphoto3 = await this.putImage(item.mcphoto3)
+                    }
+                    if(item.bgphoto1){
+                        item.bgphoto1 = await this.putImage(item.bgphoto1)
+                    }
+                    if(item.bgphoto2){
+                        item.bgphoto2 = await this.putImage(item.bgphoto2)
+                    }
+                    if(item.bgphoto3){
+                        item.bgphoto3 = await this.putImage(item.bgphoto3)
                     }
                     // console.log("done",this.battle_categories);
                 }
@@ -2316,7 +2400,7 @@ export default {
                     formName.append("poster", this.event.poster);
                     formName.append("id", this.event['id']);
                     await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
-                    console.log(res); 
+                    // console.log(res); 
                     this.poster_progressbar =false
                     this.image_update_snackbar = true;
                     // this.$router.push("/events/"+this.event.uuid);
@@ -2324,12 +2408,12 @@ export default {
                 }
                 else{
                     this.all_good_snackbar = true;
-                    console.log("nothing to change");
+                    // console.log("nothing to change");
                 }
                 
             } catch (error) {
                 this.error_snackbar = true
-                console.log(error);
+                // console.log(error);
             }
         },
         async updateGuests(){
@@ -2510,11 +2594,11 @@ export default {
                         formName.append("id", this.event['id']);
                         // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
                         await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config).then(res => {
-                            console.log(res," changed"); 
+                            // console.log(res," changed"); 
                         })
                         this.battle_categories.splice(this.battle_categories.findIndex(e => e.id === this.temp_category_item.id),1);
                         this.updateBattleToArray();
-                        console.log(myObj1,myObj2);
+                        // console.log(myObj1,myObj2);
                         this.program_progressbar =false
                     } catch (error) {
                         console.log("error!!!!! ",error, error.response);
@@ -2545,6 +2629,9 @@ export default {
         updateBattleGuests(){
             // remove current battle_category guests
             // add the ones in battlemc/dj/judges array!!
+            // for (var key in this.battle_category) {
+            //     this.battle_category[key] = '';
+            // }
                 this.battle_category.guest1=''
                 this.battle_category.name1=''
                 this.battle_category.photo1=''
@@ -2623,6 +2710,24 @@ export default {
                 this.battle_category.mcvideolink3=''
                 this.battle_category.mccountry3=''
                 this.battle_category.mcinfo3='';
+                this.battle_category.bg1=''
+                this.battle_category.bgname1=''
+                this.battle_category.bgphoto1=''
+                this.battle_category.bgvideolink1=''
+                this.battle_category.bgcountry1=''
+                this.battle_category.bginfo1=''
+                this.battle_category.bg2=''
+                this.battle_category.bgname2=''
+                this.battle_category.bgphoto2=''
+                this.battle_category.bgvideolink2=''
+                this.battle_category.bgcountry2=''
+                this.battle_category.bginfo2=''
+                this.battle_category.bg3=''
+                this.battle_category.bgname3=''
+                this.battle_category.bgphoto3=''
+                this.battle_category.bgvideolink3=''
+                this.battle_category.bgcountry3=''
+                this.battle_category.bginfo3='';
                 this.battleGuestArrayToJson();
         },
         battleGuestArrayToJson(){
@@ -2690,6 +2795,40 @@ export default {
                             if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
                             {this.battle_category.mc3 = this.battleEmcee[i].guest.username}
                             this.battle_category.mccountry3 = this.battleEmcee[i].country;
+                        }
+                    }
+                }
+                if(this.battleGuests.length != 0){
+                    //from the battleGuests array put the selected ones to the battle category json.
+                    for(let i =0; i<this.battleGuests.length;i++)
+                    {
+                        if(this.battle_category.bgname1 == '')
+                        {
+                            this.battle_category.bgname1 = this.battleGuests[i].name;
+                            this.battle_category.bginfo1 = this.battleGuests[i].info;
+                            this.battle_category.bgphoto1 = this.battleGuests[i].photo;
+                            // this.battle_category.bg1 = this.battleGuests[i].guest;
+                            if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
+                            {this.battle_category.bg1 = this.battleGuests[i].guest.username}
+                            this.battle_category.bgcountry1 = this.battleGuests[i].country;
+                            // add tags -> this.battle_category.dj1
+                        }else if(this.battle_category.bgname2 == ''){
+                            this.battle_category.bgname2 = this.battleGuests[i].name;
+                            this.battle_category.bginfo2 = this.battleGuests[i].info;
+                            this.battle_category.bgphoto2 = this.battleGuests[i].photo;
+                            // this.battle_category.bg2 = this.battleGuests[i].guest;
+                            if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
+                            {this.battle_category.bg2 = this.battleGuests[i].guest.username}
+                            this.battle_category.bgcountry2 = this.battleGuests[i].country;
+                        }
+                        else{
+                            this.battle_category.bgname3 = this.battleGuests[i].name;
+                            this.battle_category.bginfo3 = this.battleGuests[i].info;
+                            this.battle_category.bgphoto3 = this.battleGuests[i].photo;
+                            // this.battle_category.bg2 = this.battleGuests[i].guest;
+                            if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
+                            {this.battle_category.bg3 = this.battleGuests[i].guest.username}
+                            this.battle_category.bgcountry3 = this.battleGuests[i].country;
                         }
                     }
                 }
@@ -2965,6 +3104,18 @@ export default {
                 {
                     let d3 = this.selectedGuests.find(guest => guest.name === item.djname3);
                     this.battleDj.push(d3)
+                }if(item.bgname1)
+                {
+                    let bg1 = this.selectedGuests.find(guest => guest.name === item.bgname1);
+                    this.battleGuests.push(bg1)
+                }if(item.bgname2)
+                {
+                    let bg2 = this.selectedGuests.find(guest => guest.name === item.bgname2);
+                    this.battleGuests.push(bg2)
+                }if(item.bgname3)
+                {
+                    let bg3 = this.selectedGuests.find(guest => guest.name === item.bgname3);
+                    this.battleGuests.push(bg3)
                 }
             }
             else{

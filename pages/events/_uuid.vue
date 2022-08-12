@@ -56,7 +56,9 @@
                 <v-col cols="12" class="pa-0"> <h1 >{{event.name}}</h1></v-col>
                 </v-row>
                 <v-row>
-                <h3 v-if="event.start_date" class="red--text mt-1 font-weight-light " > <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{getTime(event.start_date).date}}</h3>
+                <h3 v-if="event.start_date" class="red--text mt-1 font-weight-light " > <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(event.start_date)}}
+                <!-- {{getTime(event.start_date).date}} -->
+                </h3>
                 </v-row>
                 <v-row v-if="event.date_time">
                 <h3 class="red--text font-weight-light"> {{event.date_time}}</h3>
@@ -65,17 +67,17 @@
                     <h4 class="mr-2 mt-2 font-weight-light" ><v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>{{event.venue}} <b >{{event.city}}<span v-if="event.city && event.country">, </span> {{countryIs(event.country)}}</b></h4>
                 </v-row>
                 <v-row class="mb-2">
-                    <v-btn small class="elevation-0 text-decoration-none mt-6" @click="openLink" v-if="event.link">
+                    <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none mt-6" color="#815A44" outlined @click="imgoingApi">
+                        <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
+                    </v-btn>
+                    <v-btn v-else small class="elevation-0 text-decoration-none mt-6" color="#815A44" dark @click="imgoingApi">
+                        <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
+                    </v-btn>
+                    <v-btn small class="elevation-0 text-decoration-none mt-6 ml-2" @click="openLink" v-if="event.link">
                         <h4 class="font-weight-medium" style="text-transform: capitalize;"><v-icon small class="pr-2">mdi-info-outline</v-icon>More Info</h4>
                     </v-btn>
-                    <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none mt-6 ml-1" color="#815A44" outlined @click="imgoingApi">
-                        <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
-                    </v-btn>
-                    <v-btn v-else small class="elevation-0 text-decoration-none mt-6 ml-1" color="#815A44" dark @click="imgoingApi">
-                        <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
-                    </v-btn>
                 </v-row>
-                <v-row v-if="goingList.length>0">
+                <v-row v-if="goingList && goingList.length>0">
                     <p class="hover" @click="showGoingList =true">{{goingList.length}} people joining</p>
                 </v-row>
                 <v-dialog
@@ -163,6 +165,7 @@ import { mapGetters } from 'vuex'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 import GuestCard from '~/components/GuestCard.vue'
+import moment from 'moment'
 // import CookingCard from '~/components/CookingCard.vue'
 export default {
     head() {
@@ -210,6 +213,7 @@ export default {
                 username: "",
                 event:""
             },
+            event:{},
             goingList:[],
             showGoingList:false,
             imgoing:false,
@@ -485,10 +489,12 @@ export default {
         }
     },
     methods:{
+        moment(date){
+           return moment(date).format("ll")
+        },
         checkGoing(){
             EventService.getIamGoingList(this.event.uuid).then(res=>{
             this.goingList = res.data.results;
-            console.log(this.goingList);
             
             if(this.isAuthenticated){
                 let isGoing = this.goingList.find(artist => artist.username == this.loggedInUser.user.username);
@@ -501,17 +507,6 @@ export default {
             }
         })
         },
-        formatTime() {
-        const options = {
-            month: '2-digit',
-            day: '2-digit',
-            year: '2-digit',
-            hour: '2-digit',
-            minute:'2-digit'
-        };
-        let now = new Date().toLocaleString('en-US', options);
-        return now;
-        },
         goback(){
             window.history.back();
         },
@@ -520,18 +515,18 @@ export default {
             var win = window.open(url, '_blank');
             win.focus();
         },
-        getTime(timestamp){
-            const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            let date = timestamp;
-            let datetype= date.slice(8, 10);
-            let month = date.slice(5, 7);
-            let yeartype = date.slice(0, 4)
-            const regex = new RegExp("^0+(?!$)",'g');
-            month = month.replaceAll(regex, "");
-            let monthtype = months[month-1]
-            date = datetype+" "+monthtype +" "+yeartype;
-            return{ date}
-        },
+        // getTime(timestamp){
+        //     const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        //     let date = timestamp;
+        //     let datetype= date.slice(8, 10);
+        //     let month = date.slice(5, 7);
+        //     let yeartype = date.slice(0, 4)
+        //     const regex = new RegExp("^0+(?!$)",'g');
+        //     month = month.replaceAll(regex, "");
+        //     let monthtype = months[month-1]
+        //     date = datetype+" "+monthtype +" "+yeartype;
+        //     return{ date}
+        // },
         countryIs(code){
             let country = this.countries[this.countries.findIndex(country => country.code == code)].name
             return country;

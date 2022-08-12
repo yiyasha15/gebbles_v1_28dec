@@ -771,7 +771,7 @@ export default {
             let formData = new FormData();
             for (let data in this.journey) {
                 formData.append(data, this.journey[data]);
-                console.log(data,this.journey[data]);
+                // console.log(data,this.journey[data]);
             }
             console.log(formData);
             try {

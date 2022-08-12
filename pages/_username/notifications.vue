@@ -19,19 +19,19 @@
               </v-list-item-avatar>
             </div>
             <v-list-item-content v-if="item.notification_context == 1">
-                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
+                <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you as a teacher.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your post.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your post.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 2">
-                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has added a video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your video.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 3">
-                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has sent you a private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your private message.</v-list-item-title>
@@ -54,22 +54,27 @@
                     </v-icon>
                 </v-list-item-avatar>
             </div>
-            <v-list-item-content v-if="item.notification_context == 1">
-                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
+            <v-list-item-content v-if="item.notification_context == 1 ">
+                <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you as a teacher.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your post.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your post.</v-list-item-title>
-                
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 2">
-                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
+                <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has added a video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your video.</v-list-item-title>
                 
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 3">
-                <v-list-item-subtitle> {{getTime(item.time).date}}</v-list-item-subtitle>
+                <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
+                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has mentioned you in a video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your tagged video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your tagged video.</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-content v-if="item.notification_context == 4">
+                <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has sent you a private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your private message.</v-list-item-title>
@@ -91,6 +96,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import moment from 'moment'
 import EventService from '@/services/EventService.js'
 export default {
 middleware : 'check_auth',
@@ -118,6 +124,13 @@ computed: {
         this.getnotifications();
     },
     methods:{
+        moment(date){
+        //    return moment(date).format("ll")
+           return moment(date).fromNow()
+        },
+        exactmoment(date){
+           return moment(date).format("lll")
+        },
         async getnotifications(){
             // console.log("hi");
         try{
@@ -134,19 +147,6 @@ computed: {
             console.log(e);
         }
     },
-    getTime(timestamp){
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = timestamp;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartype = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        date = datetype+" "+monthtype +" "+yeartype;
-        // console.log(date);
-        return{ date}
-      },
     async seen(obj){
         {
             if(obj.e1t1object)

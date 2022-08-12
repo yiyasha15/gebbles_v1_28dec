@@ -18,7 +18,7 @@
       </v-row>
       <v-layout wrap row justify-start v-if="firstLoad" class="mx-auto width" >
       <div v-for="n in this.looploader" :key ="n.index">
-        <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+        <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="true" type="card" transition="fade-transition"></v-skeleton-loader>
       </div>
     </v-layout>
     <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
@@ -107,7 +107,6 @@ export default {
   data() {
     return {
       looploader:[1,1,1,1,1,1,1,1,1,1,1],
-      loading: true,
       firstLoad: true,
       page:"",
       artists:[],

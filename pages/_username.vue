@@ -927,7 +927,7 @@ export default {
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
-				// this.$store.dispatch("check_notifications",res.data.user.username);
+				this.$store.dispatch("check_notifications");
                 this.$router.push('/');
                 this.progressbar1 = false;
                 this.loginDialog = false;

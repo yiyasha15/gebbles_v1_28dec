@@ -86,6 +86,7 @@
                 </v-list-item>
             </v-list>
         </v-menu>
+        <!-- {{notifications_notseen}} -->
             <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-badge color="error" overlap :content='notifications_notseen'>
         <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
@@ -714,7 +715,7 @@ export default {
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
-                // this.$store.dispatch("check_notifications");
+                this.$store.dispatch("check_notifications");
                 this.progressbar1 = false;
                 this.loginDialog = false;
                 this.$router.push('/');

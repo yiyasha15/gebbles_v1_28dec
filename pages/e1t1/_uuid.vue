@@ -13,7 +13,10 @@
             <v-col cols="12" md="6" >
                 <v-row>
                     <v-col>
-                    <h5 class="caption mt-1" > {{e1t1.s_date}}</h5><h5 class="caption mt-1" > {{e1t1.s_location}}</h5>
+                    <h5 class="caption mt-1" >
+                        {{moment(e1t1.s_date)}}
+                         <!-- {{e1t1.s_date}}  -->
+                         </h5><h5 class="caption mt-1" > {{e1t1.s_location}}</h5>
                     </v-col>
                     <div v-if="loggedInUser">
                     <v-col v-if="loggedInUser.user.username == e1t1.username" >
@@ -38,7 +41,7 @@
                     <v-col cols="12" >
                     <v-row class="mt-4">
                         <v-col cols="12" class="justify-center ">
-                            <h5 class ="font-weight-light">Get your gebbles card for {{e1t1.s_teacher_name}}  </h5> 
+                            <h5 class ="font-weight-light">Get your gebbles card for {{e1t1.s_teacher_name}} <v-btn icon text @click="download"><v-icon color="black">mdi-download-circle-outline</v-icon></v-btn></h5>
                         </v-col>
                         <v-col cols="12" class="justify-center ">
                             <v-img v-if="gebbles_card_url" :src = "gebbles_card_url" maxHeight="420px" contain >
@@ -55,9 +58,6 @@
                                 ></v-progress-circular>
                                 </v-row>
                             </template>
-                        </v-col>
-                        <v-col cols="12" justify="center" align="center">
-                            <v-btn text @click="download"> Download<v-icon>mdi-download-circle-outline</v-icon></v-btn>
                         </v-col>
                     </v-row>
                     </v-col>
@@ -186,13 +186,13 @@
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <!-- </v-col> -->
-                <v-col cols="12" >
-                <v-row class="mt-4">
+                <v-col cols="12" class="pa-0 pa-md-2">
+                <v-row class="mt-3 mx-0">
                     <v-col cols="12" class="justify-center ">
-                        <h4 class ="font-weight-light">Chat room<span class= "caption"> ({{e1t1.s_teacher_name}}, {{e1t1.username}})</span></h4>
+                        <h4 class ="font-weight-light">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}}) </h4>
                     </v-col>
                 </v-row> 
-                <v-layout class="pt-6">
+                <v-layout class="mt-6">
                     <v-flex md1 sm2><center>
                         <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
                         <img
@@ -343,6 +343,7 @@ import LearningCard from '~/components/LearningCard.vue'
 import PersonalMessagesCard from '~/components/PersonalMessagesCard.vue'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
+import moment from 'moment'
 // import CookingCard from '~/components/CookingCard.vue'
 export default {
     head() {
@@ -368,15 +369,6 @@ export default {
     },
     mounted() {
         this.$store.dispatch("check_share_love", this.e1t1.id)
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = this.e1t1.s_date;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartype = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        this.e1t1.s_date = datetype+" "+monthtype +" "+yeartype;
         if(this.isAuthenticated)
         {
         if(this.loggedInUser.user.username == this.e1t1.teacher || this.loggedInUser.user.username ==this.e1t1.username){
@@ -454,6 +446,9 @@ export default {
         }
     },
     methods:{
+        moment(date){
+           return moment(date).format("ll")
+        },
         // get_cookings_filtered(username,id){
         //     // console.log("filtering..",username,id);
         //     EventService.getWhatsCookingUsername(username).then(res =>
@@ -519,17 +514,6 @@ export default {
         // infiniteScrollingComments(entries, observer, isIntersecting) {
         //     this.$store.dispatch("update_user_comments");
         // },
-        formatTime() {
-        const options = {
-            month: '2-digit',
-            day: '2-digit',
-            year: '2-digit',
-            hour: '2-digit',
-            minute:'2-digit'
-        };
-        let now = new Date().toLocaleString('en-US', options);
-        return now;
-        },
         goback(){
             this.$store.dispatch("remove_share_obj")
             this.$store.dispatch("remove_learnings")
@@ -665,5 +649,7 @@ export default {
 }
 </script>
 <style  scoped>
-
+.v-dialog{
+    margin:12px
+}
 </style>

@@ -12,16 +12,9 @@
               <div>
                 <div class="subtitle grey--text">
                   <nuxt-link :to="'/'+ message.username">{{message.username}}</nuxt-link>
-                  {{message.created}} 
-                  hello
-                  <time-ago
-                    :datetime="value"
-                    refresh
-                    :tooltip="true"
-                    :long="true"
-                  />
+                  <!-- {{message.created}} -->
+                  {{moment(message.created)}}
                 </div>
-
                 <p class="messageFormat">{{message.messagetext}}</p></div>
             <v-spacer></v-spacer>
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
@@ -82,8 +75,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { TimeAgo } from "vue2-timeago";
-import "vue2-timeago/dist/vue2-timeago.css";
+import moment from 'moment'
   export default {
     props: {
       messages: Array,
@@ -100,12 +92,16 @@ import "vue2-timeago/dist/vue2-timeago.css";
       // console.log(this.messages);
     },
     components: {
-      TimeAgo
     },
     computed: {
         ...mapGetters(['loggedInUser', 'artists' ,'isAuthenticated']),
     },
     methods:{
+      moment(date) {
+        // moment(date).format("MMM Do, YYYY")
+        // console.log(date, moment(date).fromNow());
+        return moment(date).fromNow()
+      },
       async deleted(uuid, shareid){
         const config = {
             headers: {"content-type": "multipart/form-data",

@@ -484,7 +484,6 @@ export default {
         if(this.teacher_obj)
         {
             EventService.getSearchedArtist(this.teacher_obj).then((value) => {
-                console.log("how",value);
             this.artists = value.data});
         }
       }
@@ -700,13 +699,18 @@ export default {
                 } 
             }
             formName.append("id", this.sharing['id']);
-            // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-            await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
-            // console.log( valueObj1[i] ," changed"); 
-            this.progressbar =false;
-            this.$store.dispatch("check_user_teachers");
-            this.$store.dispatch("remove_share_obj");
-            window.history.back();
+            try {
+                let response =  await this.$axios.$patch("/v1/e1t1/sharing/"+this.share_obj.uuid, formName, config);
+                this.progressbar =false;
+                this.$store.dispatch("check_user_teachers");
+                this.$store.dispatch("remove_share_obj");
+                window.history.back();
+            } catch (e) {
+                this.progressbar =false;
+                this.error_snackbar=true;
+                window.history.back();
+                console.log("cant post!",e.response.data);
+            }
         }
     },
     }

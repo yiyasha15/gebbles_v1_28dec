@@ -257,7 +257,7 @@ export const actions = {
       if(state.auth.loggedIn) {
           EventService.getArtist(state.auth.user.user.username).then(res =>
           {
-            console.log("checking portfolio");
+            // console.log("checking portfolio");
             commit('usersPortfolio',res.data)
           }).catch(err =>{console.log(err.response.data);})
         }  

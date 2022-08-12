@@ -33,7 +33,7 @@ export default {
   */
  plugins: [
   { src: '~/plugins/vuex-persist', ssr: false },
-  { src: "~/plugins/aos.client"}
+  { src: "~/plugins/aos.client"},
   ],
   /*
   ** Nuxt.js dev-modules
