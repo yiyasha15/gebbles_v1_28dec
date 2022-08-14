@@ -8,21 +8,19 @@
         <v-col>
              <h2 class="mb-md-8 mb-4" align="center" justify="center">Share your journey</h2>
             <v-stepper v-model="e6" vertical >
-                <!-- {{editing_obj}} -->
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                Share images* 
-                <!-- <small>Summarize if needed</small> -->
+                Share images* <small v-if="journey.event" class="mt-1">add this event to your journey</small>
                 </v-stepper-step>
-                <v-stepper-content style="border-left: none;" step="1" width="100%" class="ma-0"> 
+                <v-stepper-content style="border-left: none;" step="1" width="100%" class="ma-0 pa-5"> 
                     <v-slide-group
                     min-width="2px"
                     v-model="model"
                     class="pb-4 ma-0"
                     show-arrows>
                     <v-slide-item>
-                        <div>
+                        <div class="mr-1">
                         <div v-if="!imageData1" @click="onPick(1)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
-                            <v-icon class="pa-16">mdi-plus</v-icon>
+                            <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
                             name = "gallery" 
@@ -33,7 +31,7 @@
                             @change="onFileChange1">
                         </div>
                         <div v-else class=" rounded-lg grey lighten-4" >
-                        <v-img :src="imageData1" height="150px" width="150px" id="imgOne" contain>
+                        <v-img :src="imageData1" :height="img_height" :width="img_height" id="imgOne" contain>
                             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
                             <v-icon color="black" small>mdi-close</v-icon>
                             </v-btn>
@@ -42,9 +40,9 @@
                         </div>
                     </v-slide-item>
                     <v-slide-item >
-                        <div class="mx-2">
+                        <div class="mr-1">
                         <div v-if="!imageData2" @click="onPick(2)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
-                            <v-icon class="pa-16">mdi-plus</v-icon>
+                            <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
                             name = "gallery" 
@@ -55,7 +53,7 @@
                             @change="onFileChange2">
                         </div>
                         <div v-else class=" rounded-lg grey lighten-4" > 
-                        <v-img :src="imageData2" height="150px" width="150px" contain>
+                        <v-img :src="imageData2" :height="img_height" :width="img_height" contain>
                             <v-btn style="background:white " icon small class="float-right ma-1" @click="removeImage(2)">
                             <v-icon color="black" small >mdi-close</v-icon>
                             </v-btn>
@@ -63,12 +61,10 @@
                         </div>
                         </div>
                     </v-slide-item>
-                    <!-- <v-slide-item v-if="imageData2">
-                        <div class="mx-2 rounded-lg grey lighten-4">
-                            <v-img :src="imageData3" height="150px" width="150px"></v-img>
-                            <v-btn icon>
-                                <v-icon color="black" small @click="onPick(3)">mdi-image-plus</v-icon>
-                            </v-btn>
+                    <v-slide-item >
+                        <div>
+                        <div v-if="!imageData3 " @click="onPick(3)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                            <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
                             name = "gallery" 
@@ -77,12 +73,17 @@
                             accept="image/*"
                             required
                             @change="onFileChange3">
-                            <v-btn icon>
-                                <v-icon color="error" small @click="removeImage(3)">mdi-delete-outline</v-icon>
+                        </div>
+                        <div v-else class=" rounded-lg grey lighten-4" > 
+                        <v-img :src="imageData3" :height="img_height" :width="img_height" contain>
+                            <v-btn style="background:white " icon small class="float-right ma-1" @click="removeImage(3)">
+                            <v-icon color="black" small >mdi-close</v-icon>
                             </v-btn>
+                        </v-img>
+                        </div>
                         </div>
                     </v-slide-item>
-                    <v-slide-item v-if="imageData3">
+                    <!-- <v-slide-item v-if="imageData3">
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData4" height="150px" width="150px"></v-img>
                             <v-btn icon>
@@ -100,8 +101,8 @@
                                 <v-icon color="error" small @click="removeImage(4)">mdi-delete-outline</v-icon>
                             </v-btn>
                         </div>
-                    </v-slide-item>
-                    <v-slide-item v-if="imageData4">
+                    </v-slide-item> -->
+                    <!-- <v-slide-item v-if="imageData4">
                         <div class="mx-2 rounded-lg grey lighten-4">
                             <v-img :src="imageData5" height="150px" width="150px"></v-img>
                             <v-btn icon>
@@ -126,7 +127,7 @@
                 <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Caption*</v-stepper-step>
+                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Journey details*</v-stepper-step>
                 <v-stepper-content step="2" class="ma-0" style="border-left: none;">
                     <v-text-field
                         v-model = "journey.joevent"
@@ -135,6 +136,7 @@
                         :maxlength="50">
                     </v-text-field>
                     <v-text-field
+                        prepend-icon="mdi-map-marker-outline" 
                         v-model = "journey.city"
                         label= "City"
                         :maxlength="50">
@@ -174,7 +176,8 @@
                             <v-btn text small color="black" @click="$refs.menu.save(date)">OK</v-btn>
                         </v-date-picker>
                     </v-menu>
-                    <v-text-field
+                    <v-text-field 
+                    prepend-icon="mdi-link" 
                         :error-messages="linkError"
                         v-model = "journey.jolink"
                         label= "Add a link"
@@ -319,12 +322,29 @@ export default {
         CountryFlag,
     },
     created (){
-        if(this.$store.state.editing_obj)
+        console.log(this.$route.params, Object.keys(this.$route.params).length === 0);
+        let check = Object.keys(this.$route.params).length === 0;
+        console.log(!check);
+        if(!check)
+        {
+            let event= this.$route.params.event;
+            this.journey.event = event.event.uuid;
+            this.journey.joevent = event.event.name;
+            this.journey.jophoto1 = event.event.poster;
+            this.journey.jophoto2 = event.photo;
+            this.imageData1 = this.journey.jophoto1
+            this.imageData2 = this.journey.jophoto2
+            this.journey.country = event.event.country
+            let thumb = this.journey.jophoto1.substring(this.journey.jophoto1.lastIndexOf('/') + 1)
+            this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + thumb;
+            // console.log(this.journey);
+        }
+        else if(this.$store.state.editing_obj)
         {
             this.journey = Object.assign({}, this.$store.getters.editing_obj);
             this.imageData1 = this.journey.jophoto1
             this.imageData2 = this.journey.jophoto2
-            // this.imageData3 = this.journey.jophoto3
+            this.imageData3 = this.journey.jophoto3
             // this.imageData4 = this.journey.jophoto4
             // this.imageData5 = this.journey.jophoto5
             if(this.journey.ishighlight){
@@ -339,7 +359,16 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['editing_obj'])
+        ...mapGetters(['editing_obj']),
+        img_height () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 96
+          case 'sm': return 150
+          case 'md': return 150
+          case 'lg': return 150
+          case 'xl': return 150
+        }
+      },
     },
     data(){
         return {
@@ -351,15 +380,16 @@ export default {
                 jodate: "",
                 jophoto1: "",
                 jophoto2: "",
+                jophoto3: "",
                 country:"",
                 city:"",
-                // jophoto3: "",
                 // jophoto4: "",
                 // jophoto5: "",
                 jp1thumb:"",
                 jolink: "",
                 ishighlight: false,
                 isprivate: false,
+                event:""
             },
             lockButton: false,
             progressbar: false,
@@ -367,7 +397,7 @@ export default {
             slide: null,
             imageData1: "",
             imageData2: "",
-            // imageData3: "",
+            imageData3: "",
             // imageData4: "",
             // imageData5: "",
             e6: 1,
@@ -620,10 +650,30 @@ export default {
                 {"name": "Yemen", "code": "YE"},
                 {"name": "Zambia", "code": "ZM"},
                 {"name": "Zimbabwe", "code": "ZW"}
-                ],
+            ],
         }
     },
     methods: {
+        async putImage(image,thumb){
+            // if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
+            // {
+            // return image
+            // }
+            if(typeof image != 'object')
+            {
+                return image
+            }
+            let fileData = image;
+            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1")
+            delete this.$axios.defaults.headers.common['Authorization']
+            let filename = res.key
+            let url = res.body
+            url = url.slice(1, -1);
+            let put = await this.$axios.$put(url, fileData)
+            if(thumb) //to save first image as thumbmail
+            this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+            return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+        },
         rotateImg1(){
             this.rotation += 90; // add 90 degrees, you can change this as you want
             let rotation = this.rotation;
@@ -675,6 +725,9 @@ export default {
                 case 2:
                     this.$refs.fileInput2.click()
                     break;
+                case 3:
+                    this.$refs.fileInput3.click()
+                    break;
                 default:
                     // code block
                 }
@@ -685,17 +738,15 @@ export default {
                     {this.imageData1 = ""
                     this.journey.jophoto1 = ""
                     this.journey.jp1thumb = ""
-                    console.log(this.journey);
                     break;}
                 case 2:
                     {this.imageData2 = ""
                     this.journey.jophoto2 =""
-                    console.log(this.journey);
                     break;}
-                // case 3:
-                //     {this.imageData3 = ""
-                //     this.journey.jophoto3 =""
-                //     break;}
+                case 3:
+                    {this.imageData3 = ""
+                    this.journey.jophoto3 =""
+                    break;}
                 // case 4:
                 //     {this.imageData4 = ""
                 //     this.journey.jophoto4 =""
@@ -733,6 +784,20 @@ export default {
                 {
                     fileReader.readAsDataURL(files[0]);
                     this.journey.jophoto2 = files[0];
+                }
+            }
+        },
+        onFileChange3(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                    this.imageData3 = e.target.result;
+                }
+            if(files[0])
+                {
+                    fileReader.readAsDataURL(files[0]);
+                    this.journey.jophoto3 = files[0];
                     console.log(this.journey);
                 }
             }
@@ -746,7 +811,7 @@ export default {
             this.date ="";
             this.imageData1 = '',
             this.imageData2='',
-            // this.imageData3='',
+            this.imageData3='',
             // this.imageData4='',
             // this.imageData5='',
             this.journey.username = this.$store.state.auth.user.user.username;
@@ -756,266 +821,99 @@ export default {
             this.journey.jophoto1= "";
             this.journey.jophoto2= "";
             this.journey.jp1thumb = "";
-            // this.journey.jophoto3= null;
+            this.journey.jophoto3= "";
             // this.journey.jophoto4= null;
             // this.journey.jophoto5= null;
             this.journey.jolink= "";
             this.journey.ishighlight= false;
             this.journey.isprivate = false;
+            this.journey.event =""
         },
-        async formPost(){
-            const config = {
+        async submit(){
+            if(this.journey.joevent == '' || this.journey.jophoto1 == '')
+                this.valid_snackbar =true; 
+            else{
+                this.progressbar=true;
+                //post first image
+                if(this.journey.jophoto1 ){
+                    this.journey.jophoto1 = await this.putImage(this.journey.jophoto1, true)
+                }
+                if(this.journey.jophoto2 ){
+                    this.journey.jophoto2 = await this.putImage(this.journey.jophoto2,false)
+                }
+                if(this.journey.jophoto3 ){
+                    this.journey.jophoto3 = await this.putImage(this.journey.jophoto3,false)
+                }
+                const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
-            };
-            let formData = new FormData();
-            for (let data in this.journey) {
-                formData.append(data, this.journey[data]);
-                // console.log(data,this.journey[data]);
-            }
-            console.log(formData);
-            try {
-                await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
-                    console.log(res);
-                    this.refresh();
+                };
+                let formData = new FormData();
+                for (let data in this.journey) {
+                    formData.append(data, this.journey[data]);
+                }
+                try {
+                    await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
+                        console.log(res);
+                        this.refresh();
+                        this.progressbar =false;
+                        this.posted_snackbar = true;
+                        this.$router.push("/"+this.journey.username+"/journey");
+                    })
+                } catch (e) {
                     this.progressbar =false;
-                    this.posted_snackbar = true;
-                    this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
-                })
-            } catch (e) {
-                this.progressbar =false;
-                this.error_snackbar =true
-                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
-                console.log(e);
+                    this.error_snackbar =true
+                    console.log(e, e.response);
+                }
             }
         },
-        async formUpdate(){
-            const config = {
+        async update() {
+            if(this.journey.joevent == '' || this.journey.jophoto1 == '')
+            this.valid_snackbar =true; 
+            else{
+                this.progressbar=true;
+                if(this.journey.jophoto1 ){
+                    this.journey.jophoto1 = await this.putImage(this.journey.jophoto1, true)
+                }
+                if(this.journey.jophoto2 ){
+                    this.journey.jophoto2 = await this.putImage(this.journey.jophoto2,false)
+                }
+                if(this.journey.jophoto3 ){
+                    this.journey.jophoto3 = await this.putImage(this.journey.jophoto3,false)
+                }
+                const config = {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                 }
-            };
-            let myObj1 = this.editing_obj 
-            let myObj2 = this.journey
-            // find keys 
-            let keyObj1 = Object.keys(myObj1); 
-            let keyObj2 = Object.keys(myObj2);
-                
-            // find values 
-            let valueObj1 = Object.values(myObj1); 
-            let valueObj2 = Object.values(myObj2); 
-            
-            // now compare their keys and values  
-            try {
-                let formName = new FormData();
-                for(var i=0; i<keyObj1.length; i++) { 
-                if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                    // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-                } 
-                else { 
-                    formName.append(keyObj1[i], valueObj2[i]);
-                } 
-            }
-            formName.append("id", this.journey['id']);
-
-            console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-            await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config).then(res => {
-                console.log(res," changed"); 
-                // this.$store.dispatch("check_user_journey");
-            })
-            this.$store.dispatch("remove_editing_obj");
-            this.progressbar =false
-            this.posted_snackbar = true;
-            this.refresh();
-            } catch (error) {
-                console.log("error",error);
-                this.error_snackbar =true
+                };
+                let myObj1 = this.editing_obj 
+                let myObj2 = this.journey
+                let keyObj1 = Object.keys(myObj1); 
+                let keyObj2 = Object.keys(myObj2);
+                let valueObj1 = Object.values(myObj1); 
+                let valueObj2 = Object.values(myObj2); 
+                try {
+                    let formName = new FormData();
+                    console.log("appending");
+                    for(var i=0; i<keyObj1.length; i++) { 
+                        if(keyObj1[i] == keyObj2[i] && valueObj1[i] != valueObj2[i])
+                        formName.append(keyObj1[i], valueObj2[i]);
+                    }
+                formName.append("id", this.journey['id']);
+                await this.$axios.$patch("/v1/artist/journey/"+this.editing_obj.id, formName, config)
+                // .then(res => {
+                //     console.log(res," changed");
+                // })
+                this.$store.dispatch("remove_editing_obj");
                 this.progressbar =false
-            }
-            this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
-            
-        },
-        async submit(){
-            this.progressbar=true;
-            if(this.journey.joevent== '')
-            this.valid_snackbar =true;
-            else{
-            if(this.journey.jophoto1== '' && this.journey.jophoto2 =='')
-            this.valid_snackbar =true;
-            else{
-            if(this.journey.jophoto1== '' && this.journey.jophoto2 !=''){
-                this.journey.jophoto1 = this.journey.jophoto2
-                this.journey.jophoto2 = ""
-            }
-            //post first image
-            this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                res => {
-                if(res.statusCode == 200)
-                {
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
-                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    if(this.journey.jophoto2)
-                    {
-                        this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                        res => {
-                        if(res.statusCode == 200)
-                        {
-                            delete this.$axios.defaults.headers.common['Authorization']
-                            let filename = res.key
-                            let url = res.body
-                            url = url.slice(1, -1);
-                            this.$axios.$put(url, this.journey.jophoto2).then((value) => {
-                            this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                            this.formPost();
-                            });
-                        }
-                        })
-                    }
-                    else{
-                        this.formPost();
-                        //post with 1 image
-                    }
-
-                    });
+                this.posted_snackbar = true;
+                this.refresh();
+                } catch (error) {
+                    console.log("error",error);
+                    this.error_snackbar =true
+                    this.progressbar =false
                 }
-            })
-            }
-            }
-            
-        },
-        async update() {
-             this.progressbar=true;
-            if(this.journey.joevent== '')
-            this.valid_snackbar =true;
-            else{
-            if(this.journey.jophoto1== '' && this.journey.jophoto2 =='')
-            this.valid_snackbar =true;
-            else if(this.journey.jophoto1== ''){
-            if(this.journey.jophoto2 !='' && typeof this.journey.jophoto2 == 'string'){
-                this.journey.jophoto1 = this.journey.jophoto2
-                this.journey.jophoto2 = ""
-                this.formUpdate();
-            }
-            else if(this.journey.jophoto2 !='' && typeof this.journey.jophoto2 == 'object'){
-                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                res => {
-                if(res.statusCode == 200)
-                {
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.journey.jophoto2).then((value) => {
-                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.formUpdate();
-                    });
-                }
-            })}
-            //post first image
-            }
-            else if(this.journey.jophoto2== ''){
-            if(this.journey.jophoto1 !='' && typeof this.journey.jophoto1 == 'string'){
-                this.formUpdate();
-               //do nothing
-            }
-            else if(this.journey.jophoto1 !='' && typeof this.journey.jophoto1 == 'object'){
-                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                res => {
-                if(res.statusCode == 200)
-                {
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
-                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.formUpdate();
-                    });
-                }
-            })}
-            //post first image
-            }
-            else if(typeof this.journey.jophoto1 == 'string' && typeof this.journey.jophoto2 == 'object'){
-                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                res => {
-                if(res.statusCode == 200)
-                {
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.journey.jophoto2).then((value) => {
-                    this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.formUpdate();
-                    });
-                }
-            })
-            }
-            else if(typeof this.journey.jophoto1 == 'object' && typeof this.journey.jophoto2 == 'string'){
-                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                res => {
-                if(res.statusCode == 200)
-                {
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
-                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.formUpdate();
-                    });
-                }
-            })
-            }
-            else if(typeof this.journey.jophoto1 == 'object' && typeof this.journey.jophoto2 == 'object'){
-                 this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                res => {
-                if(res.statusCode == 200)
-                {
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.journey.jophoto1).then((value) => {
-                    this.journey.jophoto1 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    if(this.journey.jophoto2)
-                    {
-                        this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                        res => {
-                        if(res.statusCode == 200)
-                        {
-                            delete this.$axios.defaults.headers.common['Authorization']
-                            let filename = res.key
-                            let url = res.body
-                            url = url.slice(1, -1);
-                            this.$axios.$put(url, this.journey.jophoto2).then((value) => {
-                            this.journey.jophoto2 = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                            this.formUpdate();
-                            });
-                        }
-                        })
-                    }
-                    else{
-                        this.formUpdate();
-                        //post with 1 image
-                    }
-
-                    });
-                }
-            })
-            }
-            else{
-                this.formUpdate();
-            }
+                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
             }
         }, 
     },

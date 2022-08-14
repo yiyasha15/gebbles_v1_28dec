@@ -22,6 +22,7 @@
         </div>
         <v-spacer></v-spacer>
          <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
+        <v-icon v-if="journey.event" class=" float-right" color="black" x-small>mdi-calendar-heart</v-icon>
         <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
       </v-card-actions>
       <v-dialog
@@ -37,11 +38,23 @@
           </v-row>
           <v-container style="margin:auto; max-width:768px; " class="pt-0 pb-3 px-md-0" >
           <v-row class="ma-0" v-if="fullJourney">
-                <h5 v-if="journey.jodate" class="font-weight-light pt-2">{{dateFormat(journey.jodate).date}}</h5>
+                <h5 v-if="journey.jodate" class="font-weight-light pt-2">
+                  <!-- {{dateFormat(journey.jodate).date}} -->
+                  {{moment(journey.jodate)}}
+                  </h5>
                 <v-spacer></v-spacer>
                 <v-btn v-if="fullJourney.jolink"  icon color="black" @click="openlink">
                   <v-icon >mdi-link</v-icon>
                 </v-btn>
+                <v-tooltip v-if="fullJourney.event" top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs"  @click="goToEvent"
+                        v-on="on">
+                        <v-icon class="pl-2 float-right" color="black" small>mdi-calendar-heart</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>This is a highlighted post.</span>
+                </v-tooltip>
                 <v-tooltip v-if="fullJourney.ishighlight" top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs"
@@ -87,6 +100,17 @@
                         :max-height="sliderheight"
                         width="768px"
                       ></v-img>
+                  </SliderItem>
+                  </div>
+                  <div v-if="fullJourney.jophoto3!=''">
+                  <SliderItem>
+                  <v-img
+                        :src="fullJourney.jophoto3"
+                        contain
+                        :max-height="sliderheight"
+                        width="768px"
+                      >
+                      </v-img>
                   </SliderItem>
                   </div>
                   </div>
@@ -153,6 +177,7 @@ import {mapGetters} from 'vuex'
 import { Slider, SliderItem } from "vue-easy-slider";
 import EventService from '@/services/EventService.js'
 import CountryFlag from 'vue-country-flag'
+import moment from 'moment'
 
 export default {
   props: {
@@ -164,20 +189,9 @@ export default {
     CountryFlag
   },
   methods:{
-    dateFormat(recdate){
-      if(recdate){
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = recdate;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartype = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        date = datetype+" "+monthtype +" "+yeartype
-        return{date}
-        }
-      },
+    moment(date){
+        return moment(date).format("ll")
+    },
     openDialog() {
     this.dialog= true
     let config ={};
@@ -203,6 +217,9 @@ export default {
     saveJourneyId(id){
       this.dialogDelete=true;
       this.rm=id;
+    },
+    goToEvent(){
+      this.$router.push('/events/'+ this.journey.event);
     },
     editJourney(journey){
       console.log("edit");

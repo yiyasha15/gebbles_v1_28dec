@@ -6,19 +6,16 @@
       :elevation="hover ? 12 : 0"
       outlined
       :width="cardwidth" 
-      :max-height="cardheight"
-    >
+      :max-height="cardheight">
     <v-img v-if="cook.thumbjs"
-        :src="cook.thumbjs"
-        :height="imgheight"
-        :width="cardwidth" 
-      />
-      <v-img v-else
-        :src="require('@/assets/gebbleslogo3.png')"
-        contain
-        :height="imgheight"
-       :width="cardwidth" 
-      />
+      :src="cook.thumbjs"
+      :height="imgheight"
+      :width="cardwidth" />
+    <v-img v-else
+      :src="require('@/assets/gebbleslogo3.png')"
+      contain
+      :height="imgheight"
+      :width="cardwidth" />
       <v-dialog
         :retain-focus="false"
         v-model="dialog"
@@ -30,7 +27,7 @@
         </v-btn>
         <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
         </v-container>
-        </v-dialog> 
+      </v-dialog> 
     </v-card>
   </v-hover>
 </template>
@@ -55,14 +52,14 @@ import CookingFeed from '@/components/CookingFeed.vue'
           }
         },
         computed:{
-          cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
-        }
+        cardheight () {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 105
+            case 'sm': return 105
+            case 'md': return 205
+            case 'lg': return 205
+            case 'xl': return 205
+          }
         },
         cardwidth () {
           switch (this.$vuetify.breakpoint.name) {

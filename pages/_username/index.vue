@@ -222,7 +222,7 @@
             </v-btn>
             <!-- <span v-if="bio.fb">{{bio.fb}}</span> -->
             <v-btn v-if="bio.site" class="text-decoration-none mx-2" color="black" icon @click="openpersonal" >
-                <v-icon class="mr-1">mdi-email</v-icon>
+                <v-icon class="mr-1">mdi-earth</v-icon>
             </v-btn> 
             <!-- <a v-if="bio.site" @click="openpersonal">{{bio.site}}</a> -->
         </v-row>

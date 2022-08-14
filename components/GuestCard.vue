@@ -10,7 +10,7 @@
       :height="img_height"
       class="pa-0 mx-auto"
     >
-      <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
+      <v-img 
         v-if = guest.photo :src = "guest.photo" 
         :height="img_height"
         :width="img_height">

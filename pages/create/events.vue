@@ -77,11 +77,11 @@
                         v-model = "event.venue"
                         label= "Event venue">
                     </v-text-field>
-                    <v-text-field
+                    <!-- <v-text-field
                         v-model = "event.city"
                         label= "City"
                         :maxlength="50">
-                    </v-text-field>
+                    </v-text-field> -->
                     <!-- <v-text-field
                         v-model = "event.country"
                         label= "country"
@@ -99,6 +99,13 @@
                         v-model = "event.about"
                         label= "About the event">
                     </v-textarea>
+                    <v-text-field
+                        :error-messages="linkError"
+                        prepend-icon="mdi-instagram"
+                        v-model = "event.iglink"
+                        label= "Instagram link"
+                        @change="checkLink">
+                    </v-text-field>
                     <v-text-field
                         :error-messages="linkError"
                         prepend-icon="mdi-youtube"
@@ -1491,7 +1498,12 @@ export default {
                 country:null, // # must
                 city:"",
                 about:"",
-                videolink:''
+                videolink:'',
+                iglink:'',
+                photo1:'',
+                photo2:'',
+                photo3:'',
+                contact_email:''
             },
             battle_category:{
                 username: this.$store.state.auth.user.user.username,
