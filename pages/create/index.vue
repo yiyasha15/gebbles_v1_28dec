@@ -6,14 +6,13 @@
       <v-carousel hide-delimiters height="auto">
         <v-carousel-item 
           v-for="(item,i) in items"
-          :key="i"
-          >
-          <center >
+          :key="i">
+          <center>
           <div v-if="i==0"  > 
             <h3 style="color:black;" class="font-weight-medium pb-4">create your portfolio</h3>
             <img src = "~/assets/create_portfolio.png"  width="60%" alt="portfolio logo">
             <h4 style="color:black; " class="font-weight-light width"> a simple and beautiful canvas to showcase your art and lifestyle. render your landing page by just filling up a form.</h4>
-            <div class="mt-2" > 
+            <div class="mt-2"> 
             <v-icon dark large color="#815A44">mdi-circle-small</v-icon>
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
             <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>

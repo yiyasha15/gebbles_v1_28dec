@@ -51,11 +51,11 @@
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-row>
-        <v-img class="mt-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
-        {{guest}}
-        <nuxt-link v-if="guest.guest" :to="'/' + guest.guest" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{guest.name}}</h3></nuxt-link>
-        <h3 v-else class="font-weight-light mt-2">{{guest.name}}</h3>
-        <h3 class="font-weight-light mt-2">{{guest.info}}</h3>
+         <v-img class="my-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
+        <!-- {{guest}} -->
+        <nuxt-link v-if="guest.guest && typeof guest.guest == 'object'" :to="'/' + guest.guest.username" class="primary--text text-decoration-none" > <h3 class="font-weight-medium d-inline">{{guest.name}}</h3></nuxt-link>
+        <h3 v-else class="font-weight-medium  d-inline">{{guest.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'guest.country' /> </span>
+        <h4 class="font-weight-light mt-3 mt-md-5" >{{guest.info}}</h4>
         </v-container>
     </v-dialog> 
 </div>

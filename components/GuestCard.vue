@@ -20,7 +20,8 @@
         </div> -->
       </v-img>
       <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
-         v-else :src = "poster" 
+         v-else 
+         :src = "poster" 
         :height="img_height"
         :width="img_height">
       <div class="text-center">

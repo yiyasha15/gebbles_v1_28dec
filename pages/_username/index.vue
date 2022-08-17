@@ -136,10 +136,10 @@
             </v-col>
             <v-col cols="6" class="pr-0">
                
-                <h2 style="font-size: 2.5rem;" class="mb-9 pt-6 " >about</h2>
+                <h2 style="font-size: 2.5rem;" class="mb-6 pt-4 " >about</h2>
                  <!-- <pre> -->
                      <div style=" 
-                        height:368px;
+                        height:456px;
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
@@ -147,33 +147,37 @@
                     {{ artist.introduction }}
                 </h4></div>
                 <!-- </pre> -->
-                <h4 class="mb-2 mt-12 font-weight-medium" v-if="bio.crew">
+                <!-- <h4 class="mb-2 mt-12 font-weight-medium" v-if="bio.crew">
                     Representing: {{bio.crew}}
-                </h4>
+                </h4> -->
             </v-col>
         </v-row>
         <v-row v-if="artist.introduction" class="hidden-md-and-up">
             <v-col cols="12" class="my-md-6 pa-4">
                 <h2 style="font-size: 2.0rem;" >about</h2>
-                    <h5 class="mb-5 mt-2 font-weight-light text-pre-wrap" style="line-height:2;text-align:justify;">
+                    <h5 class="mb-md-5 mt-2 font-weight-light text-pre-wrap" style="line-height:2;text-align:justify;">
                     {{ artist.introduction }}
                 </h5>
                 </v-col>
         </v-row>
-        <v-row v-if="bio.crew" class="hidden-md-and-up" >
+        <!-- <v-row v-if="bio.crew" class="hidden-md-and-up" >
             <v-col v-if="bio.crew">
                 <h4 >
-                    Representing: {{bio.crew}}
+                    {{bio.crew}}
                 </h4>
             </v-col>
-        </v-row>
-        <v-row v-if="bio.quote" class="mt-8 mb-6">
+        </v-row> -->
+        <v-row v-if="bio.quote" class="mt-md-8 mb-md-6">
             <v-col align="center" style="margin:auto; max-width:750px">
             <h5 class="font-weight-light font-italic">
             "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
-            </h5> </v-col>
+            </h5> 
+            <h4 class="my-6 font-weight-medium" v-if="bio.crew">
+                {{bio.crew}}
+            </h4>
+            </v-col>
         </v-row>
-        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="mb-6 mt-16" >
+        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="mb-md-6 mt-md-16 mt-4 mb-4" >
             <template>
                 <v-row>
                     <v-col
@@ -208,17 +212,20 @@
             </template>
         </v-row>
         <v-row >
-            <v-col cols="12" class="my-6">
+            <v-col cols="12" class="my-md-6 my-0">
                 <h2 v-if="bio.ig || bio.fb|| bio.site" align="center" justify="center" style="font-size: 2.5rem;" >contact</h2>
             </v-col>
         </v-row>
-        <v-row class="mb-12" align="center" justify="center">
+        <v-row class="mb-md-12 mb-6" align="center" justify="center">
             <v-btn v-if="bio.ig"  class="text-decoration-none mx-2" color="black" icon @click="openig" >
                 <v-icon class="mr-1">mdi-instagram</v-icon>
             </v-btn>
             <!-- <span v-if="bio.ig">{{bio.ig}}</span> -->
             <v-btn v-if="bio.fb" class="text-decoration-none mx-2" color="black" icon @click="openfb" >
                 <v-icon class="mr-1">mdi-facebook</v-icon>
+            </v-btn>
+            <v-btn v-if="bio.yt" class="text-decoration-none mx-2" color="black" icon @click="openyt" >
+                <v-icon class="mr-1">mdi-youtube</v-icon>
             </v-btn>
             <!-- <span v-if="bio.fb">{{bio.fb}}</span> -->
             <v-btn v-if="bio.site" class="text-decoration-none mx-2" color="black" icon @click="openpersonal" >
@@ -421,6 +428,11 @@ export default {
         },
         openfb(){
             var url = "https://www.facebook.com/"+this.bio.fb;
+            var win = window.open(url, '_blank');
+            win.focus();
+        },
+        openyt(){
+            var url = this.bio.yt;
             var win = window.open(url, '_blank');
             win.focus();
         },

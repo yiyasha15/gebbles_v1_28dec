@@ -114,8 +114,14 @@
                                 clearable>
                             </v-text-field>
                             <v-text-field
+                                prepend-icon="mdi-youtube"
+                                v-model= "bio.yt"
+                                label="Youtube channel link"
+                                clearable>
+                            </v-text-field>
+                            <v-text-field
                             :error-messages="linkError"
-                                prepend-icon="mdi-email"
+                                prepend-icon="mdi-earth"
                                 v-model= "bio.site"
                                 label="Personal Website URL"
                                 @change="checkLink"
@@ -127,7 +133,7 @@
                                 :error-messages="ytLinkError1"
                                 color="red"
                                 v-model= "bio.vid1"
-                                label="Add upto four YouTube links"
+                                label="YouTube video link"
                                 prepend-icon="mdi-youtube"
                                 clearable
                                 @input="showYoutubeVideo(1)"
@@ -138,7 +144,8 @@
                             @input="showYoutubeVideo(2)"
                                 color="red"
                                 v-model= "bio.vid2"
-                                label="Youtube link"
+                                label="YouTube video link"
+                                prepend-icon="mdi-youtube"
                                 clearable
                                 >
                             </v-text-field>
@@ -147,7 +154,8 @@
                             @input="showYoutubeVideo(3)"
                                 color="red"
                                 v-model= "bio.vid3"
-                                label="Youtube link"
+                                label="YouTube video link"
+                                prepend-icon="mdi-youtube"
                                 clearable
                                 >
                             </v-text-field>
@@ -156,7 +164,8 @@
                             @input="showYoutubeVideo(4)"
                                 color="red"
                                 v-model= "bio.vid4"
-                                label="Youtube link"
+                                label="YouTube video link"
+                                prepend-icon="mdi-youtube"
                                 clearable
                                 >
                             </v-text-field>
@@ -334,6 +343,7 @@ data(){
             crew: "",
             ig: "",
             fb: "",
+            yt:"",
             site: "",
             gallery1 : "",
             gallery2 : "",
