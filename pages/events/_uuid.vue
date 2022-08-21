@@ -110,10 +110,10 @@
                 <youtube width="100%" height="220" :video-id= 'videoId'></youtube>
             </center>
         </div>
-        <h2 v-if="event.event_guests && event.event_guests.length>0" class="my-6" > Guests</h2>
+        <h2 v-if="event.event_guests.length>0" class="my-6" > Guests</h2>
         <v-row class="ma-0" >
             <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="pa-1">
-            <guest-card :guest="guest" :poster="event.poster"></guest-card>
+            <guest-card :guest="guest" :poster="event.poster" ></guest-card>
             </v-col>
         </v-row>
         <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6" > Programs</h2>
@@ -123,6 +123,12 @@
             </v-col>
             <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="pa-1">
             <category-card :category="category" :poster="event.poster"></category-card>
+            </v-col>
+        </v-row>
+        <h2 v-if="event_guests_team.length>0" class="my-6">Team</h2>
+        <v-row class="ma-0" >
+            <v-col cols="6" sm="4" v-for="guest in event_guests_team" :key ="guest.index" class="pa-1">
+            <guest-card :guest="guest" :poster="event.poster"></guest-card>
             </v-col>
         </v-row>
         </v-container>
@@ -164,6 +170,8 @@ export default {
         }
     },
     created(){
+        this.event_guests_team = this.event.event_guests.filter(item => item.category.includes('5'))
+        this.event.event_guests = this.event.event_guests.filter(item => !item.category.includes('5'))
         this.checkGoing();
     },
     mounted(){
@@ -181,6 +189,7 @@ export default {
     },
     data(){
           return {
+              event_guests_team:[],
               search:'',
             deletedialog:false,
             deleteLoading:false,

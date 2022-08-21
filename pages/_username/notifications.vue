@@ -177,11 +177,16 @@ computed: {
                 else if(obj.cookingobject)
                 this.$router.push('/whatiscooking/'+ obj.cookingobject);
                 let temp = this.filteredNotifications;
-                let tempe;
+                let tempe=[];
+                console.log(this.filteredNotifications, obj);
                 if(obj.e1t1object)
                     tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);
-                else if(obj.guestobject)
-                    tempe = temp.filter(temp => temp.guestobject.uuid == obj.guestobject.uuid);
+                else if(obj.guestobject && obj.guestobject.event)
+                    {
+                        for(let i =0; i< temp.length; i++)
+                        if(temp[i].guestobject && temp[i].guestobject.event && temp[i].guestobject.event == obj.guestobject.event)
+                        tempe.push(temp[i])
+                    }
                 else if(obj.cookingobject)
                     tempe = temp.filter(temp => temp.cookingobject == obj.cookingobject);
                 // for all notifications with filternotification whose e1t1 matches
@@ -190,6 +195,7 @@ computed: {
                     headers: { "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                     }
                 };
+                console.log(tempe);
                 try {
                     for (var i = 0; i < tempe.length; i++)
                     {

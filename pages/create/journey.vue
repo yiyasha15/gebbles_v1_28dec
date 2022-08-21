@@ -39,7 +39,7 @@
                         </div>
                         </div>
                     </v-slide-item>
-                    <v-slide-item >
+                    <v-slide-item>
                         <div class="mr-1">
                         <div v-if="!imageData2" @click="onPick(2)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
                             <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
@@ -61,7 +61,7 @@
                         </div>
                         </div>
                     </v-slide-item>
-                    <v-slide-item >
+                    <v-slide-item>
                         <div>
                         <div v-if="!imageData3 " @click="onPick(3)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
                             <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>

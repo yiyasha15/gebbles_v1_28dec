@@ -10,8 +10,9 @@
       :height="img_height"
       class="pa-0 mx-auto"
     >
-      <v-img 
-        v-if = guest.photo :src = "guest.photo" 
+      <v-img  
+      v-if="guest.photo && typeof guest.photo != 'undefined'"
+        :src = "guest.photo" 
         :height="img_height"
         :width="img_height">
         <!-- <div class="text-center">
@@ -43,7 +44,6 @@
           </v-btn>
           </v-row>
         <v-img class="my-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
-        <!-- {{guest}} -->
         <nuxt-link v-if="guest.guest && typeof guest.guest == 'object'" :to="'/' + guest.guest.username" class="primary--text text-decoration-none" > <h3 class="font-weight-medium d-inline">{{guest.name}}</h3></nuxt-link>
         <h3 v-else class="font-weight-medium  d-inline">{{guest.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'guest.country' /> </span>
         <h4 class="font-weight-light mt-3 mt-md-5" >{{guest.info}}</h4>

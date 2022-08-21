@@ -67,18 +67,6 @@
                 <v-form v-on:submit.prevent="submit">
                     <v-row>
                         <v-col cols="12" md="10">
-                            <v-autocomplete 
-                                v-model= "dummy_style" 
-                                :items="styles" 
-                                attach 
-                                chips 
-                                hide-selected
-                                clearable
-                                deletable-chips
-                                label="Style you represent" 
-                                @input="makeString"
-                                multiple>
-                            </v-autocomplete>
                             <v-text-field
                                 v-model= "bio.crew"
                                 label="Crew you represent"
@@ -312,10 +300,6 @@ created(){
     if(this.userHasBio)
     {
         this.bio = Object.assign({}, this.$store.getters.usersBio);
-        if(this.bio.style){
-            let arr = this.bio.style.split(',');
-            this.dummy_style = arr;
-        }
         let url1 = this.bio.vid1 //getting value of youtube video urls
         let url2 = this.bio.vid2
         let url3 = this.bio.vid3
@@ -363,7 +347,6 @@ data(){
             thumb:""
         },
         rm:"",
-        dummy_style:[], //keep style in string from array
         cropImage: null, //imagecropper
         initialImage:'',
         dialog: false,
@@ -740,18 +723,6 @@ methods: {
     goback(){
         window.history.back();
     },
-    makeString() //making array as string for backend to accept
-    {
-        if(this.dummy_style.length == 0)
-        {
-            this.bio.style= ""
-            this.dummy_style=[]
-            }
-        else{
-            let arr = this.dummy_style;
-            this.bio.style= arr.join();
-        }
-    },
     dataURLtoFile(dataurl, filename) {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -963,7 +934,6 @@ methods: {
             this.ytLinkError2='',
             this.ytLinkError3='',
             this.ytLinkError4='',
-            this.dummy_style =[],
             this.cropImage.remove()
             this.dialog =false,
             this.snackbar = true;

@@ -10,7 +10,7 @@
       height="100"
       class="pa-0" style="margin:2px"
     >
-      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+      <v-img 
         v-if ="guest.photo && guest.photo!='undefined'" :src = "guest.photo" 
         height="100"
         width="100">
@@ -20,9 +20,6 @@
         <v-btn style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeGuest',guest)">
         <v-icon color="error" small>mdi-close</v-icon>
         </v-btn>
-        <div class="text-center">
-        <p style="height:45px; overflow:hidden;" class="font-weight-medium white--text mt-md-24 mt-10 pb-0  ">{{guest.name}}</p>
-      </div>
       </v-img>
       <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
          v-else
@@ -61,6 +58,7 @@
 </div>
 </template>
 <script>
+import CountryFlag from 'vue-country-flag'
   export default {
     head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -71,6 +69,9 @@
     props: {
       guest: Object
     },
+    components: {
+        CountryFlag
+     },
     data(){
       return{
         dialog: false

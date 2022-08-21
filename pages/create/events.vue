@@ -131,7 +131,7 @@
                 <v-stepper-content step="3"  style=" border-left: none;" class="ma-0" >
                     <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
                         <div v-for="guest in this.selectedGuests" :key ="guest.index">
-                            <guest-card-create :guest="guest" @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
+                            <guest-card-create :guest="guest" v-if="!guest.category.includes(5)" @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
                         </div>
                     </v-layout>
                     <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
@@ -229,8 +229,43 @@
                         v-model = "guest.info"
                         label= "Info">
                     </v-textarea>
+                    <!-- <v-checkbox
+                        value="6"
+                        v-model="isGuest"
+                        :label="`Deejay`"
+                    ></v-checkbox>
+                    <v-checkbox
+                        value="7"
+                        v-model="isGuest"
+                        :label="`Emcee`"
+                    ></v-checkbox>
+                    <v-checkbox
+                        value="1"
+                        v-model="isGuest"
+                        :label="`Workshop`"
+                    ></v-checkbox>
+                     <v-checkbox
+                        value="2"
+                        v-model="isGuest"
+                        :label="`Showcase`"
+                    ></v-checkbox>
+                    <v-checkbox
+                        value="3"
+                        v-model="isGuest"
+                        :label="`Judge`"
+                    ></v-checkbox>
+                    <v-checkbox
+                        value="4"
+                        v-model="isGuest"
+                        :label="`Battle guest`"
+                    ></v-checkbox>
+                    <v-checkbox
+                        value="5"
+                        v-model="isGuest"
+                        :label="`Discuss/Talk`"
+                    ></v-checkbox> -->
                     <v-btn outlined small class="text-decoration-none"  color="black"
-                    @click="addGuests" v-if="!editing_guest_process" :loading="guest_progressbar">Add guest</v-btn>
+                    @click="addGuests(false)" v-if="!editing_guest_process" :loading="guest_progressbar">Add guest</v-btn>
                     <!-- <v-btn outlined small class="text-decoration-none mb-3"  color="black"
                     @click="removeGuestFromForm" v-if="this.guest.name" >Remove guest</v-btn> -->
                     <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
@@ -319,15 +354,198 @@
                             </div>
                         </v-col>
                     </v-row>
-                    <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
-                    <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="submit" :loading="progressbar" >Submit</v-btn>
                     <!-- <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="update" :loading="progressbar" >Update</v-btn> -->
+                    <v-btn color="black" text small outlined @click="e6 = 5">Next</v-btn>
                     <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
 
+                <v-stepper-step :complete="e6 > 5" step="5" @click.native="e6 = 5" style="cursor:pointer">A quick glance</v-stepper-step>
+                <v-stepper-content step="5"  style=" border-left: none;" class="ma-0" >
+                    <!-- <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
+                        <div v-for="guest in this.selectedGuests" :key ="guest.index">
+                            <guest-card-create :guest="guest" v-if="guest.category.includes(5)" @removeGuest="removeOrganiser" @editGuest="editOrganiser"></guest-card-create>
+                        </div>
+                    </v-layout>
+                    <div v-if="!organiser.photo" @click="onPick(5)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
+                        <v-icon class="pa-16">mdi-plus</v-icon>
+                        <input 
+                        type="file" 
+                        name = "poster" 
+                        style="display:none" 
+                        ref="fileInput5" 
+                        accept="image/*"
+                        required
+                        @change="onFileChange5">
+                    </div>
+                    <div v-else class="ma-4">
+                    <v-img v-if="typeof(organiser.photo) === 'string'" :src="organiser.photo" class="mx-auto" height="auto" width="352px" contain>
+                        <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(5)">
+                        <v-icon color="black" small>mdi-close</v-icon>
+                        </v-btn>
+                    </v-img>
+                    </div>
+                    <v-text-field
+                        v-model= "organiser.name"
+                        label= "Name"
+                        :maxlength="255">
+                    </v-text-field>
+                    <v-combobox
+                        v-model="artist_obj"
+                        :items="artists"
+                        prepend-icon="mdi-account-search-outline"
+                        label="Tag your team"
+                        item-text="artist_name"
+                        item-value="username"
+                        ref="artistListComboBox2"
+                        @change="onAutoCompleteSelection"
+                        @keyup="customOnChangeHandler2"
+                        @paste="customOnChangeHandler2"
+                        @input="addSearchOrganiser"
+                        >
+                        <template v-slot:selection="data">
+                            <v-chip
+                            v-bind="data.attrs"
+                            :input-value="data.selected"
+                            close
+                            @click:close="artist_obj = null; organiser.guest = ''"
+                            >
+                            <v-avatar v-if="data.item.thumb" left>
+                                <v-img :src="data.item.thumb"></v-img>
+                            </v-avatar>
+                            <v-avatar v-else left>
+                                <v-icon dark>
+                                    mdi-account-circle
+                                </v-icon>
+                            </v-avatar>
+                            <template  v-if="data.item.username" >
+                            {{ data.item.username }}
+                            </template>
+                            <template v-else >
+                            {{ data.item}}
+                            </template>
+                            </v-chip>
+                        </template>
+                        <template v-slot:item="data">
+                            <template v-if="typeof data.item !== 'object'">
+                            <v-list-item-content v-text="data.item.username"></v-list-item-content>
+                            </template>
+                            <template v-else>
+                            <v-list-item-avatar v-if="data.item.thumb">
+                                <img :src="data.item.thumb">
+                            </v-list-item-avatar>
+                            <v-list-item-avatar v-else >
+                                <v-icon>
+                                    mdi-account-circle
+                                </v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content v-if="data.item.username">
+                                <v-list-item-title v-html="data.item.username"></v-list-item-title>
+                                <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
+                            </v-list-item-content>
+                            </template>
+                        </template>
+                    </v-combobox>
+                    <v-autocomplete
+                    prepend-icon="mdi-earth"
+                    :items="countries"
+                    item-text="name"
+                    item-value="code"
+                    v-model = "organiser.country"
+                    label= "Country"
+                    clearable>
+                    </v-autocomplete>
+                    
+                    <v-btn outlined small class="text-decoration-none"  color="black"
+                    @click="addOrganiser" v-if="!editing_organiser_process" :loading="organiser_progressbar">Add organiser</v-btn>
+                    <v-btn v-if="editing_organiser_process" outlined small class="text-decoration-none"  color="black"
+                    @click="updateOrganiser" :loading="organiser_progressbar">Update organiser</v-btn>
+                    <v-btn v-if="editing_organiser_process" outlined small class="text-decoration-none"  color="black"
+                    @click="cancel_edit_organiser" >Cancel</v-btn><br>
+                    <v-divider class="my-3"></v-divider> -->
+                    <v-slide-group
+                    min-width="2px"
+                    v-model="model"
+                    class="pb-4 ma-0"
+                    show-arrows>
+                    <v-slide-item>
+                        <div class="mr-1">
+                        <div v-if="!event.photo1" @click="onPick(6)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                            <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
+                            <input 
+                            type="file" 
+                            name = "quick_glance" 
+                            style="display:none" 
+                            ref="fileInput6" 
+                            accept="image/*"
+                            required
+                            @change="onFileChange6">
+                        </div>
+                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <v-img v-if="typeof(event.photo1) === 'string'" :src="event.photo1" :height="img_height" :width="img_height" contain>
+                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(6)">
+                            <v-icon color="black" small>mdi-close</v-icon>
+                            </v-btn>
+                        </v-img>
+                        </div>
+                        </div>
+                    </v-slide-item>
+                    <v-slide-item>
+                        <div class="mr-1">
+                        <div v-if="!event.photo2" @click="onPick(7)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                            <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
+                            <input 
+                            type="file" 
+                            name = "quick_glance" 
+                            style="display:none" 
+                            ref="fileInput7" 
+                            accept="image/*"
+                            required
+                            @change="onFileChange7">
+                        </div>
+                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <v-img v-if="typeof(event.photo2) === 'string'" :src="event.photo2" :height="img_height" :width="img_height" contain>
+                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(7)">
+                            <v-icon color="black" small>mdi-close</v-icon>
+                            </v-btn>
+                        </v-img>
+                        </div>
+                        </div>
+                    </v-slide-item>
+                    <v-slide-item>
+                        <div >
+                        <div v-if="!event.photo3" @click="onPick(8)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                            <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
+                            <input 
+                            type="file" 
+                            name = "quick_glance" 
+                            style="display:none" 
+                            ref="fileInput8" 
+                            accept="image/*"
+                            required
+                            @change="onFileChange8">
+                        </div>
+                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <v-img v-if="typeof(event.photo3) === 'string'" :src="event.photo3" :height="img_height" :width="img_height" contain>
+                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(8)">
+                            <v-icon color="black" small>mdi-close</v-icon>
+                            </v-btn>
+                        </v-img>
+                        </div>
+                        </div>
+                    </v-slide-item>
+                    </v-slide-group>
+                    <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
+                    @click="updateQuickGlance" :loading="glance_progressbar" >Update</v-btn>
+                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                    <v-btn text small @click="goback" color="primary">Cancel</v-btn>
+                </v-stepper-content>
+                <div class="mx-sm-7 mx-6">
+                <p v-if="progressbar" class="caption mx-12"> hi, we're building the page, please wait :)</p>
+                    <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
+                    @click="submit" :loading="progressbar" >Submit</v-btn>
+                </div>
             </v-stepper>
         </v-col>
         </v-row>
@@ -1348,6 +1566,19 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
+        <v-dialog v-model="delete_organiser_dialog" width="500">    
+        <v-card class="pa-4">
+            <p>Are you sure you want to delete this organiser?</p>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoadingOrg"
+                @click="deleteOrganiser">Delete</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="delete_organiser_dialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
         <v-dialog v-model="delete_category_dialog" width="500">    
         <v-card class="pa-4">
             <p>Are you sure you want to delete this catgegory?</p>
@@ -1395,11 +1626,20 @@
         <v-snackbar v-model="guest_added_snackbar">
             Event guest added.
         </v-snackbar>
+        <v-snackbar v-model="organiser_added_snackbar">
+            Event organiser added.
+        </v-snackbar>
+        <v-snackbar v-model="organiser_update_snackbar">
+            Event organiser updated.
+        </v-snackbar>
         <v-snackbar v-model="category_added_snackbar">
             Event category added.
         </v-snackbar>
         <v-snackbar v-model="guest_delete_snackbar">
             Event guest deleted.
+        </v-snackbar>
+         <v-snackbar v-model="organiser_delete_snackbar">
+            Event organiser deleted.
         </v-snackbar>
         <v-snackbar v-model="program_delete_snackbar">
             Event program deleted.
@@ -1433,6 +1673,9 @@
         </v-snackbar>
         <v-snackbar v-model="remove_guest_form_snackbar">
             Remove the guest on edit.
+        </v-snackbar>
+        <v-snackbar v-model="remove_organiser_form_snackbar">
+            Remove the organiser on edit.
         </v-snackbar>
         <v-snackbar v-model="remove_category_form_snackbar">
             Remove the category on edit.
@@ -1484,7 +1727,16 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['editing_event_obj',])
+        ...mapGetters(['editing_event_obj',]),
+        img_height () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 96
+          case 'sm': return 150
+          case 'md': return 150
+          case 'lg': return 150
+          case 'xl': return 150
+        }
+      },
     },
     data(){
         return {
@@ -1632,6 +1884,19 @@ export default {
             guest:{
                 name:'',
                 guest:'',
+                category:[],
+                photo:'',
+                country:'',
+                info:'',
+                videolink:'',
+                event:'',
+                uuid:'',
+                username:this.$store.state.auth.user.user.username
+            },
+            organiser:{
+                name:'',
+                guest:'',
+                category:[],
                 photo:'',
                 country:'',
                 info:'',
@@ -1641,7 +1906,9 @@ export default {
                 username:this.$store.state.auth.user.user.username
             },
             delete_guest_dialog:false,
+            delete_organiser_dialog:false,
             deleteLoading:false,
+            deleteLoadingOrg:false,
             delete_category_dialog:false,
             delete_battle_category_dialog:false,
             battle_categories:[],
@@ -1673,6 +1940,7 @@ export default {
             progressbar: false,
             poster_progressbar:false,
             guest_progressbar:false,
+            organiser_progressbar:false,
             program_progressbar:false,
             date:null,
             slide: null,
@@ -1686,13 +1954,17 @@ export default {
             image_update_snackbar: false,
             detail_update_snackbar: false,
             guest_update_snackbar: false,
+            organiser_update_snackbar: false,
             program_update_snackbar: false,
             guest_delete_snackbar:false,
             program_delete_snackbar:false,
+            organiser_delete_snackbar:false,
             guest_added_snackbar:false,
+            organiser_added_snackbar:false,
             category_added_snackbar:false,
             valid_poster_snackbar:false,
             remove_guest_form_snackbar:false,
+            remove_organiser_form_snackbar: false,
             remove_category_form_snackbar:false,
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
@@ -1959,10 +2231,13 @@ export default {
             debounce: null,
             comboBoxModel: null,
             isUpdating: false,
+            editing_organiser_process:false,
             editing_guest_process:false,//if we click on edit guest( this is to know if we will update guest or add guests!)
             editing_category_process:false,
             temp_guest_item:{},
+            temp_organiser_item:{},
             temp_category_item:{},
+            isGuest:[],
         }
     },
     watch: {
@@ -1999,71 +2274,7 @@ export default {
         },
     },
     methods: {
-        searchArtists(){
-        this.artists=[]
-        clearTimeout(this.debounce)
-        this.debounce = setTimeout(() => {
-        if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
-        this.artists = value.data
-        });}
-        }, 100)
-        },
-        onAutoCompleteSelection(){
-            this.comboBoxModel = this.artist_obj;
-            this.searchArtists();
-        },
-        customOnChangeHandler(){
-        let vm = this;
-        setTimeout(function(){
-            if(vm.$refs.artistListComboBox){
-            vm.comboBoxModel = vm.$refs.artistListComboBox.internalSearch;
-            vm.searchArtists();
-            }
-        });
-        },
-        addSearchGuest(){
-            let t_name = typeof this.artist_obj;
-            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
-            {
-                this.guest.guest = this.artist_obj.username
-                this.guest.country = this.artist_obj.country
-                if(this.guest.photo =='' && this.artist_obj.thumb!='')
-                this.guest.photo = this.artist_obj.thumb
-                if(this.guest.name =='' && this.artist_obj.artist_name!='')
-                this.guest.name = this.artist_obj.artist_name
-            }
-            else
-            {
-                // this.category.name1 = this.artist_obj
-            }
-        },
-        close_battle_dialog(){
-            this.editing_category_process = false;
-            for (var key in this.battle_category) {
-                this.battle_category[key] = '';
-            }
-            this.artist_obj= null
-            this.selectedGuest={}
-            this.battle_category.username = this.$store.state.auth.user.user.username
-            this.battleEmcee =[];
-            this.battleJudges=[];
-            this.battleDj=[];
-            this.battle_dialog=false;
-        },
-        close_category_dialog(){
-            this.editing_category_process = false;
-            for (var key in this.category) {
-                this.category[key] = '';
-            }
-            this.artist_obj= null
-            this.selectedGuest={}
-            this.category.username = this.$store.state.auth.user.user.username
-            this.workshop_dialog=false;
-            this.party_dialog=false;
-            this.showcase_dialog=false;
-            this.cypher_dialog=false;
-            this.otherCategory_dialog=false;
-        },
+        //global
         save(date, num){
             this.$refs.menu.save(date)
             switch(num) {
@@ -2139,6 +2350,18 @@ export default {
                 case 4:
                 this.$refs.fileInput4.click()
                 break; 
+                case 5:
+                this.$refs.fileInput5.click()
+                break; 
+                case 6:
+                this.$refs.fileInput6.click()
+                break; 
+                case 7:
+                this.$refs.fileInput7.click()
+                break; 
+                case 8:
+                this.$refs.fileInput8.click()
+                break; 
                 default:
                     // code block
                 }
@@ -2157,6 +2380,18 @@ export default {
                     break;}
                 case 4:{
                     this.guest.photo = "";
+                break;}
+                case 5:{
+                    this.organiser.photo = "";
+                break;}
+                case 6:{
+                    this.event.photo1 = "";
+                break;}
+                case 7:{
+                    this.event.photo2 = "";
+                break;}
+                case 8:{
+                    this.event.photo3 = "";
                 break;}
                 default:
                     // code block
@@ -2206,6 +2441,50 @@ export default {
             this.guest.photo = files[0];
             }
         },
+        onFileChange5(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files[0]) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                this.organiser.photo = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.organiser.photo = files[0];
+            }
+        },
+        onFileChange6(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files[0]) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                this.event.photo1 = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.event.photo1 = files[0];
+            }
+        },
+        onFileChange7(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files[0]) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                this.event.photo2 = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.event.photo2 = files[0];
+            }
+        },
+        onFileChange8(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files[0]) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                this.event.photo3 = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.event.photo3 = files[0];
+            }
+        },
         dataURLtoFile(dataurl, filename) {
             // console.log( dataurl, filename);
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
@@ -2215,6 +2494,87 @@ export default {
             }
         return new File([u8arr], filename, {type:mime});
         },
+        async putImage(image){
+            if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
+            {
+            // console.log("already s3ed",image);
+            return image
+            }
+            let fileData = this.dataURLtoFile(image, "coverimage.png");
+            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1")
+            delete this.$axios.defaults.headers.common['Authorization']
+            let filename = res.key
+            let url = res.body
+            url = url.slice(1, -1);
+            let put = await this.$axios.$put(url, fileData)
+            return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+        },
+        // searching
+        searchArtists(){
+        this.artists=[]
+        clearTimeout(this.debounce)
+        this.debounce = setTimeout(() => {
+        if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
+        this.artists = value.data
+        });}
+        }, 100)
+        },
+        onAutoCompleteSelection(){
+            this.comboBoxModel = this.artist_obj;
+            this.searchArtists();
+        },
+        customOnChangeHandler(){
+        let vm = this;
+        setTimeout(function(){
+            if(vm.$refs.artistListComboBox){
+            vm.comboBoxModel = vm.$refs.artistListComboBox.internalSearch;
+            vm.searchArtists();
+            }
+        });
+        },
+        customOnChangeHandler2(){
+        let vm = this;
+        setTimeout(function(){
+            if(vm.$refs.artistListComboBox2){
+            vm.comboBoxModel = vm.$refs.artistListComboBox2.internalSearch;
+            vm.searchArtists();
+            }
+        });
+        },
+        addSearchGuest(){
+            let t_name = typeof this.artist_obj;
+            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            {
+                this.guest.guest = this.artist_obj.username
+                this.guest.country = this.artist_obj.country
+                if(this.guest.photo =='' && this.artist_obj.thumb!='')
+                this.guest.photo = this.artist_obj.thumb
+                if(this.guest.name =='' && this.artist_obj.artist_name!='')
+                this.guest.name = this.artist_obj.artist_name
+            }
+            else
+            {
+                // this.category.name1 = this.artist_obj
+            }
+        },
+        addSearchOrganiser(){
+            let t_name = typeof this.artist_obj;
+            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            {
+                this.organiser.guest = this.artist_obj.username
+                this.organiser.country = this.artist_obj.country
+                if(this.organiser.photo =='' && this.artist_obj.thumb!='')
+                this.organiser.photo = this.artist_obj.thumb
+                if(this.organiser.name =='' && this.artist_obj.artist_name!='')
+                this.organiser.name = this.artist_obj.artist_name
+            }
+            else
+            {
+                // this.category.name1 = this.artist_obj
+            }
+        },
+
+        //main event submit
         async submit(){
             try{
                 // this.event.username= this.$store.state.auth.user.user.username
@@ -2223,6 +2583,12 @@ export default {
                 this.progressbar =true
                 // console.log(this.event.poster);
                 this.event.poster = await this.putImage(this.event.poster);
+                if(this.event.photo1)
+                this.event.photo1 = await this.putImage(this.event.photo1);
+                if(this.event.photo2)
+                this.event.photo2 = await this.putImage(this.event.photo2);
+                if(this.event.photo3)
+                this.event.photo3 = await this.putImage(this.event.photo3);
                 const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
@@ -2380,21 +2746,8 @@ export default {
                 this.progressbar = false
             }
         },
-        async putImage(image){
-            if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
-            {
-            // console.log("already s3ed",image);
-            return image
-            }
-            let fileData = this.dataURLtoFile(image, "coverimage.png");
-            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1")
-            delete this.$axios.defaults.headers.common['Authorization']
-            let filename = res.key
-            let url = res.body
-            url = url.slice(1, -1);
-            let put = await this.$axios.$put(url, fileData)
-            return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-        },
+
+        //update poster
         async updatePoster(){
             try {
                 if(this.event.poster != "" && this.event.poster != this.editing_event_obj.poster)
@@ -2422,10 +2775,169 @@ export default {
                 }
                 
             } catch (error) {
+                this.poster_progressbar =false
                 this.error_snackbar = true
                 // console.log(error);
             }
         },
+        async updateQuickGlance(){
+            try {
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                };
+                let formName = new FormData();
+                this.glance_progressbar =true
+                if(this.event.photo1 != this.editing_event_obj.photo1)
+                {this.event.photo1 = await this.putImage(this.event.photo1);
+                formName.append("photo1", this.event.photo1);}
+                if(this.event.photo2 != this.editing_event_obj.photo2)
+                {this.event.photo2 = await this.putImage(this.event.photo2);
+                formName.append("photo2", this.event.photo2);}
+                if(this.event.photo3 != this.editing_event_obj.photo3)
+                {this.event.photo3 = await this.putImage(this.event.photo3);
+                formName.append("photo3", this.event.photo3);}
+                formName.append("id", this.event['id']);
+                await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
+                // console.log(res); 
+                this.glance_progressbar =false
+                this.image_update_snackbar = true;
+                // this.$router.push("/events/"+this.event.uuid);
+                })
+            } catch (error) {
+                this.glance_progressbar =false
+                this.error_snackbar = true
+                // console.log(error);
+            }
+        },
+        //update event details
+        async update(){
+            try{
+                // this.event.username= this.$store.state.auth.user.user.username
+                if(this.event.name != "" && this.event.start_date != "" && this.event.country != "")
+                { 
+                this.progressbar =true
+                this.formUpdate();
+                }
+                else{
+                    this.valid_snackbar=true
+                }
+            }
+            catch(e){
+                this.error_snackbar = true
+                console.log(e, e.response, e.data);
+            }
+            // let ids = new Set(this.editing_event_obj.event_battles.map(({ uuid }) => uuid));
+            // let ids2 = new Set(this.battle_categories.map(({ uuid }) => uuid));
+            // //remove ids value if ids value matches ids2
+            // ids2.forEach((x) => {
+            //     ids.delete(x);
+            // });
+            // console.log( ids);
+        },
+        async formUpdate(){
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+            };
+            let myObj1 = this.editing_event_obj 
+            let myObj2 = this.event
+            // find keys 
+            let keyObj1 = Object.keys(myObj1); 
+            let keyObj2 = Object.keys(myObj2);
+                
+            // find values 
+            let valueObj1 = Object.values(myObj1); 
+            let valueObj2 = Object.values(myObj2); 
+            
+            // now compare their keys and values  
+            try {
+                let formName = new FormData();
+                for(var i=0; i<keyObj1.length; i++) { 
+                    if(keyObj1[i]=='event_battles'){}
+                    else if(keyObj1[i]=='event_subevents'){}
+                    else if(keyObj1[i]=='poster'){}
+                    else if (keyObj1[i]=='event_guests'){}
+                    else
+                    {
+                        if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                            // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                        } 
+                        else { 
+                            // it prints keys have different values 
+                            formName.append(keyObj1[i], valueObj2[i]);
+                            // console.log( valueObj2[i] ," gonna change"); 
+                        } 
+                    }
+                }
+                formName.append("id", this.event['id']);
+                await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
+                    console.log(res," changed"); 
+                })
+                // this.$store.dispatch("remove_editing_event_obj");
+                this.progressbar =false
+                this.detail_update_snackbar = true;
+                // this.refresh();
+            } catch (error) {
+                console.log("error!!!!! ",error, error.response);
+                this.error_snackbar =true
+                this.progressbar =false
+            }
+            // this.$router.push("/events/"+this.event.uuid);
+        },
+        //update guests
+        async addGuests(){
+            if(this.guest.name){
+                this.guest.category=[]
+                this.isGuest.forEach(str => {
+                this.guest.category.push(Number(str));
+                });
+                if(this.editing_event_obj){
+                    this.guest_progressbar =true
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    }
+                    this.guest.event = this.editing_event_obj.uuid;
+                    if(this.guest.guest && typeof this.guest.guest=='object')
+                    {this.guest.guest = this.guest.guest.username}
+                    if(this.guest.photo)
+                    {this.guest.photo = await this.putImage(this.guest.photo)}
+                    let formGuestData = new FormData();
+                    for (let data in this.guest) {
+                        // if(data == 'category')
+                        // this.guest.category.forEach(function(value) {
+                        // formGuestData.append("category[]", value) // you have to add array symbol after the key name
+                        // })
+                        // else
+                        formGuestData.append(data, this.guest[data]);
+                    }
+                    try {
+                        
+                        for (const pair of formGuestData.entries()) {
+                        console.log(`${pair[0]}, ${pair[1]}`);
+                        }
+                        let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
+                        console.log("guest posted",postGuest);
+                        this.guest = {...postGuest}
+                        this.guest_added_snackbar=true
+                        this.guest_progressbar =false
+                        this.addGuestToSelectedGuestArray();
+                    } catch (error) {
+                        console.log(error,error.response);
+                        this.error_snackbar = true;
+                        this.guest_progressbar =false
+                    }
+                }
+                else
+                {
+                    this.addGuestToSelectedGuestArray();
+                }
+            }else this.cat_valid_snackbar = true
+        },   
         async updateGuests(){
             if(this.guest.name!= "")
             {
@@ -2486,6 +2998,8 @@ export default {
                     for (var key in this.guest) {
                         this.guest[key] = '';
                     }
+                    this.isGuest = []
+                    this.guest.category=[]
                     this.guest.username=this.$store.state.auth.user.user.username
                     this.artist_obj= null
                 }
@@ -2494,6 +3008,136 @@ export default {
                 this.cat_valid_snackbar=true
             }
             this.editing_guest_process = false
+        },
+        addGuestToSelectedGuestArray(){
+            let clone = {...this.guest}
+            this.selectedGuests.push(clone)
+            this.guest_added_snackbar=true
+            for (var key in this.guest) {
+                this.guest[key] = '';
+            }
+            this.isGuest = []
+            this.guest.category=[];
+            this.guest.username=this.$store.state.auth.user.user.username
+            this.artist_obj= null
+            this.selectedGuest = {}
+        },
+        removeGuest (item) {
+            console.log(item);
+            console.log(this.temp_guest_item);
+            this.temp_guest_item = item;
+            this.delete_guest_dialog = true
+        },
+        async deleteGuest(){
+            console.log(this.temp_guest_item);
+            if(this.editing_event_obj)
+            {
+                this.deleteLoading = true
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                };
+                try {
+                    let response = await this.$axios.$delete("/v1/events/guests/"+ this.temp_guest_item.uuid, config)
+                    // console.log(response);
+                    this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
+                    this.delete_guest_dialog = false
+                    this.deleteLoading = false
+                    this.temp_guest_item = {}
+                    this.guest_delete_snackbar =true
+                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
+                    //guest removed
+                } catch (e) {
+                    this.deleteLoading = false
+                    this.error_snackbar = true
+                    console.log(e,e.response);
+                }
+                //remove from api too
+            }else{
+                this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
+                this.delete_guest_dialog = false
+
+            }
+        },
+        editGuest(item){
+            if(!this.editing_guest_process)
+            {this.editing_guest_process =true
+            this.selectedGuest = Object.assign({}, item);
+            // this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
+            this.guest= Object.assign({}, item);
+            // console.log(this.guest,item );
+            // this.guest.name = item.name;
+            // this.guest.photo = item.photo;
+            // this.guest.videolink = item.videolink;
+            // this.guest.country = item.country;
+            // this.guest.event = this.event.uuid;
+            // this.guest.info = item.info;
+            if(typeof item.guest == 'object')
+            {
+                // this.guest.guest = item.guest.username
+                this.artist_obj = item.guest
+            }else if (item.guest && typeof item.guest == 'string'){
+                // this.guest.guest = item.guest
+                console.log(item.guest, typeof item.guest);
+                EventService.getArtist(item.guest).then((value) => {
+                this.artist_obj = value.data;});
+            }}else{
+                this.remove_guest_form_snackbar = true
+            }
+        },
+        cancel_edit_guest(){
+            // let clone = {...this.selectedGuest}
+            // this.selectedGuests.push(clone)
+            for (var key in this.guest) {
+                this.guest[key] = '';
+            }
+            this.isGuest = []
+            this.guest.category=[]
+            this.guest.username=this.$store.state.auth.user.user.username
+            this.artist_obj= null
+            this.selectedGuest = {}
+            this.editing_guest_process = false
+        },
+        //update category
+        editCategory(item){
+            if(!this.editing_category_process)
+            {
+                this.editing_category_process = true
+                this.category = Object.assign({}, item);
+                this.temp_category_item = Object.assign({}, item);
+                //find object from guests -> name1 == item.name1
+                // that object is selectedGuest 
+                this.selectedGuest = this.selectedGuests.find(guest => guest.name === item.name1)
+                //1:workshop
+                //2:showcase
+                //3:party
+                //4:cypher
+                //5:community talk
+                let num = item.category;
+                switch(num) {
+                case 1:
+                    {
+                    this.workshop_dialog=true
+                    break;}
+                case 2:{
+                    this.showcase_dialog=true
+                    break;}
+                case 3:{
+                    this.party_dialog= true
+                    break;}
+                case 4:{
+                    this.cypher_dialog =true
+                break;}
+                case 5:{
+                    this.otherCategory_dialog = true
+                break;}
+                default:{}
+                }
+            }
+            else{
+                this.remove_category_form_snackbar = true
+            }
         },
         async updateWorkshop(){
             if(this.category.name!= "")
@@ -2566,179 +3210,184 @@ export default {
             this.program_progressbar =false
             this.editing_category_process = false
         },
-        async updateBattle(){
-            if(this.battle_category.name!= "")
-            {
-                this.updateBattleGuests();
-                // console.log("json updated", this.battle_category);
-                if(this.editing_event_obj){
-                    this.program_progressbar = true
-                    if(this.battle_category.poster)
+        close_category_dialog(){
+            this.editing_category_process = false;
+            for (var key in this.category) {
+                this.category[key] = '';
+            }
+            this.artist_obj= null
+            this.selectedGuest={}
+            this.category.username = this.$store.state.auth.user.user.username
+            this.workshop_dialog=false;
+            this.party_dialog=false;
+            this.showcase_dialog=false;
+            this.cypher_dialog=false;
+            this.otherCategory_dialog=false;
+        },
+        addWorkshop(num){
+            if(this.category.name){
+                //1:workshop
+                //2:showcase
+                //3:party
+                //4:cypher
+                //5:community talk
+                switch(num) {
+                case 1:
                     {
-                        this.battle_category.poster = await this.putImage(this.battle_category.poster);
-                    }
+                    this.category.category = 1
+                    break;}
+                case 2:{
+                    this.category.category = 2
+                    break;}
+                case 3:{
+                    this.category.category = 3
+                    break;}
+                case 4:{
+                    this.category.category = 4
+                break;}
+                case 5:{
+                    this.category.category = 5
+                break;}
+                default:
+                    // code block
+                }
+                if(this.editing_event_obj){
+                    this.postCategoryApi();
+                }
+                else
+                {
+                    this.addCategoryToArray();
+                }
+            }else this.cat_valid_snackbar = true
+        },
+        async postCategoryApi(){
+            this.program_progressbar =true
                     const config = {
                         headers: {"content-type": "multipart/form-data",
                             "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                         }
-                    };
-                    let myObj1 = this.temp_category_item;
-                    let myObj2 = this.battle_category;
-                    // find keys 
-                    let keyObj1 = Object.keys(myObj1); 
-                    let keyObj2 = Object.keys(myObj2);
-                    // find values 
-                    let valueObj1 = Object.values(myObj1); 
-                    let valueObj2 = Object.values(myObj2); 
-                    
-                    // now compare their keys and values  
+                    }
+                    this.category.event = this.editing_event_obj.uuid;
+                    if(this.category.poster)
+                    {this.category.poster = await this.putImage(this.category.poster)}
+                    if(this.category.guest1 && typeof this.category.guest1=='object')
+                    {this.category.guest1 = this.category.guest1.username}
+                    let formCategoryData = new FormData();
+                    for (let data in this.category) {
+                        formCategoryData.append(data, this.category[data]);
+                    }
                     try {
-                        let formName = new FormData();
-                        for(var i=0; i<keyObj1.length; i++) {
-                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {
-                            } 
-                            else {
-                                formName.append(keyObj1[i], valueObj2[i]);
-                            }
-                        }
-                        formName.append("id", this.event['id']);
-                        // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                        await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config).then(res => {
-                            // console.log(res," changed"); 
-                        })
-                        this.battle_categories.splice(this.battle_categories.findIndex(e => e.id === this.temp_category_item.id),1);
-                        this.updateBattleToArray();
-                        // console.log(myObj1,myObj2);
+                        let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formCategoryData, config)
+                        // console.log("category posted",postCategory);
+                        this.category = {...postCategory}
+                        // console.log(this.category);
+                        this.category_added_snackbar=true
                         this.program_progressbar =false
+                        this.addCategoryToArray();
                     } catch (error) {
-                        console.log("error!!!!! ",error, error.response);
-                        this.error_snackbar =true
+                        console.log(error,error.response);
+                        this.error_snackbar = true;
+                        this.program_progressbar =false
+                    }
+        },
+        addCategoryToArray(){
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.category_added_snackbar=true
+            this.close_category_dialog();
+        },
+        updateCategoryToArray(){
+            let clone = {...this.category}
+            this.categories.push(clone)
+            this.program_update_snackbar = true;
+            this.close_category_dialog();
+        },
+        addGuestToCategory(){
+            console.log(this.selectedGuest);
+            if(this.selectedGuest){this.category.name1 = this.selectedGuest.name
+            this.category.guest1 = this.selectedGuest.guest
+            this.category.photo1 = this.selectedGuest.photo
+            this.category.country1 = this.selectedGuest.country
+            this.category.info1 = this.selectedGuest.info}
+            else{this.category.name1 = ''
+            this.category.guest1 = ''
+            this.category.photo1 = ''
+            this.category.country1 = ''
+            this.category.info1 = ''}
+        },
+        removeCategory(item){
+            this.temp_category_item = item
+            this.delete_category_dialog = true
+            // this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.category === item.category),1);
+        },
+        async deleteCategory(){
+            if(this.editing_event_obj)
+            {
+                this.deleteLoading = true
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                };
+                try {
+                    let response = await this.$axios.$delete("/v1/events/workshops/"+ this.temp_category_item.uuid, config)
+                    console.log("deleted: ",response);
+                    this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
+                    this.delete_category_dialog = false
+                    this.deleteLoading = false
+                    this.temp_category_item = {}
+                    this.program_delete_snackbar = true
+                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
+                    //guest removed
+                } catch (e) {
+                    this.deleteLoading = false
+                    this.error_snackbar = true
+                    console.log(e,e.response);
+                }
+                //remove from api too
+            }else{
+                this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
+                this.delete_category_dialog = false
+
+            }
+        },
+        //add batttle
+        async addBattle(){
+            if(this.battle_category.name){
+                this.battleGuestArrayToJson();
+                if(this.editing_event_obj){
+                    this.program_progressbar =true
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    }
+                    this.battle_category.event = this.editing_event_obj.uuid;
+                    if(this.battle_category.poster)
+                    {this.battle_category.poster = await this.putImage(this.battle_category.poster)}
+                    let formBattleCategoryData = new FormData();
+                    for (let data in this.battle_category) {
+                        formBattleCategoryData.append(data, this.battle_category[data]);
+                    }
+                    try {
+                        let postBattleCategory= await this.$axios.$post("/v1/events/battles/create/", formBattleCategoryData, config)
+                        console.log("battle_category posted",postBattleCategory);
+                        this.battle_category = {...postBattleCategory}
+                        console.log(this.battle_category);
+                        this.category_added_snackbar=true
+                        this.program_progressbar =false
+                        this.addBattleToArray();
+                    } catch (error) {
+                        console.log(error,error.response);
+                        this.error_snackbar = true;
                         this.program_progressbar =false
                     }
                 }
-                else{
-                    //remove prev obj
-                    this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name),1);
-                    let clone = {...this.battle_category}
-                    this.battle_categories.push(clone)
-                    this.program_update_snackbar=true
-                    for (var key in this.battle_category) {
-                        this.battle_category[key] = '';
-                    }
-                    this.battle_category.username=this.$store.state.auth.user.user.username
-                    this.artist_obj= null
-                    this.close_battle_dialog();
+                else
+                {
+                    this.addBattleToArray();
                 }
-            }
-            else{
-                this.cat_valid_snackbar=true
-            }
-            this.program_progressbar =false
-            this.editing_category_process = false
-        },
-        updateBattleGuests(){
-            // remove current battle_category guests
-            // add the ones in battlemc/dj/judges array!!
-            // for (var key in this.battle_category) {
-            //     this.battle_category[key] = '';
-            // }
-                this.battle_category.guest1=''
-                this.battle_category.name1=''
-                this.battle_category.photo1=''
-                this.battle_category.videolink1=''
-                this.battle_category.country1=''
-                this.battle_category.info1=''
-                this.battle_category.guest2=''
-                this.battle_category.name2=''
-                this.battle_category.photo2=''
-                this.battle_category.videolink2=''
-                this.battle_category.country2=''
-                this.battle_category.info2=''
-                this.battle_category.guest3=''
-                this.battle_category.name3=''
-                this.battle_category.photo3=''
-                this.battle_category.videolink3=''
-                this.battle_category.country3=''
-                this.battle_category.info3=''
-                this.battle_category.guest4=''
-                this.battle_category.name4=''
-                this.battle_category.photo4=''
-                this.battle_category.videolink4=''
-                this.battle_category.country4=''
-                this.battle_category.info4=''
-                this.battle_category.guest5=''
-                this.battle_category.name5=''
-                this.battle_category.photo5=''
-                this.battle_category.videolink5=''
-                this.battle_category.country5=''
-                this.battle_category.info5=''
-                this.battle_category.guest6=''
-                this.battle_category.name6=''
-                this.battle_category.photo6=''
-                this.battle_category.videolink6=''
-                this.battle_category.country6=''
-                this.battle_category.info6=''
-                this.battle_category.guest7=''
-                this.battle_category.name7=''
-                this.battle_category.photo7=''
-                this.battle_category.videolink7=''
-                this.battle_category.country7=''
-                this.battle_category.info7=''
-                this.battle_category.dj1=''
-                this.battle_category.djname1=''
-                this.battle_category.djphoto1=''
-                this.battle_category.djvideolink1=''
-                this.battle_category.djcountry1=''
-                this.battle_category.djinfo1=''
-                this.battle_category.dj2=''
-                this.battle_category.djname2=''
-                this.battle_category.djphoto2=''
-                this.battle_category.djvideolink2=''
-                this.battle_category.djcountry2=''
-                this.battle_category.djinfo2=''
-                this.battle_category.dj3=''
-                this.battle_category.djname3=''
-                this.battle_category.djphoto3=''
-                this.battle_category.djvideolink3=''
-                this.battle_category.djcountry3=''
-                this.battle_category.djinfo3=''
-                this.battle_category.mc1=''
-                this.battle_category.mcname1=''
-                this.battle_category.mcphoto1=''
-                this.battle_category.mcvideolink1=''
-                this.battle_category.mccountry1=''
-                this.battle_category.mcinfo1=''
-                this.battle_category.mc2=''
-                this.battle_category.mcname2=''
-                this.battle_category.mcphoto2=''
-                this.battle_category.mcvideolink2=''
-                this.battle_category.mccountry2=''
-                this.battle_category.mcinfo2=''
-                this.battle_category.mc3=''
-                this.battle_category.mcname3=''
-                this.battle_category.mcphoto3=''
-                this.battle_category.mcvideolink3=''
-                this.battle_category.mccountry3=''
-                this.battle_category.mcinfo3='';
-                this.battle_category.bg1=''
-                this.battle_category.bgname1=''
-                this.battle_category.bgphoto1=''
-                this.battle_category.bgvideolink1=''
-                this.battle_category.bgcountry1=''
-                this.battle_category.bginfo1=''
-                this.battle_category.bg2=''
-                this.battle_category.bgname2=''
-                this.battle_category.bgphoto2=''
-                this.battle_category.bgvideolink2=''
-                this.battle_category.bgcountry2=''
-                this.battle_category.bginfo2=''
-                this.battle_category.bg3=''
-                this.battle_category.bgname3=''
-                this.battle_category.bgphoto3=''
-                this.battle_category.bgvideolink3=''
-                this.battle_category.bgcountry3=''
-                this.battle_category.bginfo3='';
-                this.battleGuestArrayToJson();
+            }else this.cat_valid_snackbar = true
         },
         battleGuestArrayToJson(){
             if(this.battleDj.length != 0){
@@ -2913,144 +3562,193 @@ export default {
                     }
                 }
         },
-        async update(){
-            try{
-                // this.event.username= this.$store.state.auth.user.user.username
-                if(this.event.name != "" && this.event.start_date != "" && this.event.country != "")
-                { 
-                this.progressbar =true
-                this.formUpdate();
+        addBattleToArray(){
+            let clone = {...this.battle_category}
+            this.battle_categories.push(clone)
+            this.category_added_snackbar=true
+            this.close_battle_dialog()
+        },
+        //update battle category
+        async updateBattle(){
+            if(this.battle_category.name!= "")
+            {
+                this.updateBattleGuests();
+                // console.log("json updated", this.battle_category);
+                if(this.editing_event_obj){
+                    this.program_progressbar = true
+                    if(this.battle_category.poster)
+                    {
+                        this.battle_category.poster = await this.putImage(this.battle_category.poster);
+                    }
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    };
+                    let myObj1 = this.temp_category_item;
+                    let myObj2 = this.battle_category;
+                    // find keys 
+                    let keyObj1 = Object.keys(myObj1); 
+                    let keyObj2 = Object.keys(myObj2);
+                    // find values 
+                    let valueObj1 = Object.values(myObj1); 
+                    let valueObj2 = Object.values(myObj2); 
+                    
+                    // now compare their keys and values  
+                    try {
+                        let formName = new FormData();
+                        for(var i=0; i<keyObj1.length; i++) {
+                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {
+                            } 
+                            else {
+                                formName.append(keyObj1[i], valueObj2[i]);
+                            }
+                        }
+                        formName.append("id", this.event['id']);
+                        // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
+                        await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config).then(res => {
+                            // console.log(res," changed"); 
+                        })
+                        this.battle_categories.splice(this.battle_categories.findIndex(e => e.id === this.temp_category_item.id),1);
+                        this.updateBattleToArray();
+                        // console.log(myObj1,myObj2);
+                        this.program_progressbar =false
+                    } catch (error) {
+                        console.log("error!!!!! ",error, error.response);
+                        this.error_snackbar =true
+                        this.program_progressbar =false
+                    }
                 }
                 else{
-                    this.valid_snackbar=true
-                }
-            }
-            catch(e){
-                this.error_snackbar = true
-                console.log(e, e.response, e.data);
-            }
-            // let ids = new Set(this.editing_event_obj.event_battles.map(({ uuid }) => uuid));
-            // let ids2 = new Set(this.battle_categories.map(({ uuid }) => uuid));
-            // //remove ids value if ids value matches ids2
-            // ids2.forEach((x) => {
-            //     ids.delete(x);
-            // });
-            // console.log( ids);
-        },
-        async formUpdate(){
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
-            let myObj1 = this.editing_event_obj 
-            let myObj2 = this.event
-            // find keys 
-            let keyObj1 = Object.keys(myObj1); 
-            let keyObj2 = Object.keys(myObj2);
-                
-            // find values 
-            let valueObj1 = Object.values(myObj1); 
-            let valueObj2 = Object.values(myObj2); 
-            
-            // now compare their keys and values  
-            try {
-                let formName = new FormData();
-                for(var i=0; i<keyObj1.length; i++) { 
-                    if(keyObj1[i]=='event_battles'){}
-                    else if(keyObj1[i]=='event_subevents'){}
-                    else if(keyObj1[i]=='poster'){}
-                    else if (keyObj1[i]=='event_guests'){}
-                    else
-                    {
-                        if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                            // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
-                        } 
-                        else { 
-                            // it prints keys have different values 
-                            formName.append(keyObj1[i], valueObj2[i]);
-                            // console.log( valueObj2[i] ," gonna change"); 
-                        } 
+                    //remove prev obj
+                    this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name),1);
+                    let clone = {...this.battle_category}
+                    this.battle_categories.push(clone)
+                    this.program_update_snackbar=true
+                    for (var key in this.battle_category) {
+                        this.battle_category[key] = '';
                     }
+                    this.battle_category.username=this.$store.state.auth.user.user.username
+                    this.artist_obj= null
+                    this.close_battle_dialog();
                 }
-                formName.append("id", this.event['id']);
-                await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
-                    console.log(res," changed"); 
-                })
-                // this.$store.dispatch("remove_editing_event_obj");
-                this.progressbar =false
-                this.detail_update_snackbar = true;
-                // this.refresh();
-            } catch (error) {
-                console.log("error!!!!! ",error, error.response);
-                this.error_snackbar =true
-                this.progressbar =false
             }
-            // this.$router.push("/events/"+this.event.uuid);
-        },
-        removeGuest (item) {
-            console.log(item);
-            console.log(this.temp_guest_item);
-            this.temp_guest_item = item;
-            this.delete_guest_dialog = true
-        },
-        async deleteGuest(){
-            console.log(this.temp_guest_item);
-            if(this.editing_event_obj)
-            {
-                this.deleteLoading = true
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                    }
-                };
-                try {
-                    let response = await this.$axios.$delete("/v1/events/guests/"+ this.temp_guest_item.uuid, config)
-                    // console.log(response);
-                    this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
-                    this.delete_guest_dialog = false
-                    this.deleteLoading = false
-                    this.temp_guest_item = {}
-                    this.guest_delete_snackbar =true
-                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
-                    //guest removed
-                } catch (e) {
-                    this.deleteLoading = false
-                    this.error_snackbar = true
-                    console.log(e,e.response);
-                }
-                //remove from api too
-            }else{
-                this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
-                this.delete_guest_dialog = false
-
+            else{
+                this.cat_valid_snackbar=true
             }
+            this.program_progressbar =false
+            this.editing_category_process = false
         },
-        editGuest(item){
-            if(!this.editing_guest_process)
-            {this.editing_guest_process =true
-            this.selectedGuest = Object.assign({}, item);
-            // this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
-            this.guest= Object.assign({}, item);
-            // console.log(this.guest,item );
-            // this.guest.name = item.name;
-            // this.guest.photo = item.photo;
-            // this.guest.videolink = item.videolink;
-            // this.guest.country = item.country;
-            // this.guest.event = this.event.uuid;
-            // this.guest.info = item.info;
-            if(typeof item.guest == 'object')
-            {
-                // this.guest.guest = item.guest.username
-                this.artist_obj = item.guest
-            }else if (item.guest && typeof item.guest == 'string'){
-                // this.guest.guest = item.guest
-                console.log(item.guest, typeof item.guest);
-                EventService.getArtist(item.guest).then((value) => {
-                this.artist_obj = value.data;});
-            }}else{
-                this.remove_guest_form_snackbar = true
-            }
+        updateBattleGuests(){
+            // remove current battle_category guests
+            // add the ones in battlemc/dj/judges array!!
+            // for (var key in this.battle_category) {
+            //     this.battle_category[key] = '';
+            // }
+                this.battle_category.guest1=''
+                this.battle_category.name1=''
+                this.battle_category.photo1=''
+                this.battle_category.videolink1=''
+                this.battle_category.country1=''
+                this.battle_category.info1=''
+                this.battle_category.guest2=''
+                this.battle_category.name2=''
+                this.battle_category.photo2=''
+                this.battle_category.videolink2=''
+                this.battle_category.country2=''
+                this.battle_category.info2=''
+                this.battle_category.guest3=''
+                this.battle_category.name3=''
+                this.battle_category.photo3=''
+                this.battle_category.videolink3=''
+                this.battle_category.country3=''
+                this.battle_category.info3=''
+                this.battle_category.guest4=''
+                this.battle_category.name4=''
+                this.battle_category.photo4=''
+                this.battle_category.videolink4=''
+                this.battle_category.country4=''
+                this.battle_category.info4=''
+                this.battle_category.guest5=''
+                this.battle_category.name5=''
+                this.battle_category.photo5=''
+                this.battle_category.videolink5=''
+                this.battle_category.country5=''
+                this.battle_category.info5=''
+                this.battle_category.guest6=''
+                this.battle_category.name6=''
+                this.battle_category.photo6=''
+                this.battle_category.videolink6=''
+                this.battle_category.country6=''
+                this.battle_category.info6=''
+                this.battle_category.guest7=''
+                this.battle_category.name7=''
+                this.battle_category.photo7=''
+                this.battle_category.videolink7=''
+                this.battle_category.country7=''
+                this.battle_category.info7=''
+                this.battle_category.dj1=''
+                this.battle_category.djname1=''
+                this.battle_category.djphoto1=''
+                this.battle_category.djvideolink1=''
+                this.battle_category.djcountry1=''
+                this.battle_category.djinfo1=''
+                this.battle_category.dj2=''
+                this.battle_category.djname2=''
+                this.battle_category.djphoto2=''
+                this.battle_category.djvideolink2=''
+                this.battle_category.djcountry2=''
+                this.battle_category.djinfo2=''
+                this.battle_category.dj3=''
+                this.battle_category.djname3=''
+                this.battle_category.djphoto3=''
+                this.battle_category.djvideolink3=''
+                this.battle_category.djcountry3=''
+                this.battle_category.djinfo3=''
+                this.battle_category.mc1=''
+                this.battle_category.mcname1=''
+                this.battle_category.mcphoto1=''
+                this.battle_category.mcvideolink1=''
+                this.battle_category.mccountry1=''
+                this.battle_category.mcinfo1=''
+                this.battle_category.mc2=''
+                this.battle_category.mcname2=''
+                this.battle_category.mcphoto2=''
+                this.battle_category.mcvideolink2=''
+                this.battle_category.mccountry2=''
+                this.battle_category.mcinfo2=''
+                this.battle_category.mc3=''
+                this.battle_category.mcname3=''
+                this.battle_category.mcphoto3=''
+                this.battle_category.mcvideolink3=''
+                this.battle_category.mccountry3=''
+                this.battle_category.mcinfo3='';
+                this.battle_category.bg1=''
+                this.battle_category.bgname1=''
+                this.battle_category.bgphoto1=''
+                this.battle_category.bgvideolink1=''
+                this.battle_category.bgcountry1=''
+                this.battle_category.bginfo1=''
+                this.battle_category.bg2=''
+                this.battle_category.bgname2=''
+                this.battle_category.bgphoto2=''
+                this.battle_category.bgvideolink2=''
+                this.battle_category.bgcountry2=''
+                this.battle_category.bginfo2=''
+                this.battle_category.bg3=''
+                this.battle_category.bgname3=''
+                this.battle_category.bgphoto3=''
+                this.battle_category.bgvideolink3=''
+                this.battle_category.bgcountry3=''
+                this.battle_category.bginfo3='';
+                this.battleGuestArrayToJson();
+        },
+        
+        updateBattleToArray(){
+            let clone = {...this.battle_category}
+            this.battle_categories.push(clone)
+            this.program_update_snackbar = true;
+            this.close_battle_dialog();
         },
         editBattleCategory(item){
             if(!this.editing_category_process)
@@ -3132,286 +3830,23 @@ export default {
                 this.remove_category_form_snackbar = true
             }
         },
-        editCategory(item){
-            if(!this.editing_category_process)
-            {
-                this.editing_category_process = true
-                this.category = Object.assign({}, item);
-                this.temp_category_item = Object.assign({}, item);
-                //find object from guests -> name1 == item.name1
-                // that object is selectedGuest 
-                this.selectedGuest = this.selectedGuests.find(guest => guest.name === item.name1)
-                //1:workshop
-                //2:showcase
-                //3:party
-                //4:cypher
-                //5:community talk
-                let num = item.category;
-                switch(num) {
-                case 1:
-                    {
-                    this.workshop_dialog=true
-                    break;}
-                case 2:{
-                    this.showcase_dialog=true
-                    break;}
-                case 3:{
-                    this.party_dialog= true
-                    break;}
-                case 4:{
-                    this.cypher_dialog =true
-                break;}
-                case 5:{
-                    this.otherCategory_dialog = true
-                break;}
-                default:{}
-                }
+        close_battle_dialog(){
+            this.editing_category_process = false;
+            for (var key in this.battle_category) {
+                this.battle_category[key] = '';
             }
-            else{
-                this.remove_category_form_snackbar = true
-            }
-        },
-        async addGuests(){
-            if(this.guest.name){
-                if(this.editing_event_obj){
-                    this.guest_progressbar =true
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                        }
-                    }
-                    this.guest.event = this.editing_event_obj.uuid;
-                    if(this.guest.guest && typeof this.guest.guest=='object')
-                    {this.guest.guest = this.guest.guest.username}
-                    if(this.guest.photo)
-                    {this.guest.photo = await this.putImage(this.guest.photo)}
-                    let formGuestData = new FormData();
-                    for (let data in this.guest) {
-                        formGuestData.append(data, this.guest[data]);
-                    }
-                    try {
-                        let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
-                        // console.log("guest posted",postGuest);
-                        this.guest = {...postGuest}
-                        // console.log(this.guest);
-                        this.guest_added_snackbar=true
-                        this.guest_progressbar =false
-                        this.addGuestToSelectedGuestArray();
-                    } catch (error) {
-                        console.log(error,error.response);
-                        this.error_snackbar = true;
-                        this.guest_progressbar =false
-                    }
-                }
-                else
-                {
-                    this.addGuestToSelectedGuestArray();
-                }
-            }else this.cat_valid_snackbar = true
-        },
-        async addBattle(){
-            if(this.battle_category.name){
-                this.battleGuestArrayToJson();
-                if(this.editing_event_obj){
-                    this.program_progressbar =true
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                        }
-                    }
-                    this.battle_category.event = this.editing_event_obj.uuid;
-                    if(this.battle_category.poster)
-                    {this.battle_category.poster = await this.putImage(this.battle_category.poster)}
-                    let formBattleCategoryData = new FormData();
-                    for (let data in this.battle_category) {
-                        formBattleCategoryData.append(data, this.battle_category[data]);
-                    }
-                    try {
-                        let postBattleCategory= await this.$axios.$post("/v1/events/battles/create/", formBattleCategoryData, config)
-                        console.log("battle_category posted",postBattleCategory);
-                        this.battle_category = {...postBattleCategory}
-                        console.log(this.battle_category);
-                        this.category_added_snackbar=true
-                        this.program_progressbar =false
-                        this.addBattleToArray();
-                    } catch (error) {
-                        console.log(error,error.response);
-                        this.error_snackbar = true;
-                        this.program_progressbar =false
-                    }
-                }
-                else
-                {
-                    this.addBattleToArray();
-                }
-            }else this.cat_valid_snackbar = true
-        },
-        
-        addWorkshop(num){
-            if(this.category.name){
-                //1:workshop
-                //2:showcase
-                //3:party
-                //4:cypher
-                //5:community talk
-                switch(num) {
-                case 1:
-                    {
-                    this.category.category = 1
-                    break;}
-                case 2:{
-                    this.category.category = 2
-                    break;}
-                case 3:{
-                    this.category.category = 3
-                    break;}
-                case 4:{
-                    this.category.category = 4
-                break;}
-                case 5:{
-                    this.category.category = 5
-                break;}
-                default:
-                    // code block
-                }
-                if(this.editing_event_obj){
-                    this.postCategoryApi();
-                }
-                else
-                {
-                    this.addCategoryToArray();
-                }
-            }else this.cat_valid_snackbar = true
-        },
-        async postCategoryApi(){
-            this.program_progressbar =true
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                        }
-                    }
-                    this.category.event = this.editing_event_obj.uuid;
-                    if(this.category.poster)
-                    {this.category.poster = await this.putImage(this.category.poster)}
-                    if(this.category.guest1 && typeof this.category.guest1=='object')
-                    {this.category.guest1 = this.category.guest1.username}
-                    let formCategoryData = new FormData();
-                    for (let data in this.category) {
-                        formCategoryData.append(data, this.category[data]);
-                    }
-                    try {
-                        let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formCategoryData, config)
-                        // console.log("category posted",postCategory);
-                        this.category = {...postCategory}
-                        // console.log(this.category);
-                        this.category_added_snackbar=true
-                        this.program_progressbar =false
-                        this.addCategoryToArray();
-                    } catch (error) {
-                        console.log(error,error.response);
-                        this.error_snackbar = true;
-                        this.program_progressbar =false
-                    }
-        },
-        addGuestToSelectedGuestArray(){
-            let clone = {...this.guest}
-            this.selectedGuests.push(clone)
-            this.guest_added_snackbar=true
-            for (var key in this.guest) {
-                this.guest[key] = '';
-            }
-            this.guest.username=this.$store.state.auth.user.user.username
             this.artist_obj= null
-            this.selectedGuest = {}
-        },
-        addBattleToArray(){
-            let clone = {...this.battle_category}
-            this.battle_categories.push(clone)
-            this.category_added_snackbar=true
-            this.close_battle_dialog()
-        },
-        updateBattleToArray(){
-            let clone = {...this.battle_category}
-            this.battle_categories.push(clone)
-            this.program_update_snackbar = true;
-            this.close_battle_dialog();
-        },
-        addCategoryToArray(){
-            let clone = {...this.category}
-            this.categories.push(clone)
-            this.category_added_snackbar=true
-            this.close_category_dialog();
-        },
-        updateCategoryToArray(){
-            let clone = {...this.category}
-            this.categories.push(clone)
-            this.program_update_snackbar = true;
-            this.close_category_dialog();
-        },
-        addGuestToCategory(){
-            console.log(this.selectedGuest);
-            if(this.selectedGuest){this.category.name1 = this.selectedGuest.name
-            this.category.guest1 = this.selectedGuest.guest
-            this.category.photo1 = this.selectedGuest.photo
-            this.category.country1 = this.selectedGuest.country
-            this.category.info1 = this.selectedGuest.info}
-            else{this.category.name1 = ''
-            this.category.guest1 = ''
-            this.category.photo1 = ''
-            this.category.country1 = ''
-            this.category.info1 = ''}
-        },
-        removeCategory(item){
-            this.temp_category_item = item
-            this.delete_category_dialog = true
-            // this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.category === item.category),1);
+            this.selectedGuest={}
+            this.battle_category.username = this.$store.state.auth.user.user.username
+            this.battleEmcee =[];
+            this.battleJudges=[];
+            this.battleDj=[];
+            this.battle_dialog=false;
         },
         removeBattleCategory(item){
             this.temp_category_item = item
             this.delete_battle_category_dialog = true
             // this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.category === item.category),1);
-        },
-        cancel_edit_guest(){
-            // let clone = {...this.selectedGuest}
-            // this.selectedGuests.push(clone)
-            for (var key in this.guest) {
-                this.guest[key] = '';
-            }
-            this.guest.username=this.$store.state.auth.user.user.username
-            this.artist_obj= null
-            this.selectedGuest = {}
-            this.editing_guest_process = false
-        },
-        async deleteCategory(){
-            if(this.editing_event_obj)
-            {
-                this.deleteLoading = true
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                    }
-                };
-                try {
-                    let response = await this.$axios.$delete("/v1/events/workshops/"+ this.temp_category_item.uuid, config)
-                    console.log("deleted: ",response);
-                    this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
-                    this.delete_category_dialog = false
-                    this.deleteLoading = false
-                    this.temp_category_item = {}
-                    this.program_delete_snackbar = true
-                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
-                    //guest removed
-                } catch (e) {
-                    this.deleteLoading = false
-                    this.error_snackbar = true
-                    console.log(e,e.response);
-                }
-                //remove from api too
-            }else{
-                this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
-                this.delete_category_dialog = false
-
-            }
         },
         async deleteBattleCategory(){
             if(this.editing_event_obj)
@@ -3445,6 +3880,200 @@ export default {
 
             }
         },
+        //update organisers
+        // editOrganiser(item){
+        //     if(!this.editing_organiser_process)
+        //     {this.editing_organiser_process =true
+        //     this.selectedOrganiser = Object.assign({}, item);
+        //     // this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
+        //     this.organiser= Object.assign({}, item);
+        //     // console.log(this.guest,item );
+        //     // this.guest.name = item.name;
+        //     // this.guest.photo = item.photo;
+        //     // this.guest.videolink = item.videolink;
+        //     // this.guest.country = item.country;
+        //     // this.guest.event = this.event.uuid;
+        //     // this.guest.info = item.info;
+        //     if(typeof item.guest == 'object')
+        //     {
+        //         // this.guest.guest = item.guest.username
+        //         this.artist_obj = item.guest
+        //     }else if (item.guest && typeof item.guest == 'string'){
+        //         EventService.getArtist(item.guest).then((value) => {
+        //         this.artist_obj = value.data;});
+        //     }}else{
+        //         this.remove_organiser_form_snackbar = true
+        //     }
+        // },
+        // async addOrganiser(){
+        //     if(this.organiser.name){
+        //         this.organiser.category=[]
+        //         this.organiser.category.push(5);
+        //         if(this.editing_event_obj){
+        //             this.organiser_progressbar =true
+        //             const config = {
+        //                 headers: {"content-type": "multipart/form-data",
+        //                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //                 }
+        //             }
+        //             this.organiser.event = this.editing_event_obj.uuid;
+        //             if(this.organiser.guest && typeof this.organiser.guest=='object')
+        //             {this.organiser.guest = this.organiser.guest.username}
+        //             if(this.organiser.photo)
+        //             {this.organiser.photo = await this.putImage(this.organiser.photo)}
+        //             let formOrganiserData = new FormData();
+        //             for (let data in this.organiser) {
+        //                 formOrganiserData.append(data, this.organiser[data]);
+        //             }
+        //             try {
+        //                 let postOrganiser= await this.$axios.$post("/v1/events/guests/create/", formOrganiserData, config)
+        //                 console.log("organiser posted",postOrganiser);
+        //                 this.organiser = {...postOrganiser}
+        //                 this.organiser_added_snackbar=true
+        //                 this.organiser_progressbar =false
+        //                 this.addOrganiserToSelectedOrgArray();
+        //             } catch (error) {
+        //                 console.log(error,error.response);
+        //                 this.error_snackbar = true;
+        //                 this.organiser_progressbar =false
+        //             }
+        //         }
+        //         else
+        //         {
+        //             this.addOrganiserToSelectedOrgArray();
+        //         }
+        //     }else this.cat_valid_snackbar = true
+        // },   
+        // addOrganiserToSelectedOrgArray(){
+        //     let clone = {...this.organiser}
+        //     this.selectedGuests.push(clone)
+        //     this.organiser_added_snackbar=true
+        //     for (var key in this.organiser) {
+        //         this.organiser[key] = '';
+        //     }
+        //     this.organiser.category=[];
+        //     this.organiser.username=this.$store.state.auth.user.user.username
+        //     this.artist_obj= null
+        //     this.selectedOrganiser = {}
+        // },
+        // cancel_edit_organiser(){
+        //     for (var key in this.organiser) {
+        //         this.organiser[key] = '';
+        //     }
+        //     this.organiser.category=[]
+        //     this.organiser.username=this.$store.state.auth.user.user.username
+        //     this.artist_obj= null
+        //     this.selectedOrganiser = {}
+        //     this.editing_organiser_process = false
+        // },
+        // async updateOrganiser(){
+        //     if(this.organiser.name!= "")
+        //     {
+        //         if(this.editing_event_obj){
+        //             this.organiser_progressbar = true
+        //             if(this.organiser.photo)
+        //             {
+        //                 this.organiser.photo = await this.putImage(this.organiser.photo);
+        //             }
+        //             const config = {
+        //                 headers: {"content-type": "multipart/form-data",
+        //                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //                 }
+        //             };
+        //             let myObj1 = this.selectedOrganiser 
+        //             let myObj2 = this.organiser
+        //             // find keys 
+        //             let keyObj1 = Object.keys(myObj1); 
+        //             let keyObj2 = Object.keys(myObj2);
+                        
+        //             // find values 
+        //             let valueObj1 = Object.values(myObj1); 
+        //             let valueObj2 = Object.values(myObj2); 
+                    
+        //             // now compare their keys and values  
+        //             try {
+        //                 let formName = new FormData();
+        //                 for(var i=0; i<keyObj1.length; i++) {
+        //                     if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 	 
+        //                     } 
+        //                     else { 
+        //                         formName.append(keyObj1[i], valueObj2[i]);
+        //                     }
+        //                 }
+        //                 formName.append("id", this.event['id']); 
+        //                 await this.$axios.$patch("/v1/events/guests/"+this.selectedOrganiser.uuid, formName, config).then(res => {
+        //                     console.log( res," changed"); 
+        //                 })
+        //                 //remove from array
+        //                 //addGuestToSelectedGuestArray
+
+        //                 this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.id === this.selectedOrganiser.id),1);
+        //                 this.addOrganiserToSelectedOrgArray();
+        //                 this.organiser_progressbar =false
+        //                 this.organiser_update_snackbar = true;
+        //             } catch (error) {
+        //                 console.log("error!!!!! ",error, error.response);
+        //                 this.error_snackbar =true
+        //                 this.organiser_progressbar =false
+        //             }
+        //         }
+        //         else{
+        //             //remove prev obj
+        //             this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.selectedOrganiser.name),1);
+        //             let clone = {...this.organiser}
+        //             this.selectedGuests.push(clone)
+        //             this.organiser_update_snackbar=true
+        //             for (var key in this.organiser) {
+        //                 this.organiser[key] = '';
+        //             }
+        //             this.organiser.category=[]
+        //             this.organiser.username=this.$store.state.auth.user.user.username
+        //             this.artist_obj= null
+        //         }
+        //     }
+        //     else{
+        //         this.cat_valid_snackbar=true
+        //     }
+        //     this.editing_organiser_process = false
+        // },
+        // removeOrganiser (item) {
+        //     console.log(item);
+        //     console.log(this.temp_organiser_item);
+        //     this.temp_organiser_item = item;
+        //     this.delete_organiser_dialog = true
+        // },
+        // async deleteOrganiser(){
+        //     if(this.editing_event_obj)
+        //     {
+        //         this.deleteLoadingOrg = true
+        //         const config = {
+        //             headers: {"content-type": "multipart/form-data",
+        //                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //             }
+        //         };
+        //         try {
+        //             let response = await this.$axios.$delete("/v1/events/guests/"+ this.temp_organiser_item.uuid, config)
+        //             // console.log(response);
+        //             this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_organiser_item.name),1);
+        //             this.delete_organiser_dialog = false
+        //             this.deleteLoadingOrg = false
+        //             this.temp_organiser_item = {}
+        //             this.organiser_delete_snackbar =true
+        //             // this.$store.dispatch("check_share_comments", comment.shareidobj)
+        //             //guest removed
+        //         } catch (e) {
+        //             this.deleteLoadingOrg = false
+        //             this.error_snackbar = true
+        //             console.log(e,e.response);
+        //         }
+        //         //remove from api too
+        //     }else{
+        //         this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_organiser_item.name),1);
+        //         this.delete_guest_dialog = false
+
+        //     }
+        // },
+        
     },
     middleware : 'check_auth',
     }
@@ -3452,5 +4081,8 @@ export default {
 <style scoped>
 div .hover:hover {
   background: #E0E0E0;
+}
+.v-input--selection-controls {
+    margin-top:0; padding:0;
 }
 </style>
