@@ -7,7 +7,7 @@
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row  class="mt-md-8 mt-5">
                 <!-- hidden-sm-and-down -->
-            <v-col cols="12" md="6" >
+            <v-col cols="12" md="6" sm="7" >
                 <v-row class="pb-3 justify-center text-center">
                     <croppa
                         v-model="cropImage"
@@ -21,7 +21,7 @@
                     ></croppa>
                 </v-row>
             </v-col>
-            <v-col cols="12" md="6">
+            <v-col cols="12" md="6" sm="5">
                 <v-form v-on:submit.prevent="submit_about">
                     <!-- <v-row class="py-4 justify-center text-center hidden-md-and-up">
                             <croppa

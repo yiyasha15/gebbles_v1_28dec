@@ -3,7 +3,7 @@
       <v-container class="pa-0 mt-4 mt-md-8" >
       <v-row class="mx-auto width">
         <v-col cols="12" md="8"  class="justify-center">
-          <h2 class ="font-weight-light">Events</h2>
+          <h3 class ="font-weight-light">Organised events</h3>
         </v-col>
       </v-row>
       <v-layout wrap row justify-start v-if="firstLoad" class=" mx-auto width">

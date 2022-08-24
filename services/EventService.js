@@ -49,8 +49,15 @@ export default {
     getSearchedArtist(query) {
         return apiClient1.get('/artist/search/?query='+ query)
     },
-    getSearchedEvent(query) {
+    //search by country
+    getSearchedEventCountry(query) {
         return apiClient1.get('/events/search/?query='+ query)
+    },
+    getSearchedEventName(query) {
+        return apiClient1.get('/events/search/?event_name='+ query)
+    },
+    getSearchedEventsThisMonth() {
+        return apiClient1.get('/events/search/?this_month='+ 'yes')
     },
     getMyOrganizedEvents(username) {
         return apiClient1.get('/events/my-organized-events/?username='+ username)

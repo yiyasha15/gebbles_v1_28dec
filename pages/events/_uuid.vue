@@ -45,7 +45,7 @@
         <v-container class="mx-auto" fluid style="max-width:950px" >
         <v-row>
             <v-col cols="12" sm="6" align="center" justify="center">
-                <v-img :src = "event.poster" class="black" maxHeight="500px" contain ></v-img>
+                <v-img :src = "event.poster" class="black" maxHeight="540px" contain ></v-img>
             </v-col>
             <v-col cols="12" sm="6" justify="center" > 
             <h1 class="font-weight-medium display-1">{{event.name}}</h1>
@@ -56,16 +56,17 @@
             <h4 v-if="event.city || event.venue || event.country" class="mr-2 mt-2 font-weight-medium " ><v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>{{event.venue}} <b >{{event.city}}<span v-if="event.city && event.country">, </span> {{countryIs(event.country)}}</b></h4>
             <div class="py-4 py-md-6">
             <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none " color="#815A44" outlined @click="imgoingApi">
-                <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
+                <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-hand-back-left-outline</v-icon>Going</h4>
             </v-btn>
             <v-btn v-else small class="elevation-0 text-decoration-none" color="#815A44" dark @click="imgoingApi">
-                <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-star-outline</v-icon>going</h4>
+                <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-hand-back-left-outline</v-icon>Going</h4>
             </v-btn>
             <v-btn small class="elevation-0 text-decoration-none ml-2" @click="openLink" v-if="event.link">
-                <h4 class="font-weight-medium" style="text-transform: capitalize;"><v-icon small class="pr-2">mdi-info-outline</v-icon>More Info</h4>
+                <h4 class="font-weight-medium" style="text-transform: capitalize;"><v-icon small class="pr-2">mdi-link</v-icon>More Info</h4>
             </v-btn>
-            
-            <p v-if="goingList && goingList.length>0" class="hover font-weight-medium mt-2 mb-0" @click="showGoingList =true">{{goingList.length}} people joining</p>
+            <p v-if="goingList && goingList.length>0" class="hover font-weight-medium mt-4 mb-0" @click="showGoingList =true">{{goingList.length}}<span v-if="goingList.length==1"> person</span> <span v-else> people</span> joining</p>
+
+            <p v-if="event.photo1|| event.photo2 || event.photo3" class="hover font-weight-medium mt-2 mb-0" @click="glance_dialog =true">A quick glance</p>
             </div>
             <v-dialog
                 :retain-focus="false"
@@ -78,11 +79,11 @@
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
                 </v-row>
-                <p>People attending</p>
-                <v-text-field label="check em out" v-model= "search" solo rounded
+                <p class="px-2">People attending</p>
+                <v-text-field label="check em out" v-model= "search" solo rounded class="px-2"
                 prepend-inner-icon="mdi-magnify"
                 ></v-text-field>
-                <div v-for="people in filterPeople" :key="people.uuid" class="mb-2 mb-md-4">
+                <div v-for="people in filterPeople" :key="people.uuid" class="mb-2 mb-md-4 px-2">
                     <nuxt-link v-if="people.artist && people.artist.username" :to="'/'+people.artist.username" class="text-decoration-none"><v-avatar size="26px" v-if="people.artist && people.artist.thumb">
                         <v-img :src="people.artist.thumb"></v-img>
                     </v-avatar>
@@ -99,6 +100,11 @@
                 text-align:justify;">
                 <p class="font-weight-light text-pre-wrap ">{{event.about}}</p>
             </div>
+            <!-- <v-card height="220" class="overflow-auto">
+                <v-card-text class="pa-0 elevation-0">
+                <p class="font-weight-light text-pre-wrap ">{{event.about}}</p>
+                </v-card-text>
+            </v-card> -->
             <p class="font-weight-light text-pre-wrap hidden-sm-and-up">{{event.about}}</p>
             </v-col>
         </v-row>
@@ -132,6 +138,60 @@
             </v-col>
         </v-row>
         </v-container>
+        <v-dialog
+            max-width="800"
+            v-model="glance_dialog"
+            persistent
+            class="ma-12 ma-md-24 overflow-hidden">
+            <div class="rounded-lg white" max-width="800"> 
+            <v-row align="end" justify="end" class="pt-3 px-2 ma-0 " >
+            <v-btn icon color="error" @click="glance_dialog = false"  align="end" justify="end" >
+                <v-icon >mdi-close</v-icon>
+            </v-btn>
+            </v-row>
+            <v-row align="center" justify="center" class="ma-0 pa-4">
+                <client-only>
+                <Slider 
+                    :autoplay = false
+                    width="768px" :height="sliderheight"
+                    >
+                    <div v-if="event.photo1 !=null">
+                    <SliderItem>
+                    <v-img
+                    :src="event.photo1"
+                    contain
+                    :max-height="sliderheight"
+                    max-width="768px" >
+                    </v-img>
+                    </SliderItem>
+                    </div>
+                    <div v-if="event.photo2!=null">
+                    <SliderItem>
+                    <v-img
+                            :src="event.photo2"
+                            contain
+                            :max-height="sliderheight"
+                            width="768px"
+                        >
+                        </v-img>
+                    </SliderItem>
+                    </div>
+                    <div v-if="event.photo3!=null">
+                    <SliderItem>
+                    <v-img
+                            :src="event.photo3"
+                            contain
+                            :max-height="sliderheight"
+                            width="768px"
+                        >
+                        </v-img>
+                    </SliderItem>
+                    </div>
+                </Slider>
+                </client-only>
+            </v-row>
+            </div>
+        </v-dialog>
         <v-snackbar v-model="going_snackbar">
             Great, see you there.
         </v-snackbar>
@@ -148,6 +208,7 @@
 </template>
 
 <script>
+import { Slider, SliderItem } from "vue-easy-slider";
 import CategoryCard from '@/components/CategoryCard.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters } from 'vuex'
@@ -170,8 +231,9 @@ export default {
         }
     },
     created(){
-        this.event_guests_team = this.event.event_guests.filter(item => item.category.includes('5'))
-        this.event.event_guests = this.event.event_guests.filter(item => !item.category.includes('5'))
+        // if(this.event.event_guests.length>0)
+        // {this.event_guests_team = this.event.event_guests.filter(item => item.category.includes('5'))
+        // this.event.event_guests = this.event.event_guests.filter(item => !item.category.includes('5'))}
         this.checkGoing();
     },
     mounted(){
@@ -185,7 +247,9 @@ export default {
     components:{
         Youtube,
         CategoryCard,
-        GuestCard
+        GuestCard,
+        Slider,
+        SliderItem,
     },
     data(){
           return {
@@ -210,6 +274,7 @@ export default {
             showGoingList:false,
             imgoing:false,
             imgoingId:'',
+            glance_dialog:false,
             countries: [
             {"name": "Afghanistan", "code": "AF"},
             {"name": "Åland Islands", "code": "AX"},
@@ -467,7 +532,16 @@ export default {
                 return people.username.toLowerCase().match(this.search.toLowerCase());});
         }
         else return this.goingList
+        },
+        sliderheight(){
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return '310px'
+          case 'sm': return '310px'
+          case 'md': return '510px'
+          case 'lg': return '510px'
+          case 'xl': return '510px'
         }
+      }
     },
     async asyncData({error, params}) {
       try {

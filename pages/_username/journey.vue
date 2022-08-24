@@ -5,11 +5,11 @@
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Journey</p>
         </v-tab>
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Events</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Events</p>
         </v-tab>
         <v-tab-item >
             <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:670px;">
-                <div v-if="upcoming.length || journey.length || highlights.length"> 
+                <div v-if=" journey.length || highlights.length"> 
                 <!-- check if journey is available -->
                 <!-- <div v-if="upcoming.length">
                 <div class="my-4">
@@ -64,6 +64,7 @@
             </v-container>
         </v-tab-item>
         <v-tab-item >
+            <small class="ml-1" v-if="isAuthenticated && artist.username == loggedInUser.user.username">you can add the invited events to your journey</small>
             <!-- tagged events -->
             <v-layout wrap row justify-start v-if="firstLoad" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
@@ -144,7 +145,7 @@ export default {
         taggedEvents:[],
         pageHighlights:null,
         pageJourney:null,
-        pageUpcoming:null,
+        // pageUpcoming:null,
         // highlights:[],
         // journey:[],
         // upcoming:[],
@@ -252,8 +253,8 @@ export default {
         //     });
         // }
     },
-    infiniteScrollingUpcoming(entries, observer, isIntersecting) {
-        this.$store.dispatch("update_user_upcoming")
+    // infiniteScrollingUpcoming(entries, observer, isIntersecting) {
+    //     this.$store.dispatch("update_user_upcoming")
         // if(this.pageUpcoming)
         // { 
         //     const key = 'id';
@@ -268,7 +269,7 @@ export default {
         //         console.log(err);
         //     });
         // }
-    },
+    // },
     infiniteScrollingHighlights(entries, observer, isIntersecting) {
         this.$store.dispatch("update_user_highlights")
         // if(this.pageHighlights)

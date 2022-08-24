@@ -148,10 +148,11 @@
                         required
                     ></v-autocomplete>
                     <v-textarea
+                    prepend-icon="mdi-information-outline" 
                         v-model = "journey.jocontent"
                         label= "Caption">
                     </v-textarea>
-                    <p class="caption">If the date is in the future it will be added as an upcoming event.</p>
+                    <!-- <p class="caption">If the date is in the future it will be added as an upcoming event.</p> -->
                     <v-menu
                         ref="menu"
                         :close-on-content-click="false"

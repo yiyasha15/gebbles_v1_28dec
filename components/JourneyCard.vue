@@ -76,6 +76,7 @@
           </v-row>
           </v-container>
           <v-row align="center" justify="center" class="ma-0">
+            
             <client-only>
               <Slider 
                   :autoplay = false

@@ -19,7 +19,7 @@
         </v-btn>
         <v-btn v-if="isAuthenticated && event.guest == loggedInUser.user.username" style="background:white" icon small class="float-right ma-1" 
         @click.stop="addToJourney">
-        <v-icon color="black" small>mdi-pencil-outline</v-icon>
+        <v-icon color="black" small>mdi-plus</v-icon>
         </v-btn>
         </v-img>
       <v-img

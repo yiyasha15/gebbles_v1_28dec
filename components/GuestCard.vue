@@ -11,7 +11,7 @@
       class="pa-0 mx-auto"
     >
       <v-img  
-      v-if="guest.photo && typeof guest.photo != 'undefined'"
+      v-if="guest.photo && guest.photo != 'undefined'"
         :src = "guest.photo" 
         :height="img_height"
         :width="img_height">

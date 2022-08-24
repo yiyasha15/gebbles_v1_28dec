@@ -9,39 +9,30 @@
              <h2 class="mb-md-8 mb-4" align="center" justify="center">About the event</h2>
             <v-stepper v-model="e6" vertical class="my-2">
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                Event poster* 
+                Event details*
                 <!-- <small>Summarize if needed</small> -->
                 </v-stepper-step>
-                <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0"> 
-                <div>
-                <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer;  width:152px;" class="mb-4 rounded-lg grey lighten-4" >
-                    <v-icon class="pa-16">mdi-plus</v-icon>
-                    <input 
-                    type="file" 
-                    name = "poster" 
-                    style="display:none" 
-                    ref="fileInput1" 
-                    accept="image/*"
-                    required
-                    @change="onFileChange1">
-                </div>
-                <div v-else class="mb-4">
-                <v-img v-if="typeof(event.poster) === 'string'" :src="event.poster" class="mx-auto" height="300px" width="352px" contain>
-                    <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
-                    <v-icon color="black" small>mdi-close</v-icon>
-                    </v-btn>
-                </v-img>
-                </div>
-                </div>
-                <p v-if="poster_progressbar" class="caption"> updating the poster, please wait :)</p>
-                <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="updatePoster" :loading="poster_progressbar" >Update</v-btn>
-                <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
-                <v-btn text @click="goback" small color="primary">Cancel</v-btn>
-                </v-stepper-content>
-        
-                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event details*</v-stepper-step>
-                <v-stepper-content step="2" style="border-left: none;" class="ma-0">
+                <v-stepper-content step="1" style="border-left: none;" class="ma-0"> 
+                    <div>
+                    <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer;  width:152px;" class="mb-4 rounded-lg grey lighten-4" >
+                        <v-icon class="pa-16">mdi-plus</v-icon>
+                        <input 
+                        type="file" 
+                        name = "poster" 
+                        style="display:none" 
+                        ref="fileInput1" 
+                        accept="image/*"
+                        required
+                        @change="onFileChange1">
+                    </div>
+                    <div v-else class="mb-4">
+                    <v-img v-if="typeof(event.poster) === 'string'" :src="event.poster" class="mx-auto" height="300px" width="352px" contain>
+                        <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
+                        <v-icon color="black" small>mdi-close</v-icon>
+                        </v-btn>
+                    </v-img>
+                    </div>
+                    </div>
                     <v-text-field
                         v-model = "event.name"
                         label= "Event name*"
@@ -59,7 +50,7 @@
                         <template v-slot:activator="{ on, attrs }">
                             <v-text-field
                                 v-model= "event.start_date"
-                                label="Date"
+                                label="Date*"
                                 prepend-icon="mdi-calendar"
                                 readonly clearable
                                 v-bind="attrs"
@@ -87,7 +78,7 @@
                         label= "country"
                         :maxlength="250">
                     </v-text-field> -->
-                    <v-autocomplete label="Country" v-model= "event.country"
+                    <v-autocomplete label="Country*" v-model= "event.country"
                         prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
@@ -122,16 +113,15 @@
                     </v-text-field>
                     <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="update" :loading="progressbar" >Update</v-btn>
-                    <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
-                    <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
+                    <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
                     <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Event Guests </v-stepper-step>
-                <v-stepper-content step="3"  style=" border-left: none;" class="ma-0" >
+                <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event Guests</v-stepper-step>
+                <v-stepper-content step="2" style="border-left: none;" class="ma-0">
                     <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
                         <div v-for="guest in this.selectedGuests" :key ="guest.index">
-                            <guest-card-create :guest="guest" v-if="!guest.category.includes(5)" @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
+                            <guest-card-create :guest="guest"  @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
                         </div>
                     </v-layout>
                     <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
@@ -265,7 +255,7 @@
                         :label="`Discuss/Talk`"
                     ></v-checkbox> -->
                     <v-btn outlined small class="text-decoration-none"  color="black"
-                    @click="addGuests(false)" v-if="!editing_guest_process" :loading="guest_progressbar">Add guest</v-btn>
+                    @click="addGuests()" v-if="!editing_guest_process" :loading="guest_progressbar">Add guest</v-btn>
                     <!-- <v-btn outlined small class="text-decoration-none mb-3"  color="black"
                     @click="removeGuestFromForm" v-if="this.guest.name" >Remove guest</v-btn> -->
                     <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
@@ -273,13 +263,13 @@
                     <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
                     @click="cancel_edit_guest" >Cancel</v-btn><br>
                     <v-divider class="my-3"></v-divider>
-                    <v-btn color="black" text small outlined @click="e6 = 4">Next</v-btn>
-                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                    <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
+                    <v-btn color="error" small text @click="e6 = 1">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
-
-                <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Event categories</v-stepper-step>
-                <v-stepper-content step="4"  style=" border-left: none; max-width:400px; margin:auto">
+        
+                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Event categories</v-stepper-step>
+                <v-stepper-content step="3" class="ma-0" style=" border-left: none; max-width:400px; margin:auto">
                     <v-layout v-if="this.categories.length>0 || this.battle_categories.length>0" wrap row justify-start   style="max-width:340px; margin:auto;" >
                         <div v-for="category in this.categories"  :key ="category.index">
                             <category-card-create :category="category" @removeCategory="removeCategory" @editCategory="editCategory"></category-card-create>
@@ -356,13 +346,15 @@
                     </v-row>
                     <!-- <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="update" :loading="progressbar" >Update</v-btn> -->
-                    <v-btn color="black" text small outlined @click="e6 = 5">Next</v-btn>
-                    <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
+                    <v-btn color="black" text small outlined @click="e6 = 4">Next</v-btn>
+                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
 
-                <v-stepper-step :complete="e6 > 5" step="5" @click.native="e6 = 5" style="cursor:pointer">A quick glance</v-stepper-step>
-                <v-stepper-content step="5"  style=" border-left: none;" class="ma-0" >
+                <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Event schedule
+                <small class="pt-1">Add few photos for a quick lookup.  </small>
+                </v-stepper-step>
+                <v-stepper-content step="4"  style=" border-left: none;" class="ma-0">
                     <!-- <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
                         <div v-for="guest in this.selectedGuests" :key ="guest.index">
                             <guest-card-create :guest="guest" v-if="guest.category.includes(5)" @removeGuest="removeOrganiser" @editGuest="editOrganiser"></guest-card-create>
@@ -538,13 +530,13 @@
                     </v-slide-group>
                     <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="updateQuickGlance" :loading="glance_progressbar" >Update</v-btn>
-                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                    <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
                 <div class="mx-sm-7 mx-6">
-                <p v-if="progressbar" class="caption mx-12"> hi, we're building the page, please wait :)</p>
-                    <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="submit" :loading="progressbar" >Submit</v-btn>
+                <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
+                <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
+                @click="submit" :loading="progressbar" >Submit</v-btn>
                 </div>
             </v-stepper>
         </v-col>
@@ -848,7 +840,7 @@
             class="pt-4"
             v-model="battleGuests"
             :items="selectedGuests"
-            prepend-icon="mdi-microphone-variant"
+            prepend-icon="mdi-star-outline"
             clearable
             label="Battle guests"
             counter="3"
@@ -1566,7 +1558,7 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
-        <v-dialog v-model="delete_organiser_dialog" width="500">    
+        <!-- <v-dialog v-model="delete_organiser_dialog" width="500">    
         <v-card class="pa-4">
             <p>Are you sure you want to delete this organiser?</p>
             <v-card-actions>
@@ -1578,7 +1570,7 @@
             </v-btn>
             </v-card-actions>
         </v-card>
-        </v-dialog>
+        </v-dialog> -->
         <v-dialog v-model="delete_category_dialog" width="500">    
         <v-card class="pa-4">
             <p>Are you sure you want to delete this catgegory?</p>
@@ -1644,9 +1636,9 @@
         <v-snackbar v-model="program_delete_snackbar">
             Event program deleted.
         </v-snackbar>
-        <v-snackbar v-model="error_snackbar">
+        <!-- <v-snackbar v-model="error_snackbar2">
             Some error occured. Please try again.
-        </v-snackbar>
+        </v-snackbar> -->
         <v-snackbar v-model="valid_snackbar">
             Please fill the required details.(name, poster, country, date)
         </v-snackbar>
@@ -1679,6 +1671,9 @@
         </v-snackbar>
         <v-snackbar v-model="remove_category_form_snackbar">
             Remove the category on edit.
+        </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            {{error_text}}
         </v-snackbar>
     </v-container>
 </v-app>
@@ -1905,6 +1900,8 @@ export default {
                 uuid:'',
                 username:this.$store.state.auth.user.user.username
             },
+            // show_error_text:false,
+            error_text:"",
             delete_guest_dialog:false,
             delete_organiser_dialog:false,
             deleteLoading:false,
@@ -1942,6 +1939,7 @@ export default {
             guest_progressbar:false,
             organiser_progressbar:false,
             program_progressbar:false,
+            glance_progressbar:false,
             date:null,
             slide: null,
             e6: 1,
@@ -2237,7 +2235,7 @@ export default {
             temp_guest_item:{},
             temp_organiser_item:{},
             temp_category_item:{},
-            isGuest:[],
+            // isGuest:[],
         }
     },
     watch: {
@@ -2621,6 +2619,9 @@ export default {
                         let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
                         // console.log("guest posted",postGuest);
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         this.error_snackbar = true
                         console.log(error.response);
                     }
@@ -2699,6 +2700,9 @@ export default {
                         let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
                         // console.log("battle posted",postBattle);
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         this.error_snackbar = true
                         console.log(error.response);
                     }
@@ -2726,6 +2730,9 @@ export default {
                         let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formData2, config)
                         // console.log("categories posted",postCategory);
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         this.error_snackbar = true
                         console.log(error.response);
                     }
@@ -2740,46 +2747,51 @@ export default {
                     this.valid_snackbar =true
                 }
             }
-            catch(e){
-                console.log(e, e.response);
+            catch(error){
+                this.error_text = error.response.data;
+                if(error.response.data.detail)
+                this.error_text = error.response.data.detail;
                 this.error_snackbar = true;
                 this.progressbar = false
             }
         },
 
         //update poster
-        async updatePoster(){
-            try {
-                if(this.event.poster != "" && this.event.poster != this.editing_event_obj.poster)
-                {
-                    this.poster_progressbar =true
-                    this.event.poster = await this.putImage(this.event.poster);
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                        }
-                    };
-                    let formName = new FormData();
-                    formName.append("poster", this.event.poster);
-                    formName.append("id", this.event['id']);
-                    await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
-                    // console.log(res); 
-                    this.poster_progressbar =false
-                    this.image_update_snackbar = true;
-                    // this.$router.push("/events/"+this.event.uuid);
-                    })
-                }
-                else{
-                    this.all_good_snackbar = true;
-                    // console.log("nothing to change");
-                }
+        // async updatePoster(){
+        //     try {
+        //         if(this.event.poster != "" && this.event.poster != this.editing_event_obj.poster)
+        //         {
+        //             this.poster_progressbar =true
+        //             this.event.poster = await this.putImage(this.event.poster);
+        //             const config = {
+        //                 headers: {"content-type": "multipart/form-data",
+        //                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //                 }
+        //             };
+        //             let formName = new FormData();
+        //             formName.append("poster", this.event.poster);
+        //             formName.append("id", this.event['id']);
+        //             await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
+        //             // console.log(res); 
+        //             this.poster_progressbar =false
+        //             this.image_update_snackbar = true;
+        //             // this.$router.push("/events/"+this.event.uuid);
+        //             })
+        //         }
+        //         else{
+        //             this.all_good_snackbar = true;
+        //             // console.log("nothing to change");
+        //         }
                 
-            } catch (error) {
-                this.poster_progressbar =false
-                this.error_snackbar = true
-                // console.log(error);
-            }
-        },
+        //     } catch (error) {
+        //         this.error_text = error.response.data;
+        //         if(error.response.data.detail)
+        //         this.error_text = error.response.data.detail;
+        //         this.poster_progressbar =false
+        //         this.error_snackbar = true
+        //         // console.log(error);
+        //     }
+        // },
         async updateQuickGlance(){
             try {
                 const config = {
@@ -2806,6 +2818,9 @@ export default {
                 // this.$router.push("/events/"+this.event.uuid);
                 })
             } catch (error) {
+                this.error_text = error.response.data;
+                if(error.response.data.detail)
+                this.error_text = error.response.data.detail;
                 this.glance_progressbar =false
                 this.error_snackbar = true
                 // console.log(error);
@@ -2815,18 +2830,23 @@ export default {
         async update(){
             try{
                 // this.event.username= this.$store.state.auth.user.user.username
-                if(this.event.name != "" && this.event.start_date != "" && this.event.country != "")
+                if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
                 { 
                 this.progressbar =true
+                if(this.event.poster != this.editing_event_obj.poster)
+                this.event.poster = await this.putImage(this.event.poster);
                 this.formUpdate();
                 }
                 else{
                     this.valid_snackbar=true
                 }
             }
-            catch(e){
+            catch(error){
+                this.error_text = error.response.data;
+                if(error.response.data.detail)
+                this.error_text = error.response.data.detail;
                 this.error_snackbar = true
-                console.log(e, e.response, e.data);
+                // console.log(e, e.response, e.data);
             }
             // let ids = new Set(this.editing_event_obj.event_battles.map(({ uuid }) => uuid));
             // let ids2 = new Set(this.battle_categories.map(({ uuid }) => uuid));
@@ -2858,7 +2878,6 @@ export default {
                 for(var i=0; i<keyObj1.length; i++) { 
                     if(keyObj1[i]=='event_battles'){}
                     else if(keyObj1[i]=='event_subevents'){}
-                    else if(keyObj1[i]=='poster'){}
                     else if (keyObj1[i]=='event_guests'){}
                     else
                     {
@@ -2881,6 +2900,9 @@ export default {
                 this.detail_update_snackbar = true;
                 // this.refresh();
             } catch (error) {
+                this.error_text = error.response.data;
+                if(error.response.data.detail)
+                this.error_text = error.response.data.detail;
                 console.log("error!!!!! ",error, error.response);
                 this.error_snackbar =true
                 this.progressbar =false
@@ -2890,10 +2912,10 @@ export default {
         //update guests
         async addGuests(){
             if(this.guest.name){
-                this.guest.category=[]
-                this.isGuest.forEach(str => {
-                this.guest.category.push(Number(str));
-                });
+                // this.guest.category=[]
+                // this.isGuest.forEach(str => {
+                // this.guest.category.push(Number(str));
+                // });
                 if(this.editing_event_obj){
                     this.guest_progressbar =true
                     const config = {
@@ -2927,6 +2949,9 @@ export default {
                         this.guest_progressbar =false
                         this.addGuestToSelectedGuestArray();
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         console.log(error,error.response);
                         this.error_snackbar = true;
                         this.guest_progressbar =false
@@ -2984,6 +3009,9 @@ export default {
                         this.guest_progressbar =false
                         this.guest_update_snackbar = true;
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         console.log("error!!!!! ",error, error.response);
                         this.error_snackbar =true
                         this.guest_progressbar =false
@@ -2998,8 +3026,8 @@ export default {
                     for (var key in this.guest) {
                         this.guest[key] = '';
                     }
-                    this.isGuest = []
-                    this.guest.category=[]
+                    // this.isGuest = []
+                    // this.guest.category=null
                     this.guest.username=this.$store.state.auth.user.user.username
                     this.artist_obj= null
                 }
@@ -3016,8 +3044,8 @@ export default {
             for (var key in this.guest) {
                 this.guest[key] = '';
             }
-            this.isGuest = []
-            this.guest.category=[];
+            // this.isGuest = []
+            // this.guest.category=null;
             this.guest.username=this.$store.state.auth.user.user.username
             this.artist_obj= null
             this.selectedGuest = {}
@@ -3049,6 +3077,9 @@ export default {
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
+                    this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                     this.deleteLoading = false
                     this.error_snackbar = true
                     console.log(e,e.response);
@@ -3092,8 +3123,8 @@ export default {
             for (var key in this.guest) {
                 this.guest[key] = '';
             }
-            this.isGuest = []
-            this.guest.category=[]
+            // this.isGuest = []
+            // this.guest.category=null
             this.guest.username=this.$store.state.auth.user.user.username
             this.artist_obj= null
             this.selectedGuest = {}
@@ -3185,6 +3216,9 @@ export default {
                         this.updateCategoryToArray();
                         this.program_progressbar =false
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         console.log("error!!!!! ",error, error.response);
                         this.error_snackbar =true
                         this.program_progressbar =false
@@ -3285,6 +3319,9 @@ export default {
                         this.program_progressbar =false
                         this.addCategoryToArray();
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         console.log(error,error.response);
                         this.error_snackbar = true;
                         this.program_progressbar =false
@@ -3340,6 +3377,9 @@ export default {
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
+                    this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                     this.deleteLoading = false
                     this.error_snackbar = true
                     console.log(e,e.response);
@@ -3378,6 +3418,9 @@ export default {
                         this.program_progressbar =false
                         this.addBattleToArray();
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         console.log(error,error.response);
                         this.error_snackbar = true;
                         this.program_progressbar =false
@@ -3614,6 +3657,9 @@ export default {
                         // console.log(myObj1,myObj2);
                         this.program_progressbar =false
                     } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                         console.log("error!!!!! ",error, error.response);
                         this.error_snackbar =true
                         this.program_progressbar =false
@@ -3868,6 +3914,9 @@ export default {
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
+                    this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
                     this.deleteLoading = false
                     this.error_snackbar = true
                     console.log(e,e.response);

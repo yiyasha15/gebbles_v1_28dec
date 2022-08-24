@@ -76,7 +76,7 @@ import CountryFlag from 'vue-country-flag'
           case 'xl': return 205
         }
       }
-    },
+      },
       }
 </script>
 <style scoped>

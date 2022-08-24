@@ -10,7 +10,7 @@
             <v-stepper  v-model="e6" vertical>
             <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Mention the person that inspired you.*
-            <small>If that person is not yet in this platform, mention them and tag them later when they join.<br></small>
+            <small class="pt-1">If that person is not yet in this platform, mention them and tag them later when they join.<br></small>
             </v-stepper-step>
             <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0">
                 <v-combobox
@@ -82,7 +82,7 @@
             <v-btn color="primary" small text @click="goback">Cancel</v-btn>
             </v-stepper-content>
             <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Upload an image together.*
-                <small>(or, you can add their image.)</small>
+                <small class="pt-1">You can add their image.</small>
             </v-stepper-step>
             <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
                 <div>
@@ -146,7 +146,7 @@
                 <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
                     <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
                 </v-row>
-                <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
+                <p v-if="progressbar" class="caption"> Please wait..</p>
                 <v-btn v-if="!share_obj" outlined small class="text-decoration-none" 
                 color="black" :loading="progressbar"
                 @click="submit">Submit</v-btn>

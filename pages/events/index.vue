@@ -2,17 +2,123 @@
     <v-app>
       <v-container class="pa-0 mt-4 mt-md-8" >
       <v-row class="mx-auto width">
-        <v-col cols="12" md="8"  class="justify-center">
-          <h2 class ="xs12 d-inline font-weight-light">Events</h2>
+        <v-col cols="12" md="6"  class="justify-center">
+          <h2 class ="xs12 font-weight-light">Events</h2>
+          <!-- <v-spacer></v-spacer> -->
         </v-col>
-        <v-col cols="12" md="4" class= "justify-end py-0 py-md-3" >
-          <v-autocomplete label="Filter country" v-model= "search" solo rounded
-              @input="debounceSearch" prepend-inner-icon="mdi-earth"
+        <v-col cols="12" md="6" class= "justify-end py-0 py-md-3" >
+          <v-autocomplete
+              v-if="filterByCountry"
+              label="Filter country" v-model= "search" solo rounded
+              @input="debounceSearchCountry" prepend-inner-icon="mdi-earth"
               :items="countries"
               item-text="name"
               item-value="code"
               value="name"
-          ></v-autocomplete>
+              clearable
+          >
+          <template v-slot:append-outer>
+          <v-menu open-on-hover offset-y bottom left >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon class="float-right" v-bind="attrs" v-on="on">
+                <v-icon>mdi-filter-variant</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByCountry =true; filterByName = false; filterByMonth=false;"
+                >
+                <v-list-item-title>Country</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByName=true; filterByCountry =false; filterByMonth=false;"
+                >
+                <v-list-item-title>Event name</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByThisMonth"
+                >
+                <v-list-item-title>Events this month</v-list-item-title>
+                </v-list-item>
+            </v-list>
+          </v-menu>
+          </template></v-autocomplete>
+          <v-text-field 
+              v-if="filterByName"
+              label="Filter event name" v-model= "search" solo rounded
+              @input="debounceSearchName" prepend-inner-icon="mdi-calendar-heart-outline"
+              clearable
+          >
+          <template v-slot:append-outer>
+          <v-menu open-on-hover offset-y bottom left >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon class="float-right" v-bind="attrs" v-on="on">
+                <v-icon>mdi-filter-variant</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByCountry =true; filterByName = false; filterByMonth=false;"
+                >
+                <v-list-item-title>Country</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByCountry =false; filterByName = true; filterByMonth=false;"
+                >
+                <v-list-item-title>Event name</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByThisMonth"
+                >
+                <v-list-item-title>Events this month</v-list-item-title>
+                </v-list-item>
+            </v-list>
+          </v-menu>
+          </template>
+          </v-text-field>
+          <v-text-field
+          max-length=0
+              v-if="filterByMonth"
+              label="Events this month" v-model= "search" solo rounded 
+              prepend-inner-icon="mdi-calendar-heart-outline"
+              clearable
+          >
+          <template v-slot:append-outer>
+          <v-menu open-on-hover offset-y bottom left >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon class="float-right" v-bind="attrs" v-on="on">
+                <v-icon>mdi-filter-variant</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByCountry =true; filterByName = false; filterByMonth=false;"
+                >
+                <v-list-item-title>Country</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByCountry =false; filterByName = true; filterByMonth=false;"
+                >
+                <v-list-item-title>Event name</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByMonth"
+                >
+                <v-list-item-title>Events this month</v-list-item-title>
+                </v-list-item>
+            </v-list>
+          </v-menu>
+          </template>
+          </v-text-field>
         </v-col>
       </v-row>
       <v-layout wrap row justify-start v-if="firstLoad" class="mx-auto width">
@@ -67,10 +173,10 @@ export default {
       this.events = response.data.results
       this.page = response.data.next
       this.firstLoad = false
-    } catch (e) {
-        console.log(e);
-        this.firstLoad = false
-    }
+      } catch (e) {
+          console.log(e);
+          this.firstLoad = false
+      }
     },
     infiniteScrolling(entries, observer, isIntersecting) {
         if(this.page){
@@ -87,12 +193,13 @@ export default {
           });
         }
     },
-    debounceSearch() {
-    this.firstLoad = true
-    this.events=[]
+    debounceSearchCountry() {
+    this.firstLoad = true;
+    this.events=[];
+    this.page='';
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
-      if(this.search){EventService.getSearchedEvent(this.search).then((value) => {
+      if(this.search){EventService.getSearchedEventCountry(this.search).then((value) => {
         console.log("this.search",this.search,value.data);
       this.firstLoad = false
       this.events = value.data
@@ -102,6 +209,40 @@ export default {
       }
       }, 600)
     },
+    debounceSearchName() {
+    this.firstLoad = true;
+    this.events=[];
+    this.page='';
+      clearTimeout(this.debounce)
+      this.debounce = setTimeout(() => {
+      if(this.search){EventService.getSearchedEventName(this.search).then((value) => {
+        console.log("this.search",this.search,value.data);
+      this.firstLoad = false
+      this.events = value.data
+      });}
+      else{
+        this.getEvents();
+      }
+      }, 600)
+    },
+    async filterByThisMonth(){
+      this.filterByMonth=true
+      this.filterByName=false; 
+      this.filterByCountry =false
+      this.firstLoad = true
+      this.events=[]
+      this.page=''
+      try {
+      const response = await EventService.getSearchedEventsThisMonth()
+      console.log(response);
+      this.events = response.data
+      // this.page = response.data.next
+      this.firstLoad = false
+      } catch (e) {
+          console.log(e, e.response);
+          this.firstLoad = false
+      }
+    }
   },
   components: {
       EventsCard
@@ -117,7 +258,6 @@ export default {
       search: "",
       debounce: null,
       countries: [
-            {"name": "All events", "code": ""},
             {"name": "Afghanistan", "code": "AF"},
             {"name": "Åland Islands", "code": "AX"},
             {"name": "Albania", "code": "AL"},
@@ -362,6 +502,9 @@ export default {
             {"name": "Zambia", "code": "ZM"},
             {"name": "Zimbabwe", "code": "ZW"}
       ],
+      filterByCountry:true,
+      filterByName:false,
+      filterByMonth:false
     }
   },
   computed: {
