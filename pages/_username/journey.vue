@@ -7,7 +7,10 @@
         <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Events</p>
         </v-tab>
-        <v-tab-item >
+        <v-tab>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Events</p>
+        </v-tab>
+        <v-tab-item>
             <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:670px;">
                 <div v-if=" journey.length || highlights.length"> 
                 <!-- check if journey is available -->
@@ -63,8 +66,8 @@
             </v-layout>
             </v-container>
         </v-tab-item>
-        <v-tab-item >
-            <small class="ml-1" v-if="isAuthenticated && artist.username == loggedInUser.user.username">you can add the invited events to your journey</small>
+        <v-tab-item>
+            <small class="ml-1 py-2 grey--text" v-if="isAuthenticated && artist.username == loggedInUser.user.username">you can add the invited events to your journey</small>
             <!-- tagged events -->
             <v-layout wrap row justify-start v-if="firstLoad" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
@@ -85,6 +88,28 @@
                 <h3>No events found. </h3>
             </center>
         </v-tab-item>
+        <v-tab-item>
+            <small class="ml-1 py-2 grey--text" v-if="isAuthenticated && artist.username == loggedInUser.user.username">you can add the attended events to your journey</small>
+            <!-- tagged events -->
+            <v-layout wrap row justify-start v-if="firstLoad" class="my-2">
+                <div v-for="n in this.looploader" :key ="n.index">
+                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                </div>
+            </v-layout>
+            <v-layout wrap row justify-start v-show="!firstLoad" class=" mx-auto width my-2" >
+                <div v-for="event in goingEvents" :key ="event.index">
+                    <going-events-card v-if="event.event" :event="event"></going-events-card>
+                </div>
+            </v-layout>
+            <v-card v-intersect="infiniteScrollingGoingEvents"></v-card>
+            <center v-if="!goingEvents.length && !firstLoad">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo.png')"/>
+                <h3>No events found. </h3>
+            </center>
+        </v-tab-item>
         </v-tabs>
     </v-app>
 </template>
@@ -93,6 +118,7 @@ import { mapGetters} from 'vuex'
 import TaggedEventsCard from '@/components/TaggedEventsCard.vue'
 import EventService from '@/services/EventService.js'
 import JourneyCard from "@/components/JourneyCard.vue"
+import GoingEventsCard from '~/components/GoingEventsCard.vue'
 export default {
     head() {
         return {
@@ -108,6 +134,7 @@ export default {
     },
     components:{
         JourneyCard, TaggedEventsCard,
+        GoingEventsCard,
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser',
@@ -136,6 +163,7 @@ export default {
     props: ["artist"],
     created(){
         this.getTaggedEvents();
+        this.getGoingEvents();
         this.getJourneyApi(this.$route.params);
     },
     data() {
@@ -143,6 +171,8 @@ export default {
         // journeyLoaded:true,
         search: "",
         taggedEvents:[],
+        goingEvents:[],
+        pageGoing:null,
         pageHighlights:null,
         pageJourney:null,
         // pageUpcoming:null,
@@ -153,11 +183,12 @@ export default {
         loading: true,
         page:'',
         firstLoad:true,
-        seen: new Set()
+        seen: new Set(),
+        seen2: new Set()
         }
     },
     methods: {
-        async getTaggedEvents(){
+    async getTaggedEvents(){
         try {
         const response = await EventService.getMyTaggedEvents(this.artist.username);
         // console.log(response);
@@ -176,6 +207,32 @@ export default {
             });
             // console.log(filtered);
         this.page = response.data.next
+        this.firstLoad = false
+        } catch (e) {
+            console.log(e);
+            this.firstLoad = false
+        }
+    },
+    async getGoingEvents(){
+        try {
+        const response = await EventService.getMyGoingEvents(this.artist.username);
+        // console.log(response);
+        const goingEvents = response.data.results
+        //filter events which are duplicate
+            // a Set to track seen events
+            // const seen = new Set();
+            this.goingEvents = goingEvents.filter(event => {
+            // check if the current event is a duplicate
+            let isDuplicate;
+            if(event.event){
+                isDuplicate= this.seen2.has(event.event.uuid);
+            // add the current event to the Set
+            this.seen2.add(event.event.uuid);}
+            // filter() returns the event when isDuplicate is false
+            return !isDuplicate;
+            });
+            // console.log(filtered);
+        this.pageGoing = response.data.next
         this.firstLoad = false
         } catch (e) {
             console.log(e);
@@ -228,6 +285,35 @@ export default {
             });
             taggedEventsPage.forEach(item => this.taggedEvents.push(item));
             this.taggedEvents = [...new Map(this.taggedEvents.map(item =>
+            [item[key], item])).values()];
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        }
+    },
+    infiniteScrollingGoingEvents(entries, observer, isIntersecting) {
+        if(this.pageGoing){
+        const key = 'uuid';
+        this.$axios.get(this.pageGoing).then(response => {
+            this.pageGoing= response.data.next;
+
+            let res = response.data.results
+            //filter events which are duplicate
+            // a Set to track seen events
+            let goingEventsPage = res.filter(event => {
+            // check if the current event is a duplicate
+            let isDuplicate;
+            if(event.event)
+            { isDuplicate= this.seen2.has(event.event.uuid);
+            // add the current event to the Set
+            this.seen2.add(event.event.uuid);
+            }
+            // filter() returns the event when isDuplicate is false
+            return !isDuplicate;
+            });
+            goingEventsPage.forEach(item => this.goingEvents.push(item));
+            this.goingEvents = [...new Map(this.goingEvents.map(item =>
             [item[key], item])).values()];
           })
           .catch(err => {

@@ -17,7 +17,7 @@
         @click.stop="goToEvent">
         <v-icon color="black" small>mdi-calendar-heart</v-icon>
         </v-btn>
-        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.user.username" style="background:white" icon small class="float-right ma-1" 
+        <v-btn v-if="isAuthenticated && event.username == loggedInUser.user.username" style="background:white" icon small class="float-right ma-1" 
         @click.stop="addToJourney">
         <v-icon color="black" small>mdi-plus</v-icon>
         </v-btn>
@@ -31,7 +31,7 @@
         @click.stop="goToEvent">
         <v-icon color="black" small>mdi-calendar-heart</v-icon>
         </v-btn>
-        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.user.username" style="background:white" icon small class="float-right ma-1" 
+        <v-btn v-if="isAuthenticated && event.username == loggedInUser.user.username" style="background:white" icon small class="float-right ma-1" 
         @click.stop="addToJourney">
         <v-icon color="black" small>mdi-plus</v-icon>
         </v-btn>
@@ -60,16 +60,13 @@
           @click.stop="goToEvent">
           <v-icon color="black" small>mdi-calendar-heart</v-icon>
           </v-btn>
-          <v-btn v-if="isAuthenticated && event.guest == loggedInUser.user.username" style="background:white" icon small class="float-right ma-2 ml-0" 
+          <v-btn v-if="isAuthenticated && event.username == loggedInUser.user.username" style="background:white" icon small class="float-right ma-2 ml-0" 
           @click.stop="addToJourney">
           <v-icon color="black" small>mdi-plus</v-icon>
           </v-btn>
         </v-img>
         <h3 class="font-weight-medium  d-inline">{{event.event.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'event.event.country' /> </span>
         </div>
-        <v-img class="my-4 mx-auto" v-if="event.photo" max-height="400px" contain :src="event.photo"></v-img>
-         <h3 class="font-weight-medium  d-inline">{{event.guest}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'event.country' /> </span>
-         <h4 class="font-weight-light mt-3 mt-md-5" >{{event.info}}</h4>
         </v-container>
     </v-dialog> 
     </v-card>
