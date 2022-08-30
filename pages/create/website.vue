@@ -63,10 +63,15 @@
                                 ></v-autocomplete>
                             </v-col>
                         </v-row>
-                    </v-form>
+                </v-form>
                 <v-form v-on:submit.prevent="submit">
                     <v-row>
                         <v-col cols="12" md="10">
+                            <v-textarea
+                                clearable
+                                v-model= "artist_data.introduction"
+                                label="About *a little background">
+                            </v-textarea>
                             <v-text-field
                                 v-model= "bio.crew"
                                 label="Crew you represent"
@@ -79,11 +84,6 @@
                                 label="How does hiphop empower you?"
                                 :maxlength="120">
                             </v-text-field>
-                            <v-textarea
-                                clearable
-                                v-model= "artist_data.introduction"
-                                label="A little background*">
-                            </v-textarea>
                             <!-- <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn> -->
                             <!-- @click:append="bio.ig=''; inputInsta=!inputInsta" -->
                             <v-text-field
@@ -157,7 +157,32 @@
                                 clearable
                                 >
                             </v-text-field>
-                           
+                            <v-row class="my-1">
+                                <v-col
+                                v-if="videoId1"
+                                class="d-flex child-flex"
+                                cols="6">
+                                <youtube width="auto" height="100%" :video-id= 'videoId1'></youtube>
+                                </v-col>
+                                <v-col
+                                v-if="videoId2"
+                                class="d-flex child-flex"
+                                cols="6">
+                                <youtube width="auto" height="100%" :video-id= 'videoId2'></youtube>
+                                </v-col>
+                                <v-col
+                                v-if="videoId3"
+                                class="d-flex child-flex"
+                                cols="6">
+                                <youtube width="auto" height="100%" :video-id= 'videoId3'></youtube>
+                                </v-col>
+                                <v-col
+                                v-if="videoId4"
+                                class="d-flex child-flex"
+                                cols="6">
+                                <youtube width="auto" height="100%" :video-id= 'videoId4'></youtube>
+                                </v-col>
+                            </v-row>
                             <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="black" dark
                                 @click="submit" :loading="progressbar">Submit</v-btn>
                                 <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
@@ -313,7 +338,7 @@ created(){
         if(url4){let videoId4 = getIdFromURL(url4)
         this.videoId4 = videoId4}
     }
-    console.log(this.usersPortfolio, this.usersBio);
+    // console.log(this.usersPortfolio, this.usersBio);
 },
 data(){
     return {
@@ -647,7 +672,7 @@ methods: {
         case 1:
             {
             let url= this.bio.vid1
-            if (url != undefined || url != '') {        
+            if (url && url != undefined && url != '') {        
                 var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
                 var match = url.match(regExp);
                 if (match && match[2].length == 11) {
@@ -657,15 +682,19 @@ methods: {
                     //invalid youtube url
                     this.ytLinkError1 = `Enter a valid Youtube URL.`
                 }
+                let videoId1 = getIdFromURL(url) //getting id from video url
+                this.videoId1 = videoId1
             }
-            let videoId1 = getIdFromURL(url) //getting id from video url
-            this.videoId1 = videoId1
+            else{
+                this.bio.vid1 =''
+                this.videoId1=''
+            }
             }
             break;
         case 2:
             {
                 let url= this.bio.vid2
-                if (url != undefined || url != '') {        
+                if (url && url != undefined && url != '') {        
                     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
                     var match = url.match(regExp);
                     if (match && match[2].length == 11) {
@@ -675,15 +704,19 @@ methods: {
                         //invalid youtube url
                         this.ytLinkError2 = `Enter a valid Youtube URL.`
                     }
-                }
-                let videoId2 = getIdFromURL(url) //getting id from video url
-                this.videoId2 = videoId2
+                    let videoId2 = getIdFromURL(url) //getting id from video url
+                    this.videoId2 = videoId2
+                }else{
+                this.bio.vid2 =''
+                this.videoId2=''
+            }
+                
             }
             break;
         case 3:
             {
                 let url= this.bio.vid3
-                if (url != undefined || url != '') {        
+                if (url && url != undefined && url != '') {        
                     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
                     var match = url.match(regExp);
                     if (match && match[2].length == 11) {
@@ -693,15 +726,19 @@ methods: {
                         //invalid youtube url
                         this.ytLinkError3 = `Enter a valid Youtube URL.`
                     }
-                }
-                let videoId3 = getIdFromURL(url) //getting id from video url
-                this.videoId3 = videoId3
+                    let videoId3 = getIdFromURL(url) //getting id from video url
+                    this.videoId3 = videoId3
+                }else{
+                this.bio.vid3 =''
+                this.videoId3=''
+            }
+                
             }
             break;
         case 4:
             {
                 let url= this.bio.vid4
-                if (url != undefined || url != '') {        
+                if (url && url != undefined && url != '') {        
                     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
                     var match = url.match(regExp);
                     if (match && match[2].length == 11) {
@@ -711,9 +748,13 @@ methods: {
                         //invalid youtube url
                         this.ytLinkError4 = `Enter a valid Youtube URL.`
                     }
-                }
-                let videoId4 = getIdFromURL(url) //getting id from video url
-                this.videoId4 = videoId4
+                    let videoId4 = getIdFromURL(url) //getting id from video url
+                    this.videoId4 = videoId4
+                }else{
+                this.bio.vid4 =''
+                this.videoId4=''
+            }
+                
             }
             break;
         default:
@@ -759,7 +800,20 @@ methods: {
                 };
                 let formPortfolio = new FormData();
                 let formBio= new FormData();
-                
+                //check if instagram and fb are okay..
+                let rx_ig =/^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/;
+                let rx_fb = /^(?:@|(?:https?:\/\/)?(?:www\.)?facebook(?:\.am|am\.com)\/)?(\w+)\/?$/;
+                let ig_username = rx_ig.exec(this.bio.ig) 
+                let fb_username = rx_fb.exec(this.bio.fb)
+                console.log(this.bio.ig,this.bio.ig.length ,ig_username ,ig_username[1]);
+                if (this.bio.ig !='' && ig_username[1]!='') {
+                    this.bio.ig = ig_username[1]
+                    console.log(this.bio.ig,this.bio.ig.length  ,ig_username[1]);
+                }
+                if (this.bio.fb !='' && fb_username[1]!='') {
+                    this.bio.fb = fb_username[1]
+                    console.log(this.bio.fb ,fb_username[1]);
+                }
                 for (let data in this.artist_data) //append
                 {
                     formPortfolio.append(data, this.artist_data[data]);
@@ -813,14 +867,14 @@ methods: {
                 let url = res.body
                 url = url.slice(1, -1);
                 this.$axios.$put(url, fileData).then((value) => {
-                console.log("image is put", value);
+                // console.log("image is put", value);
                 this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.callApi();
             })
             }
             else{
-                console.log("not 200 res");
+                // console.log("not 200 res");
                 this.progressbar =false
                 this.error_snackbar = true
             }
@@ -839,11 +893,27 @@ methods: {
     async callApi(){
         try {
             const config = {
-            headers: {
-                "content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                headers: {
+                    "content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+            };
+            let rx_ig =/^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/;
+            let rx_fb =/(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*?(\/)?([^/?]*)/
+            let ig_username = rx_ig.exec(this.bio.ig); 
+            let fb_username = rx_fb.exec(this.bio.fb);
+            if (this.bio.ig.length !=0) {
+                this.bio.ig = ig_username[1]
             }
-        };
+            if (this.bio.fb.length !=0) {
+                if(fb_username && fb_username[1] == undefined)
+                    //check if url and then extract username
+                    this.bio.fb = fb_username[2]
+                else if(this.bio.fb.startsWith('@')){
+                    //check if @ exists and remove
+                    this.bio.fb= this.bio.fb.substring(1);
+                }
+            }
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
@@ -871,31 +941,26 @@ methods: {
         // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
         formName.append("username", this.artist_data['username']);
         await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
+        // console.log("portfolio patched");
         let formName2 = new FormData();
         for(var i=0; i<keyObj3.length; i++) { 
             if(keyObj3[i] == keyObj4[i] && valueObj3[i] == valueObj4[i]) { 
                 // console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
             } else { 
-                // it prints keys have different values 
-                if(keyObj3[i]=='ig' && valueObj4[i].charAt(0)=='@'){
-                    valueObj4[i] = valueObj4[i].substring(1); //remove @ from username
-                }
-                if(keyObj3[i]=='fb' && valueObj4[i].charAt(0)=='@'){
-                    valueObj4[i] = valueObj4[i].substring(1); //remove @ from username
-                }
                 formName2.append(keyObj3[i], valueObj4[i]);
             } 
         }
         formName2.append("username", this.bio['username']);
         // console.log("key obj3: "+keyObj3[i]+"\nkeyobj4: "+keyObj4[i]+'\n myObj3 value: '+ valueObj3[i] + '\nmyObj4 value: '+ valueObj4[i] +'\n');
         await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName2, config)
+        // console.log("bio patched");
         this.progressbar =false
         this.$store.dispatch("check_user_bio");
         this.$store.dispatch("check_user_portfolio");
         this.snackbar = true;
         this.$router.push("/" + this.bio.username);
         } catch (error) {
-            console.log(error);
+            console.log(error, error.response);
             this.progressbar =false
             this.error_snackbar = true
         }

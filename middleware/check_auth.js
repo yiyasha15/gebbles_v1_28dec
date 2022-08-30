@@ -14,6 +14,7 @@ export default function({store, redirect }) {
     // console.log("not auth");
   }
   else{
-    // console.log("stay on the same page");
+    // console.log(redirect) ;
+    console.log("stay on the same page");
   }
 }

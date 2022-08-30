@@ -7,11 +7,11 @@
         artist's portfolio not found.
       </h3>
       <h2 v-else-if="error.statusCode === 404" class="font-weight-light">
-        Oops! {{ pageNotFound }}
+        {{ pageNotFound }}
         <!-- <img src="@/assets/vivi.png" width="150px"> -->
       </h2>
       <h2 v-else class="font-weight-light">
-        Oops! {{ otherError }}
+        {{ otherError }}
         <!-- <img src="@/assets/vivi.png"  width="150px"> -->
       </h2>
     </v-col>
@@ -36,8 +36,8 @@ export default {
   data () {
     return {
       artistNotfound: 'Artist Not Found.',
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
+      pageNotFound: 'Page Not Found',
+      otherError: 'An Error Occurred'
     }
   },
   head () {

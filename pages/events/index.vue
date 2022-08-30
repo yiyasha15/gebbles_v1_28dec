@@ -25,6 +25,12 @@
               </v-btn>
             </template>
             <v-list>
+              <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByThisMonth"
+                >
+                <v-list-item-title>Events this month</v-list-item-title>
+                </v-list-item>
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByCountry =true; filterByName = false; filterByMonth=false;"
@@ -37,11 +43,12 @@
                 >
                 <v-list-item-title>Event name</v-list-item-title>
                 </v-list-item>
+                
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
-                @click="filterByThisMonth"
+                @click="seeAll"
                 >
-                <v-list-item-title>Events this month</v-list-item-title>
+                <v-list-item-title>See All</v-list-item-title>
                 </v-list-item>
             </v-list>
           </v-menu>
@@ -60,6 +67,12 @@
               </v-btn>
             </template>
             <v-list>
+              <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByThisMonth"
+                >
+                <v-list-item-title>Events this month</v-list-item-title>
+                </v-list-item>
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByCountry =true; filterByName = false; filterByMonth=false;"
@@ -74,9 +87,9 @@
                 </v-list-item>
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
-                @click="filterByThisMonth"
+                @click="seeAll"
                 >
-                <v-list-item-title>Events this month</v-list-item-title>
+                <v-list-item-title>See All</v-list-item-title>
                 </v-list-item>
             </v-list>
           </v-menu>
@@ -97,6 +110,12 @@
               </v-btn>
             </template>
             <v-list>
+              <v-list-item
+                class="text-decoration-none pl-6 pr-12"
+                @click="filterByMonth"
+                >
+                <v-list-item-title>Events this month</v-list-item-title>
+                </v-list-item>
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByCountry =true; filterByName = false; filterByMonth=false;"
@@ -111,9 +130,9 @@
                 </v-list-item>
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
-                @click="filterByMonth"
+                @click="seeAll"
                 >
-                <v-list-item-title>Events this month</v-list-item-title>
+                <v-list-item-title>See All</v-list-item-title>
                 </v-list-item>
             </v-list>
           </v-menu>
@@ -242,6 +261,15 @@ export default {
           console.log(e, e.response);
           this.firstLoad = false
       }
+    },
+    seeAll(){
+      this.firstLoad = true;
+      this.events=[];
+      this.page='';
+      this.getEvents();
+      this.filterByCountry=true;
+      this.filterByName=false;
+      this.filterByMonth=false;
     }
   },
   components: {

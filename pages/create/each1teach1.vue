@@ -86,8 +86,8 @@
             </v-stepper-step>
             <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
                 <div>
-                <div v-if="!imageData" @click="onPick" style="cursor:pointer;  width:152px;" class="mb-4 rounded-lg grey lighten-4" >
-                    <v-icon class="pa-16">mdi-plus</v-icon>
+                <div v-if="!imageData" @click="onPick" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
+                    <v-icon class="pa-image">mdi-plus</v-icon>
                     <input 
                     type="file" 
                     name = "imageData" 
@@ -715,3 +715,8 @@ export default {
     },
     }
 </script>
+<style scoped>
+.pa-image{
+    padding: 60px 125px;
+}
+</style>

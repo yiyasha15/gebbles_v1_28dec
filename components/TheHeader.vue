@@ -14,9 +14,9 @@
         </v-layout>
         </nuxt-link>
             <v-spacer></v-spacer>
-            <!-- <v-btn outlined color="black" small v-if="isAuthenticated"
+            <!-- <v-btn outlined color="black" small
               class="text-decoration-none elevation-none px-2 mr-1" 
-              :to= "`/artists/`"><h4>community</h4>
+              :to= "`/help/`"><h4>help</h4>
             </v-btn> -->
             <v-btn icon small v-if="isAuthenticated"
             :to="'/'"
@@ -170,7 +170,7 @@
                 <v-card-title class="justify-center">
                     <h3 class="font-weight-medium">Sign in to gebbles</h3>
                 </v-card-title>
-                <v-form ref="loginform">
+                <v-form ref="loginform" >
                 <v-card-text>
                     <v-text-field 
                         :rules=" emailRules" 
@@ -191,7 +191,7 @@
                         color="#cead8f"/>
                 </v-card-text>
                 <v-card-actions class="mb-3 justify-center">
-                    <v-btn @click="submitForm()" class="px-8 " small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
+                    <v-btn @click="submitForm" class="px-8 " small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
                     <!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
                 </v-card-actions>
                 </v-form>
@@ -718,6 +718,7 @@ export default {
                 this.$store.dispatch("check_notifications");
                 this.progressbar1 = false;
                 this.loginDialog = false;
+                // this.$refs.loginform.reset()
                 this.$router.push('/');
                 })
 			}catch(error){

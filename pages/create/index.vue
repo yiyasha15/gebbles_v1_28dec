@@ -2,8 +2,8 @@
 <v-app>
   <v-container style="max-width:672px;">
     <!-- <v-btn icon class="elevation-0 mb-8 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn> -->
-    <v-row no-gutters>
-      <v-carousel hide-delimiters height="auto">
+    <v-row no-gutters class="mt-6">
+      <v-carousel hide-delimiters show-arrows height="550" >
         <v-carousel-item 
           v-for="(item,i) in items"
           :key="i">
@@ -14,28 +14,28 @@
             <h4 style="color:black; " class="font-weight-light width"> a simple and beautiful canvas to showcase your art and lifestyle. render your landing page by just filling up a form.</h4>
             <div class="mt-2"> 
             <v-icon dark large color="#815A44">mdi-circle-small</v-icon>
-            <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
-            <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
+            <v-icon dark large color="#ece0c7">mdi-circle-small</v-icon>
+            <v-icon dark large color="#ece0c7">mdi-circle-small</v-icon>
             </div>
           </div>
           <div v-if="i==1">
             <h3 style="color:black;" class="font-weight-medium pb-4">a gallery for your dance journey</h3>
             <img src = "~/assets/create_journey.png"  width="60%" alt="journey logo"> 
-            <h4 style="color:black; max-width:500px" class="font-weight-light mt-4 hidden-sm-and-down" >your home to keep those photos from all the events you attended, battles you own, judging and workshop fliers, so that your can go back in time when nostalgia hits.</h4>
-            <p style="color:black; max-width:260px" class="font-weight-light hidden-md-and-up"> your home to keep those photos from all the events you attended, battles you own, judging and workshop fliers, so that your can go back in time when nostalgia hits.</p>
+            <h4 style="color:black;" class="font-weight-light mt-4 width" >your home to keep those photos from all the beautiful events you travelled to. dust out all the battle, judging, workshop and more fliers, so that your can go back in time when nostalgia hits.</h4>
+            <!-- <p style="color:black; max-width:260px" class="font-weight-light hidden-md-and-up"> your home to keep those photos from all the events you attended, battles you own, judging and workshop fliers, so that your can go back in time when nostalgia hits.</p> -->
           <div class="mt-2" > 
-            <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
+            <v-icon dark large color="#ece0c7">mdi-circle-small</v-icon>
             <v-icon dark large color="#815A44">mdi-circle-small</v-icon>
-            <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
+            <v-icon dark large color="#ece0c7">mdi-circle-small</v-icon>
             </div>
           </div>
           <div v-if="i==2" >
             <h3 style="color:black;" class="font-weight-medium pb-4">each one teach one</h3>
             <img src = "~/assets/create_e1t1.png"  width="60%" alt="e1t1 logo">
-            <h4 style="color:black;" class="font-weight-light width">let them know how you are taking their teachings and ideas to the next level with your own flavour. Let them know that you appreciate their sharings.</h4>
+            <h4 style="color:black;" class="font-weight-light width">let them know how you are taking their teachings and ideas to the next level with your own flavour. let them know that you appreciate their sharings.</h4>
           <div class="mt-2" > 
-            <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
-            <v-icon dark color="#ece0c7">mdi-circle-small</v-icon>
+            <v-icon dark large color="#ece0c7">mdi-circle-small</v-icon>
+            <v-icon dark large color="#ece0c7">mdi-circle-small</v-icon>
             <v-icon dark large color="#815A44">mdi-circle-small</v-icon>
             </div>
          </div>
@@ -123,11 +123,10 @@ export default {
 .v-image__image--cover {
     background-size: contain !important;
 }
-
 .width{
      max-width:550px
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 600px) {
   .width{
   max-width:260px
 }

@@ -1,11 +1,10 @@
 <template>
   <v-app>
     <div v-if="!isAuthenticated" class="mt-md-16 mt-8">
-      <div align="center" justify="center" class="mt-md-16 mt-2">
+      <div align="center" justify="center" class="mt-md-10 mt-2">
         <v-img
           :lazy-src="require('@/assets/home.png')"
-          max-height="428"
-          max-width="538"
+          :max-width="maxwidth"
           :src="require('@/assets/home.png')"
         ></v-img>
       </div>
@@ -94,6 +93,7 @@ export default {
   },
   created(){
     // console.log(Date.now());
+    console.log(this.$auth.strategy.refreshToken);
     this.$store.dispatch("check_notifications");
     this.getartists();
   },
@@ -171,6 +171,15 @@ export default {
           case 'md': return 215
           case 'lg': return 215
           case 'xl': return 215
+        }
+      },
+      maxwidth() {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 340
+          case 'sm': return 340
+          case 'md': return 340
+          case 'lg': return 340
+          case 'xl': return 340
         }
       },
   },

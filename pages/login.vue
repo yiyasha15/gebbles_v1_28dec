@@ -61,7 +61,8 @@ export default {
 						'email':this.userInfo.email,
 						'password':this.userInfo.password
 						}
-					}).then(res => {
+					}).then(res => { 
+						console.log(res.data);
 					this.$auth.setUser(res.data)
 					this.$auth.setUserToken(res.data.access_token)
 					this.$auth.setRefreshToken('local', res.data.refresh_token);

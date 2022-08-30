@@ -61,7 +61,7 @@
             <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
             <v-layout wrap row justify-start class="mx-auto width" style="margin:8px 0px;">
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="true" type="card" transition="fade-transition"></v-skeleton-loader>
             </div>
             </v-layout>
             </v-container>
@@ -69,18 +69,18 @@
         <v-tab-item>
             <small class="ml-1 py-2 grey--text" v-if="isAuthenticated && artist.username == loggedInUser.user.username">you can add the invited events to your journey</small>
             <!-- tagged events -->
-            <v-layout wrap row justify-start v-if="firstLoad" class="my-2">
+            <v-layout wrap row justify-start v-if="firstLoadTagged" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="true" type="card" transition="fade-transition"></v-skeleton-loader>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoad" class=" mx-auto width my-2" >
+            <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width my-2" >
                 <div v-for="event in taggedEvents" :key ="event.index">
                 <tagged-events-card v-if="event.event" :event="event"></tagged-events-card>
                 </div>
             </v-layout>
             <v-card v-intersect="infiniteScrollingTaggedEvents"></v-card>
-            <center v-if="!taggedEvents.length && !firstLoad">
+            <center v-if="!taggedEvents.length && !firstLoadTagged">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
@@ -90,19 +90,19 @@
         </v-tab-item>
         <v-tab-item>
             <small class="ml-1 py-2 grey--text" v-if="isAuthenticated && artist.username == loggedInUser.user.username">you can add the attended events to your journey</small>
-            <!-- tagged events -->
-            <v-layout wrap row justify-start v-if="firstLoad" class="my-2">
+
+            <v-layout wrap row justify-start v-if="firstLoadGoing" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="true" type="card" transition="fade-transition"></v-skeleton-loader>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoad" class=" mx-auto width my-2" >
+            <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width my-2" >
                 <div v-for="event in goingEvents" :key ="event.index">
                     <going-events-card v-if="event.event" :event="event"></going-events-card>
                 </div>
             </v-layout>
             <v-card v-intersect="infiniteScrollingGoingEvents"></v-card>
-            <center v-if="!goingEvents.length && !firstLoad">
+            <center v-if="!goingEvents.length && !firstLoadGoing">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
@@ -180,9 +180,10 @@ export default {
         // journey:[],
         // upcoming:[],
         looploader:[1,1,1,1,1,1,1,1,1],
-        loading: true,
         page:'',
         firstLoad:true,
+        firstLoadTagged:true,
+        firstLoadGoing:true,
         seen: new Set(),
         seen2: new Set()
         }
@@ -207,10 +208,10 @@ export default {
             });
             // console.log(filtered);
         this.page = response.data.next
-        this.firstLoad = false
+        this.firstLoadTagged = false
         } catch (e) {
             console.log(e);
-            this.firstLoad = false
+            this.firstLoadTagged = false
         }
     },
     async getGoingEvents(){
@@ -233,10 +234,10 @@ export default {
             });
             // console.log(filtered);
         this.pageGoing = response.data.next
-        this.firstLoad = false
+        this.firstLoadGoing = false
         } catch (e) {
             console.log(e);
-            this.firstLoad = false
+            this.firstLoadGoing = false
         }
     },
     async getJourneyApi(params){

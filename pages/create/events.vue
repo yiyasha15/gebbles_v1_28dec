@@ -14,8 +14,8 @@
                 </v-stepper-step>
                 <v-stepper-content step="1" style="border-left: none;" class="ma-0"> 
                     <div>
-                    <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer;  width:152px;" class="mb-4 rounded-lg grey lighten-4" >
-                        <v-icon class="pa-16">mdi-plus</v-icon>
+                    <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
+                        <v-icon class="pa-image">mdi-plus</v-icon>
                         <input 
                         type="file" 
                         name = "poster" 
@@ -124,8 +124,8 @@
                             <guest-card-create :guest="guest"  @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
                         </div>
                     </v-layout>
-                    <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-                        <v-icon class="pa-16">mdi-plus</v-icon>
+                    <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+                        <v-icon class="pa-image">mdi-plus</v-icon>
                         <input 
                         type="file" 
                         name = "poster" 
@@ -360,8 +360,8 @@
                             <guest-card-create :guest="guest" v-if="guest.category.includes(5)" @removeGuest="removeOrganiser" @editGuest="editOrganiser"></guest-card-create>
                         </div>
                     </v-layout>
-                    <div v-if="!organiser.photo" @click="onPick(5)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-                        <v-icon class="pa-16">mdi-plus</v-icon>
+                    <div v-if="!organiser.photo" @click="onPick(5)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+                        <v-icon class="pa-image">mdi-plus</v-icon>
                         <input 
                         type="file" 
                         name = "poster" 
@@ -463,7 +463,7 @@
                     show-arrows>
                     <v-slide-item>
                         <div class="mr-1">
-                        <div v-if="!event.photo1" @click="onPick(6)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                        <div v-if="!event.photo1" @click="onPick(6)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
                             <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -474,7 +474,7 @@
                             required
                             @change="onFileChange6">
                         </div>
-                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <div v-else class=" rounded-lg grey lighten-2" >
                         <v-img v-if="typeof(event.photo1) === 'string'" :src="event.photo1" :height="img_height" :width="img_height" contain>
                             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(6)">
                             <v-icon color="black" small>mdi-close</v-icon>
@@ -485,7 +485,7 @@
                     </v-slide-item>
                     <v-slide-item>
                         <div class="mr-1">
-                        <div v-if="!event.photo2" @click="onPick(7)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                        <div v-if="!event.photo2" @click="onPick(7)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
                             <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -496,7 +496,7 @@
                             required
                             @change="onFileChange7">
                         </div>
-                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <div v-else class=" rounded-lg grey lighten-2" >
                         <v-img v-if="typeof(event.photo2) === 'string'" :src="event.photo2" :height="img_height" :width="img_height" contain>
                             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(7)">
                             <v-icon color="black" small>mdi-close</v-icon>
@@ -507,7 +507,7 @@
                     </v-slide-item>
                     <v-slide-item>
                         <div >
-                        <div v-if="!event.photo3" @click="onPick(8)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                        <div v-if="!event.photo3" @click="onPick(8)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
                             <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -518,7 +518,7 @@
                             required
                             @change="onFileChange8">
                         </div>
-                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <div v-else class=" rounded-lg grey lighten-2" >
                         <v-img v-if="typeof(event.photo3) === 'string'" :src="event.photo3" :height="img_height" :width="img_height" contain>
                             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(8)">
                             <v-icon color="black" small>mdi-close</v-icon>
@@ -552,8 +552,8 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Battles</h3>
-        <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
+        <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer; width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+            <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
             name = "poster" 
@@ -920,8 +920,8 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Workshops</h3>
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+            <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
             name = "poster" 
@@ -1064,8 +1064,8 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Showcases</h3>
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+            <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
             name = "poster" 
@@ -1209,8 +1209,8 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Party</h3>
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+            <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
             name = "poster" 
@@ -1307,8 +1307,8 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Cypher Sessions</h3>
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+            <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
             name = "poster" 
@@ -1411,8 +1411,8 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Community Talk</h3>
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:152px;" class=" mx-auto my-4 rounded-lg grey lighten-4" >
-            <v-icon class="pa-16">mdi-plus</v-icon>
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+            <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
             name = "poster" 
@@ -4133,5 +4133,8 @@ div .hover:hover {
 }
 .v-input--selection-controls {
     margin-top:0; padding:0;
+}
+.pa-image{
+    padding: 60px 125px;
 }
 </style>

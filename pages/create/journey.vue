@@ -19,7 +19,7 @@
                     show-arrows>
                     <v-slide-item>
                         <div class="mr-1">
-                        <div v-if="!imageData1" @click="onPick(1)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                        <div v-if="!imageData1" @click="onPick(1)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
                             <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -30,7 +30,7 @@
                             required
                             @change="onFileChange1">
                         </div>
-                        <div v-else class=" rounded-lg grey lighten-4" >
+                        <div v-else class=" rounded-lg grey lighten-2" >
                         <v-img :src="imageData1" :height="img_height" :width="img_height" id="imgOne" contain>
                             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
                             <v-icon color="black" small>mdi-close</v-icon>
@@ -41,7 +41,7 @@
                     </v-slide-item>
                     <v-slide-item>
                         <div class="mr-1">
-                        <div v-if="!imageData2" @click="onPick(2)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                        <div v-if="!imageData2" @click="onPick(2)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
                             <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -52,7 +52,7 @@
                             required
                             @change="onFileChange2">
                         </div>
-                        <div v-else class=" rounded-lg grey lighten-4" > 
+                        <div v-else class=" rounded-lg grey lighten-2" > 
                         <v-img :src="imageData2" :height="img_height" :width="img_height" contain>
                             <v-btn style="background:white " icon small class="float-right ma-1" @click="removeImage(2)">
                             <v-icon color="black" small >mdi-close</v-icon>
@@ -63,7 +63,7 @@
                     </v-slide-item>
                     <v-slide-item>
                         <div>
-                        <div v-if="!imageData3 " @click="onPick(3)" style="cursor:pointer;" class=" rounded-lg grey lighten-4" >
+                        <div v-if="!imageData3 " @click="onPick(3)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
                             <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -74,7 +74,7 @@
                             required
                             @change="onFileChange3">
                         </div>
-                        <div v-else class=" rounded-lg grey lighten-4" > 
+                        <div v-else class=" rounded-lg grey lighten-2" > 
                         <v-img :src="imageData3" :height="img_height" :width="img_height" contain>
                             <v-btn style="background:white " icon small class="float-right ma-1" @click="removeImage(3)">
                             <v-icon color="black" small >mdi-close</v-icon>
@@ -84,7 +84,7 @@
                         </div>
                     </v-slide-item>
                     <!-- <v-slide-item v-if="imageData3">
-                        <div class="mx-2 rounded-lg grey lighten-4">
+                        <div class="mx-2 rounded-lg grey lighten-2">
                             <v-img :src="imageData4" height="150px" width="150px"></v-img>
                             <v-btn icon>
                                 <v-icon color="black" small @click="onPick(4)">mdi-image-plus</v-icon>
@@ -103,7 +103,7 @@
                         </div>
                     </v-slide-item> -->
                     <!-- <v-slide-item v-if="imageData4">
-                        <div class="mx-2 rounded-lg grey lighten-4">
+                        <div class="mx-2 rounded-lg grey lighten-2">
                             <v-img :src="imageData5" height="150px" width="150px"></v-img>
                             <v-btn icon>
                                 <v-icon color="black" small @click="onPick(5)">mdi-image-plus</v-icon>
@@ -230,7 +230,7 @@
                 </v-stepper-content>
             </v-stepper>
         </v-col>
-        <!-- <v-col cols="12" md="6" class="px-sm-8 lighten-4 rounded-xl hidden-sm-and-down">
+        <!-- <v-col cols="12" md="6" class="px-sm-8 lighten-2 rounded-xl hidden-sm-and-down">
             <h3 class="ma-4">Preview your journey</h3>
             <v-row v-if="journey.jodate" class="pb-2">
                 <caption class="ma-6">{{journey.jodate}} </caption>
