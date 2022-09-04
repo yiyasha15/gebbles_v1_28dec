@@ -10,10 +10,11 @@
             <v-stepper  v-model="e6" vertical>
             <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Mention the person that inspired you.*
-            <small class="pt-1">If that person is not yet in this platform, mention them and tag them later when they join.<br></small>
+            <small class="pt-1">If that person is not yet in this platform, mention them now and tag them later when they join.<br></small>
             </v-stepper-step>
             <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0">
                 <v-combobox
+                    :maxlength="255"
                     v-model="teacher_obj"
                     :items="artists"
                     prepend-icon="mdi-account-search-outline"
@@ -62,9 +63,9 @@
                                 mdi-account-circle
                             </v-icon>
                         </v-list-item-avatar>
-                        <v-list-item-content v-if="data.item.username">
-                            <v-list-item-title v-html="data.item.username"></v-list-item-title>
-                            <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
+                        <v-list-item-content>
+                           <v-list-item-title v-if="data.item.artist_name" v-html="data.item.artist_name"></v-list-item-title>
+                            <v-list-item-subtitle v-if="data.item.username" v-html="'@'+data.item.username "></v-list-item-subtitle>
                         </v-list-item-content>
                         </template>
                     </template>
@@ -113,7 +114,8 @@
             <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
             <v-stepper-content step="3" style="border-left: none;" width="100%" class="ma-0">
                 <v-textarea
-                counter :maxlength="485"
+                :maxlength="485"
+                counter
                     v-model = "sharing.s_appreciation"
                     prepend-icon="mdi-account-heart-outline"
                     label= "Share the one thing you remember the most about her/him.*"
@@ -123,12 +125,12 @@
                 prepend-icon="mdi-map-marker-outline"
                     v-model = "sharing.s_location"
                     label= "Where did you meet?"
-                    :maxlength="50"
+                    :maxlength="255"
+                    counter
                     clearable>
                 </v-text-field>
                 <v-textarea
                 prepend-icon="mdi-book-outline"
-                    :maxlength="485"
                     v-model = "sharing.s_learnings"
                     label= "Share about what you learnt from them."
                     clearable>
@@ -136,6 +138,8 @@
                 <v-text-field
                     :error-messages="ytLinkError" 
                     color="red"
+                    :maxlength="255"
+                    counter
                     v-model= "sharing.s_teacher_video"
                     label="Youtube link"
                     prepend-icon="mdi-youtube"
@@ -146,16 +150,18 @@
                 <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
                     <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
                 </v-row>
-                <p v-if="progressbar" class="caption"> Please wait..</p>
+                <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                <v-btn color="primary" text small @click="goback">Cancel</v-btn>
+            </v-stepper-content>
+            <div class="mx-sm-7 mx-6">
+            <p v-if="progressbar" class="caption"> Please wait..</p>
                 <v-btn v-if="!share_obj" outlined small class="text-decoration-none" 
                 color="black" :loading="progressbar"
                 @click="submit">Submit</v-btn>
                 <v-btn v-else outlined small class="text-decoration-none"  color="black"
                 :loading="progressbar" 
                 @click="update">Update</v-btn>
-                <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
-                <v-btn color="primary" text small @click="goback">Cancel</v-btn>
-            </v-stepper-content>
+            </div>
             </v-stepper>
         </v-col>
         </v-row>
@@ -485,6 +491,10 @@ export default {
         {
             EventService.getSearchedArtist(this.teacher_obj).then((value) => {
             this.artists = value.data});
+        }else{
+            this.sharing.s_teacher_name = ""
+            this.sharing.teacher = "" 
+            console.log(this.sharing);
         }
       }
     },
@@ -519,9 +529,9 @@ export default {
         },
         addTeacher(){
             let t_name = typeof this.teacher_obj;
-            // console.log(this.teacher_obj);
-            // console.log(t_name);
-            // console.log(this.teacher_obj);
+            console.log(this.teacher_obj);
+            console.log(t_name);
+            console.log(this.teacher_obj);
             if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {
                 this.sharing.teacher = this.teacher_obj.username
@@ -536,12 +546,11 @@ export default {
         },
         showYoutubeVideo(){
             let url= this.sharing.s_teacher_video
-            if (url != undefined || url != '') {        
+            if (url && url != undefined && url != '') {        
                 var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
                 var regExpInsta = /(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/g; //instagram red exp
                 var match = url.match(regExp);
                 var match2 = url.match(regExpInsta)
-                console.log(match,match2);
                 if (match && match[2].length == 11) {     
                     this.ytLinkError =``
                 } else if (match2 && match2[0].length ) {  
@@ -551,9 +560,13 @@ export default {
                     //invalid youtube url
                     this.ytLinkError = `Enter a valid Youtube/Instagram URL.`
                 }
+                let videoId = getIdFromURL(url) //getting id from video url
+                this.videoId = videoId
             }
-            let videoId = getIdFromURL(url) //getting id from video url
-            this.videoId = videoId
+            else{
+                this.videoId='';
+                this.sharing.s_teacher_video ='';
+            }
         },
         goback(){
             this.$store.dispatch("remove_share_obj")
@@ -607,47 +620,53 @@ export default {
             }
         },
         async update() {
-            this.progressbar =true
-            let urlLink = this.sharing.s_teacher_video;
-            if(urlLink!= this.share_obj.s_teacher_video){ //if link exists check if it's valid
-                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-                '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-                '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-                '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                let check = !pattern.test(this.share_obj.s_teacher_video);
-                // console.log("pattern",pattern);
-                // console.log("check",check);
-                if(!check){
-                    this.youtube_snackbar =true
-                    this.progressbar =false;
-                    console.log("incorrect yt link");
-                    return;
-                }
-            }
-            if(typeof this.sharing.image == 'object')
+            if(this.sharing.s_teacher_name != "" && this.sharing.s_appreciation != "" && this.sharing.image!='')
             {
-                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                res => {
-                if(res.statusCode == 200)
-                {
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.sharing.image).then((value) => {
-                    this.sharing.image =''
-                    this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.formUpdate();
-                    });
+                this.progressbar =true
+                let urlLink = this.sharing.s_teacher_video;
+                if(urlLink!= this.share_obj.s_teacher_video){ //if link exists check if it's valid
+                    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+                    let check = !pattern.test(this.share_obj.s_teacher_video);
+                    // console.log("pattern",pattern);
+                    // console.log("check",check);
+                    if(!check){
+                        this.youtube_snackbar =true
+                        this.progressbar =false;
+                        console.log("incorrect yt link");
+                        return;
+                    }
                 }
-            })
+                if(typeof this.sharing.image == 'object')
+                {
+                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                    res => {
+                    if(res.statusCode == 200)
+                    {
+                        delete this.$axios.defaults.headers.common['Authorization']
+                        let filename = res.key
+                        let url = res.body
+                        url = url.slice(1, -1);
+                        this.$axios.$put(url, this.sharing.image).then((value) => {
+                        this.sharing.image =''
+                        this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                        this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                        this.formUpdate();
+                        });
+                    }
+                })
+                }
+                else
+                this.formUpdate();
             }
-            else
-            this.formUpdate();
-           
+            else{
+                this.progressbar =false;
+                this.mention_teacher_snackbar = true
+            }
         },
         async formPost(){
             const config = {
@@ -662,15 +681,20 @@ export default {
                     // console.log(this.sharing);
                     try {
                         let response =  await this.$axios.$post("/v1/e1t1/sharing/", formData, config);
-                        console.log(response);
+                        // console.log(response);
                         this.progressbar =false;
                         this.$store.dispatch("check_user_teachers");
                         this.$router.push("/e1t1/"+response.uuid);
                     } catch (e) {
                         this.progressbar =false;
                         this.error_snackbar=true;
-                        this.$router.push("/"+this.sharing.username+"/each1teach1/");
-                        console.log("cant post!",e.response.data);
+                        console.log(e.response);
+                        let er = e.response.data;
+                        for (const key in er) {
+                            if(`${key}` == 's_teacher_video'){
+                            this.ytLinkError = `${er[key]}`
+                            }
+                        }
                     }
         },
         async formUpdate(){
@@ -708,8 +732,12 @@ export default {
             } catch (e) {
                 this.progressbar =false;
                 this.error_snackbar=true;
-                window.history.back();
-                console.log("cant post!",e.response.data);
+                let er = e.response.data;
+                for (const key in er) {
+                    if(`${key}` == 's_teacher_video'){
+                    this.ytLinkError = `${er[key]}`
+                    }
+                }
             }
         }
     },

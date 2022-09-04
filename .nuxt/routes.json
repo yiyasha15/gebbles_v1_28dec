@@ -63,6 +63,13 @@
     "_name": "_571cafb3"
   },
   {
+    "name": "guide",
+    "path": "/guide",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/guide/index.vue",
+    "chunkName": "pages/guide/index",
+    "_name": "_7e8aac0c"
+  },
+  {
     "name": "help",
     "path": "/help",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/help.vue",
@@ -98,6 +105,13 @@
     "_name": "_3d30988d"
   },
   {
+    "name": "privacy",
+    "path": "/privacy",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/privacy.vue",
+    "chunkName": "pages/privacy",
+    "_name": "_d73462fa"
+  },
+  {
     "name": "register",
     "path": "/register",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/register.vue",
@@ -117,6 +131,20 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/settings.vue",
     "chunkName": "pages/settings",
     "_name": "_404d3538"
+  },
+  {
+    "name": "subscription",
+    "path": "/subscription",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/subscription.vue",
+    "chunkName": "pages/subscription",
+    "_name": "_0cc37eb2"
+  },
+  {
+    "name": "terms",
+    "path": "/terms",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/terms.vue",
+    "chunkName": "pages/terms",
+    "_name": "_6aef99c2"
   },
   {
     "name": "whatiscooking",
@@ -166,6 +194,20 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/website.vue",
     "chunkName": "pages/create/website",
     "_name": "_2f47e146"
+  },
+  {
+    "name": "guide-getting_started",
+    "path": "/guide/getting_started",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/guide/getting_started.vue",
+    "chunkName": "pages/guide/getting_started",
+    "_name": "_402cfdae"
+  },
+  {
+    "name": "guide-known_issues",
+    "path": "/guide/known_issues",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/guide/known_issues.vue",
+    "chunkName": "pages/guide/known_issues",
+    "_name": "_604d493e"
   },
   {
     "name": "whatiscooking-sharings",

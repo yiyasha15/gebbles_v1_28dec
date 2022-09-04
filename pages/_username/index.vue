@@ -137,25 +137,15 @@
             <v-col cols="6" class="pr-0">
                
                 <h2 style="font-size: 2.5rem;" class="mb-6 pt-4 " >about</h2>
-                 <!-- <pre> -->
-                     <div style=" 
-                        height:456px;
-                        overflow-x: hidden;
-                        overflow-y: auto;
-                        text-align:justify;">
-                <h4 class="mb-5 font-weight-light text-pre-wrap" style="line-height:1.7em;text-align:justify;">
+                <h4 class="mb-5 font-weight-light text-pre-wrap artist_about">
                     {{ artist.introduction }}
-                </h4></div>
-                <!-- </pre> -->
-                <!-- <h4 class="mb-2 mt-12 font-weight-medium" v-if="bio.crew">
-                    Representing: {{bio.crew}}
-                </h4> -->
+                </h4>
             </v-col>
         </v-row>
         <v-row v-if="artist.introduction" class="hidden-md-and-up">
             <v-col cols="12" class="my-md-6 pa-4">
                 <h2 style="font-size: 2.0rem;" >about</h2>
-                    <h5 class="mb-md-5 mt-2 font-weight-light text-pre-wrap" style="line-height:2;text-align:justify;">
+                    <h5 class="mb-md-5 mt-2 font-weight-light text-pre-wrap artist_about">
                     {{ artist.introduction }}
                 </h5>
                 </v-col>
@@ -167,7 +157,7 @@
                 </h4>
             </v-col>
         </v-row> -->
-        <v-row v-if="bio.quote" class="mt-md-8 mb-md-6">
+        <v-row v-if="bio.quote" class="mt-md-12 mb-md-6">
             <v-col align="center" style="margin:auto; max-width:750px">
             <h5 class="font-weight-light font-italic">
             "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 
@@ -177,7 +167,7 @@
             </h4>
             </v-col>
         </v-row>
-        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="mb-md-6 mt-md-16 mt-4 mb-4" >
+        <v-row v-if="videoId1 || videoId2|| videoId3||videoId" class="mb-md-6 mt-md-12 mt-4 mb-4" >
             <template>
                 <v-row>
                     <v-col
@@ -446,4 +436,10 @@ export default {
 }
 </script>
 <style scoped>
+.artist_about{
+    line-height:1.8;
+    text-align:justify;
+    max-height: 456px;
+    overflow: auto;
+}
 </style>

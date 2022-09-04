@@ -13,10 +13,10 @@
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
                 class="ml-1 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
-                <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center" style="max-width:fit-content; overflow:hidden;">
+                <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
                 <div>
-                    <h2 v-if="artist.artist_name" class="xs12" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">{{artist.artist_name}}</h2>
-                    <h2 v-else class="xs12" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">{{artist.username}} </h2>
+                    <h2 v-if="artist.artist_name" class="xs12 artist_toolbar_name1">{{artist.artist_name}}</h2>
+                    <h2 v-else class="xs12 artist_toolbar_name1">{{artist.username}} </h2>
                 </div>
                 </nuxt-link>
                 <v-spacer></v-spacer>
@@ -136,7 +136,7 @@
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     > -->
-                    <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                    <v-list-item-title class="pl-1" ><h3 class="artist_menubar_name">{{loggedInUser.user.username}}</h3></v-list-item-title>
                     </v-list-item>
                     <v-list-item  v-if="userHasPortfolio"
                     :to="'/'+ loggedInUser.user.username +'/events'"
@@ -304,7 +304,7 @@
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     > -->
-                    <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                    <v-list-item-title class="pl-1" ><h3 class="artist_menubar_name">{{loggedInUser.user.username}}</h3></v-list-item-title>
                     </v-list-item>
                     <v-list-item  v-if="userHasPortfolio"
                     :to="'/'+ loggedInUser.user.username +'/events'"
@@ -505,48 +505,7 @@
     </v-card-text>
     <v-divider></v-divider>
     <center class="py-4"> <h5 class=" font-weight-light d-inline">Already have an account? <span @click="registerDialog=false; loginDialog=true;" style="cursor:pointer; text-decoration:none; color:#3f51b5;">Sign in. </span></h5></center>
-    <v-dialog v-model="terms" max-width="450" persistent>
-    <v-card>
-    <v-card-title class="title">
-    Terms
-    </v-card-title>
-    <v-card-text>
-    {{ termsContent }}
-    </v-card-text>
-    <v-card-actions>
-    <!-- <v-spacer></v-spacer> -->
-    <v-btn small outlined text color="#cead8f" @click="terms = false">
-    Ok
-    </v-btn>
-    </v-card-actions>
-    </v-card>
-    </v-dialog>
-    <v-dialog persistent
-        v-model="conditions"
-        max-width="450"
-        >
-        <v-card>
-        <v-card-title class="title">
-        Conditions
-        </v-card-title>
-        <v-card-text
-        >
-        {{ conditionContent }} 
-        </v-card-text>
-        <v-card-actions>
-        <!-- <v-spacer></v-spacer> -->
-        <v-btn
-            text
-            small
-            outlined
-            color="#cead8f"
-            @click="conditions = false"
-        >
-            Ok
-        </v-btn>
-        </v-card-actions>
-        </v-card>
-    </v-dialog>
+    
     <v-dialog persistent
     v-model="verify"
     max-width="450"
@@ -641,10 +600,6 @@ export default {
             ],
             showPassword1: false,
             showPassword2: false,
-            conditionContent: 'Conditions content',
-            termsContent: 'Terms content',
-            terms: false,
-            conditions: false,
             verify:false,
             checkbox: false,
             tempusername:'',
@@ -1052,5 +1007,16 @@ export default {
 </script>
 
 <style scoped>
-
+.artist_toolbar_name1{
+    font-family: 'Poiret One', cursive; 
+    max-height: 35.5px; 
+    overflow: auto;
+    color:black;
+     margin-bottom:7px ;
+}
+.artist_menubar_name{
+    font-family: 'Poiret One', cursive; 
+    overflow: auto;
+    max-width: 106px;
+}
 </style>

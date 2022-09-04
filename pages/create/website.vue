@@ -53,7 +53,8 @@
                                     v-model = "artist_data.artist_name"
                                     label="Name"
                                     prepend-icon="mdi-account-edit-outline"
-                                    :maxlength="30">
+                                    :maxlength="255"
+                                    counter>
                                 </v-text-field>
                                 <v-autocomplete label="Representing(country)" v-model= "artist_data.country"
                                     :items="countries" prepend-icon="mdi-earth"
@@ -75,23 +76,34 @@
                             <v-text-field
                                 v-model= "bio.crew"
                                 label="Crew you represent"
-                                :maxlength="120"
+                                :maxlength="255"
+                                counter
                                 clearable>
                             </v-text-field>
                             <v-text-field
                                 clearable
                                 v-model= "bio.quote"
                                 label="How does hiphop empower you?"
-                                :maxlength="120">
+                                :maxlength="255"
+                                counter>
                             </v-text-field>
                             <!-- <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn> -->
                             <!-- @click:append="bio.ig=''; inputInsta=!inputInsta" -->
+                            <v-text-field
+                                prepend-icon="mdi-email"
+                                v-model= "bio.work_email"
+                                clearable
+                                label="Contact email"
+                                >
+                            </v-text-field>
                             <v-text-field
                                 :rules="websiteRules" 
                                 prepend-icon="mdi-instagram"
                                 v-model= "bio.ig"
                                 clearable
                                 label="Instagram ID"
+                                :maxlength="255"
+                                
                                 >
                             </v-text-field>
                             <v-text-field
@@ -99,7 +111,9 @@
                                 prepend-icon="mdi-facebook"
                                 v-model= "bio.fb"
                                 label="Facebook ID"
-                                clearable>
+                                clearable
+                                :maxlength="255"
+                                >
                             </v-text-field>
                             <v-text-field
                                 prepend-icon="mdi-youtube"
@@ -361,7 +375,8 @@ data(){
             vid1:"",
             vid2:"",
             vid3:"",
-            vid4:""
+            vid4:"",
+            work_email:""
         },
         artist_data: {
             artist_name: "",
@@ -805,14 +820,14 @@ methods: {
                 let rx_fb = /^(?:@|(?:https?:\/\/)?(?:www\.)?facebook(?:\.am|am\.com)\/)?(\w+)\/?$/;
                 let ig_username = rx_ig.exec(this.bio.ig) 
                 let fb_username = rx_fb.exec(this.bio.fb)
-                console.log(this.bio.ig,this.bio.ig.length ,ig_username ,ig_username[1]);
+                // console.log(this.bio.ig,this.bio.ig.length ,ig_username ,ig_username[1]);
                 if (this.bio.ig !='' && ig_username[1]!='') {
                     this.bio.ig = ig_username[1]
-                    console.log(this.bio.ig,this.bio.ig.length  ,ig_username[1]);
+                    // console.log(this.bio.ig,this.bio.ig.length  ,ig_username[1]);
                 }
                 if (this.bio.fb !='' && fb_username[1]!='') {
                     this.bio.fb = fb_username[1]
-                    console.log(this.bio.fb ,fb_username[1]);
+                    // console.log(this.bio.fb ,fb_username[1]);
                 }
                 for (let data in this.artist_data) //append
                 {

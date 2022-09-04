@@ -59,7 +59,7 @@
         </template>
         <span>Edit</span>
         </v-tooltip>
-        <v-dialog v-if="loggedInUser" v-model="dialog" width="500">
+        <v-dialog v-if="loggedInUser" v-model="dialog" width="500" persistent>
         <template v-slot:activator="{ on, attrs }">
             <v-tooltip top v-bind="attrs" v-on="on">
             <template v-slot:activator="{ on, attrs }">
@@ -227,7 +227,7 @@
                         overflow-x: hidden;
                         overflow-y: auto;
                         text-align:justify;">
-                    <h5  class="font-weight-light mt-2 mb-4">{{e1t1.s_appreciation}}</h5>
+                    <h5  class="font-weight-light mt-2 mb-4 text-pre-wrap">{{e1t1.s_appreciation}}</h5>
                     </div>
                     <v-btn class="mt-4" small outlined color="black" @click="learntDialog=true" v-if="e1t1.s_learnings">
                         <h4 class="font-weight-medium" style="text-transform: capitalize;">Learning</h4>
@@ -251,7 +251,7 @@
                 <!-- </v-col> -->
                 <v-col cols="12" >
                 <h5 >Learning</h5>
-                <h5 class="font-weight-light my-2">{{e1t1.s_learnings}}</h5>
+                <h5 class="font-weight-light my-2 text-pre-wrap">{{e1t1.s_learnings}}</h5>
                 </v-col>
                 </v-container>
                 </v-dialog> 

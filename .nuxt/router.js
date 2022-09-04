@@ -13,14 +13,18 @@ const _6a4e72d8 = () => interopDefault(import('../pages/create/index.vue' /* web
 const _36934671 = () => interopDefault(import('../pages/events/index.vue' /* webpackChunkName: "pages/events/index" */))
 const _3717afe4 = () => interopDefault(import('../pages/explore.vue' /* webpackChunkName: "pages/explore" */))
 const _571cafb3 = () => interopDefault(import('../pages/feed.vue' /* webpackChunkName: "pages/feed" */))
+const _7e8aac0c = () => interopDefault(import('../pages/guide/index.vue' /* webpackChunkName: "pages/guide/index" */))
 const _337a0fd6 = () => interopDefault(import('../pages/help.vue' /* webpackChunkName: "pages/help" */))
 const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
 const _c72a3020 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
 const _3d30988d = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
+const _d73462fa = () => interopDefault(import('../pages/privacy.vue' /* webpackChunkName: "pages/privacy" */))
 const _8aad3090 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
 const _5cc81810 = () => interopDefault(import('../pages/setpassword.vue' /* webpackChunkName: "pages/setpassword" */))
 const _404d3538 = () => interopDefault(import('../pages/settings.vue' /* webpackChunkName: "pages/settings" */))
+const _0cc37eb2 = () => interopDefault(import('../pages/subscription.vue' /* webpackChunkName: "pages/subscription" */))
+const _6aef99c2 = () => interopDefault(import('../pages/terms.vue' /* webpackChunkName: "pages/terms" */))
 const _d9ad562c = () => interopDefault(import('../pages/whatiscooking/index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
 const _246f0a57 = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
@@ -28,6 +32,8 @@ const _bbe17f72 = () => interopDefault(import('../pages/create/events.vue' /* we
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
+const _402cfdae = () => interopDefault(import('../pages/guide/getting_started.vue' /* webpackChunkName: "pages/guide/getting_started" */))
+const _604d493e = () => interopDefault(import('../pages/guide/known_issues.vue' /* webpackChunkName: "pages/guide/known_issues" */))
 const _4ad990a2 = () => interopDefault(import('../pages/whatiscooking/sharings.vue' /* webpackChunkName: "pages/whatiscooking/sharings" */))
 const _3e15aee2 = () => interopDefault(import('../pages/blogs.vue/_id.vue' /* webpackChunkName: "pages/blogs.vue/_id" */))
 const _1042bc09 = () => interopDefault(import('../pages/e1t1/_uuid.vue' /* webpackChunkName: "pages/e1t1/_uuid" */))
@@ -96,6 +102,10 @@ export const routerOptions = {
     component: _571cafb3,
     name: "feed"
   }, {
+    path: "/guide",
+    component: _7e8aac0c,
+    name: "guide"
+  }, {
     path: "/help",
     component: _337a0fd6,
     name: "help"
@@ -116,6 +126,10 @@ export const routerOptions = {
     component: _3d30988d,
     name: "passwordrenew"
   }, {
+    path: "/privacy",
+    component: _d73462fa,
+    name: "privacy"
+  }, {
     path: "/register",
     component: _8aad3090,
     name: "register"
@@ -127,6 +141,14 @@ export const routerOptions = {
     path: "/settings",
     component: _404d3538,
     name: "settings"
+  }, {
+    path: "/subscription",
+    component: _0cc37eb2,
+    name: "subscription"
+  }, {
+    path: "/terms",
+    component: _6aef99c2,
+    name: "terms"
   }, {
     path: "/whatiscooking",
     component: _d9ad562c,
@@ -155,6 +177,14 @@ export const routerOptions = {
     path: "/create/website",
     component: _2f47e146,
     name: "create-website"
+  }, {
+    path: "/guide/getting_started",
+    component: _402cfdae,
+    name: "guide-getting_started"
+  }, {
+    path: "/guide/known_issues",
+    component: _604d493e,
+    name: "guide-known_issues"
   }, {
     path: "/whatiscooking/sharings",
     component: _4ad990a2,

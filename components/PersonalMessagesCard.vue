@@ -12,8 +12,14 @@
               <div>
                 <div class="subtitle grey--text">
                   <nuxt-link :to="'/'+ message.username">{{message.username}}</nuxt-link>
-                  <!-- {{message.created}} -->
-                  {{moment(message.created)}}
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <span v-bind="attrs"
+                        v-on="on">
+                        {{moment(message.created)}}</span>
+                    </template>
+                    <span>{{exact_moment(message.created)}}</span>
+                  </v-tooltip>
                 </div>
                 <p class="messageFormat">{{message.messagetext}}</p></div>
             <v-spacer></v-spacer>
@@ -99,8 +105,10 @@ import moment from 'moment'
     methods:{
       moment(date) {
         // moment(date).format("MMM Do, YYYY")
-        // console.log(date, moment(date).fromNow());
         return moment(date).fromNow()
+      },
+      exact_moment(date){
+        return moment(date).format('lll')
       },
       async deleted(uuid, shareid){
         const config = {

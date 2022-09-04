@@ -165,7 +165,7 @@
             <country-flag v-if="fullJourney.country" :country= fullJourney.country />
           </v-row>
           <v-row class="py-2 py-md-4 ma-0">
-          <h5 class="font-weight-light text-pre-wrap" v-if="fullJourney">{{fullJourney.jocontent}}</h5>
+          <h5 class="font-weight-light text-pre-wrap journey_content" v-if="fullJourney">{{fullJourney.jocontent}}</h5>
           </v-row>
           </v-container>
         </div>
@@ -306,7 +306,10 @@ export default {
   }
 </script>
 <style scoped>
-
+.journey_content{
+  max-height: 456px;
+  overflow: auto;
+}
 .width{
     height: 1.7em;
     line-height: initial;

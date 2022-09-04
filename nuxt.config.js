@@ -23,7 +23,7 @@ export default {
   ** Customize the progress-bar color
   */
     //  loading: '~/components/Loading.vue',
-  loading: { color: '#E1C951' },
+  loading: { color: '#815A44' },
   /*
   ** Global CSS
   */
@@ -67,7 +67,7 @@ export default {
           // background-color: '#ece0c7',
           // background: '#ece0c7' ,
           primary: '#815A44',
-          secondary: '#815A44',
+          secondary: '#CDA88E',
           accent: '#8c9eff',
           error: '#A30000',
         },

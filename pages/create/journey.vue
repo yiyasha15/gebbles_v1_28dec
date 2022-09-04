@@ -133,13 +133,15 @@
                         v-model = "journey.joevent"
                         label= "Title*"
                         :rules="[() => !!journey.joevent || 'This field is required']"
-                        :maxlength="50">
+                        :maxlength="255"
+                        counter>
                     </v-text-field>
                     <v-text-field
                         prepend-icon="mdi-map-marker-outline" 
                         v-model = "journey.city"
                         label= "City"
-                        :maxlength="50">
+                        :maxlength="255"
+                        counter>
                     </v-text-field>
                     <v-autocomplete label="Country" v-model= "journey.country" prepend-icon="mdi-earth"
                         :items="countries"
@@ -182,7 +184,8 @@
                         :error-messages="linkError"
                         v-model = "journey.jolink"
                         label= "Add a link"
-                        :maxlength="50"
+                        clearable
+                        :maxlength="255"
                         @change="checkLink">
                     </v-text-field>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
@@ -190,7 +193,7 @@
                     <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                 </v-stepper-content>
         
-                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Privacy</v-stepper-step>
+                <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Highlights and Privacy</v-stepper-step>
                 <v-stepper-content step="3" class="ma-0" style="border-left: none;">
                     <h4 class="font-weight-light">Add to highlights</h4>
                         <v-radio-group
@@ -220,14 +223,16 @@
                                 :value="false"
                             ></v-radio>
                         </v-radio-group>
-                        <p class="caption" v-if="lockButton"> Please wait..</p>
+                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                    <v-btn text small @click="goback" color="primary">Cancel</v-btn>
+                </v-stepper-content>
+                <div class="mx-sm-7 mx-6">
+                    <p class="caption" v-if="lockButton"> Please wait..</p>
                     <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
                     @click="submit" :loading="progressbar" :disabled="lockButton">Submit</v-btn>
                     <v-btn v-else outlined small class="text-decoration-none"  color="black"
                     @click="update" :loading="progressbar" :disabled="lockButton">Update</v-btn>
-                    <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
-                    <v-btn text small @click="goback" color="primary">Cancel</v-btn>
-                </v-stepper-content>
+                </div>
             </v-stepper>
         </v-col>
         <!-- <v-col cols="12" md="6" class="px-sm-8 lighten-2 rounded-xl hidden-sm-and-down">

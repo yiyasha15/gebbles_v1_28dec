@@ -122,7 +122,7 @@
                 :to="'/'+ loggedInUser.user.username"
                 class="text-decoration-none pl-5"
                 >
-                <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                <v-list-item-title class="pl-1" ><h3 class="artist_toolbar_name">{{loggedInUser.user.username}}</h3></v-list-item-title>
                 </v-list-item>
                 <v-list-item  v-if="userHasPortfolio"
                 :to="'/'+ loggedInUser.user.username +'/events'"
@@ -146,7 +146,7 @@
         </v-menu>
         <div v-if="!isAuthenticated" class=" hidden-sm-and-down">
             <v-btn small outlined color="black" class="mr-2 text-decoration-none" @click="loginDialog=true">Sign In</v-btn>
-            <v-btn small  dark color="black" class="mr-2 text-decoration-none" @click="registerDialog=true">Sign Up</v-btn>
+            <v-btn small dark color="black" class="mr-2 text-decoration-none" @click="registerDialog=true">Sign Up</v-btn>
         </div>
         <div v-if="!isAuthenticated" class=" hidden-md-and-up">
             <v-btn x-small outlined color="black" class="mr-2 text-decoration-none" @click="loginDialog=true">Sign In</v-btn>
@@ -227,6 +227,7 @@
             :rules="usernameRules" 
             v-model="registrationInfo.username" 
             label="Username" 
+            hint="This will be on your url."
             prepend-icon="mdi-account-circle" 
             :error-messages="errorUsername"
             color="#cead8f"/>
@@ -234,6 +235,7 @@
             :rules=" emailRules" 
             :error-messages="errorEmail1"
             label="Email" 
+            hint="example@gebbles.com"
             prepend-icon="mdi-account-circle" 
             autocomplete="email"
             color="#cead8f"/>
@@ -287,10 +289,10 @@
             </v-radio>
             <v-text-field color="#cead8f"
             v-if="registrationInfo.gender == 'NS'"
-            label="What's your gender">
+            label="Gender">
             </v-text-field>
         </v-radio-group>
-        <v-checkbox color="#cead8f" v-model="checkbox" :rules=" checkboxRules">
+        <!-- <v-checkbox color="#cead8f" v-model="checkbox" :rules=" checkboxRules">
         <template v-slot:label>
             <div class="mt-2" >
             Do you accept the
@@ -299,7 +301,7 @@
             <a href="#" class="text-decoration-none" @click.prevent="conditions = true">conditions?</a>
             </div>
         </template>
-        </v-checkbox>
+        </v-checkbox> -->
         <v-card-actions class="mb-3 justify-center">
         <v-btn @click="registerUser(registrationInfo)" dark small class="px-8" color="black" :loading="progressbar" >Create Account</v-btn>
         </v-card-actions>
@@ -307,48 +309,7 @@
         </v-card-text>
         <v-divider></v-divider>
         <center class="py-4"> <h5 class=" font-weight-light d-inline">Already have an account? <span @click="registerDialog=false; loginDialog=true;" style="cursor:pointer; text-decoration:none; color:#3f51b5;">Sign in. </span></h5></center>
-        <v-dialog v-model="terms" max-width="450" persistent>
-        <v-card>
-        <v-card-title class="title">
-        Terms
-        </v-card-title>
-        <v-card-text>
-        {{ termsContent }}
-        </v-card-text>
-        <v-card-actions>
-        <!-- <v-spacer></v-spacer> -->
-        <v-btn small outlined text color="#cead8f" @click="terms = false">
-        Ok
-        </v-btn>
-        </v-card-actions>
-        </v-card>
-        </v-dialog>
-        <v-dialog persistent
-            v-model="conditions"
-            max-width="450"
-            >
-            <v-card>
-            <v-card-title class="title">
-            Conditions
-            </v-card-title>
-            <v-card-text
-            >
-            {{ conditionContent }} 
-            </v-card-text>
-            <v-card-actions>
-            <!-- <v-spacer></v-spacer> -->
-            <v-btn
-                text
-                small
-                outlined
-                color="#cead8f"
-                @click="conditions = false"
-            >
-                Ok
-            </v-btn>
-            </v-card-actions>
-            </v-card>
-        </v-dialog>
+        
         <v-dialog persistent
         v-model="verify"
         max-width="450"
@@ -379,6 +340,8 @@
             </center>
         </v-dialog>
     </v-toolbar>
+    <!-- password tooltip -->
+    <!-- Your password must be must be at least 8 characters, and contain at least one number and one special character. -->
     <!-- </v-container> -->
 </template>
 <script>
@@ -411,11 +374,11 @@ export default {
                 v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',
                 v => !!v || "Username is required."],
             emailRules: [
-            // v => !!v || "Email is required.",
+            v => !!v || "Email is required.",
             // v => /.+@.+\..+/.test(v) || "E-mail must be valid."
             ],
             passwordRules: [
-            // v => !!v || "Password is required.",
+            v => !!v || "Password is required.",
             // v => (v && v.length >= 8) || "Min 8 characters."
             ],
             countryRules: [
@@ -424,17 +387,17 @@ export default {
             genderRules: [
             v => !!v || "Gender is required.",
             ],
-            checkboxRules: [
-            v => !!v || "Please accept the terms and conditions.",
-            ],
+            // checkboxRules: [
+            // v => !!v || "Please accept the terms and conditions.",
+            // ],
             showPassword1: false,
             showPassword2: false,
-            conditionContent: 'Conditions content',
-            termsContent: 'Terms content',
-            terms: false,
-            conditions: false,
+            // conditionContent: 'Conditions content',
+            // termsContent: 'Terms content',
+            // terms: false,
+            // conditions: false,
             verify:false,
-            checkbox: false,
+            // checkbox: false,
             tempusername:'',
             tempemail:'',
             registrationInfo: {
@@ -695,6 +658,7 @@ export default {
     },
     methods:{
 		async submitForm(){
+            console.log(this.$refs.loginform.validate());
             if(this.$refs.loginform.validate())
             {this.progressbar1 = true;
 			if(this.userInfo.email && this.userInfo.password){
@@ -815,5 +779,10 @@ export default {
 <style>
 .v-toolbar{
     flex:0;
+}
+.artist_toolbar_name{
+    font-family: 'Poiret One', cursive; 
+    overflow: auto;
+    max-width: 106px;
 }
 </style>

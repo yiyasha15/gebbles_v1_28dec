@@ -13,9 +13,10 @@
                 <!-- <small>Summarize if needed</small> -->
                 </v-stepper-step>
                 <v-stepper-content step="1" style="border-left: none;" class="ma-0"> 
+                    <v-form ref="event_form">
                     <div>
                     <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
-                        <v-icon class="pa-image">mdi-plus</v-icon>
+                        <v-icon class="pa-image" >mdi-plus</v-icon>
                         <input 
                         type="file" 
                         name = "poster" 
@@ -34,10 +35,13 @@
                     </div>
                     </div>
                     <v-text-field
+                        :rules="nameRules"
+                        required
+                        maxlength="255"
+                        counter
                         v-model = "event.name"
                         label= "Event name*"
-                        :rules="[() => !!event.name || 'This field is required']"
-                        :maxlength="255">
+                        clearable>
                     </v-text-field>
                     <v-menu
                         ref="menu"
@@ -49,6 +53,7 @@
                         >
                         <template v-slot:activator="{ on, attrs }">
                             <v-text-field
+                                :rules="dateRules"
                                 v-model= "event.start_date"
                                 label="Date*"
                                 prepend-icon="mdi-calendar"
@@ -64,6 +69,9 @@
                             ></v-date-picker>
                     </v-menu>
                     <v-text-field
+                        clearable
+                        maxlength="255"
+                        counter
                         prepend-icon="mdi-map-marker-outline"
                         v-model = "event.venue"
                         label= "Event venue">
@@ -73,44 +81,57 @@
                         label= "City"
                         :maxlength="50">
                     </v-text-field> -->
-                    <!-- <v-text-field
-                        v-model = "event.country"
-                        label= "country"
-                        :maxlength="250">
-                    </v-text-field> -->
                     <v-autocomplete label="Country*" v-model= "event.country"
                         prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
                         item-value="code"
                         required
+                        :rules="countryRules"
                     ></v-autocomplete>
                     <v-textarea
+                        clearable
                         prepend-icon="mdi-information-outline"
                         v-model = "event.about"
                         label= "About the event">
                     </v-textarea>
                     <v-text-field
-                        :error-messages="linkError"
+                        :rules="instagramRules"
                         prepend-icon="mdi-instagram"
                         v-model = "event.iglink"
                         label= "Instagram link"
-                        @change="checkLink">
+                        :maxlength="200"
+                        counter
+                        clearable>
                     </v-text-field>
                     <v-text-field
-                        :error-messages="linkError"
+                        :maxlength="200"
+                        counter
+                        clearable
+                        :rules="youtubeRules"
                         prepend-icon="mdi-youtube"
                         v-model = "event.videolink"
-                        label= "Youtube video link"
-                        @change="checkLink">
+                        label= "Youtube video link">
                     </v-text-field>
                     <v-text-field
+                        :maxlength="200"
+                        counter
+                        clearable
                         prepend-icon="mdi-link"
-                        :error-messages="linkError"
+                        :rules="linkRules"
                         v-model = "event.link"
-                        label= "Add a link"
-                        @change="checkLink">
+                        label= "Add a link">
                     </v-text-field>
+                    <v-text-field
+                        :rules="emailRules"
+                        prepend-icon="mdi-email"
+                        v-model = "event.contact_email"
+                        label= "Organiser's Email"
+                        :maxlength="254"
+                        counter
+                        clearable>
+                    </v-text-field>
+                    </v-form>
                     <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
                     @click="update" :loading="progressbar" >Update</v-btn>
                     <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
@@ -124,6 +145,7 @@
                             <guest-card-create :guest="guest"  @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
                         </div>
                     </v-layout>
+                    <v-form ref="guest_form">
                     <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
                         <v-icon class="pa-image">mdi-plus</v-icon>
                         <input 
@@ -143,13 +165,18 @@
                     </v-img>
                     </div>
                     <v-text-field
+                        clearable
                         v-model= "guest.name"
                         label= "Name"
-                        :maxlength="255">
+                        :maxlength="255"
+                        counter
+                        :rules="nameRules">
                     </v-text-field>
                     <v-combobox
                         v-model="artist_obj"
                         :items="artists"
+                        maxlength="255"
+                        :error-messages="guest_error"
                         prepend-icon="mdi-account-search-outline"
                         label="Tag artist..."
                         item-text="artist_name"
@@ -166,7 +193,7 @@
                             v-bind="data.attrs"
                             :input-value="data.selected"
                             close
-                            @click:close="artist_obj = null; guest.guest = ''"
+                            @click:close="artist_obj = null; guest.guest = ''; guest_error=''"
                             >
                             <v-avatar v-if="data.item.thumb" left>
                                 <v-img :src="data.item.thumb"></v-img>
@@ -186,23 +213,18 @@
                         </template>
                         <!-- when it loads -->
                         <template v-slot:item="data">
-                            <template v-if="typeof data.item !== 'object'">
-                            <v-list-item-content v-text="data.item.username"></v-list-item-content>
-                            </template>
-                            <template v-else>
                             <v-list-item-avatar v-if="data.item.thumb">
                                 <img :src="data.item.thumb">
                             </v-list-item-avatar>
-                            <v-list-item-avatar v-else >
+                            <v-list-item-avatar v-else size="40">
                                 <v-icon>
                                     mdi-account-circle
                                 </v-icon>
                             </v-list-item-avatar>
-                            <v-list-item-content v-if="data.item.username">
-                                <v-list-item-title v-html="data.item.username"></v-list-item-title>
-                                <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
-                            </v-list-item-content>
-                            </template>
+                            <v-list-item-content>
+                                <v-list-item-title v-if="data.item.artist_name" v-html="data.item.artist_name"></v-list-item-title>
+                                <v-list-item-subtitle v-if="data.item.username" v-html="'@'+data.item.username "></v-list-item-subtitle>
+                        </v-list-item-content>
                         </template>
                     </v-combobox>
                     <v-autocomplete
@@ -215,6 +237,7 @@
                     clearable>
                     </v-autocomplete>
                     <v-textarea
+                        clearable
                         prepend-icon="mdi-information-outline"
                         v-model = "guest.info"
                         label= "Info">
@@ -262,6 +285,7 @@
                     @click="updateGuests" :loading="guest_progressbar">Update guest</v-btn>
                     <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
                     @click="cancel_edit_guest" >Cancel</v-btn><br>
+                    </v-form>
                     <v-divider class="my-3"></v-divider>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" small text @click="e6 = 1">Previous</v-btn>
@@ -269,7 +293,7 @@
                 </v-stepper-content>
         
                 <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Event categories</v-stepper-step>
-                <v-stepper-content step="3" class="ma-0" style=" border-left: none; max-width:400px; margin:auto">
+                <v-stepper-content step="3" class="ma-0" style=" border-left: none; max-width:400px; margin:auto !important">
                     <v-layout v-if="this.categories.length>0 || this.battle_categories.length>0" wrap row justify-start   style="max-width:340px; margin:auto;" >
                         <div v-for="category in this.categories"  :key ="category.index">
                             <category-card-create :category="category" @removeCategory="removeCategory" @editCategory="editCategory"></category-card-create>
@@ -354,7 +378,7 @@
                 <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Event schedule
                 <small class="pt-1">Add few photos for a quick lookup.  </small>
                 </v-stepper-step>
-                <v-stepper-content step="4"  style=" border-left: none;" class="ma-0">
+                <v-stepper-content step="4"  style=" border-left: none;" width="100%" class="ma-0">
                     <!-- <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
                         <div v-for="guest in this.selectedGuests" :key ="guest.index">
                             <guest-card-create :guest="guest" v-if="guest.category.includes(5)" @removeGuest="removeOrganiser" @editGuest="editOrganiser"></guest-card-create>
@@ -456,6 +480,7 @@
                     <v-btn v-if="editing_organiser_process" outlined small class="text-decoration-none"  color="black"
                     @click="cancel_edit_organiser" >Cancel</v-btn><br>
                     <v-divider class="my-3"></v-divider> -->
+                    
                     <v-slide-group
                     min-width="2px"
                     v-model="model"
@@ -528,8 +553,8 @@
                         </div>
                     </v-slide-item>
                     </v-slide-group>
-                    <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="updateQuickGlance" :loading="glance_progressbar" >Update</v-btn>
+                    <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none mb-1"  color="black"
+                    @click="updateQuickGlance" :loading="glance_progressbar">Update</v-btn><br>
                     <v-btn color="error" small text @click="e6 = 3">Previous</v-btn>
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
@@ -552,6 +577,7 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Battles</h3>
+        <v-form ref="battle_form">
         <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer; width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
@@ -572,9 +598,12 @@
         </div>
         <!-- {{battle_category}} {{battleEmcee}} {{battleDj}} -->
          <v-text-field
+            clearable
+            :rules="nameRules"
             v-model= "battle_category.name"
             label= "Title"
-            :maxlength="250">
+            :maxlength="255"
+            counter>
         </v-text-field>
         <v-menu
             ref="menu1"
@@ -613,6 +642,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
+          clearable
             v-model="battle_category.date_time"
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
@@ -627,62 +657,16 @@
           v-model="battle_category.date_time"
           @click:minute="$refs.menutime.save(battle_category.date_time)"
         ></v-time-picker>
-      </v-menu>
+        </v-menu>
         <v-text-field
+        clearable
             v-model = "battle_category.venue"
             label= "Venue"
             prepend-icon="mdi-map-marker-outline"
-            :maxlength="250">
+            :maxlength="255"
+            counter>
         </v-text-field>
-        <!-- <v-combobox
-            class="pt-4"
-            v-model="battleEmcee"
-            :items="selectedGuests"
-            prepend-icon="mdi-microphone-variant"
-            clearable
-            counter= 3
-            label="Emcee"
-            item-text="name"
-            return-object 
-            hide-selected
-            multiple>
-            <template v-slot:selection="data">
-                <v-chip
-                v-bind="data.attrs"
-                :input-value="data.selected"
-                close
-                @click="data.select"
-                @click:close="battleEmcee.splice(battleEmcee.findIndex(e => e.name === data.item.name),1)"
-                >
-                <v-avatar v-if="data.item.photo" left>
-                    <v-img :src="data.item.photo"></v-img>
-                </v-avatar>
-                <v-avatar v-else >
-                <v-icon>
-                    mdi-account-circle
-                </v-icon>
-                </v-avatar>
-                <span v-if="data.item.name" class="pl-1">{{ data.item.name }}</span>
-                <span v-else class="pl-1">{{ data.item }}</span>
-                </v-chip>
-            </template>
-            <template v-slot:item="data">
-                <template>
-                <v-list-item-avatar v-if="data.item.photo">
-                    <img :src="data.item.photo">
-                </v-list-item-avatar>
-                <v-list-item-avatar v-else>
-                    <v-icon>
-                    mdi-account-circle
-                </v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                    <v-list-item-title v-if="data.item.name" v-html="data.item.name"></v-list-item-title>
-                    <v-list-item-title v-else v-html="data.item"></v-list-item-title>
-                </v-list-item-content>
-                </template>
-            </template>
-        </v-combobox> -->
+        <small class="grey--text text--darken-2">Mention the artists in the guests section to tag them here.</small>
         <v-autocomplete
             class="pt-4"
             v-model="battleEmcee"
@@ -888,24 +872,30 @@
             </template>
         </v-autocomplete>
           <v-text-field
+          clearable
         prepend-icon="mdi-book-outline"
             v-model = "battle_category.rules"
             label= "Rules">
         </v-text-field>
         <v-text-field
+        clearable
         prepend-icon="mdi-license"
             v-model = "battle_category.prizes"
             label= "Prizes">
         </v-text-field>
         <v-textarea
-        prepend-icon="mdi-information-outline"
+        clearable
+            prepend-icon="mdi-information-outline"
             v-model = "battle_category.about"
             label= "About">
         </v-textarea>
-          <v-btn outlined small class="text-decoration-none" 
-            v-if="!editing_category_process" 
-            color="black" :loading="program_progressbar"
-            @click="addBattle()" >Add</v-btn>
+        
+        </v-form>
+        <!-- <small class="red--text" v-if="error_text">{{error_text}}</small><br> -->
+        <v-btn outlined small class="text-decoration-none" 
+        v-if="!editing_category_process" 
+        color="black" :loading="program_progressbar"
+        @click="addBattle()" >Add</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
         @click="updateBattle()" >Update </v-btn>
         </v-container>
@@ -920,6 +910,7 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Workshops</h3>
+        <v-form ref="workshop_form">
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
@@ -987,7 +978,10 @@
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="250">
+            :maxlength="255"
+            counter
+            clearable
+            :rules="nameRules">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -999,10 +993,11 @@
             >
             <template v-slot:activator="{ on, attrs }">
                 <v-text-field
+                clearable
                     v-model="category.date"
                     label="Date"
                     prepend-icon="mdi-calendar"
-                    readonly clearable
+                    readonly 
                     v-bind="attrs"
                     v-on="on"
                 ></v-text-field>
@@ -1026,6 +1021,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
+          clearable
             v-model="category.date_time"
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
@@ -1042,16 +1038,19 @@
         ></v-time-picker>
         </v-menu>
         <v-text-field prepend-icon="mdi-map-marker-outline"
+            clearable
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="250">
+            :maxlength="255"
+            counter>
         </v-text-field>
+        </v-form>
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
             @click="addWorkshop(1)" >Add</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshop()" >Update </v-btn>
+        @click="updateWorkshopCheck(1)" >Update </v-btn>
         </v-container>
         </v-dialog> 
         <v-dialog
@@ -1064,6 +1063,7 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Showcases</h3>
+        <v-form ref="showcase_form">
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
@@ -1082,10 +1082,59 @@
             </v-btn>
         </v-img>
         </div>
+        <v-autocomplete
+            class="pt-4"
+            v-model="selectedGuest"
+            :items="selectedGuests"
+            prepend-icon="mdi-hand-heart-outline"
+            clearable
+            label="Artist"
+            item-text="name"
+            return-object
+            @input="addGuestToCategory()"
+            >
+            <template v-slot:selection="data">
+                <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                @click="data.select"
+                @click:close="selectedGuest={}"
+                >
+                <v-avatar v-if="data.item.photo" left>
+                    <v-img :src="data.item.photo"></v-img>
+                </v-avatar>
+                <v-avatar v-else >
+                <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-avatar>
+                <span class="pl-1">{{ data.item.name }}</span>
+                </v-chip>
+            </template>
+            <template v-slot:item="data">
+                <template>
+                <v-list-item-avatar v-if="data.item.photo">
+                    <img :src="data.item.photo">
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
+                </v-list-item-content>
+                </template>
+            </template>
+        </v-autocomplete>
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="250">
+            :maxlength="255"
+            counter
+            clearable
+            :rules="nameRules">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -1130,6 +1179,7 @@
             readonly
             v-bind="attrs"
             v-on="on"
+            clearable
           ></v-text-field>
         </template>
         <v-time-picker
@@ -1142,61 +1192,17 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="250">
+            :maxlength="255"
+            counter
+            clearable>
         </v-text-field>
-        
-        <v-autocomplete
-            class="pt-4"
-            v-model="selectedGuest"
-            :items="selectedGuests"
-            prepend-icon="mdi-hand-heart-outline"
-            clearable
-            label="Artist"
-            item-text="name"
-            return-object
-            @input="addGuestToCategory()"
-            >
-            <template v-slot:selection="data">
-                <v-chip
-                v-bind="data.attrs"
-                :input-value="data.selected"
-                close
-                @click="data.select"
-                @click:close="selectedGuest={}"
-                >
-                <v-avatar v-if="data.item.photo" left>
-                    <v-img :src="data.item.photo"></v-img>
-                </v-avatar>
-                <v-avatar v-else >
-                <v-icon>
-                    mdi-account-circle
-                </v-icon>
-                </v-avatar>
-                <span class="pl-1">{{ data.item.name }}</span>
-                </v-chip>
-            </template>
-            <template v-slot:item="data">
-                <template>
-                <v-list-item-avatar v-if="data.item.photo">
-                    <img :src="data.item.photo">
-                </v-list-item-avatar>
-                <v-list-item-avatar v-else>
-                    <v-icon>
-                    mdi-account-circle
-                </v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                </v-list-item-content>
-                </template>
-            </template>
-        </v-autocomplete>
+        </v-form>
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
             @click="addWorkshop(2)" >Add</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshop()" >Update </v-btn>
+        @click="updateWorkshopCheck(2)" >Update </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1209,6 +1215,7 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Party</h3>
+        <v-form ref="party_form">
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
@@ -1230,7 +1237,10 @@
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="250">
+            :maxlength="255"
+            counter
+            clearable
+            :rules="nameRules">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -1273,6 +1283,7 @@
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
             readonly
+            clearable
             v-bind="attrs"
             v-on="on"
           ></v-text-field>
@@ -1287,14 +1298,17 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="250">
+            :maxlength="255"
+            counter=""
+            clearable>
         </v-text-field>
+        </v-form>
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
             @click="addWorkshop(3)" >Add</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshop()" >Update </v-btn>
+        @click="updateWorkshopCheck(3)" >Update </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1307,6 +1321,7 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Cypher Sessions</h3>
+        <v-form ref="cypher_form">
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
@@ -1328,7 +1343,10 @@
          <v-text-field
             v-model= "category.name"
             label= "Title"
-            :maxlength="250">
+            :maxlength="255"
+            counter
+            clearable
+            :rules="nameRules">
         </v-text-field>
         <v-menu
             ref="menu2"
@@ -1367,6 +1385,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
+          clearable
             v-model="category.date_time"
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
@@ -1385,8 +1404,11 @@
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
-            :maxlength="250">
+            :maxlength="250"
+            countrter
+            clearable>
         </v-text-field>
+        </v-form>
         <!-- <v-text-field
         prepend-icon="mdi-info"
             v-model = "category.about"
@@ -1398,7 +1420,7 @@
             color="black" :loading="program_progressbar"
             @click="addWorkshop(4)" >Add</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshop()" >Update </v-btn>
+        @click="updateWorkshopCheck(4)" >Update </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1411,6 +1433,7 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <h3>Community Talk</h3>
+        <v-form ref="talk_form">
         <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
@@ -1429,68 +1452,6 @@
             </v-btn>
         </v-img>
         </div>
-         <v-text-field
-            v-model= "category.name"
-            label= "Title"
-            :maxlength="250">
-        </v-text-field>
-        <v-menu
-            ref="menu2"
-            :close-on-content-click="false"
-            :return-value.sync="date"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-            >
-            <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                    v-model="category.date"
-                    label="Date"
-                    prepend-icon="mdi-calendar"
-                    readonly clearable
-                    v-bind="attrs"
-                    v-on="on"
-                ></v-text-field>
-            </template>
-            <v-date-picker
-                v-model="category.date"
-                :active-picker.sync="activePicker"
-                @change="save(category.date,3)"
-                ></v-date-picker>
-        </v-menu>
-        <v-menu
-        ref="menutime_ct"
-        v-model="menutime_ct"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="category.date_time"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="category.date_time"
-            label="Time"
-            prepend-icon="mdi-clock-time-four-outline"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-time-picker
-          v-if="menutime_ct"
-          v-model="category.date_time"
-          full-width
-          @click:minute="$refs.menutime_ct.save(category.date_time)"
-        ></v-time-picker>
-        </v-menu>
-        <v-text-field prepend-icon="mdi-map-marker-outline"
-            v-model = "category.venue"
-            label= "Venue"
-            :maxlength="250">
-        </v-text-field>
         <v-autocomplete
             class="pt-4"
             v-model="selectedGuest"
@@ -1537,12 +1498,81 @@
                 </template>
             </template>
         </v-autocomplete>
+         <v-text-field
+            v-model= "category.name"
+            label= "Title"
+            :maxlength="255"
+            counter
+            clearable
+            :rules="nameRules">
+        </v-text-field>
+        <v-menu
+            ref="menu2"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    v-model="category.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly clearable
+                    v-bind="attrs"
+                    v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="category.date"
+                :active-picker.sync="activePicker"
+                @change="save(category.date,3)"
+                ></v-date-picker>
+        </v-menu>
+        <v-menu
+        ref="menutime_ct"
+        v-model="menutime_ct"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="category.date_time"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+          clearable
+            v-model="category.date_time"
+            label="Time"
+            prepend-icon="mdi-clock-time-four-outline"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="menutime_ct"
+          v-model="category.date_time"
+          full-width
+          @click:minute="$refs.menutime_ct.save(category.date_time)"
+        ></v-time-picker>
+        </v-menu>
+        <v-text-field prepend-icon="mdi-map-marker-outline"
+            v-model = "category.venue"
+            label= "Venue"
+            :maxlength="255"
+            counter
+            clearable>
+        </v-text-field>
+        </v-form>
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
             @click="addWorkshop(5)" >Add</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshop()" >Update </v-btn>
+        @click="updateWorkshopCheck(5)" >Update </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog v-model="delete_guest_dialog" width="500">    
@@ -1636,15 +1666,6 @@
         <v-snackbar v-model="program_delete_snackbar">
             Event program deleted.
         </v-snackbar>
-        <!-- <v-snackbar v-model="error_snackbar2">
-            Some error occured. Please try again.
-        </v-snackbar> -->
-        <v-snackbar v-model="valid_snackbar">
-            Please fill the required details.(name, poster, country, date)
-        </v-snackbar>
-        <v-snackbar v-model="cat_valid_snackbar">
-            Name is required.
-        </v-snackbar>
         <v-snackbar v-model="max_judges_snackbar">
             Maximum 7 artists.
         </v-snackbar>
@@ -1713,6 +1734,13 @@ export default {
         // if(image2.includes("minithumbnails.s3")||image2.includes("mediumthumbnails.s3")){
         //     console.log("s3ed");
         // }
+        console.log(this.$store.state.editing_event_obj.event_battles);
+        // const newArr = arr1.map(obj => {
+        // if (obj.id === 1) {
+        //     return {...obj, name: 'Alfred'};
+        // }
+        // return obj;
+        // });
         if(this.$store.state.editing_event_obj)
         {
             this.event = Object.assign({}, this.$store.getters.editing_event_obj);
@@ -1739,10 +1767,10 @@ export default {
                 username: this.$store.state.auth.user.user.username,
                 name: "",  // # must
                 venue: "",
-                start_date: null, // # must
+                start_date: '', // # must
                 link: "",
                 poster: "", // # must
-                country:null, // # must
+                country:'', // # must
                 city:"",
                 about:"",
                 videolink:'',
@@ -1879,7 +1907,7 @@ export default {
             guest:{
                 name:'',
                 guest:'',
-                category:[],
+                // category:[],
                 photo:'',
                 country:'',
                 info:'',
@@ -1891,7 +1919,6 @@ export default {
             organiser:{
                 name:'',
                 guest:'',
-                category:[],
                 photo:'',
                 country:'',
                 info:'',
@@ -1900,8 +1927,6 @@ export default {
                 uuid:'',
                 username:this.$store.state.auth.user.user.username
             },
-            // show_error_text:false,
-            error_text:"",
             delete_guest_dialog:false,
             delete_organiser_dialog:false,
             deleteLoading:false,
@@ -1943,10 +1968,7 @@ export default {
             date:null,
             slide: null,
             e6: 1,
-            linkError:'',
             model:"",
-            valid_snackbar: false,
-            error_snackbar:false,
             posted_snackbar: false,
             max_bguest_snackbar: false,
             image_update_snackbar: false,
@@ -2216,7 +2238,6 @@ export default {
             cypher:'green',
             showcase:'blue',
             other:'black',
-            cat_valid_snackbar:false,
             max_judges_snackbar:false,
             max_dj_snackbar:false,
             max_artist_snackbar:false,
@@ -2235,7 +2256,46 @@ export default {
             temp_guest_item:{},
             temp_organiser_item:{},
             temp_category_item:{},
-            // isGuest:[],
+
+            //errors
+            guest_error:'',
+            linkError:'',
+            iglinkError:'',
+            ytlinkError:'',
+            error_text:"",
+            error_snackbar:false,
+            nameRules: [
+                v => !!v || 'Name is required',
+                v => (v && v.length <= 255) || 'Must be less than 255 characters',
+            ],
+            dateRules: [
+                v => !!v || 'Date is required',
+            ],
+            countryRules: [
+                v => !!v || 'Country is required',
+            ],
+            artistNameRules: [
+                v => !!v || 'Artist name is required',
+            ],
+            categoryRules: [
+                v => !!v || 'Category name is required',
+            ],
+            emailRules: [
+                v => !v || /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                // v => (v && v.length <= 254) || 'Must be less than 254 characters',
+            ],
+            instagramRules:[
+                v => !v || /(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am|instagr.com)\/(\w+)/igm.test(v) ||'Enter a valid Instagram link.',
+                // v => (v && v.length <= 200) || 'Must be less than 200 characters',
+            ],
+            youtubeRules:[
+                v => !v || /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/g.test(v) || 'Enter a valid Youtube link.',
+                // v => (v && v.length <= 200) || 'Must be less than 200 characters',
+            ],
+            linkRules:[
+                v => !v || /^(https?:\/\/)?[0-9a-z-_]*(\.[0-9a-z-_]+)*(\.[a-z]+)+(\/[0-9a-z-_]*)*?\/?$/gim.test(v) || 'Enter a valid url.',
+                // v => (v && v.length <= 200) || 'Must be less than 200 characters',
+            ],
         }
     },
     watch: {
@@ -2251,6 +2311,7 @@ export default {
             if(this.artist_obj)
             {
                 EventService.getSearchedArtist(this.artist_obj).then((value) => {
+                    console.log(value.data);
                 this.artists = value.data});
             }
         },
@@ -2300,34 +2361,6 @@ export default {
                 default:
                     // code block
                 }
-        },
-        checkLink(){
-            let urlLink = this.event.link;
-            if(urlLink){ //if link exists check if it's valid
-                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-                '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-                '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-                '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                let check = !!pattern.test(this.event.link);
-                if(check){
-                    let checkStartsHttp = urlLink.startsWith('http')
-                    console.log( "checkStartsHttp", checkStartsHttp);
-                    if(!checkStartsHttp)
-                    {
-                        console.log("doesn't start with http")
-                        console.log("url",this.event.link);
-                        this.event.link = 'http://'+ this.event.link
-                        console.log("url",this.event.link);
-                        this.linkError=``
-                        //add http to url
-                    }
-                }
-                else{
-                    this.linkError=`Enter a valid URL.`
-                }
-            }
         },
         goback(){
             this.$store.dispatch("remove_editing_event_obj")
@@ -2513,6 +2546,7 @@ export default {
         clearTimeout(this.debounce)
         this.debounce = setTimeout(() => {
         if(this.comboBoxModel){EventService.getSearchedArtist(this.comboBoxModel).then((value) => {
+            console.log(value.data);
         this.artists = value.data
         });}
         }, 100)
@@ -2571,15 +2605,14 @@ export default {
                 // this.category.name1 = this.artist_obj
             }
         },
-
         //main event submit
         async submit(){
-            try{
-                // this.event.username= this.$store.state.auth.user.user.username
-                if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
-                { 
+            // console.log(this.$refs.event_form.validate());
+            if(this.event.poster != "")
+            {
+            if(this.$refs.event_form.validate()){
+                try{
                 this.progressbar =true
-                // console.log(this.event.poster);
                 this.event.poster = await this.putImage(this.event.poster);
                 if(this.event.photo1)
                 this.event.photo1 = await this.putImage(this.event.photo1);
@@ -2743,16 +2776,29 @@ export default {
                 this.posted_snackbar = true;
                 this.$router.push("/events/"+resp.uuid);
                 }
-                else{
-                    this.valid_snackbar =true
+                catch(error){
+                    this.error_text = error.response.data;
+                    if(error.response.data.detail)
+                    this.error_text = error.response.data.detail;
+                    console.log(error.response.data);
+                    let er = error.response.data;
+                    for (const key in er) {
+                        if(`${key}` == 'iglink'){
+                        this.iglinkError = `${er[key]}`
+                        }
+                        if(`${key}` == 'videolink'){
+                        this.ytlinkError = `${er[key]}`
+                        }
+                        if(`${key}` == 'link'){
+                        this.linkError = `${er[key]}`
+                        }
+                    }
+                    this.progressbar = false
                 }
             }
-            catch(error){
-                this.error_text = error.response.data;
-                if(error.response.data.detail)
-                this.error_text = error.response.data.detail;
-                this.error_snackbar = true;
-                this.progressbar = false
+            }
+            else{
+                this.valid_poster_snackbar =true
             }
         },
 
@@ -2793,7 +2839,8 @@ export default {
         //     }
         // },
         async updateQuickGlance(){
-            try {
+            if(this.event.photo1 != this.editing_event_obj.photo1 || this.event.photo2 != this.editing_event_obj.photo2 ||this.event.photo3 != this.editing_event_obj.photo3){
+                try {
                 const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -2817,44 +2864,55 @@ export default {
                 this.image_update_snackbar = true;
                 // this.$router.push("/events/"+this.event.uuid);
                 })
-            } catch (error) {
-                this.error_text = error.response.data;
-                if(error.response.data.detail)
-                this.error_text = error.response.data.detail;
-                this.glance_progressbar =false
+                } catch (error) {
+                    console.log(error);
+                    this.error_text = error.response.data;
+                    if(error.response.data.detail)
+                    this.error_text = error.response.data.detail;
+                    this.glance_progressbar =false
+                    this.error_snackbar = true
+                    // console.log(error);
+                }
+            }else{
+                this.error_text = 'Event schedule is upto date.';
                 this.error_snackbar = true
-                // console.log(error);
             }
         },
         //update event details
         async update(){
+            if(this.event.poster != "")
+            {
+            if(this.$refs.event_form.validate())
+            {
             try{
-                // this.event.username= this.$store.state.auth.user.user.username
-                if(this.event.name != "" && this.event.poster != "" && this.event.start_date != "" && this.event.country != "")
-                { 
                 this.progressbar =true
                 if(this.event.poster != this.editing_event_obj.poster)
                 this.event.poster = await this.putImage(this.event.poster);
                 this.formUpdate();
-                }
-                else{
-                    this.valid_snackbar=true
-                }
             }
             catch(error){
                 this.error_text = error.response.data;
                 if(error.response.data.detail)
                 this.error_text = error.response.data.detail;
-                this.error_snackbar = true
-                // console.log(e, e.response, e.data);
+                console.log(error.response.data);
+                let er = error.response.data;
+                for (const key in er) {
+                    if(`${key}` == 'iglink'){
+                    this.iglinkError = `${er[key]}`
+                    }
+                    if(`${key}` == 'videolink'){
+                    this.ytlinkError = `${er[key]}`
+                    }
+                    if(`${key}` == 'link'){
+                    this.linkError = `${er[key]}`
+                    }
+                }
+                this.progressbar = false
             }
-            // let ids = new Set(this.editing_event_obj.event_battles.map(({ uuid }) => uuid));
-            // let ids2 = new Set(this.battle_categories.map(({ uuid }) => uuid));
-            // //remove ids value if ids value matches ids2
-            // ids2.forEach((x) => {
-            //     ids.delete(x);
-            // });
-            // console.log( ids);
+            }
+            }else{
+                this.valid_poster_snackbar =true
+            }
         },
         async formUpdate(){
             const config = {
@@ -2872,7 +2930,8 @@ export default {
             let valueObj1 = Object.values(myObj1); 
             let valueObj2 = Object.values(myObj2); 
             
-            // now compare their keys and values  
+            // now compare their keys and values 
+            let update = false; 
             try {
                 let formName = new FormData();
                 for(var i=0; i<keyObj1.length; i++) { 
@@ -2885,19 +2944,27 @@ export default {
                             // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
                         } 
                         else { 
+                            update = true;
                             // it prints keys have different values 
                             formName.append(keyObj1[i], valueObj2[i]);
                             // console.log( valueObj2[i] ," gonna change"); 
                         } 
                     }
                 }
-                formName.append("id", this.event['id']);
-                await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
-                    console.log(res," changed"); 
-                })
+                if(update)
+                {
+                    formName.append("id", this.event['id']);
+                    await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
+                        // console.log(res," changed"); 
+                        this.detail_update_snackbar = true;
+                        update = false;
+                    })
+                }else{
+                    this.error_text = 'Event details are upto date.';
+                    this.error_snackbar = true
+                }
                 // this.$store.dispatch("remove_editing_event_obj");
                 this.progressbar =false
-                this.detail_update_snackbar = true;
                 // this.refresh();
             } catch (error) {
                 this.error_text = error.response.data;
@@ -2911,11 +2978,7 @@ export default {
         },
         //update guests
         async addGuests(){
-            if(this.guest.name){
-                // this.guest.category=[]
-                // this.isGuest.forEach(str => {
-                // this.guest.category.push(Number(str));
-                // });
+            if(this.$refs.guest_form.validate()){
                 if(this.editing_event_obj){
                     this.guest_progressbar =true
                     const config = {
@@ -2930,11 +2993,7 @@ export default {
                     {this.guest.photo = await this.putImage(this.guest.photo)}
                     let formGuestData = new FormData();
                     for (let data in this.guest) {
-                        // if(data == 'category')
-                        // this.guest.category.forEach(function(value) {
-                        // formGuestData.append("category[]", value) // you have to add array symbol after the key name
-                        // })
-                        // else
+                        
                         formGuestData.append(data, this.guest[data]);
                     }
                     try {
@@ -2949,11 +3008,10 @@ export default {
                         this.guest_progressbar =false
                         this.addGuestToSelectedGuestArray();
                     } catch (error) {
-                        this.error_text = error.response.data;
                         if(error.response.data.detail)
                         this.error_text = error.response.data.detail;
                         console.log(error,error.response);
-                        this.error_snackbar = true;
+                        // this.error_snackbar = true;
                         this.guest_progressbar =false
                     }
                 }
@@ -2961,10 +3019,10 @@ export default {
                 {
                     this.addGuestToSelectedGuestArray();
                 }
-            }else this.cat_valid_snackbar = true
+            }
         },   
         async updateGuests(){
-            if(this.guest.name!= "")
+            if(this.$refs.guest_form.validate())
             {
                 if(this.editing_event_obj){
                     this.guest_progressbar = true
@@ -2986,7 +3044,7 @@ export default {
                     // find values 
                     let valueObj1 = Object.values(myObj1); 
                     let valueObj2 = Object.values(myObj2); 
-                    
+                    let update = false;
                     // now compare their keys and values  
                     try {
                         let formName = new FormData();
@@ -2994,20 +3052,24 @@ export default {
                             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 	 
                             } 
                             else { 
+                                update = true;
                                 formName.append(keyObj1[i], valueObj2[i]);
                             }
                         }
-                        formName.append("id", this.event['id']); 
-                        await this.$axios.$patch("/v1/events/guests/"+this.selectedGuest.uuid, formName, config).then(res => {
-                            console.log( res," changed"); 
-                        })
-                        //remove from array
-                        //addGuestToSelectedGuestArray
-
-                        this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.id === this.selectedGuest.id),1);
-                        this.addGuestToSelectedGuestArray();
-                        this.guest_progressbar =false
-                        this.guest_update_snackbar = true;
+                        if(update)
+                        {
+                            formName.append("id", this.event['id']); 
+                            await this.$axios.$patch("/v1/events/guests/"+this.selectedGuest.uuid, formName, config)
+                            this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.id === this.selectedGuest.id),1);
+                            this.addGuestToSelectedGuestArray();
+                            this.guest_update_snackbar = true;
+                            update = false;
+                        }else{
+                            this.error_text = 'Guest is upto date.'
+                            this.error_snackbar=true;
+                            this.clearGuestForm();
+                        }
+                        this.guest_progressbar =false;
                     } catch (error) {
                         this.error_text = error.response.data;
                         if(error.response.data.detail)
@@ -3026,33 +3088,31 @@ export default {
                     for (var key in this.guest) {
                         this.guest[key] = '';
                     }
-                    // this.isGuest = []
-                    // this.guest.category=null
                     this.guest.username=this.$store.state.auth.user.user.username
                     this.artist_obj= null
+                    this.$refs.guest_form.resetValidation()
                 }
+                this.editing_guest_process = false
             }
-            else{
-                this.cat_valid_snackbar=true
-            }
-            this.editing_guest_process = false
         },
         addGuestToSelectedGuestArray(){
             let clone = {...this.guest}
             this.selectedGuests.push(clone)
             this.guest_added_snackbar=true
+            this.clearGuestForm();
+        },
+        clearGuestForm(){
             for (var key in this.guest) {
                 this.guest[key] = '';
             }
-            // this.isGuest = []
-            // this.guest.category=null;
             this.guest.username=this.$store.state.auth.user.user.username
             this.artist_obj= null
             this.selectedGuest = {}
+            this.$refs.guest_form.resetValidation()
         },
         removeGuest (item) {
-            console.log(item);
-            console.log(this.temp_guest_item);
+            // console.log(item);
+            // console.log(this.temp_guest_item);
             this.temp_guest_item = item;
             this.delete_guest_dialog = true
         },
@@ -3077,9 +3137,9 @@ export default {
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
-                    this.error_text = error.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
+                    this.error_text = e.response.data;
+                        if(e.response.data.detail)
+                        this.error_text = e.response.data.detail;
                     this.deleteLoading = false
                     this.error_snackbar = true
                     console.log(e,e.response);
@@ -3090,6 +3150,7 @@ export default {
                 this.delete_guest_dialog = false
 
             }
+            this.cancel_edit_guest();
         },
         editGuest(item){
             if(!this.editing_guest_process)
@@ -3123,8 +3184,8 @@ export default {
             for (var key in this.guest) {
                 this.guest[key] = '';
             }
-            // this.isGuest = []
-            // this.guest.category=null
+            
+            this.$refs.guest_form.resetValidation()
             this.guest.username=this.$store.state.auth.user.user.username
             this.artist_obj= null
             this.selectedGuest = {}
@@ -3170,9 +3231,33 @@ export default {
                 this.remove_category_form_snackbar = true
             }
         },
+        updateWorkshopCheck(num){
+             switch(num) {
+                case 1:
+                    if(this.$refs.workshop_form.validate())
+                    this.updateWorkshop();
+                    break;
+                case 2:
+                    if(this.$refs.showcase_form.validate())
+                    this.updateWorkshop();
+                    break;
+                case 3:
+                    if(this.$refs.party_form.validate())
+                    this.updateWorkshop();
+                    break;
+                case 4:
+                    if(this.$refs.cypher_form.validate())
+                    this.updateWorkshop();
+                    break;
+                case 5:
+                    if(this.$refs.talk_form.validate())
+                    this.updateWorkshop();
+                    break;
+                default:
+                    // code block
+                }
+        },
         async updateWorkshop(){
-            if(this.category.name!= "")
-            {
                 if(this.editing_event_obj){
                     this.program_progressbar = true
                     if(this.category.poster)
@@ -3180,7 +3265,9 @@ export default {
                         this.category.poster = await this.putImage(this.category.poster);
                     }
                     if(this.category.guest1 && typeof this.category.guest1=='object')
-                    {this.category.guest1 = this.category.guest1.username}
+                    {
+                        this.category.guest1 = this.category.guest1.username
+                        }
                     const config = {
                         headers: {"content-type": "multipart/form-data",
                             "Authorization": "Bearer " + this.$store.state.auth.user.access_token
@@ -3194,7 +3281,7 @@ export default {
                     // find values 
                     let valueObj1 = Object.values(myObj1); 
                     let valueObj2 = Object.values(myObj2); 
-                    
+                    let update = false;
                     // now compare their keys and values  
                     try {
                         let formName = new FormData();
@@ -3202,18 +3289,24 @@ export default {
                             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
                             } 
                             else {
+                                update = true;
                                 formName.append(keyObj1[i], valueObj2[i]);
                             }
-                            formName.append("id", this.event['id']);
-                            await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config).then(res => {
-                                console.log(res," changed"); 
-                            })
                         }
-                        //remove from array
-                        //addGuestToSelectedGuestArray
-                        this.categories.splice(this.categories.findIndex(e => e.id === this.temp_category_item.id),1);
-                        // this.addGuestToSelectedGuestArray();
-                        this.updateCategoryToArray();
+                        if(update){
+                            formName.append("id", this.event['id']);
+                            await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config)
+                            //remove from array
+                            //addGuestToSelectedGuestArray
+                            this.categories.splice(this.categories.findIndex(e => e.id === this.temp_category_item.id),1);
+                            this.updateCategoryToArray();
+                            update = false;
+                        }
+                        else{
+                            this.error_text= 'This category is upto date.'
+                            this.error_snackbar = true;
+                            this.close_category_dialog();
+                        }
                         this.program_progressbar =false
                     } catch (error) {
                         this.error_text = error.response.data;
@@ -3237,18 +3330,19 @@ export default {
                     this.artist_obj= null
                     this.close_category_dialog();
                 }
-            }
-            else{
-                this.cat_valid_snackbar=true
-            }
-            this.program_progressbar =false
-            this.editing_category_process = false
+                this.program_progressbar =false
+                this.editing_category_process = false
         },
         close_category_dialog(){
             this.editing_category_process = false;
             for (var key in this.category) {
                 this.category[key] = '';
             }
+            if(this.$refs.workshop_form)this.$refs.workshop_form.resetValidation()
+            if(this.$refs.showcase_form)this.$refs.showcase_form.resetValidation()
+            if(this.$refs.party_form)this.$refs.party_form.resetValidation()
+            if(this.$refs.cypher_form)this.$refs.cypher_form.resetValidation()
+            if(this.$refs.talk_form)this.$refs.talk_form.resetValidation()
             this.artist_obj= null
             this.selectedGuest={}
             this.category.username = this.$store.state.auth.user.user.username
@@ -3259,7 +3353,6 @@ export default {
             this.otherCategory_dialog=false;
         },
         addWorkshop(num){
-            if(this.category.name){
                 //1:workshop
                 //2:showcase
                 //3:party
@@ -3268,31 +3361,53 @@ export default {
                 switch(num) {
                 case 1:
                     {
-                    this.category.category = 1
-                    break;}
+                    if(this.$refs.workshop_form.validate())
+                    {
+                        this.category.category = 1
+                        this.addWorkshop2();
+                    }
+                    break;
+                    }
                 case 2:{
-                    this.category.category = 2
+                    if(this.$refs.showcase_form.validate())
+                    {
+                        this.category.category = 2
+                        this.addWorkshop2();
+                    }
                     break;}
                 case 3:{
-                    this.category.category = 3
+                    if(this.$refs.party_form.validate())
+                    {
+                        this.category.category = 3
+                        this.addWorkshop2();
+                    }
                     break;}
                 case 4:{
-                    this.category.category = 4
+                    if(this.$refs.cypher_form.validate())
+                    {
+                        this.category.category = 4
+                        this.addWorkshop2();
+                    }
                 break;}
                 case 5:{
-                    this.category.category = 5
+                    if(this.$refs.talk_form.validate())
+                    {
+                        this.category.category = 5
+                        this.addWorkshop2();
+                    }
                 break;}
                 default:
                     // code block
                 }
-                if(this.editing_event_obj){
-                    this.postCategoryApi();
-                }
-                else
-                {
-                    this.addCategoryToArray();
-                }
-            }else this.cat_valid_snackbar = true
+        },
+        addWorkshop2(){
+            if(this.editing_event_obj){
+                this.postCategoryApi();
+            }
+            else
+            {
+                this.addCategoryToArray();
+            }
         },
         async postCategoryApi(){
             this.program_progressbar =true
@@ -3305,7 +3420,9 @@ export default {
                     if(this.category.poster)
                     {this.category.poster = await this.putImage(this.category.poster)}
                     if(this.category.guest1 && typeof this.category.guest1=='object')
-                    {this.category.guest1 = this.category.guest1.username}
+                    {
+                        this.category.guest1 = this.category.guest1.username
+                    }
                     let formCategoryData = new FormData();
                     for (let data in this.category) {
                         formCategoryData.append(data, this.category[data]);
@@ -3320,10 +3437,8 @@ export default {
                         this.addCategoryToArray();
                     } catch (error) {
                         this.error_text = error.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
                         console.log(error,error.response);
-                        this.error_snackbar = true;
+                        // this.error_snackbar = true;
                         this.program_progressbar =false
                     }
         },
@@ -3340,17 +3455,18 @@ export default {
             this.close_category_dialog();
         },
         addGuestToCategory(){
-            console.log(this.selectedGuest);
-            if(this.selectedGuest){this.category.name1 = this.selectedGuest.name
-            this.category.guest1 = this.selectedGuest.guest
-            this.category.photo1 = this.selectedGuest.photo
-            this.category.country1 = this.selectedGuest.country
-            this.category.info1 = this.selectedGuest.info}
+            if(this.selectedGuest){
+                this.category.name1 = this.selectedGuest.name
+                if(this.selectedGuest.guest)this.category.guest1 = this.selectedGuest.guest
+                this.category.photo1 = this.selectedGuest.photo
+                this.category.country1 = this.selectedGuest.country
+                this.category.info1 = this.selectedGuest.info}
             else{this.category.name1 = ''
-            this.category.guest1 = ''
-            this.category.photo1 = ''
-            this.category.country1 = ''
-            this.category.info1 = ''}
+                this.category.guest1 = ''
+                this.category.photo1 = ''
+                this.category.country1 = ''
+                this.category.info1 = ''
+            }
         },
         removeCategory(item){
             this.temp_category_item = item
@@ -3377,15 +3493,16 @@ export default {
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
-                    this.error_text = error.response.data;
+                    this.error_text = e.response.data;
                         if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
+                        this.error_text = e.response.data.detail;
                     this.deleteLoading = false
                     this.error_snackbar = true
                     console.log(e,e.response);
                 }
                 //remove from api too
             }else{
+                console.log(this.temp_category_item);
                 this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
                 this.delete_category_dialog = false
 
@@ -3393,7 +3510,7 @@ export default {
         },
         //add batttle
         async addBattle(){
-            if(this.battle_category.name){
+            if(this.$refs.battle_form.validate()){
                 this.battleGuestArrayToJson();
                 if(this.editing_event_obj){
                     this.program_progressbar =true
@@ -3411,9 +3528,9 @@ export default {
                     }
                     try {
                         let postBattleCategory= await this.$axios.$post("/v1/events/battles/create/", formBattleCategoryData, config)
-                        console.log("battle_category posted",postBattleCategory);
+                        // console.log("battle_category posted",postBattleCategory);
                         this.battle_category = {...postBattleCategory}
-                        console.log(this.battle_category);
+                        // console.log(this.battle_category);
                         this.category_added_snackbar=true
                         this.program_progressbar =false
                         this.addBattleToArray();
@@ -3430,13 +3547,18 @@ export default {
                 {
                     this.addBattleToArray();
                 }
-            }else this.cat_valid_snackbar = true
+            }
+            else{
+                this.error_text = 'Name is required'
+            }
         },
         battleGuestArrayToJson(){
+            // console.log(this.battleDj,this.battleEmcee, this.battleGuests, this.battleJudges);
             if(this.battleDj.length != 0){
                     //from the battleDj array put the selected ones to the battle category json.
                     for(let i =0; i<this.battleDj.length;i++)
                     {
+                        if(this.battleDj[i]!= undefined)
                         if(this.battle_category.djname1 == '')
                         {
                             this.battle_category.djname1 = this.battleDj[i].name;
@@ -3465,145 +3587,149 @@ export default {
                             this.battle_category.djcountry3 = this.battleDj[i].country;
                         }
                     }
-                }
-                if(this.battleEmcee.length != 0){
-                    //from the battleEmcee array put the selected ones to the battle category json.
-                    for(let i =0; i<this.battleEmcee.length;i++)
+            }
+            if(this.battleEmcee.length != 0){
+                //from the battleEmcee array put the selected ones to the battle category json.
+                for(let i =0; i<this.battleEmcee.length;i++)
+                {
+                    if(this.battleEmcee[i]!= undefined)
+                    if(this.battle_category.mcname1 == '')
                     {
-                        if(this.battle_category.mcname1 == '')
-                        {
-                            this.battle_category.mcname1 = this.battleEmcee[i].name;
-                            this.battle_category.mcinfo1 = this.battleEmcee[i].info;
-                            this.battle_category.mcphoto1 = this.battleEmcee[i].photo;
-                            // this.battle_category.mc1 = this.battleEmcee[i].guest;
-                            if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
-                            {this.battle_category.mc1 = this.battleEmcee[i].guest.username}
-                            this.battle_category.mccountry1 = this.battleEmcee[i].country;
-                            // add tags -> this.battle_category.dj1
-                        }else if(this.battle_category.mcname2 == ''){
-                            this.battle_category.mcname2 = this.battleEmcee[i].name;
-                            this.battle_category.mcinfo2 = this.battleEmcee[i].info;
-                            this.battle_category.mcphoto2 = this.battleEmcee[i].photo;
-                            // this.battle_category.mc2 = this.battleEmcee[i].guest;
-                            if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
-                            {this.battle_category.mc2 = this.battleEmcee[i].guest.username}
-                            this.battle_category.mccountry2 = this.battleEmcee[i].country;
-                        }
-                        else{
-                            this.battle_category.mcname3 = this.battleEmcee[i].name;
-                            this.battle_category.mcinfo3 = this.battleEmcee[i].info;
-                            this.battle_category.mcphoto3 = this.battleEmcee[i].photo;
-                            // this.battle_category.mc2 = this.battleEmcee[i].guest;
-                            if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
-                            {this.battle_category.mc3 = this.battleEmcee[i].guest.username}
-                            this.battle_category.mccountry3 = this.battleEmcee[i].country;
-                        }
+                        this.battle_category.mcname1 = this.battleEmcee[i].name;
+                        this.battle_category.mcinfo1 = this.battleEmcee[i].info;
+                        this.battle_category.mcphoto1 = this.battleEmcee[i].photo;
+                        // this.battle_category.mc1 = this.battleEmcee[i].guest;
+                        if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
+                        {this.battle_category.mc1 = this.battleEmcee[i].guest.username}
+                        this.battle_category.mccountry1 = this.battleEmcee[i].country;
+                        // add tags -> this.battle_category.dj1
+                    }else if(this.battle_category.mcname2 == ''){
+                        this.battle_category.mcname2 = this.battleEmcee[i].name;
+                        this.battle_category.mcinfo2 = this.battleEmcee[i].info;
+                        this.battle_category.mcphoto2 = this.battleEmcee[i].photo;
+                        // this.battle_category.mc2 = this.battleEmcee[i].guest;
+                        if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
+                        {this.battle_category.mc2 = this.battleEmcee[i].guest.username}
+                        this.battle_category.mccountry2 = this.battleEmcee[i].country;
+                    }
+                    else{
+                        this.battle_category.mcname3 = this.battleEmcee[i].name;
+                        this.battle_category.mcinfo3 = this.battleEmcee[i].info;
+                        this.battle_category.mcphoto3 = this.battleEmcee[i].photo;
+                        // this.battle_category.mc2 = this.battleEmcee[i].guest;
+                        if(this.battleEmcee[i].guest && typeof this.battleEmcee[i].guest=='object')
+                        {this.battle_category.mc3 = this.battleEmcee[i].guest.username}
+                        this.battle_category.mccountry3 = this.battleEmcee[i].country;
                     }
                 }
-                if(this.battleGuests.length != 0){
-                    //from the battleGuests array put the selected ones to the battle category json.
-                    for(let i =0; i<this.battleGuests.length;i++)
+            }
+            if(this.battleGuests.length != 0){
+                //from the battleGuests array put the selected ones to the battle category json.
+                for(let i =0; i<this.battleGuests.length;i++)
+                {
+                    if(this.battleGuests[i]!= undefined)
+                    if(this.battle_category.bgname1 == '')
                     {
-                        if(this.battle_category.bgname1 == '')
-                        {
-                            this.battle_category.bgname1 = this.battleGuests[i].name;
-                            this.battle_category.bginfo1 = this.battleGuests[i].info;
-                            this.battle_category.bgphoto1 = this.battleGuests[i].photo;
-                            // this.battle_category.bg1 = this.battleGuests[i].guest;
-                            if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
-                            {this.battle_category.bg1 = this.battleGuests[i].guest.username}
-                            this.battle_category.bgcountry1 = this.battleGuests[i].country;
-                            // add tags -> this.battle_category.dj1
-                        }else if(this.battle_category.bgname2 == ''){
-                            this.battle_category.bgname2 = this.battleGuests[i].name;
-                            this.battle_category.bginfo2 = this.battleGuests[i].info;
-                            this.battle_category.bgphoto2 = this.battleGuests[i].photo;
-                            // this.battle_category.bg2 = this.battleGuests[i].guest;
-                            if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
-                            {this.battle_category.bg2 = this.battleGuests[i].guest.username}
-                            this.battle_category.bgcountry2 = this.battleGuests[i].country;
-                        }
-                        else{
-                            this.battle_category.bgname3 = this.battleGuests[i].name;
-                            this.battle_category.bginfo3 = this.battleGuests[i].info;
-                            this.battle_category.bgphoto3 = this.battleGuests[i].photo;
-                            // this.battle_category.bg2 = this.battleGuests[i].guest;
-                            if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
-                            {this.battle_category.bg3 = this.battleGuests[i].guest.username}
-                            this.battle_category.bgcountry3 = this.battleGuests[i].country;
-                        }
+                        this.battle_category.bgname1 = this.battleGuests[i].name;
+                        this.battle_category.bginfo1 = this.battleGuests[i].info;
+                        this.battle_category.bgphoto1 = this.battleGuests[i].photo;
+                        // this.battle_category.bg1 = this.battleGuests[i].guest;
+                        if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
+                        {this.battle_category.bg1 = this.battleGuests[i].guest.username}
+                        this.battle_category.bgcountry1 = this.battleGuests[i].country;
+                        // add tags -> this.battle_category.dj1
+                    }
+                    else if(this.battle_category.bgname2 == ''){
+                        this.battle_category.bgname2 = this.battleGuests[i].name;
+                        this.battle_category.bginfo2 = this.battleGuests[i].info;
+                        this.battle_category.bgphoto2 = this.battleGuests[i].photo;
+                        // this.battle_category.bg2 = this.battleGuests[i].guest;
+                        if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
+                        {this.battle_category.bg2 = this.battleGuests[i].guest.username}
+                        this.battle_category.bgcountry2 = this.battleGuests[i].country;
+                    }
+                    else{
+                        this.battle_category.bgname3 = this.battleGuests[i].name;
+                        this.battle_category.bginfo3 = this.battleGuests[i].info;
+                        this.battle_category.bgphoto3 = this.battleGuests[i].photo;
+                        // this.battle_category.bg2 = this.battleGuests[i].guest;
+                        if(this.battleGuests[i].guest && typeof this.battleGuests[i].guest=='object')
+                        {this.battle_category.bg3 = this.battleGuests[i].guest.username}
+                        this.battle_category.bgcountry3 = this.battleGuests[i].country;
                     }
                 }
-                if(this.battleJudges.length != 0){
-                    //from the battlejudges array put the selected ones to the battle category json.
-                    for(let i =0; i<this.battleJudges.length;i++)
+            }
+            if(this.battleJudges.length != 0){
+                //from the battlejudges array put the selected ones to the battle category json.
+                for(let i =0; i<this.battleJudges.length;i++)
+                {
+                    if(this.battleJudges[i]!= undefined)
+                    if(this.battle_category.name1 == '')
                     {
-                        if(this.battle_category.name1 == '')
-                        {
-                            this.battle_category.name1 = this.battleJudges[i].name;
-                            this.battle_category.info1 = this.battleJudges[i].info;
-                            this.battle_category.photo1 = this.battleJudges[i].photo;
-                            // this.battle_category.guest1 = this.battleJudges[i].guest;
-                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
-                            {this.battle_category.guest1 = this.battleJudges[i].guest.username}
-                            this.battle_category.country1 = this.battleJudges[i].country;
-                            // add tags -> this.battle_category.dj1
-                        }else if(this.battle_category.name2 == '')
-                        {
-                            this.battle_category.name2 = this.battleJudges[i].name;
-                            this.battle_category.info2 = this.battleJudges[i].info;
-                            this.battle_category.photo2 = this.battleJudges[i].photo;
-                            // this.battle_category.guest2 = this.battleJudges[i].guest;
-                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
-                            {this.battle_category.guest2 = this.battleJudges[i].guest.username}
-                            this.battle_category.country2 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name3 == '')
-                        {
-                            this.battle_category.name3 = this.battleJudges[i].name;
-                            this.battle_category.info3 = this.battleJudges[i].info;
-                            this.battle_category.photo3 = this.battleJudges[i].photo;
-                            // this.battle_category.guest3 = this.battleJudges[i].guest;
-                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
-                            {this.battle_category.guest3 = this.battleJudges[i].guest.username}
-                            this.battle_category.country3 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name4 == '')
-                        {
-                            this.battle_category.name4 = this.battleJudges[i].name;
-                            this.battle_category.info4 = this.battleJudges[i].info;
-                            this.battle_category.photo4 = this.battleJudges[i].photo;
-                            // this.battle_category.guest4 = this.battleJudges[i].guest;
-                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
-                            {this.battle_category.guest4 = this.battleJudges[i].guest.username}
-                            this.battle_category.country4 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name5 == '')
-                        {
-                            this.battle_category.name5 = this.battleJudges[i].name;
-                            this.battle_category.info5 = this.battleJudges[i].info;
-                            this.battle_category.photo5 = this.battleJudges[i].photo;
-                            // this.battle_category.guest5 = this.battleJudges[i].guest;
-                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
-                            {this.battle_category.guest5 = this.battleJudges[i].guest.username}
-                            this.battle_category.country5 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name6 == '')
-                        {
-                            this.battle_category.name6 = this.battleJudges[i].name;
-                            this.battle_category.info6 = this.battleJudges[i].info;
-                            this.battle_category.photo6 = this.battleJudges[i].photo;
-                            // this.battle_category.guest6 = this.battleJudges[i].guest;
-                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
-                            {this.battle_category.guest6 = this.battleJudges[i].guest.username}
-                            this.battle_category.country6 = this.battleJudges[i].country;
-                        }else if(this.battle_category.name7 == ''){
-                            this.battle_category.name7 = this.battleJudges[i].name;
-                            this.battle_category.info7 = this.battleJudges[i].info;
-                            this.battle_category.photo7 = this.battleJudges[i].photo;
-                            // this.battle_category.guest7 = this.battleJudges[i].guest;
-                            if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
-                            {this.battle_category.guest7 = this.battleJudges[i].guest.username}
-                            this.battle_category.country7 = this.battleJudges[i].country;
-                        }
+                        this.battle_category.name1 = this.battleJudges[i].name;
+                        this.battle_category.info1 = this.battleJudges[i].info;
+                        this.battle_category.photo1 = this.battleJudges[i].photo;
+                        // this.battle_category.guest1 = this.battleJudges[i].guest;
+                        if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                        {this.battle_category.guest1 = this.battleJudges[i].guest.username}
+                        this.battle_category.country1 = this.battleJudges[i].country;
+                        // add tags -> this.battle_category.dj1
+                    }else if(this.battle_category.name2 == '')
+                    {
+                        this.battle_category.name2 = this.battleJudges[i].name;
+                        this.battle_category.info2 = this.battleJudges[i].info;
+                        this.battle_category.photo2 = this.battleJudges[i].photo;
+                        // this.battle_category.guest2 = this.battleJudges[i].guest;
+                        if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                        {this.battle_category.guest2 = this.battleJudges[i].guest.username}
+                        this.battle_category.country2 = this.battleJudges[i].country;
+                    }else if(this.battle_category.name3 == '')
+                    {
+                        this.battle_category.name3 = this.battleJudges[i].name;
+                        this.battle_category.info3 = this.battleJudges[i].info;
+                        this.battle_category.photo3 = this.battleJudges[i].photo;
+                        // this.battle_category.guest3 = this.battleJudges[i].guest;
+                        if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                        {this.battle_category.guest3 = this.battleJudges[i].guest.username}
+                        this.battle_category.country3 = this.battleJudges[i].country;
+                    }else if(this.battle_category.name4 == '')
+                    {
+                        this.battle_category.name4 = this.battleJudges[i].name;
+                        this.battle_category.info4 = this.battleJudges[i].info;
+                        this.battle_category.photo4 = this.battleJudges[i].photo;
+                        // this.battle_category.guest4 = this.battleJudges[i].guest;
+                        if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                        {this.battle_category.guest4 = this.battleJudges[i].guest.username}
+                        this.battle_category.country4 = this.battleJudges[i].country;
+                    }else if(this.battle_category.name5 == '')
+                    {
+                        this.battle_category.name5 = this.battleJudges[i].name;
+                        this.battle_category.info5 = this.battleJudges[i].info;
+                        this.battle_category.photo5 = this.battleJudges[i].photo;
+                        // this.battle_category.guest5 = this.battleJudges[i].guest;
+                        if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                        {this.battle_category.guest5 = this.battleJudges[i].guest.username}
+                        this.battle_category.country5 = this.battleJudges[i].country;
+                    }else if(this.battle_category.name6 == '')
+                    {
+                        this.battle_category.name6 = this.battleJudges[i].name;
+                        this.battle_category.info6 = this.battleJudges[i].info;
+                        this.battle_category.photo6 = this.battleJudges[i].photo;
+                        // this.battle_category.guest6 = this.battleJudges[i].guest;
+                        if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                        {this.battle_category.guest6 = this.battleJudges[i].guest.username}
+                        this.battle_category.country6 = this.battleJudges[i].country;
+                    }else if(this.battle_category.name7 == ''){
+                        this.battle_category.name7 = this.battleJudges[i].name;
+                        this.battle_category.info7 = this.battleJudges[i].info;
+                        this.battle_category.photo7 = this.battleJudges[i].photo;
+                        // this.battle_category.guest7 = this.battleJudges[i].guest;
+                        if(this.battleJudges[i].guest && typeof this.battleJudges[i].guest=='object')
+                        {this.battle_category.guest7 = this.battleJudges[i].guest.username}
+                        this.battle_category.country7 = this.battleJudges[i].country;
                     }
                 }
+            }
         },
         addBattleToArray(){
             let clone = {...this.battle_category}
@@ -3613,13 +3739,13 @@ export default {
         },
         //update battle category
         async updateBattle(){
-            if(this.battle_category.name!= "")
+            if(this.$refs.battle_form.validate())
             {
                 this.updateBattleGuests();
                 // console.log("json updated", this.battle_category);
                 if(this.editing_event_obj){
                     this.program_progressbar = true
-                    if(this.battle_category.poster)
+                    if(this.battle_category.poster )
                     {
                         this.battle_category.poster = await this.putImage(this.battle_category.poster);
                     }
@@ -3638,24 +3764,34 @@ export default {
                     let valueObj2 = Object.values(myObj2); 
                     
                     // now compare their keys and values  
+                    let update = false;
                     try {
                         let formName = new FormData();
                         for(var i=0; i<keyObj1.length; i++) {
                             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {
                             } 
                             else {
+                                console.log(keyObj1[i], valueObj2[i]);
+                                update = true;
                                 formName.append(keyObj1[i], valueObj2[i]);
                             }
                         }
-                        formName.append("id", this.event['id']);
-                        // console.log("key obj1: "+keyObj1[i]+"\nkeyobj2: "+keyObj2[i]+'\n myObj1 value: '+ valueObj1[i] + '\nmyObj2 value: '+ valueObj2[i] +'\n');
-                        await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config).then(res => {
-                            // console.log(res," changed"); 
-                        })
-                        this.battle_categories.splice(this.battle_categories.findIndex(e => e.id === this.temp_category_item.id),1);
-                        this.updateBattleToArray();
-                        // console.log(myObj1,myObj2);
+                        if(update)
+                        {
+                            formName.append("id", this.event['id']);
+                            await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config)
+                            this.battle_categories.splice(this.battle_categories.findIndex(e => e.id === this.temp_category_item.id),1);
+                            this.updateBattleToArray();
+                            update = false;
+                            // console.log(myObj1,myObj2);
+                        }else{
+                            this.error_text = 'Battle category is upto date.'
+                            this.error_snackbar=true;
+                            this.close_battle_dialog();
+                        }
+
                         this.program_progressbar =false
+
                     } catch (error) {
                         this.error_text = error.response.data;
                         if(error.response.data.detail)
@@ -3678,12 +3814,9 @@ export default {
                     this.artist_obj= null
                     this.close_battle_dialog();
                 }
+                this.program_progressbar =false
+                 this.editing_category_process = false
             }
-            else{
-                this.cat_valid_snackbar=true
-            }
-            this.program_progressbar =false
-            this.editing_category_process = false
         },
         updateBattleGuests(){
             // remove current battle_category guests
@@ -3881,12 +4014,14 @@ export default {
             for (var key in this.battle_category) {
                 this.battle_category[key] = '';
             }
+            this.$refs.battle_form.resetValidation()
             this.artist_obj= null
             this.selectedGuest={}
             this.battle_category.username = this.$store.state.auth.user.user.username
             this.battleEmcee =[];
             this.battleJudges=[];
             this.battleDj=[];
+            this.battleGuests =[];
             this.battle_dialog=false;
         },
         removeBattleCategory(item){
@@ -3914,9 +4049,9 @@ export default {
                     // this.$store.dispatch("check_share_comments", comment.shareidobj)
                     //guest removed
                 } catch (e) {
-                    this.error_text = error.response.data;
+                    this.error_text = e.response.data;
                         if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
+                        this.error_text = e.response.data.detail;
                     this.deleteLoading = false
                     this.error_snackbar = true
                     console.log(e,e.response);
@@ -3924,7 +4059,7 @@ export default {
                 //remove from api too
             }else{
                 // this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.category === item.category),1);
-                this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name && e.category === temp_category_item.category),1);
+                this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
                 this.delete_battle_category_dialog = false
 
             }
