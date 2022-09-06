@@ -84,7 +84,7 @@
             Reference
             </p>
             <p>
-                <ul>// hiphop history</ul>
+                <ul>// hiphop </ul>
             </p>
         </v-container>
     </v-app>
