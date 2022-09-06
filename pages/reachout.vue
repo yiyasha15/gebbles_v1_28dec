@@ -1,16 +1,16 @@
 
 <template>
     <v-app> 
-        <v-container>
-            <div class="my-6 mx-auto" style="max-width:540px;">
-                <h3 class="my-4">We would love to hear from you.</h3>
-                <h5 class="my-4 font-weight-light">gebbles is an entirely homegrown community platform, hence in this version we apologize if you find bugs or error during your use.
-                    simply contact us using any of the below addresses and send us your queries/issues and we will try and solve it for you.
+        <v-container class="width">
+            <div class="my-6">
+                <h1 class="my-4">Reach out!</h1>
+                <p class="my-2 font-weight-light">Gebbles is an entirely homegrown community platform, hence in this version you might find bugs or error during your use.
+                    You can contact us using any(preferablly mail with the subject to be addressed) of the below addresses and send us your queries/issues and we will try and solve it for you.
                     <!-- Thankyou. -->
-                    </h5>
-                <h4 class="py-2">Email <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</h4>
-                <h4 class="py-2"> Instagram <a href="https://instagram.com/gebbles.io/" target="_blank">@gebbles.io.</a></h4>
-                <h4 class="py-2">To report a bug or suggest any additional features for the platform.</h4>
+                    </p>
+                <p>Email <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</p>
+                <p>Instagram <a href="https://instagram.com/gebbles.io/" target="_blank">@gebbles.io.</a></p>
+                <p class="py-2">To report or suggest any features for gebbles.</p>
                 <v-card max-width="540" elevation="0" outlined class="mt-2">
                     <v-card-text>
                 <v-text-field
@@ -92,3 +92,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.width{
+    max-width: 1024px;
+}
+</style>

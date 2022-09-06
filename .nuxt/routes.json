@@ -1,12 +1,5 @@
 [
   {
-    "name": "about_us",
-    "path": "/about_us",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/about_us.vue",
-    "chunkName": "pages/about_us",
-    "_name": "_3b0a0325"
-  },
-  {
     "name": "artists",
     "path": "/artists",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/artists/index.vue",
@@ -26,13 +19,6 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/blogs.vue/index.vue",
     "chunkName": "pages/blogs.vue/index",
     "_name": "_af938f32"
-  },
-  {
-    "name": "contact",
-    "path": "/contact",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/contact.vue",
-    "chunkName": "pages/contact",
-    "_name": "_3d39c31b"
   },
   {
     "name": "create",
@@ -72,9 +58,9 @@
   {
     "name": "help",
     "path": "/help",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/help.vue",
-    "chunkName": "pages/help",
-    "_name": "_337a0fd6"
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/index.vue",
+    "chunkName": "pages/help/index",
+    "_name": "_0c96444e"
   },
   {
     "name": "login",
@@ -110,6 +96,13 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/privacy.vue",
     "chunkName": "pages/privacy",
     "_name": "_d73462fa"
+  },
+  {
+    "name": "reachout",
+    "path": "/reachout",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/reachout.vue",
+    "chunkName": "pages/reachout",
+    "_name": "_2393ca10"
   },
   {
     "name": "register",
@@ -208,6 +201,34 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/guide/known_issues.vue",
     "chunkName": "pages/guide/known_issues",
     "_name": "_604d493e"
+  },
+  {
+    "name": "help-getting_started",
+    "path": "/help/getting_started",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/getting_started.vue",
+    "chunkName": "pages/help/getting_started",
+    "_name": "_4b7b26cd"
+  },
+  {
+    "name": "help-issues",
+    "path": "/help/issues",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/issues.vue",
+    "chunkName": "pages/help/issues",
+    "_name": "_6a11eac3"
+  },
+  {
+    "name": "help-thoughts",
+    "path": "/help/thoughts",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/thoughts.vue",
+    "chunkName": "pages/help/thoughts",
+    "_name": "_4bf1b943"
+  },
+  {
+    "name": "help-updates",
+    "path": "/help/updates",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/updates.vue",
+    "chunkName": "pages/help/updates",
+    "_name": "_2db2ba11"
   },
   {
     "name": "whatiscooking-sharings",

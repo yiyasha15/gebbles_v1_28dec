@@ -9,11 +9,13 @@
       <v-spacer></v-spacer>
       <v-col cols="12" md="6">
         <v-row :class="{'justify-center': $vuetify.breakpoint.smAndDown, 'justify-end': $vuetify.breakpoint.mdAndUp}">
-        <v-btn  small text :to= "`/about_us/`"><h5 class="font-weight-light">About</h5></v-btn>
-          <v-btn small text :to= "`/contact/`"><h5 class="font-weight-light">Contact Us</h5></v-btn>
-          <v-btn small icon class="text-decoration-none"  @click="openig" >
-            <v-icon>mdi-instagram</v-icon>
-        </v-btn>
+          <nuxt-link to="/help" class="text-decoration-none mx-2">Help</nuxt-link>
+          <nuxt-link to="/terms" class="text-decoration-none mx-2">Code of Conduct</nuxt-link>
+          <nuxt-link to="/privacy" class="text-decoration-none mx-2">Privacy Policy</nuxt-link>
+          <!-- <v-btn small text :to= "`/reachout/`"><h5 class="font-weight-light">Contact Us</h5></v-btn> -->
+          <!-- <v-btn small icon class="text-decoration-none"  @click="openig" >
+              <v-icon>mdi-instagram</v-icon>
+          </v-btn> -->
         </v-row>
       </v-col>
       </v-row>
@@ -30,3 +32,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+a:hover{
+  color: black;
+  text-decoration: underline;
+}
+</style>

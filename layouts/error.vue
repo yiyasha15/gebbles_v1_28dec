@@ -4,7 +4,7 @@
       <v-btn class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
       <v-col align="center" justify="center">
       <h3 v-if="error.message === 'userNotFound'" class="font-weight-light">
-        artist's portfolio not found.
+        {{artistNotfound}}
       </h3>
       <h2 v-else-if="error.statusCode === 404" class="font-weight-light">
         {{ pageNotFound }}

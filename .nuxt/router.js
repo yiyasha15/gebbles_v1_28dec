@@ -4,22 +4,21 @@ import { normalizeURL, decode } from '@nuxt/ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _3b0a0325 = () => interopDefault(import('../pages/about_us.vue' /* webpackChunkName: "pages/about_us" */))
 const _5a668f6c = () => interopDefault(import('../pages/artists/index.vue' /* webpackChunkName: "pages/artists/index" */))
 const _2c58404c = () => interopDefault(import('../pages/blogs.vue' /* webpackChunkName: "pages/blogs" */))
 const _af938f32 = () => interopDefault(import('../pages/blogs.vue/index.vue' /* webpackChunkName: "pages/blogs.vue/index" */))
-const _3d39c31b = () => interopDefault(import('../pages/contact.vue' /* webpackChunkName: "pages/contact" */))
 const _6a4e72d8 = () => interopDefault(import('../pages/create/index.vue' /* webpackChunkName: "pages/create/index" */))
 const _36934671 = () => interopDefault(import('../pages/events/index.vue' /* webpackChunkName: "pages/events/index" */))
 const _3717afe4 = () => interopDefault(import('../pages/explore.vue' /* webpackChunkName: "pages/explore" */))
 const _571cafb3 = () => interopDefault(import('../pages/feed.vue' /* webpackChunkName: "pages/feed" */))
 const _7e8aac0c = () => interopDefault(import('../pages/guide/index.vue' /* webpackChunkName: "pages/guide/index" */))
-const _337a0fd6 = () => interopDefault(import('../pages/help.vue' /* webpackChunkName: "pages/help" */))
+const _0c96444e = () => interopDefault(import('../pages/help/index.vue' /* webpackChunkName: "pages/help/index" */))
 const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
 const _c72a3020 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
 const _3d30988d = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
 const _d73462fa = () => interopDefault(import('../pages/privacy.vue' /* webpackChunkName: "pages/privacy" */))
+const _2393ca10 = () => interopDefault(import('../pages/reachout.vue' /* webpackChunkName: "pages/reachout" */))
 const _8aad3090 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
 const _5cc81810 = () => interopDefault(import('../pages/setpassword.vue' /* webpackChunkName: "pages/setpassword" */))
 const _404d3538 = () => interopDefault(import('../pages/settings.vue' /* webpackChunkName: "pages/settings" */))
@@ -34,6 +33,10 @@ const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' 
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
 const _402cfdae = () => interopDefault(import('../pages/guide/getting_started.vue' /* webpackChunkName: "pages/guide/getting_started" */))
 const _604d493e = () => interopDefault(import('../pages/guide/known_issues.vue' /* webpackChunkName: "pages/guide/known_issues" */))
+const _4b7b26cd = () => interopDefault(import('../pages/help/getting_started.vue' /* webpackChunkName: "pages/help/getting_started" */))
+const _6a11eac3 = () => interopDefault(import('../pages/help/issues.vue' /* webpackChunkName: "pages/help/issues" */))
+const _4bf1b943 = () => interopDefault(import('../pages/help/thoughts.vue' /* webpackChunkName: "pages/help/thoughts" */))
+const _2db2ba11 = () => interopDefault(import('../pages/help/updates.vue' /* webpackChunkName: "pages/help/updates" */))
 const _4ad990a2 = () => interopDefault(import('../pages/whatiscooking/sharings.vue' /* webpackChunkName: "pages/whatiscooking/sharings" */))
 const _3e15aee2 = () => interopDefault(import('../pages/blogs.vue/_id.vue' /* webpackChunkName: "pages/blogs.vue/_id" */))
 const _1042bc09 = () => interopDefault(import('../pages/e1t1/_uuid.vue' /* webpackChunkName: "pages/e1t1/_uuid" */))
@@ -66,10 +69,6 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
-    path: "/about_us",
-    component: _3b0a0325,
-    name: "about_us"
-  }, {
     path: "/artists",
     component: _5a668f6c,
     name: "artists"
@@ -81,10 +80,6 @@ export const routerOptions = {
     path: "/blogs.vue",
     component: _af938f32,
     name: "blogs.vue"
-  }, {
-    path: "/contact",
-    component: _3d39c31b,
-    name: "contact"
   }, {
     path: "/create",
     component: _6a4e72d8,
@@ -107,7 +102,7 @@ export const routerOptions = {
     name: "guide"
   }, {
     path: "/help",
-    component: _337a0fd6,
+    component: _0c96444e,
     name: "help"
   }, {
     path: "/login",
@@ -129,6 +124,10 @@ export const routerOptions = {
     path: "/privacy",
     component: _d73462fa,
     name: "privacy"
+  }, {
+    path: "/reachout",
+    component: _2393ca10,
+    name: "reachout"
   }, {
     path: "/register",
     component: _8aad3090,
@@ -185,6 +184,22 @@ export const routerOptions = {
     path: "/guide/known_issues",
     component: _604d493e,
     name: "guide-known_issues"
+  }, {
+    path: "/help/getting_started",
+    component: _4b7b26cd,
+    name: "help-getting_started"
+  }, {
+    path: "/help/issues",
+    component: _6a11eac3,
+    name: "help-issues"
+  }, {
+    path: "/help/thoughts",
+    component: _4bf1b943,
+    name: "help-thoughts"
+  }, {
+    path: "/help/updates",
+    component: _2db2ba11,
+    name: "help-updates"
   }, {
     path: "/whatiscooking/sharings",
     component: _4ad990a2,

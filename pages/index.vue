@@ -200,6 +200,10 @@ export default {
   width: 860px;
   margin: auto;
 } */
+h2:hover{
+  color: black;
+  /* text-decoration: underline; */
+}
 h5:hover{
   color: black;
   text-decoration: underline;
