@@ -7,6 +7,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _5a668f6c = () => interopDefault(import('../pages/artists/index.vue' /* webpackChunkName: "pages/artists/index" */))
 const _2c58404c = () => interopDefault(import('../pages/blogs.vue' /* webpackChunkName: "pages/blogs" */))
 const _af938f32 = () => interopDefault(import('../pages/blogs.vue/index.vue' /* webpackChunkName: "pages/blogs.vue/index" */))
+const _3d39c31b = () => interopDefault(import('../pages/contact.vue' /* webpackChunkName: "pages/contact" */))
 const _6a4e72d8 = () => interopDefault(import('../pages/create/index.vue' /* webpackChunkName: "pages/create/index" */))
 const _36934671 = () => interopDefault(import('../pages/events/index.vue' /* webpackChunkName: "pages/events/index" */))
 const _3717afe4 = () => interopDefault(import('../pages/explore.vue' /* webpackChunkName: "pages/explore" */))
@@ -18,7 +19,6 @@ const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackCh
 const _c72a3020 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
 const _3d30988d = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
 const _d73462fa = () => interopDefault(import('../pages/privacy.vue' /* webpackChunkName: "pages/privacy" */))
-const _2393ca10 = () => interopDefault(import('../pages/reachout.vue' /* webpackChunkName: "pages/reachout" */))
 const _8aad3090 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
 const _5cc81810 = () => interopDefault(import('../pages/setpassword.vue' /* webpackChunkName: "pages/setpassword" */))
 const _404d3538 = () => interopDefault(import('../pages/settings.vue' /* webpackChunkName: "pages/settings" */))
@@ -81,6 +81,10 @@ export const routerOptions = {
     component: _af938f32,
     name: "blogs.vue"
   }, {
+    path: "/contact",
+    component: _3d39c31b,
+    name: "contact"
+  }, {
     path: "/create",
     component: _6a4e72d8,
     name: "create"
@@ -124,10 +128,6 @@ export const routerOptions = {
     path: "/privacy",
     component: _d73462fa,
     name: "privacy"
-  }, {
-    path: "/reachout",
-    component: _2393ca10,
-    name: "reachout"
   }, {
     path: "/register",
     component: _8aad3090,

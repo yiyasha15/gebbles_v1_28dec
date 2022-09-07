@@ -21,6 +21,13 @@
     "_name": "_af938f32"
   },
   {
+    "name": "contact",
+    "path": "/contact",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/contact.vue",
+    "chunkName": "pages/contact",
+    "_name": "_3d39c31b"
+  },
+  {
     "name": "create",
     "path": "/create",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/index.vue",
@@ -96,13 +103,6 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/privacy.vue",
     "chunkName": "pages/privacy",
     "_name": "_d73462fa"
-  },
-  {
-    "name": "reachout",
-    "path": "/reachout",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/reachout.vue",
-    "chunkName": "pages/reachout",
-    "_name": "_2393ca10"
   },
   {
     "name": "register",

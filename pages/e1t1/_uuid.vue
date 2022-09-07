@@ -221,14 +221,8 @@
                 </div>
                 <v-row>
                     <v-col >
-                    <h4 v-if="e1t1.s_appreciation">Appreciation</h4>
-                    <div style="
-                        max-height:200px;
-                        overflow-x: hidden;
-                        overflow-y: auto;
-                        text-align:justify;">
-                    <h5  class="font-weight-light mt-2 mb-4 text-pre-wrap">{{e1t1.s_appreciation}}</h5>
-                    </div>
+                    <!-- <h4 v-if="e1t1.s_appreciation">Appreciation</h4> -->
+                    <h5  class="font-weight-light mt-2 mb-4 text-pre-wrap appreciation">{{e1t1.s_appreciation}}</h5>
                     <v-btn class="mt-4" small outlined color="black" @click="learntDialog=true" v-if="e1t1.s_learnings">
                         <h4 class="font-weight-medium" style="text-transform: capitalize;">Learning</h4>
                         </v-btn>
@@ -731,5 +725,10 @@ export default {
 <style  scoped>
 .v-dialog{
     margin:12px
+}
+.appreciation{
+    text-align:justify;
+    max-height: 200px;
+    overflow: auto;
 }
 </style>

@@ -3,7 +3,7 @@
     <v-app> 
         <v-container class="width">
             <div class="my-6">
-                <h1 class="my-4">Reach out!</h1>
+                <h1 class="my-4">Contact us!</h1>
                 <p class="my-2 font-weight-light">Gebbles is an entirely homegrown community platform, hence in this version you might find bugs or error during your use.
                     You can contact us using any(preferablly mail with the subject to be addressed) of the below addresses and send us your queries/issues and we will try and solve it for you.
                     <!-- Thankyou. -->

@@ -1734,7 +1734,7 @@ export default {
         // if(image2.includes("minithumbnails.s3")||image2.includes("mediumthumbnails.s3")){
         //     console.log("s3ed");
         // }
-        console.log(this.$store.state.editing_event_obj.event_battles);
+        // console.log(this.$store.state.editing_event_obj.event_battles);
         // const newArr = arr1.map(obj => {
         // if (obj.id === 1) {
         //     return {...obj, name: 'Alfred'};

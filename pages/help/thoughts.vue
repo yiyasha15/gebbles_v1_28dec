@@ -1,7 +1,7 @@
 <template>
 <v-app>
     <v-container class="width">
-        <h1 class="my-3">Thought behind gebbles</h1>
+        <h1 class="my-3">Thoughts</h1>
     </v-container>
 </v-app>
 </template>
