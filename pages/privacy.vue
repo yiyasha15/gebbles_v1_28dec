@@ -13,7 +13,7 @@
                 We use common internet technologies, such as cookies and web server logs. 
 
             </p>
-            <p>The information we collect about all visitors to our website includes:</p>
+            <!-- <p>The information we collect about all visitors to our website includes:</p>
             <p>
                 <ul>
                     <li>The visitor’s browser type</li>
@@ -21,8 +21,8 @@
                     <li>The date and time of each visitor request</li>
                     <li>We also collect potentially personally-identifying information like Internet Protocol (IP) addresses.</li>
                 </ul>
-            </p>
-            <p>
+            </p> -->
+            <!-- <p>
             We use this information to:
             </p>
             <p>
@@ -30,7 +30,7 @@
                     <li>Provide, test, improve, promote and personalize Gebbles Services</li>
                     <li>Fight spam and other forms of abuse</li>
                 </ul>
-            </p>
+            </p> -->
             <p>
             Data Storage
             </p>

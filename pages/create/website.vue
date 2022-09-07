@@ -51,16 +51,17 @@
                                 <v-text-field
                                     required 
                                     v-model = "artist_data.artist_name"
-                                    label="Name"
+                                    label="Artist Name"
                                     prepend-icon="mdi-account-edit-outline"
                                     :maxlength="255"
+                                    clearable
                                     counter>
                                 </v-text-field>
                                 <v-autocomplete label="Representing(country)" v-model= "artist_data.country"
                                     :items="countries" prepend-icon="mdi-earth"
                                     item-text="name"
                                     item-value="code"
-                                    required
+                                    required clearable
                                 ></v-autocomplete>
                             </v-col>
                         </v-row>
@@ -948,12 +949,11 @@ methods: {
         // now compare their keys and values  
         for(var i=0; i<keyObj1.length; i++) { 
             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
-                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
+                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
             } else {
                 formName.append(keyObj1[i], valueObj2[i]);
             } 
         }
-        // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
         formName.append("username", this.artist_data['username']);
         await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
         // console.log("portfolio patched");
