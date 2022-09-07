@@ -52,7 +52,7 @@
                 <ul>
                     <li>Your can use part of the Service without having to sign up.(browsing artists and events around the world)</li>
                     <li>However to create your portfolio and share about your experiences you have to<nuxt-link to="/register" > sign up</nuxt-link> .</li>
-                    <li>After you sign up, Creating your portfolio will give you access to additional features such as sharing journey, sharing each one teach one, create events and engage with your peers and a more holistic experience of the platform. </li>
+                    <li>After you sign up, Creating your portfolio will give you access to additional features such as sharing journey, sharing learnt experiences, creating events page, engaging with your peers and a more holistic experience of the platform. </li>
                     <li>Your content is yours – you own it, and you are responsible for it.</li>
                     <li>Be mindful of the information you're sharing.</li>
                 </ul>
@@ -86,7 +86,7 @@
                     <li>inaccuracies, non-reliability and/or inability to meet needs in the Service.</li>
                     <li>content provided in the service.</li>
                     <li>damages that arise from the use of the Service or inability to use the Service.(eg: loss of Content, etc)</li>
-                    <li>the links to third-party websites (such as YT and IG links)and online services that are not owned or controlled by Gebbles.</li>
+                    <li>the links to third-party websites (such as YouTube and Instagram links)and online services that are not owned or controlled by Gebbles.</li>
                     <!-- <li></li>
                     <li></li> -->
                 </ul> </p>
