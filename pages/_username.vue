@@ -1009,7 +1009,7 @@ export default {
 <style scoped>
 .artist_toolbar_name1{
     font-family: 'Poiret One', cursive; 
-    max-height: 35.5px; 
+    max-height: 36px; 
     overflow: auto;
     color:black;
      margin-bottom:7px ;
