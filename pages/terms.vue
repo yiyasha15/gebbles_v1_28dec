@@ -3,7 +3,7 @@
         <v-container class="width">
             <h1 class="my-1">Terms of use</h1>
             <p class="grey--text text--darken-1">
-                Effective date: September 6, 2022<br>
+                Effective date: September 7, 2022<br>
             </p>
             <p>
                 This page is dedicated for the terms and conditions that govern our relationship; 

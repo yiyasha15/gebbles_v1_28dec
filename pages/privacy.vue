@@ -3,7 +3,7 @@
         <v-container class="width">
             <h1 class="my-1">Privacy Policy </h1>
             <p class="grey--text text--darken-1">
-                Effective date: September 6, 2022<br>
+                Effective date: September 7, 2022<br>
             </p>
             <p>
                 The information gebbles collects and why
