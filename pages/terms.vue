@@ -20,7 +20,7 @@
             <p>
                Our Service allows you to:
                <ul>
-                    <li>discover your favourite artist and create your artist portfolio online,</li>
+                    <li>discover hiphop artists and create your artist portfolio online,</li>
                     <li>explore events happening around the world,
                     </li>
                     <li>journal about your dance journey,</li>
@@ -110,10 +110,10 @@
                     </li>
                 </ul>
             </p>
-            <p class="font-weight-medium">Governing Law</p>
+            <!-- <p class="font-weight-medium">Governing Law</p>
             <p>
                 Any claim relating to the platform shall be governed by the laws of the ... without regard to its conflict of law provisions.
-            </p>
+            </p> -->
             <!-- <p class="font-weight-medium">
             Reference
             </p>
