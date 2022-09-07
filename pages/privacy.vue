@@ -43,7 +43,7 @@
                     <li>All service providers and third-party vendors are required to meet our data protection standards.</li>
                 </ul>
             </p>
-            <p>
+            <!-- <p>
             Site monitoring
             </p>
             <p>
@@ -54,7 +54,7 @@
             </p>
             <p>
             Tracking & Cookies
-            </p>
+            </p> -->
             <p>
             Data Security
             </p>
