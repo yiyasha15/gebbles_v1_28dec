@@ -6,7 +6,7 @@
       <img
     :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
     class="clickable"
-    :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+    :src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
     </center>
 		<v-card-title class="justify-center">
 			<h3 class="font-weight-medium">Sign up to gebbles</h3>

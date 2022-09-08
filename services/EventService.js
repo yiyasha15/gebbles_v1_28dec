@@ -18,6 +18,9 @@ const apiClient1 = axios.create({
 })
 
 export default {
+    getUser(){
+        return apiClient1.get('/auth/user/')
+    },
     getWhatsCooking() {
         return apiClient1.get('/whatiscooking/list/')
     },

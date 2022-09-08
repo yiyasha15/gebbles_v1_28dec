@@ -92,9 +92,10 @@ export default {
         }
   },
   created(){
-    console.log(this.isAuthenticated);
+    console.log(this.$store.state.auth.strategy);
     this.$store.dispatch("check_notifications");
     this.$store.dispatch("check_user_portfolio");
+    this.$store.dispatch("check_user_bio");
     this.getartists();
   },
   methods:{

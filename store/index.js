@@ -174,6 +174,31 @@ export const getters = {
   }
 }
 export const actions = {
+  // async nuxtServerInit({
+  //   commit
+  // }, {
+  //   req
+  // }) {
+  //   let auth = null
+  //   if (req.headers.cookie) {
+  //     // cookie found
+  //     try {
+  //       // check data user login with cookie
+  //       const {
+  //         data
+  //       } = await this.$axios.get('/user/profile')
+  //       // server return the data is cookie valid loggedIn is true
+  //       auth = data.data // set the data auth
+  //     } catch (err) {
+  //       // No valid cookie found
+  //       auth = null
+  //     }
+  //   }
+
+  //   // How we can set the user for AuthNuxt
+  //   // Source: https://auth.nuxtjs.org/api/auth
+  //   this.$auth.setUser(auth)
+  // },
   check_notifications({commit, state}){
     if(state.auth.user ){
         const config = {
@@ -254,7 +279,9 @@ export const actions = {
   //   })
   // },
   check_user_portfolio({commit, state}){
+    console.log("check user thumb");
       if(state.auth.loggedIn) {
+        console.log("check user thumb");
           EventService.getArtist(state.auth.user.user.username).then(res =>
           {
             // console.log("checking portfolio");

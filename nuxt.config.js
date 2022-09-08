@@ -112,7 +112,7 @@ export default {
           login: { url: 'v1/auth/login/', method: 'post', propertyName: 'token' },
           // refresh: { url: 'v1/auth/refresh', method: 'post', propertyName: false },
           logout: {url: 'v1/auth/logout/', method: 'post'},
-          // user: { url: 'v1/auth/user/', method: 'post' }
+          user: { url: `https://gruw80hfj5.execute-api.us-east-2.amazonaws.com/dev/api/v1/auth/user/`, method: 'get' }
         },
         tokenType: ''
       }

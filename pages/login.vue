@@ -6,7 +6,7 @@
 			<img
 			:height="$vuetify.breakpoint.smAndDown ? 38 : 48"
 			class="clickable mt-8"
-			:src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+			:src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
 			<v-card-title class="justify-center">
 				<h3 class="font-weight-medium">Sign in to gebbles</h3>
 			</v-card-title>
@@ -66,12 +66,6 @@ export default {
 					this.$auth.setUser(res.data)
 					this.$auth.setUserToken(res.data.access_token)
 					this.$auth.setRefreshToken('local', res.data.refresh_token);
-					// this.$store.dispatch("check_artists");
-					this.$store.dispatch("check_user_portfolio");
-					this.$store.dispatch("check_user_bio");
-					// this.$store.dispatch("check_user_journey");
-					this.$store.dispatch("check_user_teachers");
-					this.$store.dispatch("check_notifications");
 					this.progressbar1 = false;
 					this.$router.push('/')})
 				}catch(error){

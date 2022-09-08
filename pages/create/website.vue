@@ -341,12 +341,9 @@ components: {
 computed: {
     ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser'])
 },
-mounted() {
+created(){
     this.$store.dispatch("check_user_portfolio");
     this.$store.dispatch("check_user_bio");
-},
-created(){
-    //this should happen after mounted
     if(this.userHasPortfolio)
     {
         this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
@@ -899,7 +896,7 @@ methods: {
                 let url = res.body
                 url = url.slice(1, -1);
                 this.$axios.$put(url, fileData).then((value) => {
-                // console.log("image is put", value);
+                console.log("image is put", value);
                 this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.callApi();
@@ -946,6 +943,7 @@ methods: {
                     this.bio.fb= this.bio.fb.substring(1);
                 }
             }
+            console.log("callapi");
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
