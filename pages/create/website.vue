@@ -19,9 +19,21 @@
                         :show-loading="true"
                         :initial-image="initialImage"
                         :prevent-white-space="true"
-                        :remove-button-color="'black'"
+                        :show-remove-button="false"
                     ></croppa>
                 </v-row>
+                <v-row class="w-350">
+                    <v-btn icon @click="cropImage.rotate()">
+                        <v-icon>mdi-file-rotate-right-outline</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="cropImage.flipX()">
+                        <v-icon>mdi-flip-horizontal</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="cropImage.remove()">
+                        <v-icon >mdi-close</v-icon>
+                    </v-btn>
+                </v-row>
+                <v-divider class="hidden-sm-and-up mt-2"></v-divider>
             </v-col>
             <v-col cols="12" md="6" sm="5">
                 <v-form v-on:submit.prevent="submit_about">
@@ -304,7 +316,7 @@
         <v-snackbar v-model="fill_intro_snackbar">
             Please fill your introduction.
         </v-snackbar>
-        <v-snackbar v-model="error_snackbar">
+        <v-snackbar v-model="error_snackbar">{{errortext}}
             Some error occured. Please try again.
         </v-snackbar>
     </v-container>
@@ -656,6 +668,7 @@ data(){
             {"name": "Zambia", "code": "ZM"},
             {"name": "Zimbabwe", "code": "ZW"}
         ],
+        errortext:''
     }
 },
 methods: {
@@ -978,6 +991,7 @@ methods: {
         this.$router.push("/" + this.bio.username);
         } catch (error) {
             console.log(error, error.response);
+            this.errortext = error.response
             this.progressbar =false
             this.error_snackbar = true
         }
@@ -1033,5 +1047,10 @@ methods: {
 <style scoped>
 .canvas{
     width: 100%;
+}
+.w-350{
+    max-width: 350px;
+    margin: auto;
+    padding-top: 10px;
 }
 </style>
