@@ -1001,7 +1001,10 @@ export default {
     layout: 'username',
     components:{
         TheHeader
-    }
+    },
+    mounted() {
+    this.$store.dispatch("check_user_portfolio");
+}
     
 }
 </script>

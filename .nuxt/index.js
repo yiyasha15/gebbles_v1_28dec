@@ -19,7 +19,6 @@ import nuxt_plugin_metaplugin_ab736d40 from 'nuxt_plugin_metaplugin_ab736d40' //
 import nuxt_plugin_iconplugin_a2242258 from 'nuxt_plugin_iconplugin_a2242258' // Source: ./pwa/icon.plugin.js (mode: 'all')
 import nuxt_plugin_axios_da65fb1e from 'nuxt_plugin_axios_da65fb1e' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuexpersist_13f465a2 from 'nuxt_plugin_vuexpersist_13f465a2' // Source: ../plugins/vuex-persist (mode: 'client')
-import nuxt_plugin_aos_3e747fca from 'nuxt_plugin_aos_3e747fca' // Source: ../plugins/aos.client (mode: 'client')
 import nuxt_plugin_plugin_676ab6ed from 'nuxt_plugin_plugin_676ab6ed' // Source: ./auth/plugin.js (mode: 'all')
 
 // Component: <ClientOnly>
@@ -228,10 +227,6 @@ async function createApp(ssrContext, config = {}) {
 
   if (process.client && typeof nuxt_plugin_vuexpersist_13f465a2 === 'function') {
     await nuxt_plugin_vuexpersist_13f465a2(app.context, inject)
-  }
-
-  if (process.client && typeof nuxt_plugin_aos_3e747fca === 'function') {
-    await nuxt_plugin_aos_3e747fca(app.context, inject)
   }
 
   if (typeof nuxt_plugin_plugin_676ab6ed === 'function') {

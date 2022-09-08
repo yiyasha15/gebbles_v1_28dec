@@ -92,9 +92,9 @@ export default {
         }
   },
   created(){
-    // console.log(Date.now());
-    console.log(this.$auth.strategy.refreshToken);
+    console.log(this.isAuthenticated);
     this.$store.dispatch("check_notifications");
+    this.$store.dispatch("check_user_portfolio");
     this.getartists();
   },
   methods:{
@@ -163,25 +163,25 @@ export default {
           case 'lg': return 185
           case 'xl': return 185
         }
-      },
-      cardwidth () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
-      maxwidth() {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 340
-          case 'sm': return 340
-          case 'md': return 340
-          case 'lg': return 340
-          case 'xl': return 340
-        }
-      },
+    },
+    cardwidth () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 115
+        case 'sm': return 115
+        case 'md': return 215
+        case 'lg': return 215
+        case 'xl': return 215
+      }
+    },
+    maxwidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 340
+        case 'sm': return 340
+        case 'md': return 340
+        case 'lg': return 340
+        case 'xl': return 340
+      }
+    },
   },
 }
 //https://stackoverflow.com/questions/57800048/how-to-enable-dark-mode-with-custom-colors-in-light-theme-in-vuetify

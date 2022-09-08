@@ -317,7 +317,7 @@
             Please fill your introduction.
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">{{errortext}}
-            Some error occured. Please try again.
+            gSome error occured. Please try again.
         </v-snackbar>
     </v-container>
 </template>
@@ -346,6 +346,7 @@ mounted() {
     this.$store.dispatch("check_user_bio");
 },
 created(){
+    //this should happen after mounted
     if(this.userHasPortfolio)
     {
         this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
@@ -949,7 +950,7 @@ methods: {
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
         let myObj4 = this.bio
-        // find keys 
+        // find keys
         let keyObj1 = Object.keys(myObj1); 
         let keyObj2 = Object.keys(myObj2); 
         let keyObj3 = Object.keys(myObj3); 

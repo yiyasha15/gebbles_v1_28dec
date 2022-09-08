@@ -77,7 +77,6 @@
     </v-app>
 </template>
 <script>
-import { refresh } from 'aos';
 export default {
     middleware : 'check_auth',
     data() {
