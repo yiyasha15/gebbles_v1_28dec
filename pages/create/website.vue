@@ -884,7 +884,9 @@ methods: {
     },
     async update() {
         this.progressbar =true
+        console.log("update");
         let url = this.cropImage.generateDataUrl();
+        console.log("update",url);
         if(this.artist_data.introduction!=""){
             if (url){
             let fileData = this.dataURLtoFile(url, "coverimage.png");
