@@ -207,8 +207,8 @@
                 <v-layout row wrap justify-start class="mx-0 mb-2">
                     <v-flex md2 xs2>
                         <v-btn icon @click="react_love">
-                            <v-icon color="black" v-if="!share_has_love">mdi-heart-outline</v-icon>
-                            <v-icon color="yellow" v-else>mdi-heart</v-icon>
+                            <v-icon color="red" v-if="!share_has_love">mdi-heart-outline</v-icon>
+                            <v-icon color="red" v-else>mdi-heart</v-icon>
                             <div v-if="love">{{love}}</div>
                         </v-btn>
                     </v-flex>

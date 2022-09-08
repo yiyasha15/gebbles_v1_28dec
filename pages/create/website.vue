@@ -10,10 +10,12 @@
             <v-col cols="12" md="6" sm="7" >
                 <v-row class="pb-3 justify-center text-center">
                     <croppa
+                        :accept="'image/*'"
                         v-model="cropImage"
                         canvas-color="transparent"
                         :width="350"
                         :height="350"
+                        placeholder="Upload an image"
                         :show-loading="true"
                         :initial-image="initialImage"
                         :prevent-white-space="true"
