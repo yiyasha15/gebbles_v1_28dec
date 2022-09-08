@@ -130,6 +130,7 @@
                                 :maxlength="255"
                                 >
                             </v-text-field>
+                            {{bio.fb}}{{bio.ig}}
                             <v-text-field
                                 prepend-icon="mdi-youtube"
                                 v-model= "bio.yt"
@@ -317,7 +318,7 @@
             Please fill your introduction.
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">{{errortext}}
-            gSome error occured. Please try again.
+            Some error occured. Please try again.
         </v-snackbar>
     </v-container>
 </template>
@@ -884,9 +885,7 @@ methods: {
     },
     async update() {
         this.progressbar =true
-        console.log("update");
         let url = this.cropImage.generateDataUrl();
-        console.log("update",url);
         if(this.artist_data.introduction!=""){
             if (url){
             let fileData = this.dataURLtoFile(url, "coverimage.png");
@@ -898,7 +897,6 @@ methods: {
                 let url = res.body
                 url = url.slice(1, -1);
                 this.$axios.$put(url, fileData).then((value) => {
-                console.log("image is put", value);
                 this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                 this.callApi();
@@ -933,10 +931,12 @@ methods: {
             let rx_fb =/(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*?(\/)?([^/?]*)/
             let ig_username = rx_ig.exec(this.bio.ig); 
             let fb_username = rx_fb.exec(this.bio.fb);
-            if (this.bio.ig.length !=0) {
+            if (this.bio.ig && this.bio.ig.length !=0) {
                 this.bio.ig = ig_username[1]
+            }else{
+                this.bio.ig = ""
             }
-            if (this.bio.fb.length !=0) {
+            if (this.bio.fb && this.bio.fb.length !=0) {
                 if(fb_username && fb_username[1] == undefined)
                     //check if url and then extract username
                     this.bio.fb = fb_username[2]
@@ -945,7 +945,9 @@ methods: {
                     this.bio.fb= this.bio.fb.substring(1);
                 }
             }
-            console.log("callapi");
+            else{
+                this.bio.fb = ""
+            }
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
@@ -965,7 +967,7 @@ methods: {
         // now compare their keys and values  
         for(var i=0; i<keyObj1.length; i++) { 
             if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
-                console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
+                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
             } else {
                 formName.append(keyObj1[i], valueObj2[i]);
             } 
@@ -978,6 +980,7 @@ methods: {
             if(keyObj3[i] == keyObj4[i] && valueObj3[i] == valueObj4[i]) { 
                 // console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
             } else { 
+                // console.log(" value changed for: ",keyObj3[i]+' -> '+valueObj4[i]);
                 formName2.append(keyObj3[i], valueObj4[i]);
             } 
         }
