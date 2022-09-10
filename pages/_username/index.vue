@@ -157,7 +157,7 @@
                 </h4>
             </v-col>
         </v-row> -->
-        <v-row v-if="bio.quote" class="mt-md-12 mb-md-6">
+        <v-row v-if="bio.quote || bio.crew" class="mt-md-12 mb-md-6">
             <v-col align="center" style="margin:auto; max-width:750px">
             <h5 class="font-weight-light font-italic">
             "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-4" :country= 'artist.country' /> 

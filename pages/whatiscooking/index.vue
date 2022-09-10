@@ -1,19 +1,10 @@
 <template>
     <v-app>
       <v-container class="pa-0">
-        <v-row v-if="!isAuthenticated" style="max-width: 670px; margin: auto;" class="hidden-sm-and-down py-4" >
+        <v-row class="mx-auto width py-4 px-3 px-md-0" >
         <h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3>
       </v-row>
-      <v-row v-if="!isAuthenticated" style="max-width: 457px; margin: auto;" class="hidden-md-and-up  py-4 pl-2" >
-        <h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3>
-      </v-row>
-      <v-row v-if="isAuthenticated" style="max-width: 670px; margin: auto;" class="hidden-sm-and-down py-4" >
-        <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3></nuxt-link>/<nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light pl-1">Community</h3></nuxt-link> 
-      </v-row>
-      <v-row v-if="isAuthenticated" style="max-width: 457px; margin: auto;" class="hidden-md-and-up py-3 pl-2">
-        <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3></nuxt-link>/<nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light pl-1">Community</h3></nuxt-link> 
-      </v-row>
-       <div style="max-width: 457px; margin:auto;"  v-if="firstLoad" class="hidden-md-and-up" >
+       <div class="mx-auto width" v-if="firstLoad" >
       <v-skeleton-loader width="100%"   :loading="loading" type="card" ></v-skeleton-loader>
       <div align="left" justify="left">
       <div class="mb-1">
@@ -32,29 +23,7 @@
       <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
       </v-row>
       </div>
-      <div style="max-width: 670px; margin:auto;"  v-if="firstLoad" class="hidden-sm-and-down" >
-      <v-skeleton-loader width="100%"  :loading="loading" type="card" ></v-skeleton-loader>
-      <div align="left" justify="left">
-          <div class="mb-2">
-          <v-btn icon class="mr-1">
-              <v-icon color="black" >mdi-heart</v-icon>
-          </v-btn>
-          <v-btn icon class="mx-1">
-              <v-icon color="black" >mdi-fire</v-icon>
-          </v-btn>
-          <v-btn icon  class="mx-1">
-              <v-icon color="black" >mdi-head-flash-outline</v-icon>
-          </v-btn>
-      </div>
-      </div>
-        <v-row class="px-4">
-        <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
-        </v-row>
-      </div>
-      <div style="max-width: 670px; margin:auto;" class="hidden-sm-and-down" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
-        <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
-      </div>
-      <div style="max-width: 457px; margin:auto;" class="hidden-md-and-up" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
+      <div class="mx-auto width" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
         <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
       </div>
       <center v-if="!cooking.length && !firstLoad">
@@ -83,7 +52,7 @@ export default {
           hid: 'description',
           name: 'description',
           content: 
-              'Gebbles community'
+              'Gebbles - What`s cooking'
         }
       ]
     }
@@ -144,3 +113,14 @@ export default {
   },
 }
 </script>
+<style scoped>
+
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
+</style>

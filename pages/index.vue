@@ -1,44 +1,64 @@
 <template>
-  <v-app>
-    <div v-if="!isAuthenticated" class="mt-md-16 mt-8">
-      <div align="center" justify="center" class="mt-md-10 mt-2">
-        <v-img
-          :lazy-src="require('@/assets/home.png')"
-          :max-width="maxwidth"
-          :src="require('@/assets/home.png')"
-        ></v-img>
-      </div>
-      <v-row justify="center" class="my-3" grey>
-        <!-- <h1 class="text-center font-weight-black hidden-sm-and-down " style="font-size:2em">
-          Connecting the groove, <br>
-          celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
-        </h1>
-        <h3 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-black"  style="font-size:1.5em">
-          "Connecting the groove, <br>
-          celebrating<br>
-          <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
-        </h3> -->
-        <h1 class="text-center font-weight-medium mb-2 mx-4" style="font-size:0.9em">
-        at gebbles, people share the stories about <br>how you touched their lives through your art.  
-        </h1>
-        <br>
-      </v-row>
-      <v-row justify="center" class="mb-2">
-        <h4 class="caption">movement + music + culture</h4>
-      </v-row>
-        <center class="mt-6">
-        <v-row  style="max-width:370px; margin:auto">
-          <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h5 class="font-weight-light">community</h5></nuxt-link></v-col>
-          <!-- <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h5 class="font-weight-light">what's cooking</h5></nuxt-link></v-col> -->
-          <v-col><nuxt-link to="/events/" class="text-decoration-none "><h5 class="font-weight-light">events</h5></nuxt-link></v-col>
-          <v-col v-if="!userHasPortfolio"><nuxt-link to="/create/" class="text-decoration-none "><h5 class="font-weight-light">get started</h5></nuxt-link></v-col>
+  <!-- <v-app> -->
+    <v-container>
+    <v-row v-if="!isAuthenticated">
+      <v-col cols="12" md="6">
+        <div class="mt-md-13 mt-8">
+        <div align="center" justify="center" class="mt-md-10 mt-2">
+          <v-img
+            :lazy-src="require('@/assets/home.png')"
+            :max-width="maxwidth"
+            :src="require('@/assets/home.png')"
+          ></v-img>
+        </div>
+        <v-row justify="center" class="my-3" grey>
+          <p class="text-center font-weight-bold" style="font-size:1.2em">
+            Connecting the groove, <br>
+            celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
+            -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one</span>
+            <!-- legacy of the hiphop culture -->
+          </p>
+          <!-- <h1 class="text-center font-weight-medium mb-2 mx-4" style="font-size:0.9em">
+          at gebbles, people share the stories about <br>how you touched their lives through your art.  
+          </h1> -->
+          <!-- <br> -->
         </v-row>
-      </center>
-    </div>
+        <!-- <v-row justify="center" class="mb-2">
+          <h4 class="caption">movement + music + culture</h4>
+        </v-row> -->
+        <center class="mt-6">
+          <v-row  style="max-width:370px; margin:auto">
+            <v-col v-if="!userHasPortfolio"><nuxt-link to="/create/" class="text-decoration-none ">get started</nuxt-link></v-col>
+            <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined">artists</nuxt-link></v-col>
+          </v-row>
+          <v-row  style="max-width:370px; margin:auto">
+            <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none ">what's cooking</nuxt-link></v-col>
+            <v-col><nuxt-link to="/events/" class="text-decoration-none ">events</nuxt-link></v-col>
+          </v-row>
+        </center>
+      </div>
+      </v-col>
+      <v-col cols="12" md="6" class="mt-md-10">
+        <div class="my-md-16 ma-3 mx-md-10">
+        <p class="font-weight-medium">why gebbles?</p>
+        <p>a lifestyle canvas for the artists of the HipHop culture.</p>
+        <h2 class="text-center">🎵 💃 🎤 🎨 </h2>
+        <p class="font-weight-medium mt-3">represent like you get down</p>
+        <p>create and curate your events and work, document and share your passionate journey, 
+          build a porfolio website that represents you.</p>
+        <p class="font-weight-medium mt-3">connect with your community, grow together</p>
+        <p>can we imagine hiphop without 'sharing'?</p>
+        <p>
+          let's shoutout to those friends and teachers who share their knowledge and inspire us. Likewise,
+          gebbles notifies and helps you connect with your students and fans when they appreciate you and your work.
+        </p>
+        </div>
+      </v-col>
+    </v-row>
     <v-container v-else class="pa-0 mt-4 mt-md-8" >
     <v-row class="mx-auto width">
       <v-col cols="12" md="8"  class="justify-center ">
-        <nuxt-link to="/" class="text-decoration-none outlined"><h2 class ="xs12 d-inline font-weight-light">Community</h2></nuxt-link> 
+        <nuxt-link to="/" class="text-decoration-none outlined"><h2 class ="xs12 d-inline font-weight-light">Artists</h2></nuxt-link> 
         <!-- / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link> -->
       </v-col>
       <v-col cols="12" md="4" class= "justify-end py-0 py-md-3" >
@@ -72,7 +92,8 @@
       <h3>No artists found. </h3>
     </center>
     </v-container>
-  </v-app>
+    </v-container>
+  <!-- </v-app> -->
 </template>
 
 <script>
@@ -87,7 +108,7 @@ export default {
           hid: 'description', //create page overrides the description, hid helps to stop redundancy
           name: 'description',
           content: 
-              'gebbles - The thread connecting music, movement and artists.'
+              'gebbles - the thread connecting music, movement and artists.'
         }]
         }
   },
@@ -176,8 +197,8 @@ export default {
     },
     maxwidth() {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 340
-        case 'sm': return 340
+        case 'xs': return 300
+        case 'sm': return 300
         case 'md': return 340
         case 'lg': return 340
         case 'xl': return 340
@@ -201,15 +222,7 @@ export default {
   width: 860px;
   margin: auto;
 } */
-h2:hover{
-  color: black;
-  /* text-decoration: underline; */
-}
-h5:hover{
-  color: black;
-  text-decoration: underline;
-}
-h3:hover{
+a:hover{
   color: black;
   text-decoration: underline;
 }

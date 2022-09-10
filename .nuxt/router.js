@@ -12,7 +12,6 @@ const _6a4e72d8 = () => interopDefault(import('../pages/create/index.vue' /* web
 const _36934671 = () => interopDefault(import('../pages/events/index.vue' /* webpackChunkName: "pages/events/index" */))
 const _3717afe4 = () => interopDefault(import('../pages/explore.vue' /* webpackChunkName: "pages/explore" */))
 const _571cafb3 = () => interopDefault(import('../pages/feed.vue' /* webpackChunkName: "pages/feed" */))
-const _7e8aac0c = () => interopDefault(import('../pages/guide/index.vue' /* webpackChunkName: "pages/guide/index" */))
 const _0c96444e = () => interopDefault(import('../pages/help/index.vue' /* webpackChunkName: "pages/help/index" */))
 const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
@@ -31,8 +30,6 @@ const _bbe17f72 = () => interopDefault(import('../pages/create/events.vue' /* we
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
-const _402cfdae = () => interopDefault(import('../pages/guide/getting_started.vue' /* webpackChunkName: "pages/guide/getting_started" */))
-const _604d493e = () => interopDefault(import('../pages/guide/known_issues.vue' /* webpackChunkName: "pages/guide/known_issues" */))
 const _4b7b26cd = () => interopDefault(import('../pages/help/getting_started.vue' /* webpackChunkName: "pages/help/getting_started" */))
 const _6a11eac3 = () => interopDefault(import('../pages/help/issues.vue' /* webpackChunkName: "pages/help/issues" */))
 const _4bf1b943 = () => interopDefault(import('../pages/help/thoughts.vue' /* webpackChunkName: "pages/help/thoughts" */))
@@ -100,10 +97,6 @@ export const routerOptions = {
     path: "/feed",
     component: _571cafb3,
     name: "feed"
-  }, {
-    path: "/guide",
-    component: _7e8aac0c,
-    name: "guide"
   }, {
     path: "/help",
     component: _0c96444e,
@@ -176,14 +169,6 @@ export const routerOptions = {
     path: "/create/website",
     component: _2f47e146,
     name: "create-website"
-  }, {
-    path: "/guide/getting_started",
-    component: _402cfdae,
-    name: "guide-getting_started"
-  }, {
-    path: "/guide/known_issues",
-    component: _604d493e,
-    name: "guide-known_issues"
   }, {
     path: "/help/getting_started",
     component: _4b7b26cd,

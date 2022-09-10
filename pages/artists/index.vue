@@ -3,7 +3,7 @@
       <v-container class="pa-0 mt-4 mt-md-8" >
       <v-row class="mx-auto width">
         <v-col cols="12" md="7"  class="justify-center ">
-          <h2 class ="xs12 d-inline font-weight-light">Community</h2>
+          <h2 class ="xs12 d-inline font-weight-light">Artists</h2>
         </v-col>
         <v-col cols="12" md="5" class= "justify-end py-0 py-md-3" >
           <v-text-field
@@ -51,7 +51,7 @@ export default {
           hid: 'description',
           name: 'description',
           content: 
-              'Gebbles community'
+              'Gebbles'
         }
       ]
     }

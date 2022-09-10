@@ -6,7 +6,8 @@
         </div>
         <v-row >
         <v-col>
-             <h2 class="mb-md-8 mb-4" align="center" justify="center">Share your journey</h2>
+             <h2 class="mb-md-8 mb-4" align="center" justify="center" v-if="!editing_obj">Share your journey</h2>
+             <h2 class="mb-md-8 mb-4" align="center" justify="center" v-else>Edit your journey</h2>
             <v-stepper v-model="e6" vertical >
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Share images* <small v-if="journey.event" class="mt-1">add this event to your journey</small>
@@ -132,27 +133,30 @@
                     <v-text-field
                         v-model = "journey.joevent"
                         label= "Title*"
-                        :rules="[() => !!journey.joevent || 'This field is required']"
+                        :rules="titleRules"
                         :maxlength="255"
-                        counter>
+                        counter
+                        >
                     </v-text-field>
                     <v-text-field
                         prepend-icon="mdi-map-marker-outline" 
                         v-model = "journey.city"
                         label= "City"
                         :maxlength="255"
-                        counter>
+                        counter
+                        >
                     </v-text-field>
                     <v-autocomplete label="Country" v-model= "journey.country" prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
                         item-value="code"
-                        required
+                        required 
                     ></v-autocomplete>
                     <v-textarea
                     prepend-icon="mdi-information-outline" 
                         v-model = "journey.jocontent"
-                        label= "Caption">
+                        label= "Caption"
+                        >
                     </v-textarea>
                     <!-- <p class="caption">If the date is in the future it will be added as an upcoming event.</p> -->
                     <v-menu
@@ -171,6 +175,7 @@
                             readonly
                             v-bind="attrs"
                             v-on="on"
+                            
                             ></v-text-field>
                         </template>
                         <v-date-picker v-model= "journey.jodate" no-title scrollable>
@@ -181,12 +186,10 @@
                     </v-menu>
                     <v-text-field 
                     prepend-icon="mdi-link" 
-                        :error-messages="linkError"
                         v-model = "journey.jolink"
                         label= "Add a link"
-                        clearable
                         :maxlength="255"
-                        @change="checkLink">
+                        :rules="urlRules">
                     </v-text-field>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
@@ -227,11 +230,10 @@
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
                 <div class="mx-sm-7 mx-6">
-                    <p class="caption" v-if="lockButton"> Please wait..</p>
                     <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="submit" :loading="progressbar" :disabled="lockButton">Submit</v-btn>
+                    @click="submit" :loading="progressbar" >Submit</v-btn>
                     <v-btn v-else outlined small class="text-decoration-none"  color="black"
-                    @click="update" :loading="progressbar" :disabled="lockButton">Update</v-btn>
+                    @click="update" :loading="progressbar">Update</v-btn>
                 </div>
             </v-stepper>
         </v-col>
@@ -322,6 +324,11 @@ import CountryFlag from 'vue-country-flag'
 
 export default {
     middleware : 'check_auth',
+    head() {  //head function (a property of vue-meta), returns an object
+    return {
+        title: 'gebbles - artist journey',
+        }
+    },
     components: {
         Slider,
         SliderItem,
@@ -397,7 +404,6 @@ export default {
                 isprivate: false,
                 event:""
             },
-            lockButton: false,
             progressbar: false,
             date:"",
             slide: null,
@@ -657,6 +663,13 @@ export default {
                 {"name": "Zambia", "code": "ZM"},
                 {"name": "Zimbabwe", "code": "ZW"}
             ],
+            titleRules: [
+                v => !!v || 'Journey title is required',
+            ],
+            urlRules: [
+                v => !v || /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi.test(v) ||'URL must be valid',
+                v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.'
+            ],
         }
     },
     methods: {
@@ -679,44 +692,6 @@ export default {
             if(thumb) //to save first image as thumbmail
             this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
             return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-        },
-        rotateImg1(){
-            this.rotation += 90; // add 90 degrees, you can change this as you want
-            let rotation = this.rotation;
-            console.log(this.rotation);
-            if (rotation === 360) { 
-                // 360 means rotate back to 0
-                rotation = 0;
-            }
-            document.querySelector("#imgOne").style.transform = `rotate(${rotation}deg)`;
-        },
-        checkLink(){
-            let urlLink = this.journey.jolink;
-            if(urlLink){ //if link exists check if it's valid
-                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-                '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-                '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-                '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                let check = !!pattern.test(this.journey.jolink);
-                if(check){
-                    let checkStartsHttp = urlLink.startsWith('http')
-                    console.log( "checkStartsHttp", checkStartsHttp);
-                    if(!checkStartsHttp)
-                    {
-                        console.log("doesn't start with http")
-                        console.log("url",this.journey.jolink);
-                        this.journey.jolink = 'http://'+ this.journey.jolink
-                        console.log("url",this.journey.jolink);
-                        this.linkError=``
-                        //add http to url
-                    }
-                }
-                else{
-                    this.linkError=`Enter a valid URL.`
-                }
-            }
         },
         goback(){
             this.$store.dispatch("remove_editing_obj")

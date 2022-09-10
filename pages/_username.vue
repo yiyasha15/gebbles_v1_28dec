@@ -27,6 +27,11 @@
                     mdi-google-circles-communities
                 </v-icon>
             </v-btn> -->
+            <v-btn icon small
+              class="text-decoration-none mx-1 hidden-sm-and-up"
+              :to= "`/whatiscooking/`">
+            <v-icon size="26" color="black" >mdi-play-circle-outline</v-icon>
+            </v-btn>
                 <v-btn icon small v-if="isAuthenticated"
             :to="'/'"
             class="text-decoration-none mx-1 hidden-sm-and-up"
@@ -50,12 +55,12 @@
             </div>
             </template>
             <v-list>
-                <!-- <v-list-item
+                <v-list-item
                 :to="'/create/uploadvideo'"
                 class="text-decoration-none pl-6 pr-12"
                 ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
                 <v-list-item-title>Upload a gebble</v-list-item-title>
-                </v-list-item> -->
+                </v-list-item>
                 <v-list-item
                 v-if="userHasPortfolio"
                 :to="'/create/events'"
@@ -194,6 +199,11 @@
                     mdi-google-circles-communities
                 </v-icon>
             </v-btn> -->
+            <v-btn icon small
+              class="text-decoration-none mx-1 d-none d-sm-flex"
+              :to= "`/whatiscooking/`">
+            <v-icon size="26" color="black" >mdi-play-circle-outline</v-icon>
+            </v-btn>
             <v-btn icon small v-if="isAuthenticated"
             :to="'/'"
             class="text-decoration-none mx-1 d-none d-sm-flex"
@@ -217,12 +227,12 @@
             </div>
             </template>
             <v-list>
-                <!-- <v-list-item
+                <v-list-item
                 :to="'/create/uploadvideo'"
                 class="text-decoration-none pl-6 pr-12"
                 ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
                 <v-list-item-title>Upload a gebble</v-list-item-title>
-                </v-list-item> -->
+                </v-list-item>
                 <v-list-item
                 v-if="userHasPortfolio"
                 :to="'/create/events'"

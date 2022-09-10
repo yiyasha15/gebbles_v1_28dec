@@ -8,17 +8,23 @@
             class="clickable"
             :src="require('@/assets/gebbleslogo.png')"/>
             <v-toolbar-title>
-                <h2 class=" hidden-sm-and-down" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2>
-                <h3 class=" hidden-md-and-up" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h3>
+                <!-- <h2 class=" hidden-sm-and-down" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2> -->
+                <!-- <h3 class=" hidden-md-and-up" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h3> -->
             </v-toolbar-title>
         </v-layout>
         </nuxt-link>
             <v-spacer></v-spacer>
-            <!-- <v-btn outlined color="black" small
-              class="text-decoration-none elevation-none px-2 mr-1" 
-              :to= "`/help/`"><h4>help</h4>
+            <!-- <v-btn icon small
+              class="text-decoration-none mr-3"
+              :to= "`/help/`">
+            <v-icon size="26" color="black" >mdi-help</v-icon>
             </v-btn> -->
-            <v-btn icon small v-if="isAuthenticated"
+            <v-btn icon small
+              class="text-decoration-none mr-3"
+              :to= "`/whatiscooking/`">
+            <v-icon size="26" color="black" >mdi-play-circle-outline</v-icon>
+            </v-btn>
+            <v-btn icon small 
             :to="'/'"
             class="text-decoration-none mr-3"
             >
@@ -48,12 +54,12 @@
                 ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
                 <v-list-item-title>Create your event</v-list-item-title>
                 </v-list-item>
-                <!-- <v-list-item
+                <v-list-item
                 :to="'/create/uploadvideo'"
                 class="text-decoration-none pl-6 pr-12"
                 ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                <v-list-item-title>Upload a gebble</v-list-item-title>
-                </v-list-item> -->
+                <v-list-item-title>Upload a video</v-list-item-title>
+                </v-list-item>
                 <v-list-item
                 v-if="!userHasPortfolio"
                 :to="'/create/website'"

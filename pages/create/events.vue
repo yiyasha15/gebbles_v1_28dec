@@ -6,7 +6,8 @@
         </div>
         <v-row >
         <v-col >
-             <h2 class="mb-md-8 mb-4" align="center" justify="center">About the event</h2>
+             <h2 class="mb-md-8 mb-4" align="center" justify="center" v-if="!editing_event_obj">About the event</h2>
+             <h2 class="mb-md-8 mb-4" align="center" justify="center" v-else>Edit the event</h2>
             <v-stepper v-model="e6" vertical class="my-2">
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Event details*
@@ -41,7 +42,7 @@
                         counter
                         v-model = "event.name"
                         label= "Event name*"
-                        clearable>
+                        >
                     </v-text-field>
                     <v-menu
                         ref="menu"
@@ -57,7 +58,7 @@
                                 v-model= "event.start_date"
                                 label="Date*"
                                 prepend-icon="mdi-calendar"
-                                readonly clearable
+                                readonly 
                                 v-bind="attrs"
                                 v-on="on"
                             ></v-text-field>
@@ -69,7 +70,7 @@
                             ></v-date-picker>
                     </v-menu>
                     <v-text-field
-                        clearable
+                        
                         maxlength="255"
                         counter
                         prepend-icon="mdi-map-marker-outline"
@@ -90,7 +91,7 @@
                         :rules="countryRules"
                     ></v-autocomplete>
                     <v-textarea
-                        clearable
+                        
                         prepend-icon="mdi-information-outline"
                         v-model = "event.about"
                         label= "About the event">
@@ -102,12 +103,12 @@
                         label= "Instagram link"
                         :maxlength="200"
                         counter
-                        clearable>
+                        >
                     </v-text-field>
                     <v-text-field
                         :maxlength="200"
                         counter
-                        clearable
+                        
                         :rules="youtubeRules"
                         prepend-icon="mdi-youtube"
                         v-model = "event.videolink"
@@ -116,7 +117,7 @@
                     <v-text-field
                         :maxlength="200"
                         counter
-                        clearable
+                        
                         prepend-icon="mdi-link"
                         :rules="linkRules"
                         v-model = "event.link"
@@ -129,7 +130,7 @@
                         label= "Organiser's Email"
                         :maxlength="254"
                         counter
-                        clearable>
+                        >
                     </v-text-field>
                     </v-form>
                     <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
@@ -158,14 +159,14 @@
                         @change="onFileChange4">
                     </div>
                     <div v-else class="ma-4">
-                    <v-img v-if="typeof(guest.photo) === 'string'" :src="guest.photo" class="mx-auto" height="auto" width="352px" contain>
+                    <v-img v-if="typeof(guest.photo) === 'string'" :src="guest.photo" class="mx-auto" height="300" width="352px" contain>
                         <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
                         <v-icon color="black" small>mdi-close</v-icon>
                         </v-btn>
                     </v-img>
                     </div>
                     <v-text-field
-                        clearable
+                        
                         v-model= "guest.name"
                         label= "Name"
                         :maxlength="255"
@@ -234,10 +235,10 @@
                     item-value="code"
                     v-model = "guest.country"
                     label= "Country"
-                    clearable>
+                    >
                     </v-autocomplete>
                     <v-textarea
-                        clearable
+                        
                         prepend-icon="mdi-information-outline"
                         v-model = "guest.info"
                         label= "Info">
@@ -396,7 +397,7 @@
                         @change="onFileChange5">
                     </div>
                     <div v-else class="ma-4">
-                    <v-img v-if="typeof(organiser.photo) === 'string'" :src="organiser.photo" class="mx-auto" height="auto" width="352px" contain>
+                    <v-img v-if="typeof(organiser.photo) === 'string'" :src="organiser.photo" class="mx-auto" height="300px" width="352px" contain>
                         <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(5)">
                         <v-icon color="black" small>mdi-close</v-icon>
                         </v-btn>
@@ -470,7 +471,7 @@
                     item-value="code"
                     v-model = "organiser.country"
                     label= "Country"
-                    clearable>
+                    >
                     </v-autocomplete>
                     
                     <v-btn outlined small class="text-decoration-none"  color="black"
@@ -590,7 +591,7 @@
             @change="onFileChange2">
         </div>
         <div v-else class="ma-4">
-        <v-img v-if="typeof(battle_category.poster) === 'string'" :src="battle_category.poster" class="mx-auto" height="auto" width="352px" contain>
+        <v-img v-if="typeof(battle_category.poster) === 'string'" :src="battle_category.poster" class="mx-auto" height="300px" width="352px" contain>
             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(2)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
@@ -598,7 +599,7 @@
         </div>
         <!-- {{battle_category}} {{battleEmcee}} {{battleDj}} -->
          <v-text-field
-            clearable
+            
             :rules="nameRules"
             v-model= "battle_category.name"
             label= "Title"
@@ -618,7 +619,7 @@
                     v-model="battle_category.date"
                     label="Date"
                     prepend-icon="mdi-calendar"
-                    readonly clearable
+                    readonly 
                     v-bind="attrs"
                     v-on="on"
                 ></v-text-field>
@@ -642,7 +643,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-          clearable
+          
             v-model="battle_category.date_time"
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
@@ -659,7 +660,7 @@
         ></v-time-picker>
         </v-menu>
         <v-text-field
-        clearable
+        
             v-model = "battle_category.venue"
             label= "Venue"
             prepend-icon="mdi-map-marker-outline"
@@ -672,7 +673,7 @@
             v-model="battleEmcee"
             :items="selectedGuests"
             prepend-icon="mdi-microphone-variant"
-            clearable
+            
             label="Emcee"
             counter="3"
             item-text="name"
@@ -723,7 +724,7 @@
             v-model="battleDj"
             :items="selectedGuests"
             prepend-icon="mdi-music"
-            clearable
+            
             label="Deejay"
             counter="3"
             item-text="name"
@@ -774,7 +775,7 @@
             v-model="battleJudges"
             :items="selectedGuests"
             prepend-icon="mdi-hand-heart-outline"
-            clearable
+            
             label="Judges"
             counter="7"
             item-text="name"
@@ -825,7 +826,7 @@
             v-model="battleGuests"
             :items="selectedGuests"
             prepend-icon="mdi-star-outline"
-            clearable
+            
             label="Battle guests"
             counter="3"
             item-text="name"
@@ -872,19 +873,19 @@
             </template>
         </v-autocomplete>
           <v-text-field
-          clearable
+          
         prepend-icon="mdi-book-outline"
             v-model = "battle_category.rules"
             label= "Rules">
         </v-text-field>
         <v-text-field
-        clearable
+        
         prepend-icon="mdi-license"
             v-model = "battle_category.prizes"
             label= "Prizes">
         </v-text-field>
         <v-textarea
-        clearable
+        
             prepend-icon="mdi-information-outline"
             v-model = "battle_category.about"
             label= "About">
@@ -923,7 +924,7 @@
             @change="onFileChange3">
         </div>
         <div v-else class="ma-4">
-        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
@@ -934,7 +935,7 @@
             v-model="selectedGuest"
             :items="selectedGuests"
             prepend-icon="mdi-hand-heart-outline"
-            clearable
+            
             label="Artist"
             item-text="name"
             return-object
@@ -980,7 +981,7 @@
             label= "Title"
             :maxlength="255"
             counter
-            clearable
+            
             :rules="nameRules">
         </v-text-field>
         <v-menu
@@ -993,7 +994,7 @@
             >
             <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                clearable
+                
                     v-model="category.date"
                     label="Date"
                     prepend-icon="mdi-calendar"
@@ -1021,7 +1022,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-          clearable
+          
             v-model="category.date_time"
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
@@ -1038,7 +1039,7 @@
         ></v-time-picker>
         </v-menu>
         <v-text-field prepend-icon="mdi-map-marker-outline"
-            clearable
+            
             v-model = "category.venue"
             label= "Venue"
             :maxlength="255"
@@ -1076,7 +1077,7 @@
             @change="onFileChange3">
         </div>
         <div v-else class="ma-4">
-        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
@@ -1087,7 +1088,7 @@
             v-model="selectedGuest"
             :items="selectedGuests"
             prepend-icon="mdi-hand-heart-outline"
-            clearable
+            
             label="Artist"
             item-text="name"
             return-object
@@ -1133,7 +1134,7 @@
             label= "Title"
             :maxlength="255"
             counter
-            clearable
+            
             :rules="nameRules">
         </v-text-field>
         <v-menu
@@ -1149,7 +1150,7 @@
                     v-model="category.date"
                     label="Date"
                     prepend-icon="mdi-calendar"
-                    readonly clearable
+                    readonly 
                     v-bind="attrs"
                     v-on="on"
                 ></v-text-field>
@@ -1179,7 +1180,7 @@
             readonly
             v-bind="attrs"
             v-on="on"
-            clearable
+            
           ></v-text-field>
         </template>
         <v-time-picker
@@ -1194,7 +1195,7 @@
             label= "Venue"
             :maxlength="255"
             counter
-            clearable>
+            >
         </v-text-field>
         </v-form>
         <v-btn outlined small class="text-decoration-none" 
@@ -1228,7 +1229,7 @@
             @change="onFileChange3">
         </div>
         <div v-else class="ma-4">
-        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
@@ -1239,7 +1240,7 @@
             label= "Title"
             :maxlength="255"
             counter
-            clearable
+            
             :rules="nameRules">
         </v-text-field>
         <v-menu
@@ -1255,7 +1256,7 @@
                     v-model="category.date"
                     label="Date"
                     prepend-icon="mdi-calendar"
-                    readonly clearable
+                    readonly 
                     v-bind="attrs"
                     v-on="on"
                 ></v-text-field>
@@ -1283,7 +1284,7 @@
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
             readonly
-            clearable
+            
             v-bind="attrs"
             v-on="on"
           ></v-text-field>
@@ -1300,7 +1301,7 @@
             label= "Venue"
             :maxlength="255"
             counter=""
-            clearable>
+            >
         </v-text-field>
         </v-form>
         <v-btn outlined small class="text-decoration-none" 
@@ -1334,7 +1335,7 @@
             @change="onFileChange3">
         </div>
         <div v-else class="ma-4">
-        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
@@ -1345,7 +1346,7 @@
             label= "Title"
             :maxlength="255"
             counter
-            clearable
+            
             :rules="nameRules">
         </v-text-field>
         <v-menu
@@ -1361,7 +1362,7 @@
                     v-model="category.date"
                     label="Date"
                     prepend-icon="mdi-calendar"
-                    readonly clearable
+                    readonly 
                     v-bind="attrs"
                     v-on="on"
                 ></v-text-field>
@@ -1385,7 +1386,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-          clearable
+          
             v-model="category.date_time"
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
@@ -1406,7 +1407,7 @@
             label= "Venue"
             :maxlength="250"
             countrter
-            clearable>
+            >
         </v-text-field>
         </v-form>
         <!-- <v-text-field
@@ -1446,7 +1447,7 @@
             @change="onFileChange3">
         </div>
         <div v-else class="ma-4">
-        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="auto" width="352px" contain>
+        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
             <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
@@ -1457,7 +1458,7 @@
             v-model="selectedGuest"
             :items="selectedGuests"
             prepend-icon="mdi-hand-heart-outline"
-            clearable
+            
             label="Artist"
             item-text="name"
             return-object
@@ -1503,7 +1504,7 @@
             label= "Title"
             :maxlength="255"
             counter
-            clearable
+            
             :rules="nameRules">
         </v-text-field>
         <v-menu
@@ -1519,7 +1520,7 @@
                     v-model="category.date"
                     label="Date"
                     prepend-icon="mdi-calendar"
-                    readonly clearable
+                    readonly 
                     v-bind="attrs"
                     v-on="on"
                 ></v-text-field>
@@ -1543,7 +1544,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-          clearable
+          
             v-model="category.date_time"
             label="Time"
             prepend-icon="mdi-clock-time-four-outline"
@@ -1564,7 +1565,7 @@
             label= "Venue"
             :maxlength="255"
             counter
-            clearable>
+            >
         </v-text-field>
         </v-form>
         <v-btn outlined small class="text-decoration-none" 

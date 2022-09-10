@@ -176,7 +176,7 @@ export default {
           hid: 'description',
           name: 'description',
           content: 
-              'Gebbles community'
+              'Gebbles - Events'
         }
       ]
     }

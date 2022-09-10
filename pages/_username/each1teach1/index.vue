@@ -147,12 +147,12 @@ export default {
     },
     head() {
         return {
-            title: this.artist.artist_name,     //do not miss "this"
+            title: this.artist.username,     //do not miss "this"
             meta: [
                 {
                     hid: 'description',
                     name: 'description',
-                    content: 'What you need to know about this artist #' + this.artist.artist_name
+                    content: 'What you need to know about this artist #' + this.artist.username
                 }
             ]
         }

@@ -1,30 +1,40 @@
 <template>
 <v-app>
     <v-container class="width">
-        <h1 class="my-3">Guide</h1>
-        <p>Hi there, welcome to gebbles! </p>
-        <p>
-            <ul>
-                <li><nuxt-link to="/help/getting_started"> Getting Started @gebbles.io</nuxt-link></li>
-                <li><nuxt-link to="/help/thoughts">Thoughts behind this project</nuxt-link></li>
-                <!-- <li><nuxt-link to="/contact">Contact Us</nuxt-link></li> -->
-                <!-- <li><nuxt-link to="/help/updates">(Upcoming) Updates</nuxt-link></li>
-                <li><nuxt-link to="/help/issues">Known Issues</nuxt-link></li> -->
-                <li><nuxt-link to="/terms">Terms of use</nuxt-link></li>
-                <li><nuxt-link to="/privacy">Privacy Policy</nuxt-link></li>
-            </ul>
-        </p>
+        <upload-image-component @newimage="getUrl" @removeimage="removeUrl"></upload-image-component>
+        <!-- help page: {{url}} -->
+        <v-btn icon @click="dataurl">
+                <v-icon>mdi-help</v-icon>
+            </v-btn>
     </v-container>
 </v-app>
 </template>
-<style scoped>
-.width{
-    max-width: 1024px;
+<script>
+import UploadImageComponent from '~/components/UploadImageComponent.vue'
+export default {
+    components:{
+        UploadImageComponent
+
+    },
+    data(){
+        return{
+            url:'',
+            // remove:''
+        }
+    },
+    methods:{
+        dataurl(){
+            let a =this.url.generateDataUrl()
+            console.log(a);
+        },
+        getUrl(url){
+            this.url = url
+            console.log("got url in help",url);
+        },
+        removeUrl(){
+            console.log("remove url at help");
+        }
+
+    }
 }
-a:hover{
-  color: black;
-}
-a{
-    text-decoration: none;
-}
-</style>
+</script>

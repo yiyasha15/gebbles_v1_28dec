@@ -1,13 +1,14 @@
 <template>
 <div>
     <div class="my-2" >   
-    <video id="videoId" width="100%" :height="height" controls playsinline :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-if="cook.video">
-        <source :src="cook.video" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
     <!-- <div style="float:left;"> -->
+         <youtube aspect-ratio="1" :video-id= 'videoId' v-if="videoId"></youtube>
+          <video id="videoId" width="100%" :height="height" controls playsinline :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-else>
+                <source :src="cook.video" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         <v-row class="pt-3 pb-2 px-3">
-    <h5 class="pl-3 pl-md-0 caption"> {{created_date}}</h5>
+    <h5 class="pl-3 pl-md-0 caption">{{moment(this.cook.timestamp)}}</h5>
         </v-row>
     <!-- </div> -->
     <div :class="{'px-3': $vuetify.breakpoint.smAndDown}" align="left" justify="left">
@@ -156,6 +157,9 @@
 import EventService from '@/services/EventService.js'
 import LearningCommentsCard from '~/components/LearningCommentsCard.vue'
 import { mapGetters } from 'vuex'
+import moment from 'moment'
+import { Youtube } from 'vue-youtube';
+import { getIdFromURL } from 'vue-youtube-embed'
 export default {
     head() {  
     return {
@@ -167,7 +171,8 @@ export default {
         cook: Object
     },
     components:{
-        LearningCommentsCard
+        LearningCommentsCard,
+        Youtube
     },
     computed: {
     ...mapGetters(['loggedInUser', 'userHasPortfolio','usersPortfolio', 'isAuthenticated', 'learning_comments_list']),
@@ -183,11 +188,10 @@ export default {
     },
     data(){
         return{
-            thumb:'',
+            videoId:'',
             dialog:false,
             deleteLoading:false,
             deleteLearnDialog: false,
-            created_date:'',
             comment_array:[],
             like:0,
             dope:0,
@@ -214,20 +218,24 @@ export default {
         }
     },
     created(){
-        this.thumb = this.cook.thumbjs
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = this.cook.timestamp;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartpye = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        this.created_date = datetype+" "+monthtype +" "+yeartpye;
+        let yt_re =/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/
+        let url =this.$props.cook.video 
+        if(yt_re.test(url))
+        {
+        //getting value of youtube video urls
+        if(url)
+        this.videoId = getIdFromURL(url) 
+        }
+        else{
+            //show prev video
+        }
         this.cook_reaction();
         this.cook_comments();
     },
     methods:{
+        moment(date){
+           return moment(date).format("ll")
+        },
         async cook_comments(){
             EventService.getCookComments(this.cook.id).then(res =>  this.comment_array=res.data.results)
         },

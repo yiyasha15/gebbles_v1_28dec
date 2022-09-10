@@ -56,13 +56,6 @@
     "_name": "_571cafb3"
   },
   {
-    "name": "guide",
-    "path": "/guide",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/guide/index.vue",
-    "chunkName": "pages/guide/index",
-    "_name": "_7e8aac0c"
-  },
-  {
     "name": "help",
     "path": "/help",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/help/index.vue",
@@ -187,20 +180,6 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/website.vue",
     "chunkName": "pages/create/website",
     "_name": "_2f47e146"
-  },
-  {
-    "name": "guide-getting_started",
-    "path": "/guide/getting_started",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/guide/getting_started.vue",
-    "chunkName": "pages/guide/getting_started",
-    "_name": "_402cfdae"
-  },
-  {
-    "name": "guide-known_issues",
-    "path": "/guide/known_issues",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/guide/known_issues.vue",
-    "chunkName": "pages/guide/known_issues",
-    "_name": "_604d493e"
   },
   {
     "name": "help-getting_started",

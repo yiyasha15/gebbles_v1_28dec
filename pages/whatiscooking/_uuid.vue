@@ -18,7 +18,7 @@
         <div align="left" justify="left">
         <v-row class="mt-1">
             <v-col>
-            <h5 class="caption pt-1"> {{learndate}}</h5>
+            <h5 class="caption pt-1"> {{moment(cook.timestamp)}}</h5>
             </v-col>
             <div v-if="loggedInUser">
             <v-col v-if="loggedInUser.user.username == cook.username" >
@@ -185,6 +185,7 @@
 import EventService from '@/services/EventService.js'
 import LearningCommentsCard from '~/components/LearningCommentsCard.vue'
 import { mapGetters } from 'vuex'
+import moment from 'moment'
   export default {
     components:{
         LearningCommentsCard
@@ -204,7 +205,6 @@ import { mapGetters } from 'vuex'
         login_snackbar: false,
         thankyou_snackbar: false,
         loading:true,
-        learndate:'',
         comments : {
             username : "",
             comment: "",
@@ -229,22 +229,13 @@ import { mapGetters } from 'vuex'
         }
     },
     created(){
-      this.dateFormat(this.cook.timestamp)
       this.$store.dispatch("check_cook_reactions",this.cook.id);
       this.$store.dispatch("check_cook_comments",this.cook.id);
     },
     methods:{
-      dateFormat(recdate){
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = recdate;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartpye = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        this.learndate = datetype+" "+monthtype +" "+yeartpye;
-      },
+      moment(date){
+           return moment(date).format("ll")
+        },
       async editcook(){
         this.$store.dispatch("check_cook_obj", this.cook);
         this.$router.push("/create/uploadvideo");

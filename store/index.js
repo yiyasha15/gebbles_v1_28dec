@@ -279,9 +279,9 @@ export const actions = {
   //   })
   // },
   check_user_portfolio({commit, state}){
-    console.log("check user thumb");
+    // console.log("check user thumb");
       if(state.auth.loggedIn) {
-        console.log("check user thumb");
+        // console.log("check user thumb");
           EventService.getArtist(state.auth.user.user.username).then(res =>
           {
             // console.log("checking portfolio");

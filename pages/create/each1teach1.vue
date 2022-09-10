@@ -22,6 +22,7 @@
                     item-text="artist_name"
                     item-value="username"
                     ref="artistListComboBox"
+                    :error-messages="teacherAlreadyMentioned"
                     @change="onAutoCompleteSelection"
                     @keyup="customOnChangeHandler"
                     @paste="customOnChangeHandler"
@@ -77,7 +78,7 @@
                 item-value="code"
                 v-model = "sharing.s_teacher_country"
                 label= "Country they are from"
-                clearable>
+                >
                 </v-autocomplete>
             <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
             <v-btn color="primary" small text @click="goback">Cancel</v-btn>
@@ -87,7 +88,7 @@
             </v-stepper-step>
             <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
                 <div>
-                <div v-if="!imageData" @click="onPick" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
+                <!-- <div v-if="!imageData" @click="onPick" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
                     <v-icon class="pa-image">mdi-plus</v-icon>
                     <input 
                     type="file" 
@@ -104,7 +105,8 @@
                     <v-icon color="black" small>mdi-close</v-icon>
                     </v-btn>
                 </v-img>
-                </div>
+                </div> -->
+                <upload-image-component @newimage="getUrl" @removeimage="removeUrl" :initialImage="sharing.image"></upload-image-component>
                 </div>
                 <v-btn color="black" text outlined @click="e6 = 3" small>Next</v-btn>
                 <v-btn color="error" text @click="e6 = 1" small>Previous</v-btn>
@@ -113,13 +115,14 @@
         
             <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
             <v-stepper-content step="3" style="border-left: none;" width="100%" class="ma-0">
+                <v-form ref="e1t1_form">
                 <v-textarea
                 :maxlength="485"
                 counter
                     v-model = "sharing.s_appreciation"
                     prepend-icon="mdi-account-heart-outline"
                     label= "Share the one thing you remember the most about her/him.*"
-                    clearable>
+                    >
                 </v-textarea>
                 <v-text-field 
                 prepend-icon="mdi-map-marker-outline"
@@ -127,26 +130,26 @@
                     label= "Where did you meet?"
                     :maxlength="255"
                     counter
-                    clearable>
+                    >
                 </v-text-field>
                 <v-textarea
                 prepend-icon="mdi-book-outline"
                     v-model = "sharing.s_learnings"
                     label= "Share about what you learnt from them."
-                    clearable>
+                    >
                 </v-textarea>
                 <v-text-field
                     :error-messages="ytLinkError" 
-                    color="red"
                     :maxlength="255"
                     counter
                     v-model= "sharing.s_teacher_video"
                     label="Youtube link"
                     prepend-icon="mdi-youtube"
-                    clearable
-                    @input="showYoutubeVideo"
+                    
+                    :rules="youtubeRules"
                     >
                 </v-text-field>
+                </v-form>
                 <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
                     <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
                 </v-row>
@@ -166,10 +169,10 @@
         </v-col>
         </v-row>
         <v-snackbar v-model="mention_teacher_snackbar">
-            Please fill the required details.
+            Mention(about) your friend or teacher.
         </v-snackbar>
-        <v-snackbar v-model="youtube_snackbar">
-            Youtube link is incorrect.
+        <v-snackbar v-model="imageRules">
+            Image is required.
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">
             Some error occured. Please try again.
@@ -183,31 +186,43 @@ import { mapGetters } from 'vuex'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 import InstagramEmbed from 'vue-instagram-embed';
-import EventService from '@/services/EventService.js'
+import EventService from '@/services/EventService.js' 
+import UploadImageComponent from '~/components/UploadImageComponent.vue';
 
 export default {
     middleware : 'check_auth',
+    head() {  //head function (a property of vue-meta), returns an object
+    return {
+        title: 'gebbles - e1t1',
+        }
+    },
     components: {
         CountryFlag,
-        Youtube, InstagramEmbed
+        Youtube,
+        InstagramEmbed,
+        UploadImageComponent
     },
     created (){
         // this.$store.dispatch("check_artists");
         if(this.$store.state.share_obj != null)
         {
-            console.log(this.$store.getters.share_obj);
+            console.log(this.$store.getters.share_obj, typeof this.url);
             this.sharing = Object.assign({}, this.$store.getters.share_obj);
-            this.imageData = this.sharing.image;
             this.teacher_obj = this.sharing.s_teacher_name;
-            let url1 =this.sharing.s_teacher_video //getting value of youtube video urls
-            if(url1){
-            let videoId = getIdFromURL(url1) //getting id from video url
-            this.videoId = videoId //assigning the id to <youtube> video id
-            }
+            
+            // let url1 =this.sharing.s_teacher_video //getting value of youtube video urls
+            // if(url1){
+            // let videoId = getIdFromURL(url1) //getting id from video url
+            // this.videoId = videoId //assigning the id to <youtube> video id
+            // }
         }
     },
     computed: {
         ...mapGetters([ 'share_obj','usersPortfolio']),
+        videoId(){
+        if(this.sharing.s_teacher_video)
+        return getIdFromURL(this.sharing.s_teacher_video)
+    },
     },
     data(){
         return {
@@ -455,7 +470,7 @@ export default {
                     {"name": "Yemen", "code": "YE"},
                     {"name": "Zambia", "code": "ZM"},
                     {"name": "Zimbabwe", "code": "ZW"}
-                    ],
+            ],
             sharing: {
                 teacher: "",
                 s_learnings:"",
@@ -470,18 +485,23 @@ export default {
                 s_teacher_video:"",
                 username: this.$store.state.auth.user.user.username,
             },
-            imageData: "",
+            url:'',
             e6: 1,
             teacher_obj:null,
             progressbar:false,
+            imgprogressbar:false,
             mention_teacher_snackbar:false,
-            youtube_snackbar:false,
+            imageRules:false,
             error_snackbar:false,
-            videoId:'',
             ytLinkError:'',
             artists:[],
             debounce: null,
             comboBoxModel: null,
+            teacherAlreadyMentioned:'',
+            youtubeRules:[
+            v => !v || /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/.test(v) ||'Enter a valid Youtube Url',
+            v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.'
+        ],
         }
     },
     watch: {
@@ -509,16 +529,12 @@ export default {
         });}
         }, 100)
         },
-        removeImage(){
-            this.imageData = ""
-            this.sharing.image=""
-            this.sharing.image_mini=""
-        },
         onAutoCompleteSelection(){
             this.comboBoxModel = this.teacher_obj;
             this.searchArtists();
         },
         customOnChangeHandler(){
+            this.teacherAlreadyMentioned=''
         let vm = this;
         setTimeout(function(){
             if(vm.$refs.artistListComboBox){
@@ -529,9 +545,6 @@ export default {
         },
         addTeacher(){
             let t_name = typeof this.teacher_obj;
-            console.log(this.teacher_obj);
-            console.log(t_name);
-            console.log(this.teacher_obj);
             if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {
                 this.sharing.teacher = this.teacher_obj.username
@@ -544,75 +557,57 @@ export default {
                 this.sharing.teacher = "" //making null because no artists to tag.
             }
         },
-        showYoutubeVideo(){
-            let url= this.sharing.s_teacher_video
-            if (url && url != undefined && url != '') {        
-                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                var regExpInsta = /(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/g; //instagram red exp
-                var match = url.match(regExp);
-                var match2 = url.match(regExpInsta)
-                if (match && match[2].length == 11) {     
-                    this.ytLinkError =``
-                } else if (match2 && match2[0].length ) {  
-                    this.ytLinkError =``
-                } 
-                else {
-                    //invalid youtube url
-                    this.ytLinkError = `Enter a valid Youtube/Instagram URL.`
-                }
-                let videoId = getIdFromURL(url) //getting id from video url
-                this.videoId = videoId
-            }
-            else{
-                this.videoId='';
-                this.sharing.s_teacher_video ='';
-            }
-        },
         goback(){
             this.$store.dispatch("remove_share_obj")
             window.history.back();
         },
-        onPick() //changing the click from button to input using refs
-        {
-            this.$refs.fileInput.click()
+        getUrl(url){
+            this.url = url;
         },
-        onFileChange(e) {
-            let files = e.target.files || e.dataTransfer.files;
-            if (files) {
-            const fileReader = new FileReader()
-            fileReader.onload = (e) => {
-                    this.imageData = e.target.result;
-                }
-                if(files[0])
-                {
-                    fileReader.readAsDataURL(files[0]);
-                    this.sharing.image = files[0];
-                    
-                }
+        removeUrl(){
+            this.url='';
+        },
+        dataURLtoFile(dataurl, filename) {
+            // console.log( dataurl, filename);
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
             }
+        return new File([u8arr], filename, {type:mime});
         },
         async submit() {
-            if(this.sharing.s_teacher_name != "" && this.sharing.s_appreciation != "" && this.sharing.image!='')
+            if(this.sharing.s_teacher_name != "" && this.sharing.s_appreciation != "" )
             {
                 this.progressbar =true
                 this.sharing.s_student_country = this.usersPortfolio.country;
-                this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                res => {
-                if(res.statusCode == 200)
-                {
-                    delete this.$axios.defaults.headers.common['Authorization']
-                    let filename = res.key
-                    let url = res.body
-                    url = url.slice(1, -1);
-                    this.$axios.$put(url, this.sharing.image).then((value) => {
-                    this.sharing.image =''
-                    this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                    this.formPost();
-                    });
+                if(this.url)
+                {let imageData = this.url.generateDataUrl();
+                if(imageData){
+                    let fileData = this.dataURLtoFile(imageData, "coverimage.png");
+                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                        if(res.statusCode == 200)
+                        {
+                            delete this.$axios.defaults.headers.common['Authorization']
+                            let filename = res.key
+                            let url = res.body
+                            url = url.slice(1, -1);
+                            this.$axios.$put(url, fileData).then((value) => {
+                            this.sharing.image =''
+                            this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                            this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                            this.formPost();
+                            });
+                        }
+                    })  
                 }
-            })
-                    
+                }    
+                else{
+                    this.progressbar =false;
+                    this.imageRules = true;
+                    console.log("no image");
+                } 
             }
             else{
                 this.progressbar =false;
@@ -620,45 +615,36 @@ export default {
             }
         },
         async update() {
-            if(this.sharing.s_teacher_name != "" && this.sharing.s_appreciation != "" && this.sharing.image!='')
+            if(this.sharing.s_teacher_name != "" && this.sharing.s_appreciation != "" )
             {
-                this.progressbar =true
-                let urlLink = this.sharing.s_teacher_video;
-                if(urlLink!= this.share_obj.s_teacher_video){ //if link exists check if it's valid
-                    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                    let check = !pattern.test(this.share_obj.s_teacher_video);
-                    // console.log("pattern",pattern);
-                    // console.log("check",check);
-                    if(!check){
-                        this.youtube_snackbar =true
-                        this.progressbar =false;
-                        console.log("incorrect yt link");
-                        return;
-                    }
-                }
-                if(typeof this.sharing.image == 'object')
+                this.progressbar =true;
+                console.log(this.url , typeof this.url);
+                if(typeof this.url != 'string') //image has not been updated
                 {
-                    this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
-                    res => {
-                    if(res.statusCode == 200)
+                    let imageData = this.url.generateDataUrl();
+                    if(imageData) //if image exists
                     {
-                        delete this.$axios.defaults.headers.common['Authorization']
-                        let filename = res.key
-                        let url = res.body
-                        url = url.slice(1, -1);
-                        this.$axios.$put(url, this.sharing.image).then((value) => {
-                        this.sharing.image =''
-                        this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                        this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                        this.formUpdate();
-                        });
+                        let fileData = this.dataURLtoFile(imageData, "coverimage.png");
+                        this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1").then(
+                        res => {
+                        if(res.statusCode == 200)
+                        {
+                            delete this.$axios.defaults.headers.common['Authorization']
+                            let filename = res.key
+                            let url = res.body
+                            url = url.slice(1, -1);
+                            this.$axios.$put(url, fileData).then((value) => {
+                            this.sharing.image =''
+                            this.sharing.image = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                            this.sharing.image_mini= "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                            this.formUpdate();
+                            });
+                        }
+                    })
                     }
-                })
+                    else
+                    {this.imageRules = true
+                    this.progressbar = false}
                 }
                 else
                 this.formUpdate();
@@ -693,6 +679,9 @@ export default {
                         for (const key in er) {
                             if(`${key}` == 's_teacher_video'){
                             this.ytLinkError = `${er[key]}`
+                            }
+                            if(`${key}` == '0'){
+                            this.teacherAlreadyMentioned = `${er[key]}`
                             }
                         }
                     }
@@ -736,6 +725,9 @@ export default {
                 for (const key in er) {
                     if(`${key}` == 's_teacher_video'){
                     this.ytLinkError = `${er[key]}`
+                    }
+                    if(`${key}` == '0'){
+                    this.teacherAlreadyMentioned = `${er[key]}`
                     }
                 }
             }

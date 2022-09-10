@@ -3,7 +3,8 @@
         <div>
             <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
-            <h2 align="center" justify="center">Create your portfolio</h2>
+            <h2 align="center" justify="center" v-if="!userHasBio && !userHasPortfolio">Create your portfolio</h2>
+            <h2 align="center" justify="center" v-if="userHasBio && userHasPortfolio">Edit your portfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row  class="mt-md-8 mt-5">
                 <!-- hidden-sm-and-down -->
@@ -33,70 +34,42 @@
                         <v-icon >mdi-close</v-icon>
                     </v-btn>
                 </v-row>
-                <v-divider class="hidden-sm-and-up mt-2"></v-divider>
+                <v-row class="w-350">
+                    <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
+                        @click="updateImage" :loading="imgprogressbar">Update Image</v-btn>
+                </v-row>
+                <v-divider class="hidden-sm-and-up mt-4"></v-divider>
             </v-col>
             <v-col cols="12" md="6" sm="5">
-                <v-form v-on:submit.prevent="submit_about">
-                    <!-- <v-row class="py-4 justify-center text-center hidden-md-and-up">
-                            <croppa
-                                v-model="cropImage1"
-                                canvas-color="transparent"
-                                :width="320"
-                                :height="320"
-                                :show-loading="true"
-                                :initial-image="initialImage"
-                                :prevent-white-space="true"
-                                :remove-button-color="'black'"
-                            ></croppa>
-                        </v-row> -->
-                        <!-- <v-row class="py-4 justify-center text-center hidden-sm-and-down">
-                        <croppa
-                            v-model="cropImage"
-                            canvas-color="transparent"
-                            :width="580"
-                            :height="580"
-                            :show-loading="true"
-                            :initial-image="initialImage"
-                            :prevent-white-space="true"
-                            :remove-button-color="'black'"
-                        ></croppa></v-row> -->
-                        <v-row>
-                            <v-col cols="12" md="10">
-                                <v-text-field
-                                    required 
-                                    v-model = "artist_data.artist_name"
-                                    label="Artist Name"
-                                    prepend-icon="mdi-account-edit-outline"
-                                    :maxlength="255"
-                                    clearable
-                                    counter>
-                                </v-text-field>
-                                <v-autocomplete label="Representing(country)" v-model= "artist_data.country"
-                                    :items="countries" prepend-icon="mdi-earth"
-                                    item-text="name"
-                                    item-value="code"
-                                    required clearable
-                                ></v-autocomplete>
-                            </v-col>
-                        </v-row>
-                </v-form>
-                <v-form v-on:submit.prevent="submit">
+                <v-form ref="website_form">
                     <v-row>
                         <v-col cols="12" md="10">
+                            <v-text-field
+                                required 
+                                v-model = "artist_data.artist_name"
+                                label="Artist Name"
+                                prepend-icon="mdi-account-edit-outline"
+                                :maxlength="255"
+                                counter>
+                            </v-text-field>
+                            <v-autocomplete label="Representing(country)" v-model= "artist_data.country"
+                                :items="countries" prepend-icon="mdi-earth"
+                                item-text="name"
+                                item-value="code"
+                                required 
+                            ></v-autocomplete>
                             <v-textarea
-                                clearable
+                                :rules="introRules"
                                 v-model= "artist_data.introduction"
                                 label="About *a little background">
                             </v-textarea>
                             <v-text-field
                                 v-model= "bio.crew"
-                                label="Crew you represent"
+                                label="Crew(s) you represent"
                                 :maxlength="255"
-                                counter
-                                clearable>
+                                counter>
                             </v-text-field>
                             <v-text-field
-                                clearable
                                 v-model= "bio.quote"
                                 label="How does hiphop empower you?"
                                 :maxlength="255"
@@ -105,86 +78,67 @@
                             <!-- <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn> -->
                             <!-- @click:append="bio.ig=''; inputInsta=!inputInsta" -->
                             <v-text-field
+                                :rules="emailRules"
                                 prepend-icon="mdi-email"
                                 v-model= "bio.work_email"
-                                clearable
                                 label="Contact email"
                                 >
                             </v-text-field>
                             <v-text-field
-                                :rules="websiteRules" 
+                                :rules="igRules" 
                                 prepend-icon="mdi-instagram"
                                 v-model= "bio.ig"
-                                clearable
                                 label="Instagram ID"
                                 :maxlength="255"
-                                
                                 >
                             </v-text-field>
                             <v-text-field
-                                :rules="websiteRules" 
+                                :rules="fbRules" 
                                 prepend-icon="mdi-facebook"
                                 v-model= "bio.fb"
                                 label="Facebook ID"
-                                clearable
                                 :maxlength="255"
                                 >
                             </v-text-field>
-                            {{bio.fb}}{{bio.ig}}
                             <v-text-field
                                 prepend-icon="mdi-youtube"
                                 v-model= "bio.yt"
-                                label="Youtube channel link"
-                                clearable>
+                                label="Youtube channel link">
                             </v-text-field>
                             <v-text-field
-                            :error-messages="linkError"
+                                :rules="urlRules"
                                 prepend-icon="mdi-earth"
                                 v-model= "bio.site"
                                 label="Personal Website URL"
-                                @change="checkLink"
-                                clearable
                                 >
                             </v-text-field>
                             <!-- <v-btn v-show="!bio.vid1 && !yt" icon color=red @click="yt=true"><v-icon>mdi-youtube</v-icon></v-btn> -->
                             <v-text-field
-                                :error-messages="ytLinkError1"
-                                color="red"
+                                :rules="youtubeRules"
                                 v-model= "bio.vid1"
                                 label="YouTube video link"
                                 prepend-icon="mdi-youtube"
-                                clearable
-                                @input="showYoutubeVideo(1)"
                                 >
                             </v-text-field>
                             <v-text-field
-                            :error-messages="ytLinkError2"
-                            @input="showYoutubeVideo(2)"
-                                color="red"
+                            :rules="youtubeRules"
                                 v-model= "bio.vid2"
                                 label="YouTube video link"
                                 prepend-icon="mdi-youtube"
-                                clearable
                                 >
                             </v-text-field>
                             <v-text-field
-                            :error-messages="ytLinkError3"
-                            @input="showYoutubeVideo(3)"
-                                color="red"
+                            :rules="youtubeRules"
                                 v-model= "bio.vid3"
                                 label="YouTube video link"
                                 prepend-icon="mdi-youtube"
-                                clearable
                                 >
                             </v-text-field>
                             <v-text-field
-                            :error-messages="ytLinkError4"
-                            @input="showYoutubeVideo(4)"
-                                color="red"
+                             :rules="youtubeRules"
                                 v-model= "bio.vid4"
                                 label="YouTube video link"
                                 prepend-icon="mdi-youtube"
-                                clearable
                                 >
                             </v-text-field>
                             <v-row class="my-1">
@@ -215,15 +169,15 @@
                             </v-row>
                             <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="black" dark
                                 @click="submit" :loading="progressbar">Submit</v-btn>
-                                <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
-                                @click="update" :loading="progressbar">Update</v-btn>
+                            <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
+                            @click="update" :loading="progressbar">Update</v-btn>
                             <v-dialog  v-model="dialog" width="500">
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn v-if="userHasBio || userHasPortfolio" dark small color="error" class="mt-2 mr-2 text-decoration-none" 
-                                v-bind="attrs" v-on="on">Delete Website</v-btn>
+                                v-bind="attrs" v-on="on">Delete Portfolio</v-btn>
                             </template>
                             <v-card class="pa-4">
-                                <p>Are you sure you want to delete your website?</p>
+                                <p>Are you sure you want to delete your portfolio?</p>
                                 <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn small class="px-4 text-decoration-none"  color="error" dark :loading="delete_progressbar"
@@ -317,7 +271,7 @@
         <v-snackbar v-model="fill_intro_snackbar">
             Please fill your introduction.
         </v-snackbar>
-        <v-snackbar v-model="error_snackbar">{{errortext}}
+        <v-snackbar v-model="error_snackbar">
             Some error occured. Please try again.
         </v-snackbar>
     </v-container>
@@ -334,13 +288,37 @@ import "vue-croppa/dist/vue-croppa.css";
 Vue.use(Croppa);
 
 export default {
+head() {  //head function (a property of vue-meta), returns an object
+return {
+    title: 'gebbles - portfolios',
+    }
+},
 middleware : 'check_auth',
 components: {
     CountryFlag,
     Youtube
 },
 computed: {
-    ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser'])
+    ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser']),
+    videoId1(){
+        if(this.bio.vid1)
+        return getIdFromURL(this.bio.vid1)
+    },
+    videoId2(){
+        if(this.bio.vid2)
+        return getIdFromURL(this.bio.vid2)
+    },
+    videoId3(){
+        if(this.bio.vid3)
+        return getIdFromURL(this.bio.vid3)
+    },
+    videoId4(){
+        if(this.bio.vid4)
+        return getIdFromURL(this.bio.vid4)
+    },
+    initialImage(){
+        return this.artist_data.cover
+    }
 },
 created(){
     this.$store.dispatch("check_user_portfolio");
@@ -348,30 +326,16 @@ created(){
     if(this.userHasPortfolio)
     {
         this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
-        this.initialImage = this.artist_data.cover
+        // this.initialImage = this.artist_data.cover
     }
     if(this.userHasBio)
     {
         this.bio = Object.assign({}, this.$store.getters.usersBio);
-        let url1 = this.bio.vid1 //getting value of youtube video urls
-        let url2 = this.bio.vid2
-        let url3 = this.bio.vid3
-        let url4 = this.bio.vid4
-        if(url1){let videoId1 = getIdFromURL(url1) //getting id from video url
-        this.videoId1 = videoId1} //assigning the id to <youtube> video id
-        if(url2){let videoId2 = getIdFromURL(url2)
-        this.videoId2 = videoId2}
-        if(url3){let videoId3 = getIdFromURL(url3)
-        this.videoId3 = videoId3}
-        if(url4){let videoId4 = getIdFromURL(url4)
-        this.videoId4 = videoId4}
     }
     // console.log(this.usersPortfolio, this.usersBio);
 },
 data(){
     return {
-        websiteRules: [
-        v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',],
             // this is bio object
         bio: {
             username: this.$store.state.auth.user.user.username,
@@ -402,19 +366,9 @@ data(){
         },
         rm:"",
         cropImage: null, //imagecropper
-        initialImage:'',
         dialog: false,
         styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
         imageData: "",
-        videoId1:'',
-        videoId2:'',
-        videoId3:'',
-        videoId4:'',
-        linkError:'',
-        ytLinkError1:'',
-        ytLinkError2:'',
-        ytLinkError3:'',
-        ytLinkError4:'',
         snackbar: false,
         error_snackbar: false,
         delete_progressbar:false,
@@ -422,6 +376,7 @@ data(){
         fill_intro_snackbar:false,
         overlay: false,
         progressbar: false,
+        imgprogressbar: false,
         countries: [
             {"name": "Afghanistan", "code": "AF"},
             {"name": "Åland Islands", "code": "AX"},
@@ -667,130 +622,34 @@ data(){
             {"name": "Zambia", "code": "ZM"},
             {"name": "Zimbabwe", "code": "ZW"}
         ],
+        introRules: [
+            v => !!v || 'Artist introduction is required',
+        ],
+        emailRules: [ 
+            v => !v || /^\S+@\S+\.\S+$/.test(v) || 'E-mail must be valid',
+            v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed'
+        ],
+        urlRules: [
+            v => !v || /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi.test(v) ||'Enter a valid Url',
+            v => (v || '').indexOf(' ') < 0 ||'Enter a valid Url'
+        ],
+        youtubeRules:[
+            v => !v || /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/.test(v) ||'Enter a valid Url',
+            v => (v || '').indexOf(' ') < 0 ||'Enter a valid Url'
+        ],
+        igRules:[
+            v=> !v || /^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/.test(v) || 'Enter a valid instagram username',
+            v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.'
+        ],
+        fbRules:[
+            v=> !v || /^(?:https?:\/\/)?(?:www.)?(?:facebook.com)?\/?([^\/\s]+)/gm.test(v) || 'Enter a valid facebook username',
+            v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.'
+        ],
         errortext:''
     }
 },
 methods: {
-    checkLink(){
-        let urlLink = this.bio.site;
-        if(urlLink){ //if link exists check if it's valid
-            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-            let check = !!pattern.test(this.bio.site);
-            if(check){
-                let checkStartsHttp = urlLink.startsWith('http')
-                // console.log( "checkStartsHttp", checkStartsHttp);
-                if(!checkStartsHttp)
-                {
-                    this.bio.site = 'http://'+ this.bio.site
-                    this.linkError=``
-                    //add http to url
-                }
-            }
-            else{
-                this.linkError=`Enter a valid URL.`
-            }
-        }
-    },
     ...mapActions(['check_user_bio','check_user_portfolio']),
-    showYoutubeVideo(id){
-        switch(id) {
-        case 1:
-            {
-            let url= this.bio.vid1
-            if (url && url != undefined && url != '') {        
-                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                var match = url.match(regExp);
-                if (match && match[2].length == 11) {
-                    // Do anything for being valid        
-                    this.ytLinkError1 =``
-                } else {
-                    //invalid youtube url
-                    this.ytLinkError1 = `Enter a valid Youtube URL.`
-                }
-                let videoId1 = getIdFromURL(url) //getting id from video url
-                this.videoId1 = videoId1
-            }
-            else{
-                this.bio.vid1 =''
-                this.videoId1=''
-            }
-            }
-            break;
-        case 2:
-            {
-                let url= this.bio.vid2
-                if (url && url != undefined && url != '') {        
-                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                    var match = url.match(regExp);
-                    if (match && match[2].length == 11) {
-                        // Do anything for being valid        
-                        this.ytLinkError2 =``
-                    } else {
-                        //invalid youtube url
-                        this.ytLinkError2 = `Enter a valid Youtube URL.`
-                    }
-                    let videoId2 = getIdFromURL(url) //getting id from video url
-                    this.videoId2 = videoId2
-                }else{
-                this.bio.vid2 =''
-                this.videoId2=''
-            }
-                
-            }
-            break;
-        case 3:
-            {
-                let url= this.bio.vid3
-                if (url && url != undefined && url != '') {        
-                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                    var match = url.match(regExp);
-                    if (match && match[2].length == 11) {
-                        // Do anything for being valid        
-                        this.ytLinkError3 =``
-                    } else {
-                        //invalid youtube url
-                        this.ytLinkError3 = `Enter a valid Youtube URL.`
-                    }
-                    let videoId3 = getIdFromURL(url) //getting id from video url
-                    this.videoId3 = videoId3
-                }else{
-                this.bio.vid3 =''
-                this.videoId3=''
-            }
-                
-            }
-            break;
-        case 4:
-            {
-                let url= this.bio.vid4
-                if (url && url != undefined && url != '') {        
-                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                    var match = url.match(regExp);
-                    if (match && match[2].length == 11) {
-                        // Do anything for being valid        
-                        this.ytLinkError4 =``
-                    } else {
-                        //invalid youtube url
-                        this.ytLinkError4 = `Enter a valid Youtube URL.`
-                    }
-                    let videoId4 = getIdFromURL(url) //getting id from video url
-                    this.videoId4 = videoId4
-                }else{
-                this.bio.vid4 =''
-                this.videoId4=''
-            }
-                
-            }
-            break;
-        default:
-            // code block
-        }
-    },
     goback(){
         window.history.back();
     },
@@ -802,92 +661,86 @@ methods: {
         }
     return new File([u8arr], filename, {type:mime});
     },
+    checkurl(){
+        let rx_ig =/^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/;
+        let rx_fb =/^(?:https?:\/\/)?(?:www.)?(?:facebook.com)?\/?([^\/\s]+)/gm;
+
+        let res_ig = rx_ig.exec(this.bio.ig);
+        if (res_ig &&res_ig[1]!='') {
+            this.bio.ig = res_ig[1]
+        } 
+        let res_fb = rx_fb.exec(this.bio.fb);
+        if (res_fb &&res_fb[1]!='') {
+            this.bio.fb = res_fb[1]
+        } 
+    },
     async submit(){
-        this.progressbar =true
-        let url = this.cropImage.generateDataUrl();
-        let fileData;
-        if(this.artist_data.introduction!=""){
-            if (!url ){
+        if(this.$refs.website_form.validate()){
+            let url = this.cropImage.generateDataUrl();
+            if (!url){
             this.fill_image_snackbar=true
-            this.progressbar =false}
-        else{
-            fileData = this.dataURLtoFile(url, "coverimage.png");
-            // this.artist_data.cover = fileData;
-            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-            if(res.statusCode == 200)
-            {
-                delete this.$axios.defaults.headers.common['Authorization']
-                let filename = res.key
-                let url = res.body
-                url = url.slice(1, -1);
-                this.$axios.$put(url, fileData).then((value) => {
-                this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
-                        }
-                };
-                let formPortfolio = new FormData();
-                let formBio= new FormData();
-                //check if instagram and fb are okay..
-                let rx_ig =/^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/;
-                let rx_fb = /^(?:@|(?:https?:\/\/)?(?:www\.)?facebook(?:\.am|am\.com)\/)?(\w+)\/?$/;
-                let ig_username = rx_ig.exec(this.bio.ig) 
-                let fb_username = rx_fb.exec(this.bio.fb)
-                // console.log(this.bio.ig,this.bio.ig.length ,ig_username ,ig_username[1]);
-                if (this.bio.ig !='' && ig_username[1]!='') {
-                    this.bio.ig = ig_username[1]
-                    // console.log(this.bio.ig,this.bio.ig.length  ,ig_username[1]);
-                }
-                if (this.bio.fb !='' && fb_username[1]!='') {
-                    this.bio.fb = fb_username[1]
-                    // console.log(this.bio.fb ,fb_username[1]);
-                }
-                for (let data in this.artist_data) //append
-                {
-                    formPortfolio.append(data, this.artist_data[data]);
-                }
-                for (let data in this.bio) {
-                    formBio.append(data, this.bio[data]);
-                }
-                if(this.artist_data.cover && this.artist_data.thumb ){
-                    try {
-                    this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(
-                        res =>{
-                            this.$store.dispatch("check_user_portfolio");
-                            this.$axios.$post("/v1/artist/bios/", formBio, config).then(
-                                res => { 
-                                    this.$store.dispatch("check_user_bio")})
-                            this.progressbar =false
-                            this.snackbar = true;
-                            this.$router.push("/" + this.bio.username);
-                            })
-                } catch (e) {
-                    this.error_snackbar = true
-                    this.progressbar =false
-                    console.log(e);
-                }
-                }else{
-                    this.fill_image_snackbar=true
-                    this.progressbar =false
-                }
-                }); 
             }
-        }
-        }
-        else{
-            this.progressbar = false
-            this.fill_intro_snackbar=true
+            else{
+                this.progressbar =true
+                let fileData = this.dataURLtoFile(url, "coverimage.png");
+                let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, fileData).then((value) => {
+                    this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
+                            }
+                    };
+                    let formPortfolio = new FormData();
+                    let formBio= new FormData();
+                    //check if instagram and fb are okay..
+                    for (let data in this.artist_data) //append
+                    {
+                        formPortfolio.append(data, this.artist_data[data]);
+                    }
+                    for (let data in this.bio) {
+                        formBio.append(data, this.bio[data]);
+                    }
+                    if(this.artist_data.cover && this.artist_data.thumb ){
+                        this.checkurl();
+                        try {
+                        this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(
+                            res =>{
+                                this.$store.dispatch("check_user_portfolio");
+                                this.$axios.$post("/v1/artist/bios/", formBio, config).then(
+                                    res => { 
+                                        this.$store.dispatch("check_user_bio")})
+                                this.progressbar =false
+                                this.snackbar = true;
+                                this.$router.push("/" + this.bio.username);
+                                })
+                    } catch (e) {
+                        this.error_snackbar = true
+                        this.progressbar =false
+                        console.log(e);
+                    }
+                    }else{
+                        this.fill_image_snackbar=true
+                        this.progressbar =false
+                    }
+                    }); 
+                }
+            }
         }
             // style is taken as array and made into a string
         //required attributes check..
     },
-    async update() {
-        this.progressbar =true
+    async updateImage() {
         let url = this.cropImage.generateDataUrl();
-        if(this.artist_data.introduction!=""){
-            if (url){
+        if (url){
+            this.imgprogressbar =true
             let fileData = this.dataURLtoFile(url, "coverimage.png");
             let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
             if(res.statusCode == 200)
@@ -897,57 +750,47 @@ methods: {
                 let url = res.body
                 url = url.slice(1, -1);
                 this.$axios.$put(url, fileData).then((value) => {
-                this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                this.callApi();
-            })
+                    this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    const config = {
+                        headers: {
+                            "content-type": "multipart/form-data",
+                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        }
+                    };
+                    let formName = new FormData();
+                    formName.append('cover', this.artist_data.cover);
+                    formName.append('thumb', this.artist_data.thumb);
+                    formName.append('username', this.artist_data['username']);
+                    this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config).then((val)=>{
+                        this.imgprogressbar = false;
+                        this.$store.dispatch("check_user_portfolio");
+                        this.snackbar = true;
+                    })
+                });
             }
-            else{
-                // console.log("not 200 res");
-                this.progressbar =false
-                this.error_snackbar = true
-            }
-            // this.artist_data.cover = fileData;
-            }
-            else{
-                this.progressbar =false
-                this.fill_image_snackbar = true
-            }
+        else{
+            // console.log("not 200 res");
+            this.imgprogressbar =false
+            this.error_snackbar = true
+        }
+        // this.artist_data.cover = fileData;
         }
         else{
-            this.progressbar = false
-            this.fill_intro_snackbar=true
+            this.fill_image_snackbar = true
         }
     },
-    async callApi(){
+    async update(){
+        if(this.$refs.website_form.validate()){
         try {
-            const config = {
-                headers: {
-                    "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-                }
-            };
-            let rx_ig =/^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/;
-            let rx_fb =/(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*?(\/)?([^/?]*)/
-            let ig_username = rx_ig.exec(this.bio.ig); 
-            let fb_username = rx_fb.exec(this.bio.fb);
-            if (this.bio.ig && this.bio.ig.length !=0) {
-                this.bio.ig = ig_username[1]
-            }else{
-                this.bio.ig = ""
+            this.progressbar =true
+        const config = {
+            headers: {
+                "content-type": "multipart/form-data",
+                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
-            if (this.bio.fb && this.bio.fb.length !=0) {
-                if(fb_username && fb_username[1] == undefined)
-                    //check if url and then extract username
-                    this.bio.fb = fb_username[2]
-                else if(this.bio.fb.startsWith('@')){
-                    //check if @ exists and remove
-                    this.bio.fb= this.bio.fb.substring(1);
-                }
-            }
-            else{
-                this.bio.fb = ""
-            }
+        };
+        this.checkurl();   
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
@@ -999,6 +842,7 @@ methods: {
             this.progressbar =false
             this.error_snackbar = true
         }
+        }
     },
     async deleted() {
         this.delete_progressbar = true
@@ -1026,14 +870,6 @@ methods: {
             this.artist_data.username= this.$store.state.auth.user.user.username,
             this.imageData = ''
             this.bio.username= this.$store.state.auth.user.user.username,
-            this.videoId1='',
-            this.videoId2='',
-            this.videoId3='',
-            this.videoId4='',
-            this.ytLinkError1='',
-            this.ytLinkError2='',
-            this.ytLinkError3='',
-            this.ytLinkError4='',
             this.cropImage.remove()
             this.dialog =false,
             this.snackbar = true;
