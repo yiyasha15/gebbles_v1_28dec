@@ -2,7 +2,7 @@
 <div>
     <div class="my-2" >   
     <!-- <div style="float:left;"> -->
-         <youtube aspect-ratio="1" :video-id= 'videoId' v-if="videoId"></youtube>
+         <youtube width="100%" :height="height" :video-id= 'videoId' v-if="videoId"></youtube>
           <video id="videoId" width="100%" :height="height" controls playsinline :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-else>
                 <source :src="cook.video" type="video/mp4">
                 Your browser does not support the video tag.
