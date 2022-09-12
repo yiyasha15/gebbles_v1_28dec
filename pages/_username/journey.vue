@@ -4,10 +4,10 @@
         <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Journey</p>
         </v-tab>
-        <v-tab>
+        <v-tab v-if="visitOwnPage">
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Events</p>
         </v-tab>
-        <v-tab>
+        <v-tab v-if="visitOwnPage">
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Events</p>
         </v-tab>
         <v-tab-item>
@@ -66,7 +66,7 @@
             </v-layout>
             </v-container>
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item v-if="visitOwnPage">
             <small class="ml-1 py-2 grey--text" v-if="isAuthenticated && artist.username == loggedInUser.user.username">you can add the invited events to your journey</small>
             <!-- tagged events -->
             <v-layout wrap row justify-start v-if="firstLoadTagged" class="my-2">
@@ -88,7 +88,7 @@
                 <h3>No events found. </h3>
             </center>
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item v-if="visitOwnPage">
             <small class="ml-1 py-2 grey--text" v-if="isAuthenticated && artist.username == loggedInUser.user.username">you can add the attended events to your journey</small>
 
             <v-layout wrap row justify-start v-if="firstLoadGoing" class="my-2">
@@ -162,9 +162,14 @@ export default {
     },
     props: ["artist"],
     created(){
-        this.getTaggedEvents();
-        this.getGoingEvents();
         this.getJourneyApi(this.$route.params);
+
+        if(this.isAuthenticated && this.loggedInUser.user.username == this.$route.params.username)
+        {
+            this.visitOwnPage = true;
+            this.getTaggedEvents();
+            this.getGoingEvents();
+        }
     },
     data() {
         return {
@@ -185,7 +190,8 @@ export default {
         firstLoadTagged:true,
         firstLoadGoing:true,
         seen: new Set(),
-        seen2: new Set()
+        seen2: new Set(),
+        visitOwnPage:false,
         }
     },
     methods: {

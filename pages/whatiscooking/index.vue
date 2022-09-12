@@ -116,11 +116,11 @@ export default {
 <style scoped>
 
 .width{
-    max-width: 670px;
+    max-width: 640px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 640px) {
   .width{
-  max-width: 357px;
+  max-width: 420px;
 }
 }
 </style>

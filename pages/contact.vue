@@ -4,8 +4,8 @@
         <v-container class="width">
             <div class="my-6">
                 <h1 class="my-4">Contact us!</h1>
-                <p class="my-2 font-weight-light">Gebbles is an entirely homegrown community platform, hence in this version you might find bugs or error during your use.
-                    You can contact us using any(preferablly mail with the subject to be addressed) of the below addresses and send us your queries/issues and we will try and solve it for you.
+                <p class="my-2 font-weight-light">
+                    You can contact us using any(preferablly mail with the subject to be addressed) of the below addresses and send us your queries and we will get back to you.
                     <!-- Thankyou. -->
                     </p>
                 <p>Email <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</p>

@@ -43,46 +43,38 @@
         </v-carousel-item>
       </v-carousel>
     </v-row>
+    <register-login></register-login>
     <center>
-      <v-menu top offset-y>
+      <!-- <v-menu top offset-y>
       <template v-slot:activator="{ on, attrs }">
-         <v-btn outlined icon v-bind="attrs" v-if="isAuthenticated"
+         <v-btn outlined icon v-bind="attrs"
           v-on="on" class="mt-2">
       <v-icon color="black">mdi-plus</v-icon>
       </v-btn>
       </template>
       <v-list>
-        <v-list-item
-        :to="'/create/website'" v-if="!userHasPortfolio"
+        <v-list-item 
+        :to="'/create/website'" 
         class="text-decoration-none pl-6 pr-12"
         ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-        <v-list-item-title>Create a portfolio</v-list-item-title>
+        <v-list-item-title>Sign up and Create your portfolio</v-list-item-title>
         </v-list-item>
-        <v-list-item
-        v-if="userHasPortfolio"
-        :to="'/create/website'"
-        class="text-decoration-none pl-6 pr-12"
-        ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-        <v-list-item-title>Edit your portfolio</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-        v-if="userHasPortfolio"
+        <v-list-item 
         :to="'/create/journey'"
         class="text-decoration-none pl-6 pr-12"
         ><v-icon color="black" class="pr-2">mdi-chart-line-variant</v-icon>
         
-        <v-list-item-title>Share journey</v-list-item-title>
+        <v-list-item-title>Share your journey</v-list-item-title>
         </v-list-item>
-        <v-list-item
-        v-if="userHasPortfolio"
+        <v-list-item 
         :to="'/create/each1teach1'"
         class="text-decoration-none pl-6 pr-12"
         >
         <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
-        <v-list-item-title>Create E1T1</v-list-item-title>
+        <v-list-item-title>Give a shoutout</v-list-item-title>
         </v-list-item>
       </v-list>
-    </v-menu>
+    </v-menu> -->
     </center>
   </v-container>
 </v-app>
@@ -90,7 +82,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import RegisterLogin from '~/components/RegisterLogin.vue';
 export default {
+  components: { RegisterLogin },
     // middleware : 'check_auth',
     data () {
       return {

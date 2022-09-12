@@ -1,365 +1,11 @@
 <template>
-  <v-app>
-    <template v-if="userNotFound" >
-        <the-header></the-header>
-        <h4 class="mx-auto my-12">Artist portfolio not found.</h4>
-    </template>
-    <template v-else>
-    <v-row class="ma-0" >
-        <v-col cols="12" sm="6" >
-            <v-layout align-center>
-                <nuxt-link :to="'/'" class="text-decoration-none">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
-                class="ml-1 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
-                <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
-                <div>
-                    <h2 v-if="artist.artist_name" class="xs12 artist_toolbar_name1">{{artist.artist_name}}</h2>
-                    <h2 v-else class="xs12 artist_toolbar_name1">{{artist.username}} </h2>
-                </div>
-                </nuxt-link>
-                <v-spacer></v-spacer>
-                <!-- <v-btn icon small
-                :to= "`/${artist.username}/each1teach1`"
-                class="text-decoration-none mx-1 hidden-sm-and-up">
-                <v-icon size="26" color="black" >
-                    mdi-google-circles-communities
-                </v-icon>
-            </v-btn> -->
-            <v-btn icon small v-if="isAuthenticated"
-              class="text-decoration-none mx-1 hidden-sm-and-up"
-              :to= "`/whatiscooking/`">
-            <v-icon size="26" color="black" >mdi-play-circle-outline</v-icon>
-            </v-btn>
-                <v-btn icon small v-if="isAuthenticated"
-            :to="'/'"
-            class="text-decoration-none mx-1 hidden-sm-and-up"
-            >
-            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
-            </v-btn>
-            <v-btn icon small
-            v-if="isAuthenticated"
-            :to="'/events'"
-            class="text-decoration-none mx-1 hidden-sm-and-up"
-            >
-            <v-icon size="26" color="black" >
-                mdi-google-circles-communities
-            </v-icon>
-        </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-            <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" class="mx-1 hidden-sm-and-up"
-            v-on="on">
-            <v-icon color="black">mdi-plus-circle-outline</v-icon>
-            </div>
-            </template>
-            <v-list>
-                <v-list-item
-                :to="'/create/uploadvideo'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                <v-list-item-title>Upload a gebble</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/events'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
-                <v-list-item-title>Create your event</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="!userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                <v-list-item-title>Create a portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                <v-list-item-title>Edit your portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/journey'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-chart-line-variant</v-icon>
-                
-                <v-list-item-title>Share journey</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/each1teach1'"
-                class="text-decoration-none pl-6 pr-12"
-                >
-                <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
-                <v-list-item-title>Give a shoutout</v-list-item-title>
-                </v-list-item>
-            </v-list>
-            </v-menu>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio  && notifications_notseen>0" icon dark color="black" class="mx-1 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
-                <v-badge color="error" overlap :content='notifications_notseen'>
-                <v-icon color="black">mdi-heart-circle-outline</v-icon>
-                </v-badge>
-                </v-btn>
-                <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mx-1 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
-                <v-icon color="black">mdi-heart-circle-outline</v-icon>
-                </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class="mx-1  hidden-sm-and-up"
-                    v-on="on">
-                    <v-btn icon small
-                v-if=" isAuthenticated  && userHasPortfolio"
-                class="text-decoration-none mr-1"
-                >
-                <v-avatar size="26" v-if="usersPortfolio.thumb">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
-                    :src = "usersPortfolio.thumb" 
-                    alt="img"
-                >
-                </v-avatar>
-                <v-avatar size="26" v-else >
-                    <v-icon dark color="black" >
-                        mdi-account-circle
-                    </v-icon>
-                </v-avatar>
-                </v-btn>
-                    </div>
-                </template>
-                <v-list>
-                    <v-list-item
-                    :to="'/'+ loggedInUser.user.username"
-                    class="text-decoration-none pl-5"
-                    >
-                    <!-- <img
-                        height="28"
-                        :src="require('@/assets/gebbleslogo.png')"
-                        alt="img"
-                    > -->
-                    <v-list-item-title class="pl-1" ><h3 class="artist_menubar_name">{{loggedInUser.user.username}}</h3></v-list-item-title>
-                    </v-list-item>
-                    <v-list-item  v-if="userHasPortfolio"
-                    :to="'/'+ loggedInUser.user.username +'/events'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title >My events</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    :to="'/settings'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Settings</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    :to="'/logout'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign Out</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-
-            <v-menu v-else transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class="hidden-sm-and-up"
-                    v-on="on"><v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon></v-btn>
-                    </div>
-                </template>
-                <v-list>
-                    <v-list-item
-                    @click="loginDialog=true"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign In</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    @click="registerDialog=true"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign Up</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            </v-layout>
-        </v-col>
-        <v-col cols="12" sm="6" :class="{'align-center justify-center': $vuetify.breakpoint.xs, 'px-2 d-flex align-center justify-end': $vuetify.breakpoint.smAndUp}">
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium" style="text-transform: capitalize;">About</h4></v-btn>
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium" style="text-transform: capitalize;">Journey</h4></v-btn> 
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium" style="text-transform: capitalize;">E1T1</h4></v-btn>
-            <!-- <v-btn icon small
-                :to= "`/${artist.username}/each1teach1`"
-                class="text-decoration-none mx-1 d-none d-sm-flex">
-                <v-icon size="26" color="black" >
-                    mdi-google-circles-communities
-                </v-icon>
-            </v-btn> -->
-            <v-btn icon small v-if="isAuthenticated"
-              class="text-decoration-none mx-1 d-none d-sm-flex"
-              :to= "`/whatiscooking/`">
-            <v-icon size="26" color="black" >mdi-play-circle-outline</v-icon>
-            </v-btn>
-            <v-btn icon small v-if="isAuthenticated"
-            :to="'/'"
-            class="text-decoration-none mx-1 d-none d-sm-flex"
-            >
-            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
-            </v-btn>
-            <v-btn icon small
-                v-if="isAuthenticated"
-                :to="'/events'"
-                class="text-decoration-none mx-1 d-none d-sm-flex"
-            >
-                <v-icon size="26" color="black" >
-                    mdi-google-circles-communities
-                </v-icon>
-            </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-            <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" class="mx-1 d-none d-sm-flex"
-            v-on="on">
-            <v-icon size="26" color="black">mdi-plus-circle-outline</v-icon>
-            </div>
-            </template>
-            <v-list>
-                <v-list-item
-                :to="'/create/uploadvideo'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                <v-list-item-title>Upload a gebble</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/events'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
-                <v-list-item-title>Create your event</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="!userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                <v-list-item-title>Create a portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                <v-list-item-title>Edit your portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/journey'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-chart-line-variant</v-icon>
-                
-                <v-list-item-title>Share journey</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/each1teach1'"
-                class="text-decoration-none pl-6 pr-12"
-                >
-                <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
-                <v-list-item-title>Give a shoutout</v-list-item-title>
-                </v-list-item>
-            </v-list>
-            </v-menu>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mx-1 text-decoration-none d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
-                <v-badge color="error" overlap :content='notifications_notseen'>
-                <v-icon color="black">mdi-heart-circle-outline</v-icon>
-                </v-badge>
-            </v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mx-1 text-decoration-none  d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
-            <v-icon color="black">mdi-heart-circle-outline</v-icon>
-            </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class="mx-1  d-none d-sm-flex"
-                    v-on="on">
-                    <v-btn icon small
-                v-if="userHasPortfolio"
-                class="text-decoration-none mr-1 d-none d-sm-flex"
-                >
-                <v-avatar size="26" v-if="usersPortfolio.thumb">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
-                    :src = "usersPortfolio.thumb" 
-                    alt="img"
-                >
-                </v-avatar>
-                <v-avatar size="26" v-else >
-                    <v-icon dark color="black">
-                        mdi-account-circle
-                    </v-icon>
-                </v-avatar>
-                </v-btn>
-                    
-                    </div>
-                </template>
-                <v-list>
-                    <v-list-item
-                    :to="'/'+ loggedInUser.user.username"
-                    class="text-decoration-none pl-5"
-                    >
-                    <!-- <img
-                    height="28"
-                        :src="require('@/assets/gebbleslogo.png')"
-                        alt="img"
-                    > -->
-                    <v-list-item-title class="pl-1" ><h3 class="artist_menubar_name">{{loggedInUser.user.username}}</h3></v-list-item-title>
-                    </v-list-item>
-                    <v-list-item  v-if="userHasPortfolio"
-                    :to="'/'+ loggedInUser.user.username +'/events'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title >My events</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    :to="'/settings'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Settings</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    :to="'/logout'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign Out</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            <v-menu v-else transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class=" d-none d-sm-flex"
-                    v-on="on"><v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon></v-btn>
-                    </div>
-                </template>
-                <v-list>
-                    <v-list-item
-                    @click="loginDialog=true"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign In</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    @click="registerDialog=true"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign Up</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-        </v-col>
-    </v-row>
+<div>
+    <center>
+        <div v-if="!isAuthenticated">
+            <v-btn small outlined color="black" class="mr-2 text-decoration-none" @click="loginDialog=true">Sign In</v-btn>
+            <v-btn small dark color="black" class="mr-2 text-decoration-none" @click="registerDialog=true">Sign Up</v-btn>
+        </div>
+    </center>
     <v-dialog persistent
             v-model="loginDialog"
             max-width="450">
@@ -378,7 +24,7 @@
                 <v-card-title class="justify-center">
                     <h3 class="font-weight-medium">Sign in to gebbles</h3>
                 </v-card-title>
-                <v-form ref="loginform">
+                <v-form ref="loginform" >
                 <v-card-text>
                     <v-text-field 
                         :rules=" emailRules" 
@@ -399,7 +45,7 @@
                         color="#cead8f"/>
                 </v-card-text>
                 <v-card-actions class="mb-3 justify-center">
-                    <v-btn @click="submitForm()" class="px-8 " small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
+                    <v-btn @click="submitForm" class="px-8 " small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
                     <!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
                 </v-card-actions>
                 </v-form>
@@ -415,11 +61,11 @@
     max-width="450">
     <center>
         <v-card max-width="450" class="pa-2 " elevation="0" outlined>
-            <div align="end">
-            <v-btn icon color="error" @click="registerDialog=false" >
-                <v-icon >mdi-close</v-icon>
-            </v-btn>
-            </div>
+        <div align="end">
+        <v-btn icon color="error" @click="registerDialog=false" >
+            <v-icon >mdi-close</v-icon>
+        </v-btn>
+        </div>
     <div class="mt-8"><nuxt-link :to="'/'" class="text-decoration-none">
     <img
     :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
@@ -435,19 +81,21 @@
         :rules="usernameRules" 
         v-model="registrationInfo.username" 
         label="Username" 
+        hint="This will be on your url."
         prepend-icon="mdi-account-circle" 
         :error-messages="errorUsername"
         color="#cead8f"/>
     <v-text-field v-model="registrationInfo.email" 
-        :rules="emailRules" 
+        :rules=" emailRules" 
         :error-messages="errorEmail1"
         label="Email" 
+        hint="example@gebbles.com"
         prepend-icon="mdi-account-circle" 
         autocomplete="email"
         color="#cead8f"/>
     <v-text-field     
         :error-messages="errorPassword1"
-        :rules="passwordRules"   
+        :rules=" passwordRules"  
         v-model="registrationInfo.password1"
         :type="showPassword1 ? 'text' : 'password'"
         label="Password"
@@ -457,8 +105,8 @@
         color="#cead8f"
     />
     <v-text-field   
-        :error-messages="errorPassword2" 
-        :rules="passwordRules" 
+    :error-messages="errorPassword2" 
+    :rules=" passwordRules" 
         v-model="registrationInfo.password2"
         :type="showPassword2 ? 'text' : 'password'"
         label="Confirm Password"
@@ -467,17 +115,17 @@
         @click:append="showPassword2 = !showPassword2"
         color="#cead8f"
     />
-    <v-autocomplete label="Representing" v-model= "registrationInfo.country"
-    :rules="countryRules" 
-        :error-messages="errorCountry" 
+    <v-autocomplete label="Representing" v-model= "registrationInfo.country" 
+    :rules=" countryRules" 
+    :error-messages="errorCountry" 
+    prepend-icon="mdi-earth"
         :items="countries"
-        prepend-icon="mdi-earth"
         item-text="name"
         item-value="code"
         color="#cead8f"
         required
     ></v-autocomplete>
-    <v-radio-group v-model="registrationInfo.gender" :rules="genderRules"  :mandatory="true" row>
+    <v-radio-group v-model="registrationInfo.gender" :mandatory="true" :rules=" genderRules" row>
         <v-radio 
             label="Male" 
             value="M"
@@ -495,10 +143,10 @@
         </v-radio>
         <v-text-field color="#cead8f"
         v-if="registrationInfo.gender == 'NS'"
-        label="What's your gender">
+        label="Gender">
         </v-text-field>
     </v-radio-group>
-    <v-checkbox color="#cead8f" v-model="checkbox" :rules="checkboxRules"  :error-messages="errorCheckbox" >
+    <!-- <v-checkbox color="#cead8f" v-model="checkbox" :rules=" checkboxRules">
     <template v-slot:label>
         <div class="mt-2" >
         Do you accept the
@@ -507,7 +155,7 @@
         <a href="#" class="text-decoration-none" @click.prevent="conditions = true">conditions?</a>
         </div>
     </template>
-    </v-checkbox>
+    </v-checkbox> -->
     <v-card-actions class="mb-3 justify-center">
     <v-btn @click="registerUser(registrationInfo)" dark small class="px-8" color="black" :loading="progressbar" >Create Account</v-btn>
     </v-card-actions>
@@ -543,37 +191,27 @@
     </v-card>
     </v-dialog>
             </v-card>
-    </center>
+        </center>
     </v-dialog>
-    <nuxt-child :artist='artist' :bio='bio' />
-    </template>
-  </v-app>
+</div>
 </template>
-
 <script>
 import { mapGetters } from 'vuex'
-import EventService from '@/services/EventService.js'
-import TheHeader from '@/components/TheHeader.vue'
 export default {
-    head() {
-        return {
-            title: this.artist.username,     //do not miss "this"
-            meta: [
-                {
-                    hid: 'description',
-                    name: 'description',
-                    content: 'What you need to know about this artist #' + this.artist.username
-                }
-            ]
-        }
+    computed: {
+        ...mapGetters(['isAuthenticated', 'loggedInUser' ]),
     },
     data() {
       return {
-            userNotFound:false,
             loginDialog: false,
             registerDialog: false,
             errorEmail:'',
             errorPassword:'',
+            errorUsername:'',
+            errorEmail1:'',
+            errorPassword1:'',
+            errorPassword2:'',
+            errorCountry:'',
             showPassword: false,
             hasName: false,
             userInfo: {
@@ -582,22 +220,17 @@ export default {
             },
             progressbar:false,
             progressbar1:false,
-            errorUsername:'',
-            errorEmail1:'',
-            errorPassword1:'',
-            errorPassword2:'',
-            errorCountry:'',
-            errorCheckbox:'',
+            valid:false,
             usernameRules: [
                 v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',
                 v => !!v || "Username is required."],
             emailRules: [
             v => !!v || "Email is required.",
-            v => /.+@.+\..+/.test(v) || "E-mail must be valid."
+            // v => /.+@.+\..+/.test(v) || "E-mail must be valid."
             ],
             passwordRules: [
             v => !!v || "Password is required.",
-            v => (v && v.length >= 8) || "Min 8 characters."
+            // v => (v && v.length >= 8) || "Min 8 characters."
             ],
             countryRules: [
             v => !!v || "Country is required.",
@@ -605,13 +238,17 @@ export default {
             genderRules: [
             v => !!v || "Gender is required.",
             ],
-            checkboxRules: [
-            v => !!v || "Please accept the terms and conditions.",
-            ],
+            // checkboxRules: [
+            // v => !!v || "Please accept the terms and conditions.",
+            // ],
             showPassword1: false,
             showPassword2: false,
+            // conditionContent: 'Conditions content',
+            // termsContent: 'Terms content',
+            // terms: false,
+            // conditions: false,
             verify:false,
-            checkbox: false,
+            // checkbox: false,
             tempusername:'',
             tempemail:'',
             registrationInfo: {
@@ -872,8 +509,9 @@ export default {
     },
     methods:{
 		async submitForm(){
-           if(this.$refs.loginform.validate()){ 
-               this.progressbar1 = true;
+            console.log(this.$refs.loginform.validate());
+            if(this.$refs.loginform.validate())
+            {this.progressbar1 = true;
 			if(this.userInfo.email && this.userInfo.password){
                 try{
 				const config = {
@@ -892,10 +530,11 @@ export default {
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
-				this.$store.dispatch("check_notifications");
-                this.$router.push('/');
+                this.$store.dispatch("check_notifications");
                 this.progressbar1 = false;
                 this.loginDialog = false;
+                // this.$refs.loginform.reset()
+                this.$router.push('/');
                 })
 			}catch(error){
                 this.progressbar1 = false;
@@ -910,22 +549,20 @@ export default {
             }
             else{
                 this.progressbar1 = false
-            }
-            }
+            }}
         },
         reset (response) {
 		console.log("registration successful",response.data);
 		this.$refs.form.reset()
-				this.verify =true;
+        this.verify =true;
         },
         forgot(){
             this.loginDialog=false; 
             this.$router.push('/passwordrenew') 
         },
         async registerUser(registrationInfo){
-            if(this.$refs.form.validate())
-            {
-                try {
+           if(this.$refs.form.validate()) {
+               try {
             if(this.registrationInfo.password1!=this.registrationInfo.password2){
             this.errorPassword2 = `Passwords doesn't match.`
             return;
@@ -956,6 +593,7 @@ export default {
             this.errorEmail1=''
             this.errorPassword1=''
             this.errorPassword2=''
+            this.errorCountry=''
             this.verify= true
             this.registerDialog = false;
             })
@@ -974,6 +612,12 @@ export default {
                         if(`${key}` == 'password1'){
                         this.errorPassword1= `${er[key]}`
                         }
+                        if(`${key}` == 'password2'){
+                        this.errorPassword2= `${er[key]}`
+                        }
+                        if(`${key}` == 'country'){
+                        this.errorCountry= `${er[key]}`
+                        }
                         // console.log(`${key}: ${er[key]}`);
                     }
                     }
@@ -981,55 +625,5 @@ export default {
             }
         }
 	},
-    computed: {
-        ...mapGetters(['isAuthenticated','usersBio', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),
-    },
-    async asyncData({error, params}) {
-        //save api call for loggged in page
-        // if(store.state.auth.loggedIn && params.username == store.state.portfolio.username) 
-        // {
-        //     return{
-        //         artist: store.state.portfolio,
-        //         bio: store.state.bio,
-        //     }
-        // }
-        // else{}
-          try {
-          let artist_response = await EventService.getArtist(params.username)
-          let bio_response = await EventService.getBio(params.username)
-        return {
-            artist: artist_response.data,
-            bio: bio_response.data,
-        }} catch (err) {
-            error('userNotFound');
-            if(err.response.status=='404')
-            {
-                console.log("user doesn't exist");
-            }
-        }
-    },
-    layout: 'username',
-    components:{
-        TheHeader
-    },
-    mounted() {
-    this.$store.dispatch("check_user_portfolio");
-}
-    
 }
 </script>
-
-<style scoped>
-.artist_toolbar_name1{
-    font-family: 'Poiret One', cursive; 
-    max-height: 36px; 
-    overflow: auto;
-    color:black;
-     margin-bottom:7px ;
-}
-.artist_menubar_name{
-    font-family: 'Poiret One', cursive; 
-    overflow: auto;
-    max-width: 106px;
-}
-</style>

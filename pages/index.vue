@@ -1,7 +1,6 @@
 <template>
-  <!-- <v-app> -->
-    <v-container>
-    <v-row v-if="!isAuthenticated">
+  <v-app>
+    <v-row v-if="!isAuthenticated" class="homepage-width mx-auto">
       <v-col cols="12" md="6">
         <div class="mt-md-13 mt-8">
         <div align="center" justify="center" class="mt-md-10 mt-2">
@@ -39,20 +38,20 @@
       </div>
       </v-col>
       <v-col cols="12" md="6" class="mt-md-10">
-        <div class="my-md-16 ma-3 mx-md-10">
-        <p class="font-weight-medium">why gebbles?</p>
-        <p>a lifestyle canvas for the artists of the HipHop culture.</p>
+        <div class="mt-md-16 mx-md-10 my-5">
+        <p class="font-weight-medium"> why gebbles?</p>
+        <p>✔︎ a lifestyle canvas for the artists of the HipHop culture.</p>
         <h2 class="text-center">🎵 💃 🎤 🎨 </h2>
         <p class="font-weight-medium mt-3">represent like you get down</p>
-        <p>create and curate your events and work, document and share your passionate journey, 
+        <p>✔︎ create and curate your events and work, document and share your passionate journey, 
           build a porfolio website that represents you.</p>
-        <p class="font-weight-medium mt-3">connect with your community, grow together</p>
-        <p>can we imagine hiphop without 'sharing'?</p>
-        <p>
-          let's shoutout to those friends and teachers who share their knowledge and inspire us. Likewise,
+        <p class="font-weight-medium mt-3"> connect with your community, grow together</p>
+        <p>can we imagine hiphop without 'sharing'?<br>
+          ✔︎ let's shoutout to those friends and teachers who share their knowledge and inspire us. Likewise,
           gebbles notifies and helps you connect with your students and fans when they appreciate you and your work.
         </p>
         </div>
+        <register-login></register-login>
       </v-col>
     </v-row>
     <v-container v-else class="pa-0 mt-4 mt-md-8" >
@@ -92,14 +91,14 @@
       <h3>No artists found. </h3>
     </center>
     </v-container>
-    </v-container>
-  <!-- </v-app> -->
+  </v-app>
 </template>
 
 <script>
 import ArtistCard from '@/components/ArtistCard.vue'
 import EventService from '@/services/EventService.js'
 import {mapGetters} from 'vuex'
+import RegisterLogin from '~/components/RegisterLogin.vue'
 export default {
   head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -162,7 +161,8 @@ export default {
     },
   },
   components: {
-    ArtistCard
+    ArtistCard,
+    RegisterLogin
   },
   data() {
     return {
@@ -229,9 +229,13 @@ a:hover{
 .width{
     max-width: 670px;
   }
+.homepage-width{
+  max-width: 1000px;
+}
 @media only screen and (max-width: 960px) {
   .width{
-  max-width: 357px;
-}
+    max-width: 357px;
+  }
+
 }
 </style>

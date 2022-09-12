@@ -10,7 +10,7 @@
 export default function({store, redirect }) {
   const isAuthenticated = store.state.auth.loggedIn ? true : false
   if (!isAuthenticated) {
-    redirect("/login")
+    redirect("/register")
     // console.log("not auth");
   }
   else{
