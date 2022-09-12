@@ -51,7 +51,7 @@
           gebbles notifies and helps you connect with your students and fans when they appreciate you and your work.
         </p>
         </div>
-        <register-login></register-login>
+        <!-- <register-login></register-login> -->
       </v-col>
     </v-row>
     <v-container v-else class="pa-0 mt-4 mt-md-8" >
@@ -98,7 +98,7 @@
 import ArtistCard from '@/components/ArtistCard.vue'
 import EventService from '@/services/EventService.js'
 import {mapGetters} from 'vuex'
-import RegisterLogin from '~/components/RegisterLogin.vue'
+// import RegisterLogin from '~/components/RegisterLogin.vue'
 export default {
   head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -162,7 +162,7 @@ export default {
   },
   components: {
     ArtistCard,
-    RegisterLogin
+    // RegisterLogin
   },
   data() {
     return {
