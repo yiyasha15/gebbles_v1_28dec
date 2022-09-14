@@ -77,11 +77,11 @@
                         v-model = "event.venue"
                         label= "Event venue">
                     </v-text-field>
-                    <!-- <v-text-field
-                        v-model = "event.city"
-                        label= "City"
-                        :maxlength="50">
-                    </v-text-field> -->
+                    <v-text-field
+                        prepend-icon="mdi-google-maps"
+                        label= "Google Maps URL"
+                        :maxlength="255">
+                    </v-text-field>
                     <v-autocomplete label="Country*" v-model= "event.country"
                         prepend-icon="mdi-earth"
                         :items="countries"
