@@ -1,7 +1,7 @@
 <template>
   <v-app>
   <v-container>
-      <v-btn class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+      <v-btn class="elevation-0 white text-decoration-none" icon @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
       <v-col align="center" justify="center">
       <h3 v-if="error.message === 'userNotFound'" class="font-weight-light">
         {{artistNotfound}}

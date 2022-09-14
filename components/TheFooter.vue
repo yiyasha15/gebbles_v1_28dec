@@ -9,10 +9,10 @@
       <v-spacer></v-spacer>
       <v-col cols="12" md="6">
         <v-row :class="{'justify-center': $vuetify.breakpoint.smAndDown, 'justify-end': $vuetify.breakpoint.mdAndUp}">
-          <nuxt-link to="/help" class="text-decoration-none mx-2">about</nuxt-link>
-          <nuxt-link to="/contact" class="text-decoration-none mx-2">contact</nuxt-link>
-          <nuxt-link to="/terms" class="text-decoration-none mx-2">terms of use</nuxt-link>
-          <nuxt-link to="/privacy" class="text-decoration-none mx-2">privacy policy</nuxt-link>
+          <nuxt-link to="/help" >About</nuxt-link>
+          <nuxt-link to="/contact" >Contact</nuxt-link>
+          <nuxt-link to="/terms" >Terms of use</nuxt-link>
+          <nuxt-link to="/privacy">Privacy policy</nuxt-link>
           <!-- <v-btn small text :to= "`/reachout/`"><h5 class="font-weight-light">Contact Us</h5></v-btn> -->
           <!-- <v-btn small icon class="text-decoration-none"  @click="openig" >
               <v-icon>mdi-instagram</v-icon>
@@ -34,6 +34,10 @@ export default {
 }
 </script>
 <style scoped>
+a{
+  text-decoration:none ;
+  margin: 0px 8px;
+}
 a:hover{
   color: black;
   text-decoration: underline;

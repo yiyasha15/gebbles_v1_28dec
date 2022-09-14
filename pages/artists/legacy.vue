@@ -5,7 +5,6 @@
         <v-col cols="12" md="7"  class="justify-center ">
           <nuxt-link to="/artists" class="text-decoration-none"><h2 class ="xs12 d-inline font-weight-light">Artists</h2></nuxt-link> 
         / <nuxt-link class="text-decoration-none" to="/artists/legacy"><h2 class ="xs12 d-inline font-weight-light">Legacy Artists</h2></nuxt-link>
-          <!-- <h2 class ="xs12 d-inline font-weight-light">Artists</h2> -->
         </v-col>
         <v-col cols="12" md="5" class= "justify-end py-0 py-md-3" >
           <v-text-field
@@ -14,7 +13,6 @@
             solo clearable
             prepend-inner-icon="mdi-magnify"
             v-model="search"
-          @input="debounceSearch"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -24,7 +22,7 @@
       </div>
     </v-layout>
     <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
-      <div v-for="artist in artists" :key ="artist.index">
+      <div v-for="artist in filterApi" :key ="artist.index">
         <ArtistCard :artist="artist" ></ArtistCard> 
       </div>
     </v-layout>
@@ -64,7 +62,7 @@ export default {
   methods:{
     async getartists(){
       try {
-      const response = await EventService.getArtists()
+      const response = await EventService.getLegacyArtists()
       this.artists = response.data.results
       this.page = response.data.next
       this.firstLoad = false
@@ -88,20 +86,6 @@ export default {
           });
         }
     },
-    debounceSearch() {
-    this.firstLoad = true
-    this.artists=[]
-      clearTimeout(this.debounce)
-      this.debounce = setTimeout(() => {
-      if(this.search){EventService.getSearchedArtist(this.search).then((value) => {
-      this.firstLoad = false
-      this.artists = value.data
-      });}
-      else{
-        this.getartists();
-      }
-      }, 600)
-    },
   },
   components: {
     ArtistCard
@@ -113,7 +97,6 @@ export default {
       page:"",
       artists:[],
       search: "",
-      debounce: null
     }
   },
   computed: {
@@ -136,11 +119,11 @@ export default {
           case 'xl': return 215
         }
       },
-    // filterApi: function(){
-    //   return this.artists.filter((artist) => {
-    //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
-    //   });
-    // }
+    filterApi: function(){
+      return this.artists.filter((artist) => {
+        return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
+      });
+    }
   },
       
 }

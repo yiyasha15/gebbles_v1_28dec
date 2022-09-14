@@ -2,8 +2,8 @@
 <div>
     <center>
         <div v-if="!isAuthenticated">
-            <v-btn small outlined color="black" class="mr-2 text-decoration-none" @click="loginDialog=true">Sign In</v-btn>
-            <v-btn small dark color="black" class="mr-2 text-decoration-none" @click="registerDialog=true">Sign Up</v-btn>
+            <v-btn small outlined color="black" class="mr-2 text-decoration-none text-capitalize" @click="loginDialog=true">Sign In</v-btn>
+            <v-btn small dark color="black" class="mr-2 text-decoration-none text-capitalize" @click="registerDialog=true">Sign Up</v-btn>
         </div>
     </center>
     <v-dialog persistent

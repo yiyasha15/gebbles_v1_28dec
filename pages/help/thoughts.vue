@@ -1,10 +1,24 @@
 <template>
 <v-app>
     <v-container class="width">
-        <h1 class="my-3">Thoughts</h1>
+        <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
+            <v-icon class="float-left">mdi-arrow-left</v-icon>
+        </v-btn>
+        <h3 class="font-weight-medium d-inline">
+           Thoughts
+        </h3>
     </v-container>
 </v-app>
 </template>
+<script>
+export default {
+    methods: {
+        goback(){
+            window.history.back();
+        },
+    }
+}
+</script>
 <style scoped>
 .width{
     max-width: 1024px;
@@ -16,7 +30,6 @@ a{
     text-decoration: none;
 }
 </style>
-
           <!-- Gebbles is a platform for the artists of the hiphop culture. At gebbles, you can make a dance portfolio, document your HipHop journey & stay connected
               to some of the people who matter the most. 
               <p class=" my-3">Gebbles, is a community platform <b>to celebrate the each one teach one legacy of the hiphop culture. </b><br>

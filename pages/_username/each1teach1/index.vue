@@ -11,7 +11,7 @@
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
         <v-tab-item v-if="!firstLoad">
-            <small class="ml-1 py-2 grey--text">all the artists {{artist.username}} shared about</small>
+            <small class="ml-1 py-2 grey--text">🤝 artists {{artist.username}} gave a shoutout to</small>
             <div v-if="teachers.length">
             <v-layout wrap justify-start class="my-2" >
                 <div v-for="share in teachers" :key ="share.index">
@@ -36,7 +36,7 @@
             </v-layout>
         </v-tab-item>
         <v-tab-item v-if="!firstLoad">
-            <small class="ml-1 py-2 grey--text">all the artists that share about what they learnt from {{artist.username}}</small>
+            <small class="ml-1 py-2 grey--text">🤝 artists that gave {{artist.username}} a shoutout</small>
             <div v-if="students.length">
             <v-layout wrap  justify-start class="my-2 ">
                 <div v-for="share in students" :key ="share.index">

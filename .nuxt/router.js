@@ -25,9 +25,11 @@ const _0cc37eb2 = () => interopDefault(import('../pages/subscription.vue' /* web
 const _6aef99c2 = () => interopDefault(import('../pages/terms.vue' /* webpackChunkName: "pages/terms" */))
 const _d9ad562c = () => interopDefault(import('../pages/whatiscooking/index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
 const _246f0a57 = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
+const _7173c001 = () => interopDefault(import('../pages/artists/legacy.vue' /* webpackChunkName: "pages/artists/legacy" */))
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
 const _bbe17f72 = () => interopDefault(import('../pages/create/events.vue' /* webpackChunkName: "pages/create/events" */))
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
+const _6414fd7c = () => interopDefault(import('../pages/create/legacy-porfolio.vue' /* webpackChunkName: "pages/create/legacy-porfolio" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
 const _4b7b26cd = () => interopDefault(import('../pages/help/getting_started.vue' /* webpackChunkName: "pages/help/getting_started" */))
@@ -150,6 +152,10 @@ export const routerOptions = {
     component: _246f0a57,
     name: "write_blog"
   }, {
+    path: "/artists/legacy",
+    component: _7173c001,
+    name: "artists-legacy"
+  }, {
     path: "/create/each1teach1",
     component: _0da0c1ee,
     name: "create-each1teach1"
@@ -161,6 +167,10 @@ export const routerOptions = {
     path: "/create/journey",
     component: _6cd0c402,
     name: "create-journey"
+  }, {
+    path: "/create/legacy-porfolio",
+    component: _6414fd7c,
+    name: "create-legacy-porfolio"
   }, {
     path: "/create/uploadvideo",
     component: _70dd915c,

@@ -1,17 +1,15 @@
 <template>
   <v-app>
-        <blank-header/>
+        <div class="h-80"></div>
         <nuxt/>
         <the-footer />
   </v-app>
 </template>
 
 <script>
-import BlankHeader from '@/components/BlankHeader'
 import TheFooter from '@/components/TheFooter'
 export default {
   components:{
-    BlankHeader,
     TheFooter
   },
   head() {  //head function (a property of vue-meta), returns an object
@@ -29,5 +27,20 @@ export default {
   } 
 }
 </script>
+<style scoped>
+.h-80{
+  height: 120px;
+}
+@media only screen and (max-width: 700px) {
+.h-80{
+  height: 60px;
+}
+}
+@media only screen and (max-width: 500px) {
+.h-80{
+  height: 20px;
+}
+}
+</style>
 
 

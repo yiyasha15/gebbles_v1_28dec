@@ -45,8 +45,8 @@
                                 @click="data.select"
                                 @click:close="remove(data.item)"
                                 >
-                                <v-avatar v-if="data.item.sp_thumb" left>
-                                    <v-img :src="data.item.sp_thumb"></v-img>
+                                <v-avatar v-if="data.item.thumb" left>
+                                    <v-img :src="data.item.thumb"></v-img>
                                 </v-avatar>
                                 <v-avatar v-else >
                                 <v-icon>
@@ -58,8 +58,8 @@
                             </template>
                             <template v-slot:item="data">
                                 <template>
-                                <v-list-item-avatar v-if="data.item.sp_thumb">
-                                    <img :src="data.item.sp_thumb">
+                                <v-list-item-avatar v-if="data.item.thumb">
+                                    <img :src="data.item.thumb">
                                 </v-list-item-avatar>
                                 <v-list-item-avatar v-else>
                                     <v-icon>
@@ -83,6 +83,28 @@
             </v-form>
         </v-card>
         </v-container>
+        <!-- <p> all teachers</p>
+        <ul v-for="t in usersTeachers" :key="t.id">
+                <li>{{t}}</li>
+        </ul>
+        ---<br>
+        --
+        <p> cook_obj.taggedteachers</p>
+        <ul v-for="t in cook_obj.taggedteachers" :key="t.id">
+                <li>{{t}}</li>
+        </ul>
+        ---<br>
+        <ul v-for="t in cook_obj.taggedteachers" :key="t.id">
+                <li>{{t.shareidobj.id}}</li>
+        </ul>
+        --
+        <p> selectedTeachers</p>
+        <ul v-for="t in selectedTeachers" :key="t.id">
+                <li>{{t}}</li>
+        </ul>
+        <ul v-for="t in selectedTeachers" :key="t.id">
+                <li>{{typeof t}}</li>
+        </ul> -->
         <v-snackbar v-model="updated">
             Post updated.
         </v-snackbar>
@@ -141,7 +163,7 @@ data(){
         changedTeachers:[],
         updated:false,
         youtubeRules:[
-            v => !v || /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/.test(v) ||'Enter a valid Url',
+            v => !v || /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm.test(v) ||'Enter a valid Url',
             v => !!v || 'Url is required',
         ],
         }
@@ -187,11 +209,11 @@ methods:{
                 this.refresh();
                 this.$router.push("/whatiscooking");
             })
-        } 
-        catch (error) {
-            console.log("unsuccess",error.response);
-            this.progressbar =false
-        }
+            } 
+            catch (error) {
+                console.log("unsuccess",error.response);
+                this.progressbar =false
+            }
         }
     },
     async updateCooking() {
@@ -204,12 +226,16 @@ methods:{
                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
             }
             };
+            let update=false;
             let formName = new FormData();
             if(this.cook_obj.lesson != this.cookingForm.lesson)
-            formName.append("lesson", this.cookingForm.lesson);
+            {formName.append("lesson", this.cookingForm.lesson);
+            update = true;}
             if(this.cook_obj.video != this.cookingForm.video)
-            formName.append("video", this.cookingForm.video);
-            let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);
+            {formName.append("video", this.cookingForm.video);
+            update = true;}
+            if(update)
+            {let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);}
             //for tagged teachers
             this.updateTeachers();
         } 
@@ -220,62 +246,117 @@ methods:{
     },
     async updateTeachers(){
         if(this.changedTeacherBool){
-            console.log("teacher changed");
-            let prevArray = this.cook_obj.taggedteachers
-            let currArray=[];
-            for (let copy = 0; copy < this.selectedTeachers.length; copy++) {
-             currArray[copy] = this.selectedTeachers[copy];
+            // console.log("teacher changed");
+            let prevArray = this.cook_obj.taggedteachers;
+            let selectedArrayType= '';
+            if(this.selectedTeachers.length == 0 && prevArray.length == 0){
+                // do nothing
+                return;
             }
-            for(let i=0; i < prevArray.length; i++)
+            //new array empty
+            else if(this.selectedTeachers.length == 0) // nothing to add
             {
-                let a = currArray.includes(prevArray[i].shareidobj.id)
-                if(!a)
-                {
-                    const config = {
+                //delete all( could be an obj or number)
+                const config = {
                     headers:{
                         "content-type": "multipart/form-data",
                         "Authorization": "Bearer " + this.$store.state.auth.user.access_token
                     }
                     };
-                    // await this.$axios.$delete("/v1/whatiscooking/taggedteachers/"+prevArray[i].id, config)
-                    this.$axios.$delete("/v1/whatiscooking/taggedteachers/"+prevArray[i].id, config).then((res) => {
-                    console.log("removed teacher",res);
-                })
-                }
-                else{
-                    const index = currArray.indexOf(prevArray[i].shareidobj.id);
-                    if (index > -1) {
-                    currArray.splice(index, 1); 
-                    }
-                    // remove from selected teacher
+                for(let i=0; i < prevArray.length; i++)
+                {
+                    await this.$axios.$delete("/v1/whatiscooking/taggedteachers/"+prevArray[i].id, config)
                 }
             }
-            const result = this.usersTeachers.filter(teacher => currArray.includes(teacher.id));
-            const config = {
-            headers:{
-                "content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
-            }
-            };
-            for(let i=0; i < result.length;i++)
+            else if(prevArray.length == 0) //nothing to delete
             {
-                let formData = new FormData();
-                formData.append("username", this.$store.state.auth.user.user.username);
-                formData.append("cookingidobj", this.cook_obj.id)
-                formData.append("shareidobj",result[i].id)
-                formData.append("idea",result[i].id)
-                await this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
-                    console.log("added teacher",res);
-                    // this.progressbar = false
-                })
+                let newArray=[];
+                //make clone of new array
+                for (let copy = 0; copy < this.selectedTeachers.length; copy++) {
+                newArray[copy] = this.selectedTeachers[copy];
+                }
+                const config = {
+                headers:{
+                    "content-type": "multipart/form-data",
+                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                }
+                };
+                for(let i=0; i < newArray.length;i++)
+                {
+                    let formData = new FormData();
+                    formData.append("username", this.$store.state.auth.user.user.username);
+                    formData.append("cookingidobj", this.cook_obj.id)
+                    formData.append("shareidobj",newArray[i])
+                    formData.append("idea",newArray[i])
+                    await this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
+                        console.log("added teacher",res);
+                    })
+                }
+
             }
+            else{ //do computation
+            try {
+                let prevArrayConverted = this.cook_obj.taggedteachers.map(a => a.shareidobj.id);
+                let newArray=[];
+                //make clone of new array
+                for (let copy = 0; copy < this.selectedTeachers.length; copy++) {
+                    selectedArrayType = typeof this.selectedTeachers[copy];
+                    newArray[copy] = this.selectedTeachers[copy];
+                }
+                //if(type is object -> filter and make number)
+                // console.log("selectedArrayType:", selectedArrayType);
+                if(selectedArrayType =='object'){
+                    newArray = this.selectedTeachers.map(a => a.id);
+                }
+                else if(selectedArrayType =='number'){
+                    newArray = this.selectedTeachers;
+                }
+                // console.log("selected teacher id is ", newArray);
+                const config = {
+                    headers:{
+                        "content-type": "multipart/form-data",
+                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    }
+                };
+                //check prev array and delete if new array doesnt contain that
+                for(let i=0; i < prevArray.length; i++){
+                    if(newArray.indexOf(prevArray[i].shareidobj.id)== -1){
+                        await this.$axios.$delete("/v1/whatiscooking/taggedteachers/"+prevArray[i].id, config)
+                    }
+                }
+                //check new array and add if prev array doesn't contain that
+                for(let i=0; i < newArray.length; i++){
+                    if(prevArrayConverted.indexOf(newArray[i])== -1){
+                        console.log("add",newArray[i]);
+                        let formData = new FormData();
+                        formData.append("username", this.$store.state.auth.user.user.username);
+                        formData.append("cookingidobj", this.cook_obj.id)
+                        formData.append("shareidobj",newArray[i])
+                        formData.append("idea",newArray[i])
+                        await this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
+                            console.log("added teacher",res, newArray[i]);
+                        })
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+            }
+            this.progressbar =false
             this.updated = true;
             this.refresh();
+            this.$router.push("/whatiscooking/"+this.cook_obj.uuid);
             this.$store.dispatch("remove_cook_obj");
-            this.progressbar =false
-            this.$router.push("/whatiscooking");
+            //updatestore
         }
-        else console.log("teacher unchanged");
+        else {
+            console.log("teacher unchanged");
+            this.progressbar =false
+            this.updated = true;
+            this.refresh();
+            this.$router.push("/whatiscooking/"+this.cook_obj.uuid);
+            this.$store.dispatch("remove_cook_obj");
+            }
     },
     teacherchange(){
         if(this.cook_obj)
@@ -288,11 +369,23 @@ methods:{
         this.cookingForm.thumbjs ='';
         this.selectedTeachers= []
         this.changedTeacherBool=false,
-        this.changedTeachers=[]
+        this.changedTeachers=[];
+        this.$refs.cooking_form.resetValidation();
     },
     remove (item) {
-        const index = this.selectedTeachers.indexOf(item.s_teacher_name)
-        if (index >= 0) this.selectedTeachers.splice(index, 1)
+        let index= -1;
+        for(var i = 0; i < this.selectedTeachers.length; i++) {
+        if(this.selectedTeachers[i].s_teacher_name === item.s_teacher_name) {
+            index = i;
+        }
+        else if(this.selectedTeachers[i] === item.id){
+            index = i;
+        }
+        }
+        if (index >= 0) {
+            if(this.cook_obj){this.changedTeacherBool = true}
+            this.selectedTeachers.splice(index, 1)
+        }
     },
 },
 watch: {

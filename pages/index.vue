@@ -27,21 +27,35 @@
         </v-row> -->
         <center class="mt-6">
           <v-row  style="max-width:370px; margin:auto">
-            <v-col v-if="!userHasPortfolio"><nuxt-link to="/create/" class="text-decoration-none ">get started</nuxt-link></v-col>
-            <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined">artists</nuxt-link></v-col>
+            <v-col cols="6"><v-btn min-width="150" color="primary" class=" text-decoration-none" to="/create/">
+            <h4 class="font-weight-medium text-capitalize" >Get Started</h4></v-btn></v-col>
+            <v-col cols="6"><v-btn min-width="150" color="primary" class=" text-decoration-none" to="/artists/">
+            <h4 class="font-weight-medium text-capitalize" >artists</h4></v-btn></v-col>
+            <!-- <v-col><nuxt-link to="/create/" class="text-decoration-none ">get started</nuxt-link></v-col>
+            <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined">artists</nuxt-link></v-col> -->
           </v-row>
           <v-row  style="max-width:370px; margin:auto">
-            <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none ">what's cooking</nuxt-link></v-col>
-            <v-col><nuxt-link to="/events/" class="text-decoration-none ">events</nuxt-link></v-col>
+            <v-col cols="6"><v-btn min-width="150" color="primary" class=" text-decoration-none" to="/events/">
+            <h4 class="font-weight-medium text-capitalize" >events</h4></v-btn></v-col>
+            <v-col cols="6"><v-btn min-width="150" color="primary" class=" text-decoration-none" to="/whatiscooking/">
+            <h4 class="font-weight-medium text-capitalize" >what's cookin</h4></v-btn></v-col>
+            <!-- <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none ">what's cooking</nuxt-link></v-col>
+            <v-col><nuxt-link to="/events/" class="text-decoration-none ">events</nuxt-link></v-col> -->
           </v-row>
         </center>
       </div>
       </v-col>
-      <v-col cols="12" md="6" class="mt-md-10">
+      <v-col cols="12" md="6" class="mt-md-16">
         <div class="mt-md-16 mx-md-10 my-5">
         <p class="font-weight-medium"> why gebbles?</p>
         <p>✔︎ a lifestyle canvas for the artists of the HipHop culture.</p>
-        <h2 class="text-center">🎵 💃 🎤 🎨 </h2>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <h2 class="text-center" v-bind="attrs" v-on="on">🎵 💃 🎤 🎨 </h2>
+          </template>
+          <span>✌🏽 🖤 🤝</span>
+        </v-tooltip>
+        <!-- <h2 class="text-center">🎵 💃 🎤 🎨 </h2> -->
         <p class="font-weight-medium mt-3">represent like you get down</p>
         <p>✔︎ create and curate your events and work, document and share your passionate journey, 
           build a porfolio website that represents you.</p>
@@ -57,8 +71,8 @@
     <v-container v-else class="pa-0 mt-4 mt-md-8" >
     <v-row class="mx-auto width">
       <v-col cols="12" md="8"  class="justify-center ">
-        <nuxt-link to="/" class="text-decoration-none outlined"><h2 class ="xs12 d-inline font-weight-light">Artists</h2></nuxt-link> 
-        <!-- / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link> -->
+        <nuxt-link to="/" class="text-decoration-none "><h2 class ="xs12 d-inline font-weight-light">Artists</h2></nuxt-link> 
+        / <nuxt-link class="text-decoration-none " to="/artists/legacy"><h2 class ="xs12 d-inline font-weight-light">Legacy Artists</h2></nuxt-link>
       </v-col>
       <v-col cols="12" md="4" class= "justify-end py-0 py-md-3" >
         <v-text-field
@@ -112,7 +126,8 @@ export default {
         }
   },
   created(){
-    console.log(this.$store.state.auth.strategy);
+    let api_key = process.env['API_KEY']
+    console.log(this.$store.state.auth.strategy, api_key);
     this.$store.dispatch("check_notifications");
     this.$store.dispatch("check_user_portfolio");
     this.$store.dispatch("check_user_bio");

@@ -7,20 +7,20 @@
             :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
             class="clickable"
             :src="require('@/assets/gebbleslogo.png')"/>
-            <v-toolbar-title>
-                <!-- <h2 class=" hidden-sm-and-down" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2> -->
-                <!-- <h3 class=" hidden-md-and-up" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h3> -->
+            <v-toolbar-title> 
+                <h2 class=" hidden-sm-and-down" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2>
+                <h3 class=" hidden-md-and-up" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h3>
             </v-toolbar-title>
         </v-layout>
         </nuxt-link>
         <v-spacer></v-spacer>
         <!-- <v-btn icon small
-            class="text-decoration-none mr-3"
+            class="text-decoration-none mr-sm-2 mr-md-3 mr-1"
             :to= "`/help/`">
         <v-icon size="26" color="black" >mdi-help</v-icon>
         </v-btn> -->
         <v-btn icon small
-            class="text-decoration-none mr-3"
+            class="text-decoration-none mr-sm-2 mr-md-3 mr-1"
             :to= "`/whatiscooking/`"
             v-if="isAuthenticated">
         <v-icon size="26" color="black" >mdi-play-circle-outline</v-icon>
@@ -28,14 +28,14 @@
         <v-btn icon small 
         :to="'/'"
         v-if="isAuthenticated"
-        class="text-decoration-none mr-3"
+        class="text-decoration-none mr-sm-2 mr-md-3 mr-1"
         >
         <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
         </v-btn>
         <v-btn icon small
             v-if="isAuthenticated"
             :to="'/events'"
-            class="text-decoration-none mr-3"
+            class="text-decoration-none mr-sm-2 mr-md-3 mr-1"
         >
             <v-icon size="26" color="black" >
                 mdi-google-circles-communities
@@ -43,7 +43,7 @@
         </v-btn>
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" class="mr-3"
+            <div v-bind="attrs" class="mr-sm-2 mr-md-3 mr-1"
             v-on="on">
             <v-icon size="26" color="black">mdi-plus-circle-outline</v-icon>
             </div>
@@ -95,12 +95,12 @@
             </v-list>
         </v-menu>
         <!-- {{notifications_notseen}} -->
-        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-sm-2 mr-md-3 mr-1 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
     <v-badge color="error" overlap :content='notifications_notseen'>
     <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
     </v-badge>
         </v-btn>
-        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-3 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-sm-2 mr-md-3 mr-1 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
         <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
         </v-btn>
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>

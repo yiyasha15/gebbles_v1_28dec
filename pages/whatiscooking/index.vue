@@ -88,8 +88,9 @@ export default {
       }
     },
     postDelete(){
-      this.$forceUpdate();
-      console.log("updated?2");
+      this.cooking=[];
+      this.page =''
+      this.firstLoad = true
       this.getwhatiscooking();
     }
 

@@ -28,37 +28,38 @@
                   <span>{{exactmoment(item.time)}}</span>
                 </v-tooltip>
                 <!-- <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle> -->
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you as a teacher.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your post.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your post.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has tagged you as a teacher.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text" >{{item.sender}} has liked your post.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your post.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 2">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has added a video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has added a video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your video.</v-list-item-title>
                 
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 3">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has mentioned you in a video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your tagged video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your tagged video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has mentioned you in a video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your tagged video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your tagged video.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 4">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has sent you a private message.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your private message.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your private message.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has sent you a private message.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your private message.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text" >{{item.sender}} has commented on your private message.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 5">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you in an event.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has tagged you in an event.</v-list-item-title>
             </v-list-item-content>
             </v-list-item>
         </template>
         </v-list>
         <v-divider></v-divider>
+        <!-- {{filteredNotificationsOld}} -->
         <v-list two-line>
         <v-subheader>Earlier</v-subheader>
         <template v-for="(item) in filteredNotificationsOld">
@@ -76,32 +77,32 @@
             <v-list-item-content v-if="item.notification_context == 1 ">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <!-- <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle> -->
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you as a teacher.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your post.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your post.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text" >{{item.sender}} has tagged you as a teacher.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your post.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your post.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 2">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has added a video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has added a video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your video.</v-list-item-title>
                 
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 3">
-                <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has mentioned you in a video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your tagged video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your tagged video.</v-list-item-title>
+                <v-list-item-subtitle > {{moment(item.time)}}</v-list-item-subtitle>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has tagged you in a video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked a video you're tagged in.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on a video you're tagged in.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 4">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has sent you a private message.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" >{{item.sender}} has liked your private message.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" >{{item.sender}} has commented on your private message.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has sent you a private message.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text" >{{item.sender}} has liked your private message.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your private message.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 5">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
-                <v-list-item-title v-if="item.notification_type == 1" >{{item.sender}} has tagged you in an event.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has tagged you in an event.</v-list-item-title>
             </v-list-item-content>
             </v-list-item>
         </template>
@@ -178,7 +179,7 @@ computed: {
                 this.$router.push('/whatiscooking/'+ obj.cookingobject);
                 let temp = this.filteredNotifications;
                 let tempe=[];
-                console.log(this.filteredNotifications, obj);
+                // console.log(this.filteredNotifications, obj);
                 if(obj.e1t1object)
                     tempe = temp.filter(temp => temp.e1t1object == obj.e1t1object);
                 else if(obj.guestobject && obj.guestobject.event)
@@ -251,3 +252,8 @@ computed: {
     },
 }
 </script>
+<style scoped>
+.wrap-text {
+   white-space: normal;
+}
+</style>

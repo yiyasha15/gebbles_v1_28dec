@@ -147,6 +147,13 @@
     "_name": "_246f0a57"
   },
   {
+    "name": "artists-legacy",
+    "path": "/artists/legacy",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/artists/legacy.vue",
+    "chunkName": "pages/artists/legacy",
+    "_name": "_7173c001"
+  },
+  {
     "name": "create-each1teach1",
     "path": "/create/each1teach1",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/each1teach1.vue",
@@ -166,6 +173,13 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/journey.vue",
     "chunkName": "pages/create/journey",
     "_name": "_6cd0c402"
+  },
+  {
+    "name": "create-legacy-porfolio",
+    "path": "/create/legacy-porfolio",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/legacy-porfolio.vue",
+    "chunkName": "pages/create/legacy-porfolio",
+    "_name": "_6414fd7c"
   },
   {
     "name": "create-uploadvideo",

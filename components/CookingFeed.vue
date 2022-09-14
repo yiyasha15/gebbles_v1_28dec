@@ -73,8 +73,8 @@
     </v-dialog>
     <div class="my-2" >
     <nuxt-link :to="'/'+ cook.username" v-if="cook.username" class="text-decoration-none">
-        {{cook.username}}{{": "}}
-    </nuxt-link>{{cook.lesson}}
+        {{cook.username}}
+    </nuxt-link><span v-if="cook.lesson">{{": "}}{{cook.lesson}}</span>
     </div>
     <nuxt-link v-for="obj in cook.taggedteachers" :key="obj.id" :to="'/e1t1/'+ obj.shareidobj.uuid" class="text-decoration-none">
         <v-chip color="black grey" dark outlined class="mr-1" style="cursor:pointer;">

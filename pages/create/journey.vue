@@ -130,6 +130,7 @@
         
                 <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Journey details*</v-stepper-step>
                 <v-stepper-content step="2" class="ma-0" style="border-left: none;">
+                    <v-form ref="journey_form">
                     <v-text-field
                         v-model = "journey.joevent"
                         label= "Title*"
@@ -191,6 +192,7 @@
                         :maxlength="255"
                         :rules="urlRules">
                     </v-text-field>
+                    </v-form>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
                     <v-btn text @click="goback" small color="primary">Cancel</v-btn>
@@ -837,6 +839,7 @@ export default {
                     await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
                         console.log(res);
                         this.refresh();
+                        this.$refs.journey_form.resetValidation();
                         this.progressbar =false;
                         this.posted_snackbar = true;
                         this.$router.push("/"+this.journey.username+"/journey");
@@ -889,6 +892,7 @@ export default {
                 this.progressbar =false
                 this.posted_snackbar = true;
                 this.refresh();
+                this.$refs.journey_form.resetValidation();
                 } catch (error) {
                     console.log("error",error);
                     this.error_snackbar =true
