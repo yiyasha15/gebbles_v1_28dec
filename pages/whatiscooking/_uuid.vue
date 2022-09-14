@@ -85,7 +85,7 @@ export default {
   },
   methods:{
     postDelete(){
-      console.log("push to events page");
+      this.$router.push('/whatiscooking/');
     },
      goback(){
             window.history.back();
