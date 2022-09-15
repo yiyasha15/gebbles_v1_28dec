@@ -3,6 +3,7 @@
         <div>
             <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
+        
             <h2 align="center" justify="center" v-if="!userHasBio && !userHasPortfolio">Create your portfolio</h2>
             <h2 align="center" justify="center" v-if="userHasBio && userHasPortfolio">Edit your portfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
@@ -300,7 +301,7 @@ components: {
     Youtube
 },
 computed: {
-    ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser']),
+    ...mapGetters(['isAuthenticated', 'usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser']),
     videoId1(){
         if(this.bio.vid1)
         return getIdFromURL(this.bio.vid1)
@@ -324,22 +325,9 @@ computed: {
 created(){
     this.$store.dispatch("check_user_portfolio");
     this.$store.dispatch("check_user_bio");
-    // console.log("this.userHasPortfolio",this.userHasPortfolio);
-    // console.log("this.userHasBio",this.userHasBio);
-    if(this.userHasPortfolio)
-    {
-        console.log("userhasbport");
-        this.artist_data = Object.assign({}, this.usersPortfolio);
+    if(this.isAuthenticated){
+        this.checkUserData();
     }
-    if(this.userHasBio)
-    {
-        console.log("userhasbio");
-        this.bio = Object.assign({}, this.$store.getters.usersBio);
-    }
-},
-mounted(){
-console.log("this.userHasPortfolio",this.userHasPortfolio);
-    console.log("this.userHasBio",this.userHasBio);
 },
 data(){
     return {
@@ -897,6 +885,20 @@ methods: {
             this.delete_progressbar = false
         }
     },
+    checkUserData(){
+        console.log("this.userHasPortfolio",this.userHasPortfolio);
+        console.log("this.userHasBio",this.userHasBio);
+        if(this.userHasPortfolio)
+        {
+            console.log("userhasbport");
+            this.artist_data = Object.assign({}, this.usersPortfolio);
+        }
+        if(this.userHasBio)
+        {
+            console.log("userhasbio");
+            this.bio = Object.assign({}, this.$store.getters.usersBio);
+        }
+        }
 }
 }
 </script>
