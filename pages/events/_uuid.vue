@@ -5,7 +5,7 @@
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
         <!-- <v-spacer></v-spacer> -->
-        <div v-if="isAuthenticated && loggedInUser.user.username == event.username" class="float-right">
+        <div v-if="isAuthenticated && loggedInUser.username == event.username" class="float-right">
         <v-col class="pa-1" >
         <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
@@ -117,6 +117,15 @@
             <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="pa-1">
             <category-card :category="category" :poster="event.poster"></category-card>
             </v-col>
+        </v-row>
+        <h2 v-if="event.iglink" class="my-6">Social handles</h2>
+        <v-row class="mb-md-12 mb-6" >
+            <v-btn v-if="event.iglink"  class="text-decoration-none mx-2" color="black" icon @click="openig" >
+                <v-icon class="mr-1">mdi-instagram</v-icon>
+            </v-btn>
+            <v-btn v-if="event.contact_email" class="text-decoration-none mx-2" color="black" icon @click="openemail" >
+                <v-icon class="mr-1">mdi-earth</v-icon>
+            </v-btn>
         </v-row>
         <h2 v-if="event_guests_team.length>0" class="my-6">Team</h2>
         <v-row class="ma-0" >
@@ -550,7 +559,7 @@ export default {
             this.goingList = res.data.results;
             
             if(this.isAuthenticated){
-                let isGoing = this.goingList.find(artist => artist.username == this.loggedInUser.user.username);
+                let isGoing = this.goingList.find(artist => artist.username == this.loggedInUser.username);
                 if(isGoing != undefined)
                 {
                     //change color of button
@@ -565,6 +574,11 @@ export default {
         },
         openLink(){
             var url = this.event.link;
+            var win = window.open(url, '_blank');
+            win.focus();
+        },
+        openig(){
+            var url = this.event.iglink;
             var win = window.open(url, '_blank');
             win.focus();
         },
@@ -612,7 +626,7 @@ export default {
             // check database for username in going event
             //if yes->delete; if no ->create
             if(this.isAuthenticated){
-                this.goingForm.username = this.loggedInUser.user.username;
+                this.goingForm.username = this.loggedInUser.username;
                 this.goingForm.event = this.event.uuid;
                 this.imgoing = !this.imgoing
                 if(!this.imgoing){

@@ -28,7 +28,7 @@
                 </template>
                 <v-list>
                     <v-list-item
-                    v-if="comment.username == loggedInUser.user.username"
+                    v-if="comment.username == loggedInUser.username"
                     class="text-decoration-none pl-6 pr-12"
                     color="error"
                     @click="deleted(comment)"

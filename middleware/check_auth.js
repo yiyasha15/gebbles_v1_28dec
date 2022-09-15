@@ -7,10 +7,11 @@
 
 //   }
 // }
-export default function({store, redirect }) {
+export default function({store, redirect ,route}) {
   const isAuthenticated = store.state.auth.loggedIn ? true : false
   if (!isAuthenticated) {
-    redirect("/register")
+    console.log(route);
+    redirect("/login?redirect=")
     // console.log("not auth");
   }
   else{

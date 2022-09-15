@@ -205,7 +205,7 @@ export const actions = {
         headers: {"content-type": "multipart/form-data",
             "Authorization": "Bearer " + state.auth.user.access_token}
         };
-      EventService.getNotificationsSharing(state.auth.user.user.username,config).then(res =>
+      EventService.getNotificationsSharing(state.auth.user.username,config).then(res =>
       {
         commit('check_notifications',res.data.results)
         return;
@@ -282,24 +282,26 @@ export const actions = {
     // console.log("check user thumb");
       if(state.auth.loggedIn) {
         // console.log("check user thumb");
-          EventService.getArtist(state.auth.user.user.username).then(res =>
+          EventService.getArtist(state.auth.user.username).then(res =>
           {
-            // console.log("checking portfolio");
+            console.log("check portfolio");
             commit('usersPortfolio',res.data)
           }).catch(err =>{console.log(err.response.data);})
         }  
   },
   check_user_bio({commit, state}){
     if(state.auth.loggedIn) {
-        EventService.getBio(state.auth.user.user.username).then(res =>
+        EventService.getBio(state.auth.user.username).then(res =>
         {
+          console.log("check bio");
           commit('usersBio',res.data)
         }).catch(err =>{console.log(err.response.data);})
       }  
   },
   check_user_journey({commit, state}, username){
     let config;
-    if(state.auth.loggedIn && state.auth.user.user.username == username) {
+    console.log("check journey");
+    if(state.auth.loggedIn && state.auth.user.username == username) {
       // console.log(state.auth.loggedIn, state.auth);  
       config = {
       headers: {"content-type": "multipart/form-data",
@@ -393,7 +395,7 @@ export const actions = {
   },
   check_user_teachers({commit, state}){
     if(state.auth.loggedIn) {
-        EventService.getEach1Teach1_teachers(state.auth.user.user.username).then(res =>
+        EventService.getEach1Teach1_teachers(state.auth.user.username).then(res =>
         {
           commit('usersTeachers',res.data)
         })
@@ -662,7 +664,7 @@ export const mutations = {
       state.notifications = []
       state.notifications_notseen =0
       state.notifications = notifications
-      let n = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.user.username);
+      let n = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.username);
       state.notifications_notseen = n.length;
     }
   },
@@ -673,7 +675,7 @@ export const mutations = {
       state.share_has_love = false
       state.share_has_love_id = ''
       // console.log(love);
-        // let check_love = love.filter(love => love.username == state.auth.user.user.username);
+        // let check_love = love.filter(love => love.username == state.auth.user.username);
         // if(check_love[0]){
         //   state.share_has_love_id = check_love[0].id
         // }
@@ -703,9 +705,9 @@ export const mutations = {
         state.cook_has_like_id = ''
         state.cook_has_dope_id = ''
         state.cook_has_info_id = ''
-        let check_like = like.filter(like => like.username == state.auth.user.user.username);
-        let check_dope = dope.filter(dope => dope.username == state.auth.user.user.username);
-        let check_info = info.filter(info => info.username == state.auth.user.user.username);
+        let check_like = like.filter(like => like.username == state.auth.user.username);
+        let check_dope = dope.filter(dope => dope.username == state.auth.user.username);
+        let check_info = info.filter(info => info.username == state.auth.user.username);
         if(check_like[0]){
           state.cook_has_like_id = check_like[0].id
         }

@@ -77,6 +77,7 @@
     </v-app>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
     middleware : 'check_auth',
     data() {
@@ -97,8 +98,8 @@ export default {
         showPassword1: false,
         showPassword2: false,
         hasName: false,
-        email: this.$store.state.auth.user.user.email,
-        username: this.$store.state.auth.user.user.username,
+        email: this.loggedInUser.email,
+        username: this.loggedInUser.username,
         info: {
             old_password: '',
             new_password1: '',
@@ -108,6 +109,9 @@ export default {
     },
      mounted() {
     this.$store.dispatch("check_user_portfolio");
+    },
+     computed: {
+        ...mapGetters(['loggedInUser']),
     },
     methods: {
         async save_information() {

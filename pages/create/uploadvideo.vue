@@ -151,7 +151,7 @@ data(){
         valid_snackbar: false,
         thankyou_snackbar: false,
         cookingForm: {
-            username:this.$store.state.auth.user.user.username,
+            username:this.$store.state.auth.user.username,
             lesson: "",
             video: "",
             thumbjs:"",
@@ -196,7 +196,7 @@ methods:{
                 if(this.selectedTeachers.length){
                     for (let data of this.selectedTeachers){
                     let formData = new FormData();
-                    formData.append("username", this.$store.state.auth.user.user.username);
+                    formData.append("username", this.loggedInUser.username);
                     formData.append("cookingidobj",res.id)
                     formData.append("shareidobj",data)
                     formData.append("idea",data)
@@ -284,7 +284,7 @@ methods:{
                 for(let i=0; i < newArray.length;i++)
                 {
                     let formData = new FormData();
-                    formData.append("username", this.$store.state.auth.user.user.username);
+                    formData.append("username", this.loggedInUser.username);
                     formData.append("cookingidobj", this.cook_obj.id)
                     formData.append("shareidobj",newArray[i])
                     formData.append("idea",newArray[i])
@@ -329,7 +329,7 @@ methods:{
                     if(prevArrayConverted.indexOf(newArray[i])== -1){
                         console.log("add",newArray[i]);
                         let formData = new FormData();
-                        formData.append("username", this.$store.state.auth.user.user.username);
+                        formData.append("username", this.loggedInUser.username);
                         formData.append("cookingidobj", this.cook_obj.id)
                         formData.append("shareidobj",newArray[i])
                         formData.append("idea",newArray[i])
@@ -363,7 +363,7 @@ methods:{
         this.changedTeacherBool = true
     },
     refresh(){
-        this.cookingForm.username = this.$store.state.auth.user.user.username;
+        this.cookingForm.username = this.loggedInUser.username;
         this.cookingForm.lesson= "";
         this.cookingForm.video= "";
         this.cookingForm.thumbjs ='';

@@ -51,8 +51,7 @@ export default {
   methods:{
     async getwhatiscooking(){
       try {
-        console.log(this.loggedInUser.user.username);
-        const response = await EventService.getStudentsCooking(this.loggedInUser.user.username)
+        const response = await EventService.getStudentsCooking(this.loggedInUser.username)
         this.cooking = response.data.results
         this.page = response.data.next
         this.firstLoad = false

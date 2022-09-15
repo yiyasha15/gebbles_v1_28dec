@@ -133,7 +133,7 @@
                 </template>
                 <v-list>
                     <v-list-item
-                    :to="'/'+ loggedInUser.user.username"
+                    :to="'/'+ loggedInUser.username"
                     class="text-decoration-none pl-5"
                     >
                     <!-- <img
@@ -141,10 +141,10 @@
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     > -->
-                    <v-list-item-title class="pl-1" ><h3 class="artist_menubar_name">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                    <v-list-item-title class="pl-1" ><h3 class="artist_menubar_name">{{loggedInUser.username}}</h3></v-list-item-title>
                     </v-list-item>
                     <v-list-item  v-if="userHasPortfolio"
-                    :to="'/'+ loggedInUser.user.username +'/events'"
+                    :to="'/'+ loggedInUser.username +'/events'"
                     class="text-decoration-none pl-6 pr-12"
                     >
                     <v-list-item-title >My events</v-list-item-title>
@@ -306,7 +306,7 @@
                 </template>
                 <v-list>
                     <v-list-item
-                    :to="'/'+ loggedInUser.user.username"
+                    :to="'/'+ loggedInUser.username"
                     class="text-decoration-none pl-5"
                     >
                     <!-- <img
@@ -314,10 +314,10 @@
                         :src="require('@/assets/gebbleslogo.png')"
                         alt="img"
                     > -->
-                    <v-list-item-title class="pl-1" ><h3 class="artist_menubar_name">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                    <v-list-item-title class="pl-1" ><h3 class="artist_menubar_name">{{loggedInUser.username}}</h3></v-list-item-title>
                     </v-list-item>
                     <v-list-item  v-if="userHasPortfolio"
-                    :to="'/'+ loggedInUser.user.username +'/events'"
+                    :to="'/'+ loggedInUser.username +'/events'"
                     class="text-decoration-none pl-6 pr-12"
                     >
                     <v-list-item-title >My events</v-list-item-title>

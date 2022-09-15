@@ -122,8 +122,8 @@
             <v-row class="pt-2 pt-md-4 ma-0">
             <h5><nuxt-link :to="'/'+ journey.username" class="text-decoration-none">{{journey.username}} </nuxt-link> </h5>
             <v-spacer></v-spacer>
-            <div v-if="loggedInUser">
-          <v-row align="end" justify="end" v-if="loggedInUser.user.username == journey.username" class="pa-2">
+            <div v-if="isAuthenticated">
+          <v-row align="end" justify="end" v-if="loggedInUser.username == journey.username" class="pa-2">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon small>
@@ -236,19 +236,17 @@ export default {
       try {
           await this.$axios.$delete("/v1/artist/journey/"+id , config);
           console.log("Journey deleted!");
-          this.$store.dispatch("check_user_journey", this.$store.state.auth.user.user.username)
+          this.$store.dispatch("check_user_journey", this.loggedInUser.username)
           this.deleteLoading =false
           this.dialogDelete =false;
           this.dialog = false
           this.snackbar = true;
-          // this.$router.push("/"+this.$store.state.auth.user.user.username+"/about");
           //send event to parent component i.e journey page
           this.$emit('delete',this.journey.username)
       } 
       catch (e) {
           console.log(e);
           this.deleteLoading =false
-          // this.$router.push("/"+this.$store.state.auth.user.user.username+"/about");
       }
       },
     },

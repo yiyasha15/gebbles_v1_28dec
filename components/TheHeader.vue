@@ -95,12 +95,12 @@
             </v-list>
         </v-menu>
         <!-- {{notifications_notseen}} -->
-        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-sm-2 mr-md-3 mr-1 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-sm-2 mr-md-3 mr-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
     <v-badge color="error" overlap :content='notifications_notseen'>
     <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
     </v-badge>
         </v-btn>
-        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-sm-2 mr-md-3 mr-1 text-decoration-none" :to= "`/${loggedInUser.user.username}/notifications`">
+        <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-sm-2 mr-md-3 mr-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
         <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
         </v-btn>
         <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
@@ -127,13 +127,13 @@
             </template>
             <v-list>
                 <v-list-item  v-if="userHasPortfolio"
-                :to="'/'+ loggedInUser.user.username"
+                :to="'/'+ loggedInUser.username"
                 class="text-decoration-none pl-5"
                 >
-                <v-list-item-title class="pl-1" ><h3 class="artist_toolbar_name">{{loggedInUser.user.username}}</h3></v-list-item-title>
+                <v-list-item-title class="pl-1" ><h3 class="artist_toolbar_name">{{loggedInUser.username}}</h3></v-list-item-title>
                 </v-list-item>
                 <v-list-item  v-if="userHasPortfolio"
-                :to="'/'+ loggedInUser.user.username +'/events'"
+                :to="'/'+ loggedInUser.username +'/events'"
                 class="text-decoration-none pl-6 pr-12"
                 >
                 <v-list-item-title >My events</v-list-item-title>

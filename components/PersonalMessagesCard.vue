@@ -32,7 +32,7 @@
             </template>
             <v-list>
                 <v-list-item
-                v-if="message.username == loggedInUser.user.username"
+                v-if="message.username == loggedInUser.username"
                 class="text-decoration-none pl-6 pr-12"
                 color="error"
                 @click="deleted(message.uuid,message.shareid)"

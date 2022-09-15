@@ -17,7 +17,7 @@
         @click.stop="goToEvent">
         <v-icon color="black" small>mdi-calendar-heart</v-icon>
         </v-btn>
-        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.user.username" style="background:white" icon small class="float-right ma-1" 
+        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" style="background:white" icon small class="float-right ma-1" 
         @click.stop="addToJourney">
         <v-icon color="black" small>mdi-plus</v-icon>
         </v-btn>
@@ -31,7 +31,7 @@
         @click.stop="goToEvent">
         <v-icon color="black" small>mdi-calendar-heart</v-icon>
         </v-btn>
-        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.user.username" style="background:white" icon small class="float-right ma-1" 
+        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" style="background:white" icon small class="float-right ma-1" 
         @click.stop="addToJourney">
         <v-icon color="black" small>mdi-plus</v-icon>
         </v-btn>
@@ -60,7 +60,7 @@
           @click.stop="goToEvent">
           <v-icon color="black" small>mdi-calendar-heart</v-icon>
           </v-btn>
-          <v-btn v-if="isAuthenticated && event.guest == loggedInUser.user.username" style="background:white" icon small class="float-right ma-2 ml-0" 
+          <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" style="background:white" icon small class="float-right ma-2 ml-0" 
           @click.stop="addToJourney">
           <v-icon color="black" small>mdi-plus</v-icon>
           </v-btn>

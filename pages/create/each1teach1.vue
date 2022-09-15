@@ -218,7 +218,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([ 'share_obj','usersPortfolio']),
+        ...mapGetters([ 'share_obj','usersPortfolio','loggedInUser']),
         videoId(){
         if(this.sharing.s_teacher_video)
         return getIdFromURL(this.sharing.s_teacher_video)
@@ -483,7 +483,7 @@ export default {
                 s_date: "",
                 s_location: "",
                 s_teacher_video:"",
-                username: this.$store.state.auth.user.user.username,
+                username: this.$store.state.auth.user.username,
             },
             url:'',
             e6: 1,

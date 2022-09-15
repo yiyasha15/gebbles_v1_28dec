@@ -31,8 +31,8 @@
             </v-btn>
             <span class="caption" v-if="info">{{info}}</span>
         </v-col>
-        <span v-if="loggedInUser">
-            <v-col v-if="loggedInUser.user.username == cook.username" >
+        <span v-if="isAuthenticated">
+            <v-col v-if="loggedInUser.username == cook.username" >
             <v-menu transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs"
@@ -249,19 +249,19 @@ export default {
                 this.like = like_arr.length
                 this.dope = dope_arr.length
                 this.info = info_arr.length
-                if(this.loggedInUser){
-                let check_like = like_arr.filter(likes => likes.username == this.$store.state.auth.user.user.username);
+                if(this.isAuthenticated){
+                let check_like = like_arr.filter(likes => likes.username == this.loggedInUser.username);
                 if(check_like.length>0){
                 this.cook_has_like = true
                 this.cook_has_like_id = check_like[0].id
                 }
-                let check_dope = dope_arr.filter(dopes => dopes.username == this.$store.state.auth.user.user.username);
+                let check_dope = dope_arr.filter(dopes => dopes.username == this.loggedInUser.username);
                 if(check_dope.length>0){
                 this.cook_has_dope = true
                 this.cook_has_dope_id = check_dope[0].id
                 }
                 
-                let check_info = info_arr.filter(infos => infos.username == this.$store.state.auth.user.user.username);
+                let check_info = info_arr.filter(infos => infos.username == this.loggedInUser.username);
                 if(check_info.length>0){
                 this.cook_has_info = true
                 this.cook_has_info_id = check_info[0].id
@@ -274,7 +274,7 @@ export default {
         if(this.isAuthenticated){
         if(this.comments.comment != "" )
         {
-        this.comments.username = this.$store.state.auth.user.user.username;
+        this.comments.username = this.loggedInUser.username;
         this.comments.cookingidobj = id
         const config = {
             headers: {"content-type": "multipart/form-data",
@@ -329,7 +329,7 @@ export default {
         },
         async react_like(){
           if(this.isAuthenticated){
-          this.reactForm.username = this.$store.state.auth.user.user.username;
+          this.reactForm.username = this.loggedInUser.username;
           this.reactForm.cookingidobj = this.cook.id
           this.reactForm.like_type = 'LO'
           if(this.cook_has_like){
@@ -377,7 +377,7 @@ export default {
         },
         async react_dope(){
             if(this.isAuthenticated){
-            this.reactForm.username = this.$store.state.auth.user.user.username;
+            this.reactForm.username = this.loggedInUser.username;
             this.reactForm.cookingidobj = this.cook.id
             this.reactForm.like_type = 'FI'
             if(this.cook_has_dope){
@@ -421,7 +421,7 @@ export default {
         },
         async react_info(){
             if(this.isAuthenticated){
-            this.reactForm.username = this.$store.state.auth.user.user.username;
+            this.reactForm.username = this.loggedInUser.username;
             this.reactForm.cookingidobj = this.cook.id
             this.reactForm.like_type = 'DE'
             if(this.cook_has_info){

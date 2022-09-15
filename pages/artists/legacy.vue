@@ -26,7 +26,7 @@
         <ArtistCard :artist="artist" ></ArtistCard> 
       </div>
     </v-layout>
-    <center v-if="!artists.length && !firstLoad">
+    <center v-if="!filterApi.length && !firstLoad">
       <img
       :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
       class="ml-2 mt-6 clickable"

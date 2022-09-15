@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    {{$store.auth}}
     <v-row v-if="!isAuthenticated" class="homepage-width mx-auto">
       <v-col cols="12" md="6">
         <div class="mt-md-13 mt-8">
@@ -126,12 +127,10 @@ export default {
         }
   },
   created(){
-    let api_key = process.env['API_KEY']
-    console.log(this.$store.state.auth.strategy, api_key);
-    this.$store.dispatch("check_notifications");
-    this.$store.dispatch("check_user_portfolio");
-    this.$store.dispatch("check_user_bio");
     this.getartists();
+    if(this.isAuthenticated){
+      console.log("check port/bio");
+    }
   },
   methods:{
     async getartists(){
@@ -191,7 +190,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio']),
+    ...mapGetters(['isAuthenticated', 'loggedInUser']),
     cardheight () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 105

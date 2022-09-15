@@ -164,7 +164,7 @@ export default {
     created(){
         this.getJourneyApi(this.$route.params);
 
-        if(this.isAuthenticated && this.loggedInUser.user.username == this.$route.params.username)
+        if(this.isAuthenticated && this.loggedInUser.username == this.$route.params.username)
         {
             this.visitOwnPage = true;
             this.getTaggedEvents();
@@ -251,7 +251,7 @@ export default {
         this.$store.dispatch("check_user_journey", params.username)
     // try {
     //     let config;
-    //     if(this.isAuthenticated &&this.$store.state.auth.user.user.username == params.username)
+    //     if(this.isAuthenticated &&this.$store.state.auth.user.username == params.username)
     //     {config = {
     //     headers: {"content-type": "multipart/form-data",
     //         "Authorization": "Bearer " + this.$store.state.auth.user.access_token}

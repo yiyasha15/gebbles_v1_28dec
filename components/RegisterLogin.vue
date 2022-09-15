@@ -509,7 +509,7 @@ export default {
     },
     methods:{
 		async submitForm(){
-            console.log(this.$refs.loginform.validate());
+            // console.log(this.$refs.loginform.validate());
             if(this.$refs.loginform.validate())
             {this.progressbar1 = true;
 			if(this.userInfo.email && this.userInfo.password){
@@ -523,10 +523,9 @@ export default {
 					'password':this.userInfo.password
 					}
 				}).then(res => {
-				this.$auth.setUser(res.data)
+                this.$auth.setUser(res.data)
+                this.$auth.$storage.setUniversal('user', res.data, true)
 				this.$auth.setUserToken(res.data.access_token)
-				this.$auth.setRefreshToken('local', res.data.refresh_token);
-				// this.$store.dispatch("check_artists");
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
@@ -534,17 +533,19 @@ export default {
                 this.progressbar1 = false;
                 this.loginDialog = false;
                 // this.$refs.loginform.reset()
-                this.$router.push('/');
+                let redirect_url = this.$route.path;
+                console.log("url",redirect_url);
+                this.$router.push("/"+redirect_url);
                 })
 			}catch(error){
                 this.progressbar1 = false;
-                console.log(error.response.data);
-				if(error.response.data.non_field_errors){
-					this.errorEmail = `${error.response.data.non_field_errors}`
-				}
-				if(error.response.data.email){
-					this.errorEmail = `${error.response.data.email}`
-				}
+                console.log(error);
+				// if(error.response.data.non_field_errors){
+				// 	this.errorEmail = `${error.response.data.non_field_errors}`
+				// }
+				// if(error.response.data.email){
+				// 	this.errorEmail = `${error.response.data.email}`
+				// }
             }
             }
             else{

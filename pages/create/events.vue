@@ -70,7 +70,6 @@
                             ></v-date-picker>
                     </v-menu>
                     <v-text-field
-                        
                         maxlength="255"
                         counter
                         prepend-icon="mdi-map-marker-outline"
@@ -724,7 +723,6 @@
             v-model="battleDj"
             :items="selectedGuests"
             prepend-icon="mdi-music"
-            
             label="Deejay"
             counter="3"
             item-text="name"
@@ -1751,7 +1749,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['editing_event_obj',]),
+        ...mapGetters(['editing_event_obj','loggedInUser']),
         img_height () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 96
@@ -1765,7 +1763,7 @@ export default {
     data(){
         return {
             event: {
-                username: this.$store.state.auth.user.user.username,
+                username: this.$store.state.auth.user.username,
                 name: "",  // # must
                 venue: "",
                 start_date: '', // # must
@@ -1782,7 +1780,7 @@ export default {
                 contact_email:''
             },
             battle_category:{
-                username: this.$store.state.auth.user.user.username,
+                username: this.$store.state.auth.user.username,
                 event:'', // # must
                 poster:'',
                 name:'', // # must
@@ -1903,7 +1901,7 @@ export default {
                 videolink1:'',
                 country1:'',
                 info1:'',
-                username:this.$store.state.auth.user.user.username
+                username:this.$store.state.auth.user.username
             },
             guest:{
                 name:'',
@@ -1915,7 +1913,7 @@ export default {
                 videolink:'',
                 event:'',
                 uuid:'',
-                username:this.$store.state.auth.user.user.username
+                username:this.$store.state.auth.user.username
             },
             organiser:{
                 name:'',
@@ -1926,7 +1924,7 @@ export default {
                 videolink:'',
                 event:'',
                 uuid:'',
-                username:this.$store.state.auth.user.user.username
+                username:this.$store.state.auth.user.username
             },
             delete_guest_dialog:false,
             delete_organiser_dialog:false,
@@ -3089,7 +3087,7 @@ export default {
                     for (var key in this.guest) {
                         this.guest[key] = '';
                     }
-                    this.guest.username=this.$store.state.auth.user.user.username
+                    this.guest.username=this.loggedInUser.username
                     this.artist_obj= null
                     this.$refs.guest_form.resetValidation()
                 }
@@ -3106,7 +3104,7 @@ export default {
             for (var key in this.guest) {
                 this.guest[key] = '';
             }
-            this.guest.username=this.$store.state.auth.user.user.username
+            this.guest.username=this.loggedInUser.username
             this.artist_obj= null
             this.selectedGuest = {}
             this.$refs.guest_form.resetValidation()
@@ -3187,7 +3185,7 @@ export default {
             }
             
             this.$refs.guest_form.resetValidation()
-            this.guest.username=this.$store.state.auth.user.user.username
+            this.guest.username=this.loggedInUser.username
             this.artist_obj= null
             this.selectedGuest = {}
             this.editing_guest_process = false
@@ -3327,7 +3325,7 @@ export default {
                     for (var key in this.category) {
                         this.category[key] = '';
                     }
-                    this.category.username=this.$store.state.auth.user.user.username
+                    this.category.username=this.loggedInUser.username
                     this.artist_obj= null
                     this.close_category_dialog();
                 }
@@ -3346,7 +3344,7 @@ export default {
             if(this.$refs.talk_form)this.$refs.talk_form.resetValidation()
             this.artist_obj= null
             this.selectedGuest={}
-            this.category.username = this.$store.state.auth.user.user.username
+            this.category.username = this.loggedInUser.username
             this.workshop_dialog=false;
             this.party_dialog=false;
             this.showcase_dialog=false;
@@ -3811,7 +3809,7 @@ export default {
                     for (var key in this.battle_category) {
                         this.battle_category[key] = '';
                     }
-                    this.battle_category.username=this.$store.state.auth.user.user.username
+                    this.battle_category.username=this.loggedInUser.username
                     this.artist_obj= null
                     this.close_battle_dialog();
                 }
@@ -4018,7 +4016,7 @@ export default {
             this.$refs.battle_form.resetValidation()
             this.artist_obj= null
             this.selectedGuest={}
-            this.battle_category.username = this.$store.state.auth.user.user.username
+            this.battle_category.username = this.loggedInUser.username
             this.battleEmcee =[];
             this.battleJudges=[];
             this.battleDj=[];
@@ -4137,7 +4135,7 @@ export default {
         //         this.organiser[key] = '';
         //     }
         //     this.organiser.category=[];
-        //     this.organiser.username=this.$store.state.auth.user.user.username
+        //     this.organiser.username=this.loggedInUser.username
         //     this.artist_obj= null
         //     this.selectedOrganiser = {}
         // },
@@ -4146,7 +4144,7 @@ export default {
         //         this.organiser[key] = '';
         //     }
         //     this.organiser.category=[]
-        //     this.organiser.username=this.$store.state.auth.user.user.username
+        //     this.organiser.username=this.loggedInUser.username
         //     this.artist_obj= null
         //     this.selectedOrganiser = {}
         //     this.editing_organiser_process = false
@@ -4212,7 +4210,7 @@ export default {
         //                 this.organiser[key] = '';
         //             }
         //             this.organiser.category=[]
-        //             this.organiser.username=this.$store.state.auth.user.user.username
+        //             this.organiser.username=this.loggedInUser.username
         //             this.artist_obj= null
         //         }
         //     }

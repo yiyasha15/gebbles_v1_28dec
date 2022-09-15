@@ -79,7 +79,8 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
-    '@nuxtjs/auth'
+    // '@nuxtjs/auth',
+    '@nuxtjs/auth-next'
   ],
   /*
   ** Axios module configuration
@@ -109,12 +110,19 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: 'v1/auth/login/', method: 'post', propertyName: 'token' },
-          // refresh: { url: 'v1/auth/refresh', method: 'post', propertyName: false },
+          login: { url: 'v1/auth/login/', method: 'post'},
           logout: {url: 'v1/auth/logout/', method: 'post'},
-          user: { url: `https://gruw80hfj5.execute-api.us-east-2.amazonaws.com/dev/api/v1/auth/user/`, method: 'get' }
+          user: { url: 'v1/auth/user/', method: 'get'  }
         },
-        tokenType: ''
+        token: {
+          property: 'token',
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: false, // here should be `false`, as you defined in user endpoint `propertyName`
+          autoFetch: true
+        },
       }
     }
   }

@@ -282,6 +282,7 @@ import { getIdFromURL } from 'vue-youtube-embed'
 import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
+import EventService from '@/services/EventService.js' 
 import Vue from "vue";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
@@ -318,27 +319,33 @@ computed: {
     },
     initialImage(){
         return this.artist_data.cover
-    }
+    },
 },
 created(){
     this.$store.dispatch("check_user_portfolio");
     this.$store.dispatch("check_user_bio");
+    // console.log("this.userHasPortfolio",this.userHasPortfolio);
+    // console.log("this.userHasBio",this.userHasBio);
     if(this.userHasPortfolio)
     {
-        this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
-        // this.initialImage = this.artist_data.cover
+        console.log("userhasbport");
+        this.artist_data = Object.assign({}, this.usersPortfolio);
     }
     if(this.userHasBio)
     {
+        console.log("userhasbio");
         this.bio = Object.assign({}, this.$store.getters.usersBio);
     }
-    // console.log(this.usersPortfolio, this.usersBio);
+},
+mounted(){
+console.log("this.userHasPortfolio",this.userHasPortfolio);
+    console.log("this.userHasBio",this.userHasBio);
 },
 data(){
     return {
             // this is bio object
         bio: {
-            username: this.$store.state.auth.user.user.username,
+            username: this.$store.state.auth.user.username,
             style: "",
             quote: "",
             crew: "",
@@ -358,7 +365,7 @@ data(){
         },
         artist_data: {
             artist_name: "",
-            username: this.$store.state.auth.user.user.username,
+            username: this.$store.state.auth.user.username,
             country: "",
             cover: "",
             introduction: "",
@@ -817,7 +824,7 @@ methods: {
             formName.append("username", this.artist_data['username']);
             await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
             this.$store.dispatch("check_user_portfolio");
-            
+            console.log("portfolio updated");
         }
 
         if(!bioNotChanged){     // find keys
@@ -838,10 +845,9 @@ methods: {
                 } 
             }
             formName2.append("username", this.bio['username']);
-            // console.log("key obj3: "+keyObj3[i]+"\nkeyobj4: "+keyObj4[i]+'\n myObj3 value: '+ valueObj3[i] + '\nmyObj4 value: '+ valueObj4[i] +'\n');
             await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName2, config)
             this.$store.dispatch("check_user_bio");
-            // console.log("bio patched");
+            console.log("bio patched");
         }    
         this.progressbar =false
         this.snackbar = true;
@@ -877,9 +883,9 @@ methods: {
             this.artist_data.thumb = ''
             this.artist_data.introduction = ''
             this.artist_data.cover = ''
-            this.artist_data.username= this.$store.state.auth.user.user.username,
+            this.artist_data.username= this.loggedInUser.username,
             this.imageData = ''
-            this.bio.username= this.$store.state.auth.user.user.username,
+            this.bio.username= this.loggedInUser.username,
             this.cropImage.remove()
             this.dialog =false,
             this.snackbar = true;

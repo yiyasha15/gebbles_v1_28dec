@@ -8,7 +8,7 @@
         <v-subheader>New</v-subheader>
         <!-- {{filteredNotifications}} -->
         <template v-for="(item) in filteredNotifications">
-            <v-list-item :key="item.index" @click="seen(item)" v-show="loggedInUser.user.username != item.sender" >
+            <v-list-item :key="item.index" @click="seen(item)" v-show="loggedInUser.username != item.sender" >
             <div>
                 <v-list-item-avatar v-if=" item.artist_metadata.thumb">
                     <img :src = "item.artist_metadata.thumb" alt="img">
@@ -63,7 +63,7 @@
         <v-list two-line>
         <v-subheader>Earlier</v-subheader>
         <template v-for="(item) in filteredNotificationsOld">
-            <v-list-item :key="item.index" @click="opene1t1(item)" v-show="loggedInUser.user.username != item.sender">
+            <v-list-item :key="item.index" @click="opene1t1(item)" v-show="loggedInUser.username != item.sender">
                 <div >
                 <v-list-item-avatar v-if=" item.artist_metadata.thumb">
                     <img :src = "item.artist_metadata.thumb" alt="img">
@@ -126,7 +126,7 @@ import EventService from '@/services/EventService.js'
 export default {
 middleware : 'check_auth',
 computed: {
-    ...mapGetters(['loggedInUser']),
+    ...mapGetters(['loggedInUser','isAuthenticated']),
     filteredNotifications: function(){
         if(this.notifications)//on refresh data of undefined error
         {
@@ -145,7 +145,8 @@ computed: {
     }
     },
     created(){
-        this.getnotifications();
+        if(this.isAuthenticated)
+        {this.getnotifications();}
     },
     methods:{
         moment(date){
@@ -160,7 +161,7 @@ computed: {
                 headers: {"content-type": "multipart/form-data",
                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
                 };
-                const response = await EventService.getNotificationsSharing(this.$store.state.auth.user.user.username,config)
+                const response = await EventService.getNotificationsSharing(this.loggedInUser.username,config)
                 // console.log(response);
                 this.notifications = response.data.results
                 this.page = response.data.next

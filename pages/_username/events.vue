@@ -48,12 +48,14 @@ export default {
     }
   },
   created(){
-    this.getEvents();
+    if(this.isAuthenticated){
+      this.getEvents();
+    }
   },
   methods:{
     async getEvents(){
       try {
-      const response = await EventService.getMyOrganizedEvents(this.$store.state.auth.user.user.username)
+      const response = await EventService.getMyOrganizedEvents(this.loggedInUser.username)
       // console.log(response);
       this.events = response.data.results
       this.page = response.data.next

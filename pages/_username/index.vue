@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <!-- <div v-if=" isAuthenticated && loggedInUser.user.username==artist.username">
+        <!-- <div v-if=" isAuthenticated && loggedInUser.username==artist.username">
         <div v-if="usersPortfolio.artist_name || usersPortfolio.cover|| 
         usersPortfolio.thumb|| usersPortfolio.country || usersBio.style || usersBio.quote
         || usersBio.introduction || usersBio.crew || usersBio.ig || usersBio.fb || usersBio.site
@@ -221,6 +221,9 @@
             <v-btn v-if="bio.site" class="text-decoration-none mx-2" color="black" icon @click="openpersonal" >
                 <v-icon class="mr-1">mdi-earth</v-icon>
             </v-btn> 
+            <v-btn v-if="bio.work_email" class="text-decoration-none mx-2" color="black" icon @click="openemail" >
+                <v-icon class="mr-1">mdi-email</v-icon>
+            </v-btn> 
             <!-- <a v-if="bio.site" @click="openpersonal">{{bio.site}}</a> -->
         </v-row>
         </v-container>
@@ -334,7 +337,7 @@
             </v-container>
         </center> -->
         </div>
-        <div v-else-if="isAuthenticated && loggedInUser.user.username==artist.username" class="mt-16 px-2">
+        <div v-else-if="isAuthenticated && loggedInUser.username==artist.username" class="mt-16 px-2">
             <center>
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -428,6 +431,11 @@ export default {
         },
         openpersonal(){
             var url = this.bio.site;
+            var win = window.open(url, '_blank');
+            win.focus();
+        },
+        openemail(){
+            var url = "mailto:"+this.bio.work_email;
             var win = window.open(url, '_blank');
             win.focus();
         }

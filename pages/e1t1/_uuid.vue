@@ -6,7 +6,7 @@
         </v-btn>
         <!-- <v-spacer></v-spacer> -->
         <div v-if="loggedInUser" class="float-right">
-        <v-col v-if="loggedInUser.user.username == e1t1.username" class="pa-1" >
+        <v-col v-if="loggedInUser.username == e1t1.username" class="pa-1" >
             <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
             <v-btn small icon v-bind="attrs"
@@ -99,7 +99,7 @@
                          </h5><h5 class="caption mt-1" > {{e1t1.s_location}}</h5>
                     </v-col>
                     <!-- <div v-if="loggedInUser">
-                    <v-col v-if="loggedInUser.user.username == e1t1.username" >
+                    <v-col v-if="loggedInUser.username == e1t1.username" >
                         <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn small icon v-bind="attrs"
@@ -227,7 +227,7 @@
                         <h4 class="font-weight-medium" style="text-transform: capitalize;">Learning</h4>
                         </v-btn>
                     <span v-if="e1t1.teacher!= null && loggedInUser">
-                        <v-btn class="mt-4" small outlined color="black" @click="personalDialog=true" v-if="loggedInUser.user.username == e1t1.teacher || loggedInUser.user.username == e1t1.username">
+                        <v-btn class="mt-4" small outlined color="black" @click="personalDialog=true" v-if="loggedInUser.username == e1t1.teacher || loggedInUser.username == e1t1.username">
                             <h4 class="font-weight-medium" style="text-transform: capitalize;">Say Hi</h4><v-icon x-small class="pl-1">mdi-lock-outline</v-icon></v-btn>
                     </span>
                     </v-col>
@@ -445,7 +445,7 @@ export default {
         this.$store.dispatch("check_share_love", this.e1t1.id)
         if(this.isAuthenticated)
         {
-        if(this.loggedInUser.user.username == this.e1t1.teacher || this.loggedInUser.user.username ==this.e1t1.username){
+        if(this.loggedInUser.username == this.e1t1.teacher || this.loggedInUser.username ==this.e1t1.username){
             this.isYourRoom = true
             this.$store.dispatch("check_personal_room", this.e1t1.id);
             this.items = this.personalMessages;
@@ -564,7 +564,7 @@ export default {
                 let formData = new FormData();
                 formData.append('s3_obj_url', this.e1t1.image_mini);
                 formData.append('message_text', this.e1t1.s_appreciation);
-                formData.append('name', this.loggedInUser.user.username);
+                formData.append('name', this.loggedInUser.username);
                 try {
                     let res = await this.$axios.$post("https://lptmv2b4j9.execute-api.us-east-2.amazonaws.com/dev/upload", formData)
                     this.gebbles_card_url =res
@@ -576,7 +576,7 @@ export default {
         download(){
             const link = document.createElement('a');
             link.href =  this.gebbles_card_url;
-            link.setAttribute('download', this.loggedInUser.user.username+'_card.png'); //or any other extension
+            link.setAttribute('download', this.loggedInUser.username+'_card.png'); //or any other extension
             link.click();
         },
         // filtercooking(){
@@ -619,7 +619,7 @@ export default {
         },
         async react_love(){
             if(this.isAuthenticated){
-                this.loveForm.username = this.$store.state.auth.user.user.username;
+                this.loveForm.username = this.loggedInUser.username;
                 this.loveForm.shareidobj = this.e1t1.id
                 if(this.share_has_love){
                     this.$store.dispatch("change_love");
@@ -664,7 +664,7 @@ export default {
         //     if(this.isAuthenticated){
         //     if(this.comments.comment != "" )
         //     {
-        //     this.comments.username = this.$store.state.auth.user.user.username;
+        //     this.comments.username = this.loggedInUser.username;
         //     this.comments.shareidobj = this.e1t1.id
         //     const config = {
         //         headers: {"content-type": "multipart/form-data",
@@ -693,7 +693,7 @@ export default {
         // },
         async post_personal_text(){
             if(this.personal.messagetext)
-            {this.personal.username = this.$store.state.auth.user.user.username
+            {this.personal.username = this.loggedInUser.username
             this.personal.shareid = this.e1t1.id
             const config = {
                 headers: {"content-type": "multipart/form-data",

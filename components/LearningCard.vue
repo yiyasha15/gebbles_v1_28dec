@@ -19,7 +19,7 @@
         <p style="max-width:78px; font-size:0.6rem!important;">{{ learning.lesson }}</p>
         </div>
         <v-spacer></v-spacer>
-        <v-menu v-if=" isAuthenticated && learning.username == loggedInUser.user.username " transition="slide-y-transition" open-on-hover offset-y bottom left>
+        <v-menu v-if=" isAuthenticated && learning.username == loggedInUser.username " transition="slide-y-transition" open-on-hover offset-y bottom left>
         <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" 
             v-on="on">
@@ -357,7 +357,7 @@ import { mapGetters } from 'vuex'
       },
       async react_like(){
           if(this.isAuthenticated){
-          this.reactForm.username = this.$store.state.auth.user.user.username;
+          this.reactForm.username = this.loggedInUser.username;
           this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'LO'
           if(this.cook_has_like){
@@ -398,7 +398,7 @@ import { mapGetters } from 'vuex'
       },
       async react_dope(){
         if(this.isAuthenticated){
-          this.reactForm.username = this.$store.state.auth.user.user.username;
+          this.reactForm.username = this.loggedInUser.username;
           this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'FI'
           if(this.cook_has_dope){
@@ -439,7 +439,7 @@ import { mapGetters } from 'vuex'
       },
       async react_info(){
         if(this.isAuthenticated){
-          this.reactForm.username = this.$store.state.auth.user.user.username;
+          this.reactForm.username = this.loggedInUser.username;
           this.reactForm.learningidobj = this.cook_obj.id
           this.reactForm.like_type = 'DE'
           if(this.cook_has_info){
@@ -482,7 +482,7 @@ import { mapGetters } from 'vuex'
           if(this.isAuthenticated){
           if(this.comments.comment != "" )
           {
-          this.comments.username = this.$store.state.auth.user.user.username;
+          this.comments.username = this.loggedInUser.username;
           this.comments.learningidobj = id
           const config = {
               headers: {"content-type": "multipart/form-data",

@@ -374,7 +374,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['editing_obj']),
+        ...mapGetters(['editing_obj','loggedInUser']),
         img_height () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 96
@@ -389,7 +389,7 @@ export default {
         return {
             rotation:0,
             journey: {
-                username: this.$store.state.auth.user.user.username,
+                username: this.$store.state.auth.user.username,
                 jocontent: "",
                 joevent: "",
                 jodate: "",
@@ -797,7 +797,7 @@ export default {
             this.imageData3='',
             // this.imageData4='',
             // this.imageData5='',
-            this.journey.username = this.$store.state.auth.user.user.username;
+            this.journey.username = this.loggedInUser.username;
             this.journey.jocontent= "";
             this.journey.joevent= "";
             this.journey.jodate= "";
@@ -898,7 +898,7 @@ export default {
                     this.error_snackbar =true
                     this.progressbar =false
                 }
-                this.$router.push("/"+this.$store.state.auth.user.user.username+"/journey");
+                this.$router.push("/"+this.loggedInUser.username+"/journey");
             }
         }, 
     },
