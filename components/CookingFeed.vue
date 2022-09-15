@@ -278,7 +278,7 @@ export default {
         this.comments.cookingidobj = id
         const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
         };
         let formData = new FormData();
@@ -310,7 +310,7 @@ export default {
             this.deleteLoading = true;
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             this.$store.dispatch("remove_cook_obj")
@@ -340,7 +340,7 @@ export default {
             const config = {
             headers: {
               "content-type": "multipart/form-data",
-              "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+              "Authorization": this.$auth.strategy.token.get()
             }
             };
               try {
@@ -356,7 +356,7 @@ export default {
             // console.log("like",this.like);
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
           let formData = new FormData();
@@ -385,7 +385,7 @@ export default {
                 this.dope =this.dope-1;
                 const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
                 };
                 try {
@@ -400,7 +400,7 @@ export default {
                 this.dope =this.dope+1;
                 const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                 };
             let formData = new FormData();
@@ -429,7 +429,7 @@ export default {
                 this.info =this.info-1;
                 const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
                 };
                 try {
@@ -444,7 +444,7 @@ export default {
                 this.info =this.info+1;
                 const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                 };
             let formData = new FormData();

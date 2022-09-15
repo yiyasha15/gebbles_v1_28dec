@@ -116,8 +116,9 @@ export default {
         },
         token: {
           property: 'token',
-          required: true,
-          type: 'Bearer'
+          required: false,
+          type: 'Bearer',
+          global:false,
         },
         user: {
           property: false, // here should be `false`, as you defined in user endpoint `propertyName`

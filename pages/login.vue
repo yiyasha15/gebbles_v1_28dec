@@ -64,8 +64,13 @@ export default {
 					}).then(res => { 
 						console.log(res.data);
 					this.$auth.setUser(res.data)
-					this.$auth.setUserToken(res.data.access_token)
-					this.$auth.setRefreshToken('local', res.data.refresh_token);
+					this.$auth.$storage.setUniversal('user', res.data, true)
+					this.$auth.strategy.token.set(res.data.access_token)
+                	// this.$auth.strategy.refreshToken.set(res.data.refresh_token)
+					this.$store.dispatch("check_user_portfolio");
+					this.$store.dispatch("check_user_bio");
+					this.$store.dispatch("check_user_teachers");
+					this.$store.dispatch("check_notifications");
 					this.progressbar1 = false;
 					this.$router.push('/')})
 				}catch(error){

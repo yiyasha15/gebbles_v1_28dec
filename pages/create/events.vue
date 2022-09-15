@@ -2621,7 +2621,7 @@ export default {
                 this.event.photo3 = await this.putImage(this.event.photo3);
                 const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+                        "Authorization": this.$auth.strategy.token.get()}
                 };
                 let formData = new FormData();
                 for (let data in this.event) {
@@ -2810,7 +2810,7 @@ export default {
         //             this.event.poster = await this.putImage(this.event.poster);
         //             const config = {
         //                 headers: {"content-type": "multipart/form-data",
-        //                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //                     "Authorization": this.$auth.strategy.token.get()
         //                 }
         //             };
         //             let formName = new FormData();
@@ -2842,7 +2842,7 @@ export default {
                 try {
                 const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                 };
                 let formName = new FormData();
@@ -2916,7 +2916,7 @@ export default {
         async formUpdate(){
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             let myObj1 = this.editing_event_obj 
@@ -2982,7 +2982,7 @@ export default {
                     this.guest_progressbar =true
                     const config = {
                         headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                            "Authorization": this.$auth.strategy.token.get()
                         }
                     }
                     this.guest.event = this.editing_event_obj.uuid;
@@ -3031,7 +3031,7 @@ export default {
                     }
                     const config = {
                         headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                            "Authorization": this.$auth.strategy.token.get()
                         }
                     };
                     let myObj1 = this.selectedGuest 
@@ -3122,7 +3122,7 @@ export default {
                 this.deleteLoading = true
                 const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                 };
                 try {
@@ -3269,7 +3269,7 @@ export default {
                         }
                     const config = {
                         headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                            "Authorization": this.$auth.strategy.token.get()
                         }
                     };
                     let myObj1 = this.temp_category_item;
@@ -3412,7 +3412,7 @@ export default {
             this.program_progressbar =true
                     const config = {
                         headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                            "Authorization": this.$auth.strategy.token.get()
                         }
                     }
                     this.category.event = this.editing_event_obj.uuid;
@@ -3478,7 +3478,7 @@ export default {
                 this.deleteLoading = true
                 const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                 };
                 try {
@@ -3515,7 +3515,7 @@ export default {
                     this.program_progressbar =true
                     const config = {
                         headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                            "Authorization": this.$auth.strategy.token.get()
                         }
                     }
                     this.battle_category.event = this.editing_event_obj.uuid;
@@ -3750,7 +3750,7 @@ export default {
                     }
                     const config = {
                         headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                            "Authorization": this.$auth.strategy.token.get()
                         }
                     };
                     let myObj1 = this.temp_category_item;
@@ -4034,7 +4034,7 @@ export default {
                 this.deleteLoading = true
                 const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                 };
                 try {
@@ -4096,7 +4096,7 @@ export default {
         //             this.organiser_progressbar =true
         //             const config = {
         //                 headers: {"content-type": "multipart/form-data",
-        //                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //                     "Authorization": this.$auth.strategy.token.get()
         //                 }
         //             }
         //             this.organiser.event = this.editing_event_obj.uuid;
@@ -4160,7 +4160,7 @@ export default {
         //             }
         //             const config = {
         //                 headers: {"content-type": "multipart/form-data",
-        //                     "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //                     "Authorization": this.$auth.strategy.token.get()
         //                 }
         //             };
         //             let myObj1 = this.selectedOrganiser 
@@ -4231,7 +4231,7 @@ export default {
         //         this.deleteLoadingOrg = true
         //         const config = {
         //             headers: {"content-type": "multipart/form-data",
-        //                 "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //                 "Authorization": this.$auth.strategy.token.get()
         //             }
         //         };
         //         try {

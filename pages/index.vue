@@ -128,8 +128,12 @@ export default {
   },
   created(){
     this.getartists();
+    // console.log("?", process.env.AUTH_TOKEN);
     if(this.isAuthenticated){
-      console.log("check port/bio");
+      // console.log("?");
+      this.$store.dispatch("check_user_portfolio");
+      this.$store.dispatch("check_user_bio");
+      this.$store.dispatch("check_notifications");
     }
   },
   methods:{

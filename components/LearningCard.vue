@@ -322,7 +322,7 @@ import { mapGetters } from 'vuex'
       async deleteLearning(id,shareid){
           const config = {
           headers: {"content-type": "multipart/form-data",
-              "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+              "Authorization": this.$auth.strategy.token.get()}
           };
           try {
               let response = await this.$axios.$delete("/v1/e1t1/learnings/"+id , config);
@@ -363,7 +363,7 @@ import { mapGetters } from 'vuex'
           if(this.cook_has_like){
             const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
             };
               try {
@@ -377,7 +377,7 @@ import { mapGetters } from 'vuex'
           else{
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
           let formData = new FormData();
@@ -404,7 +404,7 @@ import { mapGetters } from 'vuex'
           if(this.cook_has_dope){
             const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
             };
               try {
@@ -418,7 +418,7 @@ import { mapGetters } from 'vuex'
           else{
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
           let formData = new FormData();
@@ -445,7 +445,7 @@ import { mapGetters } from 'vuex'
           if(this.cook_has_info){
             const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
             };
               try {
@@ -459,7 +459,7 @@ import { mapGetters } from 'vuex'
           else{
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
           let formData = new FormData();
@@ -486,7 +486,7 @@ import { mapGetters } from 'vuex'
           this.comments.learningidobj = id
           const config = {
               headers: {"content-type": "multipart/form-data",
-                  "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                  "Authorization": this.$auth.strategy.token.get()
               }
           };
           let formData = new FormData();

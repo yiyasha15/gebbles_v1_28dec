@@ -159,7 +159,7 @@ computed: {
             try{
                 const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+                    "Authorization": this.$auth.strategy.token.get()}
                 };
                 const response = await EventService.getNotificationsSharing(this.loggedInUser.username,config)
                 // console.log(response);
@@ -194,7 +194,7 @@ computed: {
                 // for all notifications with filternotification whose e1t1 matches
                 const config = {
                     "content-type": "multipart/form-data",
-                    headers: { "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    headers: { "Authorization": this.$auth.strategy.token.get()
                     }
                 };
                 console.log(tempe);
@@ -225,7 +225,7 @@ computed: {
             if(this.page){
                 const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+                "Authorization": this.$auth.strategy.token.get()}
             };
             const key = 'id';
             this.$axios.get(this.page, config).then(response => {

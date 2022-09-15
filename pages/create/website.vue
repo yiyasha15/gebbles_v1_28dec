@@ -325,8 +325,16 @@ computed: {
 created(){
     this.$store.dispatch("check_user_portfolio");
     this.$store.dispatch("check_user_bio");
-    if(this.isAuthenticated){
-        this.checkUserData();
+    // if(localStorage.getItem("artist_data"))
+    if(this.userHasPortfolio)
+    {
+        localStorage.setItem("artist_data", this.usersPortfolio)
+        this.artist_data = Object.assign({}, this.usersPortfolio);
+    }
+    if(this.userHasBio)
+    {
+        localStorage.setItem("bio", this.usersBio)
+        this.bio = Object.assign({}, this.usersBio);
     }
 },
 data(){
@@ -690,7 +698,7 @@ methods: {
                     this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
                     const config = {
                         headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
+                            "Authorization": this.$auth.strategy.token.get()
                             }
                     };
                     let formPortfolio = new FormData();
@@ -750,7 +758,7 @@ methods: {
                     const config = {
                         headers: {
                             "content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                            "Authorization": this.$auth.strategy.token.get()
                         }
                     };
                     let formName = new FormData();
@@ -782,7 +790,7 @@ methods: {
         const config = {
             headers: {
                 "content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
         };
         this.checkurl();   
@@ -852,7 +860,7 @@ methods: {
         this.delete_progressbar = true
         const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
         };
         try {
@@ -885,20 +893,6 @@ methods: {
             this.delete_progressbar = false
         }
     },
-    checkUserData(){
-        console.log("this.userHasPortfolio",this.userHasPortfolio);
-        console.log("this.userHasBio",this.userHasBio);
-        if(this.userHasPortfolio)
-        {
-            console.log("userhasbport");
-            this.artist_data = Object.assign({}, this.usersPortfolio);
-        }
-        if(this.userHasBio)
-        {
-            console.log("userhasbio");
-            this.bio = Object.assign({}, this.$store.getters.usersBio);
-        }
-        }
 }
 }
 </script>

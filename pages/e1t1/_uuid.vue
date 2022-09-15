@@ -598,7 +598,7 @@ export default {
             this.deleteLoading = true;
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             this.$store.dispatch("remove_share_obj")
@@ -625,7 +625,7 @@ export default {
                     this.$store.dispatch("change_love");
                     const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                     };
                      try {
@@ -640,7 +640,7 @@ export default {
                     this.$store.dispatch("change_love");
                     const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                 };
                 let formData = new FormData();
@@ -668,7 +668,7 @@ export default {
         //     this.comments.shareidobj = this.e1t1.id
         //     const config = {
         //         headers: {"content-type": "multipart/form-data",
-        //             "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+        //             "Authorization": this.$auth.strategy.token.get()
         //         }
         //     };
         //     let formData = new FormData();
@@ -697,7 +697,7 @@ export default {
             this.personal.shareid = this.e1t1.id
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             let formData = new FormData();

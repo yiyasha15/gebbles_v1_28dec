@@ -523,19 +523,25 @@ export default {
 					'password':this.userInfo.password
 					}
 				}).then(res => {
-                this.$auth.setUser(res.data)
+                this.$auth.setUser(res.data.user)
                 this.$auth.$storage.setUniversal('user', res.data, true)
-				this.$auth.setUserToken(res.data.access_token)
+                this.$auth.setUserToken(res.data.access_token)
+                this.$auth.strategy.token.set(res.data.access_token)
+                // console.log("call portfolio");
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
                 this.$store.dispatch("check_notifications");
+                
                 this.progressbar1 = false;
                 this.loginDialog = false;
                 // this.$refs.loginform.reset()
                 let redirect_url = this.$route.path;
-                console.log("url",redirect_url);
-                this.$router.push("/"+redirect_url);
+                
+                if(redirect_url)
+                this.$router.push(redirect_url);
+                else
+                this.$router.push("/");
                 })
 			}catch(error){
                 this.progressbar1 = false;

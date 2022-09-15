@@ -829,13 +829,14 @@ export default {
                 }
                 const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+                    "Authorization": this.$auth.strategy.token.get()}
                 };
                 let formData = new FormData();
                 for (let data in this.journey) {
                     formData.append(data, this.journey[data]);
                 }
                 try {
+                    console.log(this.$auth.strategy.token.get());
                     await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
                         console.log(res);
                         this.refresh();
@@ -867,7 +868,7 @@ export default {
                 }
                 const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
                 };
                 let myObj1 = this.editing_obj 

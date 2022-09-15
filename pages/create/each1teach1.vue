@@ -657,7 +657,7 @@ export default {
         async formPost(){
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             let formData = new FormData();
@@ -689,7 +689,7 @@ export default {
         async formUpdate(){
              const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             let myObj1 = this.share_obj 

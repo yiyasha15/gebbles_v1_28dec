@@ -254,7 +254,7 @@ export default {
     //     if(this.isAuthenticated &&this.$store.state.auth.user.username == params.username)
     //     {config = {
     //     headers: {"content-type": "multipart/form-data",
-    //         "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+    //         "Authorization": this.$auth.strategy.token.get()}
     //     };}
     //     let journey_response = await EventService.getJourney(params.username,config)
     //     let upcoming_response = await EventService.getUpcoming(params.username,config)

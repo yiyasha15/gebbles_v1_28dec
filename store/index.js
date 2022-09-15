@@ -203,7 +203,7 @@ export const actions = {
     if(state.auth.user ){
         const config = {
         headers: {"content-type": "multipart/form-data",
-            "Authorization": "Bearer " + state.auth.user.access_token}
+            "Authorization": this.$auth.strategy.token.get()}
         };
       EventService.getNotificationsSharing(state.auth.user.username,config).then(res =>
       {
@@ -278,25 +278,23 @@ export const actions = {
   //     commit('check_learn_obj',res.data)
   //   })
   // },
-  check_user_portfolio({commit, state}){
-    // console.log("check user thumb");
-      if(state.auth.loggedIn) {
-        // console.log("check user thumb");
-          EventService.getArtist(state.auth.user.username).then(res =>
-          {
-            console.log("check portfolio");
-            commit('usersPortfolio',res.data)
-          }).catch(err =>{console.log(err.response.data);})
-        }  
+  check_user_portfolio({commit}){
+    let getUser = localStorage.getItem('auth.user')
+    if(getUser){var parsedData = JSON.parse(getUser);
+      EventService.getArtist(parsedData.user.username).then(res =>
+      {
+        // console.log("check portfolio", res.data);
+        commit('usersPortfolio',res.data)
+      }).catch(err =>{console.log(err.response.data);})}
   },
-  check_user_bio({commit, state}){
-    if(state.auth.loggedIn) {
-        EventService.getBio(state.auth.user.username).then(res =>
-        {
-          console.log("check bio");
-          commit('usersBio',res.data)
-        }).catch(err =>{console.log(err.response.data);})
-      }  
+  check_user_bio({commit}){
+    let getUser = localStorage.getItem('auth.user')
+    var parsedData = JSON.parse(getUser);
+    EventService.getBio(parsedData.user.username).then(res =>
+    {
+      // console.log("check bio");
+      commit('usersBio',res.data)
+    }).catch(err =>{console.log(err.response.data);})
   },
   check_user_journey({commit, state}, username){
     let config;
@@ -305,7 +303,7 @@ export const actions = {
       // console.log(state.auth.loggedIn, state.auth);  
       config = {
       headers: {"content-type": "multipart/form-data",
-        "Authorization": "Bearer " + state.auth.user.access_token}
+        "Authorization": this.$auth.strategy.token.get()}
       };
     }
       EventService.getUpcoming(username,config).then(res =>
@@ -328,7 +326,7 @@ export const actions = {
       if(state.auth.loggedIn) {
         config = {
         headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + state.auth.user.access_token}
+          "Authorization": this.$auth.strategy.token.get()}
       };}
       //push the results to state.journey and update the page_journey url
       this.$axios.get(state.page_journey,config).then(res => {
@@ -346,7 +344,7 @@ export const actions = {
       if(state.auth.loggedIn) {
         config = {
         headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + state.auth.user.access_token}
+          "Authorization": this.$auth.strategy.token.get()}
       };}
       //push the results to state.journey and update the page_journey url
       this.$axios.get(state.page_personal_messages,config).then(res => {
@@ -364,7 +362,7 @@ export const actions = {
       if(state.auth.loggedIn) {
         config = {
         headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + state.auth.user.access_token}
+          "Authorization": this.$auth.strategy.token.get()}
       };}
       //push the results to state.journey and update the page_upcoming url
       this.$axios.get(state.page_upcoming,config).then(res => {
@@ -382,7 +380,7 @@ export const actions = {
       if(state.auth.loggedIn) {
         config = {
         headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + state.auth.user.access_token}
+          "Authorization": this.$auth.strategy.token.get()}
       };}
       //push the results to state.journey and update the page_highlights url
       this.$axios.get(state.page_highlights,config).then(res => {

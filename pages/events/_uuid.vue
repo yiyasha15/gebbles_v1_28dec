@@ -603,7 +603,7 @@ export default {
             this.deleteLoading = true;
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             try {
@@ -632,7 +632,7 @@ export default {
                 if(!this.imgoing){
                     const config = {
                     headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                     };
                     try {
@@ -652,7 +652,7 @@ export default {
                 else{
                     const config = {
                         headers: {"content-type": "multipart/form-data",
-                            "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                            "Authorization": this.$auth.strategy.token.get()
                         }
                     };
                     let formData = new FormData();

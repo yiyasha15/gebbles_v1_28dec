@@ -98,8 +98,8 @@ export default {
         showPassword1: false,
         showPassword2: false,
         hasName: false,
-        email: this.loggedInUser.email,
-        username: this.loggedInUser.username,
+        email: this.$store.state.auth.user.email,
+        username: this.$store.state.auth.user.username,
         info: {
             old_password: '',
             new_password1: '',
@@ -118,7 +118,7 @@ export default {
             const config = {
                 headers: {
                     "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             try {
@@ -135,7 +135,7 @@ export default {
             const config = {
                 headers: {
                     "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             try {
@@ -180,7 +180,7 @@ export default {
             const config = {
                 headers: {
                     "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             try {

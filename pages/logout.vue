@@ -39,6 +39,7 @@ export default {
 			this.$store.dispatch("remove_journey")
 			this.$store.dispatch("remove_page")
 			localStorage.removeItem('vuex');
+			localStorage.removeItem('auth.user');
 			this.$auth.logout();
 			this.progressbar = false;
 		},

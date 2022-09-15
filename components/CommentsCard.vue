@@ -75,7 +75,7 @@ import moment from 'moment'
       async deleted(comment){
         const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
         };
         try {

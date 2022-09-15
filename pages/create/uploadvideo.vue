@@ -134,6 +134,7 @@ head() {
 },
 middleware : 'check_auth',
 created(){
+    this.$store.dispatch("check_user_teachers");
     this.usersTeacher= this.usersTeachers
     if(this.cook_obj)
     {
@@ -186,7 +187,7 @@ methods:{
         try {
             const config = {
                 headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+                "Authorization": this.$auth.strategy.token.get()}
             };
             let formData = new FormData();
             for (let data in this.cookingForm) {
@@ -223,7 +224,7 @@ methods:{
             const config = {
             headers:{
                 "content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
             };
             let update=false;
@@ -260,7 +261,7 @@ methods:{
                 const config = {
                     headers:{
                         "content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                     };
                 for(let i=0; i < prevArray.length; i++)
@@ -278,7 +279,7 @@ methods:{
                 const config = {
                 headers:{
                     "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
                 };
                 for(let i=0; i < newArray.length;i++)
@@ -315,7 +316,7 @@ methods:{
                 const config = {
                     headers:{
                         "content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                        "Authorization": this.$auth.strategy.token.get()
                     }
                 };
                 //check prev array and delete if new array doesnt contain that

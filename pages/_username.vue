@@ -886,13 +886,13 @@ export default {
 					}
 				}).then(res => {
 				this.$auth.setUser(res.data)
-				this.$auth.setUserToken(res.data.access_token)
-				this.$auth.setRefreshToken('local', res.data.refresh_token);
-				// this.$store.dispatch("check_artists");
+				this.$auth.$storage.setUniversal('user', res.data, true)
+				this.$auth.strategy.token.set(res.data.access_token)
+                // this.$auth.strategy.refreshToken.set(res.data.refresh_token)
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
-				this.$store.dispatch("check_notifications");
+                this.$store.dispatch("check_notifications");
                 this.$router.push('/');
                 this.progressbar1 = false;
                 this.loginDialog = false;
@@ -1012,9 +1012,6 @@ export default {
     components:{
         TheHeader
     },
-    mounted() {
-    this.$store.dispatch("check_user_portfolio");
-}
     
 }
 </script>

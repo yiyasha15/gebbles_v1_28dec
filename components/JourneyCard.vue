@@ -199,7 +199,7 @@ export default {
       if(this.loggedInUser && this.loggedInUser.username == this.journey.username){
          config = {
           headers: {"content-type": "multipart/form-data",
-              "Authorization": "Bearer " + state.auth.user.access_token}
+              "Authorization": this.$auth.strategy.token.get()}
           };
       }
         EventService.getFullJourney(this.journey.id,config).then(res =>
@@ -231,7 +231,7 @@ export default {
       this.deleteLoading =true
       const config = {
       headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + this.$store.state.auth.user.access_token}
+          "Authorization": this.$auth.strategy.token.get()}
       };
       try {
           await this.$axios.$delete("/v1/artist/journey/"+id , config);
@@ -251,7 +251,7 @@ export default {
       },
     },
     computed: {
-        ...mapGetters(['loggedInUser']),
+        ...mapGetters(['loggedInUser','isAuthenticated']),
         cardheight () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 105

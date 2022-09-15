@@ -59,7 +59,8 @@ export default function (ctx, inject) {
   "token": {
     "property": "token",
     "required": true,
-    "type": "Bearer"
+    "type": "Bearer",
+    "global": false
   },
   "user": {
     "property": false,
