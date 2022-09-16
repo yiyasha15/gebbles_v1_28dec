@@ -642,7 +642,7 @@ data(){
             v => (v || '').indexOf(' ') < 0 ||'Enter a valid Url'
         ],
         igRules:[
-            v=> !v || /^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/.test(v) || 'Enter a valid instagram username',
+            v=> !v || /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/igm.test(v) || 'Enter a valid instagram username',
             v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.'
         ],
         fbRules:[
@@ -666,13 +666,13 @@ methods: {
     return new File([u8arr], filename, {type:mime});
     },
     checkurl(){
-        let rx_ig =/^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/;
+        // let rx_ig =/^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/;
         let rx_fb =/^(?:https?:\/\/)?(?:www.)?(?:facebook.com)?\/?([^\/\s]+)/gm;
 
-        let res_ig = rx_ig.exec(this.bio.ig);
-        if (res_ig &&res_ig[1]!='') {
-            this.bio.ig = res_ig[1]
-        } 
+        // let res_ig = rx_ig.exec(this.bio.ig);
+        // if (res_ig &&res_ig[1]!='') {
+        //     this.bio.ig = res_ig[1]
+        // } 
         let res_fb = rx_fb.exec(this.bio.fb);
         if (res_fb &&res_fb[1]!='') {
             this.bio.fb = res_fb[1]
