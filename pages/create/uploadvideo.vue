@@ -45,8 +45,8 @@
                                 @click="data.select"
                                 @click:close="remove(data.item)"
                                 >
-                                <v-avatar v-if="data.item.thumb" left>
-                                    <v-img :src="data.item.thumb"></v-img>
+                                <v-avatar v-if="data.item.image_mini" left>
+                                    <v-img :src="data.item.image_mini"></v-img>
                                 </v-avatar>
                                 <v-avatar v-else >
                                 <v-icon>
@@ -58,8 +58,8 @@
                             </template>
                             <template v-slot:item="data">
                                 <template>
-                                <v-list-item-avatar v-if="data.item.thumb">
-                                    <img :src="data.item.thumb">
+                                <v-list-item-avatar v-if="data.item.image_mini">
+                                    <img :src="data.item.image_mini">
                                 </v-list-item-avatar>
                                 <v-list-item-avatar v-else>
                                     <v-icon>

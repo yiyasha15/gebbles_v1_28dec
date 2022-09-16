@@ -52,7 +52,7 @@
         <p>✔︎ a lifestyle canvas for the artists of the HipHop culture.</p>
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <h2 class="text-center" v-bind="attrs" v-on="on">🎵 💃 🎤 🎨 </h2>
+            <h2 class="text-center" style="cursor:pointer;" v-bind="attrs" v-on="on">🎵 💃 🎤 🎨 </h2>
           </template>
           <span>✌🏽 🖤 🤝</span>
         </v-tooltip>
