@@ -27,6 +27,7 @@
 					prepend-icon="mdi-lock"
 					:append-icon="showPasswordOld ? 'mdi-eye' : 'mdi-eye-off'"
 					@click:append="showPasswordOld = !showPasswordOld"
+                    @input="clearErrorOld"
 				    />
                     <v-text-field     
 					:error-messages="errorPassword1"
@@ -37,6 +38,7 @@
 					prepend-icon="mdi-lock"
 					:append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
 					@click:append="showPassword1 = !showPassword1"
+                    @input="clearErrorNew1"
 				    />
                     <v-text-field   
                     :error-messages="errorPassword2" 
@@ -46,9 +48,10 @@
                         prepend-icon="mdi-lock"
                         :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
                         @click:append="showPassword2 = !showPassword2"
+                        @input="clearErrorNew2"
                     />
                 </v-form>
-            <v-btn small class="text-decoration-none" outlined  color="black" dark
+            <v-btn small class="text-decoration-none" outlined  color="black" dark :loading="set_new_password_loading"
                 @click="set_new_password">Set New Password</v-btn>
             </div>
             </v-card>
@@ -98,6 +101,7 @@ export default {
         showPassword1: false,
         showPassword2: false,
         hasName: false,
+        set_new_password_loading:false,
         email: this.$store.state.auth.user.email,
         username: this.$store.state.auth.user.username,
         info: {
@@ -114,6 +118,9 @@ export default {
         ...mapGetters(['loggedInUser']),
     },
     methods: {
+        clearErrorOld(){this.errorPasswordOld=''},      
+        clearErrorNew1(){this.errorPassword1 = ''},  
+        clearErrorNew2(){this.errorPassword2 =''},           
         async save_information() {
             const config = {
                 headers: {
@@ -132,6 +139,7 @@ export default {
             
         }, 
         async set_new_password() {
+            this.set_new_password_loading = true;
             const config = {
                 headers: {
                     "content-type": "multipart/form-data",
@@ -146,6 +154,7 @@ export default {
                 console.log(formPassword);
                 let res= await this.$axios.$post("/v1/auth/password/change/", formPassword, config)
                 //new password
+                this.set_new_password_loading=false;
                 this.info.old_password=''
                 this.info.new_password1=''
                 this.info.new_password2=''
@@ -157,6 +166,7 @@ export default {
                 this.change_snackbar = true;
                 // this.$router.push("/settings");
             } catch (err) {
+                this.set_new_password_loading =false
                 if(err.response.data){
                     let er = err.response.data
                     console.log(er);
