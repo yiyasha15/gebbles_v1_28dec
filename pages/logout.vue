@@ -38,8 +38,8 @@ export default {
 			this.$store.dispatch("remove_cook_reactions")
 			this.$store.dispatch("remove_journey")
 			this.$store.dispatch("remove_page")
-			localStorage.removeItem('vuex');
-			localStorage.removeItem('auth.user');
+			localStorage.clear()
+			this.$auth.strategy.token.reset();
 			this.$auth.logout();
 			this.progressbar = false;
 		},

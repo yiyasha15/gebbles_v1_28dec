@@ -325,7 +325,8 @@ computed: {
 created(){
     this.$store.dispatch("check_user_portfolio");
     this.$store.dispatch("check_user_bio");
-    // if(localStorage.getItem("artist_data"))
+    let d = localStorage.getItem("artist_data")
+    console.log(d);
     if(this.userHasPortfolio)
     {
         localStorage.setItem("artist_data", this.usersPortfolio)

@@ -278,23 +278,28 @@ export const actions = {
   //     commit('check_learn_obj',res.data)
   //   })
   // },
-  check_user_portfolio({commit}){
-    let getUser = localStorage.getItem('auth.user')
-    if(getUser){var parsedData = JSON.parse(getUser);
-      EventService.getArtist(parsedData.user.username).then(res =>
+  check_user_portfolio({commit,state}){
+    console.log(state.auth.loggedIn);
+    let getUser = localStorage.getItem('auth._token.local')
+    if(getUser)
+      {
+        console.log(state.auth.loggedIn,state.auth.user);
+        EventService.getArtist(state.auth.user.username).then(res =>
       {
         // console.log("check portfolio", res.data);
         commit('usersPortfolio',res.data)
       }).catch(err =>{console.log(err.response.data);})}
   },
-  check_user_bio({commit}){
-    let getUser = localStorage.getItem('auth.user')
-    var parsedData = JSON.parse(getUser);
-    EventService.getBio(parsedData.user.username).then(res =>
+  check_user_bio({commit,state}){
+    let getUser = localStorage.getItem('auth._token.local')
+    if(getUser)
+    {
+    EventService.getBio(state.auth.user.username).then(res =>
     {
       // console.log("check bio");
       commit('usersBio',res.data)
     }).catch(err =>{console.log(err.response.data);})
+  }
   },
   check_user_journey({commit, state}, username){
     let config;

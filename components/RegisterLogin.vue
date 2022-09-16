@@ -215,8 +215,8 @@ export default {
             showPassword: false,
             hasName: false,
             userInfo: {
-                email: '',
-                password: ''
+                email: 'yiyasha15@gmail.com',
+                password: 'hellohellothere'
             },
             progressbar:false,
             progressbar1:false,
@@ -524,10 +524,10 @@ export default {
 					}
 				}).then(res => {
                 this.$auth.setUser(res.data.user)
-                this.$auth.$storage.setUniversal('user', res.data, true)
+                console.log(res.data.user);
+                // this.$auth.$storage.setUniversal('user', res.data.user, true)
                 this.$auth.setUserToken(res.data.access_token)
                 this.$auth.strategy.token.set(res.data.access_token)
-                // console.log("call portfolio");
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
