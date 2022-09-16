@@ -215,8 +215,8 @@ export default {
             showPassword: false,
             hasName: false,
             userInfo: {
-                email: 'yiyasha15@gmail.com',
-                password: 'hellohellothere'
+                email: '',
+                password: ''
             },
             progressbar:false,
             progressbar1:false,
