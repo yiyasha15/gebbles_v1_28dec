@@ -2,7 +2,7 @@
     <div v-if="isAuthenticated">
         <v-navigation-drawer 
             :permanent="$vuetify.breakpoint.mdAndUp"
-            class="ml-md-4 mt-md-5"
+            class="ml-md-4 pt-md-5"
             app
             left 
             hide-overlay
