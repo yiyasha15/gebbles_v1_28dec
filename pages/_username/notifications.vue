@@ -35,14 +35,14 @@
             <v-list-item-content v-if="item.notification_context == 2">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has added a video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has reacted on your video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your video.</v-list-item-title>
                 
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 3">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has mentioned you in a video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your tagged video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has reacted on your tagged video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your tagged video.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 4">
@@ -84,15 +84,15 @@
             <v-list-item-content v-if="item.notification_context == 2">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has added a video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has reacted on your video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your video.</v-list-item-title>
                 
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 3">
                 <v-list-item-subtitle > {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has tagged you in a video.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked a video you're tagged in.</v-list-item-title>
-                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on a video you're tagged in.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has reacted on your tagged video.</v-list-item-title>
+                <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your tagged video.</v-list-item-title>
             </v-list-item-content>
             <v-list-item-content v-if="item.notification_context == 4">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>

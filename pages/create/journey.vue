@@ -192,6 +192,20 @@
                         :maxlength="255"
                         :rules="urlRules">
                     </v-text-field>
+                    <v-text-field 
+                    prepend-icon="mdi-instagram" 
+                        v-model = "journey.joiglink"
+                        label= "Instagram link"
+                        :maxlength="255"
+                        :rules="urlRules">
+                    </v-text-field>
+                    <v-text-field 
+                    prepend-icon="mdi-youtube" 
+                        v-model = "journey.joytlink"
+                        label= "Youtube link"
+                        :maxlength="255"
+                        :rules="urlRules">
+                    </v-text-field>
                     </v-form>
                     <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                     <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
@@ -326,6 +340,7 @@ import CountryFlag from 'vue-country-flag'
 
 export default {
     middleware : 'check_auth',
+    layout:'simple',
     head() {  //head function (a property of vue-meta), returns an object
     return {
         title: 'gebbles - artist journey',
@@ -402,6 +417,8 @@ export default {
                 // jophoto5: "",
                 jp1thumb:"",
                 jolink: "",
+                joiglink:"",
+                joytlink:"",
                 ishighlight: false,
                 isprivate: false,
                 event:""
@@ -807,7 +824,10 @@ export default {
             this.journey.jophoto3= "";
             // this.journey.jophoto4= null;
             // this.journey.jophoto5= null;
+
             this.journey.jolink= "";
+            this.journey.joiglink= "";
+            this.journey.joytlink= "";
             this.journey.ishighlight= false;
             this.journey.isprivate = false;
             this.journey.event =""

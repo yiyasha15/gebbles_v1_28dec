@@ -65,7 +65,7 @@ export default {
     getMyOrganizedEvents(username) {
         return apiClient1.get('/events/my-organized-events/?username='+ username)
     },
-    getMyTaggedEvents(username) {
+    getMyInvitedEvents(username) {
         return apiClient1.get('/events/my-tagged-events/?guest='+ username)
     },
     getMyGoingEvents(username) {
@@ -77,6 +77,9 @@ export default {
     },
     getBio(username){
         return apiClient1.get('/artist/bios/' + username)
+    },
+    getAllJourney() {
+        return apiClient1.get('/artist/journey/list/' )
     },
     getJourney(username,config) {
         return apiClient1.get('/artist/journey/list/?username=' + username, config)

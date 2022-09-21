@@ -1,19 +1,18 @@
 <template>
     <v-app>
-      <v-container class="pa-0 mt-4 mt-md-8" >
-      <v-row class="mx-auto width">
-        <v-col cols="12" md="8"  class="justify-center">
-          <h3 class ="font-weight-light">Organised events</h3>
-        </v-col>
-      </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" class=" mx-auto width">
+      <v-container class="mx-auto width" >
+        <div class="mb-4">
+          <h2 class ="font-weight-light">Attending events</h2>
+          <small class="my-2 grey--text"> <v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> can add the invited events to your journey</small>
+        </div>
+      <v-layout wrap row justify-start v-if="firstLoad">
         <div v-for="n in this.looploader" :key ="n.index">
           <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class=" mx-auto width" >
+      <v-layout wrap row justify-start v-show="!firstLoad">
         <div v-for="event in events" :key ="event.index">
-          <events-card :event="event" ></events-card> 
+            <going-events-card :event="event" v-if="event.event"></going-events-card>
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
@@ -29,10 +28,12 @@
 </template>
 
 <script>
-import EventsCard from '@/components/EventsCard.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
+import GoingEventsCard from '~/components/GoingEventsCard.vue'
 export default {
+  components: { GoingEventsCard },
+  middleware : 'check_auth',
   scrollToTop: true,
   head() {  
     return {
@@ -55,7 +56,7 @@ export default {
   methods:{
     async getEvents(){
       try {
-      const response = await EventService.getMyOrganizedEvents(this.loggedInUser.username)
+      const response = await EventService.getMyGoingEvents(this.loggedInUser.username)
       // console.log(response);
       this.events = response.data.results
       this.page = response.data.next
@@ -80,10 +81,6 @@ export default {
           });
         }
     },
-  },
-  components: {
-      EventsCard
-
   },
   data() {
     return {

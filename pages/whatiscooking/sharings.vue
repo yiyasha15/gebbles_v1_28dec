@@ -11,6 +11,7 @@
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
         <div v-for="cook in cooking" :key ="cook.index">
+          <!-- {{cook}} -->
           <cooking-card-sharing :cook="cook" ></cooking-card-sharing> 
         </div>
       </v-layout>

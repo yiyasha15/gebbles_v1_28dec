@@ -133,6 +133,7 @@ head() {
     }
 },
 middleware : 'check_auth',
+layout:'simple',
 created(){
     this.$store.dispatch("check_user_teachers");
     this.usersTeacher= this.usersTeachers

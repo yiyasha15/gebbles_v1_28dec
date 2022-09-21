@@ -24,7 +24,7 @@
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No learnings yet. </h4>
+                <h4>No posts yet. </h4>
             </center>
             <v-card v-intersect="infiniteScrollingTeacher"></v-card>
         </v-tab-item>
@@ -49,7 +49,7 @@
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No students yet. </h4>
+                <h4>No posts yet. </h4>
             </center>
             <v-card v-intersect="infiniteScrollingStudents"></v-card>
         </v-tab-item>

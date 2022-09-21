@@ -1,7 +1,7 @@
 <template>
     <v-app>
-      <v-container class="pa-0 mt-4 mt-md-8" >
-      <v-row class="mx-auto width">
+      <v-container class="mx-auto width" >
+      <v-row>
         <v-col cols="12" md="6"  class="justify-center">
           <h2 class ="xs12 font-weight-light">Events</h2>
           <!-- <v-spacer></v-spacer> -->
@@ -9,7 +9,7 @@
         <v-col cols="12" md="6" class= "justify-end py-0 py-md-3" >
           <v-autocomplete
               v-if="filterByCountry"
-              label="Filter country" v-model= "search" solo rounded
+              label="Filter by country" v-model= "search" solo rounded
               @input="debounceSearchCountry" prepend-inner-icon="mdi-earth"
               :items="countries"
               item-text="name"
@@ -55,7 +55,7 @@
           </template></v-autocomplete>
           <v-text-field 
               v-if="filterByName"
-              label="Filter event name" v-model= "search" solo rounded
+              label="Filter by event name" v-model= "search" solo rounded
               @input="debounceSearchName" prepend-inner-icon="mdi-calendar-heart-outline"
               clearable
           >
@@ -140,12 +140,12 @@
           </v-text-field>
         </v-col>
       </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" class="mx-auto width">
+      <v-layout wrap row justify-start v-if="firstLoad" >
         <div v-for="n in this.looploader" :key ="n.index">
           <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class=" mx-auto width" >
+      <v-layout wrap row justify-start v-show="!firstLoad" >
         <div v-for="event in events" :key ="event.index">
           <events-card :event="event" ></events-card> 
         </div>

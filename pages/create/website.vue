@@ -296,6 +296,7 @@ return {
     }
 },
 middleware : 'check_auth',
+layout:'simple',
 components: {
     CountryFlag,
     Youtube

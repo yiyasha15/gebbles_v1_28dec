@@ -196,6 +196,7 @@ export default {
         title: 'gebbles - e1t1',
         }
     },
+    layout:'simple',
     components: {
         CountryFlag,
         Youtube,

@@ -4,9 +4,9 @@
     <!-- <div style="float:left;"> -->
          <youtube width="100%" :height="height" :video-id= 'videoId' v-if="videoId"></youtube>
           <video id="videoId" width="100%" :height="height" controls playsinline :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-else>
-                <source :src="cook.video" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <source :src="cook.video" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <v-row class="pt-3 pb-2 px-3">
     <h5 class="pl-3 pl-md-0 caption">{{moment(this.cook.timestamp)}}</h5>
         </v-row>

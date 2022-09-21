@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    {{$store.auth}}
     <v-row v-if="!isAuthenticated" class="homepage-width mx-auto">
       <v-col cols="12" md="6">
         <div class="mt-md-13 mt-8">

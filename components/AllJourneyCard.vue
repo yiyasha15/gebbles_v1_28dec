@@ -18,12 +18,11 @@
         :width="cardwidth" contain/>
       <v-card-actions height="32px">
         <div class="text-decoration-none caption width" >
-        <p class="event_p">{{ journey.joevent }} </p>
+        <p class="event_p">{{ journey.username }} <span v-if="journey.joevent">: {{ journey.joevent }}</span></p>
         </div>
         <v-spacer></v-spacer>
          <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
         <v-icon v-if="journey.event" class="pl-1 float-right" color="black" x-small>mdi-calendar-heart</v-icon>
-        <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
       </v-card-actions>
       <v-dialog
         max-width="800"
@@ -65,19 +64,10 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs"
                         v-on="on">
-                        <v-icon class="pl-1 float-right" color="orange" small>mdi-star</v-icon>
+                        <v-icon class="pl-2 float-right" color="orange" small>mdi-star</v-icon>
                     </v-btn>
                   </template>
                   <span>This is a highlighted post.</span>
-                </v-tooltip>
-                <v-tooltip v-if="fullJourney.isprivate" top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs"
-                        v-on="on">
-                        <v-icon class="pl-1 float-right" small>mdi-lock</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>This is your private post.</span>
                 </v-tooltip>
           </v-row>
           </v-container>
@@ -218,16 +208,6 @@ export default {
     },
     openlink(){
       var url = this.fullJourney.jolink;
-      var win = window.open(url, '_blank');
-      win.focus();
-    },
-    openiglink(){
-      var url = this.fullJourney.joiglink;
-      var win = window.open(url, '_blank');
-      win.focus();
-    },
-    openytlink(){
-      var url = this.fullJourney.joytlink;
       var win = window.open(url, '_blank');
       win.focus();
     },

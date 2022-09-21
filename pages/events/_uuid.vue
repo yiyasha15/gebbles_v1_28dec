@@ -226,6 +226,7 @@ export default {
             ]
         }
     },
+    layout:'simple',
     created(){
         // if(this.event.event_guests.length>0)
         // {this.event_guests_team = this.event.event_guests.filter(item => item.category.includes('5'))

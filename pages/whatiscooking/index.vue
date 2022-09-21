@@ -1,11 +1,9 @@
 <template>
     <v-app>
-      <v-container class="pa-0">
-        <v-row class="mx-auto width py-4 px-3 px-md-0" >
-        <h3 class ="xs12 d-inline font-weight-light pr-1">What's cooking </h3>
-      </v-row>
+      <v-container class="mx-auto width">
+        <h2 class ="mb-4 font-weight-light">What's cooking </h2>
        <div class="mx-auto width" v-if="firstLoad" >
-      <v-skeleton-loader width="100%"   :loading="loading" type="card" ></v-skeleton-loader>
+      <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
       <div align="left" justify="left">
       <div class="mb-1">
         <v-btn icon class="mr-1">

@@ -21,7 +21,7 @@
       />
       <v-card-actions style="min-height:36px;" class="pa-1">
         <div class="text-decoration-none caption width">
-        <p class="event_p">{{cook.cookingidobj.username}} </p>
+        <p class="event_p">{{cook.username}} </p>
         </div>
       </v-card-actions>
     </v-card>

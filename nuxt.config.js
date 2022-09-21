@@ -80,7 +80,7 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     // '@nuxtjs/auth',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
   ],
   /*
   ** Axios module configuration

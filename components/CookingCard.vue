@@ -12,8 +12,7 @@
       :height="imgheight"
       :width="cardwidth" />
     <v-img v-else
-      :src="require('@/assets/gebbleslogo3.png')"
-      contain
+      :src="youtube_thumb"
       :height="imgheight"
       :width="cardwidth" />
       <v-dialog
@@ -46,16 +45,25 @@ import CookingFeed from '@/components/CookingFeed.vue'
         components: {
           CookingFeed
         },
+        created(){
+          let yt_re =/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/
+          let url =this.$props.cook.video 
+          if(yt_re.test(url))
+          {
+            this.youtube_thumb = this.getThumb(url);
+          }
+        },
         data() {
           return {
             dialog:false,
+            youtube_thumb:''
           }
         },
         computed:{
         cardheight () {
           switch (this.$vuetify.breakpoint.name) {
             case 'xs': return 105
-            case 'sm': return 105
+            case 'sm': return 205
             case 'md': return 205
             case 'lg': return 205
             case 'xl': return 205
@@ -64,7 +72,7 @@ import CookingFeed from '@/components/CookingFeed.vue'
         cardwidth () {
           switch (this.$vuetify.breakpoint.name) {
             case 'xs': return 115
-            case 'sm': return 115
+            case 'sm': return 215
             case 'md': return 215
             case 'lg': return 215
             case 'xl': return 215
@@ -73,7 +81,7 @@ import CookingFeed from '@/components/CookingFeed.vue'
         imgheight () {
           switch (this.$vuetify.breakpoint.name) {
             case 'xs': return 84
-            case 'sm': return 84
+            case 'sm': return 134
             case 'md': return 134
             case 'lg': return 134
             case 'xl': return 134
@@ -85,6 +93,13 @@ import CookingFeed from '@/components/CookingFeed.vue'
             this.$forceUpdate();
             this.dialog=false
             this.$emit("postDelete");
+          },
+          getThumb(url){
+            let results = url.match('[\\?&]v=([^&#]*)');
+            let video   = (results === null) ? url : results[1];
+            let big_thumb ='http://img.youtube.com/vi/' + video + '/0.jpg';
+            let thumb = 'http://img.youtube.com/vi/' + video + '/2.jpg';
+            return big_thumb;
           }
         }
     }

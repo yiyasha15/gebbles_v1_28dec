@@ -27,7 +27,7 @@
 import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
     export default {
-      name: 'StudentsCard',
+      name: 'SharingsCard',
       props: {
         //artist: Object,
         share: Object

@@ -15,14 +15,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import vuex from 'vuex'
 export default {
 	data() {
       return {
 		progressbar:false
 		}
 	},
+	layout: 'simple',
 	methods:{
 		signout(){this.progressbar = true;
 			console.log("logged out");

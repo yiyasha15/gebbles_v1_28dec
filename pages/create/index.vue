@@ -110,7 +110,7 @@ export default {
       goback(){
             window.history.back();
         },
-    }
+    },
 }
 </script>
 <style scoped>

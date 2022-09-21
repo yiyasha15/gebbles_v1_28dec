@@ -283,7 +283,7 @@ export const actions = {
     let getUser = localStorage.getItem('auth._token.local')
     if(getUser)
       {
-        console.log(state.auth.loggedIn,state.auth.user);
+        // console.log(state.auth.loggedIn,state.auth.user);
         EventService.getArtist(state.auth.user.username).then(res =>
       {
         // console.log("check portfolio", res.data);
@@ -303,7 +303,7 @@ export const actions = {
   },
   check_user_journey({commit, state}, username){
     let config;
-    console.log("check journey");
+    // console.log("check journey");
     if(state.auth.loggedIn && state.auth.user.username == username) {
       // console.log(state.auth.loggedIn, state.auth);  
       config = {

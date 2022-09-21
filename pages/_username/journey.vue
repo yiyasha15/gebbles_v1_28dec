@@ -67,7 +67,7 @@
             </v-container>
         </v-tab-item>
         <v-tab-item v-if="visitOwnPage">
-            <small class="ml-1 py-2 grey--text">you can add the invited events to your journey</small>
+            <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  can add the invited events to your journey</small>
             <!-- tagged events -->
             <v-layout wrap row justify-start v-if="firstLoadTagged" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
@@ -89,7 +89,7 @@
             </center>
         </v-tab-item>
         <v-tab-item v-if="visitOwnPage">
-            <small class="ml-1 py-2 grey--text">you can add the attended events to your journey</small>
+            <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> can add the attended events to your journey</small>
 
             <v-layout wrap row justify-start v-if="firstLoadGoing" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
@@ -197,7 +197,7 @@ export default {
     methods: {
     async getTaggedEvents(){
         try {
-        const response = await EventService.getMyTaggedEvents(this.artist.username);
+        const response = await EventService.getMyInvitedEvents(this.artist.username);
         // console.log(response);
         const taggedEvents = response.data.results
         //filter events which are duplicate

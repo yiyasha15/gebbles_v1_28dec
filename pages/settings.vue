@@ -1,9 +1,9 @@
 <template>
     <v-app> 
-        <v-container style="max-width:1072px;">
-            <div class="ma-0 ma-md-6">
+        <v-container class="width mx-auto">
+            <div class="ma-0">
             <h2 class="my-4">Settings</h2>
-            <v-card max-width="700" class="my-6 pa-2" elevation="0" outlined>
+            <v-card class="my-6 pa-2 width" elevation="0" outlined>
             <div class="ma-2 ma-md-6">
                 <h3 class="my-4 my-md-6">User</h3>
                 <v-form>
@@ -14,7 +14,7 @@
                 @click="save_information">Save Information</v-btn> -->
             </div>
             </v-card>
-            <v-card width="700" class="my-6 pa-2" elevation="0" outlined>
+            <v-card  class="my-6 pa-2 width" elevation="0" outlined>
             <div class="ma-2 ma-md-6">
                 <h3 class="my-4 my-md-6">Account</h3>
                 <v-form ref="form">
@@ -55,7 +55,7 @@
                 @click="set_new_password">Set New Password</v-btn>
             </div>
             </v-card>
-            <v-card width="700" class="my-6 pa-2" elevation="0" outlined>
+            <v-card class="my-6 pa-2 width" elevation="0" outlined>
             <div class="ma-2 ma-md-6">
                 <h3 class="my-4 my-md-6">Delete Account</h3>
                 <p>Deleting your account will make you loose all your data.</p>
@@ -114,8 +114,8 @@ export default {
      mounted() {
     this.$store.dispatch("check_user_portfolio");
     },
-     computed: {
-        ...mapGetters(['loggedInUser']),
+    computed: {
+    ...mapGetters(['loggedInUser']),
     },
     methods: {
         clearErrorOld(){this.errorPasswordOld=''},      
@@ -206,3 +206,14 @@ export default {
     }
 }
 </script>
+<style scoped>
+
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
+</style>

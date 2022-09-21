@@ -4259,6 +4259,7 @@ export default {
         
     },
     middleware : 'check_auth',
+    layout:'simple',
     }
 </script>
 <style scoped>
