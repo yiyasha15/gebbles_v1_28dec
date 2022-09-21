@@ -73,10 +73,6 @@
                 <v-list-item-title>What's cookin</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            </v-list>
-            <!-- <v-divider class="my-3"></v-divider> -->
-            <v-list dense>
-            <v-subheader>Events</v-subheader>
             <v-list-item to="/events">
                 <v-list-item-icon>
                 <v-icon>mdi-google-circles-communities</v-icon>
@@ -85,70 +81,74 @@
                 <v-list-item-title>Events</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item to="/invited-events">
+        </v-list>
+        <!-- <v-divider class="my-3"></v-divider> -->
+        <v-list dense>
+        <v-subheader>Events</v-subheader>
+        <v-list-item to="/invited-events">
+            <v-list-item-icon>
+            💌
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Invited Events</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/organised-events">
+            <v-list-item-icon>
+            📌
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Organised Events</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/attending-events">
+            <v-list-item-icon>
+            ✋
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Attending Events</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        </v-list>
+        <!-- <v-divider class="my-3"></v-divider> -->
+        <v-list dense>
+        <v-subheader>Each one teach one</v-subheader>
+        <v-list-item to="/learning">
+            <v-list-item-icon>
+            📝
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Learning</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sharing">
+            <v-list-item-icon>
+            🔗
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Sharing</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        </v-list>
+        <v-list dense>
+            <v-subheader>Account</v-subheader>
+            <v-list-item to="/settings" >
                 <v-list-item-icon>
-                💌
+                🛠️
                 </v-list-item-icon>
                 <v-list-item-content>
-                <v-list-item-title>Invited Events</v-list-item-title>
+                <v-list-item-title>Settings</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item to="/organised-events">
+            <v-list-item to="/logout" >
                 <v-list-item-icon>
-                📌
+                💼
                 </v-list-item-icon>
                 <v-list-item-content>
-                <v-list-item-title>Organised Events</v-list-item-title>
+                <v-list-item-title>Sign out</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item to="/attending-events">
-                <v-list-item-icon>
-                ✋
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Attending Events</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            </v-list>
-            <!-- <v-divider class="my-3"></v-divider> -->
-            <v-list dense>
-            <v-subheader>Each one teach one</v-subheader>
-            <v-list-item to="/learning">
-                <v-list-item-icon>
-                📝
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Learning</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/sharing">
-                <v-list-item-icon>
-                🔗
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Sharing</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            </v-list>
-            <v-list dense>
-                <v-subheader>Account</v-subheader>
-                <v-list-item to="/settings" >
-                    <v-list-item-icon>
-                    🛠️
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title>Settings</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item to="/logout" >
-                    <v-list-item-icon>
-                    💼
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title>Sign out</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
+        </v-list>
         </v-navigation-drawer>
     </div>
 </template>
@@ -164,7 +164,5 @@ export default {
     computed: {
     ...mapGetters(['loggedInUser', 'isAuthenticated', 'usersPortfolio']),
     },
-    methods: {  
-    }
 }
 </script>

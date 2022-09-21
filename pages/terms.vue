@@ -23,7 +23,7 @@
                     <li>discover hiphop artists and create your artist portfolio online,</li>
                     <li>explore events happening around the world,
                     </li>
-                    <li>journal about your dance journey,</li>
+                    <li>journal about your Hiphop journey,</li>
                     <li>share about your experiences with your peers and teachers that you learnt from, </li>
                          <!-- <span class="grey--text text--darken-1">In sharing our experiences collectively we form a connection of who we learn from and who we share to; each one teach one.</span> -->
                     <li>create an event page for your upcoming jam,

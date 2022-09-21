@@ -20,7 +20,7 @@
             <v-btn dark color="black" class="text-decoration-none text-capitalize show-xs" to="/register">Sign Up</v-btn>
           </div>
           <div v-if="i==1">
-            <h3 style="color:black;" class="font-weight-medium pb-4">a gallery for your dance journey</h3>
+            <h3 style="color:black;" class="font-weight-medium pb-4">a gallery for your Hiphop journey</h3>
             <img src = "~/assets/create_journey.png"  width="60%" alt="journey logo"> 
             <h4 style="color:black;" class="font-weight-light mt-4 width" >your home to keep those photos from all the beautiful events you travelled to. dust out all the battle, judging, workshop and more fliers, so that your can go back in time when nostalgia hits.</h4>
             <!-- <p style="color:black; max-width:260px" class="font-weight-light hidden-md-and-up"> your home to keep those photos from all the events you attended, battles you own, judging and workshop fliers, so that your can go back in time when nostalgia hits.</p> -->

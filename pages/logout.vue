@@ -21,7 +21,7 @@ export default {
 		progressbar:false
 		}
 	},
-	layout: 'simple',
+	// layout: 'simple',
 	methods:{
 		signout(){this.progressbar = true;
 			console.log("logged out");

@@ -21,7 +21,7 @@
         >
         <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
         </v-btn>
-        <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+        <v-menu v-if="isAuthenticated" transition="slide-y-transition" offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" class="mr-sm-2 mr-md-3 mr-1"
             v-on="on">
@@ -37,6 +37,7 @@
                 <v-list-item-title>Create your event</v-list-item-title>
                 </v-list-item>
                 <v-list-item
+                v-if="userHasPortfolio"
                 :to="'/create/uploadvideo'"
                 class="text-decoration-none pl-6 pr-12"
                 ><v-icon color="black" class="pr-2">mdi-upload</v-icon>
@@ -83,7 +84,7 @@
         <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-sm-2 mr-md-3 mr-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
         <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
         </v-btn>
-        <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+        <v-menu v-if="isAuthenticated" transition="slide-y-transition" offset-y bottom left>
             <template v-slot:activator="{ on, attrs }">
                 <div v-bind="attrs" class="mr-2"
                 v-on="on">
@@ -129,6 +130,7 @@
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
+
             <v-subheader>Explore</v-subheader>
             <v-list-item to="/artists">
                 <!-- Explore -->
@@ -155,10 +157,6 @@
                 <v-list-item-title>What's cookin</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            </v-list>
-            <!-- <v-divider class="my-3"></v-divider> -->
-            <v-list dense>
-            <v-subheader>Events</v-subheader>
             <v-list-item to="/events">
                 <v-list-item-icon>
                 <v-icon>mdi-google-circles-communities</v-icon>
@@ -167,6 +165,10 @@
                 <v-list-item-title>Events</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            </v-list>
+            <!-- <v-divider class="my-3"></v-divider> -->
+            <v-list dense>
+            <v-subheader>Events</v-subheader>
             <v-list-item to="/invited-events">
                 <v-list-item-icon>
                 💌
