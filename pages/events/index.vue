@@ -18,7 +18,7 @@
               clearable
           >
           <template v-slot:append-outer>
-          <v-menu open-on-hover offset-y bottom left >
+          <v-menu offset-y bottom left >
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon class="float-right" v-bind="attrs" v-on="on">
                 <v-icon>mdi-filter-variant</v-icon>
@@ -60,7 +60,7 @@
               clearable
           >
           <template v-slot:append-outer>
-          <v-menu open-on-hover offset-y bottom left >
+          <v-menu offset-y bottom left >
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon class="float-right" v-bind="attrs" v-on="on">
                 <v-icon>mdi-filter-variant</v-icon>
@@ -103,7 +103,7 @@
               clearable
           >
           <template v-slot:append-outer>
-          <v-menu open-on-hover offset-y bottom left >
+          <v-menu offset-y bottom left >
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon class="float-right" v-bind="attrs" v-on="on">
                 <v-icon>mdi-filter-variant</v-icon>

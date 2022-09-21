@@ -352,22 +352,24 @@ export default {
         CountryFlag,
     },
     created (){
-        console.log(this.$route.params, Object.keys(this.$route.params).length === 0);
+        // console.log(this.$route.params, Object.keys(this.$route.params).length === 0);
+        //checking if called by event... add to journey
         let check = Object.keys(this.$route.params).length === 0;
         console.log(!check);
         if(!check)
         {
             let event= this.$route.params.event;
+            console.log(event);
             this.journey.event = event.event.uuid;
             this.journey.joevent = event.event.name;
             this.journey.jophoto1 = event.event.poster;
-            this.journey.jophoto2 = event.photo;
             this.imageData1 = this.journey.jophoto1
-            this.imageData2 = this.journey.jophoto2
+            if(event.photo){this.journey.jophoto2 = event.photo;
+            this.imageData2 = this.journey.jophoto2}
             this.journey.country = event.event.country
             let thumb = this.journey.jophoto1.substring(this.journey.jophoto1.lastIndexOf('/') + 1)
             this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + thumb;
-            // console.log(this.journey);
+            console.log(this.journey);
         }
         else if(this.$store.state.editing_obj)
         {
@@ -693,10 +695,10 @@ export default {
     },
     methods: {
         async putImage(image,thumb){
-            // if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
-            // {
-            // return image
-            // }
+            if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
+            {
+                return image
+            }
             if(typeof image != 'object')
             {
                 return image
@@ -856,7 +858,7 @@ export default {
                     formData.append(data, this.journey[data]);
                 }
                 try {
-                    console.log(this.$auth.strategy.token.get());
+                    // console.log(this.$auth.strategy.token.get());
                     await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
                         console.log(res);
                         this.refresh();
