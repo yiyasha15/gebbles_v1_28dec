@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container style="max-width:670px;" class="pa-0">
+        <v-container  class="width mx-auto">
            <h3 class ="font-weight-light">Sharing</h3>
             <div v-if="!firstLoad">
                 <div v-if="students.length">
