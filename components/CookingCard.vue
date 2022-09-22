@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card class="ma-1" 
+    <v-card style="margin:2px;"
       data-view
       @click="dialog=true"
       :elevation="hover ? 12 : 0"
@@ -72,7 +72,7 @@ import CookingFeed from '@/components/CookingFeed.vue'
         cardwidth () {
           switch (this.$vuetify.breakpoint.name) {
             case 'xs': return 115
-            case 'sm': return 215
+            case 'sm': return 115
             case 'md': return 215
             case 'lg': return 215
             case 'xl': return 215
@@ -81,7 +81,7 @@ import CookingFeed from '@/components/CookingFeed.vue'
         imgheight () {
           switch (this.$vuetify.breakpoint.name) {
             case 'xs': return 84
-            case 'sm': return 134
+            case 'sm': return 84
             case 'md': return 134
             case 'lg': return 134
             case 'xl': return 134

@@ -1,7 +1,7 @@
 <template>
     <v-app>
       <v-container class="mx-auto width">
-          <h3 class ="mb-4 font-weight-light">Organised events</h3>
+          <h2 class ="mb-4 font-weight-medium">Organised events</h2>
       <v-layout wrap row justify-start v-if="firstLoad">
         <div v-for="n in this.looploader" :key ="n.index">
           <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>

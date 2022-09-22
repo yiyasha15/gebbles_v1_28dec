@@ -6,8 +6,8 @@
         </div>
         <v-row >
         <v-col >
-             <h2 class="mb-md-8 mb-4" align="center" justify="center" v-if="!editing_event_obj">About the event</h2>
-             <h2 class="mb-md-8 mb-4" align="center" justify="center" v-else>Edit the event</h2>
+             <h2 class="mb-md-8 mb-4 font-weight-medium" align="center" justify="center" v-if="!editing_event_obj">About the event</h2>
+             <h2 class="mb-md-8 mb-4 font-weight-medium" align="center" justify="center" v-else>Edit the event</h2>
             <v-stepper v-model="e6" vertical class="my-2">
                 <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                 Event details*

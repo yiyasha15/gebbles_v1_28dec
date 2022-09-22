@@ -1,17 +1,16 @@
 <template>
     <v-app>
-      <v-container class="pa-0">
-      <v-row class="width mx-auto" >
-        <h3 class ="xs12 d-inline font-weight-light pl-1 py-2">Sharing</h3>
-      </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad"  class="width mx-auto"  >
+      <v-container class="width mx-auto" >
+          <h2 class="font-weight-medium mb-4">Mentioned videos</h2>
+      <v-layout wrap row justify-start v-if="firstLoad"  >
         <div v-for="n in this.looploader" :key ="n.index">
           <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
         </div>
       </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
+      <v-layout wrap row justify-start v-show="!firstLoad" >
         <div v-for="cook in cooking" :key ="cook.index">
           <!-- {{cook}} -->
+          <!-- <cooking-card :cook="cook"></cooking-card> -->
           <cooking-card-sharing :cook="cook" ></cooking-card-sharing> 
         </div>
       </v-layout>
@@ -31,6 +30,7 @@
 import CookingCardSharing from '@/components/CookingCardSharing.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
+// import CookingCard from '~/components/CookingCard.vue'
 export default {
   scrollToTop: true,
   head() {  
@@ -46,6 +46,7 @@ export default {
       ]
     }
   },
+  middleware : 'check_auth',
   created(){
     this.getwhatiscooking();
   },
@@ -78,7 +79,8 @@ export default {
     },
   },
   components: {
-    CookingCardSharing
+    CookingCardSharing,
+    // CookingCard
   },
   data() {
     return {

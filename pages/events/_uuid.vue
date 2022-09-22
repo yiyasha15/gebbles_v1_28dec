@@ -53,7 +53,7 @@
                 <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(event.start_date)}}
             </h3>
             <h3 v-if="event.date_time" class="red--text font-weight-medium "> {{event.date_time}}</h3>
-            <h4 v-if="event.city || event.venue || event.country" class="mr-2 mt-2 font-weight-medium " ><v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>{{event.venue}} <b ><span v-if="event.venue && event.country">, </span> {{countryIs(event.country)}}</b></h4>
+            <h4 v-if="event.city || event.venue || event.country" class="mr-2 mt-2 font-weight-medium " ><v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>{{event.venue}}<span v-if="event.venue && event.country">, </span> {{countryIs(event.country)}}</h4>
             <div class="py-4 py-md-6">
             <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none " color="#815A44" outlined @click="imgoingApi">
                 <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-hand-back-left-outline</v-icon>Going</h4>
@@ -103,13 +103,13 @@
                 <youtube width="100%" height="220" :video-id= 'videoId'></youtube>
             </center>
         </div>
-        <h2 v-if="event.event_guests.length>0" class="my-6" > Guests</h2>
+        <h2 v-if="event.event_guests.length>0" class="my-6 font-weight-medium" > Guests</h2>
         <v-row class="ma-0" >
             <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="pa-1">
             <guest-card :guest="guest" :poster="event.poster" ></guest-card>
             </v-col>
         </v-row>
-        <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6" > Programs</h2>
+        <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6 font-weight-medium" > Programs</h2>
         <v-row class="ma-0" >
             <v-col cols="6" sm="6" v-for="category in event.event_battles" :key ="category.index" class="pa-1">
             <category-card :category="category" :poster="event.poster"></category-card>

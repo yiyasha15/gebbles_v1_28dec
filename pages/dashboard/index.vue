@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container style="max-width:1072px;">
+        <v-container style="max-width:670px;">
             <h2 class="my-4">Dashboard</h2>
         </v-container>
     </v-app>

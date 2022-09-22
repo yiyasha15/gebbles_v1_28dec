@@ -67,7 +67,7 @@
             </v-container>
         </v-tab-item>
         <v-tab-item v-if="visitOwnPage">
-            <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  can add the invited events to your journey</small>
+            <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  can add the invited events to your portfolio journey</small>
             <!-- tagged events -->
             <v-layout wrap row justify-start v-if="firstLoadTagged" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">

@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container class="mx-auto width">
-            <h2 class="font-weight-light mb-4">Journey</h2>
+            <h2 class="font-weight-medium mb-4">Journey</h2>
             <div v-show="!journeyLoaded" >
                 <div v-if="journey.length">
                     <v-layout wrap row justify-start>

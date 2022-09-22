@@ -1,7 +1,7 @@
 <template>
     <v-app>
-      <v-container class="mx-auto width">
-        <h2 class ="mb-4 font-weight-light">What's cooking </h2>
+      <v-container class="mx-auto width pa-0">
+        <h2 class ="mb-4 font-weight-medium pl-2">What's cooking </h2>
        <div class="mx-auto width" v-if="firstLoad" >
       <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
       <div align="left" justify="left">
@@ -115,7 +115,7 @@ export default {
 <style scoped>
 
 .width{
-    max-width: 640px;
+    max-width: 670px;
   }
 @media only screen and (max-width: 640px) {
   .width{

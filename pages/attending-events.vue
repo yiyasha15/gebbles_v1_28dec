@@ -2,8 +2,8 @@
     <v-app>
       <v-container class="mx-auto width" >
         <div class="mb-4">
-          <h2 class ="font-weight-light">Attending events</h2>
-          <small class="my-2 grey--text"> <v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> can add the invited events to your journey</small>
+          <h2 class ="font-weight-medium">Attending events</h2>
+          <small class="my-2 grey--text"> <v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> can add the invited events to your portfolio journey</small>
         </div>
       <v-layout wrap row justify-start v-if="firstLoad">
         <div v-for="n in this.looploader" :key ="n.index">

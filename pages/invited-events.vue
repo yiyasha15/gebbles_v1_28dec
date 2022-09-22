@@ -2,7 +2,7 @@
     <v-app>
       <v-container class="mx-auto width" >
         <div class="mb-4">
-          <h2 class ="font-weight-light">Invited events</h2>
+          <h2 class ="font-weight-medium">Invited events</h2>
           <small class="my-2 grey--text"> <v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> can add the invited events to your journey</small>
         </div>
       <v-layout wrap row justify-start v-if="firstLoad">

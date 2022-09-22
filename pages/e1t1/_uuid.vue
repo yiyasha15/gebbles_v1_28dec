@@ -180,10 +180,10 @@
                 <v-layout row wrap justify-space-between class="mt-3 mx-0">
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.teacher" class="text-decoration-none">
-                            <h4 >{{e1t1.teacher}}</h4> 
+                            <h4 class="font-weight-medium">{{e1t1.teacher}}</h4> 
                         </nuxt-link>
                         <div v-else>
-                            <h4>{{e1t1.s_teacher_name}}</h4> 
+                            <h4 class="font-weight-medium">{{e1t1.s_teacher_name}}</h4> 
                         </div>
                     </v-flex>
                     <v-flex xs2 md2>
@@ -193,7 +193,7 @@
                     </v-flex>
                     <v-flex xs10 md4 class="overflow-hidden">
                         <nuxt-link :to="'/'+ e1t1.username" class="text-decoration-none">
-                                <h4 >{{e1t1.username}}</h4> 
+                                <h4 class="font-weight-medium" >{{e1t1.username}}</h4> 
                             </nuxt-link>
                     </v-flex>
                     <v-flex xs2 md2>
@@ -241,7 +241,7 @@
                 </v-btn>
                 <!-- </v-col> -->
                 <v-col cols="12" >
-                <h5 >Learning</h5>
+                <h4 class ="font-weight-medium">Learning</h4>
                 <h5 class="font-weight-light my-2 text-pre-wrap">{{e1t1.s_learnings}}</h5>
                 </v-col>
                 </v-container>
@@ -260,7 +260,7 @@
                 <v-col cols="12" class="pa-0 pa-md-2">
                 <v-row class="mt-3 mx-0">
                     <v-col cols="12" class="justify-center ">
-                        <h4 class ="font-weight-light">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}}) </h4>
+                        <h4 class ="font-weight-medium">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}}) </h4>
                     </v-col>
                 </v-row> 
                 <v-layout class="mt-6">

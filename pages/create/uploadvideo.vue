@@ -5,8 +5,8 @@
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
         </v-container>
-        <h2 align="center" justify="center" v-if="!cook_obj">Upload your video</h2>
-        <h2 align="center" justify="center" v-else>Edit your video</h2>
+        <h2 class="font-weight-medium" align="center" justify="center" v-if="!cook_obj">Upload your video</h2>
+        <h2 class="font-weight-medium" align="center" justify="center" v-else>Edit your video</h2>
         <v-container class="mx-auto" fluid style="max-width:550px" >
             <v-card class="pa-6 pa-md-8">
             <v-form v-on:submit.prevent="submit" ref="cooking_form">

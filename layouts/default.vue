@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <the-header/>
+    <!-- <the-header/> -->
     <dashboard/>
-      <nuxt/>
+      <nuxt class="mt-16"/>
     <the-footer/>
   </v-app>
 </template>

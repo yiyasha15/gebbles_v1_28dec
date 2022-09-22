@@ -1,6 +1,6 @@
 <template>
    <!-- <v-container> -->
-    <v-toolbar flat class="mt-2" style="flex:none; position:sticky">
+    <v-toolbar flat class="mt-2" style="flex:none;">
         <nuxt-link :to="'/'" class="text-decoration-none">
         <v-layout align-center>
             <img
@@ -130,7 +130,8 @@
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
-
+            </v-list>
+            <v-list>
             <v-subheader>Explore</v-subheader>
             <v-list-item to="/artists">
                 <!-- Explore -->
@@ -166,7 +167,7 @@
                 </v-list-item-content>
             </v-list-item>
             </v-list>
-            <!-- <v-divider class="my-3"></v-divider> -->
+            
             <v-list dense>
             <v-subheader>Events</v-subheader>
             <v-list-item to="/invited-events">

@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card class="ma-1"
+    <v-card style="margin:2px;"
       data-view
       :to="'/whatiscooking/'+cook.cookingidobj.uuid" 
       :elevation="hover ? 12 : 0"
@@ -19,7 +19,7 @@
         :height="imgheight"
         :width="cardwidth" 
       />
-      <v-card-actions style="min-height:36px;" class="pa-1">
+      <v-card-actions class="pa-1">
         <div class="text-decoration-none caption width">
         <p class="event_p">{{cook.username}} </p>
         </div>

@@ -3,8 +3,8 @@
       <v-container class="pa-0 mt-4 mt-md-8" >
       <v-row class="mx-auto width">
         <v-col cols="12" md="7"  class="justify-center ">
-          <nuxt-link to="/artists" class="text-decoration-none"><h2 class ="xs12 d-inline font-weight-light">Artists</h2></nuxt-link> 
-        / <nuxt-link class="text-decoration-none" to="/artists/legacy"><h2 class ="xs12 d-inline font-weight-light">Legacy Artists</h2></nuxt-link>
+          <nuxt-link to="/artists" class="text-decoration-none"><h2 class ="xs12 d-inline font-weight-medium">Artists</h2></nuxt-link> 
+        / <nuxt-link class="text-decoration-none" to="/artists/legacy"><h2 class ="xs12 d-inline font-weight-medium">Legacy Artists</h2></nuxt-link>
           <!-- <h2 class ="xs12 d-inline font-weight-light">Artists</h2> -->
         </v-col>
         <v-col cols="12" md="5" class= "justify-end py-0 py-md-3" >

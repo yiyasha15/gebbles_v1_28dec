@@ -1,9 +1,9 @@
 
 <template>
     <v-app> 
-        <v-container class="width">
+        <v-container class="width mx-auto">
             <div class="my-6">
-                <h1 class="my-4">Contact us!</h1>
+                <h1 class="my-4 font-weight-medium">Contact us!</h1>
                 <p class="my-2 font-weight-light">
                     You can contact us using any(preferablly mail with the subject to be addressed) of the below addresses and send us your queries and we will get back to you.
                     <!-- Thankyou. -->
@@ -94,6 +94,6 @@ export default {
 </script>
 <style scoped>
 .width{
-    max-width: 1024px;
+    max-width: 670px;
 }
 </style>

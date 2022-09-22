@@ -1,10 +1,7 @@
 <template>
 <v-app>
-    <v-container class="width">
-        <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
-            <v-icon class="float-left">mdi-arrow-left</v-icon>
-        </v-btn>
-        <h3 class="font-weight-medium d-inline">
+    <v-container class="width mx-auto">
+        <h3 class="font-weight-medium">
            Updates
         </h3>
     </v-container>
@@ -13,15 +10,12 @@
 <script>
 export default {
     methods: {
-        goback(){
-            window.history.back();
-        },
     }
 }
 </script>
 <style scoped>
 .width{
-    max-width: 1024px;
+    max-width: 670px;
 }
 a:hover{
   color: black;

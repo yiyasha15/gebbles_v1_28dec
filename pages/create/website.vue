@@ -3,9 +3,8 @@
         <div>
             <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
         </div>
-        
-            <h2 align="center" justify="center" v-if="!userHasBio && !userHasPortfolio">Create your portfolio</h2>
-            <h2 align="center" justify="center" v-if="userHasBio && userHasPortfolio">Edit your portfolio</h2>
+            <h2 class="font-weight-medium" align="center" justify="center" v-if="!userHasBio && !userHasPortfolio">Create your portfolio</h2>
+            <h2 class="font-weight-medium" align="center" justify="center" v-if="userHasBio && userHasPortfolio">Edit your portfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
             <v-row  class="mt-md-8 mt-5">
                 <!-- hidden-sm-and-down -->

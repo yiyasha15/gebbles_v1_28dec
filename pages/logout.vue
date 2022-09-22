@@ -3,7 +3,7 @@
 	<v-container>
 	<v-card width="450" elevation="0" outlined class="mx-auto mt-16 ">
 		<v-card-title class="justify-center align-center">
-            <h5>Are you sure you want to sign out?</h5>
+            <h5 class="font-weight-medium">Are you sure you want to sign out?</h5>
 		</v-card-title>
 		<v-card-actions class="pb-6 justify-center">
 			<v-btn class="ml-4 px-4" small dark color="error" :loading="progressbar" @click="signout">Sign Out</v-btn>

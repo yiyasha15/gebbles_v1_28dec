@@ -1,11 +1,10 @@
 <template>
     <v-app> 
         <v-container class="width mx-auto">
-            <div class="ma-0">
-            <h2 class="my-4">Settings</h2>
+            <h2 class="font-weight-medium mb-4">Settings</h2>
             <v-card class="my-6 pa-2 width" elevation="0" outlined>
             <div class="ma-2 ma-md-6">
-                <h3 class="my-4 my-md-6">User</h3>
+                <h3 class="font-weight-medium my-4 my-md-6">User</h3>
                 <v-form>
                     <v-text-field readonly v-model="email" label="Email" prepend-icon="mdi-account-circle" />
                     <v-text-field readonly v-model="username" label="Username" prepend-icon="mdi-account-circle" />
@@ -16,7 +15,7 @@
             </v-card>
             <v-card  class="my-6 pa-2 width" elevation="0" outlined>
             <div class="ma-2 ma-md-6">
-                <h3 class="my-4 my-md-6">Account</h3>
+                <h3 class="font-weight-medium my-4 my-md-6">Account</h3>
                 <v-form ref="form">
                     <v-text-field     
 					:error-messages="errorPasswordOld"
@@ -57,13 +56,12 @@
             </v-card>
             <v-card class="my-6 pa-2 width" elevation="0" outlined>
             <div class="ma-2 ma-md-6">
-                <h3 class="my-4 my-md-6">Delete Account</h3>
+                <h3 class="font-weight-medium my-4 my-md-6">Delete Account</h3>
                 <p>Deleting your account will make you loose all your data.</p>
             <v-btn small class="text-decoration-none mt-2" outlined  color="error" dark
                 @click="delete_account">Delete Account</v-btn>
             </div>
             </v-card>
-            </div>
             <v-snackbar v-model="change_snackbar"> 
                 Password changed successfully.
             </v-snackbar>
@@ -213,7 +211,7 @@ export default {
   }
 @media only screen and (max-width: 960px) {
   .width{
-  max-width: 357px;
+  max-width: 420px;
 }
 }
 </style>

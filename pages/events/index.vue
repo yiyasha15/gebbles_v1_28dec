@@ -3,7 +3,7 @@
       <v-container class="mx-auto width" >
       <v-row>
         <v-col cols="12" md="6"  class="justify-center">
-          <h2 class ="xs12 font-weight-light">Events</h2>
+          <h2 class ="xs12 font-weight-medium">Events</h2>
           <!-- <v-spacer></v-spacer> -->
         </v-col>
         <v-col cols="12" md="6" class= "justify-end py-0 py-md-3" >

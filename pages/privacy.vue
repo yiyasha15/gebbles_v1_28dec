@@ -1,7 +1,7 @@
 <template>
     <v-app class="app">
-        <v-container class="width">
-            <h1 class="my-1">Privacy Policy </h1>
+        <v-container class="width mx-auto">
+            <h1 class="my-1 font-weight-medium">Privacy Policy </h1>
             <p class="grey--text text--darken-1">
                 Effective date: September 7, 2022<br>
             </p>
@@ -87,7 +87,7 @@
 </template>
 <style scoped>
 .width{
-    max-width: 1024px;
+    max-width: 670px;
 }
 a:hover{
   color: black;

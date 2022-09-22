@@ -1,10 +1,10 @@
 <template>
     <v-app>
-        <v-container class="width mx-auto">
-           <h3 class ="font-weight-light">Learning</h3>
+        <v-container class="width mx-auto ">
+            <h2 class="font-weight-medium mb-4">Learning</h2>
             <div v-if="!firstLoad">
                 <div v-if="teachers.length">
-                <v-layout wrap  justify-start class="my-2 ">
+                <v-layout wrap row justify-start class="my-2 ">
                     <div v-for="share in teachers" :key ="share.index">
                     <TeachersCard :e1t1="share" ></TeachersCard>
                 </div>
@@ -46,9 +46,9 @@ export default {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 105
           case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
+          case 'md': return 172
+          case 'lg': return 172
+          case 'xl': return 172
         }
       },
       cardwidth () {
