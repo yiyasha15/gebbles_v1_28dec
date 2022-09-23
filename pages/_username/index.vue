@@ -450,4 +450,7 @@ export default {
     max-height: 456px;
     overflow: auto;
 }
+.v-icon:hover{
+    color: #815A44;
+}
 </style>

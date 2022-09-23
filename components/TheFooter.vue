@@ -1,6 +1,6 @@
 <template>
   <v-footer class="ma-6 white">
-      <v-row class="my-2" :class="{'justify-center': $vuetify.breakpoint.smAndDown}">
+      <v-row  :class="{'justify-center': $vuetify.breakpoint.smAndDown}">
         <v-col cols="12" md="6" >
           <v-row :class="{'justify-center': $vuetify.breakpoint.smAndDown}">
             <h5 class="ma-2 font-weight-light">&copy; gebbles {{ new Date().getFullYear() }}</h5><br>

@@ -559,7 +559,7 @@
                     <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                 </v-stepper-content>
                 <div class="mx-sm-7 mx-6">
-                <p v-if="progressbar" class="caption"> hi, we're building the page, please wait :)</p>
+                <p v-if="progressbar" class="caption"> Hi, we're building the page. Please wait :)</p>
                 <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
                 @click="submit" :loading="progressbar" >Submit</v-btn>
                 </div>

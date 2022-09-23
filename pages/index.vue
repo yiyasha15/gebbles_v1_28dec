@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-row v-if="!isAuthenticated" class="homepage-width mx-auto">
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="5">
         <div class="mt-md-13 mt-8">
         <div align="center" justify="center" class="mt-md-10 mt-2">
           <v-img
@@ -45,7 +45,7 @@
         </center>
       </div>
       </v-col>
-      <v-col cols="12" md="6" class="mt-md-16">
+      <v-col cols="12" md="7" class="mt-md-16">
         <div class="mt-md-16 mx-md-10 my-5">
         <p class="font-weight-medium"> why gebbles?</p>
         <p>✔︎ a lifestyle canvas for the artists of the HipHop culture.</p>
@@ -253,6 +253,8 @@ a:hover{
   .width{
     max-width: 357px;
   }
-
+  .homepage-width{
+    max-width: 400px;
+  }
 }
 </style>

@@ -2,10 +2,10 @@
 <v-app>
     <v-container class="width mx-auto">
         <h2 class="font-weight-medium mb-6">
-            Help
+            💬 Help
         </h2>
         <p class="my-2">
-            <!-- <ul>
+            <!-- <ul class="mb-2">
                 <li><nuxt-link to="help/getting_started">Get started with gebbles</nuxt-link></li>
                 <li><nuxt-link to="help/thoughts">Thoughts behind the process</nuxt-link></li>
                 <li><nuxt-link to="help/updates">(Upcoming) Updates</nuxt-link></li>
@@ -73,7 +73,6 @@
                 </v-col>
                 <v-col cols="12" md="7">
                     <v-card
-                        
                         outlined
                         class="pa-6 rounded-lg"
                         to="/privacy"

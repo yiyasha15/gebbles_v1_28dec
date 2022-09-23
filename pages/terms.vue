@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container class="width mx-auto">
-            <h1 class="my-1 font-weight-medium">Terms of use</h1>
+            <h1 class="my-1 font-weight-medium">📜 Terms of use</h1>
             <p class="grey--text text--darken-1">
                 Effective date: September 7, 2022<br>
             </p>

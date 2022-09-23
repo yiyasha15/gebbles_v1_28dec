@@ -16,17 +16,17 @@
         <v-row >
         <v-col class="pa-1">
             <v-btn icon @click="react_like()">
-              <v-icon color="black" v-if="!cook_has_like">mdi-heart-outline</v-icon>
+              <v-icon v-if="!cook_has_like">mdi-heart-outline</v-icon>
               <v-icon color="red" v-else>mdi-heart</v-icon>
             </v-btn>
             <span class="caption" v-if="like">{{like}}</span>
             <v-btn icon @click="react_dope()" >
-              <v-icon color="black" v-if="!cook_has_dope">mdi-fire</v-icon>
+              <v-icon v-if="!cook_has_dope">mdi-fire</v-icon>
               <v-icon color="orange" v-else>mdi-fire</v-icon>
             </v-btn>
             <span class="caption" v-if="dope">{{dope}}</span>
             <v-btn icon @click="react_info()" >
-              <v-icon color="black" v-if="!cook_has_info">mdi-head-flash-outline</v-icon>
+              <v-icon v-if="!cook_has_info">mdi-head-flash-outline</v-icon>
               <v-icon color="green" v-else>mdi-head-flash-outline</v-icon>
             </v-btn>
             <span class="caption" v-if="info">{{info}}</span>
@@ -472,5 +472,8 @@ export default {
 <style scoped>
 .v-text-field__details {
     display: none !important;
+}
+.v-icon:hover{
+    color: #815A44;
 }
 </style>

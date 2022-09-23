@@ -320,6 +320,9 @@ export default {
   }
 </script>
 <style scoped>
+.v-icon:hover{
+    color: #815A44;
+}
 .journey_content{
   max-height: 456px;
   overflow: auto;

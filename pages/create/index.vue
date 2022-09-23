@@ -47,6 +47,7 @@
       </v-carousel>
     </v-row>
     <center>
+      <v-btn dark color="black" class="text-decoration-none text-capitalize hidden-xs-only" to="/register">Sign Up</v-btn>
       <!-- <v-menu top offset-y>
       <template v-slot:activator="{ on, attrs }">
          <v-btn outlined icon v-bind="attrs"
