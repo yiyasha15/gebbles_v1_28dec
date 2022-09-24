@@ -45,20 +45,6 @@
                     <v-list-item-title>Upload a video</v-list-item-title>
                     </v-list-item>
                     <v-list-item
-                    v-if="!userHasPortfolio"
-                    :to="'/create/website'"
-                    class="text-decoration-none pl-6 pr-12"
-                    ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                    <v-list-item-title>Create a portfolio</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    v-if="userHasPortfolio"
-                    :to="'/create/website'"
-                    class="text-decoration-none pl-6 pr-12"
-                    ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                    <v-list-item-title>Edit your portfolio</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
                     v-if="userHasPortfolio"
                     :to="'/create/journey'"
                     class="text-decoration-none pl-6 pr-12"
@@ -80,6 +66,13 @@
                     class="text-decoration-none pl-6 pr-12"
                     ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
                     <v-list-item-title>Create your event</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                    v-if="userHasPortfolio"
+                    :to="'/create/workshop'"
+                    class="text-decoration-none pl-6 pr-12"
+                    ><v-icon color="black" class="pr-2">mdi-calendar-check-outline</v-icon>
+                    <v-list-item-title>Create a workshop</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
@@ -103,12 +96,27 @@
             </v-avatar>
             </v-btn>
         </v-app-bar>
-        <v-row class="mt-16 mb-4 mx-4 hidden-sm-and-up">
+        <div class="hidden-sm-and-up">
+        <v-row class="mt-16 mb-4 mx-4 d-flex">
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium text-capitalize">About</h4></v-btn>
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium text-capitalize" >Journey</h4></v-btn> 
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium text-capitalize ">E1T1</h4></v-btn>
+            <!-- <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn to="/create/website" small outlined
+                class="ml-auto mx-1"
+                elevation="0" 
+                v-bind="attrs"
+                v-on="on"
+                v-if="isAuthenticated && artist.username == loggedInUser.username">
+            <v-icon>mdi-account-edit-outline</v-icon>
+            </v-btn>
+            </template>
+            <span>Edit portfolio</span>
+            </v-tooltip> -->
         </v-row>
-    <nuxt-child class="mt-md-16" :artist='artist' :bio='bio' />
+        </div>
+    <nuxt-child class="mt-sm-16" :artist='artist' :bio='bio' />
     </template>
     <v-dialog persistent
         v-model="loginDialog"

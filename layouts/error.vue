@@ -1,18 +1,25 @@
 <template>
   <v-app>
-  <v-container>
+  <v-container class="mx-auto width">
       <v-btn class="elevation-0 white text-decoration-none" icon @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
       <v-col align="center" justify="center">
-      <h3 v-if="error.message === 'userNotFound'" class="font-weight-light">
-        {{artistNotfound}}
-      </h3>
+      <div v-if="error.message === 'userNotFound'">
+        <img src="@/assets/vivi.png" width="90px">
+        <h3 class="font-weight-light mb-6">
+          {{artist}}
+          {{notfound}}
+        </h3>
+        <v-btn small outlined v-if="isAuthenticated && $route.params.username == loggedInUser.username">
+          <v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>Create a portfolio
+        </v-btn>
+      </div>
       <h2 v-else-if="error.statusCode === 404" class="font-weight-light">
         {{ pageNotFound }}
-        <!-- <img src="@/assets/vivi.png" width="150px"> -->
+        <img src="@/assets/vivi.png" width="90px">
       </h2>
       <h2 v-else class="font-weight-light">
         {{ otherError }}
-        <!-- <img src="@/assets/vivi.png"  width="150px"> -->
+        <img src="@/assets/vivi.png"  width="90px">
       </h2>
     </v-col>
   </v-container>
@@ -20,6 +27,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   layout: 'empty',
   props: {
@@ -28,6 +36,9 @@ export default {
       default: null
     }
   },
+  computed: {
+    ...mapGetters(['loggedInUser','isAuthenticated',])
+  },
   methods:{
     goback(){
             window.history.back();
@@ -35,14 +46,16 @@ export default {
   },
   data () {
     return {
-      artistNotfound: 'Artist Not Found.',
+      artist: 'Artist',
+      notfound: 'Not Found.',
       pageNotFound: 'Page Not Found',
       otherError: 'An Error Occurred'
     }
   },
   head () {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError
+    let title = this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
+    if(this.error.message === 'userNotFound')
+    title = 'Artist not found'
     return {
       title
     }
@@ -54,4 +67,13 @@ export default {
 h1 {
   font-size: 20px;
 }
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
 </style>
+
