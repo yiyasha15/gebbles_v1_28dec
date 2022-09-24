@@ -20,7 +20,7 @@
                     <v-card
                     
                     outlined
-                    class="pa-6 rounded-lg"
+                    class="px-6 py-3 rounded-lg"
                     to="help/getting_started"
                     :ripple="false"
                     >
@@ -31,7 +31,7 @@
                         <v-card
                         
                         outlined
-                        class="pa-6 rounded-lg"
+                        class="px-6 py-3 rounded-lg"
                         to="help/thoughts"
                         :ripple="false"
                         >
@@ -42,7 +42,7 @@
                     <v-card
                     
                         outlined
-                        class="pa-6 rounded-lg"
+                        class="px-6 py-3 rounded-lg"
                         to="help/updates"
                         :ripple="false"
                         >
@@ -53,7 +53,7 @@
                     <v-card
                         
                         outlined
-                        class="pa-6 rounded-lg"
+                        class="px-6 py-3 rounded-lg"
                         to="/contact"
                         :ripple="false"
                         >
@@ -64,7 +64,7 @@
                     <v-card
                         
                         outlined
-                        class="pa-6 rounded-lg"
+                        class="px-6 py-3 rounded-lg"
                         to="/terms"
                         :ripple="false"
                         >
@@ -74,7 +74,7 @@
                 <v-col cols="12" md="7">
                     <v-card
                         outlined
-                        class="pa-6 rounded-lg"
+                        class="px-6 py-3 rounded-lg"
                         to="/privacy"
                         :ripple="false"
                         >

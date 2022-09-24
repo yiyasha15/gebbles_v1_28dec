@@ -32,13 +32,6 @@
                 <v-list>
                     <v-list-item
                     v-if="userHasPortfolio"
-                    :to="'/create/events'"
-                    class="text-decoration-none pl-6 pr-12"
-                    ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
-                    <v-list-item-title>Create your event</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    v-if="userHasPortfolio"
                     :to="'/create/uploadvideo'"
                     class="text-decoration-none pl-6 pr-12"
                     ><v-icon color="black" class="pr-2">mdi-upload</v-icon>
@@ -74,6 +67,20 @@
                     <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
                     <v-list-item-title>Give a shoutout </v-list-item-title>
                     </v-list-item>
+                    <v-list-item
+                    v-if="userHasPortfolio"
+                    :to="'/create/events'"
+                    class="text-decoration-none pl-6 pr-12"
+                    ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
+                    <v-list-item-title>Create your event</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                    v-if="userHasPortfolio"
+                    :to="'/create/workshop'"
+                    class="text-decoration-none pl-6 pr-12"
+                    ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
+                    <v-list-item-title>Create a workshop</v-list-item-title>
+                    </v-list-item>
                 </v-list>
             </v-menu>
             <!-- {{notifications_notseen}} -->
@@ -85,23 +92,16 @@
             <v-btn small v-if="userHasPortfolio && notifications_notseen==0" icon dark color="black" class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
             <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
             </v-btn>
-            <right-navigation></right-navigation>
             </template>
             <register-login v-else></register-login>
-            <v-btn icon small @click="drawer_right=!drawer_right" v-if="!isAuthenticated" class="mr-sm-2 mr-md-3 mx-1">
-            <v-avatar size="26" >
-                <v-icon dark  color="black">
-                    mdi-account-circle
-                </v-icon>
-            </v-avatar>
-            </v-btn>
+            <right-navigation></right-navigation>
         </v-app-bar>
-        <v-navigation-drawer height="905px"
+        <v-navigation-drawer height="90.2vh"
             color="transparent"
             mobile-breakpoint="1190"
             floating
             clipped
-            class="ml-md-4 mt-16 pb-16"
+            class="ml-md-4 mt-16"
             app
             left 
             hide-overlay

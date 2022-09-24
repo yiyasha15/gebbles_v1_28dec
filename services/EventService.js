@@ -18,33 +18,17 @@ const apiClient1 = axios.create({
 })
 
 export default {
+    //user api
     getUser(){
         return apiClient1.get('/auth/user/')
     },
-    getWhatsCooking() {
-        return apiClient1.get('/whatiscooking/list/')
+    //notifications api
+    getNotificationsSharing(username,config){
+        return apiClient1.get('/notifications/e1t1/?receiver=' + username, config)
     },
-    getWhatsCookingId(uuid) {
-        return apiClient1.get('/whatiscooking/list/'+ uuid)
-    },
-    getWhatsCookingUsername(username) {
-        return apiClient1.get('/whatiscooking/mycookings/?username='+ username)
-    },
-    getStudentsCooking(username)
-    {
-        return apiClient1.get('/whatiscooking/my-students-videos/?teacher='+ username)
-    },
-    // getSearchedCooking() {
-    //     return apiClient1.get('/whatiscooking/search/?query='+ query)
-    // },
+    //artists portfolio/journey related api
     getArtists() {
         return apiClient1.get('/artist/portfolios/list/')
-    },
-    getEvents() {
-        return apiClient1.get('/events/list')
-    },
-    getEvent(uuid) {
-        return apiClient1.get('/events/list/'+uuid)
     },
     getLegacyArtists(){
         return apiClient1.get('/artist/portfolios/legacy/list/')
@@ -52,27 +36,7 @@ export default {
     getSearchedArtist(query) {
         return apiClient1.get('/artist/search/?query='+ query)
     },
-    //search by country
-    getSearchedEventCountry(query) {
-        return apiClient1.get('/events/search/?query='+ query)
-    },
-    getSearchedEventName(query) {
-        return apiClient1.get('/events/search/?event_name='+ query)
-    },
-    getSearchedEventsThisMonth() {
-        return apiClient1.get('/events/search/?this_month='+ 'yes')
-    },
-    getMyOrganizedEvents(username) {
-        return apiClient1.get('/events/my-organized-events/?username='+ username)
-    },
-    getMyInvitedEvents(username) {
-        return apiClient1.get('/events/my-tagged-events/?guest='+ username)
-    },
-    getMyGoingEvents(username) {
-        return apiClient1.get('/events/iamgoing-events/?username='+ username)
-    },
     getArtist(username) {
-        // return apiClient1.get('/artist/portfolios/' + username)
         return apiClient1.get('/artist/portfolios/' + username)
     },
     getBio(username){
@@ -93,6 +57,36 @@ export default {
     getHighlights(username,config) {
         return apiClient1.get('/artist/journey/highlights/?username=' + username, config)
     },
+    //events api
+    getEvents() {
+        return apiClient1.get('/events/list')
+    },
+    getEvent(uuid) {
+        return apiClient1.get('/events/list/'+uuid)
+    },
+    getIamGoingList(uuid){
+        return apiClient1.get('/events/iamgoing/list/?event='+uuid)
+    },
+    //search by country
+    getSearchedEventCountry(query) {
+        return apiClient1.get('/events/search/?query='+ query)
+    },
+    getSearchedEventName(query) {
+        return apiClient1.get('/events/search/?event_name='+ query)
+    },
+    getSearchedEventsThisMonth() {
+        return apiClient1.get('/events/search/?this_month='+ 'yes')
+    },
+    getMyOrganizedEvents(username) {
+        return apiClient1.get('/events/my-organized-events/?username='+ username)
+    },
+    getMyInvitedEvents(username) {
+        return apiClient1.get('/events/my-tagged-events/?guest='+ username)
+    },
+    getMyGoingEvents(username) {
+        return apiClient1.get('/events/iamgoing-events/?username='+ username)
+    },
+    //each 1 teach 1 api
     getEach1Teach1(id) {
         return apiClient1.get('/e1t1/sharing/' + id)
     },
@@ -114,22 +108,54 @@ export default {
     getShareComments(id){
         return apiClient1.get('/e1t1/sharing/comments/?shareidobj=' + id)
     },
+
+
+    //cooking api
+    getWhatsCooking() {
+        return apiClient1.get('/whatiscooking/list/')
+    },
+    getWhatsCookingId(uuid) {
+        return apiClient1.get('/whatiscooking/list/'+ uuid)
+    },
+    getWhatsCookingUsername(username) {
+        return apiClient1.get('/whatiscooking/mycookings/?username='+ username)
+    },
+    getStudentsCooking(username)
+    {
+        return apiClient1.get('/whatiscooking/my-students-videos/?teacher='+ username)
+    },
+    // getSearchedCooking() {
+    //     return apiClient1.get('/whatiscooking/search/?query='+ query)
+    // },
     getCookReaction(id){
         return apiClient1.get('/whatiscooking/cooking/likes/?cookingidobj=' + id)
     },
     getCookComments(id){
         return apiClient1.get('/whatiscooking/cooking/comments/?cookingidobj=' + id)
     },
-    getNotificationsSharing(username,config){
-        return apiClient1.get('/notifications/e1t1/?receiver=' + username, config)
-    },
+
+    //learning api
     getLearnings(id){
         return apiClient1.get('/e1t1/learnings/list/?shareidobj=' + id)
     },
     getLearning(id){
         return apiClient1.get('/e1t1/learnings/' + id)
     },
-    getIamGoingList(uuid){
-        return apiClient1.get('/events/iamgoing/list/?event='+uuid)
-    }
+
+    //workshops api
+    getAllWorkshops(){
+        return apiClient1.get('/workshops/list')
+    },
+    getWorkshop(uuid){
+        return apiClient1.get('/workshops/'+uuid)
+    },
+    getSearchedWorkshopCountry(query) {
+        return apiClient1.get('/workshops/search/?query='+ query)
+    },
+    getSearchedWorkshopName(query) {
+        return apiClient1.get('/workshops/search/?workshop_name='+ query)
+    },
+    getSearchedWorkshopThisMonth() {
+        return apiClient1.get('/workshops/search/?this_month='+ 'yes')
+    },
 }

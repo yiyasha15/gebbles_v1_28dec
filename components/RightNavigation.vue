@@ -23,9 +23,9 @@
             </v-icon>
         </v-avatar>
     </v-btn>
-    <v-navigation-drawer height="800"
+    <v-navigation-drawer height="90.2vh"
         clipped-right temporary
-        class="ml-md-4 mt-16"
+        class="ml-md-4 mt-16" 
         app
         right 
         hide-overlay

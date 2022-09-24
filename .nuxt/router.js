@@ -40,6 +40,7 @@ const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* w
 const _6414fd7c = () => interopDefault(import('../pages/create/legacy-porfolio.vue' /* webpackChunkName: "pages/create/legacy-porfolio" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
+const _3f1b3c35 = () => interopDefault(import('../pages/create/workshop.vue' /* webpackChunkName: "pages/create/workshop" */))
 const _4b7b26cd = () => interopDefault(import('../pages/help/getting_started.vue' /* webpackChunkName: "pages/help/getting_started" */))
 const _6a11eac3 = () => interopDefault(import('../pages/help/issues.vue' /* webpackChunkName: "pages/help/issues" */))
 const _4bf1b943 = () => interopDefault(import('../pages/help/thoughts.vue' /* webpackChunkName: "pages/help/thoughts" */))
@@ -217,6 +218,10 @@ export const routerOptions = {
     path: "/create/website",
     component: _2f47e146,
     name: "create-website"
+  }, {
+    path: "/create/workshop",
+    component: _3f1b3c35,
+    name: "create-workshop"
   }, {
     path: "/help/getting_started",
     component: _4b7b26cd,

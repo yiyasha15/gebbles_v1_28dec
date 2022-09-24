@@ -10,6 +10,7 @@ export const state = () => ({
   cook_obj:null,
   editing_obj: null, //object to edit data
   editing_event_obj: null,
+  editing_workshop_obj: null,
   store_battle_categories:[],
   store_categories:[],
   store_guests:[],
@@ -114,6 +115,9 @@ export const getters = {
   },
   editing_event_obj(state){
     return state.editing_event_obj
+  },
+  editing_workshop_obj(state){
+    return state.editing_workshop_obj
   },
   usersTeachers(state) {
     return state.teachers
@@ -270,6 +274,11 @@ export const actions = {
   check_editing_event_obj({commit, state}, editing_event_obj){
     if(state.auth.loggedIn) {
     commit('check_editing_event_obj', editing_event_obj)
+    }
+  },
+  check_editing_workshop_obj({commit, state}, editing_workshop_obj){
+    if(state.auth.loggedIn) {
+    commit('check_editing_workshop_obj', editing_workshop_obj)
     }
   },
   // check_learn_obj({commit},id){
@@ -523,6 +532,12 @@ export const actions = {
   {
     if(state.auth.loggedIn && state.editing_event_obj){
       commit('clear_editing_event_obj',state.editing_event_obj)
+    }
+  },
+  remove_editing_worskhop_obj({commit, state})
+  {
+    if(state.auth.loggedIn && state.editing_workshop_obj){
+      commit('clear_editing_workshop_obj',state.editing_workshop_obj)
     }
   },
   remove_cook_reactions({commit, state})
@@ -792,6 +807,16 @@ export const mutations = {
   clear_editing_event_obj(state, editing_event_obj){
     if(editing_event_obj){
       state.editing_event_obj = null}
+  },
+  check_editing_workshop_obj(state, editing_workshop_obj){
+    if(editing_workshop_obj){
+      state.editing_workshop_obj = null
+      state.editing_workshop_obj = editing_workshop_obj
+    }
+  },
+  clear_editing_workshop_obj(state, editing_workshop_obj){
+    if(editing_workshop_obj){
+      state.editing_workshop_obj = null}
   },
   clear_comments(state) //if user has portfolio change state to true
   {

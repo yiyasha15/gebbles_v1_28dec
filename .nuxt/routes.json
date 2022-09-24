@@ -252,6 +252,13 @@
     "_name": "_2f47e146"
   },
   {
+    "name": "create-workshop",
+    "path": "/create/workshop",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/workshop.vue",
+    "chunkName": "pages/create/workshop",
+    "_name": "_3f1b3c35"
+  },
+  {
     "name": "help-getting_started",
     "path": "/help/getting_started",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/help/getting_started.vue",

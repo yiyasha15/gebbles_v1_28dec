@@ -524,7 +524,7 @@ export default {
 					}
 				}).then(res => {
                 this.$auth.setUser(res.data.user)
-                console.log(res.data.user);
+                // console.log(res.data.user);
                 // this.$auth.$storage.setUniversal('user', res.data.user, true)
                 this.$auth.setUserToken(res.data.access_token)
                 this.$auth.strategy.token.set(res.data.access_token)
@@ -546,12 +546,12 @@ export default {
 			}catch(error){
                 this.progressbar1 = false;
                 console.log(error);
-				// if(error.response.data.non_field_errors){
-				// 	this.errorEmail = `${error.response.data.non_field_errors}`
-				// }
-				// if(error.response.data.email){
-				// 	this.errorEmail = `${error.response.data.email}`
-				// }
+				if(error.response.data.non_field_errors){
+					this.errorEmail = `${error.response.data.non_field_errors}`
+				}
+				if(error.response.data.email){
+					this.errorEmail = `${error.response.data.email}`
+				}
             }
             }
             else{

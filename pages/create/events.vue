@@ -165,7 +165,6 @@
                     </v-img>
                     </div>
                     <v-text-field
-                        
                         v-model= "guest.name"
                         label= "Name"
                         :maxlength="255"
@@ -1711,9 +1710,10 @@ import GuestCardCreate from '~/components/GuestCardCreate.vue';
 Vue.use(Croppa);
 export default {
     middleware : 'check_auth',
+    layout:'simple',
     head() {  //head function (a property of vue-meta), returns an object
     return {
-        title: 'gebbles - event',
+        title: 'gebbles - create event',
         }
     },
     components: {
@@ -3410,36 +3410,36 @@ export default {
         },
         async postCategoryApi(){
             this.program_progressbar =true
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": this.$auth.strategy.token.get()
-                        }
-                    }
-                    this.category.event = this.editing_event_obj.uuid;
-                    if(this.category.poster)
-                    {this.category.poster = await this.putImage(this.category.poster)}
-                    if(this.category.guest1 && typeof this.category.guest1=='object')
-                    {
-                        this.category.guest1 = this.category.guest1.username
-                    }
-                    let formCategoryData = new FormData();
-                    for (let data in this.category) {
-                        formCategoryData.append(data, this.category[data]);
-                    }
-                    try {
-                        let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formCategoryData, config)
-                        // console.log("category posted",postCategory);
-                        this.category = {...postCategory}
-                        // console.log(this.category);
-                        this.category_added_snackbar=true
-                        this.program_progressbar =false
-                        this.addCategoryToArray();
-                    } catch (error) {
-                        this.error_text = error.response.data;
-                        console.log(error,error.response);
-                        // this.error_snackbar = true;
-                        this.program_progressbar =false
-                    }
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            }
+            this.category.event = this.editing_event_obj.uuid;
+            if(this.category.poster)
+            {this.category.poster = await this.putImage(this.category.poster)}
+            if(this.category.guest1 && typeof this.category.guest1=='object')
+            {
+                this.category.guest1 = this.category.guest1.username
+            }
+            let formCategoryData = new FormData();
+            for (let data in this.category) {
+                formCategoryData.append(data, this.category[data]);
+            }
+            try {
+                let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formCategoryData, config)
+                // console.log("category posted",postCategory);
+                this.category = {...postCategory}
+                // console.log(this.category);
+                this.category_added_snackbar=true
+                this.program_progressbar =false
+                this.addCategoryToArray();
+            } catch (error) {
+                this.error_text = error.response.data;
+                console.log(error,error.response);
+                // this.error_snackbar = true;
+                this.program_progressbar =false
+            }
         },
         addCategoryToArray(){
             let clone = {...this.category}
@@ -4257,9 +4257,7 @@ export default {
         //     }
         // },
         
-    },
-    middleware : 'check_auth',
-    layout:'simple',
+    }
     }
 </script>
 <style scoped>
