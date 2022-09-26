@@ -57,35 +57,6 @@ export default {
     getHighlights(username,config) {
         return apiClient1.get('/artist/journey/highlights/?username=' + username, config)
     },
-    //events api
-    getEvents() {
-        return apiClient1.get('/events/list')
-    },
-    getEvent(uuid) {
-        return apiClient1.get('/events/list/'+uuid)
-    },
-    getIamGoingList(uuid){
-        return apiClient1.get('/events/iamgoing/list/?event='+uuid)
-    },
-    //search by country
-    getSearchedEventCountry(query) {
-        return apiClient1.get('/events/search/?query='+ query)
-    },
-    getSearchedEventName(query) {
-        return apiClient1.get('/events/search/?event_name='+ query)
-    },
-    getSearchedEventsThisMonth() {
-        return apiClient1.get('/events/search/?this_month='+ 'yes')
-    },
-    getMyOrganizedEvents(username) {
-        return apiClient1.get('/events/my-organized-events/?username='+ username)
-    },
-    getMyInvitedEvents(username) {
-        return apiClient1.get('/events/my-tagged-events/?guest='+ username)
-    },
-    getMyGoingEvents(username) {
-        return apiClient1.get('/events/iamgoing-events/?username='+ username)
-    },
     //each 1 teach 1 api
     getEach1Teach1(id) {
         return apiClient1.get('/e1t1/sharing/' + id)
@@ -142,6 +113,35 @@ export default {
         return apiClient1.get('/e1t1/learnings/' + id)
     },
 
+     //events api
+    getAllEvents() {
+        return apiClient1.get('/events/list')
+    },
+    getEvent(uuid) {
+        return apiClient1.get('/events/list/'+uuid)
+    },
+    getIamGoingEventList(uuid){
+        return apiClient1.get('/events/iamgoing/list/?event='+uuid)
+    },
+    //search by country
+    getSearchedEventCountry(query) {
+        return apiClient1.get('/events/search/?query='+ query)
+    },
+    getSearchedEventName(query) {
+        return apiClient1.get('/events/search/?event_name='+ query)
+    },
+    getSearchedEventsThisMonth() {
+        return apiClient1.get('/events/search/?this_month='+ 'yes')
+    },
+    getMyOrganizedEvents(username) {
+        return apiClient1.get('/events/my-organized-events/?username='+ username)
+    },
+    getMyInvitedEvents(username) {
+        return apiClient1.get('/events/my-tagged-events/?guest='+ username)
+    },
+    getMyGoingEvents(username) {
+        return apiClient1.get('/events/iamgoing-events/?username='+ username)
+    },
     //workshops api
     getAllWorkshops(){
         return apiClient1.get('/workshops/list')
@@ -157,5 +157,8 @@ export default {
     },
     getSearchedWorkshopThisMonth() {
         return apiClient1.get('/workshops/search/?this_month='+ 'yes')
+    },
+    getIamGoingWorkshopList(uuid){
+        return apiClient1.get('/workshops/iamgoing/list/?workshop='+uuid)
     },
 }

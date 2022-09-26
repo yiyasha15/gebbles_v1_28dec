@@ -435,7 +435,6 @@ export default {
             isShowing:false,
             isYourRoom: false,
             items: [],
-            dynamic_height: 50,
             }
     },
 	computed: {

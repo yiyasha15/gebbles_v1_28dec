@@ -49,11 +49,11 @@ export default {
     },
     created(){
         if(this.isAuthenticated){
-        this.getEvents();
+        this.getMyInvitedEvents();
         }
     },
     methods:{
-        async getEvents(){
+        async getMyInvitedEvents(){
         try {
         const response = await EventService.getMyInvitedEvents(this.loggedInUser.username)
         // console.log(response);

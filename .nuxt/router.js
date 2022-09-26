@@ -31,11 +31,12 @@ const _3f86d1d7 = () => interopDefault(import('../pages/sharing.vue' /* webpackC
 const _0cc37eb2 = () => interopDefault(import('../pages/subscription.vue' /* webpackChunkName: "pages/subscription" */))
 const _6aef99c2 = () => interopDefault(import('../pages/terms.vue' /* webpackChunkName: "pages/terms" */))
 const _d9ad562c = () => interopDefault(import('../pages/whatiscooking/index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
+const _1c41fd6c = () => interopDefault(import('../pages/workshops/index.vue' /* webpackChunkName: "pages/workshops/index" */))
 const _246f0a57 = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
 const _73e6faa6 = () => interopDefault(import('../pages/your-videos.vue' /* webpackChunkName: "pages/your-videos" */))
 const _7173c001 = () => interopDefault(import('../pages/artists/legacy.vue' /* webpackChunkName: "pages/artists/legacy" */))
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
-const _bbe17f72 = () => interopDefault(import('../pages/create/events.vue' /* webpackChunkName: "pages/create/events" */))
+const _064c2748 = () => interopDefault(import('../pages/create/event.vue' /* webpackChunkName: "pages/create/event" */))
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
 const _6414fd7c = () => interopDefault(import('../pages/create/legacy-porfolio.vue' /* webpackChunkName: "pages/create/legacy-porfolio" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
@@ -49,6 +50,7 @@ const _3e15aee2 = () => interopDefault(import('../pages/blogs.vue/_id.vue' /* we
 const _1042bc09 = () => interopDefault(import('../pages/e1t1/_uuid.vue' /* webpackChunkName: "pages/e1t1/_uuid" */))
 const _67dab38e = () => interopDefault(import('../pages/events/_uuid.vue' /* webpackChunkName: "pages/events/_uuid" */))
 const _28a8b4b2 = () => interopDefault(import('../pages/whatiscooking/_uuid.vue' /* webpackChunkName: "pages/whatiscooking/_uuid" */))
+const _f1433ddc = () => interopDefault(import('../pages/workshops/_uuid.vue' /* webpackChunkName: "pages/workshops/_uuid" */))
 const _7e1c48e6 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 const _a29e8c20 = () => interopDefault(import('../pages/_username.vue' /* webpackChunkName: "pages/_username" */))
 const _11b3e71a = () => interopDefault(import('../pages/_username/index.vue' /* webpackChunkName: "pages/_username/index" */))
@@ -183,6 +185,10 @@ export const routerOptions = {
     component: _d9ad562c,
     name: "whatiscooking"
   }, {
+    path: "/workshops",
+    component: _1c41fd6c,
+    name: "workshops"
+  }, {
     path: "/write_blog",
     component: _246f0a57,
     name: "write_blog"
@@ -199,9 +205,9 @@ export const routerOptions = {
     component: _0da0c1ee,
     name: "create-each1teach1"
   }, {
-    path: "/create/events",
-    component: _bbe17f72,
-    name: "create-events"
+    path: "/create/event",
+    component: _064c2748,
+    name: "create-event"
   }, {
     path: "/create/journey",
     component: _6cd0c402,
@@ -254,6 +260,10 @@ export const routerOptions = {
     path: "/whatiscooking/:uuid",
     component: _28a8b4b2,
     name: "whatiscooking-uuid"
+  }, {
+    path: "/workshops/:uuid",
+    component: _f1433ddc,
+    name: "workshops-uuid"
   }, {
     path: "/",
     component: _7e1c48e6,

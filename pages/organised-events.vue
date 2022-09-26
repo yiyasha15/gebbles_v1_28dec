@@ -46,11 +46,11 @@ export default {
   },
   created(){
     if(this.isAuthenticated){
-      this.getEvents();
+      this.getMyOrganizedEvents();
     }
   },
   methods:{
-    async getEvents(){
+    async getMyOrganizedEvents(){
       try {
       const response = await EventService.getMyOrganizedEvents(this.loggedInUser.username)
       // console.log(response);

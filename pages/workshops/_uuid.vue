@@ -5,13 +5,13 @@
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
         <!-- <v-spacer></v-spacer> -->
-        <div v-if="isAuthenticated && loggedInUser.username == event.username" class="float-right">
+        <div v-if="isAuthenticated && loggedInUser.username == workshop.username" class="float-right">
         <v-col class="pa-1" >
         <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
             <v-btn small icon v-bind="attrs"
             v-on="on">
-            <v-icon small color="black" @click="editEvent(event)">mdi-circle-edit-outline</v-icon>
+            <v-icon small color="black" @click="editWorkshop(workshop)">mdi-circle-edit-outline</v-icon>
         </v-btn>
         </template>
         <span>Edit</span>
@@ -28,11 +28,11 @@
             </v-tooltip>
         </template>
         <v-card class="pa-4">
-            <p>Are you sure you want to delete this event?</p>
+            <p>Are you sure you want to delete this workshop?</p>
             <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
-                @click="deleteEvent">Delete</v-btn>
+                @click="deleteWorkshop">Delete</v-btn>
             <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="deletedialog = false">
                 Cancel
             </v-btn>
@@ -45,16 +45,19 @@
         <v-container class="mx-auto" fluid style="max-width:950px" >
         <v-row>
             <v-col cols="12" sm="6" align="center" justify="center">
-                <v-img :src = "event.poster" class="black" maxHeight="540px" contain ></v-img>
+                <v-img :src = "workshop.poster" class="black" maxHeight="540px" contain ></v-img>
             </v-col>
             <v-col cols="12" sm="6" justify="center" > 
-            <h5 class="caption font-weight-light">{{moment(event.created)}} </h5>
-            <h1 class="font-weight-medium display-1">{{event.name}}</h1>
-            <h3 v-if="event.start_date" class="red--text mt-2 font-weight-medium " > 
-                <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(event.start_date)}}
+            <h5 class="caption font-weight-light">{{moment(workshop.created)}} </h5>
+            <h1 class="font-weight-medium display-1">{{workshop.title}}</h1>
+            <h3 v-if="workshop.start_date" class="red--text mt-2 font-weight-medium " > 
+                <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(workshop.start_date)}}
             </h3>
-            <h3 v-if="event.date_time" class="red--text font-weight-medium "> {{event.date_time}}</h3>
-            <h4 v-if="event.city || event.venue || event.country" class="mr-2 mt-2 font-weight-medium " ><v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>{{event.venue}}<span v-if="event.venue && event.country">, </span> {{countryIs(event.country)}}</h4>
+            <h3 v-if="workshop.datetime" class="red--text font-weight-medium "> {{workshop.datetime}}</h3>
+            <h4 v-if=" workshop.venue || workshop.country" class="mr-2 mt-2 font-weight-medium " >
+                <v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>
+                {{workshop.venue}}<span v-if="workshop.venue && workshop.country">, 
+                    </span> {{countryIs(workshop.country)}}</h4>
             <div class="py-4 py-md-6">
             <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none " color="#815A44" outlined @click="imgoingApi">
                 <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-hand-back-left-outline</v-icon>Going</h4>
@@ -62,12 +65,8 @@
             <v-btn v-else small class="elevation-0 text-decoration-none" color="#815A44" dark @click="imgoingApi">
                 <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-hand-back-left-outline</v-icon>Going</h4>
             </v-btn>
-            <v-btn small class="elevation-0 text-decoration-none ml-2" @click="openLink" v-if="event.link">
-                <h4 class="font-weight-medium" style="text-transform: capitalize;"><v-icon small class="pr-2">mdi-link</v-icon>More Info</h4>
-            </v-btn>
             <p v-if="goingList && goingList.length>0" class="hover font-weight-medium mt-4 mb-0" @click="showGoingList =true">{{goingList.length}}<span v-if="goingList.length==1"> person</span> <span v-else> people</span> joining</p>
 
-            <p v-if="event.photo1|| event.photo2 || event.photo3" class="hover font-weight-medium mt-2 mb-0" @click="glance_dialog =true">A quick glance</p>
             </div>
             <v-dialog
                 :retain-focus="false"
@@ -93,7 +92,11 @@
                 </div>
                 </v-container>
             </v-dialog> 
-            <p v-if="event.about" class="font-weight-light text-pre-wrap about_content ">{{event.about}}</p>
+            <nuxt-link :to="'/' + workshop.teacher1" v-if=" workshop.teacher1" class="text-decoration-none">
+                <h3 v-if="workshop.name1" class="font-weight-light ">{{workshop.name1}}</h3>
+            </nuxt-link>
+            <h3 v-else class="font-weight-light ">{{workshop.name1}}</h3>
+                <p v-if="workshop.content" class="font-weight-light text-pre-wrap about_content ">{{workshop.content}}</p>
             </v-col>
         </v-row>
         <div v-if="videoId" class="mt-md-10 mt-4">
@@ -104,91 +107,16 @@
                 <youtube width="100%" height="220" :video-id= 'videoId'></youtube>
             </center>
         </div>
-        <h2 v-if="event.event_guests.length>0" class="my-6 font-weight-medium" > Guests</h2>
-        <v-row class="ma-0" >
-            <v-col cols="6" sm="4" v-for="guest in event.event_guests" :key ="guest.index" class="pa-1">
-            <guest-card :guest="guest" :poster="event.poster" ></guest-card>
-            </v-col>
-        </v-row>
-        <h2 v-if="event.event_battles.length>0 || event.event_subevents.length>0" class="my-6 font-weight-medium" > Programs</h2>
-        <v-row class="ma-0" >
-            <v-col cols="6" sm="6" v-for="category in event.event_battles" :key ="category.index" class="pa-1">
-            <category-card :category="category" :poster="event.poster"></category-card>
-            </v-col>
-            <v-col cols="6" sm="6" v-for="category in event.event_subevents" :key ="category.index" class="pa-1">
-            <category-card :category="category" :poster="event.poster"></category-card>
-            </v-col>
-        </v-row>
-        <h2 v-if="event.iglink ||event.contact_email" class="my-6">Social handles</h2>
+        <h2 v-if="workshop.iglink || workshop.contact_email" class="my-6">Social handles</h2>
         <v-row class="mb-md-12 mb-6" >
-            <v-btn v-if="event.iglink"  class="text-decoration-none mx-2" color="black" icon @click="openig" >
-                <v-icon >mdi-instagram</v-icon>
+            <v-btn v-if="workshop.iglink"  class="text-decoration-none mx-2" color="black" icon @click="openig" >
+                <v-icon class="mr-1">mdi-instagram</v-icon>
             </v-btn>
-            <v-btn v-if="event.contact_email" class="text-decoration-none mx-2" color="black" icon @click="openemail" >
-                <v-icon >mdi-email</v-icon>
+            <v-btn v-if="workshop.contact_email" class="text-decoration-none mx-2" color="black" icon @click="openemail" >
+                <v-icon class="mr-1">mdi-email</v-icon>
             </v-btn>
-        </v-row>
-        <h2 v-if="event_guests_team.length>0" class="my-6">Team</h2>
-        <v-row class="ma-0" >
-            <v-col cols="6" sm="4" v-for="guest in event_guests_team" :key ="guest.index" class="pa-1">
-            <guest-card :guest="guest" :poster="event.poster"></guest-card>
-            </v-col>
         </v-row>
         </v-container>
-        <v-dialog
-            max-width="800"
-            v-model="glance_dialog"
-            persistent
-            class="ma-12 ma-md-24 overflow-hidden">
-            <div class="rounded-lg white" max-width="800"> 
-            <v-row align="end" justify="end" class="pt-3 px-2 ma-0 " >
-            <v-btn icon color="error" @click="glance_dialog = false"  align="end" justify="end" >
-                <v-icon >mdi-close</v-icon>
-            </v-btn>
-            </v-row>
-            <v-row align="center" justify="center" class="ma-0 pa-4">
-                <client-only>
-                <Slider 
-                    :autoplay = false
-                    width="768px" :height="sliderheight"
-                    >
-                    <div v-if="event.photo1 !=null">
-                    <SliderItem>
-                    <v-img
-                    :src="event.photo1"
-                    contain
-                    :max-height="sliderheight"
-                    max-width="768px" >
-                    </v-img>
-                    </SliderItem>
-                    </div>
-                    <div v-if="event.photo2!=null">
-                    <SliderItem>
-                    <v-img
-                            :src="event.photo2"
-                            contain
-                            :max-height="sliderheight"
-                            width="768px"
-                        >
-                        </v-img>
-                    </SliderItem>
-                    </div>
-                    <div v-if="event.photo3!=null">
-                    <SliderItem>
-                    <v-img
-                            :src="event.photo3"
-                            contain
-                            :max-height="sliderheight"
-                            width="768px"
-                        >
-                        </v-img>
-                    </SliderItem>
-                    </div>
-                </Slider>
-                </client-only>
-            </v-row>
-            </div>
-        </v-dialog>
         <v-snackbar v-model="going_snackbar">
             Great, see you there.
         </v-snackbar>
@@ -205,38 +133,32 @@
 </template>
 
 <script>
-import { Slider, SliderItem } from "vue-easy-slider";
-import CategoryCard from '@/components/CategoryCard.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters } from 'vuex'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 import GuestCard from '~/components/GuestCard.vue'
 import moment from 'moment'
-// import CookingCard from '~/components/CookingCard.vue'
 export default {
     head() {
         return {
-            title: 'gebbles - events',     //do not miss "this"
+            title: 'gebbles - workshops',     //do not miss "this"
             meta: [
                 {
                     hid: 'description',
                     name: 'description',
-                    content: 'What you need to know about this event #'
+                    content: 'What you need to know about this workshop #'
                 }
             ]
         }
     },
     layout:'simple',
     created(){
-        // if(this.event.event_guests.length>0)
-        // {this.event_guests_team = this.event.event_guests.filter(item => item.category.includes('5'))
-        // this.event.event_guests = this.event.event_guests.filter(item => !item.category.includes('5'))}
-        this.checkGoing();
+        // this.checkGoing();
     },
     mounted(){
-        if(this.event.videolink )
-        this.videoId = getIdFromURL(this.event.videolink )//getting id from video url
+        if(this.workshop.videolink )
+        this.videoId = getIdFromURL(this.workshop.videolink )//getting id from video url
         // this.imgoingId = await EventService.getEvent(params.uuid)
         //call api to see if user exists in imgoing data base
         // this.imgoing = true
@@ -244,14 +166,10 @@ export default {
     },
     components:{
         Youtube,
-        CategoryCard,
-        GuestCard,
-        Slider,
-        SliderItem,
+        GuestCard
     },
     data(){
           return {
-                event_guests_team:[],
                 search:'',
                 deletedialog:false,
                 deleteLoading:false,
@@ -264,14 +182,13 @@ export default {
                 error_snackbar:false,
                 goingForm:{
                     username: "",
-                    event:""
+                    workshop:""
                 },
-                event:{},
+                workshop:{},
                 goingList:[],
                 showGoingList:false,
                 imgoing:false,
                 imgoingId:'',
-                glance_dialog:false,
                 countries: [
                 {"name": "Afghanistan", "code": "AF"},
                 {"name": "Åland Islands", "code": "AX"},
@@ -542,9 +459,9 @@ export default {
     },
     async asyncData({error, params}) {
       try {
-         let event = await EventService.getEvent(params.uuid)
+         let workshop = await EventService.getWorkshop(params.uuid)
          return {
-             event : event.data
+             workshop : workshop.data
              }
         } catch (err) {
             console.log(err.response);
@@ -556,7 +473,7 @@ export default {
            return moment(date).format("ll")
         },
         checkGoing(){
-            EventService.getIamGoingEventList(this.event.uuid).then(res=>{
+            EventService.getIamGoingWorkshopList(this.workshop.uuid).then(res=>{
             this.goingList = res.data.results;
             
             if(this.isAuthenticated){
@@ -573,39 +490,22 @@ export default {
         goback(){
             window.history.back();
         },
-        openLink(){
-            var url = this.event.link;
-            var win = window.open(url, '_blank');
-            win.focus();
-        },
         openig(){
-            var url = this.event.iglink;
+            var url = this.workshop.iglink;
             var win = window.open(url, '_blank');
             win.focus();
         },
         openemail(){
-            var url = "mailto:"+this.event.contact_email;;
+            var url = "mailto:"+this.workshop.contact_email;;
             var win = window.open(url, '_blank');
             win.focus();
         },
-        // getTime(timestamp){
-        //     const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        //     let date = timestamp;
-        //     let datetype= date.slice(8, 10);
-        //     let month = date.slice(5, 7);
-        //     let yeartype = date.slice(0, 4)
-        //     const regex = new RegExp("^0+(?!$)",'g');
-        //     month = month.replaceAll(regex, "");
-        //     let monthtype = months[month-1]
-        //     date = datetype+" "+monthtype +" "+yeartype;
-        //     return{ date}
-        // },
         countryIs(code){
             let country = this.countries[this.countries.findIndex(country => country.code == code)].name
             return country;
         },
         //check country name based on code
-        deleteEvent(){
+        deleteWorkshop(){
             this.deleteLoading = true;
             const config = {
                 headers: {"content-type": "multipart/form-data",
@@ -613,27 +513,26 @@ export default {
                 }
             };
             try {
-                this.$axios.$delete("/v1/events/"+this.event.uuid, config).then(res=>{
-                console.log("event deleted",res);
+                this.$axios.$delete("/v1/workshops/"+this.workshop.uuid, config).then(res=>{
+                console.log("workshop deleted",res);
                 this.deleteLoading = false;
-                this.$router.push("/events");
+                this.$router.push("/workshops");
                 })
             } catch (e) {
                 console.log(e.response);
                 this.deleteLoading = false;
             }
         },
-        editEvent(event){
-        // console.log("edit");
-        this.$store.dispatch("check_editing_event_obj", event);
-        this.$router.push("/create/event");
+        editWorkshop(workshop){
+        this.$store.dispatch("check_editing_workshop_obj", workshop);
+        this.$router.push("/create/workshop");
         },
         async imgoingApi(){
-            // check database for username in going event
+            // check database for username in going workshop
             //if yes->delete; if no ->create
             if(this.isAuthenticated){
                 this.goingForm.username = this.loggedInUser.username;
-                this.goingForm.event = this.event.uuid;
+                this.goingForm.workshop = this.workshop.uuid;
                 this.imgoing = !this.imgoing
                 if(!this.imgoing){
                     const config = {
@@ -642,7 +541,7 @@ export default {
                     }
                     };
                     try {
-                        await this.$axios.$delete("/v1/events/iamgoing/"+this.imgoingId , config)
+                        await this.$axios.$delete("/v1/workshops/iamgoing/"+this.imgoingId , config)
                         this.notgoing_snackbar=true;
                         const indexOfObject = this.goingList.findIndex(object => {
                         return object.uuid == this.imgoingId;
@@ -666,7 +565,7 @@ export default {
                         formData.append(data, this.goingForm[data]);
                     }
                     try {
-                        let res = await this.$axios.$post("/v1/events/iamgoing/create/", formData, config)
+                        let res = await this.$axios.$post("/v1/workshops/iamgoing/create/", formData, config)
                         this.checkGoing();
                         this.going_snackbar = true;
                         } catch (e) {

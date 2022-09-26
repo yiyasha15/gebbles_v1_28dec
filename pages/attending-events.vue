@@ -50,11 +50,11 @@ export default {
   },
   created(){
     if(this.isAuthenticated){
-      this.getEvents();
+      this.getMyGoingEvents();
     }
   },
   methods:{
-    async getEvents(){
+    async getMyGoingEvents(){
       try {
       const response = await EventService.getMyGoingEvents(this.loggedInUser.username)
       // console.log(response);

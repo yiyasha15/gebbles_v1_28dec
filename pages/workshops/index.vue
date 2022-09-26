@@ -3,7 +3,7 @@
       <v-container class="mx-auto width" >
       <v-row>
         <v-col cols="12" md="6"  class="justify-center">
-          <h2 class ="xs12 font-weight-medium">Events</h2>
+          <h2 class ="xs12 font-weight-medium">Workshops</h2>
           <!-- <v-spacer></v-spacer> -->
         </v-col>
         <v-col cols="12" md="6" class= "justify-end py-0 py-md-3" >
@@ -29,7 +29,7 @@
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByThisMonth"
                 >
-                <v-list-item-title>Events this month</v-list-item-title>
+                <v-list-item-title>This month</v-list-item-title>
                 </v-list-item>
                 <!-- <v-list-item
                 class="text-decoration-none pl-6 pr-12"
@@ -41,7 +41,7 @@
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByName=true; filterByCountry =false; filterByMonth=false;"
                 >
-                <v-list-item-title>Event name</v-list-item-title>
+                <v-list-item-title>Workshop name</v-list-item-title>
                 </v-list-item>
                 
                 <v-list-item
@@ -52,10 +52,11 @@
                 </v-list-item>
             </v-list>
           </v-menu>
-          </template></v-autocomplete>
+          </template>
+          </v-autocomplete>
           <v-text-field 
               v-if="filterByName"
-              label="Filter by event name" v-model= "search" solo rounded
+              label="Workshop name" v-model= "search" solo rounded
               @input="debounceSearchName" prepend-inner-icon="mdi-calendar-heart-outline"
               clearable
           >
@@ -71,7 +72,7 @@
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByThisMonth"
                 >
-                <v-list-item-title>Events this month</v-list-item-title>
+                <v-list-item-title>This month</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
@@ -83,7 +84,7 @@
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByCountry =false; filterByName = true; filterByMonth=false;"
                 >
-                <v-list-item-title>Event name</v-list-item-title>
+                <v-list-item-title>Workshop name</v-list-item-title>
                 </v-list-item> -->
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
@@ -96,9 +97,9 @@
           </template>
           </v-text-field>
           <v-text-field
-          max-length=0
+            max-length=0
               v-if="filterByMonth"
-              label="Events this month" v-model= "search" solo rounded 
+              label="This month" v-model= "search" solo rounded 
               prepend-inner-icon="mdi-calendar-heart-outline"
               clearable
           >
@@ -114,7 +115,7 @@
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByMonth"
                 >
-                <v-list-item-title>Events this month</v-list-item-title>
+                <v-list-item-title>This month</v-list-item-title>
                 </v-list-item> -->
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
@@ -126,7 +127,7 @@
                 class="text-decoration-none pl-6 pr-12"
                 @click="filterByCountry =false; filterByName = true; filterByMonth=false;"
                 >
-                <v-list-item-title>Event name</v-list-item-title>
+                <v-list-item-title>Workshop name</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                 class="text-decoration-none pl-6 pr-12"
@@ -146,50 +147,50 @@
         </div>
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" >
-        <div v-for="event in events" :key ="event.index">
-          <events-card :event="event" ></events-card> 
+        <div v-for="workshop in workshops" :key ="workshop.index">
+            <workshop-card :workshop="workshop" ></workshop-card>
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
-      <center v-if="!events.length && !firstLoad">
+      <center v-if="!workshops.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
         :src="require('@/assets/gebbleslogo.png')"/>
-        <h3>No events found. </h3>
+        <h3>No workshops found. </h3>
       </center>
       </v-container>
     </v-app>
 </template>
 
 <script>
-import EventsCard from '@/components/EventsCard.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
+import WorkshopCard from '~/components/WorkshopCard.vue'
 export default {
   scrollToTop: true,
   head() {  
     return {
-      title: 'events',
+      title: 'workshops',
       meta: [ 
         {
           hid: 'description',
           name: 'description',
           content: 
-              'Gebbles - Events'
+              'gebbles - workshops'
         }
       ]
     }
   },
   created(){
-    this.getAllEvents();
+    this.getAllWorkshops();
   },
   methods:{
-    async getAllEvents(){
+    async getAllWorkshops(){
       try {
-      const response = await EventService.getAllEvents()
+      const response = await EventService.getAllWorkshops()
       // console.log(response);
-      this.events = response.data.results
+      this.workshops = response.data.results
       this.page = response.data.next
       this.firstLoad = false
       } catch (e) {
@@ -202,9 +203,9 @@ export default {
         const key = 'uuid';
         this.$axios.get(this.page).then(response => {
               this.page= response.data.next;
-              response.data.results.forEach(item => this.events.push(item));
+              response.data.results.forEach(item => this.workshops.push(item));
               // filter array so no duplicates
-              this.events = [...new Map(this.events.map(item =>
+              this.workshops = [...new Map(this.workshops.map(item =>
                 [item[key], item])).values()];
           })
           .catch(err => {
@@ -214,33 +215,33 @@ export default {
     },
     debounceSearchCountry() {
     this.firstLoad = true;
-    this.events=[];
+    this.workshops=[];
     this.page='';
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
-      if(this.search){EventService.getSearchedEventCountry(this.search).then((value) => {
+      if(this.search){EventService.getSearchedWorkshopCountry(this.search).then((value) => {
         console.log("this.search",this.search,value.data);
       this.firstLoad = false
-      this.events = value.data
+      this.workshops = value.data
       });}
       else{
-        this.getAllEvents();
+        this.getAllWorkshops();
       }
       }, 600)
     },
     debounceSearchName() {
     this.firstLoad = true;
-    this.events=[];
+    this.workshops=[];
     this.page='';
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
-      if(this.search){EventService.getSearchedEventName(this.search).then((value) => {
+      if(this.search){EventService.getSearchedWorkshopName(this.search).then((value) => {
         console.log("this.search",this.search,value.data);
       this.firstLoad = false
-      this.events = value.data
+      this.workshops = value.data
       });}
       else{
-        this.getAllEvents();
+        this.getAllWorkshops();
       }
       }, 600)
     },
@@ -249,12 +250,12 @@ export default {
       this.filterByName=false; 
       this.filterByCountry =false
       this.firstLoad = true
-      this.events=[]
+      this.workshops=[]
       this.page=''
       try {
-      const response = await EventService.getSearchedEventsThisMonth()
+      const response = await EventService.getSearchedWorkshopThisMonth()
       console.log(response);
-      this.events = response.data
+      this.workshops = response.data
       // this.page = response.data.next
       this.firstLoad = false
       } catch (e) {
@@ -264,16 +265,16 @@ export default {
     },
     seeAll(){
       this.firstLoad = true;
-      this.events=[];
+      this.workshops=[];
       this.page='';
-      this.getAllEvents();
+      this.getAllWorkshops();
       this.filterByCountry=true;
       this.filterByName=false;
       this.filterByMonth=false;
     }
   },
   components: {
-      EventsCard
+    WorkshopCard
 
   },
   data() {
@@ -282,7 +283,7 @@ export default {
       loading: true,
       firstLoad: true,
       page:"",
-      events:[],
+      workshops:[],
       search: "",
       debounce: null,
       countries: [
@@ -556,7 +557,7 @@ export default {
         }
       },
     // filterApi: function(){
-    //   return this.events.filter((event) => {
+    //   return this.workshops.filter((event) => {
     //     return event.country.toLowerCase().match(this.search.toLowerCase())||event.name.toLowerCase().match(this.search.toLowerCase());
     //   });
     // }

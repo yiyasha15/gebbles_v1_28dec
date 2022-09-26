@@ -9,7 +9,7 @@
              <nuxt-link :to="'/'" class="text-decoration-none">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
-                class="ml-1 clickable"
+                class="clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
                 </nuxt-link>
                 <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
@@ -62,7 +62,7 @@
                     </v-list-item>
                     <v-list-item
                     v-if="userHasPortfolio"
-                    :to="'/create/events'"
+                    :to="'/create/event'"
                     class="text-decoration-none pl-6 pr-12"
                     ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
                     <v-list-item-title>Create your event</v-list-item-title>

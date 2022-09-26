@@ -55,7 +55,7 @@
                     </v-list-item>
                     <v-list-item
                     v-if="userHasPortfolio"
-                    :to="'/create/events'"
+                    :to="'/create/event'"
                     class="text-decoration-none pl-6 pr-12"
                     ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
                     <v-list-item-title>Create your event</v-list-item-title>
@@ -153,14 +153,14 @@
                     <v-list-item-title> Artists</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item to="/journeys">
+                <!-- <v-list-item to="/journeys">
                     <v-list-item-icon>
                     <v-icon>mdi-chart-line-variant</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                     <v-list-item-title> Journey</v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+                </v-list-item> -->
                 <v-list-item to="/whatiscooking">
                     <v-list-item-icon>
                     <v-icon>mdi-play-circle-outline</v-icon>
@@ -175,6 +175,14 @@
                     </v-list-item-icon>
                     <v-list-item-content>
                     <v-list-item-title>Events</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/workshops">
+                    <v-list-item-icon>
+                    <v-icon>mdi-google-circles-communities</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                    <v-list-item-title>Workshops</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>

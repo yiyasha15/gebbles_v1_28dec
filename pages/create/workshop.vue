@@ -5,12 +5,13 @@
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
         </v-container>
-        <h2 class="font-weight-medium" align="center" justify="center" v-if="!cook_obj">Create your workshop</h2>
+        <!-- {{workshop}} -->
+        <h2 class="font-weight-medium" align="center" justify="center" v-if="!editing_workshop_obj">Create your workshop</h2>
         <h2 class="font-weight-medium" align="center" justify="center" v-else>Edit your workshop</h2>
         <v-container class="mx-auto" fluid style="max-width:550px" >
             <v-card class="pa-6 pa-md-8">
                 <v-form ref="workshop_form">
-            <div v-if="!category.poster" @click="onPick()" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+            <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
                 <v-icon class="pa-image">mdi-plus</v-icon>
                 <input 
                 type="file" 
@@ -22,20 +23,27 @@
                 @change="onFileChange">
             </div>
             <div v-else class="ma-4">
-            <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
+            <v-img v-if="typeof(workshop.poster) === 'string'" :src="workshop.poster" class="mx-auto" height="300px" width="352px" contain>
                 <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage()">
                 <v-icon color="black" small>mdi-close</v-icon>
                 </v-btn>
             </v-img>
             </div>
-            <div>
-                about the artist
+            <!-- <v-card class="pa-4" outlined elevation="0">
+               <p class="caption">About the artist</p> -->
+            <v-text-field
+                v-model= "workshop.title"
+                label= "Title*"
+                :maxlength="255"
+                counter
+                :rules="nameRules">
+            </v-text-field>
             <v-combobox
                 v-model="artist_obj"
                 :items="artists"
                 maxlength="255"
                 prepend-icon="mdi-account-search-outline"
-                label="Tag artist..."
+                label="Tag artist"
                 item-text="artist_name"
                 item-value="username"
                 ref="artistListComboBox"
@@ -50,7 +58,7 @@
                     v-bind="data.attrs"
                     :input-value="data.selected"
                     close
-                    @click:close="artist_obj = null; category.teacher1 = '';"
+                    @click:close="artist_obj = null; workshop.teacher1 = '';"
                     >
                     <v-avatar v-if="data.item.thumb" left>
                         <v-img :src="data.item.thumb"></v-img>
@@ -84,14 +92,13 @@
                 </v-list-item-content>
                 </template>
             </v-combobox>
-            </div>
             <v-text-field
-                v-model= "category.name"
-                label= "Title"
+                v-model= "workshop.name1"
+                label= "Artist's name"
                 :maxlength="255"
-                counter
-                :rules="nameRules">
+                counter>
             </v-text-field>
+            <!-- </v-card> -->
             <v-menu
                 ref="menu"
                 :close-on-content-click="false"
@@ -103,7 +110,7 @@
                 <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                     
-                        v-model= "category.start_date"
+                        v-model= "workshop.start_date"
                         label="Date*"
                         prepend-icon="mdi-calendar"
                         readonly 
@@ -112,9 +119,9 @@
                     ></v-text-field>
                 </template>
                 <v-date-picker
-                    v-model= "category.start_date"
+                    v-model= "workshop.start_date"
                     :active-picker.sync="activePicker"
-                    @change="save(category.start_date)"
+                    @change="save(workshop.start_date)"
                     ></v-date-picker>
             </v-menu>
             <v-menu
@@ -122,7 +129,7 @@
             v-model="menutime"
             :close-on-content-click="false"
             :nudge-right="40"
-            :return-value.sync="category.date_time"
+            :return-value.sync="workshop.datetime"
             transition="scale-transition"
             offset-y
             max-width="290px"
@@ -130,7 +137,7 @@
         >
             <template v-slot:activator="{ on, attrs }">
             <v-text-field
-                v-model="category.date_time"
+                v-model="workshop.datetime"
                 label="Time"
                 prepend-icon="mdi-clock-time-four-outline"
                 readonly
@@ -140,44 +147,43 @@
             </template>
             <v-time-picker
             v-if="menutime"
-            v-model="category.date_time"
+            v-model="workshop.datetime"
             full-width
-            @click:minute="$refs.menutime.save(category.date_time)"
+            @click:minute="$refs.menutime.save(workshop.datetime)"
             ></v-time-picker>
             </v-menu>
             <v-text-field prepend-icon="mdi-map-marker-outline"
-                
-                v-model = "category.venue"
+                v-model = "workshop.venue"
                 label= "Venue"
                 :maxlength="255"
                 counter>
             </v-text-field>
-            <v-autocomplete label="Country" v-model= "category.country"
+            <v-autocomplete label="Country*" v-model= "workshop.country"
                 prepend-icon="mdi-earth"
                 :items="countries"
                 item-text="name"
                 item-value="code"
             ></v-autocomplete>
-            <v-textarea prepend-icon="mdi-info"
-                v-model = "category.content"
+            <v-textarea prepend-icon="mdi-information-outline"
+                v-model = "workshop.content"
                 label= "Info"
                 :maxlength="255"
                 counter>
             </v-textarea>
             <v-text-field prepend-icon="mdi-instagram"
-                v-model = "category.iglink"
+                v-model = "workshop.iglink"
                 label= "Instagram link"
                 :maxlength="255"
                 counter>
             </v-text-field>
             <v-text-field prepend-icon="mdi-youtube"
-                v-model = "category.videolink"
+                v-model = "workshop.videolink"
                 label= "Youtube link"
                 :maxlength="255"
                 counter>
             </v-text-field>
             <v-text-field prepend-icon="mdi-email"
-                v-model = "category.contact_email"
+                v-model = "workshop.contact_email"
                 label= "Email ID"
                 :maxlength="255"
                 counter>
@@ -194,10 +200,10 @@
         <v-snackbar v-model="image_snackbar">
             Image is required.
         </v-snackbar>
-        <v-snackbar v-model="category_added_snackbar">
+        <v-snackbar v-model="workshop_added_snackbar">
             Workshop added.
         </v-snackbar>
-        <v-snackbar v-model="category_update_snackbar">
+        <v-snackbar v-model="workshop_update_snackbar">
             Workshop updated.
         </v-snackbar>
     </v-app>
@@ -237,12 +243,13 @@ export default {
     },
     data(){
         return {
-            category:{
+            workshop:{
                 username:this.$store.state.auth.user.username,
                 title:'', // # must
                 poster:'', // # must
-                start_date:'', // # must
-                country:'',
+                start_date:null, // # must
+                datetime:null,
+                country:null,
                 city:'',
                 venue:'',
                 content:'', 
@@ -264,8 +271,8 @@ export default {
             date:null,
             activePicker:null,
             program_progressbar:false,
-            category_added_snackbar:false,
-            category_update_snackbar:false,
+            workshop_added_snackbar:false,
+            workshop_update_snackbar:false,
             image_snackbar:false,
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
@@ -536,7 +543,7 @@ export default {
         this.$refs.menu.save(date)
     },
     goback(){
-        this.$store.dispatch("remove_editing_event_obj")
+        this.$store.dispatch("remove_editing_workshop_obj")
         window.history.back();
     },
     onPick() //changing the click from button to input using refs
@@ -548,14 +555,14 @@ export default {
         if (files[0]) {
         const fileReader = new FileReader()
         fileReader.onload = (e) => {
-            this.category.poster = e.target.result;
+            this.workshop.poster = e.target.result;
         }
         fileReader.readAsDataURL(files[0]);
-        this.category.poster = files[0];
+        this.workshop.poster = files[0];
         }
     },
     removeImage(){
-        this.category.poster ="";
+        this.workshop.poster ="";
     },
     dataURLtoFile(dataurl, filename) {
         // console.log( dataurl, filename);
@@ -607,43 +614,46 @@ export default {
             let t_name = typeof this.artist_obj;
             if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {
-                this.category.teacher1 = this.artist_obj.username
-                this.category.country1 = this.artist_obj.country
-                if(this.category.photo1 =='' && this.artist_obj.thumb!='')
-                this.category.photo1 = this.artist_obj.thumb
-                if(this.category.name1 =='' && this.artist_obj.artist_name!='')
-                this.category.name1 = this.artist_obj.artist_name
+                this.workshop.teacher1 = this.artist_obj.username
+                this.workshop.country1 = this.artist_obj.country
+                if(this.workshop.photo1 =='' && this.artist_obj.thumb!='')
+                this.workshop.photo1 = this.artist_obj.thumb
+                if(this.workshop.name1 =='' && this.artist_obj.artist_name!='')
+                this.workshop.name1 = this.artist_obj.artist_name
             }
             else
             {
-                // this.category.name1 = this.artist_obj
+                // this.workshop.name1 = this.artist_obj
             }
         },
     async addWorkshop(){
-        if(this.category.poster){
+        if(this.workshop.poster){
             if(this.$refs.workshop_form.validate())
             {
-                this.category.category = 1
                 this.program_progressbar =true
                 const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": this.$auth.strategy.token.get()
                     }
                 }
-                if(this.category.poster)
-                {this.category.poster = await this.putImage(this.category.poster)}
-                if(this.category.teacher1 && typeof this.category.teacher1=='object')
+                if(this.workshop.poster)
+                {this.workshop.poster = await this.putImage(this.workshop.poster)}
+                if(this.workshop.teacher1 && typeof this.workshop.teacher1=='object')
                 {
-                    this.category.teacher1 = this.category.teacher1.username
+                    this.workshop.teacher1 = this.workshop.teacher1.username
                 }
                 let formWorkshopData = new FormData();
-                for (let data in this.category) {
-                    formWorkshopData.append(data, this.category[data]);
+                for (let data in this.workshop) {
+                    formWorkshopData.append(data, this.workshop[data]);
                 }
                 try {
-                    let res= await this.$axios.$post("/v1/events/workshops/create/", formWorkshopData, config)
+                    let res= await this.$axios.$post("/v1/workshops/create/", formWorkshopData, config)
                     console.log(res);
-                    this.category_added_snackbar=true
+                    // this.$refs.workshop_form.reset();
+                    this.refreshForm();
+
+                    this.$router.push("/workshops/"+res.uuid);
+                    this.workshop_added_snackbar=true
                     this.program_progressbar =false
                 } catch (error) {
                     console.log(error,error.response);
@@ -655,6 +665,9 @@ export default {
             this.image_snackbar=true;
             // console.log("image is req");
         }
+    },
+    refreshForm(){
+
     },
     async updateWorkshop(){
         if(this.$refs.workshop_form.validate())

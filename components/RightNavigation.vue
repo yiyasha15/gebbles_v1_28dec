@@ -91,14 +91,14 @@
                 <v-list-item-title> Artists</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item to="/journeys">
+            <!-- <v-list-item to="/journeys">
                 <v-list-item-icon>
                 <v-icon>mdi-chart-line-variant</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                 <v-list-item-title> Journey</v-list-item-title>
                 </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
             <v-list-item to="/whatiscooking">
                 <v-list-item-icon>
                 <v-icon>mdi-play-circle-outline</v-icon>
@@ -115,6 +115,14 @@
                 <v-list-item-title>Events</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+             <v-list-item to="/workshops">
+                    <v-list-item-icon>
+                    <v-icon>mdi-google-circles-communities</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                    <v-list-item-title>Workshops</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
         </v-list>
         <v-list v-if="isAuthenticated" dense>
         <v-subheader>Each one teach one</v-subheader>

@@ -189,6 +189,13 @@
     "_name": "_d9ad562c"
   },
   {
+    "name": "workshops",
+    "path": "/workshops",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/workshops/index.vue",
+    "chunkName": "pages/workshops/index",
+    "_name": "_1c41fd6c"
+  },
+  {
     "name": "write_blog",
     "path": "/write_blog",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/write_blog.vue",
@@ -217,11 +224,11 @@
     "_name": "_0da0c1ee"
   },
   {
-    "name": "create-events",
-    "path": "/create/events",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/events.vue",
-    "chunkName": "pages/create/events",
-    "_name": "_bbe17f72"
+    "name": "create-event",
+    "path": "/create/event",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/event.vue",
+    "chunkName": "pages/create/event",
+    "_name": "_064c2748"
   },
   {
     "name": "create-journey",
@@ -313,6 +320,13 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/whatiscooking/_uuid.vue",
     "chunkName": "pages/whatiscooking/_uuid",
     "_name": "_28a8b4b2"
+  },
+  {
+    "name": "workshops-uuid",
+    "path": "/workshops/:uuid",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/workshops/_uuid.vue",
+    "chunkName": "pages/workshops/_uuid",
+    "_name": "_f1433ddc"
   },
   {
     "name": "index",

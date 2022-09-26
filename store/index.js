@@ -534,7 +534,7 @@ export const actions = {
       commit('clear_editing_event_obj',state.editing_event_obj)
     }
   },
-  remove_editing_worskhop_obj({commit, state})
+  remove_editing_workshop_obj({commit, state})
   {
     if(state.auth.loggedIn && state.editing_workshop_obj){
       commit('clear_editing_workshop_obj',state.editing_workshop_obj)

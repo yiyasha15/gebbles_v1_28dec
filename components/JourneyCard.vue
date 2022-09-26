@@ -38,7 +38,7 @@
           </v-row>
           <v-container style="margin:auto; max-width:768px; " class="pt-0 pb-3 px-md-0" >
           <v-row class="ma-0" v-if="fullJourney">
-                <h5 v-if="journey.jodate" class="font-weight-light pt-2">
+                <h5 v-if="journey.jodate" class="font-weight-light pt-2 caption">
                   <!-- {{dateFormat(journey.jodate).date}} -->
                   {{moment(journey.jodate)}}
                   </h5>
@@ -126,7 +126,7 @@
           </v-row>
           <v-container style="margin:auto; max-width:768px; " class=" px-md-0">
             <v-row class="pt-2 pt-md-4 ma-0">
-            <h5 class="font-weight-medium"><nuxt-link :to="'/'+ journey.username" class="text-decoration-none">{{journey.username}} </nuxt-link> </h5>
+            <h4 class="font-weight-medium"><nuxt-link :to="'/'+ journey.username" class="text-decoration-none">{{journey.username}} </nuxt-link> </h4>
             <v-spacer></v-spacer>
             <div v-if="isAuthenticated">
           <v-row align="end" justify="end" v-if="loggedInUser.username == journey.username" class="pa-2">
@@ -165,13 +165,13 @@
             </div>
           </v-row>
           <v-row class="pt-2 pt-md-4 ma-0" v-if="fullJourney">
-              <h5 class="font-weight-medium">{{fullJourney.joevent}}</h5> 
+              <h4 class="font-weight-medium">{{fullJourney.joevent}}</h4> 
               <v-spacer></v-spacer>
-              <h5 v-if="fullJourney.city" class="font-weight-light pr-1 ">{{fullJourney.city}}</h5>
+              <h4 v-if="fullJourney.city" class="font-weight-light pr-1 ">{{fullJourney.city}}</h4>
             <country-flag v-if="fullJourney.country" :country= fullJourney.country />
           </v-row>
           <v-row class="py-2 py-md-4 ma-0">
-          <h5 class="font-weight-light text-pre-wrap journey_content" v-if="fullJourney">{{fullJourney.jocontent}}</h5>
+          <h4 class="font-weight-light text-pre-wrap journey_content" v-if="fullJourney">{{fullJourney.jocontent}}</h4>
           </v-row>
           </v-container>
         </div>

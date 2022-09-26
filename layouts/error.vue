@@ -29,7 +29,7 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
-  layout: 'empty',
+  layout: 'simple',
   props: {
     error: {
       type: Object,
