@@ -203,11 +203,13 @@ methods:{
                     formData.append("shareidobj",data)
                     formData.append("idea",data)
                     this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
+
                         this.progressbar = false
                     })
                 }
                 }else console.log("no teachers");
                 this.progressbar = false
+                this.$store.dispatch("check_user_teachers");
                 this.refresh();
                 this.$router.push("/whatiscooking");
             })
@@ -346,6 +348,7 @@ methods:{
             }
             this.progressbar =false
             this.updated = true;
+            this.$store.dispatch("check_user_teachers");
             this.refresh();
             this.$router.push("/whatiscooking/"+this.cook_obj.uuid);
             this.$store.dispatch("remove_cook_obj");

@@ -154,7 +154,7 @@ export default {
     },
     layout:'simple',
     created(){
-        // this.checkGoing();
+        this.checkGoing();
     },
     mounted(){
         if(this.workshop.videolink )

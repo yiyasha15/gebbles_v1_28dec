@@ -2574,7 +2574,7 @@ export default {
         },
         addSearchGuest(){
             let t_name = typeof this.artist_obj;
-            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            if(this.artist_obj && t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {
                 this.guest.guest = this.artist_obj.username
                 this.guest.country = this.artist_obj.country
@@ -2590,7 +2590,7 @@ export default {
         },
         addSearchOrganiser(){
             let t_name = typeof this.artist_obj;
-            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
+            if(this.artist_obj && t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {
                 this.organiser.guest = this.artist_obj.username
                 this.organiser.country = this.artist_obj.country

@@ -191,9 +191,9 @@
                 </v-form>
                 <v-btn outlined small class="text-decoration-none" 
                     v-if="!editing_workshop_obj" 
-                    color="black" :loading="program_progressbar"
+                    color="black" :loading="progressbar"
                     @click="addWorkshop()" >Create workshop</v-btn>
-                <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
+                <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="progressbar"
                 @click="updateWorkshop()" >Update workshop</v-btn>
             </v-card>
         </v-container>
@@ -205,6 +205,9 @@
         </v-snackbar>
         <v-snackbar v-model="workshop_update_snackbar">
             Workshop updated.
+        </v-snackbar>
+        <v-snackbar v-model="error_snackbar">
+            {{text}}
         </v-snackbar>
     </v-app>
 </template>
@@ -227,6 +230,23 @@ export default {
         if(this.$store.state.editing_workshop_obj)
         {
             this.workshop = Object.assign({}, this.$store.getters.editing_workshop_obj);
+            console.log(this.workshop );
+            if(this.workshop.teacher1){
+                //tag artist
+            }
+            if(this.workshop.teacher1)
+            {
+                EventService.getArtist(this.workshop.teacher1).then(
+                res =>  {   
+                    this.artist_obj=res.data //show artist found
+                    this.addSearchGuest();
+                }
+                ).catch(e=>
+                    {if(e.response.status =='404'){
+                        this.artist_obj = this.workshop.teacher1; // artists not there
+                    }}
+                )
+            }
         }
     },
     computed: {
@@ -270,10 +290,12 @@ export default {
             comboBoxModel:null,
             date:null,
             activePicker:null,
-            program_progressbar:false,
+            progressbar:false,
             workshop_added_snackbar:false,
             workshop_update_snackbar:false,
             image_snackbar:false,
+            error_snackbar:false,
+            text:'',
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
                 {"name": "Åland Islands", "code": "AX"},
@@ -538,7 +560,6 @@ export default {
         },
     },
     methods:{
-
     save(date){
         this.$refs.menu.save(date)
     },
@@ -596,7 +617,7 @@ export default {
         this.artists = value.data
         });}
         }, 100)
-        },
+    },
     onAutoCompleteSelection(){
         this.comboBoxModel = this.artist_obj;
         this.searchArtists();
@@ -611,26 +632,26 @@ export default {
     });
     },
     addSearchGuest(){
-            let t_name = typeof this.artist_obj;
-            if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
-            {
-                this.workshop.teacher1 = this.artist_obj.username
-                this.workshop.country1 = this.artist_obj.country
-                if(this.workshop.photo1 =='' && this.artist_obj.thumb!='')
-                this.workshop.photo1 = this.artist_obj.thumb
-                if(this.workshop.name1 =='' && this.artist_obj.artist_name!='')
-                this.workshop.name1 = this.artist_obj.artist_name
-            }
-            else
-            {
-                // this.workshop.name1 = this.artist_obj
-            }
-        },
+        let t_name = typeof this.artist_obj;
+        if(this.artist_obj && t_name == 'object') //if teacher exists then changing the value of teacher to username 
+        {
+            this.workshop.teacher1 = this.artist_obj.username
+            this.workshop.country1 = this.artist_obj.country
+            if(this.workshop.photo1 =='' && this.artist_obj.thumb!='')
+            this.workshop.photo1 = this.artist_obj.thumb
+            if(this.workshop.name1 =='' && this.artist_obj.artist_name!='')
+            this.workshop.name1 = this.artist_obj.artist_name
+        }
+        else
+        {
+            // this.workshop.name1 = this.artist_obj
+        }
+    },
     async addWorkshop(){
         if(this.workshop.poster){
             if(this.$refs.workshop_form.validate())
             {
-                this.program_progressbar =true
+                this.progressbar =true
                 const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": this.$auth.strategy.token.get()
@@ -649,15 +670,14 @@ export default {
                 try {
                     let res= await this.$axios.$post("/v1/workshops/create/", formWorkshopData, config)
                     console.log(res);
-                    // this.$refs.workshop_form.reset();
-                    this.refreshForm();
+                    this.$refs.workshop_form.reset();
 
                     this.$router.push("/workshops/"+res.uuid);
                     this.workshop_added_snackbar=true
-                    this.program_progressbar =false
+                    this.progressbar =false
                 } catch (error) {
                     console.log(error,error.response);
-                    this.program_progressbar =false
+                    this.progressbar =false
                 }
             }
         }
@@ -666,15 +686,80 @@ export default {
             // console.log("image is req");
         }
     },
-    refreshForm(){
-
-    },
     async updateWorkshop(){
+        if(this.workshop.poster){
         if(this.$refs.workshop_form.validate())
-            {
-                console.log("update workshop");
+        {
+        try{
+            this.progressbar =true
+            if(this.workshop.poster != this.editing_workshop_obj.poster)
+            this.workshop.poster = await this.putImage(this.workshop.poster);
+            this.formUpdate();
+        }
+        catch(error){
+            console.log(error.response.data);
+            this.progressbar = false
+        }
+        }
+        }else{
+            this.image_snackbar =true
+        }
+    },
+    async formUpdate(){
+        const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()
             }
-    }
+        };
+        let myObj1 = this.editing_workshop_obj 
+        let myObj2 = this.workshop
+        // find keys 
+        let keyObj1 = Object.keys(myObj1); 
+        let keyObj2 = Object.keys(myObj2);
+            
+        // find values 
+        let valueObj1 = Object.values(myObj1); 
+        let valueObj2 = Object.values(myObj2); 
+        
+        // now compare their keys and values 
+        let update = false; 
+        try {
+            let formName = new FormData();
+            for(var i=0; i<keyObj1.length; i++) { 
+                if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                    // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                } 
+                else { 
+                    update = true;
+                    // it prints keys have different values 
+                    formName.append(keyObj1[i], valueObj2[i]);
+                    console.log( valueObj2[i] ," gonna change"); 
+                }
+            }
+            if(update)
+            {
+                formName.append("id", this.workshop['id']);
+                await this.$axios.$patch("/v1/workshops/"+this.workshop.uuid, formName, config).then(res => {
+                    console.log(res," changed"); 
+                    this.$refs.workshop_form.reset();
+                    this.detail_update_snackbar = true;
+                    update = false;
+                })
+            }else{
+                this.text="Workshop upto date.";
+                this.snackbar = true;
+            }
+            this.$store.dispatch("remove_editing_workshop_obj");
+            this.progressbar =false
+            // this.refresh();
+            this.$router.push("/workshops/"+this.workshop.uuid);
+        } catch (error) {
+            console.log(error, error.response);
+            this.text="Some error occured. "+error.response.data
+            this.error_snackbar =true
+            this.progressbar =false
+        }
+    },
 
     }
 }

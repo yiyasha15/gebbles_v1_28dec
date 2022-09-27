@@ -209,7 +209,21 @@ export default {
         {
             console.log(this.$store.getters.share_obj, typeof this.url);
             this.sharing = Object.assign({}, this.$store.getters.share_obj);
-            this.teacher_obj = this.sharing.s_teacher_name;
+            // check database if artist exists
+            // else
+            if(this.sharing.s_teacher_name)
+            {
+                EventService.getArtist(this.sharing.s_teacher_name).then(
+                res =>  {   
+                    this.teacher_obj=res.data //show artist found
+                    this.addTeacher();
+                }
+                ).catch(e=>
+                    {if(e.response.status =='404'){
+                        this.teacher_obj = this.sharing.s_teacher_name; // artists not there
+                    }}
+                )
+            }
             
             // let url1 =this.sharing.s_teacher_video //getting value of youtube video urls
             // if(url1){
