@@ -2292,7 +2292,7 @@ export default {
                 // v => (v && v.length <= 200) || 'Must be less than 200 characters',
             ],
             linkRules:[
-                v => !v || /^(https?:\/\/)?[0-9a-z-_]*(\.[0-9a-z-_]+)*(\.[a-z]+)+(\/[0-9a-z-_]*)*?\/?$/gim.test(v) || 'Enter a valid url.',
+                v => !v || /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig.test(v) || 'Enter a valid url.',
                 // v => (v && v.length <= 200) || 'Must be less than 200 characters',
             ],
         }

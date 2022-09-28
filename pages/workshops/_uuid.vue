@@ -50,12 +50,13 @@
             <v-col cols="12" sm="6" justify="center" > 
             <h5 class="caption font-weight-light">{{moment(workshop.created)}} </h5>
             <h1 class="font-weight-medium display-1">{{workshop.title}}</h1>
-            <h3 v-if="workshop.start_date" class="red--text mt-2 font-weight-medium " > 
-                <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(workshop.start_date)}}
-            </h3>
-            <h3 v-if="workshop.datetime" class="red--text font-weight-medium "> {{workshop.datetime}}</h3>
+            <h4 v-if="workshop.start_date" class="red--text mt-2 font-weight-medium " > 
+                <v-icon class="mr-2" >mdi-calendar</v-icon> {{moment(workshop.start_date)}}
+            </h4>
+            <h4 v-if="workshop.datetime" class="red--text font-weight-medium mt-2"> 
+                <v-icon class="mr-2" >mdi-clock</v-icon> {{workshop.datetime}}</h4>
             <h4 v-if=" workshop.venue || workshop.country" class="mr-2 mt-2 font-weight-medium " >
-                <v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>
+                <v-icon class="mr-2">mdi-map-marker-outline</v-icon>
                 {{workshop.venue}}<span v-if="workshop.venue && workshop.country">, 
                     </span> {{countryIs(workshop.country)}}</h4>
             <div class="py-4 py-md-6">

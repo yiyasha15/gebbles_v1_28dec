@@ -492,32 +492,35 @@ export default {
                 this.cookings = res.data
                 console.log(this.cookings);
                 if(this.cookings.length>0)
-            {
-            let taggedteacherpresent = this.cookings.filter(obj => obj.taggedteachers.length>0)
-            let arr=[];
-            for(let i=0 ; i<taggedteacherpresent.length; i++)
-            {
-                for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
-                arr.push(taggedteacherpresent[i].taggedteachers[j]);
-            }
-            let final = arr.filter(obj => obj.shareidobj!=null)
-            let f2=[];
-            let f3 =[];
-            f2 = final.filter(obj => obj.shareidobj.id ==id);
+                {
+                let taggedteacherpresent = this.cookings.filter(obj => obj.taggedteachers.length>0)
+                let arr=[];
+                for(let i=0 ; i<taggedteacherpresent.length; i++)
+                {
+                    for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+                    arr.push(taggedteacherpresent[i].taggedteachers[j]);
+                }
+                let final = arr.filter(obj => obj.shareidobj!=null)
+                let f2=[];
+                let f3 =[];
+                f2 = final.filter(obj => obj.shareidobj.id ==id);
 
-            f2.forEach(element => f3.push(element.id));
-            for(let i=0 ; i<taggedteacherpresent.length; i++)
-            {
-                for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+                f2.forEach(element => f3.push(element.id));
+                for(let i=0 ; i<taggedteacherpresent.length; i++)
                 {
-                if(f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id))
-                {
-                    this.cookingsfiltered.push(taggedteacherpresent[i])
+                    for(let j=0; j<taggedteacherpresent[i].taggedteachers.length;j++)
+                    {
+                    if(f3.find(element => element == taggedteacherpresent[i].taggedteachers[j].id))
+                    {
+                        this.cookingsfiltered.push(taggedteacherpresent[i])
+                    }
+                    }
                 }
+                this.cookingLoaded = true
                 }
-            }
-            this.cookingLoaded = true
-            }
+            }).catch(error =>{
+                console.log(error);
+                this.cookingLoaded = true
             })
         },
         async capture(){

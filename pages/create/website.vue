@@ -52,7 +52,7 @@
                                 :maxlength="255"
                                 counter>
                             </v-text-field>
-                            <v-autocomplete label="Representing(country)" v-model= "artist_data.country"
+                            <v-autocomplete label="Country" v-model= "artist_data.country"
                                 :items="countries" prepend-icon="mdi-earth"
                                 item-text="name"
                                 item-value="code"
@@ -61,7 +61,7 @@
                             <v-textarea
                                 :rules="introRules"
                                 v-model= "artist_data.introduction"
-                                label="About *a little background">
+                                label="About me">
                             </v-textarea>
                             <v-text-field
                                 v-model= "bio.crew"

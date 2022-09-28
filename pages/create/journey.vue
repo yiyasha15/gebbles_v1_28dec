@@ -695,8 +695,9 @@ export default {
     },
     methods: {
         async putImage(image,thumb){
-            if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
+            if(typeof image == 'string')
             {
+                if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
                 return image
             }
             if(typeof image != 'object')

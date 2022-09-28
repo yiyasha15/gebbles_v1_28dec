@@ -51,10 +51,10 @@
             <h5 class="caption font-weight-light">{{moment(event.created)}} </h5>
             <h1 class="font-weight-medium display-1">{{event.name}}</h1>
             <h3 v-if="event.start_date" class="red--text mt-2 font-weight-medium " > 
-                <v-icon class="mr-2 black--text" >mdi-calendar</v-icon> {{moment(event.start_date)}}
+                <v-icon class="mr-2" >mdi-calendar</v-icon> {{moment(event.start_date)}}
             </h3>
             <h3 v-if="event.date_time" class="red--text font-weight-medium "> {{event.date_time}}</h3>
-            <h4 v-if="event.city || event.venue || event.country" class="mr-2 mt-2 font-weight-medium " ><v-icon class="mr-2 black--text">mdi-map-marker-outline</v-icon>{{event.venue}}<span v-if="event.venue && event.country">, </span> {{countryIs(event.country)}}</h4>
+            <h4 v-if="event.city || event.venue || event.country" class="mr-2 mt-2 font-weight-medium " ><v-icon class="mr-2 ">mdi-map-marker-outline</v-icon>{{event.venue}}<span v-if="event.venue && event.country">, </span> {{countryIs(event.country)}}</h4>
             <div class="py-4 py-md-6">
             <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none " color="#815A44" outlined @click="imgoingApi">
                 <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-hand-back-left-outline</v-icon>Going</h4>

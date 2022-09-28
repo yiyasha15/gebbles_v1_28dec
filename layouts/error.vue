@@ -4,14 +4,15 @@
       <v-btn class="elevation-0 white text-decoration-none" icon @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
       <v-col align="center" justify="center">
       <div v-if="error.message === 'userNotFound'">
-        <img src="@/assets/vivi.png" width="90px">
-        <h3 class="font-weight-light mb-6">
+        <!-- <img src="@/assets/vivi.png" width="90px"> -->
+        <v-btn small outlined v-if="isAuthenticated && $route.params.username == loggedInUser.username"
+        to="/create/website">
+          <v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>Create your portfolio
+        </v-btn>
+        <h3 v-else class="font-weight-light mb-6">
           {{artist}}
           {{notfound}}
         </h3>
-        <v-btn small outlined v-if="isAuthenticated && $route.params.username == loggedInUser.username">
-          <v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>Create a portfolio
-        </v-btn>
       </div>
       <h2 v-else-if="error.statusCode === 404" class="font-weight-light">
         {{ pageNotFound }}
