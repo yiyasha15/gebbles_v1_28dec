@@ -17,15 +17,17 @@
             <!-- all these services help in making a close knitted network of our community and help us root back to our history. -->
             <v-row>
                 <v-col cols="12" md="7">
+                     <v-hover v-slot:default="{ hover }">
                     <v-card
-                    
+                    :elevation="hover ? 0 : 6"
                     outlined
-                    class="px-6 py-3 rounded-lg"
+                    class="px-6 py-3 rounded-lg transition-swing"
                     to="help/getting_started"
                     :ripple="false"
                     >
                     Get started with gebbles
                     </v-card>
+                     </v-hover>
                 </v-col>
                 <v-col cols="12" md="7">
                         <v-card

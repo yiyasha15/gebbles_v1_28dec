@@ -1,9 +1,9 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card style="margin:2px;"
+    <v-card class="transition-swing ma-md-2 ma-1"
       data-view
       :to="'/events/' + event.uuid" 
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
       outlined
       :width="cardwidth" 
       :max-height="cardheight"
@@ -57,11 +57,11 @@ import CountryFlag from 'vue-country-flag'
         },
         cardwidth () {
           switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 115
-            case 'sm': return 115
-            case 'md': return 215
-            case 'lg': return 215
-            case 'xl': return 215
+            case 'xs': return 110
+            case 'sm': return 110
+            case 'md': return 205
+            case 'lg': return 205
+            case 'xl': return 205
           }
         },
         img_height () {
@@ -90,7 +90,7 @@ import CountryFlag from 'vue-country-flag'
 }
 @media only screen and (max-width: 960px) {
   .width{
-  width: 78px;
+  width: 80px;
   height: 1.3em;
   line-height: initial;
   overflow: hidden

@@ -40,6 +40,5 @@ a{
 }
 a:hover{
   color: black;
-  text-decoration: underline;
 }
 </style>

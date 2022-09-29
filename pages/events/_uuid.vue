@@ -44,7 +44,7 @@
         </v-container>
         <v-container class="mx-auto" fluid style="max-width:950px" >
         <v-row>
-            <v-col cols="12" sm="6" align="center" justify="center">
+            <v-col cols="12" sm="6" align="center" justify="center" class="d-flex align-content-center flex-wrap">
                 <v-img :src = "event.poster" class="black" maxHeight="540px" contain ></v-img>
             </v-col>
             <v-col cols="12" sm="6" justify="center" > 
@@ -93,7 +93,9 @@
                 </div>
                 </v-container>
             </v-dialog> 
-            <p v-if="event.about" class="font-weight-light text-pre-wrap about_content ">{{event.about}}</p>
+            <v-card elevation="0" outlined class="pa-3">
+            <p v-if="event.about" class="font-weight-light text-pre-wrap about_content mb-0">{{event.about}}</p>
+            </v-card>
             </v-col>
         </v-row>
         <div v-if="videoId" class="mt-md-10 mt-4">
@@ -699,7 +701,6 @@ export default {
 }
 .hover:hover{
     cursor: pointer;
-    text-decoration: underline;
 }
 .width{
     max-width:950px;

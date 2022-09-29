@@ -1,20 +1,20 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card style="margin:2px;"
+    <v-card class="transition-swing ma-md-2 ma-1"
       data-view
       @click="dialog=true"
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
       outlined
-      :width="cardwidth" 
-      :max-height="cardheight">
+      :width="card_width" 
+      :max-height="card_height">
     <v-img v-if="cook.thumbjs"
       :src="cook.thumbjs"
-      :height="imgheight"
-      :width="cardwidth" />
+      :height="img_height"
+      :width="card_width" />
     <v-img v-else
       :src="youtube_thumb"
-      :height="imgheight"
-      :width="cardwidth" />
+      :height="img_height"
+      :width="card_width" />
       <v-dialog
         :retain-focus="false"
         v-model="dialog"
@@ -60,31 +60,31 @@ import CookingFeed from '@/components/CookingFeed.vue'
           }
         },
         computed:{
-        cardheight () {
+        img_height () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 73
+          case 'sm': return 73
+          case 'md': return 134
+          case 'lg': return 134
+          case 'xl': return 134
+        }
+        },
+        card_width () {
           switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 105
-            case 'sm': return 205
+            case 'xs': return 110
+            case 'sm': return 110
             case 'md': return 205
             case 'lg': return 205
             case 'xl': return 205
           }
         },
-        cardwidth () {
+        card_height() {
           switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 115
-            case 'sm': return 115
-            case 'md': return 215
-            case 'lg': return 215
-            case 'xl': return 215
-          }
-        },
-        imgheight () {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 84
-            case 'sm': return 84
-            case 'md': return 134
-            case 'lg': return 134
-            case 'xl': return 134
+            case 'xs': return 105
+            case 'sm': return 105
+            case 'md': return 205
+            case 'lg': return 205
+            case 'xl': return 205
           }
         },
         },

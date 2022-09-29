@@ -142,7 +142,7 @@
       </v-row>
       <v-layout wrap row justify-start v-if="firstLoad" >
         <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+          <card-skeleton-loader></card-skeleton-loader>
         </div>
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" >
@@ -166,6 +166,7 @@
 import EventsCard from '@/components/EventsCard.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 export default {
   scrollToTop: true,
   head() {  
@@ -273,7 +274,8 @@ export default {
     }
   },
   components: {
-      EventsCard
+      EventsCard,
+    CardSkeletonLoader
 
   },
   data() {
@@ -536,25 +538,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser']),
-    cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
-        }
-      },
-      cardwidth () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
+    ...mapGetters(['isAuthenticated', 'loggedInUser'])
     // filterApi: function(){
     //   return this.events.filter((event) => {
     //     return event.country.toLowerCase().match(this.search.toLowerCase())||event.name.toLowerCase().match(this.search.toLowerCase());

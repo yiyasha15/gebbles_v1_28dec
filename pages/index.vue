@@ -68,7 +68,8 @@
         <!-- <register-login></register-login> -->
       </v-col>
     </v-row>
-    <v-container v-else class="pa-0 mt-4 mt-md-8" >
+    <v-container v-else class="pa-0 mt-4 mt-md-8 width mx-auto" >
+      <creation-box></creation-box>
     <v-row class="mx-auto width">
       <v-col cols="12" md="8"  class="justify-center ">
         <nuxt-link to="/" class="text-decoration-none "><h2 class ="xs12 d-inline font-weight-light">Artists</h2></nuxt-link> 
@@ -87,7 +88,7 @@
     </v-row>
     <v-layout wrap row justify-start v-if="firstLoad" class="mx-auto width" >
       <div v-for="n in this.looploader" :key ="n.index">
-        <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+        <card-skeleton-loader></card-skeleton-loader>
       </div>
     </v-layout>
     <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
@@ -112,6 +113,8 @@
 import ArtistCard from '@/components/ArtistCard.vue'
 import EventService from '@/services/EventService.js'
 import {mapGetters} from 'vuex'
+import CreationBox from '~/components/CreationBox.vue'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 // import RegisterLogin from '~/components/RegisterLogin.vue'
 export default {
   head() {  //head function (a property of vue-meta), returns an object
@@ -179,6 +182,8 @@ export default {
   },
   components: {
     ArtistCard,
+    CreationBox,
+    CardSkeletonLoader,
     // RegisterLogin
   },
   data() {
@@ -194,24 +199,6 @@ export default {
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
-    cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
-        }
-    },
-    cardwidth () {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 115
-        case 'sm': return 115
-        case 'md': return 215
-        case 'lg': return 215
-        case 'xl': return 215
-      }
-    },
     maxwidth() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs': return 300
@@ -241,7 +228,6 @@ export default {
 } */
 a:hover{
   color: black;
-  text-decoration: underline;
 }
 .width{
     max-width: 670px;

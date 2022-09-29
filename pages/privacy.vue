@@ -90,7 +90,6 @@
     max-width: 670px;
 }
 a:hover{
-  color: black;
-  text-decoration: underline;
+  color: #000000;
 }
 </style>

@@ -4,7 +4,7 @@
     <v-card 
       data-view
       @click="dialog = true"
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
       outlined
       width="100"
       height="100"

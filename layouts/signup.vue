@@ -14,7 +14,7 @@ export default {
   },
   head() {  //head function (a property of vue-meta), returns an object
     return {
-      titleTemplate: '%s - gebbles',
+      titleTemplate: '%s',
       meta: [
         {
           hid: 'description', //create page overrides the description, hid helps to stop redundancy

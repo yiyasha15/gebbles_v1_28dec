@@ -18,7 +18,7 @@
       </v-row>
       <v-layout wrap row justify-start v-if="firstLoad" class="mx-auto width" >
       <div v-for="n in this.looploader" :key ="n.index">
-        <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="true" type="card" transition="fade-transition"></v-skeleton-loader>
+        <card-skeleton-loader></card-skeleton-loader>
       </div>
     </v-layout>
     <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
@@ -41,6 +41,7 @@
 import ArtistCard from '@/components/ArtistCard.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 export default {
   scrollToTop: true,
   head() {  
@@ -88,7 +89,8 @@ export default {
     },
   },
   components: {
-    ArtistCard
+    ArtistCard,
+    CardSkeletonLoader
   },
   data() {
     return {
@@ -101,24 +103,6 @@ export default {
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
-    cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
-        }
-      },
-      cardwidth () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
     filterApi: function(){
       return this.artists.filter((artist) => {
         return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());

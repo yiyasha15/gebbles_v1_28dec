@@ -11,7 +11,7 @@
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
         <v-tab-item v-if="!firstLoad">
-            <small class="ml-1 py-2 grey--text"><v-icon small>mdi-infinity</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</small>
+            <small class="ml-1 py-2 grey--text"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</small>
             <div v-if="teachers.length">
             <v-layout wrap justify-start class="my-2" >
                 <div v-for="share in teachers" :key ="share.index">
@@ -31,12 +31,12 @@
         <v-tab-item v-else>
             <v-layout wrap row justify-start class="my-2">
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" ></v-skeleton-loader>
+                <card-skeleton-loader></card-skeleton-loader>
             </div>
             </v-layout>
         </v-tab-item>
         <v-tab-item v-if="!firstLoad">
-            <small class="ml-1 py-2 grey--text"> <v-icon small>mdi-infinity</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</small>
+            <small class="ml-1 py-2 grey--text"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</small>
             <div v-if="students.length">
             <v-layout wrap  justify-start class="my-2 ">
                 <div v-for="share in students" :key ="share.index">
@@ -56,7 +56,7 @@
         <v-tab-item v-else>
             <v-layout wrap row justify-start class="my-2">
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" ></v-skeleton-loader>
+                <v-skeleton-loader></v-skeleton-loader>
             </div>
             </v-layout>
         </v-tab-item>
@@ -104,6 +104,7 @@ import StudentsCard from '@/components/StudentsCard.vue'
 import TeachersCard from '@/components/TeachersCard.vue'
 // import CookingCardSharing from '@/components/CookingCardSharing.vue'
 import { mapGetters} from 'vuex'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 // import CookingCard from '~/components/CookingCard.vue'
 // import CookingFeed from '~/components/CookingFeed.vue'
 
@@ -112,30 +113,13 @@ export default {
     components: {
         StudentsCard,
         TeachersCard,
+        CardSkeletonLoader,
         // CookingCardSharing,
         // CookingCard,
         // CookingFeed
     }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser','usersTeachers','userHasTeachers']),
-    cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
-        }
-      },
-      cardwidth () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
     // filteredTeacher: function(){
     //   return this.teachers.filter((share) => {
     //     return share.username === this.artist.username;

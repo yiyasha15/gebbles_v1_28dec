@@ -4,7 +4,7 @@
     <v-card 
       data-view
       @click="opendialog"
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
       outlined
       :width="card_width"
       :height="img_height"

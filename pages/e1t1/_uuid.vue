@@ -309,9 +309,9 @@
                 </center>
             </v-col>
             <v-col cols="12">
-                <v-btn class="mt-4" small outlined color="black" to="/create/uploadvideo" v-if="loggedInUser.username == e1t1.username">
-                <h4 class="font-weight-medium" style="text-transform: capitalize;">Upload a video</h4><v-icon x-small class="pl-1">mdi-upload</v-icon>
-            </v-btn>
+                <v-btn class="mt-4" small outlined color="black" @click="upload_video = true" v-if="loggedInUser.username == e1t1.username">
+                    <h4 class="font-weight-medium" style="text-transform: capitalize;">Upload a video</h4><v-icon small class="pl-1">mdi-play-circle-outline</v-icon>
+                </v-btn>
             </v-col>
             <v-col cols="12">
                 <div v-if="cookingLoaded">
@@ -324,7 +324,7 @@
                 <div v-else>
                     <v-layout class="pa-2" wrap row justify-start>
                     <div v-for="n in this.looploader" :key ="n.index">
-                        <v-skeleton-loader style="margin:2px;" :width="cardwidth" :height="cardheight" :loading="loading" type="card" ></v-skeleton-loader>
+                        <card-skeleton-loader></card-skeleton-loader>
                     </div>
                     </v-layout>
                 </div>
@@ -332,6 +332,17 @@
         </v-row>
         <v-card v-intersect="infiniteScrollingCooking"></v-card>
     </v-container>  
+    <v-dialog max-width="550" 
+        v-model="upload_video">
+        <v-container class="rounded-lg white px-4">
+        <v-row align="end" justify="end" class="pa-0 ma-0" >
+          <v-btn icon color="error" class="float-right" @click="close_upload_video">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-row>
+        <upload-video-card></upload-video-card>
+        </v-container>
+        </v-dialog>
     <v-snackbar v-model="valid_snackbar2">
         Write something to post.
     </v-snackbar>
@@ -355,6 +366,8 @@ import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 import moment from 'moment'
 import CookingCard from '~/components/CookingCard.vue'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
+import UploadVideoCard from '~/components/UploadVideoCard.vue'
 export default {
     head() {
         return {
@@ -395,7 +408,9 @@ export default {
         LearningCard,
         PersonalMessagesCard,
         Youtube,
-        CookingCard 
+        CookingCard ,
+        CardSkeletonLoader,
+        UploadVideoCard
     },
     data(){
           return {
@@ -435,6 +450,7 @@ export default {
             isShowing:false,
             isYourRoom: false,
             items: [],
+            upload_video:false,
             }
     },
 	computed: {
@@ -544,6 +560,10 @@ export default {
             link.href =  this.gebbles_card_url;
             link.setAttribute('download', this.loggedInUser.username+'_card.png'); //or any other extension
             link.click();
+        },
+        close_upload_video(){
+            this.$store.dispatch("remove_cook_obj")
+            this.upload_video=false; 
         },
         filtercooking(){
             // this.$store.dispatch("check_cookings_filtered",this.e1t1.id)

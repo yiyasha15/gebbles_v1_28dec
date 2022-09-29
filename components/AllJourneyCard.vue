@@ -1,21 +1,21 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card
-      style="margin:2px;"
+      class="transition-swing ma-md-2 ma-1"
       data-view
       @click="openDialog(journey.id)" 
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
       outlined
-      :width="cardwidth"
-       :max-height="cardheight">
+      :width="card_width"
+       :max-height="card_height">
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
         :lazy-src= "journey.jp1thumb" 
         class="grey lighten-2 white--text"
-        :height="imgheight"
-        :width="cardwidth"/>
-      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="imgheight"
-        :width="cardwidth" contain/>
+        :height="img_height"
+        :width="card_width"/>
+      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"
+        :width="card_width" contain/>
       <v-card-actions height="32px">
         <div class="text-decoration-none caption width" >
         <p class="event_p">{{ journey.username }} <span v-if="journey.joevent">: {{ journey.joevent }}</span></p>
@@ -247,32 +247,32 @@ export default {
       },
     },
     computed: {
-        ...mapGetters(['loggedInUser','isAuthenticated']),
-        cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
-        }
-      },
-      cardwidth () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
-      imgheight(){
+      ...mapGetters(['loggedInUser','isAuthenticated']),
+      img_height () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 73
           case 'sm': return 73
           case 'md': return 134
           case 'lg': return 134
           case 'xl': return 134
+        }
+      },
+      card_width () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 110
+          case 'sm': return 110
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
+        }
+      },
+      card_height() {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 105
+          case 'sm': return 105
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
         }
       },
       sliderheight(){

@@ -4,7 +4,7 @@
         <h2 class =" font-weight-medium mb-4">Your videos</h2>
       <v-layout wrap row justify-start v-if="firstLoad"  >
         <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+          <card-skeleton-loader></card-skeleton-loader>
         </div>
       </v-layout>
       <v-layout wrap row justify-start v-show="!firstLoad" >
@@ -28,6 +28,7 @@
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
 import CookingCard from '~/components/CookingCard.vue'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 export default {
   scrollToTop: true,
   head() {  
@@ -76,7 +77,8 @@ export default {
     // },
   },
   components: {
-    CookingCard
+    CookingCard,
+    CardSkeletonLoader
   },
   data() {
     return {
@@ -88,25 +90,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser']),
-    cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
-        }
-      },
-      cardwidth () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
+    ...mapGetters(['isAuthenticated', 'loggedInUser'])
   },
 }
 </script>
@@ -114,15 +98,7 @@ export default {
 /* .home{
   width: 860px;
   margin: auto;
-} */
-h5:hover{
-  color: black;
-  text-decoration: underline;
-}
-h3:hover{
-  color: black;
-  text-decoration: underline;
-}
+} */ 
 .width{
     max-width: 670px;
   }

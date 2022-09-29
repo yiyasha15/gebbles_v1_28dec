@@ -1,24 +1,25 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card style="margin:2px;"
+    <v-card 
       data-view
       :to="'/' + artist.username" 
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
+      class="transition-swing ma-md-2 ma-1"
       outlined
-      :width="img_width" 
+      :width="card_width" 
       :max-height="card_height"
     >
       <v-img
         v-if = artist.thumb :src = "artist.thumb" 
         :lazy-src= "artist.thumb" 
         :height="img_height"
-        :width="img_width" 
+        :width="card_width" 
       />
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"
         contain
         :height="img_height"
-        :width="img_width" 
+        :width="card_width" 
       />
       <v-card-actions height="32px">
         <div v-if="artist.artist_name" class="text-decoration-none caption width">
@@ -58,13 +59,13 @@ import CountryFlag from 'vue-country-flag'
           case 'xl': return 134
         }
       },
-      img_width () {
+      card_width () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
+          case 'xs': return 110
+          case 'sm': return 110
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
         }
       },
       card_height() {

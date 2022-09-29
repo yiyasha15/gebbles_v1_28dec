@@ -1,16 +1,16 @@
 <template>
 <v-hover v-slot:default="{ hover }">
   <v-card
-      style="margin:2px;"
       data-view
       :to="'/e1t1/' + e1t1.uuid"
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
+      class="transition-swing ma-md-2 ma-1"
       outlined
-      :width="cardwidth" 
-      :max-height="cardheight"
+      :width="card_width" 
+      :max-height="card_height"
     >
-    <v-img v-if = e1t1.image_mini  :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" :height="img_height" :width="cardwidth"></v-img>
-    <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"  :width="cardwidth" contain/>
+    <v-img v-if = e1t1.image_mini  :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" :height="img_height" :width="card_width"></v-img>
+    <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"  :width="card_width" contain/>
       <v-card-actions height="32px">
         <div class="text-decoration-none caption width">
         <p class="event_p">{{e1t1.s_teacher_name}} </p>
@@ -33,33 +33,33 @@ import CountryFlag from 'vue-country-flag'
         CountryFlag
         },
       computed: {
-        cardheight () {
+        img_height () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
+          case 'xs': return 73
+          case 'sm': return 73
+          case 'md': return 134
+          case 'lg': return 134
+          case 'xl': return 134
         }
         },
-        cardwidth () {
+        card_width () {
           switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 115
-            case 'sm': return 115
-            case 'md': return 215
-            case 'lg': return 215
-            case 'xl': return 215
+            case 'xs': return 110
+            case 'sm': return 110
+            case 'md': return 205
+            case 'lg': return 205
+            case 'xl': return 205
           }
         },
-        img_height () {
+        card_height() {
           switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 73
-            case 'sm': return 73
-            case 'md': return 134
-            case 'lg': return 134
-            case 'xl': return 134
+            case 'xs': return 105
+            case 'sm': return 105
+            case 'md': return 205
+            case 'lg': return 205
+            case 'xl': return 205
           }
-        },
+        }
       },
     }
 </script>

@@ -44,7 +44,7 @@
         </v-container>
         <v-container class="mx-auto" fluid style="max-width:950px" >
         <v-row>
-            <v-col cols="12" sm="6" align="center" justify="center">
+            <v-col cols="12" sm="6" align="center" justify="center" class="d-flex align-content-center flex-wrap">
                 <v-img :src = "workshop.poster" class="black" maxHeight="540px" contain ></v-img>
             </v-col>
             <v-col cols="12" sm="6" justify="center" > 
@@ -599,7 +599,6 @@ export default {
 }
 .hover:hover{
     cursor: pointer;
-    text-decoration: underline;
 }
 .width{
     max-width:950px;

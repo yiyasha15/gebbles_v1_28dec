@@ -22,7 +22,7 @@
             <div v-else>
                 <v-layout wrap row justify-start class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="loading" type="card" ></v-skeleton-loader>
+                    <card-skeleton-loader></card-skeleton-loader>
                 </div>
             </v-layout>
             </div>
@@ -34,31 +34,15 @@
 import EventService from '@/services/EventService.js'
 import TeachersCard from '@/components/TeachersCard.vue'
 import { mapGetters} from 'vuex'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 
 export default {
     components: {
-        TeachersCard
+        TeachersCard,
+        CardSkeletonLoader
     }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser','usersTeachers','userHasTeachers']),
-    cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
-        }
-      },
-      cardwidth () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
     // filteredTeacher: function(){
     //   return this.teachers.filter((share) => {
     //     return share.username === this.artist.username;
@@ -67,7 +51,7 @@ export default {
     },
     head() {
         return {
-            title: 'Each one teach one - gebbles',     //do not miss "this"
+            title: 'Each one teach one',     //do not miss "this"
             meta: [
                 {
                     hid: 'description',

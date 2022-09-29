@@ -73,7 +73,7 @@
         :to="'/create/each1teach1'"
         class="text-decoration-none pl-6 pr-12"
         >
-        <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
+        <v-icon color="black" class="pr-2">mdi-all-inclusive</v-icon>
         <v-list-item-title>Give a shoutout</v-list-item-title>
         </v-list-item>
       </v-list>

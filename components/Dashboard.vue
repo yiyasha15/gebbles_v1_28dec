@@ -87,14 +87,9 @@
                             mdi-account-circle
                         </v-icon>
                 </v-list-item-avatar>
-
-                <v-list-item-content>
+                <nuxt-link :to="'/'+loggedInUser.username" class="text-decoration-none">
                 <v-list-item-title>{{loggedInUser.username}}</v-list-item-title>
-                <v-list-item-subtitle>
-                    <!-- <v-icon color="green">mdi-circle-medium</v-icon> -->
-                    <nuxt-link :to="'/'+loggedInUser.username" class="text-decoration-none"> gebbles.io/{{loggedInUser.username}}</nuxt-link>
-                    </v-list-item-subtitle>
-                </v-list-item-content>
+                </nuxt-link>
             </v-list-item>
             <v-list dense>
                 <v-subheader>Explore</v-subheader>

@@ -2,14 +2,14 @@
 <div>
     <v-btn icon small v-if="isAuthenticated" @click="drawer_right=!drawer_right"
         class="text-decoration-none mx-1">
-        <v-avatar size="26" v-if="usersPortfolio && usersPortfolio.thumb">
+        <v-avatar size="32" v-if="usersPortfolio && usersPortfolio.thumb">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
             :src = "usersPortfolio.thumb" 
             alt="img"
         >
         </v-avatar>
-        <v-avatar size="26" v-else >
+        <v-avatar size="32" v-else >
             <v-icon dark  color="black">
                 mdi-account-circle
             </v-icon>
@@ -17,7 +17,7 @@
     </v-btn>
     <v-btn icon small v-else @click="drawer_right=!drawer_right"
         class="text-decoration-none mx-1">
-        <v-avatar size="26">
+        <v-avatar size="32">
             <v-icon dark  color="black">
                 mdi-account-circle
             </v-icon>
@@ -25,7 +25,7 @@
     </v-btn>
     <v-navigation-drawer height="90.2vh"
         clipped-right temporary
-        class="ml-md-4 mt-16" 
+        class="ml-md-4 mt-16 pa-3 rounded-lg" 
         app
         right 
         hide-overlay
@@ -59,34 +59,32 @@
         </v-list-item>
         </v-list>
         <v-list-item v-if="isAuthenticated" two-line>
-            <v-list-item-avatar v-if="usersPortfolio && usersPortfolio.thumb">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
-                    :src = "usersPortfolio.thumb" 
-                    alt="img"
-                >
-            </v-list-item-avatar>
-            <v-list-item-avatar v-else>
-                <v-icon dark  color="black">
-                        mdi-account-circle
-                    </v-icon>
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-            <v-list-item-title>{{loggedInUser.username}}</v-list-item-title>
-            <v-list-item-subtitle>
-                <!-- <v-icon color="green">mdi-circle-medium</v-icon> -->
-                <nuxt-link :to="'/'+loggedInUser.username" class="text-decoration-none"> gebbles.io/{{loggedInUser.username}}</nuxt-link>
-                </v-list-item-subtitle>
-            </v-list-item-content>
-        </v-list-item>
+                <v-list-item-avatar v-if="usersPortfolio && usersPortfolio.thumb">
+                    <img
+                    :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
+                        :src = "usersPortfolio.thumb" 
+                        alt="img"
+                    >
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else>
+                    <v-icon dark  color="black">
+                            mdi-account-circle
+                        </v-icon>
+                </v-list-item-avatar>
+                <nuxt-link :to="'/'+loggedInUser.username" class="text-decoration-none">
+                <v-list-item-title>{{loggedInUser.username}}</v-list-item-title>
+                </nuxt-link>
+            </v-list-item>
         <v-list dense>
             <v-subheader>Explore</v-subheader>
             <v-list-item to="/artists">
                 <!-- Explore -->
-                <v-list-item-icon>
+                <v-list-item-icon >
                 <v-icon>mdi-account-group-outline</v-icon>
                 </v-list-item-icon>
+                <!-- <v-list-item-icon v-else>
+                <v-icon>mdi-account-group</v-icon>
+                </v-list-item-icon> -->
                 <v-list-item-content>
                 <v-list-item-title> Artists</v-list-item-title>
                 </v-list-item-content>

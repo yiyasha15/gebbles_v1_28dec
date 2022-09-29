@@ -1,17 +1,17 @@
 <template>
 <v-hover v-slot:default="{ hover }">
     <v-card
-      style="margin:2px;"
       data-view
       :to="'/e1t1/' + share.uuid" 
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
+      class="transition-swing ma-md-2 ma-1"
       outlined
-      :width="cardwidth" 
-      :max-height="cardheight">
+      :width="card_width" 
+      :max-height="card_height">
       <v-img v-if="share.image_mini"
           :src = "share.image_mini"
-          :height="img_height" :width="cardwidth"/>
-      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height" :width="cardwidth" contain/>
+          :height="img_height" :width="card_width"/>
+      <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height" :width="card_width" contain/>
       <v-card-actions height="32px">
         <div class="text-decoration-none caption width" >
         <p class="event_p">{{share.username}}</p>
@@ -37,7 +37,25 @@ import { mapGetters } from 'vuex'
       },
       computed: {
         ...mapGetters([ 'userHasPortfolio']),
-        cardheight () {
+        img_height () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 73
+          case 'sm': return 73
+          case 'md': return 134
+          case 'lg': return 134
+          case 'xl': return 134
+        }
+      },
+      card_width () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 110
+          case 'sm': return 110
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
+        }
+      },
+      card_height() {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 105
           case 'sm': return 105
@@ -45,25 +63,7 @@ import { mapGetters } from 'vuex'
           case 'lg': return 205
           case 'xl': return 205
         }
-        },
-        cardwidth () {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 115
-            case 'sm': return 115
-            case 'md': return 215
-            case 'lg': return 215
-            case 'xl': return 215
-          }
-        },
-        img_height () {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 73
-            case 'sm': return 73
-            case 'md': return 134
-            case 'lg': return 134
-            case 'xl': return 134
-          }
-        },
+      }
       },
       
       

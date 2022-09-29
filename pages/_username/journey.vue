@@ -61,7 +61,7 @@
             <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
             <v-layout wrap row justify-start class="mx-auto width" style="margin:8px 0px;">
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="true" type="card" transition="fade-transition"></v-skeleton-loader>
+                <card-skeleton-loader></card-skeleton-loader>
             </div>
             </v-layout>
             </v-container>
@@ -71,7 +71,7 @@
             <!-- tagged events -->
             <v-layout wrap row justify-start v-if="firstLoadTagged" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="true" type="card" transition="fade-transition"></v-skeleton-loader>
+                <card-skeleton-loader></card-skeleton-loader>
                 </div>
             </v-layout>
             <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width my-2" >
@@ -93,7 +93,7 @@
 
             <v-layout wrap row justify-start v-if="firstLoadGoing" class="my-2">
                 <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" :width="cardwidth" :max-height="cardheight" :loading="true" type="card" transition="fade-transition"></v-skeleton-loader>
+                <card-skeleton-loader></card-skeleton-loader>
                 </div>
             </v-layout>
             <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width my-2" >
@@ -119,6 +119,7 @@ import TaggedEventsCard from '@/components/TaggedEventsCard.vue'
 import EventService from '@/services/EventService.js'
 import JourneyCard from "@/components/JourneyCard.vue"
 import GoingEventsCard from '~/components/GoingEventsCard.vue'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 export default {
     head() {
         return {
@@ -135,30 +136,13 @@ export default {
     components:{
         JourneyCard, TaggedEventsCard,
         GoingEventsCard,
+        CardSkeletonLoader,
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser',
      'journey','upcoming','highlights', 
      'journeyLoaded'
      ]),
-     cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
-        }
-      },
-      cardwidth () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
     },
     props: ["artist"],
     created(){
