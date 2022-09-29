@@ -66,7 +66,7 @@ export default {
           // background-color: '#ece0c7',
           // background: '#ece0c7' ,
           primary: '#815A44',
-          secondary: '#CDA88E',
+          secondary: '#e3c8b6',
           accent: '#8c9eff',
           error: '#A30000',
         },

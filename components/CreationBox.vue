@@ -1,9 +1,10 @@
 <template>
     <v-card elevation="0" outlined class="mb-6 pa-md-6 pa-3 text-center">
-        <h3 class="px-2 pa-md-5 font-weight-medium"> Share your story... </h3>
+        <h3 class="px-2 pa-md-5 font-weight-medium text-left"> Share your story... </h3>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" 
+                <v-btn fab v-bind="attrs" color="secondary" 
+             class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-book-heart-outline</v-icon>
                 </v-btn>
@@ -12,7 +13,7 @@
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" @click="upload_video=true"
+                <v-btn fab v-bind="attrs" @click="upload_video=true" color="secondary" class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-play-circle-outline</v-icon>
                 </v-btn>
@@ -21,7 +22,7 @@
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs"
+                <v-btn fab color="secondary" v-bind="attrs" class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-all-inclusive</v-icon>
                 </v-btn>
@@ -30,7 +31,7 @@
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs"
+                <v-btn fab color="secondary" v-bind="attrs" class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-google-circles-communities</v-icon>
                 </v-btn>
@@ -39,7 +40,7 @@
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs"
+                <v-btn fab color="secondary"  v-bind="attrs" class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-leaf-circle-outline</v-icon>
                 </v-btn>
