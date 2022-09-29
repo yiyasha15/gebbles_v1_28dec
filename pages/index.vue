@@ -70,47 +70,45 @@
     </v-row>
     <v-container v-else class="pa-0 mt-4 mt-md-8 width mx-auto" >
       <creation-box></creation-box>
-    <v-row class="mx-auto width">
-      <v-col cols="12" md="8"  class="justify-center ">
-        <nuxt-link to="/" class="text-decoration-none "><h2 class ="xs12 d-inline font-weight-light">Artists</h2></nuxt-link> 
-        / <nuxt-link class="text-decoration-none " to="/artists/legacy"><h2 class ="xs12 d-inline font-weight-light">Legacy Artists</h2></nuxt-link>
-      </v-col>
-      <v-col cols="12" md="4" class= "justify-end py-0 py-md-3" >
-        <v-text-field
-          label="Search artists"
-          rounded
-          solo
-          prepend-inner-icon="mdi-magnify"
-          v-model="search"
-        @input="debounceSearch"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-layout wrap row justify-start v-if="firstLoad" class="mx-auto width" >
-      <div v-for="n in this.looploader" :key ="n.index">
-        <card-skeleton-loader></card-skeleton-loader>
+      <div>
+        <h3 class ="mb-4 font-weight-light">What's cooking </h3>
+       <div v-if="firstLoad" >
+      <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
+      <div align="left" justify="left">
+      <div class="mb-1">
+        <v-btn icon class="mr-1">
+            <v-icon color="black" >mdi-heart</v-icon>
+        </v-btn>
+        <v-btn icon class="mx-1">
+            <v-icon color="black" >mdi-fire</v-icon>
+        </v-btn>
+        <v-btn icon  class="mx-1">
+            <v-icon color="black" >mdi-head-flash-outline</v-icon>
+        </v-btn>
       </div>
-    </v-layout>
-    <v-layout wrap row justify-start v-show="!firstLoad" class="mx-auto width" >
-      <div v-for="artist in artists" :key ="artist.index">
-        <ArtistCard :artist="artist" ></ArtistCard> 
       </div>
-    </v-layout>
-
-    <v-card v-intersect="infiniteScrolling"></v-card>
-    <center v-if="!artists.length && !firstLoad">
-      <img
-      :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-      class="ml-2 mt-6 clickable"
-      :src="require('@/assets/gebbleslogo.png')"/>
-      <h3>No artists found. </h3>
-    </center>
+      <v-row >
+      <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+      </v-row>
+      </div>
+      <div v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
+        <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
+      </div>
+      <center v-if="!cooking.length && !firstLoad">
+        <img
+        :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+        class="ml-2 mt-6 clickable"
+        :src="require('@/assets/gebbleslogo.png')"/>
+        <h3>No videos found. </h3>
+      </center>
+      <v-card v-intersect="infiniteScrolling"></v-card>
+      </div>
     </v-container>
   </v-app>
 </template>
 
 <script>
-import ArtistCard from '@/components/ArtistCard.vue'
+import CookingFeed from '@/components/CookingFeed.vue'
 import EventService from '@/services/EventService.js'
 import {mapGetters} from 'vuex'
 import CreationBox from '~/components/CreationBox.vue'
@@ -129,7 +127,7 @@ export default {
         }
   },
   created(){
-    this.getartists();
+    this.getwhatiscooking();
     // console.log("?", process.env.AUTH_TOKEN);
     if(this.isAuthenticated){
       // console.log("?");
@@ -139,49 +137,41 @@ export default {
     }
   },
   methods:{
-    async getartists(){
+    async getwhatiscooking(){
       try {
-      const response = await EventService.getArtists()
-      this.artists = response.data.results
+      const response = await EventService.getWhatsCooking()
+      this.cooking = response.data.results
       this.page = response.data.next
       this.firstLoad = false
-    } catch (e) {
+      } catch (e) {
         console.log(e);
         this.firstLoad = false
     }
     },
-    infiniteScrolling(entries, observer, isIntersecting) {
-        if(this.page){
-        const key = 'username';
-        this.$axios.get(this.page).then(response => {
-              this.page= response.data.next;
-              response.data.results.forEach(item => this.artists.push(item));
-              // filter array so no duplicates
-              this.artists = [...new Map(this.artists.map(item =>
-                [item[key], item])).values()];
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        }
-    },
-    debounceSearch() {
-    this.firstLoad = true
-    this.artists=[]
-      clearTimeout(this.debounce)
-      this.debounce = setTimeout(() => {
-      if(this.search){EventService.getSearchedArtist(this.search).then((value) => {
-      this.firstLoad = false
-      this.artists = value.data
-      });}
-      else{
-        this.getartists();
+    infiniteScrolling() {
+      if(this.page){
+      const key = 'id';
+      this.$axios.get(this.page).then(response => {
+        this.page= response.data.next;
+        response.data.results.forEach(item => this.cooking.push(item));
+        // filter array so no duplicates
+        this.cooking = [...new Map(this.cooking.map(item =>
+          [item[key], item])).values()];
+      })
+      .catch(err => {
+        console.log(err);
+      });
       }
-      }, 600)
     },
+    postDelete(){
+      this.cooking=[];
+      this.page =''
+      this.firstLoad = true
+      this.getwhatiscooking();
+    }
   },
   components: {
-    ArtistCard,
+    CookingFeed,
     CreationBox,
     CardSkeletonLoader,
     // RegisterLogin
@@ -192,9 +182,7 @@ export default {
       loading: true,
       firstLoad: true,
       page:"",
-      artists:[],
-      search: "",
-      debounce: null
+      cooking:[],
     }
   },
   computed: {

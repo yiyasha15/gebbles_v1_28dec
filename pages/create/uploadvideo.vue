@@ -6,28 +6,6 @@
             </v-btn>
         </v-container>
         <upload-video-card></upload-video-card>
-        <!-- <p> all teachers</p>
-        <ul v-for="t in usersTeachers" :key="t.id">
-                <li>{{t}}</li>
-        </ul>
-        ---<br>
-        --
-        <p> cook_obj.taggedteachers</p>
-        <ul v-for="t in cook_obj.taggedteachers" :key="t.id">
-                <li>{{t}}</li>
-        </ul>
-        ---<br>
-        <ul v-for="t in cook_obj.taggedteachers" :key="t.id">
-                <li>{{t.shareidobj.id}}</li>
-        </ul>
-        --
-        <p> selectedTeachers</p>
-        <ul v-for="t in selectedTeachers" :key="t.id">
-                <li>{{t}}</li>
-        </ul>
-        <ul v-for="t in selectedTeachers" :key="t.id">
-                <li>{{typeof t}}</li>
-        </ul> -->
     </v-app>
 </template>
 

@@ -103,8 +103,6 @@ export default {
       firstLoad: true,
       page:"",
       cooking:[],
-      search: "",
-      debounce: null
     }
   },
   computed: {
