@@ -2,8 +2,8 @@
     <div>
         <v-container class="mx-auto" fluid style="max-width:550px" >
             <v-card class="pa-6 pa-md-12" elevation=0 outlined >
-                <h2 class="font-weight-medium mb-5" align="center" justify="center" v-if="!cook_obj">Upload your video</h2>
-                 <h2 class="font-weight-medium mb-5" align="center" justify="center" v-else>Edit your video</h2>
+                <h2 class="font-weight-medium mb-5 text-sm-caption" align="center" justify="center" v-if="!cook_obj">Upload your video</h2>
+                 <h2 class="font-weight-medium mb-5 text-sm-body-2" align="center" justify="center" v-else>Edit your video</h2>
             <v-form v-on:submit.prevent="submit" ref="cooking_form">
                 <v-row>
                     <v-col cols="12" class="pa-0">

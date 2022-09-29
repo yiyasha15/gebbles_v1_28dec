@@ -48,8 +48,10 @@
             </template>
             <span>Create a workshop</span>
         </v-tooltip>
-        <h3 class="pa-2 pa-md-3 font-weight-light mt-3"> Share your story </h3>
-        <v-divider inset></v-divider>
+        <h3 class="pa-2 pa-md-3 font-weight-light my-3"> Share your story </h3>
+        <center>
+        <v-divider width="360" />
+        </center>
         </div>
         <v-dialog max-width="550" 
         v-model="upload_video">
@@ -107,8 +109,5 @@ export default {
 <style scoped>
 .cp{
     cursor: pointer;
-}
-.v-icon{
-    color:primary;
 }
 </style>

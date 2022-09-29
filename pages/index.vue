@@ -225,7 +225,7 @@ a:hover{
 }
 @media only screen and (max-width: 960px) {
   .width{
-    max-width: 357px;
+    max-width: 420px;
   }
   .homepage-width{
     max-width: 400px;
