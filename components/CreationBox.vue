@@ -1,9 +1,10 @@
 <template>
-    <v-card elevation="0" outlined class="mb-6 pa-md-6 pa-3 text-center">
-        <h3 class="px-2 pa-md-5 font-weight-medium text-left"> Share your story... </h3>
+    <v-card elevation="0" class="mx-2 mx-sm-0 mb-6 pa-md-4 pa-2 text-center">
+        <!-- <h3 class="pa-2 pa-md-3 font-weight-light text-left"> Share your story... </h3> -->
+        <div class="pa-2">
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn fab v-bind="attrs" color="secondary" 
+                <v-btn fab small v-bind="attrs" color="secondary" 
              class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-book-heart-outline</v-icon>
@@ -13,7 +14,7 @@
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn fab v-bind="attrs" @click="upload_video=true" color="secondary" class="mx-1"
+                <v-btn fab small v-bind="attrs" @click="upload_video=true" color="secondary" class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-play-circle-outline</v-icon>
                 </v-btn>
@@ -22,7 +23,7 @@
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn fab color="secondary" v-bind="attrs" class="mx-1"
+                <v-btn fab small color="secondary" v-bind="attrs" class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-all-inclusive</v-icon>
                 </v-btn>
@@ -31,7 +32,7 @@
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn fab color="secondary" v-bind="attrs" class="mx-1"
+                <v-btn fab small color="secondary" v-bind="attrs" class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-google-circles-communities</v-icon>
                 </v-btn>
@@ -40,13 +41,16 @@
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <v-btn fab color="secondary"  v-bind="attrs" class="mx-1"
+                <v-btn fab small color="secondary"  v-bind="attrs" class="mx-1"
                     v-on="on">
                     <v-icon color="primary">mdi-leaf-circle-outline</v-icon>
                 </v-btn>
             </template>
             <span>Create a workshop</span>
         </v-tooltip>
+        <h3 class="pa-2 pa-md-3 font-weight-light mt-3"> Share your story </h3>
+        <v-divider inset></v-divider>
+        </div>
         <v-dialog max-width="550" 
         v-model="upload_video">
         <v-container class="rounded-lg white px-4">
