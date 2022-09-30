@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
-            <v-card class="px-1 py-6 py-md-6" elevation=0 >
+            <v-card class="px-1 pt-3" elevation=0 >
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!share_obj">Give a shoutout<br>
                     <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
                     -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one</span></div>
@@ -108,7 +108,7 @@
                         <upload-image-component @newimage="getUrl" @removeimage="removeUrl" :initialImage="sharing.image"></upload-image-component>
                         </div>
                         <v-btn color="black" text outlined @click="e6 = 3" small>Next</v-btn>
-                        <v-btn color="error" text @click="e6 = 1" small>Previous</v-btn>
+                        <v-btn color="primary" text @click="e6 = 1" small>Previous</v-btn>
                     </v-stepper-content>
                 
                     <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
@@ -151,7 +151,7 @@
                         <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
                             <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
                         </v-row>
-                        <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                        <v-btn color="primary" small text @click="e6 = 2">Previous</v-btn>
                     </v-stepper-content>
                     <div class="mx-sm-7 mx-6">
                     <p v-if="progressbar" class="caption"> Please wait..</p>
@@ -161,7 +161,7 @@
                         <v-btn v-else outlined small class="text-decoration-none"  color="black"
                         :loading="progressbar" 
                         @click="update">Update</v-btn>
-                        <v-btn color="error" small text @click="clear">Cancel</v-btn>
+                        <!-- <v-btn color="error" small text @click="clear">Cancel</v-btn> -->
                     </div>
                 </v-stepper>
             </v-card>

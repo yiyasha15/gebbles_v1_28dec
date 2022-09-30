@@ -4,8 +4,8 @@
             <v-btn icon  @click="goback()" style="margin-left:-6px">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
-            </v-container>
-            <upload-journey-card></upload-journey-card>
+        </v-container>
+        <upload-journey-card></upload-journey-card>
     </v-app>
 </template>
 <script>

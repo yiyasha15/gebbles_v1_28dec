@@ -30,6 +30,9 @@ font-family: 'Poppins',  cursive sans-serif !important;
 #app{
   overflow-x: hidden;
 }
+.v-btn__content{
+  text-transform: capitalize;
+}
 .v-tab {
   letter-spacing: 0 !important;
 padding: 0px 8px !important;}

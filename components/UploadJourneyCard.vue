@@ -4,7 +4,7 @@
             <v-card class="px-1 pt-3" elevation=0 >
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!editing_obj">Share your journey</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your journey</div>
-                <gebbles-divider class="mb-3"></gebbles-divider>
+                <gebbles-divider class="mb-5"></gebbles-divider>
                 <v-stepper v-model="e6" vertical class="elevation-0">
                     <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                     Share images* <small v-if="journey.event" class="mt-1">add this event to your journey</small>
@@ -204,7 +204,7 @@
                         </v-text-field>
                         </v-form>
                         <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
-                        <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
+                        <v-btn color="primary" text small @click="e6 = 1">Previous</v-btn>
                     </v-stepper-content>
             
                     <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Highlights and Privacy</v-stepper-step>
@@ -237,14 +237,14 @@
                                     :value="false"
                                 ></v-radio>
                             </v-radio-group>
-                        <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                        <v-btn color="primary" small text @click="e6 = 2">Previous</v-btn>
                     </v-stepper-content>
                     <div class="mx-sm-7 mx-6">
                         <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
-                        @click="submit" :loading="progressbar" >Submit</v-btn>
+                        @click="submit" :loading="progressbar" >Post Journey</v-btn>
                         <v-btn v-else outlined small class="text-decoration-none"  color="black"
                         @click="update" :loading="progressbar">Update</v-btn>
-                        <v-btn text @click="clear" small color="error">Cancel</v-btn>
+                        <!-- <v-btn text @click="clear" small color="error">Cancel</v-btn> -->
                     </div>
                 </v-stepper>
             </v-card>
