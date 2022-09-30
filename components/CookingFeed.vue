@@ -77,7 +77,7 @@
     </nuxt-link><span v-if="cook.lesson">{{": "}}{{cook.lesson}}</span>
     </div>
     <nuxt-link v-for="obj in cook.taggedteachers" :key="obj.id" :to="'/e1t1/'+ obj.shareidobj.uuid" class="text-decoration-none">
-        <v-chip color="black grey" dark outlined class="mr-1" style="cursor:pointer;">
+        <v-chip color="black grey" dark outlined class="mr-1 mb-1" style="cursor:pointer;">
         <v-avatar left v-if="obj.shareidobj.teacher">
             <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
         </v-avatar>
@@ -163,7 +163,7 @@ import { getIdFromURL } from 'vue-youtube-embed'
 export default {
     head() {  
     return {
-        title: "What's cookin",
+        title: "gebbles - What's cookin",
         }
     },
     name: 'CookingCard',

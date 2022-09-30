@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--site navigation -->
-        <v-app-bar clipped-left flat fixed color="white">
+        <v-app-bar clipped-left flat fixed color="white" class="pa-md-3 pa-2">
             <nuxt-link :to="'/'" class="text-decoration-none">
             <v-layout align-center>
                 <img
@@ -22,7 +22,7 @@
             >
             <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
-            <plus-button v-if="userHasPortfolio"></plus-button>
+            <plus-button v-if="userHasPortfolio" class="hidden-sm-and-up"></plus-button>
             <!-- {{notifications_notseen}} -->
             <v-btn small v-if="userHasPortfolio && notifications_notseen>0" icon dark color="black" class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
             <v-badge color="error" overlap :content='notifications_notseen'>
@@ -48,56 +48,70 @@
             v-model="drawer"
             >
             <v-list v-if="!isAuthenticated" dense>
-            <v-subheader>Welcome</v-subheader>
-            <v-list-item to="/">
-                <v-list-item-icon>
-                🏠
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Home</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/create">
-                <v-list-item-icon>
-                🥷
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Get started</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/help">
-                <v-list-item-icon>
-                💬
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Help</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
+        <v-subheader>Welcome</v-subheader>
+        <v-list-item to="/">
+            <v-list-item-icon>
+            🏠
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Home</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/create">
+            <v-list-item-icon>
+            🥷
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Get started</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/help">
+            <v-list-item-icon>
+            💬
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Help</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
             </v-list>
-            <v-list-item v-if="isAuthenticated" two-line>
-                <v-list-item-avatar v-if="usersPortfolio && usersPortfolio.thumb">
-                    <img
-                    :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
-                        :src = "usersPortfolio.thumb" 
-                        alt="img"
-                    >
-                </v-list-item-avatar>
-                <v-list-item-avatar v-else>
-                    <v-icon dark  color="black">
-                            mdi-account-circle
-                        </v-icon>
-                </v-list-item-avatar>
-                <nuxt-link :to="'/'+loggedInUser.username" class="text-decoration-none">
-                <v-list-item-title>{{loggedInUser.username}}</v-list-item-title>
-                </nuxt-link>
-            </v-list-item>
+            <v-list two-line v-if="isAuthenticated">
+                <v-list-item >
+                    <v-list-item-avatar v-if="usersPortfolio && usersPortfolio.thumb">
+                        <img
+                        :width="$vuetify.breakpoint.smAndDown ? 24 : 22"
+                        :height="$vuetify.breakpoint.smAndDown ? 24 : 22"
+                            :src = "usersPortfolio.thumb" 
+                            alt="img"
+                        >
+                    </v-list-item-avatar>
+                    <v-list-item-avatar v-else>
+                        <v-icon dark  color="black">
+                                mdi-account-circle
+                            </v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                    <nuxt-link :to="'/'+loggedInUser.username" class="text-decoration-none">
+                    <v-list-item-title>
+                        {{loggedInUser.username}}
+                        </v-list-item-title>
+                    </nuxt-link>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
             <v-list dense>
                 <v-subheader>Explore</v-subheader>
+                <v-list-item-group
+                    v-model="explore"
+                    color="primary"
+                >
                 <v-list-item to="/artists">
                     <!-- Explore -->
-                    <v-list-item-icon>
+                    <v-list-item-icon >
                     <v-icon>mdi-account-group-outline</v-icon>
                     </v-list-item-icon>
+                    <!-- <v-list-item-icon v-else>
+                    <v-icon>mdi-account-group</v-icon>
+                    </v-list-item-icon> -->
                     <v-list-item-content>
                     <v-list-item-title> Artists</v-list-item-title>
                     </v-list-item-content>
@@ -127,16 +141,21 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item to="/workshops">
-                    <v-list-item-icon>
-                    <v-icon>mdi-leaf-circle-outline</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title>Workshops</v-list-item-title>
-                    </v-list-item-content>
+                        <v-list-item-icon>
+                        <v-icon>mdi-leaf-circle-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                        <v-list-item-title>Workshops</v-list-item-title>
+                        </v-list-item-content>
                 </v-list-item>
+                </v-list-item-group>
             </v-list>
             <v-list v-if="isAuthenticated" dense>
             <v-subheader>Each one teach one</v-subheader>
+            <v-list-item-group
+                v-model="e1t1"
+                color="primary"
+            >
             <v-list-item to="/learning">
                 <v-list-item-icon>
                 📝
@@ -153,9 +172,14 @@
                 <v-list-item-title>Sharing</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            </v-list-item-group>
             </v-list>
             <v-list v-if="isAuthenticated" dense>
             <v-subheader>What's cookin</v-subheader>
+            <v-list-item-group
+                v-model="whatiscooking"
+                color="primary"
+            >
             <v-list-item to="/your-videos">
                 <v-list-item-icon>
                 🎞️
@@ -172,9 +196,14 @@
                 <v-list-item-title>Mentioned videos</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            </v-list-item-group>
             </v-list>
             <v-list v-if="isAuthenticated" dense>
             <v-subheader>Events</v-subheader>
+            <v-list-item-group
+                v-model="events"
+                color="primary"
+            >
             <v-list-item to="/invited-events">
                 <v-list-item-icon>
                 💌
@@ -199,9 +228,14 @@
                 <v-list-item-title>Attending Events</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            </v-list-item-group>
             </v-list>
             <v-list v-if="isAuthenticated" dense>
                 <v-subheader>Account</v-subheader>
+                <v-list-item-group
+                    v-model="account"
+                    color="primary"
+                >
                 <v-list-item to="/help" >
                     <v-list-item-icon>
                     💬
@@ -226,6 +260,7 @@
                     <v-list-item-title>Sign out</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                </v-list-item-group>
             </v-list>
             <v-btn v-if="!isAuthenticated" dark color="black" class="text-decoration-none text-capitalize ma-4" to="/register">Sign Up</v-btn>
         </v-navigation-drawer>
@@ -251,6 +286,11 @@ export default {
     data() {
       return {
           drawer: this.width,
+          explore:1,
+          e1t1:1,
+          events:1,
+          account:1,
+          whatiscooking:1
       }
     },
 }

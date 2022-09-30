@@ -58,10 +58,12 @@
             </v-list-item-content>
         </v-list-item>
         </v-list>
-        <v-list-item v-if="isAuthenticated" two-line>
+        <v-list two-line v-if="isAuthenticated">
+            <v-list-item >
                 <v-list-item-avatar v-if="usersPortfolio && usersPortfolio.thumb">
                     <img
-                    :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
+                    :width="$vuetify.breakpoint.smAndDown ? 24 : 22"
+                    :height="$vuetify.breakpoint.smAndDown ? 24 : 22"
                         :src = "usersPortfolio.thumb" 
                         alt="img"
                     >
@@ -71,12 +73,21 @@
                             mdi-account-circle
                         </v-icon>
                 </v-list-item-avatar>
+                <v-list-item-content>
                 <nuxt-link :to="'/'+loggedInUser.username" class="text-decoration-none">
-                <v-list-item-title>{{loggedInUser.username}}</v-list-item-title>
+                <v-list-item-title>
+                    {{loggedInUser.username}}
+                    </v-list-item-title>
                 </nuxt-link>
+                </v-list-item-content>
             </v-list-item>
+        </v-list>
         <v-list dense>
             <v-subheader>Explore</v-subheader>
+            <v-list-item-group
+                v-model="explore"
+                color="primary"
+            >
             <v-list-item to="/artists">
                 <!-- Explore -->
                 <v-list-item-icon >
@@ -120,10 +131,15 @@
                     <v-list-item-content>
                     <v-list-item-title>Workshops</v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
+            </v-list-item>
+            </v-list-item-group>
         </v-list>
         <v-list v-if="isAuthenticated" dense>
         <v-subheader>Each one teach one</v-subheader>
+        <v-list-item-group
+            v-model="e1t1"
+            color="primary"
+        >
         <v-list-item to="/learning">
             <v-list-item-icon>
             📝
@@ -140,9 +156,14 @@
             <v-list-item-title>Sharing</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
+        </v-list-item-group>
         </v-list>
         <v-list v-if="isAuthenticated" dense>
         <v-subheader>What's cookin</v-subheader>
+        <v-list-item-group
+            v-model="whatiscooking"
+            color="primary"
+        >
         <v-list-item to="/your-videos">
             <v-list-item-icon>
             🎞️
@@ -159,9 +180,14 @@
             <v-list-item-title>Mentioned videos</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
+        </v-list-item-group>
         </v-list>
         <v-list v-if="isAuthenticated" dense>
         <v-subheader>Events</v-subheader>
+        <v-list-item-group
+            v-model="events"
+            color="primary"
+        >
         <v-list-item to="/invited-events">
             <v-list-item-icon>
             💌
@@ -186,9 +212,14 @@
             <v-list-item-title>Attending Events</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
+        </v-list-item-group>
         </v-list>
         <v-list v-if="isAuthenticated" dense>
             <v-subheader>Account</v-subheader>
+            <v-list-item-group
+                v-model="account"
+                color="primary"
+            >
             <v-list-item to="/help" >
                 <v-list-item-icon>
                 💬
@@ -213,6 +244,7 @@
                 <v-list-item-title>Sign out</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            </v-list-item-group>
         </v-list>
     </v-navigation-drawer>
 </div>
@@ -225,7 +257,12 @@ export default {
     },
     data() {
       return {
-          drawer_right:false
+          drawer_right:false,
+          explore:1,
+          e1t1:1,
+          events:1,
+          account:1,
+          whatiscooking:1
       }
     },
 }

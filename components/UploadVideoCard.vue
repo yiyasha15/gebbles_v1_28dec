@@ -1,81 +1,82 @@
 <template>
     <div>
         <v-container class="mx-auto" fluid style="max-width:550px" >
-            <v-card class="pa-6 pa-md-12" elevation=0 outlined >
-                <h2 class="font-weight-medium mb-5 text-sm-caption" align="center" justify="center" v-if="!cook_obj">Upload your video</h2>
-                 <h2 class="font-weight-medium mb-5 text-sm-body-2" align="center" justify="center" v-else>Edit your video</h2>
-            <v-form v-on:submit.prevent="submit" ref="cooking_form">
-                <v-row>
-                    <v-col cols="12" class="pa-0">
-                        <v-text-field
-                            :rules="youtubeRules"
-                            v-model = "cookingForm.video"
-                            label= "Youtube URL">
-                        </v-text-field>
-                        <v-textarea
-                            v-model = "cookingForm.lesson"
-                            label= "Title">
-                        </v-textarea>
-                            <h3 class ="font-weight-light xs12">Mention the artist if you have used any of their teaching in this video.</h3>
-                        <small>This will be added in the learnings and they will be notified.</small>
-                        <v-autocomplete
-                            class="pt-4"
-                            v-model="selectedTeachers"
-                            :disabled="isUpdating"
-                            :items="usersTeachers"
-                            filled
-                            chips
-                            solo
-                            label="Artist appreciation"
-                            item-text="s_teacher_name"
-                            item-value="id"
-                            multiple
-                            @input="teacherchange"
-                            >
-                            <template v-slot:selection="data">
-                                <v-chip
-                                v-bind="data.attrs"
-                                :input-value="data.selected"
-                                close
-                                @click="data.select"
-                                @click:close="remove(data.item)"
+            <v-card class="pa-6 pa-md-8" elevation=0 >
+                <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!cook_obj">Upload your video</div>
+                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your video</div>
+                 <gebbles-divider class="mb-5"></gebbles-divider>
+                 <v-form v-on:submit.prevent="submit" ref="cooking_form">
+                    <v-row class="ma-0">
+                        <v-col cols="12" class="pa-0">
+                            <v-text-field
+                                :rules="youtubeRules"
+                                v-model = "cookingForm.video"
+                                label= "Youtube URL">
+                            </v-text-field>
+                            <v-textarea
+                                v-model = "cookingForm.lesson"
+                                label= "Title">
+                            </v-textarea>
+                                <h3 class ="font-weight-light xs12">Mention the artist if you have used any of their teaching in this video.</h3>
+                            <small>This will be added in the learnings and they will be notified.</small>
+                            <v-autocomplete
+                                class="pt-4"
+                                v-model="selectedTeachers"
+                                :disabled="isUpdating"
+                                :items="usersTeachers"
+                                filled
+                                chips
+                                solo
+                                label="Artist appreciation"
+                                item-text="s_teacher_name"
+                                item-value="id"
+                                multiple
+                                @input="teacherchange"
                                 >
-                                <v-avatar v-if="data.item.image_mini" left>
-                                    <v-img :src="data.item.image_mini"></v-img>
-                                </v-avatar>
-                                <v-avatar v-else >
-                                <v-icon>
-                                    mdi-account-circle
-                                </v-icon>
-                                </v-avatar>
-                                <span class="pl-1">{{ data.item.s_teacher_name }}</span>
-                                </v-chip>
-                            </template>
-                            <template v-slot:item="data">
-                                <template>
-                                <v-list-item-avatar v-if="data.item.image_mini">
-                                    <img :src="data.item.image_mini">
-                                </v-list-item-avatar>
-                                <v-list-item-avatar v-else>
+                                <template v-slot:selection="data">
+                                    <v-chip
+                                    v-bind="data.attrs"
+                                    :input-value="data.selected"
+                                    close
+                                    @click="data.select"
+                                    @click:close="remove(data.item)"
+                                    >
+                                    <v-avatar v-if="data.item.image_mini" left>
+                                        <v-img :src="data.item.image_mini"></v-img>
+                                    </v-avatar>
+                                    <v-avatar v-else >
                                     <v-icon>
-                                    mdi-account-circle
-                                </v-icon>
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title v-html="data.item.s_teacher_name"></v-list-item-title>
-                                </v-list-item-content>
+                                        mdi-account-circle
+                                    </v-icon>
+                                    </v-avatar>
+                                    <span class="pl-1">{{ data.item.s_teacher_name }}</span>
+                                    </v-chip>
                                 </template>
-                            </template>
-                        </v-autocomplete>    
-                        <v-btn class="text-decoration-none" small color="black" dark outlined v-if="!cook_obj"
-                        @click="submitCooking" :loading="progressbar">Submit</v-btn>
-                        <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
-                        @click="updateCooking" :loading="progressbar">Update</v-btn>
-                        <!-- <v-btn class="text-decoration-none" small color="error" dark outlined
-                        @click="cancelCooking()">Cancel</v-btn>  -->
-                    </v-col>
-                </v-row>
-            </v-form>
+                                <template v-slot:item="data">
+                                    <template>
+                                    <v-list-item-avatar v-if="data.item.image_mini">
+                                        <img :src="data.item.image_mini">
+                                    </v-list-item-avatar>
+                                    <v-list-item-avatar v-else>
+                                        <v-icon>
+                                        mdi-account-circle
+                                    </v-icon>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title v-html="data.item.s_teacher_name"></v-list-item-title>
+                                    </v-list-item-content>
+                                    </template>
+                                </template>
+                            </v-autocomplete>    
+                            <v-btn class="text-decoration-none" small color="black" dark outlined v-if="!cook_obj"
+                            @click="submitCooking" :loading="progressbar">Submit</v-btn>
+                            <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
+                            @click="updateCooking" :loading="progressbar">Update</v-btn>
+                            <v-btn class="text-decoration-none" small color="error" dark outlined v-if="cook_obj"
+                            @click="cancelCooking()">Cancel</v-btn> 
+                        </v-col>
+                    </v-row>
+                </v-form>
             </v-card>
         </v-container>
         <v-snackbar v-model="updated">
@@ -91,7 +92,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import GebblesDivider from './GebblesDivider.vue';
 export default {
+  components: { GebblesDivider },
 created(){
     this.$store.dispatch("check_user_teachers");
     this.usersTeacher= this.usersTeachers
@@ -134,6 +137,7 @@ computed: {
 methods:{
     cancelCooking(){
         this.$store.dispatch("remove_cook_obj");
+        this.refresh();
         this.$router.push("/");
     },
     async submitCooking(){
@@ -329,6 +333,7 @@ methods:{
         this.selectedTeachers= []
         this.changedTeacherBool=false,
         this.changedTeachers=[];
+        
         this.$refs.cooking_form.resetValidation();
     },
     remove (item) {
