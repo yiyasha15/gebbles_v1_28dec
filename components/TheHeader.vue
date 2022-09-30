@@ -1,17 +1,17 @@
 <template>
     <div>
         <!--site navigation -->
-        <v-app-bar clipped-left flat fixed color="white">
+        <v-app-bar clipped-left flat fixed color="white" class="pa-md-3 pa-2">
             <nuxt-link :to="'/'" class="text-decoration-none">
             <v-layout align-center>
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
                 class="clickable"
                 :src="require('@/assets/gebbleslogo.png')"/>
-                <v-toolbar-title> 
+                <!-- <v-toolbar-title>  -->
                     <h2 class=" hidden-sm-and-down" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2>
                     <h3 class=" hidden-md-and-up" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h3>
-                </v-toolbar-title>
+                <!-- </v-toolbar-title> -->
             </v-layout>
             </nuxt-link>
             <v-spacer></v-spacer>

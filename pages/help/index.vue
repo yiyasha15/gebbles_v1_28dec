@@ -2,7 +2,7 @@
 <v-app>
     <v-container class="width mx-auto">
         <h2 class="font-weight-medium mb-6">
-            💬 Help
+             Help
         </h2>
         <p class="my-2">
             <!-- <ul class="mb-2">
@@ -19,7 +19,7 @@
                 <v-col cols="12" md="7">
                      <v-hover v-slot:default="{ hover }">
                     <v-card
-                    :elevation="hover ? 0 : 6"
+                    :elevation="hover ? 0 : 0"
                     outlined
                     class="px-6 py-3 rounded-lg transition-swing"
                     to="help/getting_started"

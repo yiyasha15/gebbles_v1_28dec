@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container class="mx-auto" fluid style="max-width:550px" >
+        <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="px-1 pt-3" elevation=0 >
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!editing_obj">Share your journey</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your journey</div>
@@ -122,7 +122,6 @@
                         </v-slide-group>
                     <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
                     <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->
-                    <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                     </v-stepper-content>
             
                     <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Journey details*</v-stepper-step>
@@ -206,7 +205,6 @@
                         </v-form>
                         <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                         <v-btn color="error" text small @click="e6 = 1">Previous</v-btn>
-                        <v-btn text @click="goback" small color="primary">Cancel</v-btn>
                     </v-stepper-content>
             
                     <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Highlights and Privacy</v-stepper-step>
@@ -240,13 +238,13 @@
                                 ></v-radio>
                             </v-radio-group>
                         <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
-                        <v-btn text small @click="goback" color="primary">Cancel</v-btn>
                     </v-stepper-content>
                     <div class="mx-sm-7 mx-6">
                         <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
                         @click="submit" :loading="progressbar" >Submit</v-btn>
                         <v-btn v-else outlined small class="text-decoration-none"  color="black"
                         @click="update" :loading="progressbar">Update</v-btn>
+                        <v-btn text @click="clear" small color="error">Cancel</v-btn>
                     </div>
                 </v-stepper>
             </v-card>
@@ -638,9 +636,11 @@ export default {
             this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
             return "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
         },
-        goback(){
+        clear(){
             this.$store.dispatch("remove_editing_obj")
-            window.history.back();
+            this.refresh();
+            this.e6=1;
+            // window.history.back();
         },
         onPick(num) //changing the click from button to input using refs
         {
@@ -757,6 +757,7 @@ export default {
             this.journey.ishighlight= false;
             this.journey.isprivate = false;
             this.journey.event =""
+            this.$refs.journey_form.resetValidation();
         },
         async submit(){
             if(this.journey.joevent == '' || this.journey.jophoto1 == '')

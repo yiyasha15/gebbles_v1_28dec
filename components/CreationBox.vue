@@ -121,7 +121,7 @@
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-row>
-          
+          <upload-e-1-t-1-card ></upload-e-1-t-1-card>
         </v-container>
         </v-dialog>
         <v-dialog max-width="550" persistent
@@ -148,10 +148,11 @@
 </template>
 <script>
 import {mapGetters} from 'vuex'
+import UploadE1T1Card from './UploadE1T1Card.vue'
 import UploadJourneyCard from './UploadJourneyCard.vue'
 import UploadVideoCard from './UploadVideoCard.vue'
 export default {
-  components: { UploadVideoCard, UploadJourneyCard },
+  components: { UploadVideoCard, UploadJourneyCard, UploadE1T1Card },
     data(){
         return{
             upload_video:false,

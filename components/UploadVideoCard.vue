@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container class="mx-auto" fluid style="max-width:550px" >
+        <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="pa-6 pa-md-8" elevation=0 >
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!cook_obj">Upload your video</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your video</div>
@@ -72,8 +72,7 @@
                             @click="submitCooking" :loading="progressbar">Submit</v-btn>
                             <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
                             @click="updateCooking" :loading="progressbar">Update</v-btn>
-                            <v-btn class="text-decoration-none" small color="error" dark outlined v-if="cook_obj"
-                            @click="cancelCooking()">Cancel</v-btn> 
+                            <v-btn small color="error" text  @click="clear">Cancel</v-btn> 
                         </v-col>
                     </v-row>
                 </v-form>
@@ -135,10 +134,10 @@ computed: {
     ...mapGetters(['isAuthenticated','loggedInUser', 'usersTeachers','cook_obj']),
 },
 methods:{
-    cancelCooking(){
+    clear(){
         this.$store.dispatch("remove_cook_obj");
         this.refresh();
-        this.$router.push("/");
+        // this.$router.push("/");
     },
     async submitCooking(){
         if(this.$refs.cooking_form.validate()){
@@ -333,7 +332,6 @@ methods:{
         this.selectedTeachers= []
         this.changedTeacherBool=false,
         this.changedTeachers=[];
-        
         this.$refs.cooking_form.resetValidation();
     },
     remove (item) {

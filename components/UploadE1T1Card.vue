@@ -1,169 +1,169 @@
 <template>
     <div>
-        <v-container class="mx-auto" fluid style="max-width:550px" >
+        <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="px-1 py-6 py-md-6" elevation=0 >
-                <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!editing_obj">Share your journey</div>
-                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your journey</div>
+                <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!share_obj">Give a shoutout<br>
+                    <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
+                    -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one</span></div>
+                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your shoutout</div>
                 <gebbles-divider class="mb-3"></gebbles-divider>
-                <v-stepper  v-model="e6" vertical class="elevation-0">
-            <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                Mention the person that inspired you.*
-            <small class="pt-1">If that person is not yet in this platform, mention them now and tag them later when they join.<br></small>
-            </v-stepper-step>
-            <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0">
-                <v-combobox
-                    :maxlength="255"
-                    v-model="teacher_obj"
-                    :items="artists"
-                    prepend-icon="mdi-account-search-outline"
-                    label="Search artists..."
-                    item-text="artist_name"
-                    item-value="username"
-                    ref="artistListComboBox"
-                    :error-messages="teacherAlreadyMentioned"
-                    @change="onAutoCompleteSelection"
-                    @keyup="customOnChangeHandler"
-                    @paste="customOnChangeHandler"
-                    @input="addTeacher"
-                    >
-                    <template v-slot:selection="data">
-                        <v-chip
-                        v-bind="data.attrs"
-                        :input-value="data.selected"
-                        close
-                        @click:close="teacher_obj = ''"
+                <v-stepper v-model="e6" vertical class="elevation-0">
+                    <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
+                        Mention the person that inspired you.*
+                    <small class="pt-1">If that person is not yet in this platform, mention them now and tag them later when they join.<br></small>
+                    </v-stepper-step>
+                    <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0">
+                        <v-combobox
+                            :maxlength="255"
+                            v-model="teacher_obj"
+                            :items="artists"
+                            prepend-icon="mdi-account-search-outline"
+                            label="Search artists..."
+                            item-text="artist_name"
+                            item-value="username"
+                            ref="artistListComboBox"
+                            :error-messages="teacherAlreadyMentioned"
+                            @change="onAutoCompleteSelection"
+                            @keyup="customOnChangeHandler"
+                            @paste="customOnChangeHandler"
+                            @input="addTeacher"
+                            >
+                            <template v-slot:selection="data">
+                                <v-chip
+                                v-bind="data.attrs"
+                                :input-value="data.selected"
+                                close
+                                @click:close="teacher_obj = ''"
+                                >
+                                <v-avatar v-if="data.item.thumb" left>
+                                    <v-img :src="data.item.thumb"></v-img>
+                                </v-avatar>
+                                <v-avatar v-else left>
+                                    <v-icon dark>
+                                        mdi-account-circle
+                                    </v-icon>
+                                </v-avatar>
+                                <template  v-if="data.item.username" >
+                                {{ data.item.username }}
+                                </template>
+                                <template v-else >
+                                {{ data.item}}
+                                </template>
+                                </v-chip>
+                            </template>
+                            <template v-slot:item="data">
+                                <template v-if="typeof data.item !== 'object'">
+                                <v-list-item-content v-text="data.item.username"></v-list-item-content>
+                                </template>
+                                <template v-else>
+                                <v-list-item-avatar v-if="data.item.thumb">
+                                    <img :src="data.item.thumb">
+                                </v-list-item-avatar>
+                                <v-list-item-avatar v-else >
+                                    <v-icon>
+                                        mdi-account-circle
+                                    </v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                <v-list-item-title v-if="data.item.artist_name" v-html="data.item.artist_name"></v-list-item-title>
+                                    <v-list-item-subtitle v-if="data.item.username" v-html="'@'+data.item.username "></v-list-item-subtitle>
+                                </v-list-item-content>
+                                </template>
+                            </template>
+                        </v-combobox>
+                        <v-autocomplete
+                        prepend-icon="mdi-earth"
+                        :items="countries"
+                        item-text="name"
+                        item-value="code"
+                        v-model = "sharing.s_teacher_country"
+                        label= "Country they are from"
                         >
-                        <v-avatar v-if="data.item.thumb" left>
-                            <v-img :src="data.item.thumb"></v-img>
-                        </v-avatar>
-                        <v-avatar v-else left>
-                            <v-icon dark>
-                                mdi-account-circle
-                            </v-icon>
-                        </v-avatar>
-                        <template  v-if="data.item.username" >
-                        {{ data.item.username }}
-                        </template>
-                        <template v-else >
-                        {{ data.item}}
-                        </template>
-                        </v-chip>
-                    </template>
-                    <template v-slot:item="data">
-                        <template v-if="typeof data.item !== 'object'">
-                        <v-list-item-content v-text="data.item.username"></v-list-item-content>
-                        </template>
-                        <template v-else>
-                        <v-list-item-avatar v-if="data.item.thumb">
-                            <img :src="data.item.thumb">
-                        </v-list-item-avatar>
-                        <v-list-item-avatar v-else >
-                            <v-icon>
-                                mdi-account-circle
-                            </v-icon>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                           <v-list-item-title v-if="data.item.artist_name" v-html="data.item.artist_name"></v-list-item-title>
-                            <v-list-item-subtitle v-if="data.item.username" v-html="'@'+data.item.username "></v-list-item-subtitle>
-                        </v-list-item-content>
-                        </template>
-                    </template>
-                </v-combobox>
-                <v-autocomplete
-                prepend-icon="mdi-earth"
-                :items="countries"
-                item-text="name"
-                item-value="code"
-                v-model = "sharing.s_teacher_country"
-                label= "Country they are from"
-                >
-                </v-autocomplete>
-            <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
-            <v-btn color="primary" small text @click="goback">Cancel</v-btn>
-            </v-stepper-content>
-            <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Upload an image together.*
-                <small class="pt-1">You can add their image.</small>
-            </v-stepper-step>
-            <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
-                <div>
-                <!-- <div v-if="!imageData" @click="onPick" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
-                    <v-icon class="pa-image">mdi-plus</v-icon>
-                    <input 
-                    type="file" 
-                    name = "imageData" 
-                    style="display:none" 
-                    ref="fileInput" 
-                    accept="image/*"
-                    required
-                    @change="onFileChange">
-                </div>
-                <div v-else class="mb-4">
-                <v-img :src="imageData" height="auto" width="242px" class="mx-auto" contain>
-                    <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage">
-                    <v-icon color="black" small>mdi-close</v-icon>
-                    </v-btn>
-                </v-img>
-                </div> -->
-                <upload-image-component @newimage="getUrl" @removeimage="removeUrl" :initialImage="sharing.image"></upload-image-component>
-                </div>
-                <v-btn color="black" text outlined @click="e6 = 3" small>Next</v-btn>
-                <v-btn color="error" text @click="e6 = 1" small>Previous</v-btn>
-                <v-btn color="primary" text @click="goback" small>Cancel</v-btn>
-            </v-stepper-content>
-        
-            <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
-            <v-stepper-content step="3" style="border-left: none;" width="100%" class="ma-0">
-                <v-form ref="e1t1_form">
-                <v-textarea
-                :maxlength="485"
-                counter
-                    v-model = "sharing.s_appreciation"
-                    prepend-icon="mdi-account-heart-outline"
-                    label= "Share the one thing you remember the most about her/him.*"
-                    >
-                </v-textarea>
-                <v-text-field 
-                prepend-icon="mdi-map-marker-outline"
-                    v-model = "sharing.s_location"
-                    label= "Where did you meet?"
-                    :maxlength="255"
-                    counter
-                    >
-                </v-text-field>
-                <v-textarea
-                prepend-icon="mdi-book-outline"
-                    v-model = "sharing.s_learnings"
-                    label= "Share about what you learnt from them."
-                    >
-                </v-textarea>
-                <v-text-field
-                    :error-messages="ytLinkError" 
-                    :maxlength="255"
-                    counter
-                    v-model= "sharing.s_teacher_video"
-                    label="Youtube link"
-                    prepend-icon="mdi-youtube"
-                    
-                    :rules="youtubeRules"
-                    >
-                </v-text-field>
-                </v-form>
-                <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
-                    <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
-                </v-row>
-                <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
-                <v-btn color="primary" text small @click="goback">Cancel</v-btn>
-            </v-stepper-content>
-            <div class="mx-sm-7 mx-6">
-            <p v-if="progressbar" class="caption"> Please wait..</p>
-                <v-btn v-if="!share_obj" outlined small class="text-decoration-none" 
-                color="black" :loading="progressbar"
-                @click="submit">Submit</v-btn>
-                <v-btn v-else outlined small class="text-decoration-none"  color="black"
-                :loading="progressbar" 
-                @click="update">Update</v-btn>
-            </div>
-            </v-stepper>
+                        </v-autocomplete>
+                    <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
+                    </v-stepper-content>
+                    <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Upload an image together.*
+                        <small class="pt-1">You can add their image.</small>
+                    </v-stepper-step>
+                    <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
+                        <div>
+                        <!-- <div v-if="!imageData" @click="onPick" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
+                            <v-icon class="pa-image">mdi-plus</v-icon>
+                            <input 
+                            type="file" 
+                            name = "imageData" 
+                            style="display:none" 
+                            ref="fileInput" 
+                            accept="image/*"
+                            required
+                            @change="onFileChange">
+                        </div>
+                        <div v-else class="mb-4">
+                        <v-img :src="imageData" height="auto" width="242px" class="mx-auto" contain>
+                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage">
+                            <v-icon color="black" small>mdi-close</v-icon>
+                            </v-btn>
+                        </v-img>
+                        </div> -->
+                        <upload-image-component @newimage="getUrl" @removeimage="removeUrl" :initialImage="sharing.image"></upload-image-component>
+                        </div>
+                        <v-btn color="black" text outlined @click="e6 = 3" small>Next</v-btn>
+                        <v-btn color="error" text @click="e6 = 1" small>Previous</v-btn>
+                    </v-stepper-content>
+                
+                    <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
+                    <v-stepper-content step="3" style="border-left: none;" width="100%" class="ma-0">
+                        <v-form ref="e1t1_form">
+                        <v-textarea
+                        :maxlength="485"
+                        counter
+                            v-model = "sharing.s_appreciation"
+                            prepend-icon="mdi-account-heart-outline"
+                            label= "Share the one thing you remember the most about her/him.*"
+                            >
+                        </v-textarea>
+                        <v-text-field 
+                        prepend-icon="mdi-map-marker-outline"
+                            v-model = "sharing.s_location"
+                            label= "Where did you meet?"
+                            :maxlength="255"
+                            counter
+                            >
+                        </v-text-field>
+                        <v-textarea
+                        prepend-icon="mdi-book-outline"
+                            v-model = "sharing.s_learnings"
+                            label= "Share about what you learnt from them."
+                            >
+                        </v-textarea>
+                        <v-text-field
+                            :error-messages="ytLinkError" 
+                            :maxlength="255"
+                            counter
+                            v-model= "sharing.s_teacher_video"
+                            label="Youtube link"
+                            prepend-icon="mdi-youtube"
+                            
+                            :rules="youtubeRules"
+                            >
+                        </v-text-field>
+                        </v-form>
+                        <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
+                            <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
+                        </v-row>
+                        <v-btn color="error" small text @click="e6 = 2">Previous</v-btn>
+                    </v-stepper-content>
+                    <div class="mx-sm-7 mx-6">
+                    <p v-if="progressbar" class="caption"> Please wait..</p>
+                        <v-btn v-if="!share_obj" outlined small class="text-decoration-none" 
+                        color="black" :loading="progressbar"
+                        @click="submit">Submit</v-btn>
+                        <v-btn v-else outlined small class="text-decoration-none"  color="black"
+                        :loading="progressbar" 
+                        @click="update">Update</v-btn>
+                        <v-btn color="error" small text @click="clear">Cancel</v-btn>
+                    </div>
+                </v-stepper>
             </v-card>
         </v-container>
         <v-snackbar v-model="mention_teacher_snackbar">
@@ -198,7 +198,7 @@ export default {
         // this.$store.dispatch("check_artists");
         if(this.$store.state.share_obj != null)
         {
-            console.log(this.$store.getters.share_obj, typeof this.url);
+            // console.log(this.$store.getters.share_obj, typeof this.url);
             this.sharing = Object.assign({}, this.$store.getters.share_obj);
             // check database if artist exists
             // else
@@ -525,7 +525,7 @@ export default {
       }
     },
     methods: {
-         searchArtists(){
+        searchArtists(){
         this.artists=[]
         clearTimeout(this.debounce)
         this.debounce = setTimeout(() => {
@@ -563,9 +563,26 @@ export default {
                 this.sharing.teacher = "" //making null because no artists to tag.
             }
         },
-        goback(){
+        clear(){
             this.$store.dispatch("remove_share_obj")
-            window.history.back();
+            this.url='';
+            this.sharing.image = '';
+            this.sharing.teacher= "",
+            this.sharing.s_learnings="",
+            this.sharing.s_teacher_name= "",
+            this.sharing.image= "",
+            this.sharing.image_mini= "",
+            this.sharing.s_appreciation= "",
+            this.sharing.s_teacher_country= "",
+            this.sharing.s_student_country=  "",
+            this.sharing.s_date=  "",
+            this.sharing.s_location=  "",
+            this.sharing.s_teacher_video= "",
+            this.sharing.username= this.$store.state.auth.user.username,
+            this.$refs.e1t1_form.resetValidation();
+            this.teacher_obj = null
+            this.e6=1
+            // window.history.back();
         },
         getUrl(url){
             this.url = url;
@@ -687,6 +704,7 @@ export default {
                             this.ytLinkError = `${er[key]}`
                             }
                             if(`${key}` == '0'){
+                                this.e6=1
                             this.teacherAlreadyMentioned = `${er[key]}`
                             }
                         }

@@ -5,7 +5,7 @@
         <h4 class="mx-auto my-12">Artist portfolio not found.</h4>
     </template>
     <template v-else>
-         <v-app-bar class="pa-0" flat fixed color="white">
+         <v-app-bar class="pa-md-3 pa-2" flat fixed color="white">
              <nuxt-link :to="'/'" class="text-decoration-none">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"

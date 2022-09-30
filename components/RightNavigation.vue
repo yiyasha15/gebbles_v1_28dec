@@ -108,12 +108,20 @@
                 <v-list-item-title> Journey</v-list-item-title>
                 </v-list-item-content>
             </v-list-item> -->
-            <v-list-item to="/whatiscooking">
+            <!-- <v-list-item to="/whatiscooking">
                 <v-list-item-icon>
                 <v-icon>mdi-play-circle-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                 <v-list-item-title>What's cookin</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item> -->
+            <v-list-item to="/">
+                <v-list-item-icon>
+                <v-icon>mdi-home-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                <v-list-item-title>Home</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
             <v-list-item to="/events">
