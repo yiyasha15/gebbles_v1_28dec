@@ -166,7 +166,7 @@
         </v-list-item>
         </v-list-item-group>
         </v-list>
-        <v-list v-if="isAuthenticated" dense>
+        <!-- <v-list v-if="isAuthenticated" dense>
         <v-subheader>What's cookin</v-subheader>
         <v-list-item-group
             v-model="whatiscooking"
@@ -189,7 +189,7 @@
             </v-list-item-content>
         </v-list-item>
         </v-list-item-group>
-        </v-list>
+        </v-list> -->
         <v-list v-if="isAuthenticated" dense>
         <v-subheader>Events</v-subheader>
         <v-list-item-group

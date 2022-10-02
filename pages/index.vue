@@ -71,7 +71,7 @@
     <v-container v-else class="pa-0 mt-4 mt-md-8 width mx-auto" >
       <creation-box></creation-box>
       <div>
-        <h3 class ="mb-4 font-weight-light px-2 px-md-0">What's cooking </h3>
+        <h3 class ="mb-4 font-weight-light px-4 px-md-0">What's cooking </h3>
        <div v-if="firstLoad" >
       <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
       <div align="left" justify="left">

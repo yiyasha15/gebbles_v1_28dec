@@ -8,13 +8,23 @@
             <v-spacer></v-spacer>
             <div v-if="loggedInUser && loggedInUser.username == e1t1.username">
             <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn small icon v-bind="attrs"
-            v-on="on">
-            <v-icon small color="black" @click="capture">mdi-card-account-details-outline</v-icon>
-        </v-btn>
-        </template>
-        <span>Gebbles card</span>
+            <template v-slot:activator="{ on, attrs }">
+            <span v-if="e1t1.teacher!= null && loggedInUser" v-bind="attrs"
+                v-on="on">
+                <v-btn small icon color="black" @click="personalDialog=true" v-if="loggedInUser.username == e1t1.teacher || loggedInUser.username == e1t1.username">
+                <v-icon small >mdi-message-outline</v-icon></v-btn>
+            </span> 
+            </template>
+            <span>Say Hi</span>
+            </v-tooltip>
+            <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn small icon v-bind="attrs"
+                v-on="on">
+                <v-icon small color="black" @click="capture">mdi-card-account-details-outline</v-icon>
+            </v-btn>
+            </template>
+            <span>Gebbles card</span>
             </v-tooltip>
             <v-dialog
             :retain-focus="false"
@@ -223,10 +233,10 @@
                     <v-btn class="mt-4" small outlined color="black" @click="learntDialog=true" v-if="e1t1.s_learnings">
                         <h4 class="font-weight-medium" style="text-transform: capitalize;">Learning</h4>
                         </v-btn>
-                    <span v-if="e1t1.teacher!= null && loggedInUser">
+                    <!-- <span v-if="e1t1.teacher!= null && loggedInUser">
                         <v-btn class="mt-4" small outlined color="black" @click="personalDialog=true" v-if="loggedInUser.username == e1t1.teacher || loggedInUser.username == e1t1.username">
                             <h4 class="font-weight-medium" style="text-transform: capitalize;">Say Hi</h4><v-icon x-small class="pl-1">mdi-lock-outline</v-icon></v-btn>
-                    </span>
+                    </span> -->
                     </v-col>
                 </v-row>
                 <v-dialog

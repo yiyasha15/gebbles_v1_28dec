@@ -14,10 +14,12 @@
               </v-list-item-avatar>
           </center>
           </nuxt-link>
-        <div class="mb-2">
-          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{moment(comment.timestamp)}} </p>
-          <h5 class="mr-4"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}} </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span></h5>
-        </div>
+          <div class="mb-2">
+            <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{moment(comment.timestamp)}} </p>
+            <h5 class="mr-4"><nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}} 
+            </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span>
+            </h5>
+          </div>
             <v-spacer></v-spacer>
             <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">

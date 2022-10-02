@@ -3,7 +3,7 @@
         <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" class=" mr-sm-2 mr-md-3 mx-1"
         v-on="on">
-        <v-icon size="26" color="black">mdi-auto-fix</v-icon>
+        <v-icon size="26" color="black">mdi-plus-circle-outline</v-icon>
         </div>
         </template>
         <v-list>

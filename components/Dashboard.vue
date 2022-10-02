@@ -47,33 +47,6 @@
             hide-overlay
             v-model="drawer"
             >
-            <v-list v-if="!isAuthenticated" dense>
-        <v-subheader>Welcome</v-subheader>
-        <v-list-item to="/">
-            <v-list-item-icon>
-            🏠
-            </v-list-item-icon>
-            <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/create">
-            <v-list-item-icon>
-            🥷
-            </v-list-item-icon>
-            <v-list-item-content>
-            <v-list-item-title>Get started</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/help">
-            <v-list-item-icon>
-            💬
-            </v-list-item-icon>
-            <v-list-item-content>
-            <v-list-item-title>Help</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-            </v-list>
             <v-list two-line v-if="isAuthenticated">
                 <v-list-item >
                     <v-list-item-avatar v-if="usersPortfolio && usersPortfolio.thumb">
@@ -98,7 +71,7 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-            <v-list dense>
+            <v-list dense v-if="isAuthenticated">
                 <v-subheader>Explore</v-subheader>
                 <v-list-item-group
                     v-model="explore"
@@ -182,7 +155,7 @@
             </v-list-item>
             </v-list-item-group>
             </v-list>
-            <v-list v-if="isAuthenticated" dense>
+            <!-- <v-list v-if="isAuthenticated" dense>
             <v-subheader>What's cookin</v-subheader>
             <v-list-item-group
                 v-model="whatiscooking"
@@ -205,7 +178,7 @@
                 </v-list-item-content>
             </v-list-item>
             </v-list-item-group>
-            </v-list>
+            </v-list> -->
             <v-list v-if="isAuthenticated" dense>
             <v-subheader>Events</v-subheader>
             <v-list-item-group
