@@ -150,7 +150,7 @@
         >
         <v-list-item to="/learning">
             <v-list-item-icon>
-            📝
+            <v-icon>mdi-notebook-edit-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Learning</v-list-item-title>
@@ -158,7 +158,7 @@
         </v-list-item>
         <v-list-item to="/sharing">
             <v-list-item-icon>
-            🔗
+            <v-icon>mdi-bee-flower</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Sharing</v-list-item-title>
@@ -198,7 +198,7 @@
         >
         <v-list-item to="/invited-events">
             <v-list-item-icon>
-            💌
+            <v-icon>mdi-card-account-details-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Invited Events</v-list-item-title>
@@ -206,7 +206,7 @@
         </v-list-item>
         <v-list-item to="/organised-events">
             <v-list-item-icon>
-            📌
+            <v-icon>mdi-pin-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Organised Events</v-list-item-title>
@@ -214,7 +214,7 @@
         </v-list-item>
         <v-list-item to="/attending-events">
             <v-list-item-icon>
-            ✋
+            <v-icon>mdi-hand-peace</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Attending Events</v-list-item-title>
@@ -230,7 +230,7 @@
             >
             <v-list-item to="/help" >
                 <v-list-item-icon>
-                💬
+            <v-icon>mdi-comment-question-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                 <v-list-item-title>Help</v-list-item-title>
@@ -238,7 +238,7 @@
             </v-list-item>
             <v-list-item to="/settings" >
                 <v-list-item-icon>
-                🛠️
+                    <v-icon>mdi-tune-variant</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                 <v-list-item-title>Settings</v-list-item-title>
@@ -246,7 +246,7 @@
             </v-list-item>
             <v-list-item to="/logout" >
                 <v-list-item-icon>
-                💼
+                    <v-icon>mdi-paw-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                 <v-list-item-title>Sign out</v-list-item-title>
