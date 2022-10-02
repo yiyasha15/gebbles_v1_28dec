@@ -22,7 +22,7 @@
             >
             <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
-            <plus-button v-if="userHasPortfolio && !desktop"></plus-button>
+            <plus-button v-if="userHasPortfolio "></plus-button>
             <!-- {{notifications_notseen}} -->
             <v-btn small v-if="userHasPortfolio && notifications_notseen>0" icon dark color="black" class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
             <v-badge color="error" overlap :content='notifications_notseen'>
