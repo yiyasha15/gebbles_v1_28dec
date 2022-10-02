@@ -1,92 +1,124 @@
 <template>
-    <v-card elevation="0" class="mx-2 mx-sm-0 mb-6 pa-md-4 pa-2 text-center">
+    <v-card elevation="0" class="mx-2 mx-sm-0 mb-6 pa-md-4 pa-2 text-center" rounded="lg">
+
+            <!-- <v-icon size="26" color="secondary" class="mb-4">mdi-brush-outline</v-icon> -->
         <!-- <h3 class="pa-2 pa-md-3 font-weight-light text-left"> Share your story... </h3> -->
         <div class="pa-2">
-        <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-                <v-hover
-                v-slot="{ hover }">
-                <v-btn fab 
-                    small 
-                    v-bind="attrs" 
-                    :elevation="hover ? 12 : 6" 
-                    color="secondary" 
-                    class="mx-1 transition-swing"
-                    @click="upload_journey=true"
-                    v-on="on">
-                    <v-icon color="primary">mdi-book-heart-outline</v-icon>
-                </v-btn>
-                </v-hover>
-            </template>
-            <span>Share your journey</span>
-        </v-tooltip>
-        <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-                <v-hover
-                    v-slot="{ hover }">
-                    <v-btn fab small v-bind="attrs" 
-                    :elevation="hover ? 12 : 6"  
-                    @click="upload_video=true" 
-                    color="secondary" 
-                    class="mx-1 transition-swing"
-                    v-on="on">
-                    <v-icon color="primary">mdi-play-circle-outline</v-icon>
-                </v-btn>
-                </v-hover>
-            </template>
-            <span>Upload a video</span>
-        </v-tooltip>
-        <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-                <v-hover
-                    v-slot="{ hover }">
-                    <v-btn fab small  
-                    :elevation="hover ? 12 : 6" 
-                    color="secondary" 
-                    v-bind="attrs" 
-                    class="mx-1 transition-swing"
-                    @click="upload_e1t1=true" 
-                    v-on="on">
-                    <v-icon color="primary">mdi-all-inclusive</v-icon>
-                </v-btn>
-                </v-hover>
-            </template>
-            <span>Give a shoutout</span>
-        </v-tooltip>
-        <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-                <v-hover
-                    v-slot="{ hover }">
-                    <v-btn fab small color="secondary" 
-                    :elevation="hover ? 12 : 6" 
-                    v-bind="attrs" 
-                    class="mx-1 transition-swing"
-                    @click="upload_workshop=true" 
-                    v-on="on">
-                    <v-icon color="primary">mdi-leaf-circle-outline</v-icon>
-                </v-btn>
-                </v-hover>
-            </template>
-            <span>Create a workshop</span>
-        </v-tooltip>
-        <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-                <v-hover
-                    v-slot="{ hover }">
-                    <v-btn fab small 
-                    :elevation="hover ? 12 : 6" 
-                    color="secondary" 
-                    v-bind="attrs" 
-                    class="mx-1 transition-swing"
-                    @click="upload_event=true" 
-                    v-on="on">
-                    <v-icon color="primary">mdi-google-circles-communities</v-icon>
-                </v-btn>
-                </v-hover>
-            </template>
-            <span>Create an event</span>
-        </v-tooltip>
-        <h3 class="pa-2 pa-md-3 font-weight-light my-3"> Share your story </h3>
+            <div top v-if="desktop">
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-hover
+                        v-slot="{ hover }">
+                        <v-card 
+                        class="pa-2 mx-1 transition-swing d-inline" 
+                        :elevation="hover ? 12 : 6" outlined color="secondary" max-width="100"
+                        v-bind="attrs" 
+                        @click="upload_journey=true"
+                        v-on="on">
+                        <v-icon color="primary">mdi-book-heart-outline</v-icon><span class="primary--text ml-1">Share</span>
+                        </v-card>
+                    </v-hover>
+                </template>
+                <span>Share your journey</span>
+            </v-tooltip> 
+            <v-tooltip top >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-hover
+                        v-slot="{ hover }">
+                        <v-card 
+                        class="pa-2 mx-1 transition-swing d-inline" 
+                        :elevation="hover ? 12 : 6" outlined color="secondary" max-width="100"
+                        v-bind="attrs" 
+                        @click="upload_video=true"
+                        v-on="on">
+                        <v-icon color="primary">mdi-play-circle-outline</v-icon><span class="primary--text ml-1">Video</span>
+                        </v-card>
+                    </v-hover>
+                </template>
+                <span>What's cookin</span>
+            </v-tooltip> 
+            <v-tooltip top >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-hover
+                        v-slot="{ hover }">
+                        <v-card 
+                        class="pa-2 mx-1 transition-swing d-inline" 
+                        :elevation="hover ? 12 : 6" outlined color="secondary" max-width="100"
+                        v-bind="attrs" 
+                        @click="upload_e1t1=true"
+                        v-on="on">
+                        <v-icon color="primary">mdi-all-inclusive</v-icon><span class="primary--text ml-1">Shoutout</span>
+                        </v-card>
+                    </v-hover>
+                </template>
+                <span>Give a shoutout</span>
+            </v-tooltip> 
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-hover
+                        v-slot="{ hover }">
+                        <v-card 
+                        class="pa-2 mx-1 transition-swing d-inline" 
+                        :elevation="hover ? 12 : 6" outlined color="secondary" max-width="100"
+                        v-bind="attrs" 
+                        @click="upload_workshop=true"
+                        v-on="on">
+                        <v-icon color="primary">mdi-leaf-circle-outline</v-icon><span class="primary--text ml-1">Workshop</span>
+                        </v-card>
+                    </v-hover>
+                </template>
+                <span>Create a workshop</span>
+            </v-tooltip> 
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-hover
+                        v-slot="{ hover }">
+                        <v-card 
+                        class="pa-2 mx-1 transition-swing d-inline" 
+                        :elevation="hover ? 12 : 6" outlined color="secondary" max-width="100"
+                        v-bind="attrs" 
+                        @click="upload_event=true"
+                        v-on="on">
+                        <v-icon color="primary">mdi-google-circles-communities</v-icon><span class="primary--text ml-1">Event</span>
+                        </v-card>
+                    </v-hover>
+                </template>
+                <span>Create an event</span>
+            </v-tooltip> 
+            </div>
+            <div v-else>
+            <v-btn fab small elevation="6" 
+                @click="upload_journey=true" 
+                color="secondary" 
+                class="mx-1">
+                <v-icon color="primary">mdi-book-heart-outline</v-icon>
+            </v-btn>
+            <v-btn fab small elevation="6" 
+                @click="upload_video=true" 
+                color="secondary" 
+                class="mx-1">
+                <v-icon color="primary">mdi-play-circle-outline</v-icon>
+            </v-btn>
+            <v-btn fab small elevation="6" 
+                @click="upload_e1t1=true" 
+                color="secondary" 
+                class="mx-1">
+                <v-icon color="primary">mdi-all-inclusive</v-icon>
+            </v-btn>
+            <v-btn  fab small elevation="6" 
+                @click="upload_workshop=true" 
+                color="secondary" 
+                class="mx-1">
+                <v-icon color="primary">mdi-leaf-circle-outline</v-icon>
+            </v-btn>
+            <v-btn fab small elevation="6" 
+                @click="upload_event=true" 
+                color="secondary" 
+                class="mx-1">
+                <v-icon color="primary">mdi-google-circles-communities</v-icon>
+            </v-btn>
+            </div>
+        <h3 class="pa-2 pa-md-3 font-weight-light my-3"> HipHop Way of Life!</h3>
         <center>
         <v-divider width="360" />
         </center>
@@ -172,6 +204,15 @@ export default {
         }
     },
     computed: {
+        desktop() {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return false
+            case 'sm': return true
+            case 'md': return true
+            case 'lg': return true
+            case 'xl': return true
+          }
+        },
     ...mapGetters(['isAuthenticated', 'loggedInUser'])},
     methods:{
         close_upload_video(){
