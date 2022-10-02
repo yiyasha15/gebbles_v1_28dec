@@ -140,8 +140,7 @@
     </div>
     </div>
     </div>
-    <v-divider class="my-4"></v-divider>
-    
+    <gebbles-divider class="my-4"></gebbles-divider>
     <v-snackbar v-model="valid_snackbar">
       Write something to post.
     </v-snackbar>
@@ -160,6 +159,7 @@ import { mapGetters } from 'vuex'
 import moment from 'moment'
 import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
+import GebblesDivider from './GebblesDivider.vue'
 export default {
     head() {  
     return {
@@ -172,10 +172,11 @@ export default {
     },
     components:{
         LearningCommentsCard,
+        GebblesDivider,
         Youtube
     },
     computed: {
-    ...mapGetters(['loggedInUser', 'userHasPortfolio','usersPortfolio', 'isAuthenticated', 'learning_comments_list']),
+     ...mapGetters(['loggedInUser', 'userHasPortfolio','usersPortfolio', 'isAuthenticated', 'learning_comments_list']),
     height () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 220

@@ -29,7 +29,7 @@
                     </v-card>
                      </v-hover>
                 </v-col>
-                <v-col cols="12" md="7">
+                <!-- <v-col cols="12" md="7">
                         <v-card
                         
                         outlined
@@ -50,7 +50,7 @@
                         >
                         Updates
                     </v-card>
-                </v-col>
+                </v-col> -->
                 <v-col cols="12" md="7">
                     <v-card
                         
