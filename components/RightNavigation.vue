@@ -158,7 +158,7 @@
         </v-list-item>
         <v-list-item to="/sharing">
             <v-list-item-icon>
-            <v-icon>mdi-bee-flower</v-icon>
+            <v-icon>mdi-all-inclusive</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Sharing</v-list-item-title>
@@ -246,7 +246,7 @@
             </v-list-item>
             <v-list-item to="/logout" >
                 <v-list-item-icon>
-                    <v-icon>mdi-paw-outline</v-icon>
+                    <v-icon>mdi-bag-personal-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                 <v-list-item-title>Sign out</v-list-item-title>

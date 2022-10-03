@@ -76,7 +76,7 @@
         </v-row>
         <v-row >
             <v-col cols="12" class="mb-md-6 my-0">
-                <h2 v-if="bio.ig || bio.fb|| bio.site" align="center" justify="center" style="font-size: 2.5rem;" class="grey--text text--darken-3">contact</h2>
+                <h2 v-if="bio.ig || bio.fb|| bio.site || bio.yt" align="center" justify="center" style="font-size: 2.5rem;" class="grey--text text--darken-3">contact</h2>
             </v-col>
         </v-row>
         <v-row class="mb-md-12 mb-6" align="center" justify="center">

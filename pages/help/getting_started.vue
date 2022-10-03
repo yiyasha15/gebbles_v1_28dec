@@ -2,7 +2,7 @@
 <v-app>
     <v-container class="width mx-auto">
         <h3 class="font-weight-medium d-inline">
-           🏁 Getting started
+           <v-icon size="36">mdi-flag-checkered</v-icon> Getting started
         </h3>
     </v-container>
 </v-app>
