@@ -1,7 +1,6 @@
 <template>
     <div>
-        <div class="my-2" > 
-            <div>
+        <div class="my-md-2 my-0" > 
             <v-list-item two-line class="px-md-0">
                 <v-list-item-avatar>
                 <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
@@ -38,28 +37,29 @@
                     </v-menu>
                 </v-list-item-action>
             </v-list-item>
-            </div>
-            <div class="body-1 feed_content mb-5 px-md-0 px-4">{{cook.lesson}}</div>
+            <div class="body-1 feed_content mb-2 mb-md-5 px-md-0 px-4">{{cook.lesson}}</div>
             <youtube width="100%" :height="height" :video-id= 'videoId' v-if="videoId"></youtube>
             <video id="videoId" width="100%" :height="height" controls playsinline :poster="cook.thumbjs" preload="none" controlsList="nodownload" v-else>
                 <source :src="cook.video" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <div class="px-4 px-md-0 my-1">
-            <nuxt-link v-for="obj in cook.taggedteachers" :key="obj.id" :to="'/e1t1/'+ obj.shareidobj.uuid" class="text-decoration-none">
-                <v-chip color="black grey" dark outlined class="mr-1 mb-1 " style="cursor:pointer;">
-                <v-avatar left v-if="obj.shareidobj.teacher">
-                    <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
-                </v-avatar>
-                <v-avatar left v-else-if="obj.shareidobj.s_photo">
-                    <v-img :src="obj.shareidobj.s_photo"></v-img>
-                </v-avatar>
-                <v-avatar left v-else>
-                    <v-icon>mdi-account-circle</v-icon>
-                </v-avatar>
-                {{obj.shareidobj.s_teacher_name}}
-                </v-chip>
-            </nuxt-link>
+                <span v-for="obj in cook.taggedteachers" :key="obj.id">
+                <nuxt-link class="text-decoration-none" v-if="obj.shareidobj" :to="'/e1t1/'+ obj.shareidobj.uuid">
+                    <v-chip color="black grey" dark outlined class="mr-1 mb-1 " style="cursor:pointer;">
+                    <v-avatar left v-if="obj.shareidobj.teacher">
+                        <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
+                    </v-avatar>
+                    <v-avatar left v-else-if="obj.shareidobj.s_photo">
+                        <v-img :src="obj.shareidobj.s_photo"></v-img>
+                    </v-avatar>
+                    <v-avatar left v-else>
+                        <v-icon>mdi-account-circle</v-icon>
+                    </v-avatar>
+                    {{obj.shareidobj.s_teacher_name}}
+                    </v-chip>
+                </nuxt-link>
+                </span>
             </div>
             <div :class="{'px-3': $vuetify.breakpoint.smAndDown}" align="left" justify="left">
             <div class="my-2 my-sm-3">

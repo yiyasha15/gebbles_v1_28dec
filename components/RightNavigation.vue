@@ -1,8 +1,8 @@
 <template>
 <div>
-    <v-btn icon small v-if="isAuthenticated" @click="drawer_right=!drawer_right"
+    <v-btn icon small @click="drawer_right=!drawer_right"
         class="text-decoration-none mx-1">
-        <v-avatar size="32" v-if="usersPortfolio && usersPortfolio.thumb">
+        <v-avatar size="32" v-if="isAuthenticated && usersPortfolio && usersPortfolio.thumb">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
             :src = "usersPortfolio.thumb" 
@@ -10,14 +10,6 @@
         >
         </v-avatar>
         <v-avatar size="32" v-else >
-            <v-icon dark  color="black">
-                mdi-account-circle
-            </v-icon>
-        </v-avatar>
-    </v-btn>
-    <v-btn icon small v-else @click="drawer_right=!drawer_right"
-        class="text-decoration-none mx-1">
-        <v-avatar size="32">
             <v-icon dark  color="black">
                 mdi-account-circle
             </v-icon>
@@ -35,7 +27,7 @@
         <v-subheader>Welcome</v-subheader>
         <v-list-item to="/">
             <v-list-item-icon>
-            🏠
+            <v-icon>mdi-home-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Home</v-list-item-title>
@@ -43,7 +35,13 @@
         </v-list-item>
         <v-list-item to="/create">
             <v-list-item-icon>
-            🥷
+            <!-- <v-icon> -->
+                <v-img contain
+                    :width="$vuetify.breakpoint.smAndDown ? 24 : 22"
+                    :height="$vuetify.breakpoint.smAndDown ? 24 : 22"
+                    :src="require('@/assets/gebbleslogo_tab.png')"
+                    />
+            <!-- </v-icon> -->
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Get started</v-list-item-title>
@@ -51,7 +49,7 @@
         </v-list-item>
         <v-list-item to="/help">
             <v-list-item-icon>
-            💬
+            <v-icon>mdi-comment-question-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Help</v-list-item-title>
@@ -108,20 +106,12 @@
                 <v-list-item-title> Journey</v-list-item-title>
                 </v-list-item-content>
             </v-list-item> -->
-            <!-- <v-list-item to="/whatiscooking">
+            <v-list-item to="/whatiscooking">
                 <v-list-item-icon>
                 <v-icon>mdi-play-circle-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                 <v-list-item-title>What's cookin</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item> -->
-            <v-list-item to="/">
-                <v-list-item-icon>
-                <v-icon>mdi-home-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Home</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
             <v-list-item to="/events">
@@ -254,6 +244,8 @@
             </v-list-item>
             </v-list-item-group>
         </v-list>
+
+        <v-btn v-if="!isAuthenticated" dark color="black" class="text-decoration-none text-capitalize ma-4" to="/register">Sign Up</v-btn>
     </v-navigation-drawer>
 </div>
 </template>

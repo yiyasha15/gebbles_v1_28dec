@@ -93,8 +93,8 @@
                 </div>
                 </v-container>
             </v-dialog> 
-            <v-card elevation="0" outlined class="pa-3">
-            <p v-if="event.about" class="font-weight-light text-pre-wrap about_content mb-0">{{event.about}}</p>
+            <v-card v-if="event.about" elevation="0" outlined class="pa-3">
+            <p class="font-weight-light text-pre-wrap about_content mb-0">{{event.about}}</p>
             </v-card>
             </v-col>
         </v-row>
@@ -121,14 +121,31 @@
             <category-card :category="category" :poster="event.poster"></category-card>
             </v-col>
         </v-row>
-        <h2 v-if="event.iglink ||event.contact_email" class="my-6">Social handles</h2>
+        <h2 class="my-6">Social handles</h2>
         <v-row class="mb-md-12 mb-6" >
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                <v-btn v-if="event.username" class="text-decoration-none mx-2" color="black" icon :to="'/'+event.username" 
+                    v-bind="attrs" 
+                    v-on="on">
+                    <v-icon >mdi-account-outline</v-icon>
+                </v-btn>
+                </template>
+                <span>{{event.username}}</span>
+            </v-tooltip>
             <v-btn v-if="event.iglink"  class="text-decoration-none mx-2" color="black" icon @click="openig" >
                 <v-icon >mdi-instagram</v-icon>
             </v-btn>
-            <v-btn v-if="event.contact_email" class="text-decoration-none mx-2" color="black" icon @click="openemail" >
-                <v-icon >mdi-email</v-icon>
-            </v-btn>
+            <v-tooltip bottom v-if="event.contact_email">
+                <template v-slot:activator="{ on, attrs }">
+                <v-btn class="text-decoration-none mx-2" color="black" icon  @click="openemail"
+                    v-bind="attrs" 
+                    v-on="on">
+                    <v-icon >mdi-email-outline</v-icon>
+                </v-btn>
+                </template>
+                <span>{{event.contact_email}}</span>
+            </v-tooltip>
         </v-row>
         <h2 v-if="event_guests_team.length>0" class="my-6">Team</h2>
         <v-row class="ma-0" >

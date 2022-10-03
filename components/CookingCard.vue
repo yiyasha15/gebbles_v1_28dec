@@ -21,9 +21,11 @@
         width="800px"
         persistent>
         <v-container class="rounded-lg white pa-2 pa-md-4">
-        <v-btn icon color="error" class="float-right" @click="dialog=false; ">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
+          <v-row align="end" justify="end" class="ma-1 ma-md-0">
+          <v-btn icon color="error" @click="dialog=false; ">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-row> 
         <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
         </v-container>
       </v-dialog> 

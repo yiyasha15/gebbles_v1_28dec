@@ -511,12 +511,12 @@ export default {
         moment(date){
            return moment(date).format("ll")
         },
-        get_cookings_filtered(username,id){
-            console.log("filtering..",username,id);
+         get_cookings_filtered(username,id){
+            // console.log("filtering..",username,id);
             EventService.getWhatsCookingUsername(username).then(res =>
             {
                 this.cookings = res.data
-                console.log(this.cookings);
+                // console.log(this.cookings);
                 if(this.cookings.length>0)
                 {
                 let taggedteacherpresent = this.cookings.filter(obj => obj.taggedteachers.length>0)
@@ -545,7 +545,7 @@ export default {
                 this.cookingLoaded = true
                 }
             }).catch(error =>{
-                console.log(error);
+                console.log("error",error);
                 this.cookingLoaded = true
             })
         },
@@ -600,7 +600,7 @@ export default {
             this.$store.dispatch("remove_share_obj")
             try {
                 let response = await this.$axios.$delete("/v1/e1t1/sharing/"+this.e1t1.uuid, config)
-                console.log("e1t1 deleted.");
+                // console.log("e1t1 deleted.");
                 this.deleteLoading = false;
                 this.$store.dispatch("check_user_teachers");
                 this.$router.push("/"+ this.e1t1.username+"/each1teach1");

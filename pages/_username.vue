@@ -42,13 +42,13 @@
             <right-navigation></right-navigation>
             </template>
             <register-login v-else></register-login>
-            <v-btn icon small @click="drawer_right=!drawer_right" v-if="!isAuthenticated" class="mx-2">
+            <!-- <v-btn icon small @click="drawer_right=!drawer_right" v-if="!isAuthenticated" class="mx-2">
             <v-avatar size="26" >
                 <v-icon dark  color="black">
                     mdi-account-circle
                 </v-icon>
             </v-avatar>
-            </v-btn>
+            </v-btn> -->
         </v-app-bar>
         <div class="hidden-sm-and-up">
         <v-row class="mt-16 mb-4 mx-4 d-flex">

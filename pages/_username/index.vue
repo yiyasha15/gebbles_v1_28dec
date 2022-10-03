@@ -29,7 +29,7 @@
                     :src = "artist.cover"></v-img>
                 </v-col>
                 <v-col cols="12" md="6" class="d-flex align-content-center flex-wrap">
-                    <v-card outlined
+                    <v-card outlined v-if="artist.introduction"
                     max-width="492" max-height="460"
                     elevation="0" class="pa-sm-5 pa-3 overflow-y-auto mx-auto">
                     <h4 class="font-weight-light text-pre-wrap text-left">
