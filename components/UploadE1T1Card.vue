@@ -9,7 +9,7 @@
                 <gebbles-divider class="mb-3"></gebbles-divider>
                 <v-stepper v-model="e6" vertical class="elevation-0">
                     <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                        Mention the person that inspired you.*
+                        *Mention the person that inspired you.
                     <small class="pt-1">If that person is not yet in this platform, mention them now and tag them later when they join.<br></small>
                     </v-stepper-step>
                     <v-stepper-content step="1" style="border-left: none;" width="100%" class="ma-0">
@@ -82,8 +82,8 @@
                         </v-autocomplete>
                     <v-btn color="black" small text outlined @click="e6 = 2">Next</v-btn>
                     </v-stepper-content>
-                    <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">Upload an image together.*
-                        <small class="pt-1">You can add their image.</small>
+                    <v-stepper-step :complete="e6 > 2" step="2"  @click.native="e6 = 2" style="cursor:pointer">*Upload a photo together.
+                        <small class="pt-1">or you can add their photo.</small>
                     </v-stepper-step>
                     <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
                         <div>
@@ -111,7 +111,7 @@
                         <v-btn color="primary" text @click="e6 = 1" small>Previous</v-btn>
                     </v-stepper-content>
                 
-                    <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Each One Teach One*</v-stepper-step>
+                    <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">*Each One Teach One</v-stepper-step>
                     <v-stepper-content step="3" style="border-left: none;" width="100%" class="ma-0">
                         <v-form ref="e1t1_form">
                         <v-textarea
@@ -119,7 +119,7 @@
                         counter
                             v-model = "sharing.s_appreciation"
                             prepend-icon="mdi-account-heart-outline"
-                            label= "Share the one thing you remember the most about her/him.*"
+                            label= "*Share what you remember the most about them."
                             >
                         </v-textarea>
                         <v-text-field 

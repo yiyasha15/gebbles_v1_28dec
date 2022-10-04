@@ -85,6 +85,7 @@
            <span> battle</span>
         </v-chip>
         <h3 class="font-weight-light mt-2">{{category.venue}}</h3>
+        {{category}}
         <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{moment(category.date)}}</h3>
         <h3 class="red--text mt-1 font-weight-light" > {{category.date_time}} </h3>
         <h3 v-if="category.about" class="font-weight-light mt-2">About: {{category.about}}</h3>

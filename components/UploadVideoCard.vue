@@ -11,16 +11,16 @@
                             <v-text-field
                                 :rules="youtubeRules"
                                 v-model = "cookingForm.video"
-                                label= "Youtube URL">
+                                label= "*Youtube link">
                             </v-text-field>
                             <v-textarea
                                 v-model = "cookingForm.lesson"
-                                label= "Title">
+                                label= "Share what you're exploring..">
                             </v-textarea>
-                                <h3 class ="font-weight-light xs12">Mention the artist if you have used any of their teaching in this video.</h3>
-                            <small>This will be added in the learnings and they will be notified.</small>
+                            <p class ="font-weight-light body-1 xs12">Let's share about other fellow artists and mention them if they inspired you to work on your craft. </p>
+                            <p class="body-2"><b>Give a shoutout to add them here.</b></p>
                             <v-autocomplete
-                                class="pt-4"
+                                class="pt-2"
                                 v-model="selectedTeachers"
                                 :disabled="isUpdating"
                                 :items="usersTeachers"
@@ -67,7 +67,8 @@
                                     </v-list-item-content>
                                     </template>
                                 </template>
-                            </v-autocomplete>    
+                            </v-autocomplete>  
+                            <p class="body-2">This will be added in their sharing page and they will be notified.</p>  <br>
                             <v-btn class="text-decoration-none" small color="black" dark outlined v-if="!cook_obj"
                             @click="submitCooking" :loading="progressbar">Submit</v-btn>
                             <v-btn v-else outlined small class="text-decoration-none"  color="black" dark

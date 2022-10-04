@@ -2,18 +2,19 @@
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="px-1 pt-3" elevation=0 >
-                <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!editing_event_obj">Create your event</div>
-                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your event</div>
+                <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-if="!editing_event_obj">Create your event page</div>
+                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-else>Edit your event page</div>
+                 <p class="caption text-center">Share about your plan for the jam, your guests, categories and schedule.. </p>
                  <gebbles-divider class="mb-5"></gebbles-divider>
                  <v-stepper v-model="e6" vertical class="elevation-0">
                     <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                    Event details*
+                    *Event details
                     <!-- <small>Summarize if needed</small> -->
                     </v-stepper-step>
                     <v-stepper-content step="1" style="border-left: none;" class="ma-0"> 
                         <v-form ref="event_form">
                         <div>
-                        <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
+                        <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer; max-width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
                             <v-icon class="pa-image" >mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -134,15 +135,18 @@
                         <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
                     </v-stepper-content>
             
-                    <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event Guests</v-stepper-step>
+                    <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event Guests
+                       <small class="mt-1"> <v-icon small> mdi-book-outline</v-icon> Event guests can add this event to their journey.</small>
+                    </v-stepper-step>
                     <v-stepper-content step="2" style="border-left: none;" class="ma-0">
+                        <!-- <p class="caption"><v-icon small> mdi-book-outline</v-icon> Event guests can add this event to their journey.</p> -->
                         <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
                             <div v-for="guest in this.selectedGuests" :key ="guest.index">
                                 <guest-card-create :guest="guest"  @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
                             </div>
                         </v-layout>
                         <v-form ref="guest_form">
-                        <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+                        <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-2 rounded-lg grey lighten-2" >
                             <v-icon class="pa-image">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -160,13 +164,6 @@
                             </v-btn>
                         </v-img>
                         </div>
-                        <v-text-field
-                            v-model= "guest.name"
-                            label= "Name"
-                            :maxlength="255"
-                            counter
-                            :rules="nameRules">
-                        </v-text-field>
                         <v-combobox
                             v-model="artist_obj"
                             :items="artists"
@@ -222,6 +219,13 @@
                             </v-list-item-content>
                             </template>
                         </v-combobox>
+                        <v-text-field
+                            v-model= "guest.name"
+                            label= "Artist name"
+                            :maxlength="255"
+                            counter
+                            :rules="nameRules">
+                        </v-text-field>
                         <v-autocomplete
                         prepend-icon="mdi-earth"
                         :items="countries"
@@ -379,7 +383,7 @@
                                 <guest-card-create :guest="guest" v-if="guest.category.includes(5)" @removeGuest="removeOrganiser" @editGuest="editOrganiser"></guest-card-create>
                             </div>
                         </v-layout>
-                        <div v-if="!organiser.photo" @click="onPick(5)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+                        <div v-if="!organiser.photo" @click="onPick(5)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
                             <v-icon class="pa-image">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -574,7 +578,7 @@
         </v-btn>
         <h3>Battles</h3>
         <v-form ref="battle_form">
-        <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer; width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -601,6 +605,7 @@
             :maxlength="255"
             counter>
         </v-text-field>
+        <v-checkbox color="primary" v-model="battle_same_day" label="Same day event"></v-checkbox>
         <v-menu
             ref="menu1"
             :close-on-content-click="false"
@@ -906,7 +911,7 @@
         </v-btn>
         <h3>Workshops</h3>
         <v-form ref="workshop_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -924,6 +929,7 @@
             </v-btn>
         </v-img>
         </div>
+        <small class="grey--text text--darken-2">Mention the artist in the guests section to tag them here.</small>
         <v-autocomplete
             class="pt-4"
             v-model="selectedGuest"
@@ -978,6 +984,7 @@
             
             :rules="nameRules">
         </v-text-field>
+        <v-checkbox color="primary" v-model="same_day" label="Same day event"></v-checkbox>
         <v-menu
             ref="menu2"
             :close-on-content-click="false"
@@ -1059,7 +1066,7 @@
         </v-btn>
         <h3>Showcases</h3>
         <v-form ref="showcase_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -1131,6 +1138,7 @@
             
             :rules="nameRules">
         </v-text-field>
+        <v-checkbox color="primary" v-model="same_day" label="Same day event"></v-checkbox>
         <v-menu
             ref="menu2"
             :close-on-content-click="false"
@@ -1211,7 +1219,7 @@
         </v-btn>
         <h3>Party</h3>
         <v-form ref="party_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -1234,9 +1242,9 @@
             label= "Title"
             :maxlength="255"
             counter
-            
             :rules="nameRules">
         </v-text-field>
+        <v-checkbox color="primary" v-model="same_day" label="Same day event"></v-checkbox>
         <v-menu
             ref="menu2"
             :close-on-content-click="false"
@@ -1317,7 +1325,7 @@
         </v-btn>
         <h3>Cypher Sessions</h3>
         <v-form ref="cypher_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -1340,9 +1348,9 @@
             label= "Title"
             :maxlength="255"
             counter
-            
             :rules="nameRules">
         </v-text-field>
+        <v-checkbox color="primary" v-model="same_day" label="Same day event"></v-checkbox>
         <v-menu
             ref="menu2"
             :close-on-content-click="false"
@@ -1429,7 +1437,7 @@
         </v-btn>
         <h3>Community Talk</h3>
         <v-form ref="talk_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -1452,7 +1460,6 @@
             v-model="selectedGuest"
             :items="selectedGuests"
             prepend-icon="mdi-hand-heart-outline"
-            
             label="Artist"
             item-text="name"
             return-object
@@ -1498,9 +1505,9 @@
             label= "Title"
             :maxlength="255"
             counter
-            
             :rules="nameRules">
         </v-text-field>
+        <v-checkbox color="primary" v-model="same_day" label="Same day event"></v-checkbox>
         <v-menu
             ref="menu2"
             :close-on-content-click="false"
@@ -2286,6 +2293,8 @@ export default {
                 v => !v || /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig.test(v) || 'Enter a valid url.',
                 // v => (v && v.length <= 200) || 'Must be less than 200 characters',
             ],
+            same_day:false,
+            battle_same_day:false
         }
     },
     watch: {
@@ -2320,6 +2329,32 @@ export default {
             this.battleEmcee.push(v)
             }
             return v})
+        },
+        same_day () {
+            if(this.same_day)
+            {
+                this.category.date = this.event.start_date
+                this.category.date_time = this.event.date_time
+                this.category.venue = this.event.venue
+            }
+            else{
+                this.category.date =''
+                this.category.date_time = ''
+                this.category.venue = ''
+            }
+        },
+        battle_same_day () {
+            if(this.battle_same_day)
+            {
+                this.battle_category.date = this.event.start_date
+                this.battle_category.date_time = this.event.date_time
+                this.battle_category.venue = this.event.venue
+            }
+            else{
+                this.battle_category.date =''
+                this.battle_category.date_time = ''
+                this.battle_category.venue = ''
+            }
         },
     },
     methods: {
@@ -3341,6 +3376,7 @@ export default {
             this.showcase_dialog=false;
             this.cypher_dialog=false;
             this.otherCategory_dialog=false;
+            this.same_day =false;
         },
         addWorkshop(num){
                 //1:workshop
@@ -4013,6 +4049,7 @@ export default {
             this.battleDj=[];
             this.battleGuests =[];
             this.battle_dialog=false;
+            this.battle_same_day=false;
         },
         removeBattleCategory(item){
             this.temp_category_item = item

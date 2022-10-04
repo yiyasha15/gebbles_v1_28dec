@@ -2,11 +2,12 @@
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="pa-4 pb-md-8 px-md-8" elevation=0 >
-                <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!editing_workshop_obj">Create your workshop</div>
-                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your workshop</div>
+                <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-if="!editing_workshop_obj">Create your workshop</div>
+                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-else>Edit your workshop</div>
+                 <p class="caption text-center">Share about your (or any artists) regular classes, workshops..</p>
                  <gebbles-divider class="mb-5"></gebbles-divider>
                  <v-form ref="workshop_form">
-                    <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+                    <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
                     <v-icon class="pa-image">mdi-plus</v-icon>
                     <input 
                     type="file" 
@@ -104,7 +105,7 @@
                         >
                         <template v-slot:activator="{ on, attrs }">
                             <v-text-field
-                            
+                            :rules="dateRules"
                                 v-model= "workshop.start_date"
                                 label="Date*"
                                 prepend-icon="mdi-calendar"
@@ -119,41 +120,22 @@
                             @change="save(workshop.start_date)"
                             ></v-date-picker>
                     </v-menu>
-                    <v-menu
-                    ref="menutime"
-                    v-model="menutime"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    :return-value.sync="workshop.datetime"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="290px"
-                >
-                    <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                        v-model="workshop.datetime"
-                        label="Time"
-                        prepend-icon="mdi-clock-time-four-outline"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                    ></v-text-field>
+                    <vue-timepicker v-model="workshop.datetime"
+                    hour-label="hour" minute-label="minute"
+                    placeholder="Time" input-width="100%" format="hh:mm A" :minute-interval="10">
+                    <template v-slot:icon>
+                        <v-icon>mdi-clock-time-four-outline</v-icon>
                     </template>
-                    <v-time-picker
-                    v-if="menutime"
-                    v-model="workshop.datetime"
-                    full-width
-                    @click:minute="$refs.menutime.save(workshop.datetime)"
-                    ></v-time-picker>
-                    </v-menu>
+                    </vue-timepicker>
                     <v-text-field prepend-icon="mdi-map-marker-outline"
                         v-model = "workshop.venue"
                         label= "Venue"
                         :maxlength="255"
                         counter>
                     </v-text-field>
-                    <v-autocomplete label="Country*" v-model= "workshop.country"
+                    <v-autocomplete label="Country*" 
+                        :rules="countryRules"
+                        v-model= "workshop.country" 
                         prepend-icon="mdi-earth"
                         :items="countries"
                         item-text="name"
@@ -213,10 +195,14 @@ import { mapGetters } from 'vuex'
 import Vue from "vue";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
+import VueTimepicker from 'vue2-timepicker'
+
+// CSS
+import 'vue2-timepicker/dist/VueTimepicker.css'
 Vue.use(Croppa);
 import GebblesDivider from './GebblesDivider.vue';
 export default {
-    components: { GebblesDivider },
+    components: { GebblesDivider, VueTimepicker },
     created (){
         if(this.$store.state.editing_workshop_obj)
         {
@@ -536,6 +522,12 @@ export default {
                 v => !!v || 'Name is required',
                 v => (v && v.length <= 255) || 'Must be less than 255 characters',
             ],
+            dateRules: [
+                v => !!v || 'Date is required',
+            ],
+            countryRules: [
+                v => !!v || 'Country is required',
+            ],
         }
     },
     watch: {
@@ -757,5 +749,9 @@ export default {
 <style scoped>
 .pa-image{
     padding: 60px 125px;
+}
+.vue__time-picker {
+  padding: 12px 0px;
+  margin-top: 4px;
 }
 </style>

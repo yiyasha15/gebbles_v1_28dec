@@ -5,28 +5,75 @@
             <v-btn icon class="elevation-0  " @click="goback()" >
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
-            <v-spacer></v-spacer>
-            <div v-if="loggedInUser && loggedInUser.username == e1t1.username">
-            <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-            <span v-if="e1t1.teacher!= null && loggedInUser" v-bind="attrs"
-                v-on="on">
-                <v-btn small icon color="black" @click="personalDialog=true" v-if="loggedInUser.username == e1t1.teacher || loggedInUser.username == e1t1.username">
-                <v-icon small >mdi-message-outline</v-icon></v-btn>
-            </span> 
-            </template>
-            <span>Say Hi</span>
-            </v-tooltip>
-            <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn small icon v-bind="attrs"
-                v-on="on">
-                <v-icon small color="black" @click="capture">mdi-card-account-details-outline</v-icon>
-            </v-btn>
-            </template>
-            <span>Gebbles card</span>
-            </v-tooltip>
-            <v-dialog
+        </v-row>
+        <!-- <v-row>
+            <v-col class="py-0">
+            <h5 class="caption font-weight-light" >
+                Posted {{moment(e1t1.created)}}
+                </h5>
+            </v-col>
+        </v-row> -->
+        <v-list two-line class="pa-0">
+        <v-list-item class="pa-0">
+            <v-list-item-avatar>
+                <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content>
+            <v-list-item-title><nuxt-link class="text-decoration-none" to="e1t1.username">{{e1t1.username}}</nuxt-link></v-list-item-title>
+            <v-list-item-subtitle>{{emoment(e1t1.created)}}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+                <v-menu v-if="isAuthenticated && loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher" 
+                    transition="slide-y-transition" open-on-hover offset-y bottom left>
+                    <template v-slot:activator="{ on, attrs }">
+                        <div v-bind="attrs"
+                        v-on="on">
+                        <v-icon>mdi-dots-vertical</v-icon>
+                        </div>
+                    </template>
+                    <v-list>
+                        <v-list-item v-if="e1t1.teacher!= null && loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher" 
+                        class="text-decoration-none pl-5 pr-8"
+                        @click="personalDialog=true"
+                        >
+                        <v-list-item-icon>
+                        <v-icon>mdi-message-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Say Hi</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item v-if="loggedInUser.username == e1t1.username"
+                        class="text-decoration-none pl-5 pr-8"
+                        @click="editWorkshop(workshop)"
+                        >
+                        <v-list-item-icon>
+                        <v-icon>mdi-card-account-details-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Gebbles Card</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item v-if="loggedInUser.username == e1t1.username"
+                        class="text-decoration-none pl-5 pr-8"
+                        @click="editE1t1()"
+                        >
+                        <v-list-item-icon>
+                        <v-icon>mdi-book-edit-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Edit</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item v-if="loggedInUser.username == e1t1.username"
+                        class="text-decoration-none pl-5 pr-8"
+                        @click="deletedialog = true" 
+                        >
+                        <v-list-item-icon>
+                        <v-icon>mdi-delete-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Delete</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </v-list-item-action>
+        </v-list-item>
+        </v-list>
+        <v-dialog
             :retain-focus="false"
             v-model="cardDialog"
             width="500px"
@@ -59,41 +106,20 @@
             </v-row>
             </v-col>
             </v-container>
-            </v-dialog> 
-            <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn small icon v-bind="attrs"
-                v-on="on">
-                <v-icon small color="black" @click="editE1t1">mdi-circle-edit-outline</v-icon>
-            </v-btn>
-            </template>
-            <span>Edit</span>
-            </v-tooltip>
-            <v-dialog v-if="loggedInUser" v-model="dialog" width="500" persistent>
-            <template v-slot:activator="{ on, attrs }">
-                <v-tooltip top v-bind="attrs" v-on="on">
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn small icon >
-                    <v-icon small color="error" @click="dialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                    </v-btn>
-                </template>
-                <span>Delete</span>
-                </v-tooltip>
-            </template>
+        </v-dialog> 
+        <v-dialog v-if="loggedInUser" v-model="deletedialog" width="500" persistent>
             <v-card class="pa-4">
                 <p>Are you sure you want to delete the shoutout?</p>
                 <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
                     @click="deleted">Delete</v-btn>
-                <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="dialog = false">
+                <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="deletedialog = false">
                     Cancel
                 </v-btn>
                 </v-card-actions>
             </v-card>
             </v-dialog>
-            </div>
-        </v-row>
         <v-row>
             <v-col cols="12" sm="6" align="center" justify="center">
                 <v-img :src = "e1t1.image"  maxHeight="380px" contain></v-img>
@@ -101,90 +127,11 @@
             <v-col cols="12" sm="6" >
                 <v-row>
                     <v-col>
-                    <h5 class="caption mt-1" >
+                    <h5 class="caption" >
                         {{moment(e1t1.s_date)}}
                         <!-- {{e1t1.s_date}}  -->
                         </h5><h5 class="caption mt-1" > {{e1t1.s_location}}</h5>
                     </v-col>
-                    <!-- <div v-if="loggedInUser">
-                    <v-col v-if="loggedInUser.username == e1t1.username" >
-                        <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn small icon v-bind="attrs"
-                        v-on="on">
-                        <v-icon small color="black" @click="capture">mdi-card-account-details-outline</v-icon>
-                    </v-btn>
-                    </template>
-                    <span>Gebbles card</span>
-                    </v-tooltip>
-                    <v-dialog
-                    :retain-focus="false"
-                    v-model="cardDialog"
-                    width="500px"
-                    persistent>
-                    <v-container class="rounded-lg white pa-2">
-                    <v-btn icon color="error" class="float-right" @click="cardDialog=false; ">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-col cols="12" >
-                    <v-row class="mt-4">
-                        <v-col cols="12" class="justify-center ">
-                            <h5 class ="font-weight-light">Get your gebbles card for {{e1t1.s_teacher_name}} <v-btn icon text @click="download"><v-icon color="black">mdi-download-circle-outline</v-icon></v-btn></h5>
-                        </v-col>
-                        <v-col cols="12" class="justify-center ">
-                            <v-img v-if="gebbles_card_url" :src = "gebbles_card_url" maxHeight="420px" contain >
-                            </v-img>
-                            <template v-else>
-                                <v-row
-                                class="fill-height ma-0"
-                                align="center"
-                                justify="center"
-                                >
-                                <v-progress-circular
-                                    indeterminate
-                                    color="black"
-                                ></v-progress-circular>
-                                </v-row>
-                            </template>
-                        </v-col>
-                    </v-row>
-                    </v-col>
-                    </v-container>
-                    </v-dialog> 
-                    <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn small icon v-bind="attrs"
-                        v-on="on">
-                        <v-icon small color="black" @click="editE1t1">mdi-circle-edit-outline</v-icon>
-                    </v-btn>
-                    </template>
-                    <span>Edit</span>
-                    </v-tooltip>
-                    <v-dialog v-if="loggedInUser" v-model="dialog" width="500">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-tooltip top v-bind="attrs" v-on="on">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn small icon >
-                            <v-icon small color="error" @click="dialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                            </v-btn>
-                        </template>
-                        <span>Delete</span>
-                        </v-tooltip>
-                    </template>
-                    <v-card class="pa-4">
-                        <p>Are you sure you want to delete the shoutout?</p>
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
-                            @click="deleted">Delete</v-btn>
-                        <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="dialog = false">
-                            Cancel
-                        </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                    </v-dialog>
-                    </v-col>
-                    </div> -->
                 </v-row>
                 <div>
                 <v-layout row wrap justify-space-between class="mt-3 mx-0">
@@ -510,6 +457,9 @@ export default {
     methods:{
         moment(date){
            return moment(date).format("ll")
+        },
+        emoment(date){
+           return moment(date).fromNow()
         },
          get_cookings_filtered(username,id){
             // console.log("filtering..",username,id);

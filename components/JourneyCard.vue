@@ -37,52 +37,63 @@
           </v-btn>
           </v-row>
           <v-container style="margin:auto; max-width:768px; " class="pt-0 pb-3 px-md-0" >
-          <v-row class="ma-0" v-if="fullJourney">
-                <h5 v-if="journey.jodate" class="font-weight-light pt-2 caption">
-                  <!-- {{dateFormat(journey.jodate).date}} -->
-                  {{moment(journey.jodate)}}
-                  </h5>
-                <v-spacer></v-spacer>
-                <v-btn v-if="fullJourney.joiglink" icon @click="openiglink">
-                  <v-icon class="pl-1 float-right" small>mdi-instagram</v-icon>
-                </v-btn>
-                <v-btn v-if="fullJourney.joytlink" icon @click="openytlink">
-                  <v-icon class="pl-1 float-right" small>mdi-youtube</v-icon>
-                </v-btn>
-                <v-btn v-if="fullJourney.jolink" icon @click="openlink">
-                  <v-icon class="pl-1 float-right" small>mdi-link</v-icon>
-                </v-btn>
-                <v-tooltip v-if="fullJourney.event" top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs"  @click="goToEvent"
-                        v-on="on">
-                        <v-icon class="pl-1 float-right" small>mdi-calendar-heart</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Check out the event.</span>
-                </v-tooltip>
-                <v-tooltip v-if="fullJourney.ishighlight" top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs"
-                        v-on="on">
-                        <v-icon class="pl-1 float-right" color="orange" small>mdi-star</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>This is a highlighted post.</span>
-                </v-tooltip>
-                <v-tooltip v-if="fullJourney.isprivate" top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs"
-                        v-on="on">
-                        <v-icon class="pl-1 float-right" small>mdi-lock</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>This is your private post.</span>
-                </v-tooltip>
-          </v-row>
+          <v-list two-line class="pa-0">
+          <v-list-item class="pa-0">
+              <v-list-item-avatar>
+                  <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
+              </v-list-item-avatar>
+              <v-list-item-content>
+              <v-list-item-title><nuxt-link class="text-decoration-none" to="journey.username">{{journey.username}}</nuxt-link></v-list-item-title>
+              <v-list-item-subtitle> {{emoment(journey.created)}}</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                  <v-menu v-if="isAuthenticated && loggedInUser.username == journey.username" 
+                      transition="slide-y-transition" open-on-hover offset-y bottom left>
+                      <template v-slot:activator="{ on, attrs }">
+                          <div v-bind="attrs"
+                          v-on="on">
+                          <v-icon>mdi-dots-vertical</v-icon>
+                          </div>
+                      </template>
+                      <v-list>
+                          <v-list-item
+                          class="text-decoration-none pl-5 pr-8"
+                          @click="editJourney(fullJourney)"
+                          >
+                          <v-list-item-icon>
+                          <v-icon>mdi-book-edit-outline</v-icon>
+                          </v-list-item-icon>
+                          <v-list-item-title>Edit</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item
+                          class="text-decoration-none pl-5 pr-8"
+                          @click="saveJourneyId(journey.id)"
+                          >
+                          <v-list-item-icon>
+                          <v-icon>mdi-delete-outline</v-icon>
+                          </v-list-item-icon>
+                          <v-list-item-title>Delete</v-list-item-title>
+                          </v-list-item>
+                      </v-list>
+                  </v-menu>
+              </v-list-item-action>
+          </v-list-item>
+          </v-list>
+          <v-dialog v-model="dialogDelete" width="500">
+                  <v-card class="pa-4">
+                      <p> Are you sure you want to delete this journey?</p>
+                      <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn class="px-4 text-decoration-none" small color="error" dark :loading="deleteLoading"
+                          @click="confirmDelete(rm)">Delete</v-btn>
+                      <v-btn color="black" class="px-4 text-decoration-none" small outlined  @click="dialogDelete = false">
+                          Cancel
+                      </v-btn>
+                      </v-card-actions>
+                  </v-card>
+          </v-dialog>
           </v-container>
           <v-row align="center" justify="center" class="ma-0">
-            
             <client-only>
               <Slider 
                   :autoplay = false
@@ -125,44 +136,48 @@
             </client-only>
           </v-row>
           <v-container style="margin:auto; max-width:768px; " class=" px-md-0">
-            <v-row class="pt-2 pt-md-4 ma-0">
-            <h4 class="font-weight-medium"><nuxt-link :to="'/'+ journey.username" class="text-decoration-none">{{journey.username}} </nuxt-link> </h4>
-            <v-spacer></v-spacer>
-            <div v-if="isAuthenticated">
-          <v-row align="end" justify="end" v-if="loggedInUser.username == journey.username" class="pa-2">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn icon small>
-                  <v-icon  color="black" small @click="editJourney(fullJourney)" v-bind="attrs" v-on="on" >mdi-circle-edit-outline</v-icon>
+            <v-row class="ma-0" v-if="fullJourney">
+                <h5 v-if="journey.jodate" class="font-weight-light pt-2 caption">
+                  <!-- {{dateFormat(journey.jodate).date}} -->
+                  {{moment(journey.jodate)}}
+                  </h5>
+                <v-spacer></v-spacer>
+                <v-btn v-if="fullJourney.joiglink" icon @click="openiglink">
+                  <v-icon class="pl-1 float-right" small>mdi-instagram</v-icon>
                 </v-btn>
-              </template>
-              <span>Edit</span>
-            </v-tooltip>
-            <v-dialog v-model="dialogDelete" width="500">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-tooltip top v-bind="attrs" v-on="on">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn small icon >
-                            <v-icon color="error" small  @click="saveJourneyId(journey.id)" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>Delete</span>
-                  </v-tooltip>
-                </template>
-                <v-card class="pa-4">
-                    <p> Are you sure you want to delete this journey?</p>
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn class="px-4 text-decoration-none" small color="error" dark :loading="deleteLoading"
-                        @click="confirmDelete(rm)">Delete</v-btn>
-                    <v-btn color="black" class="px-4 text-decoration-none" small outlined  @click="dialogDelete = false">
-                        Cancel
+                <v-btn v-if="fullJourney.joytlink" icon @click="openytlink">
+                  <v-icon class="pl-1 float-right" small>mdi-youtube</v-icon>
+                </v-btn>
+                <v-btn v-if="fullJourney.jolink" icon @click="openlink">
+                  <v-icon class="pl-1 float-right" small>mdi-link</v-icon>
+                </v-btn>
+                <v-tooltip v-if="fullJourney.event" top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs"  @click="goToEvent"
+                        v-on="on">
+                        <v-icon class="pl-1 float-right" small>mdi-calendar-heart</v-icon>
                     </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-          </v-row>
-            </div>
+                  </template>
+                  <span>Check out the event.</span>
+                </v-tooltip>
+                <v-tooltip v-if="fullJourney.ishighlight" top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs"
+                        v-on="on">
+                        <v-icon class="pl-1 float-right" color="orange" small>mdi-star</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>This is a highlighted post.</span>
+                </v-tooltip>
+                <v-tooltip v-if="fullJourney.isprivate" top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs"
+                        v-on="on">
+                        <v-icon class="pl-1 float-right" small>mdi-lock</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>This is your private post.</span>
+                </v-tooltip>
           </v-row>
           <v-row class="pt-2 pt-md-4 ma-0" v-if="fullJourney">
               <h4 class="font-weight-medium">{{fullJourney.joevent}}</h4> 
@@ -197,7 +212,10 @@ export default {
   },
   methods:{
     moment(date){
-        return moment(date).format("ll")
+      return moment(date).format("ll")
+    },
+    emoment(date){
+      return moment(date).fromNow()
     },
     openDialog() {
     this.dialog= true

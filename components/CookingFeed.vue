@@ -24,13 +24,18 @@
                             <v-list-item
                             class="text-decoration-none pl-5 pr-8"
                             @click="editcook"
-                            >
+                            ><v-list-item-icon>
+                            <v-icon>mdi-book-edit-outline</v-icon>
+                            </v-list-item-icon>
                             <v-list-item-title>Edit</v-list-item-title>
                             </v-list-item>
                             <v-list-item
                             class="text-decoration-none pl-5 pr-8"
                             @click="dialog = true"
                             >
+                            <v-list-item-icon>
+                        <v-icon>mdi-delete-outline</v-icon>
+                        </v-list-item-icon>
                             <v-list-item-title>Delete</v-list-item-title>
                             </v-list-item>
                         </v-list>
@@ -44,6 +49,7 @@
                 Your browser does not support the video tag.
             </video>
             <div class="px-4 px-md-0 my-1">
+                <!-- {{cook.taggedteachers}} -->
                 <span v-for="obj in cook.taggedteachers" :key="obj.id">
                 <nuxt-link class="text-decoration-none" v-if="obj.shareidobj" :to="'/e1t1/'+ obj.shareidobj.uuid">
                     <v-chip color="black grey" dark outlined class="mr-1 mb-1 " style="cursor:pointer;">

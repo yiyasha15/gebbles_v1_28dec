@@ -697,11 +697,18 @@ methods: {
                     this.$axios.$put(url, fileData).then((value) => {
                     this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
                     this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+
                     const config = {
                         headers: {"content-type": "multipart/form-data",
                             "Authorization": this.$auth.strategy.token.get()
                             }
                     };
+
+                    //make profile photo update
+                    let formPic = new FormData();
+                    formPic.append("profile_photo", this.artist_data.thumb);
+                    this.$axios.$patch("/v1/auth/user/", formPic, config).then(res=>{console.log(res);})
+                    
                     let formPortfolio = new FormData();
                     let formBio= new FormData();
                     //check if instagram and fb are okay..
@@ -762,6 +769,9 @@ methods: {
                             "Authorization": this.$auth.strategy.token.get()
                         }
                     };
+                    let formPic = new FormData();
+                    formPic.append("profile_photo", this.artist_data.thumb);
+                    this.$axios.$patch("/v1/auth/user/", formPic, config).then(res=>{console.log(res);})
                     let formName = new FormData();
                     formName.append('cover', this.artist_data.cover);
                     formName.append('thumb', this.artist_data.thumb);
@@ -778,6 +788,7 @@ methods: {
             this.imgprogressbar =false
             this.error_snackbar = true
         }
+        console.log("deos this run", this.artist_data.thumb);
         // this.artist_data.cover = fileData;
         }
         else{

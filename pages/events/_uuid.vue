@@ -4,29 +4,54 @@
         <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
-        <!-- <v-spacer></v-spacer> -->
-        <div v-if="isAuthenticated && loggedInUser.username == event.username" class="float-right">
-        <v-col class="pa-1" >
-        <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn small icon v-bind="attrs"
-            v-on="on">
-            <v-icon small color="black" @click="editEvent(event)">mdi-circle-edit-outline</v-icon>
-        </v-btn>
-        </template>
-        <span>Edit</span>
-        </v-tooltip>
+        <!-- <v-row>
+            <v-col class="py-0">
+            <h5 class="caption font-weight-light">{{moment(event.created)}} </h5>
+            </v-col>
+        </v-row> -->
+        <v-list two-line class="pa-0">
+        <v-list-item class="pa-0">
+            <v-list-item-avatar>
+                <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content>
+            <v-list-item-title><nuxt-link class="text-decoration-none" to="event.username">{{event.username}}</nuxt-link></v-list-item-title>
+            <v-list-item-subtitle> {{emoment(event.created)}}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+                <v-menu v-if="isAuthenticated && loggedInUser.username == event.username" 
+                    transition="slide-y-transition" open-on-hover offset-y bottom left>
+                    <template v-slot:activator="{ on, attrs }">
+                        <div v-bind="attrs"
+                        v-on="on">
+                        <v-icon>mdi-dots-vertical</v-icon>
+                        </div>
+                    </template>
+                    <v-list>
+                        <v-list-item
+                        class="text-decoration-none pl-5 pr-8"
+                        @click="editEvent(event)"
+                        >
+                        <v-list-item-icon>
+                        <v-icon>mdi-book-edit-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Edit</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item
+                        class="text-decoration-none pl-5 pr-8"
+                        @click="deletedialog = true"
+                        >
+                        <v-list-item-icon>
+                        <v-icon>mdi-delete-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Delete</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </v-list-item-action>
+        </v-list-item>
+        </v-list>
         <v-dialog v-model="deletedialog" width="500">
-        <template v-slot:activator="{ on, attrs }">
-            <v-tooltip top v-bind="attrs" v-on="on">
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn small icon >
-                <v-icon small color="error" @click="deletedialog = true" v-bind="attrs" v-on="on">mdi-delete-outline</v-icon>
-                </v-btn>
-            </template>
-            <span>Delete</span>
-            </v-tooltip>
-        </template>
         <v-card class="pa-4">
             <p>Are you sure you want to delete this event?</p>
             <v-card-actions>
@@ -39,16 +64,12 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
-        </v-col>
-        </div>
-        </v-container>
-        <v-container class="mx-auto" fluid style="max-width:950px" >
         <v-row>
             <v-col cols="12" sm="6" align="center" justify="center" class="d-flex align-content-center flex-wrap">
                 <v-img :src = "event.poster" class="black" maxHeight="540px" contain ></v-img>
             </v-col>
             <v-col cols="12" sm="6" justify="center" > 
-            <h5 class="caption font-weight-light">{{moment(event.created)}} </h5>
+            <!-- <h5 class="caption font-weight-light">{{moment(event.created)}} </h5> -->
             <h1 class="font-weight-medium display-1">{{event.name}}</h1>
             <h3 v-if="event.start_date" class="red--text mt-2 font-weight-medium " > 
                 <v-icon class="mr-2" >mdi-calendar</v-icon> {{moment(event.start_date)}}
@@ -573,6 +594,9 @@ export default {
     methods:{
         moment(date){
            return moment(date).format("ll")
+        },
+        emoment(date){
+           return moment(date).fromNow()
         },
         checkGoing(){
             EventService.getIamGoingEventList(this.event.uuid).then(res=>{

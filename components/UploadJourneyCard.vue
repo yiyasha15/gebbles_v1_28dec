@@ -7,10 +7,11 @@
                 <gebbles-divider class="mb-5"></gebbles-divider>
                 <v-stepper v-model="e6" vertical class="elevation-0">
                     <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                    Share images* <small v-if="journey.event" class="mt-1">add this event to your journey</small>
+                    *Share photos from your events, sessions.. <small v-if="journey.event" class="mt-1">Add this event to your journey</small>
                     </v-stepper-step>
-                    <v-stepper-content style="border-left: none;" step="1" width="100%" class="ma-0 pa-5"> 
+                    <v-stepper-content style="border-left: none;" step="1" width="100%" class="ma-0 px-sm-5 px-2"> 
                         <v-slide-group
+                        mobile-breakpoint="400"
                         min-width="2px"
                         v-model="model"
                         class="pb-4 ma-0"
@@ -124,12 +125,12 @@
                     <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->
                     </v-stepper-content>
             
-                    <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Journey details*</v-stepper-step>
+                    <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">*Your experience</v-stepper-step>
                     <v-stepper-content step="2" class="ma-0" style="border-left: none;">
                         <v-form ref="journey_form">
                         <v-text-field
                             v-model = "journey.joevent"
-                            label= "Title*"
+                            label= "*Title"
                             :rules="titleRules"
                             :maxlength="255"
                             counter
@@ -152,7 +153,7 @@
                         <v-textarea
                         prepend-icon="mdi-information-outline" 
                             v-model = "journey.jocontent"
-                            label= "Caption"
+                            label= "Share your experience"
                             >
                         </v-textarea>
                         <!-- <p class="caption">If the date is in the future it will be added as an upcoming event.</p> -->
