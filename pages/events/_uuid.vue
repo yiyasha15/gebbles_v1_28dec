@@ -1,9 +1,9 @@
 <template>
   <v-app>
         <v-container class=" mx-auto" fluid style="max-width:950px" >
-        <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
+        <!-- <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
-        </v-btn>
+        </v-btn> -->
         <!-- <v-row>
             <v-col class="py-0">
             <h5 class="caption font-weight-light">{{moment(event.created)}} </h5>
@@ -11,13 +11,17 @@
         </v-row> -->
         <v-list two-line class="pa-0">
         <v-list-item class="pa-0">
-            <v-list-item-avatar>
+            <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
+                <v-icon class="float-left">mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-spacer></v-spacer>
+            <!-- <v-list-item-avatar>
                 <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
             <v-list-item-title><nuxt-link class="text-decoration-none" to="event.username">{{event.username}}</nuxt-link></v-list-item-title>
             <v-list-item-subtitle> {{emoment(event.created)}}</v-list-item-subtitle>
-            </v-list-item-content>
+            </v-list-item-content> -->
             <v-list-item-action>
                 <v-menu v-if="isAuthenticated && loggedInUser.username == event.username" 
                     transition="slide-y-transition" open-on-hover offset-y bottom left>
