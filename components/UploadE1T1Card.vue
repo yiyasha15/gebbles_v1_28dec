@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
-            <v-card class="px-1 pt-3" elevation=0 >
+            <v-card class="px-1 pt-3" color="background" elevation=0 >
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!share_obj">Give a shoutout<br>
                     <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
                     -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one</span></div>
@@ -87,7 +87,7 @@
                     </v-stepper-step>
                     <v-stepper-content step="2" style="border-left: none;" width="100%" class="ma-0">
                         <div>
-                        <!-- <div v-if="!imageData" @click="onPick" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
+                        <!-- <div v-if="!imageData" @click="onPick" style="cursor:pointer; width:274px;" class="mx-auto mb-4 rounded-lg grey_background" >
                             <v-icon class="pa-image">mdi-plus</v-icon>
                             <input 
                             type="file" 

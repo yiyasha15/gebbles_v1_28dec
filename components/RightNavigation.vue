@@ -244,7 +244,6 @@
             </v-list-item>
             </v-list-item-group>
         </v-list>
-
         <v-btn v-if="!isAuthenticated" dark color="black" class="text-decoration-none text-capitalize ma-4" to="/register">Sign Up</v-btn>
     </v-navigation-drawer>
 </div>

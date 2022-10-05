@@ -11,7 +11,7 @@
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
         :lazy-src= "journey.jp1thumb" 
-        class="grey lighten-2 white--text"
+        class="grey_background white--text"
         :height="img_height"
         :width="card_width"/>
       <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"

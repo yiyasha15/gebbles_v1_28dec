@@ -1,13 +1,13 @@
 <template>
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
-            <v-card class="pa-4 pb-md-8 px-md-8" elevation=0 >
+            <v-card class="pa-4 pb-md-8 px-md-8" color="background" elevation=0 >
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-if="!editing_workshop_obj">Create your workshop</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-else>Edit your workshop</div>
                  <p class="caption text-center">Share about your (or any artists) regular classes, workshops..</p>
                  <gebbles-divider class="mb-5"></gebbles-divider>
                  <v-form ref="workshop_form">
-                    <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+                    <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg secondary" >
                     <v-icon class="pa-image">mdi-plus</v-icon>
                     <input 
                     type="file" 

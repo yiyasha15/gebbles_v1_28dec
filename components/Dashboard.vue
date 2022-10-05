@@ -1,35 +1,33 @@
 <template>
     <div>
         <!--site navigation -->
-        <v-app-bar clipped-left flat fixed color="white">
+        <v-app-bar clipped-left flat fixed class="background">
             <nuxt-link :to="'/'" class="text-decoration-none">
             <v-layout align-center>
                 <img
-                :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
+                :height="$vuetify.breakpoint.smAndDown ? 28 : 38"
                 class="clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <!-- <v-toolbar-title>  -->
-                    <h2 class=" hidden-sm-and-down" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2>
-                    <h3 class=" hidden-md-and-up" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h3>
-                <!-- </v-toolbar-title> -->
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                    <h2 class=" ml-2" style="font-family: 'Poiret One', cursive; ">gebbles</h2>
             </v-layout>
             </nuxt-link>
             <v-spacer></v-spacer>
+            <v-btn @click="toggleTheme" small icon class="mr-sm-2 mr-md-3 mx-1"><v-icon color="black">mdi-theme-light-dark</v-icon></v-btn>
             <template v-if="isAuthenticated">
-            <v-btn icon small 
+            <v-btn icon small
             :to="'/'"
             class="text-decoration-none mr-sm-2 mr-md-3 mx-1"
             >
-            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
+            <v-icon color="black" size="26">mdi-home-circle-outline</v-icon>
             </v-btn>
             <plus-button v-if="userHasPortfolio "></plus-button>
             <!-- {{notifications_notseen}} -->
-            <v-btn small v-if="userHasPortfolio && notifications_notseen>0" icon dark color="black" class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
+            <v-btn small v-if="userHasPortfolio && notifications_notseen>0" icon class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
             <v-badge color="error" overlap :content='notifications_notseen'>
             <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
             </v-badge>
             </v-btn>
-            <v-btn small v-if="userHasPortfolio && notifications_notseen==0" icon dark color="black" class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
+            <v-btn small v-if="userHasPortfolio && notifications_notseen==0" icon class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
             <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
             </v-btn>
             </template>
@@ -58,7 +56,7 @@
                         >
                     </v-list-item-avatar>
                     <v-list-item-avatar v-else>
-                        <v-icon dark  color="black">
+                        <v-icon dark >
                                 mdi-account-circle
                             </v-icon>
                     </v-list-item-avatar>
@@ -282,6 +280,20 @@ export default {
           whatiscooking:1
       }
     },
+    mounted(){
+        const theme = localStorage.getItem("useDarkTheme");
+        if (theme) {
+        if (theme == "true") {
+            this.$vuetify.theme.dark = true;
+        } else this.$vuetify.theme.dark = false;
+        }
+    },
+    methods:{
+        toggleTheme() {
+            this.$vuetify.theme.dark=!this.$vuetify.theme.dark;
+            localStorage.setItem("useDarkTheme", this.$vuetify.theme.dark.toString())
+        }
+    }
 }
 </script>
 <style>

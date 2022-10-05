@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
-            <v-card class="px-1 pt-3" elevation=0 >
+            <v-card class="px-1 pt-3" color="background" elevation=0 >
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-if="!editing_event_obj">Create your event page</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-else>Edit your event page</div>
                  <p class="caption text-center">Share about your plan for the jam, your guests, categories and schedule.. </p>
@@ -14,7 +14,7 @@
                     <v-stepper-content step="1" style="border-left: none;" class="ma-0"> 
                         <v-form ref="event_form">
                         <div>
-                        <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer; max-width:274px;" class="mx-auto mb-4 rounded-lg grey lighten-2" >
+                        <div v-if="!event.poster" @click="onPick(1)" style="cursor:pointer; max-width:274px;" class="mx-auto mb-4 rounded-lg grey_background" >
                             <v-icon class="pa-image" >mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -146,7 +146,7 @@
                             </div>
                         </v-layout>
                         <v-form ref="guest_form">
-                        <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-2 rounded-lg grey lighten-2" >
+                        <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-2 rounded-lg grey_background" >
                             <v-icon class="pa-image">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -305,64 +305,64 @@
                         -->
                         <v-row class="mb-2 pa-0 hidden-xs-only">
                             <v-col >
-                                <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="workshop_dialog = true">
-                                    <template class="pa-7"> <h5 class="font-weight-light py-10 px-4" style="underline:yellow;">Workshop</h5></template>
+                                <div style="width:100px; height: 100px; border-radius:10px; cursor:pointer;" class="my-1 grey_background" @click="workshop_dialog = true">
+                                    <template class="pa-7"> <h5 class="font-weight-light py-10 px-4 black--text" style="underline:yellow;">Workshop</h5></template>
                                 </div>
                             </v-col>
                             <v-col >
-                                <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="battle_dialog = true">
-                                    <template class="pa-7"> <h5 class="font-weight-light py-10 px-7">Battle</h5></template>
+                                <div style="width:100px; height: 100px; border-radius:10px; cursor:pointer;" class="my-1 grey_background" @click="battle_dialog = true">
+                                    <template class="pa-7"> <h5 class="font-weight-light py-10 px-7 black--text">Battle</h5></template>
                                 </div>
                             </v-col>
                             <v-col >
-                                <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 hover" @click="cypher_dialog = true">
+                                <div style="width:100px; height: 100px; border-radius:10px; cursor:pointer;" class="my-1 grey_background" @click="cypher_dialog = true">
                                     <template class="pa-7"> <h5 class="font-weight-light py-10 px-6">Cypher</h5></template>
                                 </div>
                             </v-col>
                             <v-col >
-                                <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 " @click="showcase_dialog = true">
+                                <div style="width:100px; height: 100px; border-radius:10px; cursor:pointer;" class="my-1 grey_background" @click="showcase_dialog = true">
                                     <template class="pa-7"> <h5 class="font-weight-light py-10 px-4">Showcase</h5></template >
                                 </div>
                             </v-col>
                             <v-col >
-                                <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1" @click="party_dialog = true">
+                                <div style="width:100px; height: 100px;  border-radius:10px; cursor:pointer;" class="my-1 grey_background" @click="party_dialog = true">
                                     <template class="pa-7"> <h5 class="font-weight-light py-10 px-8">Party</h5></template >
                                 </div>
                             </v-col>
                             <v-col >
-                                <div style="width:100px; height: 100px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1" @click="otherCategory_dialog = true">
+                                <div style="width:100px; height: 100px;  border-radius:10px; cursor:pointer;" class="my-1 grey_background" @click="otherCategory_dialog = true">
                                     <template class="pa-7"> <h5 class="  caption font-weight-light py-10 px-1">CommunityTalk</h5></template >
                                 </div>
                             </v-col>
                         </v-row>
                         <v-row class="mb-3 pa-0 hidden-sm-and-up">
                             <v-col class="pa-0" cols="12">
-                                <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="workshop_dialog = true">
-                                    <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Workshop</h5></center >
+                                <div style="width:250px; height: 50px; border-radius:10px; cursor:pointer;" class="my-1 mx-auto grey_background" @click="workshop_dialog = true">
+                                    <center class="pa-2"> <h5 class="font-weight-light py-2 px-16 black">Workshop</h5></center >
                                 </div>
                             </v-col>
                             <v-col class="pa-0" cols="12">
-                                <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="battle_dialog = true">
+                                <div style="width:250px; height: 50px; border-radius:10px; cursor:pointer; " class="my-1 mx-auto grey_background" @click="battle_dialog = true">
                                     <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Battle</h5></center >
                                 </div>
                             </v-col>
                             <v-col class="pa-0" cols="12">
-                                <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="cypher_dialog = true">
+                                <div style="width:250px; height: 50px; border-radius:10px; cursor:pointer;" class="my-1 mx-auto grey_background" @click="cypher_dialog = true">
                                     <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Cypher</h5></center >
                                 </div>
                             </v-col>
                             <v-col class="pa-0" cols="12">
-                                <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="showcase_dialog = true">
+                                <div style="width:250px; height: 50px; border-radius:10px; cursor:pointer;" class="my-1 mx-auto grey_background" @click="showcase_dialog = true">
                                     <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Showcase</h5></center >
                                 </div>
                             </v-col>
                             <v-col class="pa-0" cols="12">
-                                <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="party_dialog = true">
+                                <div style="width:250px; height: 50px; border-radius:10px; cursor:pointer;" class="my-1 mx-auto grey_background" @click="party_dialog = true">
                                     <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">Party</h5></center >
                                 </div>
                             </v-col>
                             <v-col class="pa-0" cols="12">
-                                <div style="width:250px; height: 50px; background: #F0F0F0; border-radius:10px; cursor:pointer;" class="my-1 mx-auto" @click="otherCategory_dialog = true">
+                                <div style="width:250px; height: 50px; border-radius:10px; cursor:pointer;" class="my-1 mx-auto grey_background" @click="otherCategory_dialog = true">
                                     <center class="pa-2"> <h5 class="font-weight-light py-2 px-16">CommunityTalk</h5></center >
                                 </div>
                             </v-col>
@@ -383,7 +383,7 @@
                                 <guest-card-create :guest="guest" v-if="guest.category.includes(5)" @removeGuest="removeOrganiser" @editGuest="editOrganiser"></guest-card-create>
                             </div>
                         </v-layout>
-                        <div v-if="!organiser.photo" @click="onPick(5)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+                        <div v-if="!organiser.photo" @click="onPick(5)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
                             <v-icon class="pa-image">mdi-plus</v-icon>
                             <input 
                             type="file" 
@@ -487,7 +487,7 @@
                         show-arrows>
                         <v-slide-item>
                             <div class="mr-1">
-                            <div v-if="!event.photo1" @click="onPick(6)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
+                            <div v-if="!event.photo1" @click="onPick(6)" style="cursor:pointer;" class=" rounded-lg grey_background" >
                                 <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                                 <input 
                                 type="file" 
@@ -498,7 +498,7 @@
                                 required
                                 @change="onFileChange6">
                             </div>
-                            <div v-else class=" rounded-lg grey lighten-2" >
+                            <div v-else class=" rounded-lg grey_background" >
                             <v-img v-if="typeof(event.photo1) === 'string'" :src="event.photo1" :height="img_height" :width="img_height" contain>
                                 <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(6)">
                                 <v-icon color="black" small>mdi-close</v-icon>
@@ -509,7 +509,7 @@
                         </v-slide-item>
                         <v-slide-item>
                             <div class="mr-1">
-                            <div v-if="!event.photo2" @click="onPick(7)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
+                            <div v-if="!event.photo2" @click="onPick(7)" style="cursor:pointer;" class=" rounded-lg grey_background" >
                                 <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                                 <input 
                                 type="file" 
@@ -520,7 +520,7 @@
                                 required
                                 @change="onFileChange7">
                             </div>
-                            <div v-else class=" rounded-lg grey lighten-2" >
+                            <div v-else class=" rounded-lg grey_background" >
                             <v-img v-if="typeof(event.photo2) === 'string'" :src="event.photo2" :height="img_height" :width="img_height" contain>
                                 <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(7)">
                                 <v-icon color="black" small>mdi-close</v-icon>
@@ -531,7 +531,7 @@
                         </v-slide-item>
                         <v-slide-item>
                             <div >
-                            <div v-if="!event.photo3" @click="onPick(8)" style="cursor:pointer;" class=" rounded-lg grey lighten-2" >
+                            <div v-if="!event.photo3" @click="onPick(8)" style="cursor:pointer;" class=" rounded-lg grey_background" >
                                 <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
                                 <input 
                                 type="file" 
@@ -542,7 +542,7 @@
                                 required
                                 @change="onFileChange8">
                             </div>
-                            <div v-else class=" rounded-lg grey lighten-2" >
+                            <div v-else class=" rounded-lg grey_background" >
                             <v-img v-if="typeof(event.photo3) === 'string'" :src="event.photo3" :height="img_height" :width="img_height" contain>
                                 <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(8)">
                                 <v-icon color="black" small>mdi-close</v-icon>
@@ -578,7 +578,7 @@
         </v-btn>
         <h3>Battles</h3>
         <v-form ref="battle_form">
-        <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!battle_category.poster" @click="onPick(2)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey_background" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -911,7 +911,7 @@
         </v-btn>
         <h3>Workshops</h3>
         <v-form ref="workshop_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -1066,7 +1066,7 @@
         </v-btn>
         <h3>Showcases</h3>
         <v-form ref="showcase_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -1219,7 +1219,7 @@
         </v-btn>
         <h3>Party</h3>
         <v-form ref="party_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -1325,7 +1325,7 @@
         </v-btn>
         <h3>Cypher Sessions</h3>
         <v-form ref="cypher_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey_background" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
@@ -1437,7 +1437,7 @@
         </v-btn>
         <h3>Community Talk</h3>
         <v-form ref="talk_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey lighten-2" >
+        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class="mx-auto my-4 rounded-lg grey_background" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 

@@ -11,7 +11,7 @@
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
         :lazy-src= "journey.jp1thumb" 
-        class="grey lighten-2 white--text"
+        class="grey_background white--text"
         :height="img_height"
         :width="card_width"/>
       <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"
@@ -37,7 +37,7 @@
           </v-btn>
           </v-row>
           <v-container style="margin:auto; max-width:768px; " class="pt-0 pb-3 px-md-0" >
-          <v-list two-line class="pa-0">
+          <v-list two-line class="pa-0 background">
           <v-list-item class="pa-0">
               <v-list-item-avatar>
                   <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
-            <v-card class="pa-4 pb-md-8 px-md-8" elevation=0 >
+            <v-card class="pa-4 pb-md-8 px-md-8" color="background" elevation=0 >
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!cook_obj">Upload your video</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your video</div>
                  <gebbles-divider class="mb-5"></gebbles-divider>

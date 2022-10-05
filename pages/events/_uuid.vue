@@ -9,7 +9,7 @@
             <h5 class="caption font-weight-light">{{moment(event.created)}} </h5>
             </v-col>
         </v-row> -->
-        <v-list two-line class="pa-0">
+        <v-list two-line class="pa-0" color="background">
         <v-list-item class="pa-0">
             <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>

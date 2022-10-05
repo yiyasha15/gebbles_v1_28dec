@@ -1,20 +1,18 @@
 <template>
     <div>
         <!--site navigation -->
-        <v-app-bar clipped-left flat fixed color="white">
+        <v-app-bar clipped-left flat fixed class="background">
             <nuxt-link :to="'/'" class="text-decoration-none">
             <v-layout align-center>
                 <img
-                :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
+                :height="$vuetify.breakpoint.smAndDown ? 28 : 38"
                 class="clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <!-- <v-toolbar-title>  -->
-                    <h2 class=" hidden-sm-and-down" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h2>
-                    <h3 class=" hidden-md-and-up" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">gebbles</h3>
-                <!-- </v-toolbar-title> -->
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                <h2 class="ml-2" style="font-family: 'Poiret One', cursive;">gebbles</h2>
             </v-layout>
             </nuxt-link>
             <v-spacer></v-spacer>
+            <v-btn @click="toggleTheme" small icon class="mr-sm-2 mr-md-3 mx-1"><v-icon color="black">mdi-theme-light-dark</v-icon></v-btn>
             <template v-if="isAuthenticated">
             <v-btn icon small 
             :to="'/'"
@@ -56,6 +54,12 @@ export default {
     components: { RegisterLogin, RightNavigation, PlusButton },
     computed: {
         ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),
+    },
+    methods:{
+        toggleTheme() {
+            this.$vuetify.theme.dark=!this.$vuetify.theme.dark;
+            localStorage.setItem("useDarkTheme", this.$vuetify.theme.dark.toString())
+        }
     },
     middleware : 'check_auth',
 }

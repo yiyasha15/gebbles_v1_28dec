@@ -128,7 +128,7 @@
                     <v-btn v-if="isAuthenticated && userHasPortfolio && comments.comment"
                         small class="text-decoration-none mt-2" 
                         @click="post_comment(cook.id)"
-                            color="black" dark >Post
+                         dark >Post
                     </v-btn>
                 </v-row>
                 <div style="

@@ -76,9 +76,6 @@ export default {
 a{
     text-decoration: none;
 }
-a:hover{
-  color: black;
-}
 .width{
     max-width: 670px;
   }

@@ -1,5 +1,5 @@
 <template>
-    <v-card elevation="0" class="mx-2 mx-sm-0 pa-md-4 pa-2 text-center" rounded="lg">
+    <v-card elevation="0" color="background" class="mx-2 mx-sm-0 pa-md-4 pa-2 text-center" rounded="lg">
             <!-- <v-icon size="26" color="secondary" class="mb-4">mdi-brush-outline</v-icon> -->
         <!-- <h3 class="pa-2 pa-md-3 font-weight-light text-left"> Share your story... </h3> -->
         <div class="pa-2">
@@ -14,7 +14,7 @@
                         v-bind="attrs" 
                         @click="upload_journey=true"
                         v-on="on">
-                        <v-icon color="primary">mdi-book-heart-outline</v-icon><span class="primary--text ml-1">Share</span>
+                        <v-icon color="dark_primary">mdi-book-heart-outline</v-icon><span class="dark_primary--text ml-1">Share</span>
                         </v-card>
                     </v-hover>
                 </template>
@@ -30,7 +30,7 @@
                         v-bind="attrs" 
                         @click="upload_video=true"
                         v-on="on">
-                        <v-icon color="primary">mdi-play-circle-outline</v-icon><span class="primary--text ml-1">Video</span>
+                        <v-icon color="dark_primary">mdi-play-circle-outline</v-icon><span class="dark_primary--text ml-1">Video</span>
                         </v-card>
                     </v-hover>
                 </template>
@@ -46,7 +46,7 @@
                         v-bind="attrs" 
                         @click="upload_e1t1=true"
                         v-on="on">
-                        <v-icon color="primary">mdi-all-inclusive</v-icon><span class="primary--text ml-1">Shoutout</span>
+                        <v-icon color="dark_primary">mdi-all-inclusive</v-icon><span class="dark_primary--text ml-1">Shoutout</span>
                         </v-card>
                     </v-hover>
                 </template>
@@ -62,7 +62,7 @@
                         v-bind="attrs" 
                         @click="upload_workshop=true"
                         v-on="on">
-                        <v-icon color="primary">mdi-leaf-circle-outline</v-icon><span class="primary--text ml-1">Workshop</span>
+                        <v-icon color="dark_primary">mdi-leaf-circle-outline</v-icon><span class="dark_primary--text ml-1">Workshop</span>
                         </v-card>
                     </v-hover>
                 </template>
@@ -78,7 +78,7 @@
                         v-bind="attrs" 
                         @click="upload_event=true"
                         v-on="on">
-                        <v-icon color="primary">mdi-google-circles-communities</v-icon><span class="primary--text ml-1">Event</span>
+                        <v-icon color="dark_primary">mdi-google-circles-communities</v-icon><span class="dark_primary--text ml-1">Event</span>
                         </v-card>
                     </v-hover>
                 </template>
@@ -90,31 +90,31 @@
                 @click="upload_journey=true" 
                 color="secondary" 
                 class="mx-1">
-                <v-icon color="primary">mdi-book-heart-outline</v-icon>
+                <v-icon color="dark_primary">mdi-book-heart-outline</v-icon>
             </v-btn>
             <v-btn fab small elevation="6" 
                 @click="upload_video=true" 
                 color="secondary" 
                 class="mx-1">
-                <v-icon color="primary">mdi-play-circle-outline</v-icon>
+                <v-icon color="dark_primary">mdi-play-circle-outline</v-icon>
             </v-btn>
             <v-btn fab small elevation="6" 
                 @click="upload_e1t1=true" 
                 color="secondary" 
                 class="mx-1">
-                <v-icon color="primary">mdi-all-inclusive</v-icon>
+                <v-icon color="dark_primary">mdi-all-inclusive</v-icon>
             </v-btn>
             <v-btn  fab small elevation="6" 
                 @click="upload_workshop=true" 
                 color="secondary" 
                 class="mx-1">
-                <v-icon color="primary">mdi-leaf-circle-outline</v-icon>
+                <v-icon color="dark_primary">mdi-leaf-circle-outline</v-icon>
             </v-btn>
             <v-btn fab small elevation="6" 
                 @click="upload_event=true" 
                 color="secondary" 
                 class="mx-1">
-                <v-icon color="primary">mdi-google-circles-communities</v-icon>
+                <v-icon color="dark_primary">mdi-google-circles-communities</v-icon>
             </v-btn>
             </div>
         <h3 class="pa-2 pa-md-3 font-weight-light my-3"> HipHop Way of Life!</h3>

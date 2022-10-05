@@ -14,17 +14,17 @@
         v-if = category.poster :src = "category.poster" 
         height="100"
         width="100">
-        <v-btn v-if="typeof category.category == 'number'"  style="background:white" icon small class="float-right ma-1" @click.stop="$emit('editCategory',category)">
+        <v-btn v-if="typeof category.category == 'number'" icon small class="float-right ma-1 white" @click.stop="$emit('editCategory',category)">
         <v-icon color="black" small>mdi-pencil-outline</v-icon>
         </v-btn>
-        <v-btn v-else style="background:white" icon small class="float-right ma-1" @click.stop="$emit('editBattleCategory',category)">
+        <v-btn v-else icon small class="float-right ma-1 white" @click.stop="$emit('editBattleCategory',category)">
         <v-icon color="black" small>mdi-pencil-outline</v-icon>
         </v-btn>
-        <v-btn v-if="typeof category.category == 'number'" style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeCategory',category)">
+        <v-btn v-if="typeof category.category == 'number'" icon small class="float-right ma-1 white" @click.stop="$emit('removeCategory',category)">
         <v-icon color="error" small>mdi-close</v-icon>
         </v-btn>
         <!-- to remove battle category -->
-        <v-btn v-else style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeBattleCategory',category)">
+        <v-btn v-else icon small class="float-right ma-1 white" @click.stop="$emit('removeBattleCategory',category)">
         <v-icon color="error" small>mdi-close</v-icon>
         </v-btn>
       </v-img>
@@ -32,17 +32,17 @@
          v-else
         height="100"
         width="100">
-        <v-btn v-if="typeof category.category == 'number'"  style="background:white" icon small class="float-right ma-1" @click.stop="$emit('editCategory',category)">
+        <v-btn v-if="typeof category.category == 'number'" icon small class="float-right ma-1 white" @click.stop="$emit('editCategory',category)">
         <v-icon color="black" small>mdi-pencil-outline</v-icon>
         </v-btn>
-        <v-btn v-else style="background:white" icon small class="float-right ma-1" @click.stop="$emit('editBattleCategory',category)">
+        <v-btn v-else icon small class="float-right ma-1 white" @click.stop="$emit('editBattleCategory',category)">
         <v-icon color="black" small>mdi-pencil-outline</v-icon>
         </v-btn>
-        <v-btn v-if="typeof category.category == 'number'" style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeCategory',category)">
+        <v-btn v-if="typeof category.category == 'number'" icon small class="float-right ma-1 white" @click.stop="$emit('removeCategory',category)">
         <v-icon color="error" small>mdi-close</v-icon>
         </v-btn>
         <!-- to remove battle category -->
-        <v-btn v-else style="background:white" icon small class="float-right ma-1" @click.stop="$emit('removeBattleCategory',category)">
+        <v-btn v-else icon small class="float-right ma-1 white" @click.stop="$emit('removeBattleCategory',category)">
         <v-icon color="error" small>mdi-close</v-icon>
         </v-btn>
       <div class="text-center">
@@ -85,7 +85,7 @@
            <span> battle</span>
         </v-chip>
         <h3 class="font-weight-light mt-2">{{category.venue}}</h3>
-        {{category}}
+        <!-- {{category}} -->
         <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{moment(category.date)}}</h3>
         <h3 class="red--text mt-1 font-weight-light" > {{category.date_time}} </h3>
         <h3 v-if="category.about" class="font-weight-light mt-2">About: {{category.about}}</h3>

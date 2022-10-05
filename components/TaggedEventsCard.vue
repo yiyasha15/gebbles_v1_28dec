@@ -14,11 +14,11 @@
         :lazy-src= "event.event.poster" 
         :height="img_height"
         :width="card_width">
-        <v-btn style="background:white" icon small class="float-right ma-1" 
+        <v-btn icon small class="float-right ma-1 white" 
         @click.stop="goToEvent">
         <v-icon color="black" small>mdi-calendar-heart</v-icon>
         </v-btn>
-        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" style="background:white" icon small class="float-right ma-1" 
+        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" icon small class="float-right ma-1 white" 
         @click.stop="addToJourney">
         <v-icon color="black" small>mdi-plus</v-icon>
         </v-btn>
@@ -28,11 +28,11 @@
         contain
         :height="img_height"
         :width="card_width">
-        <v-btn style="background:white" icon small class="float-right ma-1" 
+        <v-btn  icon small class="float-right ma-1 white" 
         @click.stop="goToEvent">
         <v-icon color="black" small>mdi-calendar-heart</v-icon>
         </v-btn>
-        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" style="background:white" icon small class="float-right ma-1" 
+        <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" icon small class="float-right ma-1 white" 
         @click.stop="addToJourney">
         <v-icon color="black" small>mdi-plus</v-icon>
         </v-btn>
@@ -57,11 +57,11 @@
           </v-row>
         <div v-if="event.event" >
         <v-img class="my-4 mx-auto" v-if="event.event.poster" max-height="400px" contain :src="event.event.poster">
-          <v-btn style="background:white" icon small class="float-right ma-2 ml-0" 
+          <v-btn icon small class="float-right ma-2 ml-0 white" 
           @click.stop="goToEvent">
           <v-icon color="black" small>mdi-calendar-heart</v-icon>
           </v-btn>
-          <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" style="background:white" icon small class="float-right ma-2 ml-0" 
+          <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username" icon small class="float-right ma-2 ml-0 white" 
           @click.stop="addToJourney">
           <v-icon color="black" small>mdi-plus</v-icon>
           </v-btn>

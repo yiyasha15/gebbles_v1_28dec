@@ -1,11 +1,9 @@
 <template>
   <v-app>
     <v-container class="width mx-auto" >
-        <v-row>
-            <v-btn icon class="elevation-0  " @click="goback()" >
-                <v-icon class="float-left">mdi-arrow-left</v-icon>
-            </v-btn>
-        </v-row>
+        <v-btn icon class="elevation-0  " @click="goback()" >
+            <v-icon class="float-left">mdi-arrow-left</v-icon>
+        </v-btn>
         <!-- <v-row>
             <v-col class="py-0">
             <h5 class="caption font-weight-light" >
@@ -13,7 +11,8 @@
                 </h5>
             </v-col>
         </v-row> -->
-        <v-list two-line class="pa-0">
+        <!-- {{this.$vuetify.theme.dark}} -->
+        <v-list two-line class="pa-0 white">
         <v-list-item class="pa-0">
             <v-list-item-avatar>
                 <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
@@ -43,7 +42,7 @@
                         </v-list-item>
                         <v-list-item v-if="loggedInUser.username == e1t1.username"
                         class="text-decoration-none pl-5 pr-8"
-                        @click="editWorkshop(workshop)"
+                        @click="cardDialog = true"
                         >
                         <v-list-item-icon>
                         <v-icon>mdi-card-account-details-outline</v-icon>
@@ -245,11 +244,12 @@
                         label="Type something..">
                         </v-textarea>
                     </v-flex>
-                    <v-flex md2 sm3><center>
-                        <v-btn small 
-                        @click="post_personal_text" class="px-4 px-md-8"
-                        color="black" dark >Post
-                    </v-btn></center>
+                    <v-flex md2 sm3>
+                        <center>
+                            <v-btn small v-if="personal.messagetext"
+                                @click="post_personal_text" class="px-4 px-md-8 black"><span class="white--text">Post</span>
+                            </v-btn>
+                        </center>
                     </v-flex>
                 </v-layout>
                 <div v-if="personalMessages.length" >
@@ -379,7 +379,7 @@ export default {
             love_id:'',
             videoId:'',
             addDedicated:false,
-            dialog: false,
+            deletedialog: false,
             learntDialog:false,
             personalDialog: false,
             valid_snackbar2: false,
