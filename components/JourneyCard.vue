@@ -30,7 +30,7 @@
         v-model="dialog"
         persistent
         class="ma-12 ma-md-24 overflow-hidden">
-        <div class="rounded-lg white" max-width="800"> 
+        <div class="rounded-lg background" max-width="800"> 
           <v-row align="end" justify="end" class="px-2 pt-2 ma-0 " >
           <v-btn icon color="error" @click="closeDialog"  align="end" justify="end" >
             <v-icon >mdi-close</v-icon>

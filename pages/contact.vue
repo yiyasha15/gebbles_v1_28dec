@@ -2,9 +2,9 @@
 <template>
     <v-app> 
         <v-container class="width mx-auto">
-            <v-breadcrumbs class="px-2"
+            <!-- <v-breadcrumbs class="px-2"
             divider="/"
-            :items="items"></v-breadcrumbs>
+            :items="items"></v-breadcrumbs> -->
             <div class="my-6">
                 <h1 class="my-4 font-weight-medium"><v-icon size="36">mdi-mailbox-outline</v-icon> Contact us!</h1>
                 <p class="my-2 font-weight-light">

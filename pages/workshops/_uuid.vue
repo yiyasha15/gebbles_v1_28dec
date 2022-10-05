@@ -4,7 +4,7 @@
         <v-btn icon class="elevation-0  " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
-        <v-list two-line class="pa-0">
+        <v-list two-line class="pa-0 background">
         <v-list-item class="pa-0">
             <v-list-item-avatar>
                 <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>

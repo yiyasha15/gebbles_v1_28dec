@@ -82,7 +82,7 @@
         </v-text-field>
       </v-radio-group>
       <v-card-actions class="mb-3 justify-center">
-      <v-btn @click="registerUser(registrationInfo)" small elevation="4" class="px-8" dark color="black" :loading="progressbar">Create Account</v-btn>
+      <v-btn @click="registerUser(registrationInfo)" small elevation="4" class="px-8" dark :loading="progressbar">Create Account</v-btn>
     </v-card-actions>
     </v-form>
     </v-card-text>

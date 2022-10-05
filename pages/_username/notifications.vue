@@ -1,9 +1,9 @@
 <template>
 <v-app>
-    <v-container style="max-width:1072px;" >
+    <v-container style="max-width:1072px;" class="background" >
         <h2 class="my-md-2 font-weight-light">Notifications</h2>
         <div v-if="!firstLoad">
-        <v-list two-line>
+        <v-list two-line class="background">
             <!-- {{filteredNotifications}} -->
         <v-subheader>New</v-subheader>
         <!-- {{filteredNotifications}} -->
@@ -60,7 +60,7 @@
         </v-list>
         <v-divider></v-divider>
         <!-- {{filteredNotificationsOld}} -->
-        <v-list two-line>
+        <v-list two-line class="background">
         <v-subheader>Earlier</v-subheader>
         <template v-for="(item) in filteredNotificationsOld">
             <v-list-item :key="item.index" @click="opene1t1(item)" v-show="loggedInUser.username != item.sender">
@@ -109,9 +109,9 @@
         </v-list>
         </div>
     </v-container>
-    <v-container v-if="firstLoad" style="max-width:1072px;">
+    <v-container v-if="firstLoad" style="max-width:1072px;" class="background">
           <div v-for="n in this.looploader" :key ="n.index">
-            <v-flex sm6 xs6> 
+            <v-flex sm6 xs6 class="background"> 
               <v-skeleton-loader  class="ma-1" :loading="loading" type="list-item-avatar" ></v-skeleton-loader>
             </v-flex>
           </div>

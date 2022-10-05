@@ -1,7 +1,7 @@
 <template>
     <v-app>
-        <v-tabs class="width mx-auto">
-        <v-tab>
+        <v-tabs class="width mx-auto background">
+        <v-tab class="">
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Journey</p>
         </v-tab>
         <v-tab v-if="visitOwnPage">
@@ -11,7 +11,7 @@
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Events</p>
         </v-tab>
         <v-tab-item>
-            <v-container class="pa-0" v-show="!journeyLoaded" style="max-width:670px;">
+            <v-container class="pa-0 background" v-show="!journeyLoaded" style="max-width:670px;">
                 <div v-if=" journey.length || highlights.length"> 
                 <!-- check if journey is available -->
                 <!-- <div v-if="upcoming.length">
@@ -69,12 +69,12 @@
         <v-tab-item v-if="visitOwnPage">
             <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  can add the invited events to your portfolio journey</small>
             <!-- tagged events -->
-            <v-layout wrap row justify-start v-if="firstLoadTagged" class="my-2">
+            <v-layout wrap row justify-start v-if="firstLoadTagged" class="py-2">
                 <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader></card-skeleton-loader>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width my-2" >
+            <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width py-2" >
                 <div v-for="event in taggedEvents" :key ="event.index">
                 <tagged-events-card v-if="event.event" :event="event"></tagged-events-card>
                 </div>
@@ -91,12 +91,12 @@
         <v-tab-item v-if="visitOwnPage">
             <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> can add the attended events to your journey</small>
 
-            <v-layout wrap row justify-start v-if="firstLoadGoing" class="my-2">
+            <v-layout wrap row justify-start v-if="firstLoadGoing" class="py-2">
                 <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader></card-skeleton-loader>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width my-2" >
+            <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width py-2" >
                 <div v-for="event in goingEvents" :key ="event.index">
                     <going-events-card v-if="event.event" :event="event"></going-events-card>
                 </div>

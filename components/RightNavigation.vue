@@ -244,7 +244,19 @@
             </v-list-item>
             </v-list-item-group>
         </v-list>
-        <v-btn v-if="!isAuthenticated" dark color="black" class="text-decoration-none text-capitalize ma-4" to="/register">Sign Up</v-btn>
+        <v-list dense>
+            <!-- <v-subheader>Account</v-subheader> -->
+            <v-list-item @click="toggleTheme">
+                <v-list-item-icon>
+            <v-icon>mdi-theme-light-dark</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                <v-list-item-title v-if="!$vuetify.theme.dark">Dark Mode</v-list-item-title>
+                <v-list-item-title v-else>Light Mode</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
+        <v-btn v-if="!isAuthenticated" dark class="text-decoration-none text-capitalize ma-4" to="/register">Sign Up</v-btn>
     </v-navigation-drawer>
 </div>
 </template>
@@ -253,6 +265,12 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio','usersPortfolio']),
+    },
+    methods:{
+        toggleTheme() {
+            this.$vuetify.theme.dark=!this.$vuetify.theme.dark;
+            localStorage.setItem("useDarkTheme", this.$vuetify.theme.dark.toString())
+        }
     },
     data() {
       return {

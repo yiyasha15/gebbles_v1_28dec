@@ -31,7 +31,7 @@
 					color="#cead8f"/>
 			</v-card-text>
 			<v-card-actions class="mb-3 justify-center">
-				<v-btn @click="submitForm()" class="px-8" small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
+				<v-btn @click="submitForm()" class="px-8" small outlined  :loading="progressbar1">Sign in</v-btn>
 				<!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
 			</v-card-actions>
 			</v-form>

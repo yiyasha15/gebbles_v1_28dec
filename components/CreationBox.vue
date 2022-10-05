@@ -124,7 +124,7 @@
         </div>
         <v-dialog max-width="550" persistent
         v-model="upload_video">
-        <v-container class="rounded-lg white px-4">
+        <v-container class="rounded-lg background px-4">
         <v-row align="end" justify="end" class="pa-0 ma-0" >
           <v-btn icon color="error" class="float-right" @click="close_upload_video">
               <v-icon>mdi-close</v-icon>
@@ -135,7 +135,7 @@
         </v-dialog>
         <v-dialog max-width="550" persistent
         v-model="upload_journey">
-        <v-container class="rounded-lg white px-4">
+        <v-container class="rounded-lg background px-4">
         <v-row align="end" justify="end" class="pa-0 ma-0" >
           <v-btn icon color="error" class="float-right" @click="close_upload_journey">
               <v-icon>mdi-close</v-icon>
@@ -146,7 +146,7 @@
         </v-dialog>
         <v-dialog max-width="550" persistent
         v-model="upload_e1t1">
-        <v-container class="rounded-lg white px-4">
+        <v-container class="rounded-lg background px-4">
         <v-row align="end" justify="end" class="pa-0 ma-0" >
           <v-btn icon color="error" class="float-right" @click="close_upload_e1t1">
               <v-icon>mdi-close</v-icon>
@@ -157,7 +157,7 @@
         </v-dialog>
         <v-dialog max-width="550" persistent
         v-model="upload_event">
-        <v-container class="rounded-lg white px-4">
+        <v-container class="rounded-lg background px-4">
         <v-row align="end" justify="end" class="pa-0 ma-0" >
           <v-btn icon color="error" class="float-right" @click="close_upload_event">
               <v-icon>mdi-close</v-icon>
@@ -168,7 +168,7 @@
         </v-dialog>
         <v-dialog max-width="550" persistent
         v-model="upload_workshop">
-        <v-container class="rounded-lg white px-4">
+        <v-container class="rounded-lg background px-4">
         <v-row align="end" justify="end" class="pa-0 ma-0" >
           <v-btn icon color="error" class="float-right" @click="close_upload_workshop">
               <v-icon>mdi-close</v-icon>

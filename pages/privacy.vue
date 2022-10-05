@@ -1,9 +1,9 @@
 <template>
     <v-app class="app">
         <v-container class="width mx-auto">
-            <v-breadcrumbs class="px-2"
+            <!-- <v-breadcrumbs class="px-2"
             divider="/"
-            :items="items"></v-breadcrumbs>
+            :items="items"></v-breadcrumbs> -->
             <h1 class="my-1 font-weight-medium"><v-icon size="36">mdi-book-lock-outline</v-icon> Privacy Policy </h1>
             <p class="grey--text text--darken-1">
                 Effective date: September 7, 2022<br>

@@ -7,7 +7,7 @@
                  <p class="caption text-center">Share about your (or any artists) regular classes, workshops..</p>
                  <gebbles-divider class="mb-5"></gebbles-divider>
                  <v-form ref="workshop_form">
-                    <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg secondary" >
+                    <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
                     <v-icon class="pa-image">mdi-plus</v-icon>
                     <input 
                     type="file" 
@@ -120,13 +120,19 @@
                             @change="save(workshop.start_date)"
                             ></v-date-picker>
                     </v-menu>
-                    <vue-timepicker v-model="workshop.datetime"
+                    <!-- <vue-timepicker v-model="workshop.datetime"
                     hour-label="hour" minute-label="minute"
                     placeholder="Time" input-width="100%" format="hh:mm A" :minute-interval="10">
                     <template v-slot:icon>
                         <v-icon>mdi-clock-time-four-outline</v-icon>
                     </template>
-                    </vue-timepicker>
+                    </vue-timepicker> -->
+                    <v-text-field prepend-icon="mdi-clock-time-four-outline"
+                        v-model = "workshop.datetime"
+                        label= "Time"
+                        :maxlength="255"
+                        counter>
+                    </v-text-field>
                     <v-text-field prepend-icon="mdi-map-marker-outline"
                         v-model = "workshop.venue"
                         label= "Venue"

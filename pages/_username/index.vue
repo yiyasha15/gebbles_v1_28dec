@@ -39,7 +39,7 @@
                 </v-col>
             </v-row>
         <v-row v-if="bio.quote || bio.crew" class="my-md-12 my-8">
-            <v-card max-width="750" class="text-center mx-auto px-5" elevation="0">
+            <v-card max-width="750" class="text-center mx-auto px-5 background" elevation="0">
                 <h5 class="font-weight-light font-italic mt-6">
                 "{{ bio.quote }}" - {{artist.artist_name }} <country-flag class="pt-6" :country= 'artist.country' /> 
                 </h5> 

@@ -2,8 +2,8 @@
 <div>
     <center>
         <div v-if="!isAuthenticated">
-            <v-btn small outlined color="black" class="mr-2 text-decoration-none text-capitalize" @click="loginDialog=true">Sign In</v-btn>
-            <v-btn small dark color="black" class="mr-2 text-decoration-none text-capitalize" @click="registerDialog=true">Sign Up</v-btn>
+            <v-btn small outlined class="mr-2 text-decoration-none text-capitalize" @click="loginDialog=true">Sign In</v-btn>
+            <v-btn small dark class="mr-2 text-decoration-none text-capitalize" @click="registerDialog=true">Sign Up</v-btn>
         </div>
     </center>
     <v-dialog persistent
@@ -20,7 +20,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
                 class="clickable mt-8"
-                :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+                :src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
                 <v-card-title class="justify-center">
                     <h3 class="font-weight-medium">Sign in to gebbles</h3>
                 </v-card-title>
@@ -45,7 +45,7 @@
                         color="#cead8f"/>
                 </v-card-text>
                 <v-card-actions class="mb-3 justify-center">
-                    <v-btn @click="submitForm" class="px-8 " small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
+                    <v-btn @click="submitForm" class="px-8 " small outlined :loading="progressbar1">Sign in</v-btn>
                     <!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
                 </v-card-actions>
                 </v-form>
@@ -70,7 +70,7 @@
     <img
     :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
     class="clickable"
-    :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+    :src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
     </div>
     <v-card-title class="justify-center">
         <h3 class="font-weight-medium">Sign up to gebbles</h3>
@@ -157,7 +157,7 @@
     </template>
     </v-checkbox> -->
     <v-card-actions class="mb-3 justify-center">
-    <v-btn @click="registerUser(registrationInfo)" dark small class="px-8" color="black" :loading="progressbar" >Create Account</v-btn>
+    <v-btn @click="registerUser(registrationInfo)" small class="px-8" dark :loading="progressbar" >Create Account</v-btn>
     </v-card-actions>
     </v-form>
     </v-card-text>

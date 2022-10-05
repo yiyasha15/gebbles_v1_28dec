@@ -24,7 +24,6 @@
             <v-btn small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium text-capitalize">About</h4></v-btn>
             <v-btn small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium text-capitalize" >Journey</h4></v-btn> 
             <v-btn small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium text-capitalize">E1T1</h4></v-btn>
-            <v-btn small @click="toggleTheme" icon class="mr-sm-2 mr-md-3 mx-1"><v-icon color="black">mdi-theme-light-dark</v-icon></v-btn>
             <v-btn icon small 
             :to="'/'"
             class="text-decoration-none mr-sm-2 mr-md-3 mx-1"
@@ -698,10 +697,6 @@ export default {
                 }
             }
         },
-        toggleTheme() {
-            this.$vuetify.theme.dark=!this.$vuetify.theme.dark;
-            localStorage.setItem("useDarkTheme", this.$vuetify.theme.dark.toString())
-        }
 	},
     computed: {
         ...mapGetters(['isAuthenticated','usersBio', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),

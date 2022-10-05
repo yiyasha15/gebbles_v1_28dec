@@ -12,7 +12,6 @@
             </v-layout>
             </nuxt-link>
             <v-spacer></v-spacer>
-            <v-btn @click="toggleTheme" small icon class="mr-sm-2 mr-md-3 mx-1"><v-icon color="black">mdi-theme-light-dark</v-icon></v-btn>
             <template v-if="isAuthenticated">
             <v-btn icon small 
             :to="'/'"
@@ -54,12 +53,6 @@ export default {
     components: { RegisterLogin, RightNavigation, PlusButton },
     computed: {
         ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),
-    },
-    methods:{
-        toggleTheme() {
-            this.$vuetify.theme.dark=!this.$vuetify.theme.dark;
-            localStorage.setItem("useDarkTheme", this.$vuetify.theme.dark.toString())
-        }
     },
     middleware : 'check_auth',
 }
