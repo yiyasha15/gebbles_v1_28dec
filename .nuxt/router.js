@@ -42,8 +42,8 @@ const _6414fd7c = () => interopDefault(import('../pages/create/legacy-porfolio.v
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
 const _3f1b3c35 = () => interopDefault(import('../pages/create/workshop.vue' /* webpackChunkName: "pages/create/workshop" */))
+const _2b2431d6 = () => interopDefault(import('../pages/help/admin.vue' /* webpackChunkName: "pages/help/admin" */))
 const _4b7b26cd = () => interopDefault(import('../pages/help/getting_started.vue' /* webpackChunkName: "pages/help/getting_started" */))
-const _6a11eac3 = () => interopDefault(import('../pages/help/issues.vue' /* webpackChunkName: "pages/help/issues" */))
 const _4bf1b943 = () => interopDefault(import('../pages/help/thoughts.vue' /* webpackChunkName: "pages/help/thoughts" */))
 const _2db2ba11 = () => interopDefault(import('../pages/help/updates.vue' /* webpackChunkName: "pages/help/updates" */))
 const _3e15aee2 = () => interopDefault(import('../pages/blogs.vue/_id.vue' /* webpackChunkName: "pages/blogs.vue/_id" */))
@@ -229,13 +229,13 @@ export const routerOptions = {
     component: _3f1b3c35,
     name: "create-workshop"
   }, {
+    path: "/help/admin",
+    component: _2b2431d6,
+    name: "help-admin"
+  }, {
     path: "/help/getting_started",
     component: _4b7b26cd,
     name: "help-getting_started"
-  }, {
-    path: "/help/issues",
-    component: _6a11eac3,
-    name: "help-issues"
   }, {
     path: "/help/thoughts",
     component: _4bf1b943,

@@ -12,6 +12,7 @@
                 <li><nuxt-link to="/contact">Contact</nuxt-link></li>
                 <li><nuxt-link to="/terms">Terms of use</nuxt-link></li>
                 <li><nuxt-link to="/privacy">Privacy Policy</nuxt-link></li>
+                <!-- <li v-if="isAuthenticated && loggedInUser.username == 'yiyasha15' || loggedInUser.username == 'river'"><nuxt-link to="/help/admin">Admin</nuxt-link></li> -->
             </ul>
             <!-- <li><nuxt-link to="help/issues">Support</nuxt-link></li> -->
             <!-- all these services help in making a close knitted network of our community and help us root back to our history. -->
@@ -67,9 +68,12 @@
 </v-app>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
     methods: {
-    }
+    },
+    computed: {
+    ...mapGetters(['isAuthenticated', 'loggedInUser'])}
 }
 </script>
 <style scoped>

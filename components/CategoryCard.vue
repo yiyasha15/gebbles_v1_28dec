@@ -115,7 +115,7 @@
         </v-chip>
         <h3 class="font-weight-light mt-2">{{category.venue}}</h3>
         <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{moment(category.date)}}</h3>
-        <h3 class="red--text mt-1 font-weight-light" v-if="category.date_time" > {{category.date_time}} {{formatTime(category.date_time)}} </h3>
+        <h3 class="red--text mt-1 font-weight-light" v-if="category.date_time" > {{category.date_time}} </h3>
         <h3 v-if="category.about" class="font-weight-light mt-2">About: {{category.about}}</h3>
         <div v-if="typeof category.category != 'number'">
         <h3 v-if="category.rules" class="font-weight-light mt-2">Rules: {{category.rules}}</h3>
@@ -471,12 +471,6 @@ import moment from 'moment'
       exactmoment(time){
           return moment(time).format("LLL")
       },
-      formatTime(time){
-        const hour = time.slice(0, 2);
-        if(hour > 11)
-        return 'pm'
-        else return 'am'
-      }
     }
   }
 </script>

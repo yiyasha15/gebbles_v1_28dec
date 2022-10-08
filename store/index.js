@@ -53,7 +53,7 @@ export const state = () => ({
   page_upcoming:'',
   page_highlights:'',
   journeyLoaded:true,
-  page_personal_messages:''
+  page_personal_messages:'',
 })
 export const getters = {
   journeyLoaded(state){
@@ -288,7 +288,6 @@ export const actions = {
   //   })
   // },
   check_user_portfolio({commit,state}){
-    console.log(state.auth.loggedIn);
     let getUser = localStorage.getItem('auth._token.local')
     if(getUser)
       {

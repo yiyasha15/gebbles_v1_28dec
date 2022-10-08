@@ -228,16 +228,16 @@
     "chunkName": "pages/create/workshop"
   },
   {
+    "name": "help-admin",
+    "path": "/help/admin",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/admin.vue",
+    "chunkName": "pages/help/admin"
+  },
+  {
     "name": "help-getting_started",
     "path": "/help/getting_started",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/help/getting_started.vue",
     "chunkName": "pages/help/getting_started"
-  },
-  {
-    "name": "help-issues",
-    "path": "/help/issues",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/issues.vue",
-    "chunkName": "pages/help/issues"
   },
   {
     "name": "help-thoughts",

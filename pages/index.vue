@@ -27,18 +27,22 @@
         </v-row> -->
         <center class="mt-6">
           <v-row  style="max-width:370px; margin:auto">
-            <v-col cols="6"><v-btn min-width="150" color="primary" class=" text-decoration-none" to="/create/">
-            <h4 class="font-weight-medium text-capitalize" >Get Started</h4></v-btn></v-col>
-            <v-col cols="6"><v-btn min-width="150" color="primary" class=" text-decoration-none" to="/artists/">
+            <v-col cols="6">
+            <v-btn min-width="150" color="primary" class=" text-decoration-none" to="/artists/">
             <h4 class="font-weight-medium text-capitalize" >artists</h4></v-btn></v-col>
+            <v-col cols="6">
+            <v-btn min-width="150" color="primary" class=" text-decoration-none" to="/whatiscooking/">
+            <h4 class="font-weight-medium text-capitalize" >what's cookin</h4></v-btn></v-col>
             <!-- <v-col><nuxt-link to="/create/" class="text-decoration-none ">get started</nuxt-link></v-col>
             <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined">artists</nuxt-link></v-col> -->
           </v-row>
           <v-row  style="max-width:370px; margin:auto">
             <v-col cols="6"><v-btn min-width="150" color="primary" class=" text-decoration-none" to="/events/">
             <h4 class="font-weight-medium text-capitalize" >events</h4></v-btn></v-col>
-            <v-col cols="6"><v-btn min-width="150" color="primary" class=" text-decoration-none" to="/whatiscooking/">
-            <h4 class="font-weight-medium text-capitalize" >what's cookin</h4></v-btn></v-col>
+            <v-col cols="6">
+              <v-btn min-width="150" color="primary" class=" text-decoration-none" to="/workshops/">
+            <h4 class="font-weight-medium text-capitalize" >workshops</h4></v-btn>
+            </v-col>
             <!-- <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none ">what's cooking</nuxt-link></v-col>
             <v-col><nuxt-link to="/events/" class="text-decoration-none ">events</nuxt-link></v-col> -->
           </v-row>
@@ -64,6 +68,8 @@
           ✔︎ let's shoutout to those friends and teachers who share their knowledge and inspire us. Likewise,
           gebbles notifies and helps you connect with your students and fans when they appreciate you and your work.
         </p>
+        <v-btn min-width="150" color="primary" class=" text-decoration-none" to="/create/">
+            <h4 class="font-weight-medium text-capitalize" >Get Started</h4></v-btn>
         </div>
         <!-- <register-login></register-login> -->
       </v-col>
@@ -98,7 +104,7 @@
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
-        :src="require('@/assets/gebbleslogo.png')"/>
+        :src="require('@/assets/gebbleslogo_tab.png')"/>
         <h3>No videos found. </h3>
       </center>
       <v-card v-intersect="infiniteScrolling"></v-card>

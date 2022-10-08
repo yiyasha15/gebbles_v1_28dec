@@ -107,7 +107,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h5 class="mt-8 mb-2">Hi {{artist.username}}, let's make your portfolio.</h5>
                 <nuxt-link :to="'/create/website/'" class="text-decoration-none"><h5 class="icon">Edit Portfolio <v-icon dense class="icon">mdi-chevron-right</v-icon></h5></nuxt-link>
             </center> 
@@ -117,7 +117,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h5>{{artist.username}} has not updated the portfolio yet. </h5>
             </center>   
         </div>

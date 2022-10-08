@@ -22,34 +22,29 @@
             <v-list-item-subtitle>{{emoment(e1t1.created)}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
+                <v-btn v-if="loggedInUser.username == e1t1.username" icon
+                    @click="cardDialog = true"
+                    >
+                    <v-icon>mdi-card-account-details-outline</v-icon>
+                    </v-btn>
+
+            </v-list-item-action>
+            <v-list-item-action>
+                <v-btn class="ml-4" @click="personalDialog=true" icon v-if="e1t1.teacher!= null && loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher" >
+                    <v-icon>mdi-message-outline</v-icon>
+                </v-btn>
+            </v-list-item-action>
+            <v-list-item-action>
                 <v-menu v-if="isAuthenticated" 
                     transition="slide-y-transition" open-on-hover offset-y bottom left>
                     <template v-slot:activator="{ on, attrs }">
-                        <div v-bind="attrs"
+                        <v-btn icon v-bind="attrs" v-if="loggedInUser.username == e1t1.username"
                         v-on="on">
                         <v-icon>mdi-dots-vertical</v-icon>
-                        </div>
+                        </v-btn>
                     </template>
                     <v-list>
-                        <v-list-item v-if="e1t1.teacher!= null && loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher" 
-                        class="text-decoration-none pl-5 pr-8"
-                        @click="personalDialog=true"
-                        >
-                        <v-list-item-icon>
-                        <v-icon>mdi-message-outline</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>Say Hi</v-list-item-title>
-                        </v-list-item>
-                        <v-list-item v-if="loggedInUser.username == e1t1.username"
-                        class="text-decoration-none pl-5 pr-8"
-                        @click="cardDialog = true"
-                        >
-                        <v-list-item-icon>
-                        <v-icon>mdi-card-account-details-outline</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>Gebbles Card</v-list-item-title>
-                        </v-list-item>
-                        <v-list-item v-if="loggedInUser.username == e1t1.username"
+                        <v-list-item
                         class="text-decoration-none pl-5 pr-8"
                         @click="editE1t1()"
                         >
@@ -58,7 +53,7 @@
                         </v-list-item-icon>
                         <v-list-item-title>Edit</v-list-item-title>
                         </v-list-item>
-                        <v-list-item v-if="loggedInUser.username == e1t1.username"
+                        <v-list-item
                         class="text-decoration-none pl-5 pr-8"
                         @click="deletedialog = true" 
                         >
@@ -466,7 +461,7 @@ export default {
             EventService.getWhatsCookingUsername(username).then(res =>
             {
                 this.cookings = res.data
-                // console.log(this.cookings);
+                console.log(this.cookings);
                 if(this.cookings.length>0)
                 {
                 let taggedteacherpresent = this.cookings.filter(obj => obj.taggedteachers.length>0)
@@ -493,6 +488,9 @@ export default {
                     }
                 }
                 this.cookingLoaded = true
+                }
+                else{
+                    this.cookingLoaded = true
                 }
             }).catch(error =>{
                 console.log("error",error);

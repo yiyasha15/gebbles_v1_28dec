@@ -74,7 +74,9 @@
             </v-col>
             <v-col cols="12" sm="6" justify="center" > 
             <!-- <h5 class="caption font-weight-light">{{moment(event.created)}} </h5> -->
-            <h1 class="font-weight-medium display-1">{{event.name}}</h1>
+            <!-- <v-card max-height="200" class="overflow-auto grey_backgound" elevation="0"> -->
+                <h1 class="font-weight-medium display-1">{{event.name}}</h1>
+            <!-- </v-card> -->
             <h3 v-if="event.start_date" class="red--text mt-2 font-weight-medium " > 
                 <v-icon class="mr-2" >mdi-calendar</v-icon> {{moment(event.start_date)}}
             </h3>
@@ -118,8 +120,8 @@
                 </div>
                 </v-container>
             </v-dialog> 
-            <v-card v-if="event.about" elevation="0" outlined class="pa-3">
-            <p class="font-weight-light text-pre-wrap about_content mb-0">{{event.about}}</p>
+            <v-card v-if="event.about" elevation="0" outlined class="pa-3 overflow-auto" max-height="220">
+            <p class="font-weight-light text-pre-wrap mb-0">{{event.about}}</p>
             </v-card>
             </v-col>
         </v-row>
@@ -735,15 +737,7 @@ export default {
 .v-icon:hover{
     color: #815A44;
 }
-.about_content{
-    max-height:220px;
-    overflow-y: auto;
-    text-align:justify;
-}
-.venue_content{
-  max-height: 456px;
-  overflow: auto;
-}
+
 .hover:hover{
     cursor: pointer;
 }

@@ -88,7 +88,7 @@
             <img
             :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
             class="clickable mt-8"
-            :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+            :src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
             <v-card-title class="justify-center">
                 <h3 class="font-weight-medium">Sign in to gebbles</h3>
             </v-card-title>
@@ -138,7 +138,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
                 class="clickable"
-                :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+                :src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
                 </div>
                 <v-card-title class="justify-center">
                     <h3 class="font-weight-medium">Sign up to gebbles</h3>
@@ -738,7 +738,7 @@ export default {
 <style scoped>
 .artist_toolbar_name1{
     font-family: 'Poiret One', cursive; 
-    /* max-height: 36px;  */
+    max-height: 36px; 
     overflow: auto;
      margin-bottom:8px ;
     margin-left: 8px;;

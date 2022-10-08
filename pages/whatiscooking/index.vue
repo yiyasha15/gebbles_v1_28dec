@@ -28,7 +28,7 @@
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
-        :src="require('@/assets/gebbleslogo.png')"/>
+        :src="require('@/assets/gebbleslogo_tab.png')"/>
         <h3>No videos found. </h3>
       </center>
       </v-container>

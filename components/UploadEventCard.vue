@@ -27,7 +27,7 @@
                         </div>
                         <div v-else class="mb-4">
                         <v-img v-if="typeof(event.poster) === 'string'" :src="event.poster" class="mx-auto" height="300px" width="352px" contain>
-                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(1)">
+                            <v-btn icon small class="float-right ma-1 white" @click="removeImage(1)">
                             <v-icon color="black" small>mdi-close</v-icon>
                             </v-btn>
                         </v-img>
@@ -87,13 +87,18 @@
                             required
                             :rules="countryRules"
                         ></v-autocomplete>
+                        <v-text-field
+                            prepend-icon="mdi-clock-time-four-outline"
+                            v-model = "event.time"
+                            label= "Time">
+                        </v-text-field>
                         <v-textarea
-                            
                             prepend-icon="mdi-information-outline"
                             v-model = "event.about"
                             label= "About the event">
                         </v-textarea>
                         <v-text-field
+                        :error-messages="iglinkError"
                             :rules="instagramRules"
                             prepend-icon="mdi-instagram"
                             v-model = "event.iglink"
@@ -105,7 +110,7 @@
                         <v-text-field
                             :maxlength="200"
                             counter
-                            
+                            :error-messages="ytlinkError"
                             :rules="youtubeRules"
                             prepend-icon="mdi-youtube"
                             v-model = "event.videolink"
@@ -159,7 +164,7 @@
                         </div>
                         <div v-else class="ma-4">
                         <v-img v-if="typeof(guest.photo) === 'string'" :src="guest.photo" class="mx-auto" height="300" width="352px" contain>
-                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(4)">
+                            <v-btn icon small class="float-right ma-1 white" @click="removeImage(4)">
                             <v-icon color="black" small>mdi-close</v-icon>
                             </v-btn>
                         </v-img>
@@ -338,7 +343,7 @@
                         <v-row class="mb-3 pa-0 hidden-sm-and-up">
                             <v-col class="pa-0" cols="12">
                                 <div style="width:250px; height: 50px; border-radius:10px; cursor:pointer;" class="my-1 mx-auto grey_background" @click="workshop_dialog = true">
-                                    <center class="pa-2"> <h5 class="font-weight-light py-2 px-16 black">Workshop</h5></center >
+                                    <div class="pa-2"> <h5 class="font-weight-light py-2 px-16 text-center">Workshop</h5></div >
                                 </div>
                             </v-col>
                             <v-col class="pa-0" cols="12">
@@ -396,7 +401,7 @@
                         </div>
                         <div v-else class="ma-4">
                         <v-img v-if="typeof(organiser.photo) === 'string'" :src="organiser.photo" class="mx-auto" height="300px" width="352px" contain>
-                            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(5)">
+                            <v-btn icon small class="float-right ma-1 white" @click="removeImage(5)">
                             <v-icon color="black" small>mdi-close</v-icon>
                             </v-btn>
                         </v-img>
@@ -500,7 +505,7 @@
                             </div>
                             <div v-else class=" rounded-lg grey_background" >
                             <v-img v-if="typeof(event.photo1) === 'string'" :src="event.photo1" :height="img_height" :width="img_height" contain>
-                                <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(6)">
+                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(6)">
                                 <v-icon color="black" small>mdi-close</v-icon>
                                 </v-btn>
                             </v-img>
@@ -522,7 +527,7 @@
                             </div>
                             <div v-else class=" rounded-lg grey_background" >
                             <v-img v-if="typeof(event.photo2) === 'string'" :src="event.photo2" :height="img_height" :width="img_height" contain>
-                                <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(7)">
+                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(7)">
                                 <v-icon color="black" small>mdi-close</v-icon>
                                 </v-btn>
                             </v-img>
@@ -544,7 +549,7 @@
                             </div>
                             <div v-else class=" rounded-lg grey_background" >
                             <v-img v-if="typeof(event.photo3) === 'string'" :src="event.photo3" :height="img_height" :width="img_height" contain>
-                                <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(8)">
+                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(8)">
                                 <v-icon color="black" small>mdi-close</v-icon>
                                 </v-btn>
                             </v-img>
@@ -591,7 +596,7 @@
         </div>
         <div v-else class="ma-4">
         <v-img v-if="typeof(battle_category.poster) === 'string'" :src="battle_category.poster" class="mx-auto" height="300px" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(2)">
+            <v-btn icon small class="float-right ma-1 white" @click="removeImage(2)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
         </v-img>
@@ -630,35 +635,13 @@
                 @change="save(battle_category.date, 2)"
                 ></v-date-picker>
         </v-menu>
-        <v-menu
-        ref="menutime"
-        v-model="menutime"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="battle_category.date_time"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-          
-            v-model="battle_category.date_time"
-            label="Time"
+        <v-text-field
+            v-model = "battle_category.date_time"
+            label= "Time"
             prepend-icon="mdi-clock-time-four-outline"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-time-picker
-        ampm-in-title
-          v-if="menutime"
-          v-model="battle_category.date_time"
-          @click:minute="$refs.menutime.save(battle_category.date_time)"
-        ></v-time-picker>
-        </v-menu>
+            :maxlength="255"
+            counter>
+        </v-text-field>
         <v-text-field
         
             v-model = "battle_category.venue"
@@ -924,7 +907,7 @@
         </div>
         <div v-else class="ma-4">
         <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-btn icon small class="float-right ma-1 white" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
         </v-img>
@@ -1010,35 +993,13 @@
                 @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-menu
-        ref="menutime_ws"
-        v-model="menutime_ws"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="category.date_time"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-          
-            v-model="category.date_time"
-            label="Time"
+        <v-text-field
+            v-model = "category.date_time"
+            label= "Time"
             prepend-icon="mdi-clock-time-four-outline"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-time-picker
-          v-if="menutime_ws"
-          v-model="category.date_time"
-          full-width
-          @click:minute="$refs.menutime_ws.save(category.date_time)"
-        ></v-time-picker>
-        </v-menu>
+            :maxlength="255"
+            counter>
+        </v-text-field>
         <v-text-field prepend-icon="mdi-map-marker-outline"
             
             v-model = "category.venue"
@@ -1079,7 +1040,7 @@
         </div>
         <div v-else class="ma-4">
         <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-btn icon small class="float-right ma-1 white" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
         </v-img>
@@ -1163,35 +1124,13 @@
                 @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-menu
-        ref="menutime_sh"
-        v-model="menutime_sh"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="category.date_time"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="category.date_time"
-            label="Time"
+        <v-text-field
+            v-model = "category.date_time"
+            label= "Time"
             prepend-icon="mdi-clock-time-four-outline"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-            
-          ></v-text-field>
-        </template>
-        <v-time-picker
-          v-if="menutime_sh"
-          v-model="category.date_time"
-          full-width
-          @click:minute="$refs.menutime_sh.save(category.date_time)"
-        ></v-time-picker>
-        </v-menu>
+            :maxlength="255"
+            counter>
+        </v-text-field>
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
@@ -1232,7 +1171,7 @@
         </div>
         <div v-else class="ma-4">
         <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-btn icon small class="float-right ma-1 white" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
         </v-img>
@@ -1269,35 +1208,14 @@
                 @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-menu
-        ref="menutime_pa"
-        v-model="menutime_pa"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="category.date_time"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="category.date_time"
-            label="Time"
+        <v-text-field
+            v-model = "category.date_time"
+            label= "Time"
             prepend-icon="mdi-clock-time-four-outline"
-            readonly
-            
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-time-picker
-          v-if="menutime_pa"
-          v-model="category.date_time"
-          full-width
-          @click:minute="$refs.menutime_pa.save(category.date_time)"
-        ></v-time-picker>
-        </v-menu>
+            :maxlength="255"
+            counter>
+        </v-text-field>
+        
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
@@ -1338,7 +1256,7 @@
         </div>
         <div v-else class="ma-4">
         <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-btn icon small class="float-right ma-1 white" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
         </v-img>
@@ -1375,35 +1293,14 @@
                 @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-menu
-        ref="menutime_cy"
-        v-model="menutime_cy"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="category.date_time"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-          
-            v-model="category.date_time"
-            label="Time"
+
+        <v-text-field
+            v-model = "category.date_time"
+            label= "Time"
             prepend-icon="mdi-clock-time-four-outline"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-time-picker
-          v-if="menutime_cy"
-          v-model="category.date_time"
-          full-width
-          @click:minute="$refs.menutime_cy.save(category.date_time)"
-        ></v-time-picker>
-        </v-menu>
+            :maxlength="255"
+            counter>
+        </v-text-field>
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
@@ -1450,7 +1347,7 @@
         </div>
         <div v-else class="ma-4">
         <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
-            <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(3)">
+            <v-btn icon small class="float-right ma-1 white" @click="removeImage(3)">
             <v-icon color="black" small>mdi-close</v-icon>
             </v-btn>
         </v-img>
@@ -1532,35 +1429,13 @@
                 @change="save(category.date,3)"
                 ></v-date-picker>
         </v-menu>
-        <v-menu
-        ref="menutime_ct"
-        v-model="menutime_ct"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="category.date_time"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-          
-            v-model="category.date_time"
-            label="Time"
+        <v-text-field
+            v-model = "category.date_time"
+            label= "Time"
             prepend-icon="mdi-clock-time-four-outline"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-time-picker
-          v-if="menutime_ct"
-          v-model="category.date_time"
-          full-width
-          @click:minute="$refs.menutime_ct.save(category.date_time)"
-        ></v-time-picker>
-        </v-menu>
+            :maxlength="255"
+            counter>
+        </v-text-field>
         <v-text-field prepend-icon="mdi-map-marker-outline"
             v-model = "category.venue"
             label= "Venue"
@@ -1944,12 +1819,6 @@ export default {
             menu4: false,
             menu5: false,
             menu6: false,
-            menutime_ws: false,
-            menutime_sh: false,
-            menutime_pa: false,
-            menutime_cy: false,
-            menutime_ct: false,
-            menutime:false,
             party_dialog:false,
             battle_dialog:false,
             showcase_dialog:false,
@@ -2817,6 +2686,7 @@ export default {
                         if(`${key}` == 'link'){
                         this.linkError = `${er[key]}`
                         }
+                        this.e6 = 1
                     }
                     this.progressbar = false
                 }

@@ -23,7 +23,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h4>No posts yet. </h4>
             </center>
             <v-card v-intersect="infiniteScrollingTeacher" class="background"></v-card>
@@ -48,7 +48,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h4>No posts yet. </h4>
             </center>
             <v-card v-intersect="infiniteScrollingStudents" class="background"></v-card>
@@ -72,7 +72,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h4>No videos yet. </h4>
             </center>
             <v-card v-intersect="infiniteScrollingCooking"></v-card>
@@ -90,7 +90,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h4>No posts yet. </h4>
             </center>
         </div> -->

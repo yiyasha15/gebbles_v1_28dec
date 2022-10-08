@@ -29,7 +29,7 @@
                 <!-- <div class="my-4" >
                 <h3 class="font-weight-light pl-2 mx-auto width" >Highlights</h3>
                 </div> -->
-                <v-layout wrap row justify-start class="mx-auto width" style="margin:8px 0px;">
+                <v-layout wrap row justify-start class="mx-auto width background pt-5">
                     <div v-for="journey in highlights" :key ="journey.index">
                         <journey-card :journey = "journey" ></journey-card>
                     </div>
@@ -40,7 +40,7 @@
                 <!-- <div class="my-4">
                 <h3 class="font-weight-light pl-2 mx-auto width" >Journey</h3>
                 </div> -->
-                    <v-layout wrap row justify-start class="mx-auto width" style="margin:8px 0px;">
+                    <v-layout wrap row justify-start class="mx-auto width background pt-5">
                         <div v-for="journey in journey" :key ="journey.index">
                             <journey-card :journey = "journey" ></journey-card>
                         </div>
@@ -53,7 +53,7 @@
                         <img
                         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                         class="ml-2 mt-6 clickable"
-                        :src="require('@/assets/gebbleslogo.png')"/>
+                        :src="require('@/assets/gebbleslogo_tab.png')"/>
                         <h3>No posts yet. </h3>
                     </center>
                 </div>
@@ -69,44 +69,44 @@
         <v-tab-item v-if="visitOwnPage">
             <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  can add the invited events to your portfolio journey</small>
             <!-- tagged events -->
-            <v-layout wrap row justify-start v-if="firstLoadTagged" class="py-2">
+            <v-layout wrap row justify-start v-if="firstLoadTagged" class="pt-2 background">
                 <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader></card-skeleton-loader>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width py-2" >
+            <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
                 <div v-for="event in taggedEvents" :key ="event.index">
                 <tagged-events-card v-if="event.event" :event="event"></tagged-events-card>
                 </div>
             </v-layout>
             <v-card v-intersect="infiniteScrollingTaggedEvents"></v-card>
-            <center v-if="!taggedEvents.length && !firstLoadTagged">
+            <center v-if="!taggedEvents.length && !firstLoadTagged" class="background">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h3>No events found. </h3>
             </center>
         </v-tab-item>
         <v-tab-item v-if="visitOwnPage">
             <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> can add the attended events to your journey</small>
 
-            <v-layout wrap row justify-start v-if="firstLoadGoing" class="py-2">
+            <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
                 <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader></card-skeleton-loader>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width py-2" >
+            <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
                 <div v-for="event in goingEvents" :key ="event.index">
                     <going-events-card v-if="event.event" :event="event"></going-events-card>
                 </div>
             </v-layout>
             <v-card v-intersect="infiniteScrollingGoingEvents"></v-card>
-            <center v-if="!goingEvents.length && !firstLoadGoing">
+            <center v-if="!goingEvents.length && !firstLoadGoing" class="background">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h3>No events found. </h3>
             </center>
         </v-tab-item>
