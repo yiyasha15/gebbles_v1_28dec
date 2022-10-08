@@ -6,7 +6,10 @@
         </v-btn>
         <v-list two-line class="pa-0 background">
         <v-list-item class="pa-0">
-            <v-list-item-avatar>
+            <v-list-item-avatar v-if="workshop.profile_photo">
+                <v-img :src="workshop.profile_photo"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-avatar v-else>
                 <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>

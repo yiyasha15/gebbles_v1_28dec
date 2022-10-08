@@ -105,7 +105,7 @@
                             </v-btn>
                         </v-img>
                         </div> -->
-                        <upload-image-component @newimage="getUrl" @removeimage="removeUrl" :initialImage="sharing.image"></upload-image-component>
+                        <upload-image-component @newimage="getUrl" @removeimage="removeUrl" :initialImage="sharing.image" :imgHeight="270" :imgWidth="350"></upload-image-component>
                         </div>
                         <v-btn color="black" text outlined @click="e6 = 3" small>Next</v-btn>
                         <v-btn color="primary" text @click="e6 = 1" small>Previous</v-btn>

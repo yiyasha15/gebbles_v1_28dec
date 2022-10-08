@@ -271,6 +271,7 @@ import EventService from '@/services/EventService.js'
 import TheHeader from '@/components/TheHeader.vue'
 import RightNavigation from '~/components/RightNavigation.vue'
 import PlusButton from '~/components/PlusButton.vue'
+import RegisterLogin from '~/components/RegisterLogin.vue'
 export default {
     head() {
         return {
@@ -727,10 +728,11 @@ export default {
     },
     layout: 'username',
     components:{
-        TheHeader,
-        RightNavigation,
-        PlusButton
-    },
+    TheHeader,
+    RightNavigation,
+    PlusButton,
+    RegisterLogin
+},
     
 }
 </script>

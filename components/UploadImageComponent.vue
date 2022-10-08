@@ -5,8 +5,8 @@
                 :accept="'image/*'"
                 v-model="cropImage"
                 canvas-color="transparent"
-                :width="350"
-                :height="350"
+                :width="imgWidth"
+                :height="imgHeight"
                 placeholder="Upload an image"
                 :show-loading="true"
                 :initial-image="initialImage"
@@ -43,7 +43,9 @@ data(){
     }
 },
 props:{
-    initialImage:String
+    initialImage:String,
+    imgWidth: Number,
+    imgHeight: Number 
 },
 methods: {
 }
