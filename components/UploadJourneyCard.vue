@@ -2,6 +2,7 @@
     <div>
         <v-container class="mx-auto pa-0 " fluid style="max-width:550px" >
             <v-card class="px-1 pt-3" color="background" elevation='0' >
+                <center><img src = "~/assets/journey.png" :width="img_width" alt="journey logo"/></center>
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!editing_obj">Share your journey</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your journey</div>
                 <gebbles-divider class="mb-5"></gebbles-divider>
@@ -315,14 +316,23 @@ export default {
     computed: {
         ...mapGetters(['editing_obj','loggedInUser']),
         img_height () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 96
-          case 'sm': return 150
-          case 'md': return 150
-          case 'lg': return 150
-          case 'xl': return 150
-        }
-      },
+            switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 96
+            case 'sm': return 150
+            case 'md': return 150
+            case 'lg': return 150
+            case 'xl': return 150
+            }
+        },
+        img_width () {
+            switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 220
+            case 'sm': return 220
+            case 'md': return 260
+            case 'lg': return 280
+            case 'xl': return 400
+            }
+        },
     },
     data(){
         return {

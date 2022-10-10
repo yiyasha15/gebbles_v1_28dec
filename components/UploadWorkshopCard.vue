@@ -2,6 +2,7 @@
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="pa-4 pb-md-8 px-md-8" color="background" elevation=0 >
+                <center><img src = "~/assets/home.png" :width="img_width" alt="workshop logo"/></center>
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-if="!editing_workshop_obj">Create your workshop</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-else>Edit your workshop</div>
                  <p class="caption text-center">Share about your (or any artists) regular classes, workshops..</p>
@@ -234,15 +235,15 @@ export default {
     },
     computed: {
         ...mapGetters(['editing_workshop_obj','loggedInUser']),
-        img_height () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 96
-          case 'sm': return 150
-          case 'md': return 150
-          case 'lg': return 150
-          case 'xl': return 150
-        }
-    }
+        img_width () {
+            switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 180
+            case 'sm': return 180
+            case 'md': return 200
+            case 'lg': return 200
+            case 'xl': return 300
+            }
+        },
     },
     data(){
         return {

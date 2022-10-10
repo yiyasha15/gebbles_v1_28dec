@@ -2,6 +2,7 @@
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="px-1 pt-3" color="background" elevation=0 >
+                <center><img src = "~/assets/home.png" :width="img_width" alt="event logo"/></center>
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-if="!editing_event_obj">Create your event page</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-else>Edit your event page</div>
                  <p class="caption text-center">Share about your plan for the jam, your guests, categories and schedule.. </p>
@@ -1631,7 +1632,16 @@ export default {
           case 'lg': return 150
           case 'xl': return 150
         }
-      },
+        },
+        img_width () {
+            switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 180
+            case 'sm': return 180
+            case 'md': return 200
+            case 'lg': return 200
+            case 'xl': return 300
+            }
+        },
     },
     data(){
         return {

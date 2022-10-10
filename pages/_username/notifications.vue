@@ -62,18 +62,16 @@
         <!-- {{filteredNotificationsOld}} -->
         <v-list two-line class="background">
         <v-subheader>Earlier</v-subheader>
-        <template v-for="(item) in filteredNotificationsOld">
+        <template v-for="(item) in filteredNotificationsOld" >
             <v-list-item :key="item.index" @click="opene1t1(item)" v-show="loggedInUser.username != item.sender">
-                <div >
-                <v-list-item-avatar v-if=" item.artist_metadata.thumb">
-                    <img :src = "item.artist_metadata.thumb" alt="img">
-                </v-list-item-avatar>
-                <v-list-item-avatar color="blue" v-else>
-                    <v-icon dark>
-                        mdi-account-circle
-                    </v-icon>
-                </v-list-item-avatar>
-            </div>
+            <v-list-item-avatar v-if=" item.artist_metadata.thumb">
+                <img :src = "item.artist_metadata.thumb" alt="img">
+            </v-list-item-avatar>
+            <v-list-item-avatar color="blue" v-else>
+                <v-icon dark>
+                    mdi-account-circle
+                </v-icon>
+            </v-list-item-avatar>
             <v-list-item-content v-if="item.notification_context == 1 ">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <!-- <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle> -->

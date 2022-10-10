@@ -117,7 +117,7 @@
                 <v-icon color="dark_primary">mdi-google-circles-communities</v-icon>
             </v-btn>
             </div>
-        <h3 class="pa-2 pa-md-3 font-weight-light my-3"> HipHop Way of Life!</h3>
+        <div class="pa-2 pa-md-3 title font-weight-medium my-3 "> Connecting the Groove</div>
         <center>
         <v-divider width="360" />
         </center>

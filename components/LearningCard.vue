@@ -277,7 +277,7 @@ import { mapGetters } from 'vuex'
     },
     methods:{
       closeUpdateLearning(){
-        this.$store.dispatch("remove_cook_obj");
+        // this.$store.dispatch("remove_cook_obj");
         this.updateLearning = false
       },
       async updateLearningBtn(){
@@ -285,25 +285,12 @@ import { mapGetters } from 'vuex'
       },
       editLearning(){
         // this.$store.dispatch("check_cook_obj",id);
-        console.log(this.cook_obj);
         this.updateLearning = true
-      },
-      dateFormat(recdate){
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = recdate;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartpye = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        this.learndate = datetype+" "+monthtype +" "+yeartpye;
       },
       async openDialog(id, time){
         //check likes and comments for particular opened learning id
-        this.dateFormat(time)
         this.$store.dispatch("check_cook_obj",id);
-        this.$store.dispatch("check_cook_reactions",id);
+        // this.$store.dispatch("check_cook_reactions",id);
         this.$store.dispatch("check_cook_comments",id);
         this.videoDialog= true;
       },
@@ -368,8 +355,7 @@ import { mapGetters } from 'vuex'
             };
               try {
                 await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_like_id , config)
-                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
-                //store make learn love false
+                // this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
             } catch (e) {
                 console.log(e);
             }
@@ -386,7 +372,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               await this.$axios.$post("/v1/e1t1/learnings/likes/", formData, config)
-              this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
+              // this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
           } catch (e) {
               console.log(e);
           }
@@ -409,7 +395,7 @@ import { mapGetters } from 'vuex'
             };
               try {
                 await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_dope_id , config)
-                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
+                // this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
                 //store make learn love false
             } catch (e) {
                 console.log(e);
@@ -427,7 +413,7 @@ import { mapGetters } from 'vuex'
           }
           try {
               await this.$axios.$post("/v1/e1t1/learnings/likes/", formData, config)
-              this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
+              // this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
           } catch (e) {
               console.log(e);
           }
@@ -450,7 +436,7 @@ import { mapGetters } from 'vuex'
             };
               try {
                 await this.$axios.$delete("/v1/e1t1/learnings/likes/"+this.cook_has_info_id , config)
-                this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
+                // this.$store.dispatch("check_cook_reactions", this.cook_obj.id)
                 //store make learn love false
             } catch (e) {
                 console.log(e);

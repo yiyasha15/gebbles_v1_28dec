@@ -2,6 +2,9 @@
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="px-1 pt-3" color="background" elevation=0 >
+                <center>
+                    <img src = "~/assets/e1t111.jpeg" :width="img_width" alt="e1t1 logo">
+                </center>
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!share_obj">Give a shoutout<br>
                     <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
                     -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one</span></div>
@@ -225,6 +228,15 @@ export default {
     },
     computed: {
         ...mapGetters([ 'share_obj','usersPortfolio','loggedInUser']),
+        img_width () {
+            switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 180
+            case 'sm': return 180
+            case 'md': return 240
+            case 'lg': return 260
+            case 'xl': return 300
+            }
+        },
         videoId(){
         if(this.sharing.s_teacher_video)
         return getIdFromURL(this.sharing.s_teacher_video)

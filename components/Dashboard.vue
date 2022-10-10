@@ -209,36 +209,36 @@
             </v-list-item-group>
             </v-list>
             <v-list v-if="isAuthenticated" dense>
-                <v-subheader>Account</v-subheader>
-                <v-list-item-group
-                    v-model="account"
-                    color="primary"
-                >
-                <v-list-item to="/help" >
-                    <v-list-item-icon>
-                        <v-icon>mdi-comment-question-outline</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title>Help</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item to="/settings" >
-                    <v-list-item-icon>
-                        <v-icon>mdi-tune-variant</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title>Settings</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item to="/logout" >
-                    <v-list-item-icon>
-                        <v-icon>mdi-bag-personal-outline</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title>Sign out</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                </v-list-item-group>
+            <v-subheader>Workshops</v-subheader>
+            <v-list-item-group
+                v-model="workshop"
+                color="primary"
+            >
+            <v-list-item to="/invited-workshops">
+                <v-list-item-icon>
+            <v-icon>mdi-card-account-details-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                <v-list-item-title>Invited Workshops</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="/organised-workshops">
+                <v-list-item-icon>
+            <v-icon>mdi-pin-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                <v-list-item-title>Organised Workshops</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="/attending-workshops">
+                <v-list-item-icon>
+            <v-icon>mdi-hand-peace</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                <v-list-item-title>Attending Workshops</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            </v-list-item-group>
             </v-list>
         </v-navigation-drawer>
     </div>
@@ -275,6 +275,7 @@ export default {
           explore:1,
           e1t1:1,
           events:1,
+          workshop:1,
           account:1,
           whatiscooking:1
       }

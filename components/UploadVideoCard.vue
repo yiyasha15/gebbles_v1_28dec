@@ -2,6 +2,7 @@
     <div>
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="pa-4 pb-md-8 px-md-8" color="background" elevation=0 >
+                <center><img src = "~/assets/portfolio.png" :width="img_width" alt="video logo"/></center>
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!cook_obj">Upload your video</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-else>Edit your video</div>
                  <gebbles-divider class="mb-5"></gebbles-divider>
@@ -133,6 +134,15 @@ data(){
 },
 computed: {
     ...mapGetters(['isAuthenticated','loggedInUser', 'usersTeachers','cook_obj']),
+    img_width () {
+            switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 240
+            case 'sm': return 240
+            case 'md': return 280
+            case 'lg': return 300
+            case 'xl': return 350
+            }
+        },
 },
 methods:{
     clear(){

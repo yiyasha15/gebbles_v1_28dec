@@ -32,12 +32,10 @@
                     </v-btn>
 
             </v-list-item-action>
-            <v-list-item-action>
-                <v-btn class="ml-4" @click="personalDialog=true" icon v-if="e1t1.teacher!= null && loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher" >
-                    <v-icon>mdi-message-outline</v-icon>
-                </v-btn>
+            <v-list-item-action v-if="e1t1.teacher!= null && loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher">
+                <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
-            <v-list-item-action>
+            <v-list-item-action class="ml-2">
                 <v-menu v-if="isAuthenticated" 
                     transition="slide-y-transition" open-on-hover offset-y bottom left>
                     <template v-slot:activator="{ on, attrs }">
@@ -156,20 +154,6 @@
                             </div>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap justify-start class="mx-0 mb-2">
-                    <v-flex md2 xs2>
-                        <v-btn icon @click="react_love">
-                            <v-icon color="red" v-if="!share_has_love">mdi-heart-outline</v-icon>
-                            <v-icon color="red" v-else>mdi-heart</v-icon>
-                            <div v-if="love">{{love}}</div>
-                        </v-btn>
-                    </v-flex>
-                    <!-- <v-flex md2 xs2>
-                        <v-btn icon class="mx-1" @click="$vuetify.goTo('#scroll_comments')">
-                            <v-icon color="black">mdi-comment-outline</v-icon><span v-if="share_comments_list.length" >{{share_comments_list.length}}</span>
-                            </v-btn>
-                    </v-flex> -->
-                </v-layout>
                 </div>
                 <v-row>
                     <v-col >
@@ -199,64 +183,7 @@
                 <h5 class="font-weight-light my-2 text-pre-wrap">{{e1t1.s_learnings}}</h5>
                 </v-col>
                 </v-container>
-                </v-dialog> 
-                <v-dialog
-                :retain-focus="false"
-                v-model="personalDialog"
-                width="700px"
-                persistent>
-                <v-container class="rounded-lg white pa-2">
-                <!-- <v-col cols="12" align="end" justify="end"> -->
-                <v-btn icon color="error" class="float-right" @click="personalDialog=false">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <!-- </v-col> -->
-                <v-col cols="12" class="pa-0 pa-md-2">
-                <v-row class="mt-3 mx-0">
-                    <v-col cols="12" class="justify-center ">
-                        <h4 class ="font-weight-medium">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}}) </h4>
-                    </v-col>
-                </v-row> 
-                <v-layout class="mt-6">
-                    <v-flex md1 sm2><center>
-                        <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
-                        <img
-                        :src = "usersPortfolio.thumb" 
-                        alt="img">
-                        </v-avatar>
-                        <v-avatar size="36" color="black" v-else >
-                        <v-icon dark>
-                            mdi-account-circle
-                        </v-icon>
-                        </v-avatar>
-                        </center>
-                    </v-flex>
-                    <v-flex md9 sm8>
-                        <v-textarea
-                        v-model= "personal.messagetext" 
-                        outlined
-                        auto-grow
-                        rows="1"
-                        row-height="10"
-                        max-width= "100%"
-                        label="Type something..">
-                        </v-textarea>
-                    </v-flex>
-                    <v-flex md2 sm3>
-                        <center>
-                            <v-btn small v-if="personal.messagetext"
-                                @click="post_personal_text" class="px-4 px-md-8 black"><span class="white--text">Post</span>
-                            </v-btn>
-                        </center>
-                    </v-flex>
-                </v-layout>
-                <div v-if="personalMessages.length" >
-                    <personal-messages-card :messages= "personalMessages"></personal-messages-card>
-                </div>
-                <!-- <v-card v-intersect="infiniteScrollingComments"></v-card> -->
-                </v-col>
-                </v-container>
-                </v-dialog> 
+                </v-dialog>
             </v-col>
             <v-col cols="12" v-if="videoId">
                 <center>
@@ -287,6 +214,12 @@
         </v-row>
         <v-card v-intersect="infiniteScrollingCooking"></v-card>
     </v-container>  
+    <center>
+        <v-btn icon @click="react_love" large class="my-4">
+            <v-icon v-if="!share_has_love" large>mdi-heart-outline</v-icon>
+            <v-icon v-else color="red" large>mdi-heart</v-icon>
+        </v-btn>
+    </center>
     <v-dialog max-width="550" 
         v-model="upload_video">
         <v-container class="rounded-lg white px-4">
@@ -298,6 +231,7 @@
         <upload-video-card></upload-video-card>
         </v-container>
         </v-dialog>
+        <!-- {{new_messages}} -->
     <v-snackbar v-model="valid_snackbar2">
         Write something to post.
     </v-snackbar>
@@ -343,17 +277,14 @@ export default {
         let videoId = getIdFromURL(url1) //getting id from video url
         this.videoId = videoId //assigning the id to <youtube> video id
         } 
-        this.$store.dispatch("check_share_love", this.e1t1.id)
         this.get_cookings_filtered(this.e1t1.username,this.e1t1.id);
     },
     mounted() {
-        this.$store.dispatch("check_share_love", this.e1t1.id)
         if(this.isAuthenticated)
         {
+        this.get_love();
         if(this.loggedInUser.username == this.e1t1.teacher || this.loggedInUser.username ==this.e1t1.username){
             this.isYourRoom = true
-            this.$store.dispatch("check_personal_room", this.e1t1.id);
-            this.items = this.personalMessages;
         }
         }
 	},
@@ -379,7 +310,6 @@ export default {
             addDedicated:false,
             deletedialog: false,
             learntDialog:false,
-            personalDialog: false,
             valid_snackbar2: false,
             login_snackbar: false,
             thankyou_snackbar: false,
@@ -394,25 +324,21 @@ export default {
                 username: "",
                 shareidobj: ""
             },
-            personal:{
-                shareid: null,
-                username: null,
-                messagetext: ""
-            },
             cookingLoaded: false,
             putVideo:"",
             videoData:'',
             isShowing:false,
             isYourRoom: false,
-            items: [],
             upload_video:false,
+            new_messages:[],
+            love:0,
+            share_has_love:false,
+            share_has_love_id:'',
             }
     },
 	computed: {
         ...mapGetters([ 'userHasPortfolio', 'isAuthenticated',
-        'loggedInUser', 'usersPortfolio', 'share_comments_list', 'love', 
-        'personalMessages','personalMessagesNotifications', 
-        'share_has_love', 'share_has_love_id']),
+        'loggedInUser', 'usersPortfolio', 'share_comments_list']),
         ytheight () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 220
@@ -459,12 +385,12 @@ export default {
         emoment(date){
            return moment(date).fromNow()
         },
-         get_cookings_filtered(username,id){
+        get_cookings_filtered(username,id){
             // console.log("filtering..",username,id);
             EventService.getWhatsCookingUsername(username).then(res =>
             {
                 this.cookings = res.data
-                console.log(this.cookings);
+                // console.log(this.cookings);
                 if(this.cookings.length>0)
                 {
                 let taggedteacherpresent = this.cookings.filter(obj => obj.taggedteachers.length>0)
@@ -498,6 +424,21 @@ export default {
             }).catch(error =>{
                 console.log("error",error);
                 this.cookingLoaded = true
+            })
+        },
+        get_love(){
+            EventService.getShareLove(this.e1t1.id).then(res =>
+            {
+                let result = res.data.results;
+                this.love = res.data.count;
+                let has_love = result.filter(item => item.username == this.loggedInUser.username)
+                if(has_love.length >0){
+                    this.share_has_love = true
+                    this.share_has_love_id = has_love[0].id
+                }
+
+            }).catch(error =>{
+                console.log("error",error);
             })
         },
         async capture(){
@@ -538,7 +479,6 @@ export default {
         goback(){
             this.$store.dispatch("remove_share_obj")
             this.$store.dispatch("remove_learnings")
-            this.$store.dispatch("remove_love")
             window.history.back();
         },
         async deleted(){
@@ -569,7 +509,8 @@ export default {
                 this.loveForm.username = this.loggedInUser.username;
                 this.loveForm.shareidobj = this.e1t1.id
                 if(this.share_has_love){
-                    this.$store.dispatch("change_love");
+                    this.share_has_love = !this.share_has_love;
+                    this.love--;
                     const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": this.$auth.strategy.token.get()
@@ -577,14 +518,14 @@ export default {
                     };
                      try {
                         await this.$axios.$delete("/v1/e1t1/sharing/love/"+this.share_has_love_id , config)
-                        this.$store.dispatch("check_share_love", this.e1t1.id)
-                        //store make share love flse
+                        this.get_love();
                     } catch (e) {
                         console.log(e);
                     }
                 }
                 else{
-                    this.$store.dispatch("change_love");
+                    this.love++;
+                    this.share_has_love = !this.share_has_love;
                     const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": this.$auth.strategy.token.get()
@@ -595,9 +536,8 @@ export default {
                     formData.append(data, this.loveForm[data]);
                 }
                     try {
-                        await this.$axios.$post("/v1/e1t1/sharing/love/", formData, config)
-                        this.$store.dispatch("check_share_love", this.e1t1.id)
-                        //make share love true
+                        await this.$axios.$post("/v1/e1t1/sharing/love/", formData, config);
+                        this.get_love();
                     } catch (e) {
                         console.log(e);
                     }
@@ -638,32 +578,6 @@ export default {
         //         this.login_snackbar = true
         //     }
         // },
-        async post_personal_text(){
-            if(this.personal.messagetext)
-            {this.personal.username = this.loggedInUser.username
-            this.personal.shareid = this.e1t1.id
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": this.$auth.strategy.token.get()
-                }
-            };
-            let formData = new FormData();
-            for (let data in this.personal) {
-                formData.append(data, this.personal[data]);
-            }
-            try {
-                await this.$axios.$post("/v1/chat/", formData, config)
-                this.personal.messagetext = ''
-                this.personal.shareid = null
-                this.personal.username = null
-                this.thankyou_snackbar = true
-                this.$store.dispatch("check_personal_room", this.e1t1.id);
-            } catch (e) {
-                console.log(e.response);
-            }}else{
-                this.valid_snackbar2 =true
-            }
-        },
         
     }
     

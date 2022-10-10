@@ -51,9 +51,9 @@ export default {
     getFullJourney(id,config) {
         return apiClient1.get('/artist/journey/' + id, config)
     },
-    getUpcoming(username,config) {
-        return apiClient1.get('/artist/journey/upcomingevents/?username=' + username, config)
-    },
+    // getUpcoming(username,config) {
+    //     return apiClient1.get('/artist/journey/upcomingevents/?username=' + username, config)
+    // },
     getHighlights(username,config) {
         return apiClient1.get('/artist/journey/highlights/?username=' + username, config)
     },
@@ -65,7 +65,7 @@ export default {
         return apiClient1.get('/e1t1/sharing/')
     },
     getPersonalMessages(id){
-        return apiClient1.get('/chat/?shareid=' + id)
+        return apiClient1.get('/chat/list/?shareid=' + id)
     },
     getEach1Teach1_teachers(username) {
         return apiClient1.get('/e1t1/sharing/list/teachers/?username=' + username)

@@ -11,33 +11,25 @@ export const state = () => ({
   editing_obj: null, //object to edit data
   editing_event_obj: null,
   editing_workshop_obj: null,
-  store_battle_categories:[],
-  store_categories:[],
-  store_guests:[],
   portfolio: null, //store portfolio data of the logged in user
   bio: null, //store bio data of the logged in user
-  personalMessages: [],
   notifications:[],
   notifications_notseen:0,
   hasTeachers:false,
   hasPortfolio: false, //if user has portfolio data
   hasBio: false, //if user has bio data
-  personalMessagesNotifications: 0,
   share_comments_list: [],
   learning_comments_list:[],
-  share_has_love: false,
-  share_has_love_id:'',
-  cook_has_like: false,
-  cook_has_dope: false,
-  cook_has_info: false,
-  cook_has_like_id: '',
-  cook_has_dope_id: '',
-  cook_has_info_id: '',
+  // cook_has_like: false,
+  // cook_has_dope: false,
+  // cook_has_info: false,
+  // cook_has_like_id: '',
+  // cook_has_dope_id: '',
+  // cook_has_info_id: '',
   e1t1:{},
-  love: '',
-  like:'',
-  dope: '',
-  info:'',
+  // like:'',
+  // dope: '',
+  // info:'',
   learnings:[],
   // cookings:[],
   teachers:[], //e1t1 onject
@@ -53,7 +45,6 @@ export const state = () => ({
   page_upcoming:'',
   page_highlights:'',
   journeyLoaded:true,
-  page_personal_messages:'',
 })
 export const getters = {
   journeyLoaded(state){
@@ -65,30 +56,24 @@ export const getters = {
   loadingLearning(state){
     return state.loadingLearning
   },
-  cook_has_like(state){
-    return state.cook_has_like
-  },
-  cook_has_dope(state){
-    return state.cook_has_dope
-  },
-  cook_has_info(state){
-    return state.cook_has_info
-  },
-  cook_has_like_id(state){
-    return state.cook_has_like_id
-  },
-  cook_has_dope_id(state){
-    return state.cook_has_dope_id
-  },
-  cook_has_info_id(state){
-    return state.cook_has_info_id
-  },
-  share_has_love(state){
-    return state.share_has_love
-  },
-  share_has_love_id(state){
-    return state.share_has_love_id
-  },
+  // cook_has_like(state){
+  //   return state.cook_has_like
+  // },
+  // cook_has_dope(state){
+  //   return state.cook_has_dope
+  // },
+  // cook_has_info(state){
+  //   return state.cook_has_info
+  // },
+  // cook_has_like_id(state){
+  //   return state.cook_has_like_id
+  // },
+  // cook_has_dope_id(state){
+  //   return state.cook_has_dope_id
+  // },
+  // cook_has_info_id(state){
+  //   return state.cook_has_info_id
+  // },
   e1t1(state){
     return state.e1t1
   },
@@ -122,9 +107,6 @@ export const getters = {
   usersTeachers(state) {
     return state.teachers
   },
-  personalMessages(state){
-    return state.personalMessages
-  },
   isAuthenticated(state) {
     return state.auth.loggedIn
   },
@@ -146,17 +128,11 @@ export const getters = {
   userHasTeachers(state){
     return state.hasTeachers
   },
-  personalMessagesNotifications(state){
-    return state.personalMessagesNotifications
-  },
   share_comments_list(state){
     return state.share_comments_list
   },
   learning_comments_list(state){
     return state.learning_comments_list
-  },
-  love(state){
-    return state.love
   },
   like(state){
     return state.like
@@ -216,10 +192,6 @@ export const actions = {
       })
     }
   },
-  change_love({commit})
-  {
-    commit('changeLove')
-  },
   change_like({commit})
   {
     commit('changeLike')
@@ -232,24 +204,18 @@ export const actions = {
   {
     commit('changeInfo')
   },
-  check_share_love({commit}, id){
-    EventService.getShareLove(id).then(res =>
-      {
-        commit('check_share_love',res.data.count)
-      })
-  },
   check_share_comments({commit}, id){
     EventService.getShareComments(id).then(res =>
       {
         commit('check_share_comments',res.data)
       })
   },
-  check_cook_reactions({commit}, id){
-    EventService.getCookReaction(id).then(res =>
-      {
-        commit('check_cook_reactions',res.data)
-      })
-  },
+  // check_cook_reactions({commit}, id){
+  //   EventService.getCookReaction(id).then(res =>
+  //     {
+  //       commit('check_cook_reactions',res.data)
+  //     })
+  // },
   check_cook_comments({commit}, id){
     EventService.getCookComments(id).then(res =>
       {
@@ -319,10 +285,11 @@ export const actions = {
         "Authorization": this.$auth.strategy.token.get()}
       };
     }
-      EventService.getUpcoming(username,config).then(res =>
-      {
-        commit('usersUpcoming',res.data)
-      }).catch(err =>{console.log(err.response.data);})
+      // EventService.getUpcoming(username,config).then(res =>
+      // {
+      //   commit('usersUpcoming',res.data)
+      // }).catch(err =>{console.log(err.response.data);})
+
       EventService.getHighlights(username,config).then(res =>
       {
         commit('usersHighlights',res.data)
@@ -344,24 +311,6 @@ export const actions = {
       //push the results to state.journey and update the page_journey url
       this.$axios.get(state.page_journey,config).then(res => {
         commit('updateUserJourney',res.data)
-      })
-      .catch(err => {
-          console.log(err);
-      });   
-    }
-  },
-  update_chat({commit, state}){
-    if(state.page_personal_messages) {
-      // checking if page_journey was not null then call api
-      let config;
-      if(state.auth.loggedIn) {
-        config = {
-        headers: {"content-type": "multipart/form-data",
-          "Authorization": this.$auth.strategy.token.get()}
-      };}
-      //push the results to state.journey and update the page_journey url
-      this.$axios.get(state.page_personal_messages,config).then(res => {
-        commit('updateChat',res.data)
       })
       .catch(err => {
           console.log(err);
@@ -454,15 +403,6 @@ export const actions = {
       });   
     }
   },
-  check_personal_room({commit, state}, id)
-  {
-    if(state.auth.loggedIn) {
-      EventService.getPersonalMessages(id).then(res =>
-      {
-        commit('get_personal_messages',res.data)
-      })
-    }
-  },
   check_learnings({commit},id){
     EventService.getLearnings(id).then(res =>
       {
@@ -541,26 +481,13 @@ export const actions = {
   },
   remove_cook_reactions({commit, state})
   {
-      commit('clear_cook_reactions')
+      // commit('clear_cook_reactions')
       commit('clear_cook_comments')
-  },
-  remove_love({commit, state})
-  {
-    if(state.auth.loggedIn){
-      commit('clear_love')
-      commit('clear_comments')
-    }
   },
   remove_notifications({commit, state})
   {
     if(state.auth.loggedIn){
       commit('clear_notifications')
-    }
-  },
-  remove_personal_messages({commit, state})
-  {
-    if(state.auth.loggedIn && state.personalMessages){
-      commit('clear_personal_messages',state.personalMessages)
     }
   },
   remove_learnings({commit})
@@ -574,26 +501,23 @@ export const actions = {
 }
     // Define Mutations
 export const mutations = {
-  changeLove(state){
-    state.share_has_love = !state.share_has_love;
-  },
-  changeLike(state){
-    if(state.cook_has_like)
-    {
+  // changeLike(state){
+  //   if(state.cook_has_like)
+  //   {
       
-    }
-    else
-    {
+  //   }
+  //   else
+  //   {
       
-    }
-    state.cook_has_like = !state.cook_has_like;
-  },
-  changeDope(state){
-    state.cook_has_dope = !state.cook_has_dope;
-  },
-  changeInfo(state){
-    state.cook_has_info = !state.cook_has_info;
-  },
+  //   }
+  //   state.cook_has_like = !state.cook_has_like;
+  // },
+  // changeDope(state){
+  //   state.cook_has_dope = !state.cook_has_dope;
+  // },
+  // changeInfo(state){
+  //   state.cook_has_info = !state.cook_has_info;
+  // },
   usersJourney(state, journey)
   {
     state.journey = []
@@ -685,67 +609,49 @@ export const mutations = {
       state.notifications_notseen = n.length;
     }
   },
-  check_share_love(state, love){
-    if(love){
-      state.love = love
-      if(state.auth.loggedIn){
-      state.share_has_love = false
-      state.share_has_love_id = ''
-      // console.log(love);
-        // let check_love = love.filter(love => love.username == state.auth.user.username);
-        // if(check_love[0]){
-        //   state.share_has_love_id = check_love[0].id
-        // }
-        // if(check_love.length>0){
-        //   state.share_has_love = true
-        // }
-      }
-    }
-  },
   check_share_comments(state, share_comments_list){
       state.share_comments_list = share_comments_list.results;
       state.page_share_comment = share_comments_list.next
   },
-  check_cook_reactions(state, react){
-    // console.log("react", react);
-    if(react){
-      state.like = react.filter(react => react.like_type == "LO");
-      state.dope = react.filter(react => react.like_type == "FI");
-      state.info = react.filter(react => react.like_type == "DE");
-      if(state.auth.loggedIn){
-        let like = state.like
-        let dope = state.dope
-        let info = state.info
-        state.cook_has_like = false
-        state.cook_has_dope = false
-        state.cook_has_info = false
-        state.cook_has_like_id = ''
-        state.cook_has_dope_id = ''
-        state.cook_has_info_id = ''
-        let check_like = like.filter(like => like.username == state.auth.user.username);
-        let check_dope = dope.filter(dope => dope.username == state.auth.user.username);
-        let check_info = info.filter(info => info.username == state.auth.user.username);
-        if(check_like[0]){
-          state.cook_has_like_id = check_like[0].id
-        }
-        if(check_like.length>0){
-          state.cook_has_like = true
-        }
-        if(check_dope[0]){
-          state.cook_has_dope_id = check_dope[0].id
-        }
-        if(check_dope.length>0){
-          state.cook_has_dope = true
-        }
-        if(check_info[0]){
-          state.cook_has_info_id = check_info[0].id
-        }
-        if(check_info.length>0){
-          state.cook_has_info = true
-        }
-      }
-    }
-  },
+  // check_cook_reactions(state, react){
+  //   if(react){
+  //     state.like = react.filter(react => react.like_type == "LO");
+  //     state.dope = react.filter(react => react.like_type == "FI");
+  //     state.info = react.filter(react => react.like_type == "DE");
+  //     if(state.auth.loggedIn){
+  //       let like = state.like
+  //       let dope = state.dope
+  //       let info = state.info
+  //       state.cook_has_like = false
+  //       state.cook_has_dope = false
+  //       state.cook_has_info = false
+  //       state.cook_has_like_id = ''
+  //       state.cook_has_dope_id = ''
+  //       state.cook_has_info_id = ''
+  //       let check_like = like.filter(like => like.username == state.auth.user.username);
+  //       let check_dope = dope.filter(dope => dope.username == state.auth.user.username);
+  //       let check_info = info.filter(info => info.username == state.auth.user.username);
+  //       if(check_like[0]){
+  //         state.cook_has_like_id = check_like[0].id
+  //       }
+  //       if(check_like.length>0){
+  //         state.cook_has_like = true
+  //       }
+  //       if(check_dope[0]){
+  //         state.cook_has_dope_id = check_dope[0].id
+  //       }
+  //       if(check_dope.length>0){
+  //         state.cook_has_dope = true
+  //       }
+  //       if(check_info[0]){
+  //         state.cook_has_info_id = check_info[0].id
+  //       }
+  //       if(check_info.length>0){
+  //         state.cook_has_info = true
+  //       }
+  //     }
+  //   }
+  // },
   check_cook_comments(state, learning_comments_list){
     if(learning_comments_list){
       state.learning_comments_list = learning_comments_list
@@ -855,14 +761,6 @@ export const mutations = {
       state.journey = [...new Map(state.journey.map(item =>
       [item[key], item])).values()];
   },
-  updateChat(state,personal_messages){
-    state.page_personal_messages= personal_messages.next;
-    personal_messages.results.forEach(item => state.personalMessages.push(item));
-    // filter array so no duplicates
-    const key = 'id';
-    state.personalMessages = [...new Map(state.personalMessages.map(item =>
-    [item[key], item])).values()];
-},
   updateUserUpcoming(state,upcoming){
     state.page_upcoming= upcoming.next;
     upcoming.results.forEach(item => state.upcoming.push(item));
@@ -920,11 +818,6 @@ export const mutations = {
       state.page_teachers = teachers.next
     }
   },
-  get_personal_messages(state, personalMessages)
-  {
-    state.personalMessages = personalMessages.results
-    state.page_personal_messages = personalMessages.next
-  },
   clear_notifications(state){
     state.notifications =[]
     state.notifications_notseen=0
@@ -949,28 +842,18 @@ export const mutations = {
     state.teachers =[]
     state.hasTeachers = false
   },
-  clear_personal_messages(state)
-  {
-    state.personalMessages = []
-  },
-  clear_love(state)
-  {
-    state.love = ''
-    state.share_has_love = false
-    state.share_has_love_id =''
-  },
-  clear_cook_reactions(state)
-  {
-    state.like = ''
-    state.dope = ''
-    state.info = ''
-    state.cook_has_like = false
-    state.cook_has_dope= false
-    state.cook_has_info= false
-    state.cook_has_like_id= ''
-    state.cook_has_dope_id=''
-    state.cook_has_info_id= ''
-  },
+  // clear_cook_reactions(state)
+  // {
+  //   state.like = ''
+  //   state.dope = ''
+  //   state.info = ''
+  //   state.cook_has_like = false
+  //   state.cook_has_dope= false
+  //   state.cook_has_info= false
+  //   state.cook_has_like_id= ''
+  //   state.cook_has_dope_id=''
+  //   state.cook_has_info_id= ''
+  // },
   clear_cook_comments(state)
   {
     state.learning_comments_list = []
