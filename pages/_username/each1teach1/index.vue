@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container style="max-width:670px;" class="pa-0 background">
-        <v-tabs class="width mx-auto background">
+        <v-tabs class="width mx-auto background" centered>
         <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learning</p>
             <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p>
@@ -11,7 +11,7 @@
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
         <v-tab-item v-if="!firstLoad" class="background">
-            <small class="ml-1 py-2 grey--text"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</small>
+            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
             <div v-if="teachers.length">
             <v-layout wrap justify-start class="py-2 background" >
                 <div v-for="share in teachers" :key ="share.index">
@@ -29,6 +29,7 @@
             <v-card v-intersect="infiniteScrollingTeacher" class="background"></v-card>
         </v-tab-item>
         <v-tab-item v-else class="background">
+            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
             <v-layout wrap row justify-start class="py-2 background">
             <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader></card-skeleton-loader>
@@ -36,7 +37,7 @@
             </v-layout>
         </v-tab-item>
         <v-tab-item v-if="!firstLoad" class="background">
-            <small class="ml-1 py-2 grey--text"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</small>
+            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
             <div v-if="students.length">
             <v-layout wrap  justify-start class="py-2 background">
                 <div v-for="share in students" :key ="share.index">
@@ -54,6 +55,7 @@
             <v-card v-intersect="infiniteScrollingStudents" class="background"></v-card>
         </v-tab-item>
         <v-tab-item v-else class="background">
+            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
             <v-layout wrap row justify-start class="py-2 background">
             <div v-for="n in this.looploader" :key ="n.index">
                 <v-skeleton-loader></v-skeleton-loader>

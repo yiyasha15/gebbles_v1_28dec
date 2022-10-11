@@ -1,7 +1,7 @@
 <template>
     <v-app>
-        <v-tabs class="width mx-auto background">
-        <v-tab class="">
+        <v-tabs class="width mx-auto background" centered>
+        <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Journey</p>
         </v-tab>
         <v-tab v-if="visitOwnPage">
@@ -12,54 +12,57 @@
         </v-tab>
         <v-tab-item>
             <v-container class="pa-0 background" v-show="!journeyLoaded" style="max-width:670px;">
-                <div v-if=" journey.length || highlights.length"> 
-                <!-- check if journey is available -->
-                <!-- <div v-if="upcoming.length">
-                <div class="my-4">
-                <h3 class="font-weight-light pl-2 mx-auto width" >Upcoming events</h3>
-                </div>
-                <v-layout wrap row justify-start class="my-2 mx-auto width">
-                    <div v-for="journey in upcoming" :key ="journey.index">
-                        <journey-card :journey = "journey" ></journey-card>
-                    </div>
-                </v-layout>
-                <v-card v-intersect="infiniteScrollingUpcoming"></v-card>
-                </div> -->
-                <div v-if="highlights.length">
-                <!-- <div class="my-4" >
-                <h3 class="font-weight-light pl-2 mx-auto width" >Highlights</h3>
-                </div> -->
-                <v-layout wrap row justify-start class="mx-auto width background pt-5">
-                    <div v-for="journey in highlights" :key ="journey.index">
-                        <journey-card :journey = "journey" ></journey-card>
-                    </div>
-                </v-layout>
-                <v-card v-intersect="infiniteScrollingHighlights"></v-card>
-                </div>
-                <div v-if="journey.length">
-                <!-- <div class="my-4">
-                <h3 class="font-weight-light pl-2 mx-auto width" >Journey</h3>
-                </div> -->
-                    <v-layout wrap row justify-start class="mx-auto width background pt-5">
-                        <div v-for="journey in journey" :key ="journey.index">
+                <v-row>
+                    <v-col class="text-right">
+                        <v-btn icon @click="filterJourneyByEvents" small class="ma-2" >
+                        <!-- <v-icon>mdi-filter-variant</v-icon> -->
+                        <v-icon size="20">mdi-calendar-heart</v-icon>
+                    </v-btn>
+                    </v-col>
+                </v-row>
+                <div v-if="!showEventsJourney">
+                    <div v-if=" journey.length || highlights.length"> 
+
+                    <!-- check if journey is available -->
+                    <div v-if="highlights.length">
+                    <v-layout wrap row justify-start class="mx-auto width background pb-3">
+                        <div v-for="journey in highlights" :key ="journey.index">
                             <journey-card :journey = "journey" ></journey-card>
                         </div>
                     </v-layout>
-                    <v-card v-intersect="infiniteScrollingJourney"></v-card>
-                </div>
+                    <v-card v-intersect="infiniteScrollingHighlights"></v-card>
+                    </div>
+                    <div v-if="journey.length">
+                        <v-layout wrap row justify-start class="mx-auto width background pb-3">
+                            <div v-for="journey in journey" :key ="journey.index">
+                                <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
+                            </div>
+                        </v-layout>
+                        <v-card v-intersect="infiniteScrollingJourney"></v-card>
+                    </div>
+                    </div>
+                    <div v-else>
+                        <center>
+                            <img
+                            :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                            class="ml-2 mt-6 clickable"
+                            :src="require('@/assets/gebbleslogo_tab.png')"/>
+                            <h3>No posts yet. </h3>
+                        </center>
+                    </div>
                 </div>
                 <div v-else>
-                    <center>
-                        <img
-                        :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                        class="ml-2 mt-6 clickable"
-                        :src="require('@/assets/gebbleslogo_tab.png')"/>
-                        <h3>No posts yet. </h3>
-                    </center>
+                    <div v-if="filteredJourneyByEventArray.length">
+                        <v-layout wrap row justify-start class="mx-auto width background pb-3">
+                            <div v-for="journey in filteredJourneyByEventArray" :key ="journey.index">
+                                <journey-card :journey = "journey" ></journey-card>
+                            </div>
+                        </v-layout>
+                    </div>
                 </div>
             </v-container>
             <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
-            <v-layout wrap row justify-start class="mx-auto width" style="margin:8px 0px;">
+            <v-layout wrap row justify-start class="mx-auto width background" style="margin:8px 0px;">
             <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader></card-skeleton-loader>
             </div>
@@ -67,7 +70,7 @@
             </v-container>
         </v-tab-item>
         <v-tab-item v-if="visitOwnPage">
-            <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  can add the invited events to your portfolio journey</small>
+            <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited events to your portfolio journey</div>
             <!-- tagged events -->
             <v-layout wrap row justify-start v-if="firstLoadTagged" class="pt-2 background">
                 <div v-for="n in this.looploader" :key ="n.index">
@@ -89,7 +92,7 @@
             </center>
         </v-tab-item>
         <v-tab-item v-if="visitOwnPage">
-            <small class="ml-1 py-2 grey--text"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> can add the attended events to your journey</small>
+            <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
 
             <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
                 <div v-for="n in this.looploader" :key ="n.index">
@@ -140,14 +143,13 @@ export default {
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser',
-     'journey','upcoming','highlights', 
+     'journey','highlights', 
      'journeyLoaded'
-     ]),
+     ])
     },
     props: ["artist"],
     created(){
         this.getJourneyApi(this.$route.params);
-
         if(this.isAuthenticated && this.loggedInUser.username == this.$route.params.username)
         {
             this.visitOwnPage = true;
@@ -164,6 +166,8 @@ export default {
         pageGoing:null,
         pageHighlights:null,
         pageJourney:null,
+        filteredJourneyByEventArray:[],
+        showEventsJourney:false,
         // pageUpcoming:null,
         // highlights:[],
         // journey:[],
@@ -179,6 +183,10 @@ export default {
         }
     },
     methods: {
+    filterJourneyByEvents(){
+        this.showEventsJourney = !this.showEventsJourney
+        this.filteredJourneyByEventArray = this.journey.filter(journey => journey.event !="" && journey.event != null);
+    },
     async getTaggedEvents(){
         try {
         const response = await EventService.getMyInvitedEvents(this.artist.username);
@@ -365,13 +373,6 @@ export default {
         //     });
         // }
     },
-    goback(){
-        window.history.back();
-    },
-    createJourney(){
-        this.$store.dispatch("remove_editing_obj");
-        this.$router.push("/create/journey");
-    }
     }
 }
 </script>

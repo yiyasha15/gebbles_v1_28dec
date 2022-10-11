@@ -208,7 +208,7 @@
             </v-list-item>
             </v-list-item-group>
             </v-list>
-            <v-list v-if="isAuthenticated" dense>
+            <!-- <v-list v-if="isAuthenticated" dense>
             <v-subheader>Workshops</v-subheader>
             <v-list-item-group
                 v-model="workshop"
@@ -239,7 +239,7 @@
                 </v-list-item-content>
             </v-list-item>
             </v-list-item-group>
-            </v-list>
+            </v-list> -->
         </v-navigation-drawer>
     </div>
     <!-- password tooltip -->

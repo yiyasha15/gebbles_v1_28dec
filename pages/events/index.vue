@@ -220,7 +220,7 @@ export default {
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
       if(this.search){EventService.getSearchedEventCountry(this.search).then((value) => {
-        console.log("this.search",this.search,value.data);
+        // console.log("this.search",this.search,value.data);
       this.firstLoad = false
       this.events = value.data
       });}
@@ -236,7 +236,7 @@ export default {
       clearTimeout(this.debounce)
       this.debounce = setTimeout(() => {
       if(this.search){EventService.getSearchedEventName(this.search).then((value) => {
-        console.log("this.search",this.search,value.data);
+        // console.log("this.search",this.search,value.data);
       this.firstLoad = false
       this.events = value.data
       });}
@@ -254,7 +254,6 @@ export default {
       this.page=''
       try {
       const response = await EventService.getSearchedEventsThisMonth()
-      console.log(response);
       this.events = response.data
       // this.page = response.data.next
       this.firstLoad = false

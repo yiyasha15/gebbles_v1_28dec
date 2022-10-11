@@ -104,14 +104,14 @@
                   v-if="message.username == loggedInUser.username"
                   class="text-decoration-none pl-6 pr-12"
                   color="error"
-                  @click="deleted(message.id,message.shareid)"
+                  @click="deleted(message.id)"
                   >
                   <v-list-item-title>Delete</v-list-item-title>
                   </v-list-item>
                   <v-list-item
                   v-else
                   class="text-decoration-none pl-6 pr-12"
-                  @click="reported(message.uuid)"
+                  @click="reported(message.id)"
                   >
                   <v-list-item-title>Report</v-list-item-title>
                   </v-list-item>
@@ -174,7 +174,7 @@ import moment from 'moment'
       exact_moment(date){
         return moment(date).format('lll')
       },
-      async deleted(id, shareid){
+      async deleted(id){
         const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": this.$auth.strategy.token.get()
@@ -187,13 +187,14 @@ import moment from 'moment'
             console.log(e.response);
         }
       },
-      async reported(message){
+      async reported(id){
         const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": "Bearer " + this.$store.state.auth.user.access
             }
         };
         try {
+            console.log("report","/v1/chat/list/"+ id);
           this.report_snackbar =true
         } catch (e) {
             console.log(e);
@@ -239,6 +240,7 @@ import moment from 'moment'
             }
             try {
                 await this.$axios.$post("/v1/chat/create/", formData, config)
+                this.get_messages();
                 this.personal.messagetext = ''
                 this.personal.shareid = null
                 this.personal.username = null

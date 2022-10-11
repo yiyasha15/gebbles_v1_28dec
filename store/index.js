@@ -5,7 +5,6 @@ import EventService from '@/services/EventService.js'
 
 export const state = () => ({
   artists: [], //array of artists in img community
-  // learn_obj:null,
   share_obj: null, //object to edit e1t1 data
   cook_obj:null,
   editing_obj: null, //object to edit data
@@ -37,7 +36,6 @@ export const state = () => ({
   page_learnings:'',
   // page_cookings:'',
   page_share_comment:'',
-  loadingLearning:true,
   upcoming:[],
   highlights:[],
   journey:[],
@@ -52,9 +50,6 @@ export const getters = {
   },
   cook_obj(state){
     return state.cook_obj
-  },
-  loadingLearning(state){
-    return state.loadingLearning
   },
   // cook_has_like(state){
   //   return state.cook_has_like
@@ -247,12 +242,6 @@ export const actions = {
     commit('check_editing_workshop_obj', editing_workshop_obj)
     }
   },
-  // check_learn_obj({commit},id){
-  //   EventService.getLearning(id).then(res =>
-  //   {
-  //     commit('check_learn_obj',res.data)
-  //   })
-  // },
   check_user_portfolio({commit,state}){
     let getUser = localStorage.getItem('auth._token.local')
     if(getUser)
@@ -449,12 +438,6 @@ export const actions = {
       commit('clear_cook_obj',state.cook_obj)
     }
   },
-  // remove_learn_obj({commit, state})
-  // {
-  //   if( state.learn_obj){
-  //     commit('clear_learn_obj',state.learn_obj)
-  //   }
-  // },
   remove_page({commit, state})
   {
     if(state.auth.loggedIn){
@@ -554,10 +537,6 @@ export const mutations = {
     state.upcoming =[]
     state.highlights =[]
   },
-  // check_learn_obj(state,learn_obj){
-  //   state.loadingLearning = false;
-  //   state.learn_obj = learn_obj
-  // },
   get_e1t1(state,e1t1){
     state.e1t1 = e1t1;
   },
@@ -669,11 +648,6 @@ export const mutations = {
       state.share_obj = share_obj
     }
   },
-  // clear_learn_obj(state, learn_obj){
-  //   if(learn_obj){
-  //     state.loadingLearning =true;
-  //     state.learn_obj = null}
-  // },
   clear_page(state){
       state.page_journey = ''
       state.page_upcoming = ''
