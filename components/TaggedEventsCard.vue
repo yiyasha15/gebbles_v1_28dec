@@ -22,6 +22,9 @@
         @click.stop="addToJourney">
         <v-icon color="black" small>mdi-plus</v-icon>
         </v-btn>
+        <!-- <v-btn v-if="isAuthenticated && event.guest == loggedInUser.username " icon small class="float-right ma-1 white" >
+        <v-icon color="black" small>mdi-check</v-icon>
+        </v-btn> -->
         </v-img>
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"

@@ -104,7 +104,7 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-                <v-row no-gutters style="flex-wrap: nowrap;" class="mt-5">
+                <v-row no-gutters class="mt-5">
                     <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
                     <img
                         :src = "usersPortfolio.thumb" 

@@ -33,39 +33,7 @@
               <h4 class ="font-weight-medium">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}}) </h4>
           </v-col>
       </v-row> 
-      <v-layout class="mt-6">
-          <v-flex md1 sm2><center>
-              <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
-              <img
-              :src = "usersPortfolio.thumb" 
-              alt="img">
-              </v-avatar>
-              <v-avatar size="36" color="black" v-else >
-              <v-icon dark>
-                  mdi-account-circle
-              </v-icon>
-              </v-avatar>
-              </center>
-          </v-flex>
-          <v-flex md9 sm8>
-              <v-textarea
-              v-model= "personal.messagetext" 
-              outlined
-              auto-grow
-              rows="1"
-              row-height="10"
-              max-width= "100%"
-              label="Type something..">
-              </v-textarea>
-          </v-flex>
-          <v-flex md2 sm3>
-              <center>
-                  <v-btn small v-if="personal.messagetext"
-                      @click="post_personal_text" class="px-4 px-md-8 black"><span class="white--text">Post</span>
-                  </v-btn>
-              </center>
-          </v-flex>
-      </v-layout>
+      <post-message-section @message_posted="message_posted" :e1t1="e1t1"></post-message-section>
       <v-container >
           <section>
           <div v-for="(message, i) in personalMessages" :key="i" class="d-flex align-start">
@@ -92,7 +60,7 @@
               <p class="messageFormat">{{message.messagetext}}</p>
               </div>
               <v-spacer></v-spacer>
-          <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+          <v-menu v-if="isAuthenticated && message.username == loggedInUser.username" transition="slide-y-transition" open-on-hover offset-y bottom left>
               <template v-slot:activator="{ on, attrs }">
                   <div v-bind="attrs"
                   v-on="on">
@@ -101,23 +69,16 @@
               </template>
               <v-list>
                   <v-list-item
-                  v-if="message.username == loggedInUser.username"
                   class="text-decoration-none pl-6 pr-12"
                   color="error"
                   @click="deleted(message.id)"
                   >
                   <v-list-item-title>Delete</v-list-item-title>
                   </v-list-item>
-                  <v-list-item
-                  v-else
-                  class="text-decoration-none pl-6 pr-12"
-                  @click="reported(message.id)"
-                  >
-                  <v-list-item-title>Report</v-list-item-title>
-                  </v-list-item>
               </v-list>
           </v-menu>
           </div>
+          <v-card v-intersect="infiniteScrollingMessages"></v-card>
           </section>
       </v-container>
           <!-- <v-card v-intersect="infiniteScrollingComments"></v-card> -->
@@ -127,15 +88,13 @@
     <v-snackbar v-model="delete_snackbar">
       Message deleted.
     </v-snackbar>
-    <v-snackbar v-model="report_snackbar">
-        Message reported.
-    </v-snackbar>
   </div>
 </template>
 <script>
 import EventService from '@/services/EventService.js'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
+import PostMessageSection from './PostMessageSection.vue'
   export default {
     props: {
       e1t1: Object,
@@ -147,20 +106,15 @@ import moment from 'moment'
       return {
         value: new Date(),
         show: false,
-        report_snackbar: false,
         delete_snackbar :false,
         new_messages:[],
-        personal:{
-            shareid: null,
-            username: null,
-            messagetext: ""
-        },
         personalDialog:false,
         personalMessages:[],
         personalMessages_page:'',
         }
     },
     components: {
+        PostMessageSection
     },
     computed: {
         ...mapGetters(['userHasPortfolio', 'isAuthenticated',
@@ -182,22 +136,10 @@ import moment from 'moment'
         };
         try {
             let response = await this.$axios.$delete("/v1/chat/list/"+ id, config)
+            this.get_messages();
             this.delete_snackbar =true
         } catch (e) {
             console.log(e.response);
-        }
-      },
-      async reported(id){
-        const config = {
-            headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access
-            }
-        };
-        try {
-            console.log("report","/v1/chat/list/"+ id);
-          this.report_snackbar =true
-        } catch (e) {
-            console.log(e);
         }
       },
       get_messages(){
@@ -225,31 +167,8 @@ import moment from 'moment'
         });
       }
       },
-      async post_personal_text(){
-            if(this.personal.messagetext)
-            {this.personal.username = this.loggedInUser.username
-            this.personal.shareid = this.e1t1.id
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": this.$auth.strategy.token.get()
-                }
-            };
-            let formData = new FormData();
-            for (let data in this.personal) {
-                formData.append(data, this.personal[data]);
-            }
-            try {
-                await this.$axios.$post("/v1/chat/create/", formData, config)
-                this.get_messages();
-                this.personal.messagetext = ''
-                this.personal.shareid = null
-                this.personal.username = null
-                this.thankyou_snackbar = true
-            } catch (e) {
-                console.log(e.response);
-            }}else{
-                this.valid_snackbar2 =true
-            }
+      message_posted(){
+        this.get_messages();
       },
       async make_is_seen_true(){
         this.personalDialog=true;
@@ -259,6 +178,7 @@ import moment from 'moment'
                 "Authorization": this.$auth.strategy.token.get()
             }
         };
+        // console.log(this.new_messages);
         try {
             for (var i = 0; i < this.new_messages.length; i++)
             {
@@ -266,6 +186,7 @@ import moment from 'moment'
             form.append('is_seen', 'true');
             await this.$axios.$put("v1/chat/list/is_seen/"+this.new_messages[i].id , form, config)
             }
+            this.get_messages();
         } catch (error) {
             console.log("error..",error,error.response);
         }

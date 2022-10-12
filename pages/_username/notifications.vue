@@ -7,8 +7,7 @@
             <!-- {{filteredNotifications}} -->
         <v-subheader>New</v-subheader>
         <!-- {{filteredNotifications}} -->
-        <template v-for="(item) in filteredNotifications">
-            <v-list-item :key="item.index" @click="seen(item)" v-show="loggedInUser.username != item.sender" >
+            <v-list-item v-for="(item) in filteredNotifications" :key="item.index" @click="seen(item)" >
             <div>
                 <v-list-item-avatar v-if=" item.artist_metadata.thumb">
                     <img :src = "item.artist_metadata.thumb" alt="img">
@@ -19,6 +18,7 @@
                 </v-icon>
               </v-list-item-avatar>
             </div>
+            <!-- mentioned e1t1: tagged,liked, commented -->
             <v-list-item-content v-if="item.notification_context == 1 ">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
@@ -32,38 +32,39 @@
                 <v-list-item-title v-if="item.notification_type == 2" class="wrap-text" >{{item.sender}} has liked your post.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your post.</v-list-item-title>
             </v-list-item-content>
+            <!-- video: added,liked, commented -->
             <v-list-item-content v-if="item.notification_context == 2">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has added a video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has reacted on your video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your video.</v-list-item-title>
-                
             </v-list-item-content>
+            <!-- mentioned on video: mentioned,liked, commented -->
             <v-list-item-content v-if="item.notification_context == 3">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has mentioned you in a video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has reacted on your tagged video.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" class="wrap-text">{{item.sender}} has commented on your tagged video.</v-list-item-title>
             </v-list-item-content>
+            <!-- private message e1t1: created,liked, commented -->
             <v-list-item-content v-if="item.notification_context == 4">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has sent you a private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 2" class="wrap-text">{{item.sender}} has liked your private message.</v-list-item-title>
                 <v-list-item-title v-if="item.notification_type == 3" class="wrap-text" >{{item.sender}} has commented on your private message.</v-list-item-title>
             </v-list-item-content>
+            <!-- event tagged -->
             <v-list-item-content v-if="item.notification_context == 5">
                 <v-list-item-subtitle> {{moment(item.time)}}</v-list-item-subtitle>
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has tagged you in an event.</v-list-item-title>
             </v-list-item-content>
             </v-list-item>
-        </template>
         </v-list>
         <v-divider></v-divider>
         <!-- {{filteredNotificationsOld}} -->
         <v-list two-line class="background">
         <v-subheader>Earlier</v-subheader>
-        <template v-for="(item) in filteredNotificationsOld" >
-            <v-list-item :key="item.index" @click="opene1t1(item)" v-show="loggedInUser.username != item.sender">
+            <v-list-item v-for="(item) in filteredNotificationsOld" :key="item.index" @click="opene1t1(item)">
             <v-list-item-avatar v-if=" item.artist_metadata.thumb">
                 <img :src = "item.artist_metadata.thumb" alt="img">
             </v-list-item-avatar>
@@ -103,15 +104,12 @@
                 <v-list-item-title v-if="item.notification_type == 1" class="wrap-text">{{item.sender}} has tagged you in an event.</v-list-item-title>
             </v-list-item-content>
             </v-list-item>
-        </template>
         </v-list>
         </div>
     </v-container>
     <v-container v-if="firstLoad" style="max-width:1072px;" class="background">
           <div v-for="n in this.looploader" :key ="n.index">
-            <v-flex sm6 xs6 class="background"> 
               <v-skeleton-loader  class="ma-1" :loading="loading" type="list-item-avatar" ></v-skeleton-loader>
-            </v-flex>
           </div>
     </v-container>
       <v-card v-intersect="infiniteScrolling"></v-card>
@@ -122,8 +120,8 @@ import { mapGetters } from 'vuex'
 import moment from 'moment'
 import EventService from '@/services/EventService.js'
 export default {
-middleware : 'check_auth',
-computed: {
+    middleware : 'check_auth',
+    computed: {
     ...mapGetters(['loggedInUser','isAuthenticated']),
     filteredNotifications: function(){
         if(this.notifications)//on refresh data of undefined error
@@ -162,6 +160,10 @@ computed: {
                 const response = await EventService.getNotificationsSharing(this.loggedInUser.username,config)
                 // console.log(response);
                 this.notifications = response.data.results
+                //filter if sender is loggedin user
+                this.notifications = this.notifications.filter(item => item.sender != this.loggedInUser.username)
+                //filter e1t1 duplicates
+                // let e1t1_notification = this.notifications.filter(item => item.e1t1object != null)
                 this.page = response.data.next
                 this.firstLoad = false
             }catch (e) {
@@ -195,7 +197,6 @@ computed: {
                     headers: { "Authorization": this.$auth.strategy.token.get()
                     }
                 };
-                console.log(tempe);
                 try {
                     for (var i = 0; i < tempe.length; i++)
                     {
@@ -229,7 +230,12 @@ computed: {
             this.$axios.get(this.page, config).then(response => {
             //   console.log(response);
                 this.page= response.data.next;
-                response.data.results.forEach(item => this.notifications.push(item));
+                response.data.results.forEach(item => {
+                    if(item.sender != this.loggedInUser.username)
+                    //filter if sender is same user
+                    this.notifications.push(item)
+                    }
+                    );
                 // filter array so no duplicates
                 this.notifications = [...new Map(this.notifications.map(item =>
                     [item[key], item])).values()];

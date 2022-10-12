@@ -27,7 +27,6 @@ export default {
 			console.log("logged out");
 			this.$store.dispatch("remove_portfolio")
 			this.$store.dispatch("remove_bio")
-			this.$store.dispatch("remove_love")
 			this.$store.dispatch("remove_teachers")
 			this.$store.dispatch("remove_share_obj")
 			this.$store.dispatch("remove_editing_obj")

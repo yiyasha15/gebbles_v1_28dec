@@ -35,11 +35,11 @@
             <v-list-item-action v-if="e1t1.teacher!= null && loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher">
                 <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
-            <v-list-item-action class="ml-2">
-                <v-menu v-if="isAuthenticated" 
+            <v-list-item-action class="ml-2" v-if="isAuthenticated && loggedInUser.username == e1t1.username" >
+                <v-menu
                     transition="slide-y-transition" open-on-hover offset-y bottom left>
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn icon v-bind="attrs" v-if="loggedInUser.username == e1t1.username"
+                        <v-btn icon v-bind="attrs"
                         v-on="on">
                         <v-icon>mdi-dots-vertical</v-icon>
                         </v-btn>
@@ -215,10 +215,14 @@
         <v-card v-intersect="infiniteScrollingCooking"></v-card>
     </v-container>  
     <center>
-        <v-btn icon @click="react_love" large class="my-4">
-            <v-icon v-if="!share_has_love" large>mdi-heart-outline</v-icon>
-            <v-icon v-else color="red" large>mdi-heart</v-icon>
-        </v-btn>
+        <v-hover
+            v-slot="{ hover }">
+            <v-btn icon @click="react_love" large class="my-2 transition-swing "
+            :elevation="hover ? 2 : 12">
+                <v-icon v-if="!share_has_love">mdi-heart-outline</v-icon>
+                <v-icon v-else color="red">mdi-heart</v-icon>
+            </v-btn>
+        </v-hover>
     </center>
     <v-dialog max-width="550" 
         v-model="upload_video">
@@ -231,10 +235,6 @@
         <upload-video-card></upload-video-card>
         </v-container>
         </v-dialog>
-        <!-- {{new_messages}} -->
-    <v-snackbar v-model="valid_snackbar2">
-        Write something to post.
-    </v-snackbar>
     <v-snackbar v-model="login_snackbar">
         Please sign in first.
     </v-snackbar>
@@ -310,7 +310,6 @@ export default {
             addDedicated:false,
             deletedialog: false,
             learntDialog:false,
-            valid_snackbar2: false,
             login_snackbar: false,
             thankyou_snackbar: false,
             cookings:[],
@@ -325,12 +324,8 @@ export default {
                 shareidobj: ""
             },
             cookingLoaded: false,
-            putVideo:"",
-            videoData:'',
-            isShowing:false,
             isYourRoom: false,
             upload_video:false,
-            new_messages:[],
             love:0,
             share_has_love:false,
             share_has_love_id:'',
@@ -570,9 +565,6 @@ export default {
         //     } catch (e) {
         //         console.log(e);
         //     }
-        //     }
-        //     else{
-        //         this.valid_snackbar2 = true
         //     }}
         //     else{
         //         this.login_snackbar = true
