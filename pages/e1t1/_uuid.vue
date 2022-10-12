@@ -30,11 +30,12 @@
                     >
                     <v-icon>mdi-card-account-details-outline</v-icon>
                     </v-btn>
-
             </v-list-item-action>
-            <v-list-item-action v-if="e1t1.teacher!= null && loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher">
+            <div v-if="isAuthentication && e1t1.teacher!= null">
+                <v-list-item-action v-if="loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher">
                 <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
+            </div>
             <v-list-item-action class="ml-2" v-if="isAuthenticated && loggedInUser.username == e1t1.username" >
                 <v-menu
                     transition="slide-y-transition" open-on-hover offset-y bottom left>
@@ -217,7 +218,7 @@
     <center>
         <v-hover
             v-slot="{ hover }">
-            <v-btn icon @click="react_love" large class="my-2 transition-swing "
+            <v-btn icon @click="react_love" large class="my-2 mb-6 transition-swing "
             :elevation="hover ? 2 : 12">
                 <v-icon v-if="!share_has_love">mdi-heart-outline</v-icon>
                 <v-icon v-else color="red">mdi-heart</v-icon>

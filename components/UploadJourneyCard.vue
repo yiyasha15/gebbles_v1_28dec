@@ -8,7 +8,7 @@
                 <gebbles-divider class="mb-5"></gebbles-divider>
                 <v-stepper v-model="e6" vertical class="elevation-0">
                     <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                    *Share photos from your events, sessions.. <small v-if="journey.event" class="mt-1">Add this event to your journey</small>
+                    *Share photos from your events, sessions.. <small v-if=" editing_obj && journey.event" class="mt-1">Add this event to your journey</small>
                     </v-stepper-step>
                     <v-stepper-content style="border-left: none;" step="1" width="100%" class="ma-0 px-sm-5 px-2"> 
                         <v-slide-group
@@ -237,6 +237,20 @@
                                 <v-radio
                                     label="No"
                                     :value="false"
+                                ></v-radio>
+                            </v-radio-group>
+                            <h4 class="font-weight-light">Is this journey post from an event?</h4>
+                            <v-radio-group
+                                v-model="journey.event"
+                                row
+                                >
+                                <v-radio
+                                    label="Yes"
+                                    :value="true"
+                                ></v-radio>
+                                <v-radio
+                                    label="No"
+                                    :value=null
                                 ></v-radio>
                             </v-radio-group>
                         <v-btn color="primary" small text @click="e6 = 2">Previous</v-btn>
