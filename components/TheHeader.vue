@@ -29,16 +29,9 @@
             <v-btn small v-if="userHasPortfolio && notifications_notseen==0" icon dark color="black" class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
             <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
             </v-btn>
-            <right-navigation></right-navigation>
             </template>
             <register-login v-else></register-login>
-            <v-btn icon small @click="drawer_right=!drawer_right" v-if="!isAuthenticated" class="mr-sm-2 mr-md-3 mx-1">
-            <v-avatar size="26" >
-                <v-icon dark  color="black">
-                    mdi-account-circle
-                </v-icon>
-            </v-avatar>
-            </v-btn>
+            <right-navigation></right-navigation>
         </v-app-bar>
     </div>
     <!-- password tooltip -->

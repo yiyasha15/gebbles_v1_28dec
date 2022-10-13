@@ -257,7 +257,10 @@ export default {
       this.rm=id;
     },
     goToEvent(){
-      this.$router.push('/events/'+ this.journey.event);
+      if(this.journey.event != "true" && this.journey.event != null)
+      {
+        this.$router.push('/events/'+ this.journey.event);
+      }
     },
     editJourney(journey){
       console.log("edit");

@@ -78,7 +78,7 @@
                         v-bind="attrs" 
                         @click="upload_event=true"
                         v-on="on">
-                        <v-icon color="dark_primary">mdi-google-circles-communities</v-icon><span class="dark_primary--text ml-1">Event</span>
+                        <v-icon color="dark_primary">mdi-calendar-heart</v-icon><span class="dark_primary--text ml-1">Event</span>
                         </v-card>
                     </v-hover>
                 </template>
@@ -114,7 +114,7 @@
                 @click="upload_event=true" 
                 color="secondary" 
                 class="mx-1">
-                <v-icon color="dark_primary">mdi-google-circles-communities</v-icon>
+                <v-icon color="dark_primary">mdi-calendar-heart</v-icon>
             </v-btn>
             </div>
         <div class="pa-2 pa-md-3 title font-weight-medium my-3 "> Connecting the Groove</div>

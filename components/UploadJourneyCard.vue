@@ -239,8 +239,8 @@
                                     :value="false"
                                 ></v-radio>
                             </v-radio-group>
-                            <h4 class="font-weight-light">Is this journey post from an event?</h4>
-                            <v-radio-group
+                            <h4 class="font-weight-light" v-if="!fromEvent">Is this journey post from an event?</h4>
+                            <v-radio-group v-if="!fromEvent"
                                 v-model="journey.event"
                                 row
                                 >
@@ -292,12 +292,11 @@ export default {
         // console.log(this.$route.params, Object.keys(this.$route.params).length === 0);
         //checking if called by event... add to journey
         let check = Object.keys(this.$route.params).length === 0;
-        console.log(!check);
         if(!check)
         {
             let event= this.$route.params.event;
-            console.log(event);
             this.journey.event = event.event.uuid;
+            this.fromEvent = true;
             this.journey.joevent = event.event.name;
             this.journey.jophoto1 = event.event.poster;
             this.imageData1 = this.journey.jophoto1
@@ -306,7 +305,6 @@ export default {
             this.journey.country = event.event.country
             let thumb = this.journey.jophoto1.substring(this.journey.jophoto1.lastIndexOf('/') + 1)
             this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + thumb;
-            console.log(this.journey);
         }
         else if(this.$store.state.editing_obj)
         {
@@ -371,6 +369,7 @@ export default {
                 isprivate: false,
                 event:""
             },
+            fromEvent:false,
             progressbar: false,
             date:"",
             slide: null,

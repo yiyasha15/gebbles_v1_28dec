@@ -116,7 +116,7 @@
             </v-list-item>
             <v-list-item to="/events">
                 <v-list-item-icon>
-                <v-icon>mdi-google-circles-communities</v-icon>
+                <v-icon>mdi-calendar-heart</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                 <v-list-item-title>Events</v-list-item-title>

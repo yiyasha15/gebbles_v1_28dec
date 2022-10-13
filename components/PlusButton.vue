@@ -30,7 +30,7 @@
             <v-list-item
             :to="'/create/event'"
             class="text-decoration-none pl-6 pr-12"
-            ><v-icon color="primary" class="pr-2">mdi-google-circles-communities</v-icon>
+            ><v-icon color="primary" class="pr-2">mdi-calendar-heart</v-icon>
             <v-list-item-title>Create an event</v-list-item-title>
             </v-list-item>
             <v-list-item

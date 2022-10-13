@@ -1,7 +1,8 @@
 <template>
     <v-app>
         <v-container class="width mx-auto ">
-            <h2 class="font-weight-medium mb-4">Learning</h2>
+            <h2 class="font-weight-medium mb-2">Learning</h2>
+            <div class=" grey--text caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>you</b> gave a shoutout to</div>
             <div v-if="!firstLoad">
                 <div v-if="teachers.length">
                 <v-layout wrap row justify-start class="my-2 ">

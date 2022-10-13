@@ -23,13 +23,13 @@
             <v-spacer></v-spacer>
             <v-btn small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium text-capitalize">About</h4></v-btn>
             <v-btn small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium text-capitalize" >Journey</h4></v-btn> 
-            <v-btn small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium text-capitalize">E1T1</h4></v-btn>
-            <v-btn icon small 
+            <!-- <v-btn v-if="isAuthenticated && artist.username == loggedInUser.username" small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium text-capitalize">E1T1</h4></v-btn> -->
+            <!-- <v-btn icon small 
             :to="'/'"
             class="text-decoration-none mr-sm-2 mr-md-3 mx-1"
             >
             <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
-            </v-btn>
+            </v-btn> -->
             <template v-if="isAuthenticated">
             <plus-button v-if="userHasPortfolio"></plus-button>
             <!-- {{notifications_notseen}} -->
@@ -56,7 +56,7 @@
         <v-row class="mt-16 mb-4 mx-4 d-flex">
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium text-capitalize">About</h4></v-btn>
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium text-capitalize" >Journey</h4></v-btn> 
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium text-capitalize ">E1T1</h4></v-btn>
+            <!-- <v-btn  v-if="isAuthenticated && artist.username == loggedInUser.username" small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium text-capitalize ">E1T1</h4></v-btn> -->
             <!-- <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
                 <v-btn to="/create/website" small outlined
@@ -742,7 +742,7 @@ export default {
     font-family: 'Poiret One', cursive; 
     max-height: 36px; 
     overflow: auto;
-     margin-bottom:8px ;
+     /* margin-bottom:8px ; */
     margin-left: 8px;;
 }
 .artist_menubar_name{

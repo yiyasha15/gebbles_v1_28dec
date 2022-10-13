@@ -1,10 +1,8 @@
 <template>
 <div>
-    <center>
-        <div v-if="!isAuthenticated">
+    <center v-if="!isAuthenticated">
             <v-btn small outlined class="mr-2 text-decoration-none text-capitalize" @click="loginDialog=true">Sign In</v-btn>
             <v-btn small dark class="mr-2 text-decoration-none text-capitalize" @click="registerDialog=true">Sign Up</v-btn>
-        </div>
     </center>
     <v-dialog persistent
             v-model="loginDialog"

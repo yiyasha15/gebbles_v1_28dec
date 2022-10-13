@@ -1,7 +1,9 @@
 <template>
     <v-app>
         <v-container  class="width mx-auto">
-           <h2 class="font-weight-medium mb-4">Sharing</h2>
+           <h2 class="font-weight-medium mb-2">Sharing</h2>
+           <div class="grey--text caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>you</b> a shoutout</div>
+            
             <div v-if="!firstLoad">
                 <div v-if="students.length">
                 <v-layout wrap row justify-start class="my-2 ">

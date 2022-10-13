@@ -69,7 +69,7 @@
           gebbles notifies and helps you connect with your students and fans when they appreciate you and your work.
         </p>
         <v-btn min-width="150" color="primary" class=" text-decoration-none" to="/create/">
-            <h4 class="font-weight-medium text-capitalize" >Get Started</h4></v-btn>
+            <h4 class="font-weight-medium text-capitalize" >you can..</h4></v-btn>
         </div>
         <!-- <register-login></register-login> -->
       </v-col>

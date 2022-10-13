@@ -20,7 +20,7 @@
             <v-btn dark class="text-decoration-none text-capitalize show-xs" to="/register">Sign Up</v-btn>
           </div>
           <div v-if="i==1">
-            <h3  class="font-weight-medium pb-4 black--text">a gallery for your Hiphop journey</h3>
+            <h3  class="font-weight-medium pb-4 black--text">create a gallery for your Hiphop journey</h3>
             <img src = "~/assets/create_journey.png"  width="60%" alt="journey logo"> 
             <h4 class="font-weight-light mt-4 width black--text" >your home to keep those photos from all the beautiful events you travelled to. dust out all the battle, judging, workshop and more fliers, so that your can go back in time when nostalgia hits.</h4>
             <!-- <p style="color:black; max-width:260px" class="font-weight-light hidden-md-and-up"> your home to keep those photos from all the events you attended, battles you own, judging and workshop fliers, so that your can go back in time when nostalgia hits.</p> -->
@@ -32,7 +32,7 @@
             <v-btn dark class=" text-decoration-none text-capitalize show-xs" to="/register">Sign Up</v-btn>
           </div>
           <div v-if="i==2" >
-            <h3  class="font-weight-medium pb-4 black--text">each one teach one</h3>
+            <h3  class="font-weight-medium pb-4 black--text">build your community - each one teach one</h3>
             <img src = "~/assets/create_e1t1.png"  width="60%" alt="e1t1 logo">
             <h4  class="font-weight-light width black--text">let them know how you are taking their teachings and ideas to the next level with your own flavour. let them know that you appreciate their sharings.</h4>
           <div class="my-2" > 

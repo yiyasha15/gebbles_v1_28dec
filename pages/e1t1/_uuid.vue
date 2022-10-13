@@ -24,7 +24,7 @@
             <v-list-item-title><nuxt-link class="text-decoration-none" to="e1t1.username">{{e1t1.username}}</nuxt-link></v-list-item-title>
             <v-list-item-subtitle>{{emoment(e1t1.created)}}</v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-action>
+            <v-list-item-action v-if="isAuthentication">
                 <v-btn v-if="loggedInUser.username == e1t1.username" icon
                     @click="cardDialog = true"
                     >
@@ -36,6 +36,7 @@
                 <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
             </div>
+            <!-- {{isAuthenticated}} -->
             <v-list-item-action class="ml-2" v-if="isAuthenticated && loggedInUser.username == e1t1.username" >
                 <v-menu
                     transition="slide-y-transition" open-on-hover offset-y bottom left>
@@ -103,7 +104,7 @@
             </v-col>
             </v-container>
         </v-dialog> 
-        <v-dialog v-if="loggedInUser" v-model="deletedialog" width="500" persistent>
+        <v-dialog v-model="deletedialog" width="500" persistent>
             <v-card class="pa-4">
                 <p>Are you sure you want to delete the shoutout?</p>
                 <v-card-actions>

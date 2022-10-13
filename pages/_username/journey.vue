@@ -1,31 +1,33 @@
 <template>
     <v-app>
-        <v-tabs class="width mx-auto background" centered>
+        <v-tabs class="width mx-auto background" centered v-if="visitOwnPage">
         <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Journey</p>
         </v-tab>
-        <v-tab v-if="visitOwnPage">
+        <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Events</p>
         </v-tab>
-        <v-tab v-if="visitOwnPage">
+        <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Events</p>
         </v-tab>
         <v-tab-item>
             <v-container class="pa-0 background" v-show="!journeyLoaded" style="max-width:670px;">
-                <v-row>
+                <v-row v-if="isAuthenticated && artist.username == loggedInUser.username">
                     <v-col class="text-right">
-                        <v-btn icon @click="filterJourneyByEvents" small class="ma-2" >
-                        <!-- <v-icon>mdi-filter-variant</v-icon> -->
-                        <v-icon size="20">mdi-calendar-heart</v-icon>
-                    </v-btn>
+                        <!-- <v-btn icon @click="filterJourneyByEvents" small >
+                            <v-icon size="20">mdi-calendar-heart</v-icon>
+                        </v-btn> -->
+                        <v-btn icon @click="filterPrivate" small  >
+                            <v-icon size="20">mdi-lock</v-icon>
+                        </v-btn>
                     </v-col>
                 </v-row>
-                <div v-if="!showEventsJourney">
+                <div v-if="!showPrivate">
                     <div v-if=" journey.length || highlights.length"> 
 
                     <!-- check if journey is available -->
                     <div v-if="highlights.length">
-                    <v-layout wrap row justify-start class="mx-auto width background pb-3">
+                    <v-layout wrap row justify-start class="mx-auto width background pt-3">
                         <div v-for="journey in highlights" :key ="journey.index">
                             <journey-card :journey = "journey" ></journey-card>
                         </div>
@@ -33,7 +35,7 @@
                     <v-card v-intersect="infiniteScrollingHighlights"></v-card>
                     </div>
                     <div v-if="journey.length">
-                        <v-layout wrap row justify-start class="mx-auto width background pb-3">
+                        <v-layout wrap row justify-start class="mx-auto width background pt-3">
                             <div v-for="journey in journey" :key ="journey.index">
                                 <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
                             </div>
@@ -51,10 +53,19 @@
                         </center>
                     </div>
                 </div>
-                <div v-else>
+                <div v-if="showEventsJourney">
                     <div v-if="filteredJourneyByEventArray.length">
-                        <v-layout wrap row justify-start class="mx-auto width background pb-3">
+                        <v-layout wrap row justify-start class="mx-auto width background pt-3">
                             <div v-for="journey in filteredJourneyByEventArray" :key ="journey.index">
+                                <journey-card :journey = "journey" ></journey-card>
+                            </div>
+                        </v-layout>
+                    </div>
+                </div>
+                <div v-if="showPrivate">
+                    <div v-if="filteredJourneyByPrivate.length">
+                        <v-layout wrap row justify-start class="mx-auto width background pt-3">
+                            <div v-for="journey in filteredJourneyByPrivate" :key ="journey.index">
                                 <journey-card :journey = "journey" ></journey-card>
                             </div>
                         </v-layout>
@@ -114,6 +125,47 @@
             </center>
         </v-tab-item>
         </v-tabs>
+        <div v-else>
+            <div v-show="!journeyLoaded">
+                <div>
+                    <div v-if=" journey.length || highlights.length"> 
+                    <!-- check if journey is available -->
+                    <div v-if="highlights.length">
+                    <v-layout wrap row justify-start class="mx-auto width background pt-3">
+                        <div v-for="journey in highlights" :key ="journey.index">
+                            <journey-card :journey = "journey" ></journey-card>
+                        </div>
+                    </v-layout>
+                    <v-card v-intersect="infiniteScrollingHighlights"></v-card>
+                    </div>
+                    <div v-if="journey.length">
+                        <v-layout wrap row justify-start class="mx-auto width background pt-3">
+                            <div v-for="journey in journey" :key ="journey.index">
+                                <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
+                            </div>
+                        </v-layout>
+                        <v-card v-intersect="infiniteScrollingJourney"></v-card>
+                    </div>
+                    </div>
+                    <div v-else>
+                        <center>
+                            <img
+                            :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                            class="ml-2 mt-6 clickable"
+                            :src="require('@/assets/gebbleslogo_tab.png')"/>
+                            <h3>No posts yet. </h3>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <div v-if="journeyLoaded">
+                <v-layout wrap row justify-start class="mx-auto width background" style="margin:8px 0px;">
+                <div v-for="n in this.looploader" :key ="n.index">
+                    <card-skeleton-loader></card-skeleton-loader>
+                </div>
+                </v-layout>
+            </div>
+        </div>
     </v-app>
 </template>
 <script>
@@ -167,7 +219,9 @@ export default {
         pageHighlights:null,
         pageJourney:null,
         filteredJourneyByEventArray:[],
+        filteredJourneyByPrivate:[],
         showEventsJourney:false,
+        showPrivate:false,
         // pageUpcoming:null,
         // highlights:[],
         // journey:[],
@@ -186,6 +240,10 @@ export default {
     filterJourneyByEvents(){
         this.showEventsJourney = !this.showEventsJourney
         this.filteredJourneyByEventArray = this.journey.filter(journey => journey.event !="" && journey.event != null);
+    },
+    filterPrivate(){
+        this.showPrivate = !this.showPrivate
+        this.filteredJourneyByPrivate = this.journey.filter(journey => journey.isprivate == true);
     },
     async getTaggedEvents(){
         try {
