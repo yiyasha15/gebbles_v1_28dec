@@ -7,7 +7,7 @@
         || bio.vid1 || bio.vid2 || bio.vid3 || bio.vid4 ">
         <div class="mb-4">
         <v-container class="w-1036">
-            <v-row justify="end">
+            <v-row justify="end" class="hidden-sm-and-down">
                 <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn to="/create/website" small outlined
@@ -22,7 +22,7 @@
                     <span>Edit portfolio</span>
                 </v-tooltip>
             </v-row>
-            <v-row>
+            <v-row class="mt-0">
                 <v-col cols="12" md="6">
                     <v-img contain
                     max-height="460"

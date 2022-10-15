@@ -2,7 +2,7 @@
   <v-app>
     <!-- <the-header/> -->
     <dashboard/>
-      <nuxt class="mt-16"/>
+      <nuxt class="mt-78"/>
     <the-footer/>
   </v-app>
 </template>
@@ -32,5 +32,10 @@ export default {
   } 
 }
 </script>
+<style>
+.mt-78{
+  margin-top: 78px;
+}
+</style>
 
 

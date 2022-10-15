@@ -111,7 +111,6 @@ export default {
 }
 </script>
 <style scoped>
-
 .width{
     max-width: 670px;
   }

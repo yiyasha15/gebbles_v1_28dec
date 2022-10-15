@@ -244,8 +244,7 @@
             </v-list-item>
             </v-list-item-group>
         </v-list>
-        <v-list dense>
-            <!-- <v-subheader>Account</v-subheader> -->
+        <!-- <v-list dense>
             <v-list-item @click="toggleTheme">
                 <v-list-item-icon>
             <v-icon>mdi-theme-light-dark</v-icon>
@@ -255,7 +254,7 @@
                 <v-list-item-title v-else>Light Mode</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-        </v-list>
+        </v-list> -->
         <v-btn v-if="!isAuthenticated" dark class="text-decoration-none text-capitalize ma-4" to="/register">Sign Up</v-btn>
     </v-navigation-drawer>
 </div>

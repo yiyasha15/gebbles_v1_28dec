@@ -5,7 +5,7 @@
         <h4 class="mx-auto my-12">Artist portfolio not found.</h4>
     </template>
     <template v-else>
-         <v-app-bar flat fixed class="background">
+         <v-app-bar flat fixed class="background mx-1 mx-sm-5" height="80">
              <v-layout align-center>
              <nuxt-link :to="'/'" class="text-decoration-none">
                 <img
@@ -53,7 +53,7 @@
             </v-btn> -->
         </v-app-bar>
         <div class="hidden-sm-and-up">
-        <v-row class="mt-16 mb-4 mx-4 d-flex">
+        <v-row class="mt-84 mb-1 mx-4 d-flex">
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium text-capitalize">About</h4></v-btn>
             <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium text-capitalize" >Journey</h4></v-btn> 
             <!-- <v-btn  v-if="isAuthenticated && artist.username == loggedInUser.username" small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium text-capitalize ">E1T1</h4></v-btn> -->
@@ -70,9 +70,22 @@
             </template>
             <span>Edit portfolio</span>
             </v-tooltip> -->
+            <v-spacer></v-spacer>
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn to="/create/website" small outlined
+                    elevation="0" 
+                    v-bind="attrs"
+                    v-on="on"
+                    v-if="isAuthenticated && artist.username == loggedInUser.username">
+                <v-icon>mdi-account-edit-outline</v-icon>
+                </v-btn>
+                </template>
+                <span>Edit portfolio</span>
+            </v-tooltip>
         </v-row>
         </div>
-    <nuxt-child class="mt-sm-16" :artist='artist' :bio='bio' />
+    <nuxt-child class="mt-78" :artist='artist' :bio='bio' />
     </template>
     <v-dialog persistent
         v-model="loginDialog"
@@ -755,5 +768,16 @@ export default {
 }
 .v-icon:hover{
     color: #815A44;
+}
+.mt-78{
+    margin-top: 78px;
+}
+@media only screen and (max-width: 600px){
+.mt-78{
+    margin-top: 0;
+}
+.mt-84{
+    margin-top: 84px;
+}
 }
 </style>

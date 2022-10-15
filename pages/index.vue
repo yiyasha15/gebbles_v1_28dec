@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <!-- <v-app> -->
     <v-row v-if="!isAuthenticated" class="homepage-width mx-auto">
       <v-col cols="12" md="5">
         <div class="mt-md-13 mt-8">
@@ -59,22 +59,19 @@
           </template>
           <span>✌🏽 🖤 🤝</span>
         </v-tooltip>
-        <!-- <h2 class="text-center">🎵 💃 🎤 🎨 </h2> -->
-        <p class="font-weight-medium mt-3">represent like you get down</p>
-        <p>✔︎ create and curate your events and work, document and share your passionate journey, 
-          build a porfolio website that represents you.</p>
         <p class="font-weight-medium mt-3"> connect with your community, grow together</p>
         <p>can we imagine hiphop without 'sharing'?<br>
           ✔︎ let's shoutout to those friends and teachers who share their knowledge and inspire us. Likewise,
           gebbles notifies and helps you connect with your students and fans when they appreciate you and your work.
         </p>
-        <v-btn min-width="150" color="primary" class=" text-decoration-none" to="/create/">
-            <h4 class="font-weight-medium text-capitalize" >you can..</h4></v-btn>
+        <v-btn text color="primary" class="text-center text-decoration-none" to="/create/">
+            <h4 class="font-weight-medium text-capitalize" >-- ></h4>
+          </v-btn>
         </div>
         <!-- <register-login></register-login> -->
       </v-col>
     </v-row>
-    <v-container v-else class="pa-0 mt-4 mt-md-8 width mx-auto" >
+    <v-container v-else class="pa-0 width mx-auto" >
       <creation-box></creation-box>
       <div>
         <h3 class ="my-2 font-weight-light px-4 px-md-0">What's cooking </h3>
@@ -110,7 +107,7 @@
       <v-card v-intersect="infiniteScrolling"></v-card>
       </div>
     </v-container>
-  </v-app>
+  <!-- </v-app> -->
 </template>
 
 <script>
@@ -189,6 +186,19 @@ export default {
       firstLoad: true,
       page:"",
       cooking:[],
+      dialog: false,
+        num:0,
+        items: [
+        {
+          src: require("@/assets/create_portfolio.png"),
+        },
+        {
+          src: require("@/assets/create_journey.png"),
+        },
+        {
+          src: require("@/assets/create_e1t1.png"),
+        }
+      ],
     }
   },
   computed: {
@@ -220,6 +230,9 @@ export default {
   width: 860px;
   margin: auto;
 } */
+.v-image__image--cover {
+    background-size: contain !important;
+}
 a:hover{
   color: black;
 }

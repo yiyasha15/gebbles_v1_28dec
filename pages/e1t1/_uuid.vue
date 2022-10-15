@@ -31,8 +31,9 @@
                     <v-icon>mdi-card-account-details-outline</v-icon>
                     </v-btn>
             </v-list-item-action>
-            <div v-if="isAuthentication && e1t1.teacher!= null">
-                <v-list-item-action v-if="loggedInUser.username == e1t1.username ||loggedInUser.username == e1t1.teacher">
+            <!-- {{e1t1}} -->
+            <div v-if="isAuthenticated">
+                <v-list-item-action v-show="e1t1.username == loggedInUser.username || e1t1.teacher == loggedInUser.username">
                 <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
             </div>

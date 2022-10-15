@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--site navigation -->
-        <v-app-bar clipped-left flat fixed class="background">
+        <v-app-bar clipped-left flat fixed class="background mx-1 mx-sm-5" height="80">
             <nuxt-link :to="'/'" class="text-decoration-none">
             <v-layout align-center>
                 <img
