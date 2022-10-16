@@ -9,7 +9,7 @@
                 :height="$vuetify.breakpoint.smAndDown ? 28 : 38"
                 class="clickable"
                 :src="require('@/assets/gebbleslogo_tab.png')"/>
-                    <h2 class=" ml-2" style="font-family: 'Poiret One', cursive; ">gebbles</h2>
+                    <h2 class=" ml-2" style="font-family: 'Poiret One'; ">gebbles</h2>
             </v-layout>
             </nuxt-link>
             <v-spacer></v-spacer>
