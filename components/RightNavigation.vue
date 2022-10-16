@@ -140,6 +140,14 @@
             v-model="e1t1"
             color="primary"
         >
+        <v-list-item :to="'/' +loggedInUser.username+ '/journey/'">
+            <v-list-item-icon>
+                <v-icon>mdi-book-heart-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Journey</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
         <v-list-item :to="'/' +loggedInUser.username+ '/each1teach1/'">
             <v-list-item-icon>
                 <v-icon>mdi-all-inclusive</v-icon>

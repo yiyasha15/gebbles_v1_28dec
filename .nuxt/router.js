@@ -17,7 +17,6 @@ const _3c7a0c70 = () => interopDefault(import('../pages/journeys.vue' /* webpack
 const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
 const _c72a3020 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
-const _e9016dfe = () => interopDefault(import('../pages/organised-events.vue' /* webpackChunkName: "pages/organised-events" */))
 const _3d30988d = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
 const _d73462fa = () => interopDefault(import('../pages/privacy.vue' /* webpackChunkName: "pages/privacy" */))
 const _8aad3090 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
@@ -32,7 +31,6 @@ const _7173c001 = () => interopDefault(import('../pages/artists/legacy.vue' /* w
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
 const _064c2748 = () => interopDefault(import('../pages/create/event.vue' /* webpackChunkName: "pages/create/event" */))
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
-const _6414fd7c = () => interopDefault(import('../pages/create/legacy-porfolio.vue' /* webpackChunkName: "pages/create/legacy-porfolio" */))
 const _70dd915c = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
 const _2f47e146 = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
 const _3f1b3c35 = () => interopDefault(import('../pages/create/workshop.vue' /* webpackChunkName: "pages/create/workshop" */))
@@ -126,10 +124,6 @@ export const routerOptions = {
     component: _c72a3020,
     name: "onboarding"
   }, {
-    path: "/organised-events",
-    component: _e9016dfe,
-    name: "organised-events"
-  }, {
     path: "/passwordrenew",
     component: _3d30988d,
     name: "passwordrenew"
@@ -185,10 +179,6 @@ export const routerOptions = {
     path: "/create/journey",
     component: _6cd0c402,
     name: "create-journey"
-  }, {
-    path: "/create/legacy-porfolio",
-    component: _6414fd7c,
-    name: "create-legacy-porfolio"
   }, {
     path: "/create/uploadvideo",
     component: _70dd915c,

@@ -91,13 +91,6 @@
     "_name": "_c72a3020"
   },
   {
-    "name": "organised-events",
-    "path": "/organised-events",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/organised-events.vue",
-    "chunkName": "pages/organised-events",
-    "_name": "_e9016dfe"
-  },
-  {
     "name": "passwordrenew",
     "path": "/passwordrenew",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/passwordrenew.vue",
@@ -194,13 +187,6 @@
     "component": "/Users/yiyasha/Documents/inmygroove/pages/create/journey.vue",
     "chunkName": "pages/create/journey",
     "_name": "_6cd0c402"
-  },
-  {
-    "name": "create-legacy-porfolio",
-    "path": "/create/legacy-porfolio",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/legacy-porfolio.vue",
-    "chunkName": "pages/create/legacy-porfolio",
-    "_name": "_6414fd7c"
   },
   {
     "name": "create-uploadvideo",

@@ -1,7 +1,10 @@
 <template>
     <v-app>
-        <div v-show="!journeyLoaded">
-            <div>
+        <v-container style="max-width:670px;" class="pa-0 background">
+            <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+                <v-icon class="float-left">mdi-arrow-left</v-icon>
+            </v-btn>
+            <div v-show="!journeyLoaded">
                 <div v-if=" journey.length || highlights.length"> 
                 <!-- check if journey is available -->
                 <div v-if="highlights.length">
@@ -18,7 +21,7 @@
                             <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
                         </div>
                     </v-layout>
-                    <v-card v-intersect="infiniteScrollingJourney"></v-card>
+                <v-card v-intersect="infiniteScrollingJourney"></v-card>
                 </div>
                 </div>
                 <div v-else>
@@ -31,14 +34,14 @@
                     </center>
                 </div>
             </div>
-        </div>
-        <div v-if="journeyLoaded">
-            <v-layout wrap row justify-start class="mx-auto width background" style="margin:8px 0px;">
-            <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader></card-skeleton-loader>
+            <div v-if="journeyLoaded">
+                <v-layout wrap row justify-start class="mx-auto width background" style="margin:8px 0px;">
+                <div v-for="n in this.looploader" :key ="n.index">
+                    <card-skeleton-loader></card-skeleton-loader>
+                </div>
+                </v-layout>
             </div>
-            </v-layout>
-        </div>
+        </v-container>
     </v-app>
 </template>
 <script>
@@ -177,6 +180,9 @@ export default {
         //         console.log(err);
         //     });
         // }
+    },
+    goback(){
+        window.history.back();
     },
     }
 }

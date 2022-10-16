@@ -1,81 +1,86 @@
 <template>
     <v-app>
-        <v-tabs class="width mx-auto background" centered>
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised Events</p>
-        </v-tab>
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Events</p>
-        </v-tab>
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Events</p>
-        </v-tab>
-        <v-tab-item>
-            <div class="ml-1 py-2 grey--text caption text-center">all the events you organised</div>
-           <v-layout wrap row justify-start v-if="firstLoadOrg" class="pt-2 background">
-                <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader></card-skeleton-loader>
-                </div>
-            </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
-                <div v-for="event in orgEvents" :key ="event.index">
-                    <events-card-organised :event="event"></events-card-organised>
-                </div>
-            </v-layout>
-            <v-card v-intersect="infiniteScrollingOrgEvents"></v-card>
-            <center v-if="!orgEvents.length && !firstLoadOrg" class="background">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo_tab.png')"/>
-                <h3>No events found. </h3>
-            </center>
-        </v-tab-item>
-        <v-tab-item>
-            <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited events to your portfolio journey</div>
-            <!-- tagged events -->
-            <v-layout wrap row justify-start v-if="firstLoadTagged" class="pt-2 background">
-                <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader></card-skeleton-loader>
-                </div>
-            </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
-                <div v-for="event in taggedEvents" :key ="event.index">
-                    <events-card-tagged v-if="event.event" :event="event"></events-card-tagged>
-                </div>
-            </v-layout>
-            <v-card v-intersect="infiniteScrollingTaggedEvents"></v-card>
-            <center v-if="!taggedEvents.length && !firstLoadTagged" class="background">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo_tab.png')"/>
-                <h3>No events found. </h3>
-            </center>
-        </v-tab-item>
-        <v-tab-item>
-            <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
+        <v-container style="max-width:670px;" class="pa-0 background">
+            <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+                <v-icon class="float-left">mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-tabs class="width mx-auto background" centered>
+            <v-tab>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised Events</p>
+            </v-tab>
+            <v-tab>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Events</p>
+            </v-tab>
+            <v-tab>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Events</p>
+            </v-tab>
+            <v-tab-item>
+                <div class="ml-1 py-2 grey--text caption text-center">all the events you organised</div>
+            <v-layout wrap row justify-start v-if="firstLoadOrg" class="pt-2 background">
+                    <div v-for="n in this.looploader" :key ="n.index">
+                    <card-skeleton-loader></card-skeleton-loader>
+                    </div>
+                </v-layout>
+                <v-layout wrap row justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
+                    <div v-for="event in orgEvents" :key ="event.index">
+                        <events-card-organised :event="event"></events-card-organised>
+                    </div>
+                </v-layout>
+                <v-card v-intersect="infiniteScrollingOrgEvents"></v-card>
+                <center v-if="!orgEvents.length && !firstLoadOrg" class="background">
+                    <img
+                    :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                    class="ml-2 mt-6 clickable"
+                    :src="require('@/assets/gebbleslogo_tab.png')"/>
+                    <h3>No events found. </h3>
+                </center>
+            </v-tab-item>
+            <v-tab-item>
+                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited events to your portfolio journey</div>
+                <!-- tagged events -->
+                <v-layout wrap row justify-start v-if="firstLoadTagged" class="pt-2 background">
+                    <div v-for="n in this.looploader" :key ="n.index">
+                    <card-skeleton-loader></card-skeleton-loader>
+                    </div>
+                </v-layout>
+                <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
+                    <div v-for="event in taggedEvents" :key ="event.index">
+                        <events-card-tagged v-if="event.event" :event="event"></events-card-tagged>
+                    </div>
+                </v-layout>
+                <v-card v-intersect="infiniteScrollingTaggedEvents"></v-card>
+                <center v-if="!taggedEvents.length && !firstLoadTagged" class="background">
+                    <img
+                    :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                    class="ml-2 mt-6 clickable"
+                    :src="require('@/assets/gebbleslogo_tab.png')"/>
+                    <h3>No events found. </h3>
+                </center>
+            </v-tab-item>
+            <v-tab-item>
+                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
 
-            <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
-                <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader></card-skeleton-loader>
-                </div>
-            </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
-                <div v-for="event in goingEvents" :key ="event.index">
-                    <events-card-going v-if="event.event" :event="event"></events-card-going>
-                </div>
-            </v-layout>
-            <v-card v-intersect="infiniteScrollingGoingEvents"></v-card>
-            <center v-if="!goingEvents.length && !firstLoadGoing" class="background">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo_tab.png')"/>
-                <h3>No events found. </h3>
-            </center>
-        </v-tab-item>
-        </v-tabs>
+                <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
+                    <div v-for="n in this.looploader" :key ="n.index">
+                    <card-skeleton-loader></card-skeleton-loader>
+                    </div>
+                </v-layout>
+                <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
+                    <div v-for="event in goingEvents" :key ="event.index">
+                        <events-card-going v-if="event.event" :event="event"></events-card-going>
+                    </div>
+                </v-layout>
+                <v-card v-intersect="infiniteScrollingGoingEvents"></v-card>
+                <center v-if="!goingEvents.length && !firstLoadGoing" class="background">
+                    <img
+                    :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                    class="ml-2 mt-6 clickable"
+                    :src="require('@/assets/gebbleslogo_tab.png')"/>
+                    <h3>No events found. </h3>
+                </center>
+            </v-tab-item>
+            </v-tabs>
+        </v-container>
     </v-app>
 </template>
 <script>
@@ -133,6 +138,9 @@ export default {
         }
     },
     methods: {
+    goback(){
+        window.history.back();
+    },
     async getMyOrganizedEvents(){
         try {
         const response = await EventService.getMyOrganizedEvents(this.artist.username);

@@ -1,6 +1,9 @@
 <template>
     <v-app>
         <v-container style="max-width:670px;" class="pa-0 background">
+        <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+            <v-icon class="float-left">mdi-arrow-left</v-icon>
+        </v-btn>
         <v-tabs class="width mx-auto background" centered>
         <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learning</p>
