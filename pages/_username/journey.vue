@@ -1,179 +1,49 @@
 <template>
     <v-app>
-        <v-tabs class="width mx-auto background" centered v-if="visitOwnPage">
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Journey</p>
-        </v-tab>
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Events</p>
-        </v-tab>
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Events</p>
-        </v-tab>
-        <v-tab-item>
-            <v-container class="pa-0 background" v-show="!journeyLoaded" style="max-width:670px;">
-                <v-row v-if="isAuthenticated && artist.username == loggedInUser.username">
-                    <v-col class="text-right">
-                        <!-- <v-btn icon @click="filterJourneyByEvents" small >
-                            <v-icon size="20">mdi-calendar-heart</v-icon>
-                        </v-btn> -->
-                        <v-btn icon @click="filterPrivate" small  >
-                            <v-icon size="20">mdi-lock</v-icon>
-                        </v-btn>
-                    </v-col>
-                </v-row>
-                <div v-if="!showPrivate">
-                    <div v-if=" journey.length || highlights.length"> 
-
-                    <!-- check if journey is available -->
-                    <div v-if="highlights.length">
+        <div v-show="!journeyLoaded">
+            <div>
+                <div v-if=" journey.length || highlights.length"> 
+                <!-- check if journey is available -->
+                <div v-if="highlights.length">
+                <v-layout wrap row justify-start class="mx-auto width background pt-3">
+                    <div v-for="journey in highlights" :key ="journey.index">
+                        <journey-card :journey = "journey" ></journey-card>
+                    </div>
+                </v-layout>
+                <v-card v-intersect="infiniteScrollingHighlights"></v-card>
+                </div>
+                <div v-if="journey.length">
                     <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                        <div v-for="journey in highlights" :key ="journey.index">
-                            <journey-card :journey = "journey" ></journey-card>
+                        <div v-for="journey in journey" :key ="journey.index">
+                            <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
                         </div>
                     </v-layout>
-                    <v-card v-intersect="infiniteScrollingHighlights"></v-card>
-                    </div>
-                    <div v-if="journey.length">
-                        <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                            <div v-for="journey in journey" :key ="journey.index">
-                                <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
-                            </div>
-                        </v-layout>
-                        <v-card v-intersect="infiniteScrollingJourney"></v-card>
-                    </div>
-                    </div>
-                    <div v-else>
-                        <center>
-                            <img
-                            :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                            class="ml-2 mt-6 clickable"
-                            :src="require('@/assets/gebbleslogo_tab.png')"/>
-                            <h3>No posts yet. </h3>
-                        </center>
-                    </div>
+                    <v-card v-intersect="infiniteScrollingJourney"></v-card>
                 </div>
-                <div v-if="showEventsJourney">
-                    <div v-if="filteredJourneyByEventArray.length">
-                        <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                            <div v-for="journey in filteredJourneyByEventArray" :key ="journey.index">
-                                <journey-card :journey = "journey" ></journey-card>
-                            </div>
-                        </v-layout>
-                    </div>
                 </div>
-                <div v-if="showPrivate">
-                    <div v-if="filteredJourneyByPrivate.length">
-                        <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                            <div v-for="journey in filteredJourneyByPrivate" :key ="journey.index">
-                                <journey-card :journey = "journey" ></journey-card>
-                            </div>
-                        </v-layout>
-                    </div>
+                <div v-else>
+                    <center>
+                        <img
+                        :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                        class="ml-2 mt-6 clickable"
+                        :src="require('@/assets/gebbleslogo_tab.png')"/>
+                        <h3>No posts yet. </h3>
+                    </center>
                 </div>
-            </v-container>
-            <v-container v-if="journeyLoaded" class="pa-0" style="max-width:670px;">
+            </div>
+        </div>
+        <div v-if="journeyLoaded">
             <v-layout wrap row justify-start class="mx-auto width background" style="margin:8px 0px;">
             <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader></card-skeleton-loader>
             </div>
             </v-layout>
-            </v-container>
-        </v-tab-item>
-        <v-tab-item v-if="visitOwnPage">
-            <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited events to your portfolio journey</div>
-            <!-- tagged events -->
-            <v-layout wrap row justify-start v-if="firstLoadTagged" class="pt-2 background">
-                <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader></card-skeleton-loader>
-                </div>
-            </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
-                <div v-for="event in taggedEvents" :key ="event.index">
-                <tagged-events-card v-if="event.event" :event="event"></tagged-events-card>
-                </div>
-            </v-layout>
-            <v-card v-intersect="infiniteScrollingTaggedEvents"></v-card>
-            <center v-if="!taggedEvents.length && !firstLoadTagged" class="background">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo_tab.png')"/>
-                <h3>No events found. </h3>
-            </center>
-        </v-tab-item>
-        <v-tab-item v-if="visitOwnPage">
-            <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
-
-            <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
-                <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader></card-skeleton-loader>
-                </div>
-            </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
-                <div v-for="event in goingEvents" :key ="event.index">
-                    <going-events-card v-if="event.event" :event="event"></going-events-card>
-                </div>
-            </v-layout>
-            <v-card v-intersect="infiniteScrollingGoingEvents"></v-card>
-            <center v-if="!goingEvents.length && !firstLoadGoing" class="background">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo_tab.png')"/>
-                <h3>No events found. </h3>
-            </center>
-        </v-tab-item>
-        </v-tabs>
-        <div v-else>
-            <div v-show="!journeyLoaded">
-                <div>
-                    <div v-if=" journey.length || highlights.length"> 
-                    <!-- check if journey is available -->
-                    <div v-if="highlights.length">
-                    <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                        <div v-for="journey in highlights" :key ="journey.index">
-                            <journey-card :journey = "journey" ></journey-card>
-                        </div>
-                    </v-layout>
-                    <v-card v-intersect="infiniteScrollingHighlights"></v-card>
-                    </div>
-                    <div v-if="journey.length">
-                        <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                            <div v-for="journey in journey" :key ="journey.index">
-                                <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
-                            </div>
-                        </v-layout>
-                        <v-card v-intersect="infiniteScrollingJourney"></v-card>
-                    </div>
-                    </div>
-                    <div v-else>
-                        <center>
-                            <img
-                            :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                            class="ml-2 mt-6 clickable"
-                            :src="require('@/assets/gebbleslogo_tab.png')"/>
-                            <h3>No posts yet. </h3>
-                        </center>
-                    </div>
-                </div>
-            </div>
-            <div v-if="journeyLoaded">
-                <v-layout wrap row justify-start class="mx-auto width background" style="margin:8px 0px;">
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <card-skeleton-loader></card-skeleton-loader>
-                </div>
-                </v-layout>
-            </div>
         </div>
     </v-app>
 </template>
 <script>
 import { mapGetters} from 'vuex'
-import TaggedEventsCard from '@/components/TaggedEventsCard.vue'
-import EventService from '@/services/EventService.js'
 import JourneyCard from "@/components/JourneyCard.vue"
-import GoingEventsCard from '~/components/GoingEventsCard.vue'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 export default {
     head() {
@@ -189,8 +59,7 @@ export default {
         }
     },
     components:{
-        JourneyCard, TaggedEventsCard,
-        GoingEventsCard,
+        JourneyCard,
         CardSkeletonLoader,
     },
     computed: {
@@ -202,19 +71,11 @@ export default {
     props: ["artist"],
     created(){
         this.getJourneyApi(this.$route.params);
-        if(this.isAuthenticated && this.loggedInUser.username == this.$route.params.username)
-        {
-            this.visitOwnPage = true;
-            this.getTaggedEvents();
-            this.getGoingEvents();
-        }
     },
     data() {
         return {
         // journeyLoaded:true,
         search: "",
-        taggedEvents:[],
-        goingEvents:[],
         pageGoing:null,
         pageHighlights:null,
         pageJourney:null,
@@ -229,11 +90,6 @@ export default {
         looploader:[1,1,1,1,1,1,1,1,1],
         page:'',
         firstLoad:true,
-        firstLoadTagged:true,
-        firstLoadGoing:true,
-        seen: new Set(),
-        seen2: new Set(),
-        visitOwnPage:false,
         }
     },
     methods: {
@@ -244,57 +100,6 @@ export default {
     filterPrivate(){
         this.showPrivate = !this.showPrivate
         this.filteredJourneyByPrivate = this.journey.filter(journey => journey.isprivate == true);
-    },
-    async getTaggedEvents(){
-        try {
-        const response = await EventService.getMyInvitedEvents(this.artist.username);
-        // console.log(response);
-        const taggedEvents = response.data.results
-        //filter events which are duplicate
-            // a Set to track seen events
-            // const seen = new Set();
-            this.taggedEvents = taggedEvents.filter(event => {
-            // check if the current event is a duplicate
-            let isDuplicate;
-            if(event.event){isDuplicate= this.seen.has(event.event.uuid);
-            // add the current event to the Set
-            this.seen.add(event.event.uuid);}
-            // filter() returns the event when isDuplicate is false
-            return !isDuplicate;
-            });
-            // console.log(filtered);
-        this.page = response.data.next
-        this.firstLoadTagged = false
-        } catch (e) {
-            console.log(e);
-            this.firstLoadTagged = false
-        }
-    },
-    async getGoingEvents(){
-        try {
-        const response = await EventService.getMyGoingEvents(this.artist.username);
-        // console.log(response);
-        const goingEvents = response.data.results
-        //filter events which are duplicate
-            // a Set to track seen events
-            // const seen = new Set();
-            this.goingEvents = goingEvents.filter(event => {
-            // check if the current event is a duplicate
-            let isDuplicate;
-            if(event.event){
-                isDuplicate= this.seen2.has(event.event.uuid);
-            // add the current event to the Set
-            this.seen2.add(event.event.uuid);}
-            // filter() returns the event when isDuplicate is false
-            return !isDuplicate;
-            });
-            // console.log(filtered);
-        this.pageGoing = response.data.next
-        this.firstLoadGoing = false
-        } catch (e) {
-            console.log(e);
-            this.firstLoadGoing = false
-        }
     },
     async getJourneyApi(params){
         this.$store.dispatch("remove_journey");
@@ -319,64 +124,6 @@ export default {
     // } catch (err) {
     //     console.log(err.response);
     // }
-    },
-    infiniteScrollingTaggedEvents(entries, observer, isIntersecting) {
-        if(this.page){
-        const key = 'uuid';
-        this.$axios.get(this.page).then(response => {
-            this.page= response.data.next;
-
-            let res = response.data.results
-            //filter events which are duplicate
-            // a Set to track seen events
-            let taggedEventsPage = res.filter(event => {
-            // check if the current event is a duplicate
-            let isDuplicate;
-            if(event.event)
-            { isDuplicate= this.seen.has(event.event.uuid);
-            // add the current event to the Set
-            this.seen.add(event.event.uuid);
-            }
-            // filter() returns the event when isDuplicate is false
-            return !isDuplicate;
-            });
-            taggedEventsPage.forEach(item => this.taggedEvents.push(item));
-            this.taggedEvents = [...new Map(this.taggedEvents.map(item =>
-            [item[key], item])).values()];
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        }
-    },
-    infiniteScrollingGoingEvents(entries, observer, isIntersecting) {
-        if(this.pageGoing){
-        const key = 'uuid';
-        this.$axios.get(this.pageGoing).then(response => {
-            this.pageGoing= response.data.next;
-
-            let res = response.data.results
-            //filter events which are duplicate
-            // a Set to track seen events
-            let goingEventsPage = res.filter(event => {
-            // check if the current event is a duplicate
-            let isDuplicate;
-            if(event.event)
-            { isDuplicate= this.seen2.has(event.event.uuid);
-            // add the current event to the Set
-            this.seen2.add(event.event.uuid);
-            }
-            // filter() returns the event when isDuplicate is false
-            return !isDuplicate;
-            });
-            goingEventsPage.forEach(item => this.goingEvents.push(item));
-            this.goingEvents = [...new Map(this.goingEvents.map(item =>
-            [item[key], item])).values()];
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        }
     },
     infiniteScrollingJourney(entries, observer, isIntersecting) {
         this.$store.dispatch("update_user_journey")

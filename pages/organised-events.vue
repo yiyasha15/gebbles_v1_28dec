@@ -13,12 +13,13 @@
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
-      <center v-if="!events.length && !firstLoad">
+      <center v-if="!events.length && !firstLoad" class="mt-3">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
         :src="require('@/assets/gebbleslogo_tab.png')"/>
         <h3>No events found. </h3>
+        <p class="caption">A place for all the events you organise.</p>
       </center>
       </v-container>
     </v-app>
@@ -55,7 +56,7 @@ export default {
       try {
       const response = await EventService.getMyOrganizedEvents(this.loggedInUser.username)
       // console.log(response);
-      this.events = response.data.results
+      this.events = response.data.results;
       this.page = response.data.next
       this.firstLoad = false
     } catch (e) {

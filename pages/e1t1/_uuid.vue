@@ -24,21 +24,17 @@
             <v-list-item-title><nuxt-link class="text-decoration-none" to="e1t1.username">{{e1t1.username}}</nuxt-link></v-list-item-title>
             <v-list-item-subtitle>{{emoment(e1t1.created)}}</v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-action v-if="isAuthentication">
-                <v-btn v-if="loggedInUser.username == e1t1.username" icon
+            <v-list-item-action v-show="loggedInUser.username == e1t1.username">
+                <v-btn icon
                     @click="cardDialog = true"
                     >
                     <v-icon>mdi-card-account-details-outline</v-icon>
                     </v-btn>
             </v-list-item-action>
-            <!-- {{e1t1}} -->
-            <div v-if="isAuthenticated">
-                <v-list-item-action v-show="e1t1.username == loggedInUser.username || e1t1.teacher == loggedInUser.username">
+            <v-list-item-action v-show="e1t1.username == loggedInUser.username || e1t1.teacher == loggedInUser.username">
                 <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
-            </div>
-            <!-- {{isAuthenticated}} -->
-            <v-list-item-action class="ml-2" v-if="isAuthenticated && loggedInUser.username == e1t1.username" >
+            <v-list-item-action class="ml-2" v-show="loggedInUser.username == e1t1.username" >
                 <v-menu
                     transition="slide-y-transition" open-on-hover offset-y bottom left>
                     <template v-slot:activator="{ on, attrs }">
@@ -260,6 +256,7 @@ import moment from 'moment'
 import CookingCard from '~/components/CookingCard.vue'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 import UploadVideoCard from '~/components/UploadVideoCard.vue'
+import check_auth from '~/middleware/check_auth'
 export default {
     head() {
         return {
@@ -273,6 +270,7 @@ export default {
             ]
         }
     },
+    middleware:check_auth,
     layout:'simple',
     created(){
         let url1 =this.e1t1.s_teacher_video //getting value of youtube video urls

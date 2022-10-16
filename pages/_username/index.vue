@@ -7,7 +7,7 @@
         || bio.vid1 || bio.vid2 || bio.vid3 || bio.vid4 ">
         <div class="mb-4">
         <v-container class="w-1036">
-            <v-row justify="end" class="hidden-sm-and-down">
+            <v-row justify="end" class="hidden-xs-only">
                 <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn to="/create/website" small outlined

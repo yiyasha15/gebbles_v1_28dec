@@ -1,6 +1,7 @@
 <template>
     <div>
         <!--site navigation -->
+        <!--  mx-1 mx-sm-5 -->
         <v-app-bar clipped-left fixed elevation="0" height="80" class="background mx-1 mx-sm-5">
             <nuxt-link :to="'/'" class="text-decoration-none">
             <v-layout align-center>
@@ -74,22 +75,6 @@
                     v-model="explore"
                     color="primary"
                 >
-                <!-- <v-list-item to="/journeys">
-                    <v-list-item-icon>
-                    <v-icon>mdi-chart-line-variant</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title> Journey</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item> -->
-                <!-- <v-list-item to="/whatiscooking">
-                    <v-list-item-icon>
-                    <v-icon>mdi-play-circle-outline</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title>What's cookin</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item> -->
                 <v-list-item to="/">
                     <v-list-item-icon>
                     <v-icon>mdi-home-outline</v-icon>
@@ -128,118 +113,47 @@
                 </v-list-item>
                 </v-list-item-group>
             </v-list>
-            <v-list v-if="isAuthenticated" dense>
-            <v-subheader>Each one teach one</v-subheader>
-            <v-list-item-group
-                v-model="e1t1"
-                color="primary"
-            >
-            <v-list-item to="/learning">
-                <v-list-item-icon>
-                <v-icon>mdi-notebook-edit-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Learning</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/sharing">
-                <v-list-item-icon>
+            <v-divider width="180" class="mx-auto my-3"></v-divider>
+        <v-list v-if="isAuthenticated" dense>
+            <v-subheader>Your</v-subheader>
+        <v-list-item-group
+            v-model="e1t1"
+            color="primary"
+        >
+        <v-list-item :to="'/' +loggedInUser.username+ '/each1teach1/'">
+            <v-list-item-icon>
                 <v-icon>mdi-all-inclusive</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Sharing</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            </v-list-item-group>
-            </v-list>
-            <!-- <v-list v-if="isAuthenticated" dense>
-            <v-subheader>What's cookin</v-subheader>
-            <v-list-item-group
-                v-model="whatiscooking"
-                color="primary"
-            >
-            <v-list-item to="/your-videos">
-                <v-list-item-icon>
-                🎞️
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Your videos</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/mentioned-videos">
-                <v-list-item-icon>
-                🏷️
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Mentioned videos</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            </v-list-item-group>
-            </v-list> -->
-            <v-list v-if="isAuthenticated" dense>
-            <v-subheader>Events</v-subheader>
-            <v-list-item-group
-                v-model="events"
-                color="primary"
-            >
-            <v-list-item to="/invited-events">
-                <v-list-item-icon>
-            <v-icon>mdi-card-account-details-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Invited Events</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/organised-events">
-                <v-list-item-icon>
-            <v-icon>mdi-pin-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Organised Events</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/attending-events">
-                <v-list-item-icon>
-            <v-icon>mdi-hand-peace</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Attending Events</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            </v-list-item-group>
-            </v-list>
-            <!-- <v-list v-if="isAuthenticated" dense>
-            <v-subheader>Workshops</v-subheader>
-            <v-list-item-group
-                v-model="workshop"
-                color="primary"
-            >
-            <v-list-item to="/invited-workshops">
-                <v-list-item-icon>
-            <v-icon>mdi-card-account-details-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Invited Workshops</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/organised-workshops">
-                <v-list-item-icon>
-            <v-icon>mdi-pin-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Organised Workshops</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item to="/attending-workshops">
-                <v-list-item-icon>
-            <v-icon>mdi-hand-peace</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>Attending Workshops</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            </v-list-item-group>
-            </v-list> -->
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Each one Teach one</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item :to="'/' +loggedInUser.username+ '/events/'">
+            <v-list-item-icon>
+                <v-icon>mdi-calendar-heart</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Events</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item :to="'/' +loggedInUser.username+ '/workshops/'">
+            <v-list-item-icon>
+                <v-icon>mdi-leaf-circle-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Workshops</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <!-- <v-list-item :to="'/' +loggedInUser.username+ '/videos/'">
+            <v-list-item-icon>
+                <v-icon>mdi-play-circle-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Videos</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item> -->
+        </v-list-item-group>
+        </v-list>
         </v-navigation-drawer>
     </div>
     <!-- password tooltip -->

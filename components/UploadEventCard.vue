@@ -142,7 +142,7 @@
                     </v-stepper-content>
             
                     <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event Guests
-                       <small class="mt-1"> <v-icon small> mdi-book-outline</v-icon> Event guests can add this event to their journey.</small>
+                       <small class="mt-1"> <v-icon small> mdi-book-outline</v-icon> Event guests will be notified and can add this event to their journey.</small>
                     </v-stepper-step>
                     <v-stepper-content step="2" style="border-left: none;" class="ma-0">
                         <!-- <p class="caption"><v-icon small> mdi-book-outline</v-icon> Event guests can add this event to their journey.</p> -->
@@ -1046,6 +1046,7 @@
             </v-btn>
         </v-img>
         </div>
+        <small class="grey--text text--darken-2">Mention the artists in the guests section to tag them here.</small>
         <v-autocomplete
             class="pt-4"
             v-model="selectedGuest"
@@ -1353,6 +1354,7 @@
             </v-btn>
         </v-img>
         </div>
+        <small class="grey--text text--darken-2">Mention the artists in the guests section to tag them here.</small>
         <v-autocomplete
             class="pt-4"
             v-model="selectedGuest"

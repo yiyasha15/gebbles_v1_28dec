@@ -80,6 +80,7 @@
                 </v-list-item-content>
             </v-list-item>
         </v-list>
+        <v-divider width="180" v-if="!isAuthenticated" class="mx-auto my-3"></v-divider>
         <v-list dense>
             <v-subheader>Explore</v-subheader>
             <v-list-item-group
@@ -132,86 +133,48 @@
             </v-list-item>
             </v-list-item-group>
         </v-list>
+        <v-divider width="180" class="mx-auto my-3" v-if="isAuthenticated"></v-divider>
         <v-list v-if="isAuthenticated" dense>
-        <v-subheader>Each one teach one</v-subheader>
+            <v-subheader class="text-center">Your</v-subheader>
         <v-list-item-group
             v-model="e1t1"
             color="primary"
         >
-        <v-list-item to="/learning">
+        <v-list-item :to="'/' +loggedInUser.username+ '/each1teach1/'">
             <v-list-item-icon>
-            <v-icon>mdi-notebook-edit-outline</v-icon>
+                <v-icon>mdi-all-inclusive</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-            <v-list-item-title>Learning</v-list-item-title>
+            <v-list-item-title>Each one Teach one</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/sharing">
+        <v-list-item :to="'/' +loggedInUser.username+ '/events/'">
             <v-list-item-icon>
-            <v-icon>mdi-all-inclusive</v-icon>
+                <v-icon>mdi-calendar-heart</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-            <v-list-item-title>Sharing</v-list-item-title>
+            <v-list-item-title>Events</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
+        <v-list-item :to="'/' +loggedInUser.username+ '/workshops/'">
+            <v-list-item-icon>
+                <v-icon>mdi-leaf-circle-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Workshops</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <!-- <v-list-item :to="'/' +loggedInUser.username+ '/videos/'">
+            <v-list-item-icon>
+                <v-icon>mdi-play-circle-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Videos</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item> -->
         </v-list-item-group>
         </v-list>
-        <!-- <v-list v-if="isAuthenticated" dense>
-        <v-subheader>What's cookin</v-subheader>
-        <v-list-item-group
-            v-model="whatiscooking"
-            color="primary"
-        >
-        <v-list-item to="/your-videos">
-            <v-list-item-icon>
-            🎞️
-            </v-list-item-icon>
-            <v-list-item-content>
-            <v-list-item-title>Your videos</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/mentioned-videos">
-            <v-list-item-icon>
-            🏷️
-            </v-list-item-icon>
-            <v-list-item-content>
-            <v-list-item-title>Mentioned videos</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-        </v-list-item-group>
-        </v-list> -->
-        <v-list v-if="isAuthenticated" dense>
-        <v-subheader>Events</v-subheader>
-        <v-list-item-group
-            v-model="events"
-            color="primary"
-        >
-        <v-list-item to="/invited-events">
-            <v-list-item-icon>
-            <v-icon>mdi-card-account-details-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-            <v-list-item-title>Invited Events</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/organised-events">
-            <v-list-item-icon>
-            <v-icon>mdi-pin-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-            <v-list-item-title>Organised Events</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/attending-events">
-            <v-list-item-icon>
-            <v-icon>mdi-hand-peace</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-            <v-list-item-title>Attending Events</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-        </v-list-item-group>
-        </v-list>
+        <v-divider width="180" v-if="isAuthenticated" class="mx-auto my-3"></v-divider>
         <v-list v-if="isAuthenticated" dense>
             <v-subheader>Account</v-subheader>
             <v-list-item-group

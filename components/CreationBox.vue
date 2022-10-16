@@ -212,7 +212,8 @@ export default {
             case 'xl': return true
           }
         },
-    ...mapGetters(['isAuthenticated', 'loggedInUser'])},
+    ...mapGetters(['loggedInUser'])
+},
     methods:{
         close_upload_video(){
             this.$store.dispatch("remove_cook_obj")

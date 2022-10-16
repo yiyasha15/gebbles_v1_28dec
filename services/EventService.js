@@ -161,4 +161,13 @@ export default {
     getIamGoingWorkshopList(uuid){
         return apiClient1.get('/workshops/iamgoing/list/?workshop='+uuid)
     },
+    getMyOrganizedWorkshops(username) {
+        return apiClient1.get('/events/my-organized-workshops/?username='+ username)
+    },
+    getMyInvitedWorkshops(username) {
+        return apiClient1.get('/events/my-tagged-workshops/?guest='+ username)
+    },
+    getMyGoingWorkshops(username) {
+        return apiClient1.get('/events/iamgoing-workshops/?username='+ username)
+    },
 }

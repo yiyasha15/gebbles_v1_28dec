@@ -19,7 +19,7 @@
           <nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}}: </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span>
         </div>
             <v-spacer></v-spacer>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+            <v-menu v-if="isAuthenticated && comment.username == loggedInUser.username" transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs"
                     v-on="on">
@@ -35,13 +35,13 @@
                     >
                     <v-list-item-title>Delete</v-list-item-title>
                     </v-list-item>
-                    <v-list-item
+                    <!-- <v-list-item
                     v-else
                     class="text-decoration-none pl-6 pr-12"
                     @click="reported(comment)"
                     >
                     <v-list-item-title>Report</v-list-item-title>
-                    </v-list-item>
+                    </v-list-item> -->
                 </v-list>
             </v-menu>
       </div>
