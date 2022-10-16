@@ -1,6 +1,9 @@
 <template>
     <v-app>
-      <v-container class="pa-0 mt-4 mt-md-8" >
+      <v-container class="pa-0 mx-auto width" >
+      <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+        <v-icon class="float-left">mdi-arrow-left</v-icon>
+      </v-btn>
       <v-row class="mx-auto width">
         <v-col cols="12" md="7"  class="justify-center ">
           <nuxt-link to="/artists" class="text-decoration-none"><h2 class ="xs12 d-inline font-weight-medium">Artists</h2></nuxt-link> 
@@ -63,6 +66,9 @@ export default {
     this.getartists();
   },
   methods:{
+    goback(){
+        window.history.back();
+    },
     async getartists(){
       try {
       const response = await EventService.getArtists()

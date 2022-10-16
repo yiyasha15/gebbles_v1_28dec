@@ -1,6 +1,9 @@
 <template>
     <v-app>
       <v-container class="mx-auto width" >
+        <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+          <v-icon class="float-left">mdi-arrow-left</v-icon>
+        </v-btn>
       <v-row>
         <v-col cols="12" md="6"  class="justify-center">
           <h2 class ="xs12 font-weight-medium">Workshops</h2>
@@ -187,6 +190,9 @@ export default {
     this.getAllWorkshops();
   },
   methods:{
+    goback(){
+        window.history.back();
+    },
     async getAllWorkshops(){
       try {
       const response = await EventService.getAllWorkshops()

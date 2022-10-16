@@ -6,27 +6,27 @@
             </v-btn>
             <v-tabs class="width mx-auto background" centered>
             <v-tab>
-                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised Workshops</p>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Workshops</p>
             </v-tab>
             <v-tab>
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Workshops</p>
             </v-tab>
             <v-tab>
-                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Workshops</p>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised Workshops</p>
             </v-tab>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center">all the workshops you organised</div>
-            <v-layout wrap row justify-start v-if="firstLoadOrg" class="pt-2 background">
+                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended workshops to your journey</div>
+                <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
                 </v-layout>
-                <v-layout wrap row justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
-                    <div v-for="event in orgWorkshops" :key ="event.index">
+                <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
+                    <div v-for="event in goingWorkshops" :key ="event.index">
                     </div>
                 </v-layout>
-                <v-card v-intersect="infiniteScrollingOrgWorkshops"></v-card>
-                <center v-if="!orgWorkshops.length && !firstLoadOrg" class="background">
+                <v-card v-intersect="infiniteScrollingGoingWorkshops"></v-card>
+                <center v-if="!goingWorkshops.length && !firstLoadGoing" class="background">
                     <img
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
@@ -57,19 +57,18 @@
                 </center>
             </v-tab-item>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended workshops to your journey</div>
-
-                <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
+                <div class="ml-1 py-2 grey--text caption text-center">all the workshops you organised</div>
+            <v-layout wrap row justify-start v-if="firstLoadOrg" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
                 </v-layout>
-                <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
-                    <div v-for="event in goingWorkshops" :key ="event.index">
+                <v-layout wrap row justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
+                    <div v-for="event in orgWorkshops" :key ="event.index">
                     </div>
                 </v-layout>
-                <v-card v-intersect="infiniteScrollingGoingWorkshops"></v-card>
-                <center v-if="!goingWorkshops.length && !firstLoadGoing" class="background">
+                <v-card v-intersect="infiniteScrollingOrgWorkshops"></v-card>
+                <center v-if="!orgWorkshops.length && !firstLoadOrg" class="background">
                     <img
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
