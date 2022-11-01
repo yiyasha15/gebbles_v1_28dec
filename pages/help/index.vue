@@ -9,6 +9,7 @@
                 <li><nuxt-link to="help/getting_started">Get started with gebbles</nuxt-link></li>
                 <!-- <li><nuxt-link to="help/thoughts">Thoughts behind the process</nuxt-link></li>
                 <li><nuxt-link to="help/updates">(Upcoming) Updates</nuxt-link></li> -->
+                <li><nuxt-link to="/subscription">Subscription</nuxt-link></li>
                 <li><nuxt-link to="/contact">Contact</nuxt-link></li>
                 <li><nuxt-link to="/terms">Terms of use</nuxt-link></li>
                 <li><nuxt-link to="/privacy">Privacy Policy</nuxt-link></li>

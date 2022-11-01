@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container class="mx-auto pa-0 " fluid style="max-width:550px" >
+        <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="px-1 pt-3" color="background" elevation='0' >
                 <center><img src = "~/assets/journey.png" :width="img_width" alt="journey logo"/></center>
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!editing_obj">Share your journey</div>

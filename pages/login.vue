@@ -63,16 +63,17 @@ export default {
 						}
 					}).then(res => { 
 						console.log(res.data);
-					this.$auth.setUser(res.data)
-					this.$auth.$storage.setUniversal('user', res.data, true)
-					this.$auth.strategy.token.set(res.data.access_token)
-                	// this.$auth.strategy.refreshToken.set(res.data.refresh_token)
-					this.$store.dispatch("check_user_portfolio");
-					this.$store.dispatch("check_user_bio");
-					this.$store.dispatch("check_user_teachers");
-					this.$store.dispatch("check_notifications");
-					this.progressbar1 = false;
-					this.$router.push('/')})
+						this.$auth.setUser(res.data)
+						this.$auth.$storage.setUniversal('user', res.data, true)
+						this.$auth.strategy.token.set(res.data.access_token)
+						// this.$auth.strategy.refreshToken.set(res.data.refresh_token)
+						this.$store.dispatch("check_user_portfolio");
+						this.$store.dispatch("check_user_bio");
+						this.$store.dispatch("check_user_teachers");
+						this.$store.dispatch("check_notifications");
+						this.progressbar1 = false;
+						this.$router.push('/')
+					})
 				}catch(error){
 					this.progressbar1 = false;
 					if(error.response.data.non_field_errors){

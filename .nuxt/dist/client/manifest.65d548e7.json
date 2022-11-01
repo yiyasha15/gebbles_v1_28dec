@@ -1,7 +1,6 @@
 {
   "name": "gebbles",
   "short_name": "gebbles",
-  "description": "a thread connecting music, movement and artists.",
   "icons": [
     {
       "src": "/_nuxt/icons/icon_64x64.4b0133.png",

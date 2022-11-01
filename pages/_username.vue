@@ -756,7 +756,7 @@ export default {
     color: #815A44;
 }
 .mt-78{
-    margin-top: 78px;
+    margin-top: 89px;
 }
 @media only screen and (max-width: 600px){
 .mt-78{

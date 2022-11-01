@@ -14,7 +14,7 @@
                         v-bind="attrs" 
                         @click="upload_journey=true"
                         v-on="on">
-                        <v-icon color="dark_primary">mdi-book-heart-outline</v-icon><span class="dark_primary--text ml-1">Share</span>
+                        <v-icon color="dark_primary">mdi-book-heart-outline</v-icon><span class="dark_primary--text ml-1">Journey</span>
                         </v-card>
                     </v-hover>
                 </template>

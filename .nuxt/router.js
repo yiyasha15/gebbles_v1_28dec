@@ -16,6 +16,7 @@ const _0c96444e = () => interopDefault(import('../pages/help/index.vue' /* webpa
 const _3c7a0c70 = () => interopDefault(import('../pages/journeys.vue' /* webpackChunkName: "pages/journeys" */))
 const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
+const _474e58a4 = () => interopDefault(import('../pages/mypayments.vue' /* webpackChunkName: "pages/mypayments" */))
 const _c72a3020 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
 const _3d30988d = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
 const _d73462fa = () => interopDefault(import('../pages/privacy.vue' /* webpackChunkName: "pages/privacy" */))
@@ -119,6 +120,10 @@ export const routerOptions = {
     path: "/logout",
     component: _15a75e5f,
     name: "logout"
+  }, {
+    path: "/mypayments",
+    component: _474e58a4,
+    name: "mypayments"
   }, {
     path: "/onboarding",
     component: _c72a3020,

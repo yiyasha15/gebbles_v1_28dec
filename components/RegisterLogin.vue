@@ -1,9 +1,9 @@
 <template>
 <div>
-    <center v-if="!isAuthenticated">
-            <v-btn small outlined class="mr-2 text-decoration-none text-capitalize" @click="loginDialog=true">Sign In</v-btn>
-            <v-btn small dark class="mr-2 text-decoration-none text-capitalize" @click="registerDialog=true">Sign Up</v-btn>
-    </center>
+    <div v-if="!isAuthenticated" class="min-w-168">
+        <v-btn small outlined class="mr-2 text-decoration-none text-capitalize" @click="loginDialog=true">Sign In</v-btn>
+        <v-btn small dark class="mr-2 text-decoration-none text-capitalize" @click="registerDialog=true">Sign Up</v-btn>
+    </div>
     <v-dialog persistent
             v-model="loginDialog"
             max-width="450">
@@ -188,8 +188,8 @@
     </v-card-actions>
     </v-card>
     </v-dialog>
-            </v-card>
-        </center>
+        </v-card>
+    </center>
     </v-dialog>
 </div>
 </template>
@@ -632,3 +632,8 @@ export default {
 	},
 }
 </script>
+<style scoped>
+.min-w-168{
+    min-width: 168px;
+}
+</style>

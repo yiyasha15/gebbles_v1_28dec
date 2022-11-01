@@ -1,7 +1,10 @@
 <template>
-    <v-card max-width="330" class="mx-auto">
-        <v-btn @click="open"> Support gebbles</v-btn>
-    </v-card>
+    <v-app>
+        <v-card max-width="330" class="mt-12 mx-auto">
+            <!-- Memberships -->
+            <v-btn @click="open"> Subscription</v-btn>
+        </v-card>
+    </v-app>
 </template>
 <script>
 export default {
