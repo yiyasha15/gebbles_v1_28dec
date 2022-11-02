@@ -330,9 +330,10 @@ export const actions = {
       let config;
       if(state.auth.loggedIn) {
         config = {
-        headers: {"content-type": "multipart/form-data",
-          "Authorization": this.$auth.strategy.token.get()}
-      };}
+          headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+      }
       //push the results to state.journey and update the page_highlights url
       this.$axios.get(state.page_highlights,config).then(res => {
         commit('updateUserHighlights',res.data)
@@ -344,7 +345,11 @@ export const actions = {
   },
   check_user_teachers({commit, state}){
     if(state.auth.loggedIn) {
-        EventService.getEach1Teach1_teachers(state.auth.user.username).then(res =>
+        let config = {
+          headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+        EventService.getEach1Teach1_teachers(config).then(res =>
         {
           commit('usersTeachers',res.data)
         })

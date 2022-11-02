@@ -55,7 +55,8 @@
                 </v-list-item>
             </v-list>
           </v-menu>
-          </template></v-autocomplete>
+          </template>
+          </v-autocomplete>
           <v-text-field 
               v-if="filterByName"
               label="Filter by event name" v-model= "search" solo rounded

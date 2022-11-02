@@ -121,10 +121,9 @@
             <v-col cols="12" sm="6" >
                 <v-row>
                     <v-col>
-                    <h5 class="caption" >
-                        {{moment(e1t1.s_date)}}
-                        <!-- {{e1t1.s_date}}  -->
-                        </h5><h5 class="caption mt-1" > {{e1t1.s_location}}</h5>
+                    <h5 class="caption grey--text"><v-icon x-small >mdi-lock</v-icon> visible to you and {{e1t1.teacher}}</h5>
+                    <h5 class="caption" >{{moment(e1t1.s_date)}}</h5>
+                    <h5 class="caption" > {{e1t1.s_location}}</h5>
                     </v-col>
                 </v-row>
                 <div>

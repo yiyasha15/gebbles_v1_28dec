@@ -67,11 +67,11 @@ export default {
     getPersonalMessages(id){
         return apiClient1.get('/chat/list/?shareid=' + id)
     },
-    getEach1Teach1_teachers(username) {
-        return apiClient1.get('/e1t1/sharing/list/teachers/?username=' + username)
+    getEach1Teach1_teachers(config) {
+        return apiClient1.get('/e1t1/sharing/list/teachers/', config)
     },
-    getEach1Teach1_students(username) {
-        return apiClient1.get('/e1t1/sharing/list/students/?username=' + username)
+    getEach1Teach1_students(config) {
+        return apiClient1.get('/e1t1/sharing/list/students/', config)
     },
     getShareLove(id){
         return apiClient1.get('/e1t1/sharing/love/?shareidobj=' + id)

@@ -1,8 +1,10 @@
 <template>
     <v-app>
-        <v-card max-width="330" class="mt-12 mx-auto">
-            <!-- Memberships -->
-            <v-btn @click="open"> Subscription</v-btn>
+        <v-card elevation="0" max-width="670" class="mt-12 mx-auto pa-5">
+
+            <v-card-actions>
+            <v-btn @click="open" dark> Subscription</v-btn>
+            </v-card-actions>
         </v-card>
     </v-app>
 </template>

@@ -15,10 +15,34 @@
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingHighlights"></v-card>
                 </div>
-                <div v-if="journey.length">
+                <div class="d-flex justify-end" v-if="artist.username == loggedInUser.username">
+                    <v-btn icon class="elevation-0 mt-1" @click="filterJourneyByEvents" >
+                    <v-icon size="20">mdi-calendar</v-icon>
+                    </v-btn>
+                    <v-btn icon class="elevation-0 mt-1" @click="filterPrivate">
+                        <v-icon size="20" >mdi-lock</v-icon>
+                    </v-btn>
+                </div>
+                <div v-if="journey.length && showJourney">
                     <v-layout wrap row justify-start class="mx-auto width background pt-3">
                         <div v-for="journey in journey" :key ="journey.index">
                             <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
+                        </div>
+                    </v-layout>
+                <v-card v-intersect="infiniteScrollingJourney"></v-card>
+                </div>
+                <div v-if="showPrivate">
+                    <v-layout wrap row justify-start class="mx-auto width background pt-3">
+                        <div v-for="journey in journey" :key ="journey.index">
+                            <journey-card :journey = "journey" v-if="journey.isprivate" ></journey-card>
+                        </div>
+                    </v-layout>
+                <v-card v-intersect="infiniteScrollingJourney"></v-card>
+                </div>
+                <div v-if="showEventsJourney">
+                    <v-layout wrap row justify-start class="mx-auto width background pt-3">
+                        <div v-for="journey in journey" :key ="journey.index">
+                            <journey-card :journey = "journey" v-if="journey.event" ></journey-card>
                         </div>
                     </v-layout>
                 <v-card v-intersect="infiniteScrollingJourney"></v-card>
@@ -73,7 +97,7 @@ export default {
     },
     props: ["artist"],
     created(){
-        this.getJourneyApi(this.$route.params);
+        this.getJourneyApi(this.artist.username);
     },
     data() {
         return {
@@ -86,6 +110,7 @@ export default {
         filteredJourneyByPrivate:[],
         showEventsJourney:false,
         showPrivate:false,
+        showJourney:true,
         // pageUpcoming:null,
         // highlights:[],
         // journey:[],
@@ -97,16 +122,20 @@ export default {
     },
     methods: {
     filterJourneyByEvents(){
+        this.showJourney = this.showEventsJourney 
+        this.showPrivate = false
         this.showEventsJourney = !this.showEventsJourney
         this.filteredJourneyByEventArray = this.journey.filter(journey => journey.event !="" && journey.event != null);
     },
     filterPrivate(){
+        this.showJourney = this.showPrivate
         this.showPrivate = !this.showPrivate
+        this.showEventsJourney = false
         this.filteredJourneyByPrivate = this.journey.filter(journey => journey.isprivate == true);
     },
-    async getJourneyApi(params){
+    async getJourneyApi(username){
         this.$store.dispatch("remove_journey");
-        this.$store.dispatch("check_user_journey", params.username)
+        this.$store.dispatch("check_user_journey", username)
     // try {
     //     let config;
     //     if(this.isAuthenticated &&this.$store.state.auth.user.username == params.username)

@@ -110,10 +110,12 @@ import TeachersCard from '@/components/TeachersCard.vue'
 // import CookingCardSharing from '@/components/CookingCardSharing.vue'
 import { mapGetters} from 'vuex'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
+import check_auth from '~/middleware/check_auth'
 // import CookingCard from '~/components/CookingCard.vue'
 // import CookingFeed from '~/components/CookingFeed.vue'
 
 export default {
+    middleware : 'check_auth',
     props: ['artist'],
     components: {
         StudentsCard,
@@ -151,17 +153,23 @@ export default {
     methods:{
         postDelete(){
             this.$forceUpdate();
-            console.log("updated?");
-            this.getsharing(this.$route.params);
+            // console.log("updated?");
+            this.getsharing();
             },
         goback(){
             window.history.back();
         },
-        async getsharing(params){
+        async getsharing(){
             const key = 'id';
+            const config = {
+                headers: {
+                    "content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            };
             try {
-            const teachers_response = await EventService.getEach1Teach1_teachers(params.username)
-            const students_response = await EventService.getEach1Teach1_students(params.username)
+            const teachers_response = await EventService.getEach1Teach1_teachers(config)
+            const students_response = await EventService.getEach1Teach1_students(config)
             // const cooking_response = await EventService.getStudentsCooking(params.username)
             // const cooking_own_response = await EventService.getWhatsCookingUsername(params.username)
             this.teachers = teachers_response.data.results
@@ -227,7 +235,7 @@ export default {
         },
     },
     created(){
-        this.getsharing(this.$route.params);
+        this.getsharing();
     },
     data() {
     return {
