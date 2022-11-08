@@ -89,6 +89,7 @@ export default {
     data() {
     return {
         cooking_mentioned_page:"", 
+        cooking_page:'',
         cooking:[],
         cooking_mentioned:[],
         looploader:[1,1,1,1,1,1,1,1,1],
@@ -108,9 +109,9 @@ export default {
             "Authorization": this.$auth.strategy.token.get()}
         };
         try {
-            // const response = await EventService.getWhatsCookingUsername(config)
-            // this.cooking = response.data
-            // this.page = response.data.next
+            const response = await EventService.getWhatsCookingUsername(config)
+            this.cooking = response.data.results
+            this.cooking_page = response.data.next
             this.firstLoadY = false
         } catch (e) {
             console.log(e);
