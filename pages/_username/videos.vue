@@ -53,7 +53,7 @@
 
 <script>
 import EventService from '@/services/EventService.js'
-import CookingCardSharing from '@/components/CookingCardSharing.vue'
+import CookingCardSharing from '~/components/CookingCardSharing.vue'
 import { mapGetters} from 'vuex'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 import CookingCard from '~/components/CookingCard.vue'
@@ -108,8 +108,8 @@ export default {
             "Authorization": this.$auth.strategy.token.get()}
         };
         try {
-            const response = await EventService.getWhatsCookingUsername(config)
-            this.cooking = response.data
+            // const response = await EventService.getWhatsCookingUsername(config)
+            // this.cooking = response.data
             // this.page = response.data.next
             this.firstLoadY = false
         } catch (e) {

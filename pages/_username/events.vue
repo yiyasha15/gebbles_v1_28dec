@@ -87,7 +87,7 @@
 import { mapGetters} from 'vuex'
 import EventService from '@/services/EventService.js'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
-import EventsCardOrganised from '../../components/EventsCardOrganised.vue'
+import EventsCardOrganised from '~/components/EventsCardOrganised.vue'
 import EventsCardGoing from '~/components/EventsCardGoing.vue'
 import EventsCardTagged from '~/components/EventsCardTagged.vue'
 export default {

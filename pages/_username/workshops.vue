@@ -97,18 +97,13 @@ export default {
         ]
         }
     },
+    props: ["artist"],
     components:{
     CardSkeletonLoader
-},
+    },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser'
      ])
-    },
-    props: ["artist"],
-    created(){
-        this.getMyOrganizedWorkshops();
-        this.getTaggedWorkshops();
-        this.getGoingWorkshops();
     },
     data() {
         return {
@@ -127,6 +122,11 @@ export default {
         seen2: new Set(),
         seen3: new Set(),
         }
+    },
+    created(){
+        this.getMyOrganizedWorkshops();
+        this.getTaggedWorkshops();
+        this.getGoingWorkshops();
     },
     methods: {
     goback(){
