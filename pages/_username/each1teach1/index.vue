@@ -1,108 +1,22 @@
 <template>
     <v-app>
-        <v-container style="max-width:670px;" class="pa-0">
-        <center>
-        <v-tabs style="max-width:670px; margin:auto;" class="hidden-sm-and-down">
+        <v-container style="max-width:670px;" class="pa-0 background">
+        <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+            <v-icon class="float-left">mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-tabs class="width mx-auto background" centered>
         <v-tab>
-            <h4 class="font-weight-light pl-2" style="text-transform: capitalize;">Learning</h4><br>
-            <p class="font-weight-light caption ma-0" style="text-transform: lowercase;">(each one)</p>
-        </v-tab>
-        <v-tab>
-            <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Sharing</h4>
-             <p class="font-weight-light caption ma-0" style="text-transform: lowercase;">(teach one)</p>
-        </v-tab>
-        <!-- <v-tab>
-            <h4 class="font-weight-light pl-2 " style="text-transform: capitalize;">Videos</h4>
-        </v-tab> -->
-        <v-tab-item v-if="!firstLoad">
-            <div v-if="teachers.length">
-            <v-layout wrap class="my-2">
-                <div v-for="share in teachers" :key ="share.index">
-                        <teachers-card-desktop :e1t1="share" ></teachers-card-desktop>
-                    </div>
-            </v-layout>
-            </div>
-            <center v-if="!teachers.length ">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No learnings yet. </h4>
-            </center>
-            <v-card v-intersect="infiniteScrollingTeacher"></v-card>
-        </v-tab-item>
-        <v-tab-item v-else>
-            <v-layout wrap row justify-start class="my-2" >
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" ></v-skeleton-loader>
-                </div>
-            </v-layout>
-        </v-tab-item>
-        <v-tab-item v-if="!firstLoad">
-            <div v-if="students.length">
-            <v-layout wrap justify-start class="my-2">
-                <div v-for="share in students" :key ="share.index">
-                    <students-card-desktop :share="share" ></students-card-desktop>
-                </div>
-            </v-layout>
-            </div>
-            <center v-if="!students.length">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No students yet. </h4>
-            </center>
-            <v-card v-intersect="infiniteScrollingStudents"></v-card>
-        </v-tab-item>
-        <v-tab-item v-else>
-            <v-layout wrap row justify-start class="my-2" >
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" ></v-skeleton-loader>
-                </div>
-            </v-layout>
-        </v-tab-item>
-        <!-- <v-tab-item v-if="!firstLoad">
-            <div v-if="own_cooking.length">
-            <v-layout wrap  justify-start class="my-2" >
-                <div v-for="cook in own_cooking" :key ="cook.index">
-                <cooking-card-desktop :cook="cook"></cooking-card-desktop>
-                </div>
-            </v-layout>
-            </div>
-            <center v-if="!own_cooking.length && !firstLoad">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No videos yet. </h4>
-            </center>
-            <v-card v-intersect="infiniteScrollingCooking"></v-card>
-        </v-tab-item>
-        <v-tab-item v-else>
-            <v-layout wrap row justify-start class="my-2" >
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <v-skeleton-loader style="margin:2px;" width="215" max-height="195" :loading="loading" type="card" ></v-skeleton-loader>
-                </div>
-            </v-layout>
-        </v-tab-item> -->
-        </v-tabs>
-        </center>
-        <v-tabs style="max-width:357px; margin:auto;" class="hidden-md-and-up">
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Learning</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learning</p>
             <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p>
         </v-tab>
         <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Sharing</p>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Sharing</p>
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
-        <!-- <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:12px">Videos</p>
-        </v-tab> -->
-        <v-tab-item v-if="!firstLoad">
+        <v-tab-item v-if="!firstLoad" class="background">
+            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
             <div v-if="teachers.length">
-            <v-layout wrap justify-start class="my-2" >
+            <v-layout wrap justify-start class="py-2 background" >
                 <div v-for="share in teachers" :key ="share.index">
                     <TeachersCard :e1t1="share" ></TeachersCard>
                 </div>
@@ -112,21 +26,23 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No learnings yet. </h4>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                <h4>No posts yet. </h4>
             </center>
-            <v-card v-intersect="infiniteScrollingTeacher"></v-card>
+            <v-card v-intersect="infiniteScrollingTeacher" class="background"></v-card>
         </v-tab-item>
-        <v-tab-item v-else>
-            <v-layout wrap row justify-start class="my-2">
+        <v-tab-item v-else class="background">
+            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
+            <v-layout wrap row justify-start class="py-2 background">
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
+                <card-skeleton-loader></card-skeleton-loader>
             </div>
             </v-layout>
         </v-tab-item>
-        <v-tab-item v-if="!firstLoad">
+        <v-tab-item v-if="!firstLoad" class="background">
+            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
             <div v-if="students.length">
-            <v-layout wrap  justify-start class="my-2 ">
+            <v-layout wrap  justify-start class="py-2 background">
                 <div v-for="share in students" :key ="share.index">
                     <StudentsCard :share="share" ></StudentsCard>
                 </div>
@@ -136,15 +52,16 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
-                <h4>No students yet. </h4>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                <h4>No posts yet. </h4>
             </center>
-            <v-card v-intersect="infiniteScrollingStudents"></v-card>
+            <v-card v-intersect="infiniteScrollingStudents" class="background"></v-card>
         </v-tab-item>
-        <v-tab-item v-else>
-            <v-layout wrap row justify-start class="my-2">
+        <v-tab-item v-else class="background">
+            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
+            <v-layout wrap row justify-start class="py-2 background">
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" ></v-skeleton-loader>
+                <v-skeleton-loader></v-skeleton-loader>
             </div>
             </v-layout>
         </v-tab-item>
@@ -160,7 +77,7 @@
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h4>No videos yet. </h4>
             </center>
             <v-card v-intersect="infiniteScrollingCooking"></v-card>
@@ -173,15 +90,15 @@
             </v-layout>
         </v-tab-item> -->
         </v-tabs>
-        <div v-show="!students.length && !teachers.length  && !firstLoad">
+        <!-- <div v-show="!students.length && !teachers.length  && !firstLoad">
             <center>
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="mt-6 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/>
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
                 <h4>No posts yet. </h4>
             </center>
-        </div>
+        </div> -->
         </v-container>
     </v-app>
 </template>
@@ -190,26 +107,22 @@
 import EventService from '@/services/EventService.js'
 import StudentsCard from '@/components/StudentsCard.vue'
 import TeachersCard from '@/components/TeachersCard.vue'
-import StudentsCardDesktop from '@/components/StudentsCardDesktop.vue'
-import TeachersCardDesktop from '@/components/TeachersCardDesktop.vue'
 // import CookingCardSharing from '@/components/CookingCardSharing.vue'
-// import CookingCardSharingDesktop from '@/components/CookingCardSharingDesktop.vue'
 import { mapGetters} from 'vuex'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
+import check_auth from '~/middleware/check_auth'
 // import CookingCard from '~/components/CookingCard.vue'
-// import CookingCardDesktop from '~/components/CookingCardDesktop.vue'
 // import CookingFeed from '~/components/CookingFeed.vue'
 
 export default {
+    middleware : 'check_auth',
     props: ['artist'],
     components: {
         StudentsCard,
         TeachersCard,
-        StudentsCardDesktop,
-        TeachersCardDesktop,
+        CardSkeletonLoader,
         // CookingCardSharing,
-        // CookingCardSharingDesktop,
         // CookingCard,
-        // CookingCardDesktop,
         // CookingFeed
     }, 
     computed: {
@@ -227,12 +140,12 @@ export default {
     },
     head() {
         return {
-            title: this.artist.artist_name,     //do not miss "this"
+            title: this.artist.username,     //do not miss "this"
             meta: [
                 {
                     hid: 'description',
                     name: 'description',
-                    content: 'What you need to know about this artist #' + this.artist.artist_name
+                    content: 'What you need to know about this artist #' + this.artist.username
                 }
             ]
         }
@@ -240,17 +153,23 @@ export default {
     methods:{
         postDelete(){
             this.$forceUpdate();
-            console.log("updated?");
-            this.getsharing(this.$route.params);
+            // console.log("updated?");
+            this.getsharing();
             },
         goback(){
             window.history.back();
         },
-        async getsharing(params){
+        async getsharing(){
             const key = 'id';
+            const config = {
+                headers: {
+                    "content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            };
             try {
-            const teachers_response = await EventService.getEach1Teach1_teachers(params.username)
-            const students_response = await EventService.getEach1Teach1_students(params.username)
+            const teachers_response = await EventService.getEach1Teach1_teachers(config)
+            const students_response = await EventService.getEach1Teach1_students(config)
             // const cooking_response = await EventService.getStudentsCooking(params.username)
             // const cooking_own_response = await EventService.getWhatsCookingUsername(params.username)
             this.teachers = teachers_response.data.results
@@ -316,7 +235,7 @@ export default {
         },
     },
     created(){
-        this.getsharing(this.$route.params);
+        this.getsharing();
     },
     data() {
     return {
@@ -334,3 +253,14 @@ export default {
   },
 }
 </script>
+<style scoped>
+
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
+</style>

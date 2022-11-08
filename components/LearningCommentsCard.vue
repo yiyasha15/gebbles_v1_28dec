@@ -15,11 +15,11 @@
           </center>
           </nuxt-link>
         <div class="mb-2">
-          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{getTime(comment.timestamp).date}}</p>
+          <p class="caption ma-0 pa-0 subtitle grey--text text-decoration-none">{{moment(comment.timestamp)}}</p>
           <nuxt-link :to="'/'+ comment.username" class="text-decoration-none d-inline">{{comment.username}}: </nuxt-link><span class="font-weight-light"> {{comment.comment}}</span>
         </div>
             <v-spacer></v-spacer>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+            <v-menu v-if="isAuthenticated && comment.username == loggedInUser.username" transition="slide-y-transition" open-on-hover offset-y bottom left>
                 <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs"
                     v-on="on">
@@ -28,20 +28,20 @@
                 </template>
                 <v-list>
                     <v-list-item
-                    v-if="comment.username == loggedInUser.user.username"
+                    v-if="comment.username == loggedInUser.username"
                     class="text-decoration-none pl-6 pr-12"
                     color="error"
                     @click="deleted(comment)"
                     >
                     <v-list-item-title>Delete</v-list-item-title>
                     </v-list-item>
-                    <v-list-item
+                    <!-- <v-list-item
                     v-else
                     class="text-decoration-none pl-6 pr-12"
                     @click="reported(comment)"
                     >
                     <v-list-item-title>Report</v-list-item-title>
-                    </v-list-item>
+                    </v-list-item> -->
                 </v-list>
             </v-menu>
       </div>
@@ -56,6 +56,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import moment from 'moment'
   export default {
     props: {
       comments: Array,
@@ -74,7 +75,7 @@ import { mapGetters } from 'vuex'
       async deleted(comment){
         const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
         };
         try {
@@ -98,18 +99,8 @@ import { mapGetters } from 'vuex'
             console.log(e);
         }
       },
-      getTime(timestamp){
-        const months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = timestamp;
-        let datetype= date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let yeartype = date.slice(0, 4)
-        const regex = new RegExp("^0+(?!$)",'g');
-        month = month.replaceAll(regex, "");
-        let monthtype = months[month-1]
-        date = datetype+" "+monthtype +" "+yeartype;
-        // console.log(date);
-        return{ date}
+      moment(timestamp){
+        return moment(timestamp).fromNow()
       }
     }
   }

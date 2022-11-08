@@ -23,7 +23,7 @@ export default {
   ** Customize the progress-bar color
   */
     //  loading: '~/components/Loading.vue',
-  loading: { color: '#E1C951' },
+  loading: { color: '#815A44' },
   /*
   ** Global CSS
   */
@@ -32,8 +32,7 @@ export default {
   ** Plugins to load before mounting the App
   */
  plugins: [
-  { src: '~/plugins/vuex-persist', ssr: false },
-  { src: "~/plugins/aos.client"}
+  { src: '~/plugins/vuex-persist', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -55,21 +54,34 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          primary: '#e3c8b6',
+          accent: '#e3c8b6',
+          secondary: '#e3c8b6',
+          info: '#e3c8b6',
+          warning: '#af2f2f',
+          error: '#af2f2f',
+          success: colors.green.accent3,
+          black: '#fff',
+          white: '#000',
+          dark_primary:'#815A44',
+          teak:'#B48C6C',
+          pearl:'#E7DBD3',
+          background:'#121212',
+          grey_background:'#424242'
         },
         light: {
           // background-color: '#ece0c7',
-          // background: '#ece0c7' ,
+          background: '#fff' ,
+          grey_background:'#F5F5F5',
           primary: '#815A44',
-          secondary: '#815A44',
-          accent: '#8c9eff',
-          error: '#A30000',
+          dark_primary:'#815A44',
+          secondary: '#e3c8b6',
+          accent: '#815A44',
+          error: '#af2f2f',
+          black: '#000000',
+          white: '#ffffff',
+          teak:'#B48C6C',
+          pearl:'#E7DBD3'
         },
       }
     }
@@ -80,7 +92,8 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
-    '@nuxtjs/auth'
+    // '@nuxtjs/auth',
+    '@nuxtjs/auth-next',
   ],
   /*
   ** Axios module configuration
@@ -110,12 +123,21 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: 'v1/auth/login/', method: 'post', propertyName: 'token' },
-          // refresh: { url: 'v1/auth/refresh', method: 'post', propertyName: false },
+          login: { url: 'v1/auth/login/', method: 'post'},
           logout: {url: 'v1/auth/logout/', method: 'post'},
-          // user: { url: 'v1/auth/user/', method: 'post' }
+          user: { url: 'v1/auth/user/', method: 'get'  }
         },
-        tokenType: ''
+        token: {
+          property: 'token',
+          required: true,
+          type: 'Bearer',
+          global: false
+
+        },
+        user: {
+          property: false, // here should be `false`, as you defined in user endpoint `propertyName`
+          autoFetch: true
+        },
       }
     }
   }

@@ -6,7 +6,7 @@
       <img
     :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
     class="clickable"
-    :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+    :src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
     </center>
 		<v-card-title class="justify-center">
 			<h3 class="font-weight-medium">Sign up to gebbles</h3>
@@ -52,14 +52,14 @@
         @click:append="showPassword2 = !showPassword2"
         color="#cead8f"
       />
-      <v-select label="Representing" v-model= "registrationInfo.country" hide-details="auto" class="mb-4"
+      <v-autocomplete label="Representing" v-model= "registrationInfo.country" hide-details="auto" class="mb-4"
       :error-messages="errorCountry"
       :rules="countryRules" 
         :items="countries"
         item-text="name"
         item-value="code"
         color="#cead8f"
-      ></v-select>
+      ></v-autocomplete>
       <v-radio-group v-model="registrationInfo.gender" :mandatory="true"  :rules="genderRules"  row>
         <v-radio 
             label="Male" 
@@ -81,65 +81,13 @@
           label="What's your gender">
         </v-text-field>
       </v-radio-group>
-      <v-checkbox color="#cead8f" v-model="checkbox" :rules="checkboxRules" >
-      <template v-slot:label>
-        <div class="mt-2" >
-          Do you accept the
-          <a href="#" class="text-decoration-none" @click="terms = true">terms</a>
-          and
-          <a href="#" class="text-decoration-none" @click.prevent="conditions = true">conditions?</a>
-        </div>
-      </template>
-    </v-checkbox>
       <v-card-actions class="mb-3 justify-center">
-      <v-btn @click="registerUser(registrationInfo)" small elevation="4" class="px-8" dark color="black" :loading="progressbar">Create Account</v-btn>
+      <v-btn @click="registerUser(registrationInfo)" small elevation="4" class="px-8" dark :loading="progressbar">Create Account</v-btn>
     </v-card-actions>
     </v-form>
     </v-card-text>
     <v-divider></v-divider>
     <center> <h5 class="py-4 font-weight-light">Already have an account? <nuxt-link :to="'/login'" style="text-decoration:none">Sign in. </nuxt-link></h5></center>
-    <v-dialog v-model="terms" max-width="450">
-            <v-card>
-            <v-card-title class="title">
-            Terms
-            </v-card-title>
-            <v-card-text>
-            {{ termsContent }}
-            </v-card-text>
-            <v-card-actions>
-            <!-- <v-spacer></v-spacer> -->
-            <v-btn small outlined text color="#cead8f" @click="terms = false">
-            Ok
-            </v-btn>
-            </v-card-actions>
-            </v-card>
-            </v-dialog>
-            <v-dialog
-                v-model="conditions"
-                max-width="450"
-                >
-                <v-card>
-                <v-card-title class="title">
-                Conditions
-                </v-card-title>
-                <v-card-text
-                >
-                {{ conditionContent }} 
-                </v-card-text>
-                <v-card-actions>
-                <!-- <v-spacer></v-spacer> -->
-                <v-btn
-                    text
-                    small
-                    outlined
-                    color="#cead8f"
-                    @click="conditions = false"
-                >
-                    Ok
-                </v-btn>
-                </v-card-actions>
-                </v-card>
-            </v-dialog>
     <v-dialog persistent
     v-model="verify"
     max-width="500px"
@@ -206,8 +154,6 @@ export default {
       ],
       showPassword1: false,
       showPassword2: false,
-      conditionContent: 'Conditions content',
-      termsContent: 'Terms content',
       terms: false,
       conditions: false,
       verify:false,

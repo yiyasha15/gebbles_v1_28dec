@@ -1,62 +1,46 @@
 <template>
     <v-app>
-      <v-container class="pa-0">
-      <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down">
-        <v-col cols="12" md="8"  class="justify-center pa-1">
-          <h2 class ="xs12 d-inline font-weight-light">Community</h2>
+      <v-container class="mx-auto width" >
+        <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+          <v-icon class="float-left">mdi-arrow-left</v-icon>
+        </v-btn>
+      <v-row>
+        <v-col cols="12" md="6"  class="justify-center">
+          <h2 class ="xs12 font-weight-medium">Artists</h2>
         </v-col>
-        <v-col cols="12" md="4" class= "justify-end pa-1" >
+        <v-col cols="12" md="6" class= "justify-end py-0 py-md-3" >
           <v-text-field
-            label="Search artists"
-            rounded
-            solo
-            prepend-inner-icon="mdi-magnify"
-            v-model="search"
-          @input="debounceSearch"
-          ></v-text-field>
+                label="Search artists"
+                rounded
+                solo clearable
+                prepend-inner-icon="mdi-magnify"
+                v-model="search"
+                @input="debounceSearch"
+            >
+            <template v-slot:append-outer>
+              <v-btn icon class="float-right" @click="toggleLegacy">
+                <v-icon>mdi-filter-variant</v-icon>
+              </v-btn>
+          </template>
+          </v-text-field>
         </v-col>
       </v-row>
-      <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up" >
-        <v-col cols="12" md="8"  class="justify-center px-1">
-          <h3 class ="xs12 d-inline font-weight-light">Community</h3>
-        </v-col>
-        <v-col cols="12" md="4" class= "justify-end pa-0" >
-          <v-text-field
-            label="Search artists"
-            rounded
-            solo
-            prepend-inner-icon="mdi-magnify"
-            v-model="search"
-          @input="debounceSearch"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" style="max-width:357px; margin:auto;" >
+      <v-layout wrap row justify-start v-if="firstLoad" >
         <div v-for="n in this.looploader" :key ="n.index">
-          <v-skeleton-loader style="margin:2px;" :width="card_width" :max-height="card_height" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+          <card-skeleton-loader></card-skeleton-loader>
         </div>
       </v-layout>
-      <!-- <v-layout wrap row justify-start v-show="!firstLoad" style="max-width:670px; margin:auto;" >
+      <v-layout wrap row justify-start v-show="!firstLoad" >
         <div v-for="artist in artists" :key ="artist.index">
-          <ArtistCard :artist="artist" ></ArtistCard> 
-        </div>
-      </v-layout> -->
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
-        <div v-for="artist in artists" :key ="artist.index">
-          <ArtistCard :artist="artist" ></ArtistCard> 
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-        <div v-for="artist in artists" :key ="artist.index">
-          <artist-card-desktop :artist="artist" ></artist-card-desktop>
+            <ArtistCard :artist="artist" ></ArtistCard> 
         </div>
       </v-layout>
       <v-card v-intersect="infiniteScrolling"></v-card>
-      <center v-if="!artists && !firstLoad">
+      <center v-if="!artists.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
-        :src="require('@/assets/gebbleslogo.png')"/>
+        :src="require('@/assets/gebbleslogo_tab.png')"/>
         <h3>No artists found. </h3>
       </center>
       </v-container>
@@ -65,9 +49,9 @@
 
 <script>
 import ArtistCard from '@/components/ArtistCard.vue'
-import ArtistCardDesktop from '@/components/ArtistCardDesktop.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 export default {
   scrollToTop: true,
   head() {  
@@ -78,7 +62,7 @@ export default {
           hid: 'description',
           name: 'description',
           content: 
-              'Gebbles community'
+              'Gebbles'
         }
       ]
     }
@@ -87,9 +71,29 @@ export default {
     this.getartists();
   },
   methods:{
+    goback(){
+        window.history.back();
+    },
     async getartists(){
+      this.artists =[];
+      this.page='';
+      this.firstLoad = true;
       try {
       const response = await EventService.getArtists()
+      this.artists = response.data.results
+      this.page = response.data.next
+      this.firstLoad = false
+    } catch (e) {
+        console.log(e);
+        this.firstLoad = false
+    }
+    },
+    async getLegacyartists(){
+      this.artists =[];
+      this.page='';
+      this.firstLoad = true;
+      try {
+      const response = await EventService.getLegacyArtists()
       this.artists = response.data.results
       this.page = response.data.next
       this.firstLoad = false
@@ -127,41 +131,33 @@ export default {
       }
       }, 600)
     },
+    toggleLegacy(){
+      this.showLegacy = !this.showLegacy
+      if(!this.showLegacy){
+        this.getartists()
+      }
+      else{
+        this.getLegacyartists()
+      }
+    }
   },
   components: {
-    ArtistCard, ArtistCardDesktop
+    ArtistCard,
+    CardSkeletonLoader
   },
   data() {
     return {
       looploader:[1,1,1,1,1,1,1,1,1,1,1],
-      loading: true,
       firstLoad: true,
       page:"",
       artists:[],
       search: "",
-      debounce: null
+      debounce: null,
+      showLegacy:false,
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser']),
-    card_height () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 185
-          case 'lg': return 185
-          case 'xl': return 185
-        }
-      },
-      card_width () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
-        }
-      },
+    ...mapGetters(['isAuthenticated', 'loggedInUser'])
     // filterApi: function(){
     //   return this.artists.filter((artist) => {
     //     return artist.artist_name.toLowerCase().match(this.search.toLowerCase())||artist.username.toLowerCase().match(this.search.toLowerCase());
@@ -171,3 +167,13 @@ export default {
       
 }
 </script>
+<style scoped>
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
+</style>

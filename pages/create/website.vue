@@ -1,272 +1,183 @@
 <template>
     <v-container style="max-width:1072px;">
-        <div class="text-xs-center mb-6" align = "center">
-            <v-btn icon class="elevation-0 white text-decoration-none float-left" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
-            <!-- <v-btn small outlined  color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/highlights/`">test</v-btn>
-            <v-btn small dark color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/website/`">Edit Website</v-btn>
-            <v-btn small outlined color="black" class="mr-2 elevation-0 text-decoration-none" :to= "`/create/journey/`">Add Journey </v-btn> -->
-         </div>
-            <h2 class="mt-4" align="center" justify="center">Create your portfolio</h2>
+        <div>
+            <v-btn icon class="elevation-0 white text-decoration-none" @click="goback()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        </div>
+            <h2 class="font-weight-medium" align="center" justify="center" v-if="!userHasBio && !userHasPortfolio">Create your portfolio</h2>
+            <h2 class="font-weight-medium" align="center" justify="center" v-if="userHasBio && userHasPortfolio">Edit your portfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
-            <v-row>
+            <v-row  class="mt-md-8 mt-5">
                 <!-- hidden-sm-and-down -->
-            <v-col cols="12" md="6" class="mt-12">
-                <v-row class="pb-6 justify-center text-center">
-                        <croppa
-                            v-model="cropImage"
-                            canvas-color="transparent"
-                            :width="350"
-                            :height="350"
-                            :show-loading="true"
-                            :initial-image="initialImage"
-                            :prevent-white-space="true"
-                            :remove-button-color="'black'"
-                        ></croppa>
-                    </v-row>
+            <v-col cols="12" md="6" sm="7" >
+                <v-row class="pb-3 justify-center text-center">
+                    <croppa
+                        :accept="'image/*'"
+                        v-model="cropImage"
+                        canvas-color="transparent"
+                        :width="350"
+                        :height="350"
+                        placeholder="Upload an image"
+                        :show-loading="true"
+                        :initial-image="initialImage"
+                        :prevent-white-space="true"
+                        :show-remove-button="false"
+                    ></croppa>
+                </v-row>
+                <v-row class="w-350">
+                    <v-btn icon @click="cropImage.rotate()">
+                        <v-icon>mdi-file-rotate-right-outline</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="cropImage.flipX()">
+                        <v-icon>mdi-flip-horizontal</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="cropImage.remove()">
+                        <v-icon >mdi-close</v-icon>
+                    </v-btn>
+                </v-row>
+                <v-row class="w-350">
+                    <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
+                        @click="updateImage" :loading="imgprogressbar">Update Image</v-btn>
+                </v-row>
+                <v-divider class="hidden-sm-and-up mt-4"></v-divider>
             </v-col>
-            <v-col cols="12" md="6">
-                <v-form v-on:submit.prevent="submit_about">
-                    <!-- <v-row class="py-4 justify-center text-center hidden-md-and-up">
-                            <croppa
-                                v-model="cropImage1"
-                                canvas-color="transparent"
-                                :width="320"
-                                :height="320"
-                                :show-loading="true"
-                                :initial-image="initialImage"
-                                :prevent-white-space="true"
-                                :remove-button-color="'black'"
-                            ></croppa>
-                        </v-row> -->
-                        <!-- <v-row class="py-4 justify-center text-center hidden-sm-and-down">
-                        <croppa
-                            v-model="cropImage"
-                            canvas-color="transparent"
-                            :width="580"
-                            :height="580"
-                            :show-loading="true"
-                            :initial-image="initialImage"
-                            :prevent-white-space="true"
-                            :remove-button-color="'black'"
-                        ></croppa></v-row> -->
-                        <v-row>
-                            <v-col cols="12" md="10">
-                                <v-text-field
-                                    required 
-                                    v-model = "artist_data.artist_name"
-                                    label="Name"
-                                    prepend-icon="mdi-account-edit-outline"
-                                    :maxlength="30">
-                                </v-text-field>
-                                <v-select label="Representing(country)" v-model= "artist_data.country"
-                                    :items="countries" prepend-icon="mdi-earth"
-                                    item-text="name"
-                                    item-value="code"
-                                    required
-                                ></v-select>
-                            </v-col>
-                        </v-row>
-                    </v-form>
-                <v-form v-on:submit.prevent="submit">
+            <v-col cols="12" md="6" sm="5">
+                <v-form ref="website_form">
                     <v-row>
                         <v-col cols="12" md="10">
-                            <v-autocomplete 
-                                v-model= "dummy_style" 
-                                :items="styles" 
-                                attach 
-                                chips 
-                                hide-selected
-                                clearable
-                                deletable-chips
-                                label="Style you represent" 
-                                @input="makeString"
-                                multiple>
-                            </v-autocomplete>
+                            <v-text-field
+                                required 
+                                v-model = "artist_data.artist_name"
+                                label="Artist Name"
+                                prepend-icon="mdi-account-edit-outline"
+                                :maxlength="255"
+                                counter>
+                            </v-text-field>
+                            <v-autocomplete label="Country" v-model= "artist_data.country"
+                                :items="countries" prepend-icon="mdi-earth"
+                                item-text="name"
+                                item-value="code"
+                                required 
+                            ></v-autocomplete>
+                            <v-textarea
+                                :rules="introRules"
+                                v-model= "artist_data.introduction"
+                                label="About me">
+                            </v-textarea>
                             <v-text-field
                                 v-model= "bio.crew"
-                                prepend-icon="mdi-account-group-outline"
-                                label="Crew you represent"
-                                :maxlength="120">
+                                label="Crew(s) you represent"
+                                :maxlength="255"
+                                counter>
                             </v-text-field>
                             <v-text-field
                                 v-model= "bio.quote"
                                 label="How does hiphop empower you?"
-                                :maxlength="120">
+                                :maxlength="255"
+                                counter>
                             </v-text-field>
-                            <v-textarea
-                                v-model= "artist_data.introduction"
-                                label="A little background*">
-                            </v-textarea>
-                            <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn>
+                            <!-- <v-btn v-show="!inputInsta &&!bio.ig" icon color=pink @click="inputInsta=true"><v-icon>mdi-instagram</v-icon></v-btn> -->
+                            <!-- @click:append="bio.ig=''; inputInsta=!inputInsta" -->
                             <v-text-field
-                                v-show="inputInsta || bio.ig"
-                                color="pink"
+                                :rules="emailRules"
+                                prepend-icon="mdi-email"
+                                v-model= "bio.work_email"
+                                label="Contact email"
+                                >
+                            </v-text-field>
+                            <v-text-field
+                                :rules="igRules" 
                                 prepend-icon="mdi-instagram"
                                 v-model= "bio.ig"
-                                append-icon="mdi-close"
                                 label="Instagram ID"
-                                @click:append="bio.ig=''; inputInsta=!inputInsta">
+                                :maxlength="255"
+                                >
                             </v-text-field>
-                            <v-btn v-show="!inputFace &&!bio.fb" icon color=blue @click="inputFace=true"><v-icon>mdi-facebook</v-icon></v-btn>
                             <v-text-field
-                                v-show="inputFace || bio.fb"
+                                :rules="fbRules" 
                                 prepend-icon="mdi-facebook"
                                 v-model= "bio.fb"
-                                append-icon="mdi-close"
                                 label="Facebook ID"
-                                @click:append="bio.fb=''; inputFace=!inputFace">
+                                :maxlength="255"
+                                >
                             </v-text-field>
-                            <v-btn v-show="!inputMail &&!bio.site" icon color=blue @click="inputMail=true"><v-icon>mdi-email</v-icon></v-btn>
                             <v-text-field
-                            :error-messages="linkError"
-                                v-show="inputMail ||bio.site"
-                                prepend-icon="mdi-email"
+                                prepend-icon="mdi-youtube"
+                                v-model= "bio.yt"
+                                label="Youtube channel link">
+                            </v-text-field>
+                            <v-text-field
+                                :rules="urlRules"
+                                prepend-icon="mdi-earth"
                                 v-model= "bio.site"
-                                append-icon="mdi-close"
                                 label="Personal Website URL"
-                                @change="checkLink"
-                                @click:append="bio.site=''; inputMail=!inputMail"
                                 >
                             </v-text-field>
                             <!-- <v-btn v-show="!bio.vid1 && !yt" icon color=red @click="yt=true"><v-icon>mdi-youtube</v-icon></v-btn> -->
                             <v-text-field
-                                :error-messages="ytLinkError1"
-                                color="red"
+                                :rules="youtubeRules"
                                 v-model= "bio.vid1"
-                                label="Add upto four YouTube links"
+                                label="YouTube video link"
                                 prepend-icon="mdi-youtube"
-                                append-icon="mdi-close"
-                                @input="showYoutubeVideo(1)"
-                                @click:append="bio.vid1 ='';showYoutubeVideo(1)"
-                                @click:prepend="yt1=true"
                                 >
                             </v-text-field>
                             <v-text-field
-                            :error-messages="ytLinkError2"
-                            @input="showYoutubeVideo(2)"
-                                v-show="yt1 || bio.vid2"
-                                color="red"
+                            :rules="youtubeRules"
                                 v-model= "bio.vid2"
-                                label="Youtube link"
-                                prepend-icon="mdi-plus"
-                                append-icon="mdi-close"
-                                @click:append="bio.vid2 =''; yt1=!yt1;showYoutubeVideo(2)"
-                                @click:prepend="yt2=true">
+                                label="YouTube video link"
+                                prepend-icon="mdi-youtube"
+                                >
                             </v-text-field>
                             <v-text-field
-                            :error-messages="ytLinkError3"
-                            @input="showYoutubeVideo(3)"
-                                v-show="yt2 || bio.vid3"
-                                color="red"
+                            :rules="youtubeRules"
                                 v-model= "bio.vid3"
-                                label="Youtube link"
-                                prepend-icon="mdi-plus"
-                                append-icon="mdi-close"
-                                @click:append="bio.vid3 =''; yt2=!yt2;showYoutubeVideo(3)"
-                                @click:prepend="yt3=true">
+                                label="YouTube video link"
+                                prepend-icon="mdi-youtube"
+                                >
                             </v-text-field>
                             <v-text-field
-                            :error-messages="ytLinkError4"
-                            @input="showYoutubeVideo(4)"
-                                v-show="yt3 || bio.vid4"
-                                color="red"
+                             :rules="youtubeRules"
                                 v-model= "bio.vid4"
-                                label="Youtube link"
-                                append-icon="mdi-close"
-                                @click:append="bio.vid4 =''; yt3=!yt3; showYoutubeVideo(4)">
+                                label="YouTube video link"
+                                prepend-icon="mdi-youtube"
+                                >
                             </v-text-field>
-                            <!-- {{yt}} -->
-                            <!-- <v-container grid-list-md :class="{'pa-1': $vuetify.breakpoint.smAndDown, 'ma-1': $vuetify.breakpoint.mdAndUp}">
-                                <v-layout class="flex-wrap">
-                                    <v-flex xs6 md6>
-                                        <div class=" rounded-lg grey lighten-4">
-                                            <v-img :src="imageData1" height="200px" width="200px"></v-img>
-                                            <v-btn icon>
-                                                <v-icon color="black" small @click="onPick">mdi-image-plus</v-icon>
-                                            </v-btn>
-                                            <input 
-                                            type="file" 
-                                            name = "gallery" 
-                                            style="display:none" 
-                                            ref="fileInput" 
-                                            accept="image/*"
-                                            required
-                                            @change="onFileChange">
-                                            <v-btn icon>
-                                                <v-icon color="error" small @click="removeImage">mdi-delete-outline</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs6 md6>
-                                        <div class="rounded-lg grey lighten-4">
-                                            <v-img :src="imageData2" height="200px" width="200px"></v-img>
-                                            <v-btn icon>
-                                                <v-icon color="black" small @click="onPick1">mdi-image-plus</v-icon>
-                                            </v-btn>
-                                            <input 
-                                            type="file" 
-                                            name = "gallery" 
-                                            style="display:none" 
-                                            ref="fileInput1" 
-                                            accept="image/*"
-                                            required
-                                            @change="onFileChange1">
-                                            <v-btn icon>
-                                                <v-icon color="error" small @click="removeImage1">mdi-delete-outline</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs6 md6>
-                                        <div class="rounded-lg grey lighten-4">
-                                            <v-img :src="imageData3" height="200px" width="200px"></v-img>
-                                            <v-btn icon>
-                                                <v-icon color="black" small @click="onPick2">mdi-image-plus</v-icon>
-                                            </v-btn>
-                                            <input 
-                                            type="file" 
-                                            name = "gallery" 
-                                            style="display:none" 
-                                            ref="fileInput2" 
-                                            accept="image/*"
-                                            required
-                                            @change="onFileChange2">
-                                            <v-btn icon>
-                                                <v-icon color="error" small @click="removeImage2" >mdi-delete-outline</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs6 md6>
-                                        <div class="rounded-lg grey lighten-4">
-                                            <v-img :src="imageData4" height="200px" width="200px"></v-img>
-                                            <v-btn icon>
-                                                <v-icon color="black" small @click="onPick3">mdi-image-plus</v-icon>
-                                            </v-btn>
-                                            <input 
-                                            type="file" 
-                                            name = "gallery" 
-                                            style="display:none" 
-                                            ref="fileInput3" 
-                                            accept="image/*"
-                                            required
-                                            @change="onFileChange3">
-                                            <v-btn icon>
-                                                <v-icon color="error" small @click="removeImage3" >mdi-delete-outline</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>  -->
+                            <v-row class="my-1">
+                                <v-col
+                                v-if="videoId1"
+                                class="d-flex child-flex"
+                                cols="6">
+                                <youtube width="auto" height="100%" :video-id= 'videoId1'></youtube>
+                                </v-col>
+                                <v-col
+                                v-if="videoId2"
+                                class="d-flex child-flex"
+                                cols="6">
+                                <youtube width="auto" height="100%" :video-id= 'videoId2'></youtube>
+                                </v-col>
+                                <v-col
+                                v-if="videoId3"
+                                class="d-flex child-flex"
+                                cols="6">
+                                <youtube width="auto" height="100%" :video-id= 'videoId3'></youtube>
+                                </v-col>
+                                <v-col
+                                v-if="videoId4"
+                                class="d-flex child-flex"
+                                cols="6">
+                                <youtube width="auto" height="100%" :video-id= 'videoId4'></youtube>
+                                </v-col>
+                            </v-row>
                             <v-btn v-if="!userHasBio && !userHasPortfolio" outlined small class="text-decoration-none"  color="black" dark
                                 @click="submit" :loading="progressbar">Submit</v-btn>
-                                <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
-                                @click="update" :loading="progressbar">Update</v-btn>
+                            <v-btn v-if="userHasBio && userHasPortfolio" small class="mt-2 mr-2 text-decoration-none" outlined  color="black" dark
+                            @click="update" :loading="progressbar">Update</v-btn>
                             <v-dialog  v-model="dialog" width="500">
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn v-if="userHasBio || userHasPortfolio" dark small color="error" class="mt-2 mr-2 text-decoration-none" 
-                                v-bind="attrs" v-on="on">Delete Website</v-btn>
+                                v-bind="attrs" v-on="on">Delete Portfolio</v-btn>
                             </template>
                             <v-card class="pa-4">
-                                <p>Are you sure you want to delete your website?</p>
+                                <p>Are you sure you want to delete your portfolio?</p>
                                 <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn small class="px-4 text-decoration-none"  color="error" dark :loading="delete_progressbar"
@@ -371,70 +282,73 @@ import { getIdFromURL } from 'vue-youtube-embed'
 import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
+import EventService from '@/services/EventService.js' 
 import Vue from "vue";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 Vue.use(Croppa);
 
 export default {
+head() {  //head function (a property of vue-meta), returns an object
+return {
+    title: 'gebbles - portfolios',
+    }
+},
 middleware : 'check_auth',
+layout:'simple',
 components: {
     CountryFlag,
     Youtube
 },
 computed: {
-    ...mapGetters(['usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser'])
-},
-mounted() {
-    this.$store.dispatch("check_user_portfolio");
-    this.$store.dispatch("check_user_bio");
+    ...mapGetters(['isAuthenticated', 'usersBio', 'userHasBio', 'usersPortfolio', 'userHasPortfolio', 'loggedInUser']),
+    videoId1(){
+        if(this.bio.vid1)
+        return getIdFromURL(this.bio.vid1)
+    },
+    videoId2(){
+        if(this.bio.vid2)
+        return getIdFromURL(this.bio.vid2)
+    },
+    videoId3(){
+        if(this.bio.vid3)
+        return getIdFromURL(this.bio.vid3)
+    },
+    videoId4(){
+        if(this.bio.vid4)
+        return getIdFromURL(this.bio.vid4)
+    },
+    initialImage(){
+        return this.artist_data.cover
+    },
 },
 created(){
-    if(this.$store.state.hasPortfolio)
+    this.$store.dispatch("check_user_portfolio");
+    this.$store.dispatch("check_user_bio");
+    let d = localStorage.getItem("artist_data")
+    console.log(d);
+    if(this.userHasPortfolio)
     {
-        this.artist_data = Object.assign({}, this.$store.getters.usersPortfolio);
-        this.initialImage = this.artist_data.cover
+        localStorage.setItem("artist_data", this.usersPortfolio)
+        this.artist_data = Object.assign({}, this.usersPortfolio);
     }
-    if(this.$store.state.hasBio)
+    if(this.userHasBio)
     {
-        this.bio = Object.assign({}, this.$store.getters.usersBio);
-        if(this.bio.style==""){
-            this.dummy_style = [];
-        }
-        else{
-            let arr = this.bio.style.split(',');
-        this.dummy_style = arr;}
-        //assigning the bio from store if it exists
-        // this.imageData1 = this.bio.gallery1
-        // this.imageData2 = this.bio.gallery2
-        // this.imageData3 = this.bio.gallery3
-        // this.imageData4 = this.bio.gallery4
-        let url1 = this.bio.vid1 //getting value of youtube video urls
-        let url2 = this.bio.vid2
-        let url3 = this.bio.vid3
-        let url4 = this.bio.vid4
-        let videoId1 = getIdFromURL(url1) //getting id from video url
-        this.videoId1 = videoId1 //assigning the id to <youtube> video id
-        let videoId2 = getIdFromURL(url2)
-        this.videoId2 = videoId2
-        let videoId3 = getIdFromURL(url3)
-        this.videoId3 = videoId3
-        let videoId4 = getIdFromURL(url4)
-        this.videoId4 = videoId4
+        localStorage.setItem("bio", this.usersBio)
+        this.bio = Object.assign({}, this.usersBio);
     }
 },
 data(){
     return {
-        websiteRules: [
-        v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.',],
             // this is bio object
         bio: {
-            username: this.$store.state.auth.user.user.username,
+            username: this.$store.state.auth.user.username,
             style: "",
             quote: "",
             crew: "",
             ig: "",
             fb: "",
+            yt:"",
             site: "",
             gallery1 : "",
             gallery2 : "",
@@ -443,50 +357,30 @@ data(){
             vid1:"",
             vid2:"",
             vid3:"",
-            vid4:""
+            vid4:"",
+            work_email:""
         },
         artist_data: {
             artist_name: "",
-            username: this.$store.state.auth.user.user.username,
+            username: this.$store.state.auth.user.username,
             country: "",
             cover: "",
             introduction: "",
             thumb:""
         },
         rm:"",
-        dummy_style:[], //keep style in string from array
         cropImage: null, //imagecropper
-        initialImage:'',
         dialog: false,
         styles: ['Breaking','HipHop', 'House', 'Locking', 'Popping','Experimental','Other', 'Still Exploring'],
         imageData: "",
-        // imageData1: "",
-        // imageData2: "",
-        // imageData3: "",
-        // imageData4: "",
-        yt1: false,
-        yt2: false,
-        yt3: false,
-        videoId1:'',
-        videoId2:'',
-        videoId3:'',
-        videoId4:'',
-        linkError:'',
-        ytLinkError1:'',
-        ytLinkError2:'',
-        ytLinkError3:'',
-        ytLinkError4:'',
-        inputInsta: false,
-        inputFace: false,
-        inputMail: false,
         snackbar: false,
         error_snackbar: false,
         delete_progressbar:false,
         fill_image_snackbar:false,
         fill_intro_snackbar:false,
-        text: 'Website created successfully.',
         overlay: false,
         progressbar: false,
+        imgprogressbar: false,
         countries: [
             {"name": "Afghanistan", "code": "AF"},
             {"name": "Åland Islands", "code": "AX"},
@@ -732,143 +626,37 @@ data(){
             {"name": "Zambia", "code": "ZM"},
             {"name": "Zimbabwe", "code": "ZW"}
         ],
+        introRules: [
+            v => !!v || 'Artist introduction is required',
+        ],
+        emailRules: [ 
+            v => !v || /^\S+@\S+\.\S+$/.test(v) || 'E-mail must be valid',
+            v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed'
+        ],
+        urlRules: [
+            v => !v || /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi.test(v) ||'Enter a valid Url',
+            v => (v || '').indexOf(' ') < 0 ||'Enter a valid Url'
+        ],
+        youtubeRules:[
+            v => !v || /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm.test(v) ||'Enter a valid Url',
+            v => (v || '').indexOf(' ') < 0 ||'Enter a valid Url'
+        ],
+        igRules:[
+            v=> !v || /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/igm.test(v) || 'Enter a valid instagram username',
+            v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.'
+        ],
+        fbRules:[
+            v=> !v || /^(?:https?:\/\/)?(?:www.)?(?:facebook.com)?\/?([^\/\s]+)/gm.test(v) || 'Enter a valid facebook username',
+            v => (v || '').indexOf(' ') < 0 ||'No spaces are allowed.'
+        ],
+        errortext:''
     }
 },
 methods: {
-    checkLink(){
-        let urlLink = this.bio.site;
-        if(urlLink){ //if link exists check if it's valid
-            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-            let check = !!pattern.test(this.bio.site);
-            if(check){
-                let checkStartsHttp = urlLink.startsWith('http')
-                console.log( "checkStartsHttp", checkStartsHttp);
-                if(!checkStartsHttp)
-                {
-                    console.log("doesn't start with http")
-                    console.log("url",this.bio.site);
-                    this.bio.site = 'http://'+ this.bio.site
-                    console.log("url",this.bio.site);
-                    this.linkError=``
-                    //add http to url
-                }
-            }
-            else{
-                this.linkError=`Enter a valid URL.`
-            }
-        }
-    },
     ...mapActions(['check_user_bio','check_user_portfolio']),
-    showYoutubeVideo(id){
-        switch(id) {
-        case 1:
-            {
-            let url= this.bio.vid1
-            if (url != undefined || url != '') {        
-                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                var match = url.match(regExp);
-                if (match && match[2].length == 11) {
-                    // Do anything for being valid        
-                    this.ytLinkError1 =``
-                } else {
-                    //invalid youtube url
-                    this.ytLinkError1 = `Enter a valid Youtube URL.`
-                }
-            }
-            let videoId1 = getIdFromURL(url) //getting id from video url
-            this.videoId1 = videoId1
-            }
-            break;
-        case 2:
-            {
-                let url= this.bio.vid2
-                if (url != undefined || url != '') {        
-                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                    var match = url.match(regExp);
-                    if (match && match[2].length == 11) {
-                        // Do anything for being valid        
-                        this.ytLinkError2 =``
-                    } else {
-                        //invalid youtube url
-                        this.ytLinkError2 = `Enter a valid Youtube URL.`
-                    }
-                }
-                let videoId2 = getIdFromURL(url) //getting id from video url
-                this.videoId2 = videoId2
-            }
-            break;
-        case 3:
-            {
-                let url= this.bio.vid3
-                if (url != undefined || url != '') {        
-                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                    var match = url.match(regExp);
-                    if (match && match[2].length == 11) {
-                        // Do anything for being valid        
-                        this.ytLinkError3 =``
-                    } else {
-                        //invalid youtube url
-                        this.ytLinkError3 = `Enter a valid Youtube URL.`
-                    }
-                }
-                let videoId3 = getIdFromURL(url) //getting id from video url
-                this.videoId3 = videoId3
-            }
-            break;
-        case 4:
-            {
-                let url= this.bio.vid4
-                if (url != undefined || url != '') {        
-                    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-                    var match = url.match(regExp);
-                    if (match && match[2].length == 11) {
-                        // Do anything for being valid        
-                        this.ytLinkError4 =``
-                    } else {
-                        //invalid youtube url
-                        this.ytLinkError4 = `Enter a valid Youtube URL.`
-                    }
-                }
-                let videoId4 = getIdFromURL(url) //getting id from video url
-                this.videoId4 = videoId4
-            }
-            break;
-        default:
-            // code block
-        }
-    },
     goback(){
         window.history.back();
     },
-    makeString() //making array as string for backend to accept
-    {
-        if(this.dummy_style.length == 0)
-        {
-            this.bio.style= ""
-            this.dummy_style=[]
-            // console.log("empty the style");
-            // console.log("style",this.bio.style);
-            // console.log(this.bio);
-            }
-        else{
-            let arr = this.dummy_style;
-            // console.log(this.dummy_style);
-            // console.log(this.bio.style);
-            this.bio.style= arr.join();
-            // console.log(this.bio.style);
-            // console.log("style after JOIN",this.bio.style);
-        }
-    },
-    toShowImage(){
-        if(this.artist_data.cover)
-        this.imageData = URL.createObjectURL(this.artist_data.cover);
-    },
-  
     dataURLtoFile(dataurl, filename) {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -877,187 +665,214 @@ methods: {
         }
     return new File([u8arr], filename, {type:mime});
     },
+    checkurl(){
+        // let rx_ig =/^(?:@|(?:https?:\/\/)?(?:www\.)?instagr(?:\.am|am\.com)\/)?(\w+)\/?$/;
+        let rx_fb =/^(?:https?:\/\/)?(?:www.)?(?:facebook.com)?\/?([^\/\s]+)/gm;
+
+        // let res_ig = rx_ig.exec(this.bio.ig);
+        // if (res_ig &&res_ig[1]!='') {
+        //     this.bio.ig = res_ig[1]
+        // } 
+        let res_fb = rx_fb.exec(this.bio.fb);
+        if (res_fb &&res_fb[1]!='') {
+            this.bio.fb = res_fb[1]
+        } 
+    },
     async submit(){
-        this.progressbar =true
-        let url = this.cropImage.generateDataUrl();
-        let fileData;
-        if(this.artist_data.introduction!=""){
-            if (!url ){
+        if(this.$refs.website_form.validate()){
+            let url = this.cropImage.generateDataUrl();
+            if (!url){
             this.fill_image_snackbar=true
-            this.progressbar =false
-            console.log("no image1");}
-        else{
-            fileData = this.dataURLtoFile(url, "coverimage.png");
-            // this.artist_data.cover = fileData;
-            let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
-            if(res.statusCode == 200)
-            {
-                delete this.$axios.defaults.headers.common['Authorization']
-                let filename = res.key
-                let url = res.body
-                console.log(res);
-                url = url.slice(1, -1);
-                this.$axios.$put(url, fileData).then((value) => {
-                console.log("image is put", value);
-                this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": "Bearer " + this.$store.state.auth.user.access_token,
-                        }
-                };
-                let formPortfolio = new FormData();
-                let formBio= new FormData();
-                
-                for (let data in this.artist_data) //append
-                {
-                    formPortfolio.append(data, this.artist_data[data]);
-                }
-                for (let data in this.bio) {
-                    formBio.append(data, this.bio[data]);
-                }
-                console.log(this.artist_data.cover,this.artist_data.thumb,this.artist_data.introduction);
-                if(this.artist_data.cover && this.artist_data.thumb ){
-                    try {
-                    this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(
-                        res =>{
-                            console.log(res,"portfolio done");
-                            this.$store.dispatch("check_user_portfolio");
-                            this.$axios.$post("/v1/artist/bios/", formBio, config).then(
-                        res => { 
-                            console.log(res,"bio done");
-                            this.$store.dispatch("check_user_bio")})
-                            this.progressbar =false
-                            this.snackbar = true;
-                            this.$router.push("/" + this.bio.username);
-                            })
-                } catch (e) {
-                    this.error_snackbar = true
-                    this.progressbar =false
-                    console.log(e);
-                }
-                }else{
-                    this.fill_image_snackbar=true
-                    this.progressbar =false
-                }
-                }); 
             }
-        }
-        }
-        else{
-            this.progressbar = false
-            this.fill_intro_snackbar=true
+            else{
+                this.progressbar =true
+                let fileData = this.dataURLtoFile(url, "coverimage.png");
+                let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
+                if(res.statusCode == 200)
+                {
+                    delete this.$axios.defaults.headers.common['Authorization']
+                    let filename = res.key
+                    let url = res.body
+                    url = url.slice(1, -1);
+                    this.$axios.$put(url, fileData).then((value) => {
+                    this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+
+                    const config = {
+                        headers: {"content-type": "multipart/form-data",
+                            "Authorization": this.$auth.strategy.token.get()
+                            }
+                    };
+
+                    //make profile photo update
+                    let formPic = new FormData();
+                    formPic.append("profile_photo", this.artist_data.thumb);
+                    this.$axios.$patch("/v1/auth/user/", formPic, config).then(res=>{console.log(res);})
+                    
+                    let formPortfolio = new FormData();
+                    let formBio= new FormData();
+                    //check if instagram and fb are okay..
+                    for (let data in this.artist_data) //append
+                    {
+                        formPortfolio.append(data, this.artist_data[data]);
+                    }
+                    for (let data in this.bio) {
+                        formBio.append(data, this.bio[data]);
+                    }
+                    if(this.artist_data.cover && this.artist_data.thumb ){
+                        this.checkurl();
+                        try {
+                        this.$axios.$post("/v1/artist/portfolios/", formPortfolio, config).then(
+                            res =>{
+                                this.$store.dispatch("check_user_portfolio");
+                                this.$axios.$post("/v1/artist/bios/", formBio, config).then(
+                                    res => { 
+                                        this.$store.dispatch("check_user_bio")})
+                                this.progressbar =false
+                                this.snackbar = true;
+                                this.$router.push("/" + this.bio.username);
+                                })
+                    } catch (e) {
+                        this.error_snackbar = true
+                        this.progressbar =false
+                        console.log(e);
+                    }
+                    }else{
+                        this.fill_image_snackbar=true
+                        this.progressbar =false
+                    }
+                    }); 
+                }
+            }
         }
             // style is taken as array and made into a string
         //required attributes check..
     },
-    async update() {
-        this.progressbar =true
+    async updateImage() {
         let url = this.cropImage.generateDataUrl();
-        if(this.artist_data.introduction!=""){
-            if (url){
-            console.log("url");
+        if (url){
+            this.imgprogressbar =true
             let fileData = this.dataURLtoFile(url, "coverimage.png");
             let res = await this.$axios.$get("https://67s4bhk8w1.execute-api.us-east-2.amazonaws.com/v1/v1");
             if(res.statusCode == 200)
             {
-                console.log("200");
                 delete this.$axios.defaults.headers.common['Authorization']
                 let filename = res.key
                 let url = res.body
-                console.log(res);
                 url = url.slice(1, -1);
                 this.$axios.$put(url, fileData).then((value) => {
-                console.log("image is put", value);
-                this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
-                this.callApi();
-            })
+                    this.artist_data.cover = "https://mediumthumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    this.artist_data.thumb ="https://minithumbnails.s3.us-east-2.amazonaws.com/" + filename;
+                    const config = {
+                        headers: {
+                            "content-type": "multipart/form-data",
+                            "Authorization": this.$auth.strategy.token.get()
+                        }
+                    };
+                    let formPic = new FormData();
+                    formPic.append("profile_photo", this.artist_data.thumb);
+                    this.$axios.$patch("/v1/auth/user/", formPic, config).then(res=>{console.log(res);})
+                    let formName = new FormData();
+                    formName.append('cover', this.artist_data.cover);
+                    formName.append('thumb', this.artist_data.thumb);
+                    formName.append('username', this.artist_data['username']);
+                    this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config).then((val)=>{
+                        this.imgprogressbar = false;
+                        this.$store.dispatch("check_user_portfolio");
+                        this.snackbar = true;
+                    })
+                });
             }
-            else{
-                console.log("not 200 res");
-                this.progressbar =false
-                this.error_snackbar = true
-            }
-            // this.artist_data.cover = fileData;
-            }
-            else{
-                this.progressbar =false
-                this.fill_image_snackbar = true
-            }
+        else{
+            // console.log("not 200 res");
+            this.imgprogressbar =false
+            this.error_snackbar = true
+        }
+        console.log("deos this run", this.artist_data.thumb);
+        // this.artist_data.cover = fileData;
         }
         else{
-            this.progressbar = false
-            this.fill_intro_snackbar=true
+            this.fill_image_snackbar = true
         }
     },
-    async callApi(){
+    async update(){
+        if(this.$refs.website_form.validate()){
         try {
-            const config = {
+            this.progressbar =true
+        const config = {
             headers: {
                 "content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
         };
+        this.checkurl();   
         let myObj1 = this.usersPortfolio 
         let myObj2 = this.artist_data
         let myObj3 = this.usersBio
         let myObj4 = this.bio
-        // find keys 
-        let keyObj1 = Object.keys(myObj1); 
-        let keyObj2 = Object.keys(myObj2); 
-        let keyObj3 = Object.keys(myObj3); 
-        let keyObj4 = Object.keys(myObj4); 
-            
-        // find values 
-        let valueObj1 = Object.values(myObj1); 
-        let valueObj2 = Object.values(myObj2); 
-        let valueObj3 = Object.values(myObj3); 
-        let valueObj4 = Object.values(myObj4); 
+        console.log(JSON.stringify(myObj1) === JSON.stringify(myObj2));
+        console.log(JSON.stringify(myObj3) === JSON.stringify(myObj4));
+        let portfolioNotChanged = JSON.stringify(myObj1) === JSON.stringify(myObj2);
+        let bioNotChanged = JSON.stringify(myObj3) === JSON.stringify(myObj4)
+        
+        if(!portfolioNotChanged){
+            let keyObj1 = Object.keys(myObj1); 
+            let keyObj2 = Object.keys(myObj2); 
+            let valueObj1 = Object.values(myObj1); 
+            let valueObj2 = Object.values(myObj2); 
+            let formName = new FormData();
+            // now compare their keys and values  
+            for(var i=0; i<keyObj1.length; i++) { 
+                if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
+                    // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
+                } else {
+                    formName.append(keyObj1[i], valueObj2[i]);
+                } 
+            }
+            formName.append("username", this.artist_data['username']);
+            await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
+            this.$store.dispatch("check_user_portfolio");
+            console.log("portfolio updated");
+        }
 
-        // now compare their keys and values  
-        for(var i=0; i<keyObj1.length; i++) { 
-            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {	 
-                // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
-            } else {
-                let formName = new FormData();
-                formName.append(keyObj1[i], valueObj2[i]);
-                // console.log(" value changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	
-                formName.append("username", this.artist_data['username']);
-                let res = await this.$axios.$patch("/v1/artist/portfolios/"+this.usersPortfolio.username + '/', formName, config)
-                // console.log("patch on portfolio",res);
-            } 
-        }
-        for(var i=0; i<keyObj3.length; i++) { 
-            if(keyObj3[i] == keyObj4[i] && valueObj3[i] == valueObj4[i]) { 
-                // console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
-            } else { 
-                // it prints keys have different values 
-                let formName = new FormData();
-                formName.append(keyObj3[i], valueObj4[i]);
-                formName.append("username", this.bio['username']);
-                // console.log("key obj3: "+keyObj3[i]+"\nkeyobj4: "+keyObj4[i]+'\n myObj3 value: '+ valueObj3[i] + '\nmyObj4 value: '+ valueObj4[i] +'\n');
-                let res = await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName, config).catch(function(err){console.log(err.response.data);})
-                // console.log("patch on portfolio",res);
-                // console.log( valueObj3[i] ," changed"); 
-            } 
-        }
+        if(!bioNotChanged){     // find keys
+            let keyObj3 = Object.keys(myObj3); 
+            let keyObj4 = Object.keys(myObj4); 
+            // find values 
+            let valueObj3 = Object.values(myObj3); 
+            let valueObj4 = Object.values(myObj4); 
+
+            // console.log("portfolio patched");
+            let formName2 = new FormData();
+            for(var i=0; i<keyObj3.length; i++) { 
+                if(keyObj3[i] == keyObj4[i] && valueObj3[i] == valueObj4[i]) { 
+                    // console.log(" value not changed for: ",keyObj3[i]+' -> '+valueObj4[i]);	 
+                } else { 
+                    // console.log(" value changed for: ",keyObj3[i]+' -> '+valueObj4[i]);
+                    formName2.append(keyObj3[i], valueObj4[i]);
+                } 
+            }
+            formName2.append("username", this.bio['username']);
+            await this.$axios.$patch("/v1/artist/bios/"+this.usersPortfolio.username + '/', formName2, config)
+            this.$store.dispatch("check_user_bio");
+            console.log("bio patched");
+        }    
         this.progressbar =false
-        this.$store.dispatch("check_user_bio");
-        this.$store.dispatch("check_user_portfolio");
         this.snackbar = true;
         this.$router.push("/" + this.bio.username);
         } catch (error) {
-            console.log(error);
+            console.log(error, error.response);
+            this.errortext = error.response
             this.progressbar =false
             this.error_snackbar = true
+        }
         }
     },
     async deleted() {
         this.delete_progressbar = true
         const config = {
             headers: {"content-type": "multipart/form-data",
-                "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                "Authorization": this.$auth.strategy.token.get()
             }
         };
         try {
@@ -1076,25 +891,9 @@ methods: {
             this.artist_data.thumb = ''
             this.artist_data.introduction = ''
             this.artist_data.cover = ''
-            this.artist_data.username= this.$store.state.auth.user.user.username,
+            this.artist_data.username= this.loggedInUser.username,
             this.imageData = ''
-            this.bio.username= this.$store.state.auth.user.user.username,
-            // this.imageData4 = ''
-            // this.imageData2 = ''
-            // this.imageData1 = ''
-            // this.imageData3 = ''
-            this.yt1= false,
-            this.yt2= false,
-            this.yt3= false,
-            this.videoId1='',
-            this.videoId2='',
-            this.videoId3='',
-            this.videoId4='',
-            this.ytLinkError1='',
-            this.ytLinkError2='',
-            this.ytLinkError3='',
-            this.ytLinkError4='',
-            this.dummy_style =[],
+            this.bio.username= this.loggedInUser.username,
             this.cropImage.remove()
             this.dialog =false,
             this.snackbar = true;
@@ -1102,9 +901,20 @@ methods: {
             this.$router.push("/create/website");
         } catch (e) {
             console.log(e);
+            this.error_snackbar = true
             this.delete_progressbar = false
         }
     },
 }
 }
 </script>
+<style scoped>
+.canvas{
+    width: 100%;
+}
+.w-350{
+    max-width: 350px;
+    margin: auto;
+    padding-top: 10px;
+}
+</style>

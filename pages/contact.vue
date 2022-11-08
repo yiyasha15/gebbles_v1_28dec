@@ -1,16 +1,19 @@
 
 <template>
     <v-app> 
-        <v-container>
-            <div class="my-6 mx-auto" style="max-width:540px;">
-                <h3 class="my-4">We would love to hear from you.</h3>
-                <h5 class="my-4 font-weight-light">gebbles is an entirely homegrown community platform, hence in this version we apologize if you find bugs or error during your use.
-                    simply contact us using any of the below addresses and send us your queries/issues and we will try and solve it for you.
+        <v-container class="width mx-auto">
+            <!-- <v-breadcrumbs class="px-2"
+            divider="/"
+            :items="items"></v-breadcrumbs> -->
+            <div class="my-6">
+                <h1 class="my-4 font-weight-medium"><v-icon size="36">mdi-mailbox-outline</v-icon> Contact us!</h1>
+                <p class="my-2 font-weight-light">
+                    You can contact us using any(preferablly mail with the subject to be addressed) of the below addresses and send us your queries and we will get back to you.
                     <!-- Thankyou. -->
-                    </h5>
-                <h4 class="py-2">Email <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</h4>
-                <h4 class="py-2"> Instagram <a href="https://instagram.com/gebbles.io/" target="_blank">@gebbles.io.</a></h4>
-                <h4 class="py-2">To report a bug or suggest any additional features for the platform.</h4>
+                    </p>
+                <p>Email <a href="https://mailto:gebbles.io@gmail.com" target="_blank">gebbles.io@gmail.com</a>.</p>
+                <p>Instagram <a href="https://instagram.com/gebbles.io/" target="_blank">@gebbles.io.</a></p>
+                <p class="py-2">To report or suggest any features for gebbles.</p>
                 <v-card max-width="540" elevation="0" outlined class="mt-2">
                     <v-card-text>
                 <v-text-field
@@ -48,7 +51,19 @@ export default {
             errorEmail:'',
             errorName:'',
             errorQuestion:'',
-            snackbar:false
+            snackbar:false,
+            items: [
+            {
+                text: 'Help',
+                disabled: false,
+                href: '/help',
+            },
+            {
+                text: 'Contact',
+                disabled: false,
+                href: '/contact',
+            },
+            ],
         }
     },
     methods:{
@@ -92,3 +107,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.width{
+    max-width: 670px;
+}
+</style>

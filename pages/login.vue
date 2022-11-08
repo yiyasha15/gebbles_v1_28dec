@@ -6,7 +6,7 @@
 			<img
 			:height="$vuetify.breakpoint.smAndDown ? 38 : 48"
 			class="clickable mt-8"
-			:src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
+			:src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
 			<v-card-title class="justify-center">
 				<h3 class="font-weight-medium">Sign in to gebbles</h3>
 			</v-card-title>
@@ -31,7 +31,7 @@
 					color="#cead8f"/>
 			</v-card-text>
 			<v-card-actions class="mb-3 justify-center">
-				<v-btn @click="submitForm()" class="px-8" small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
+				<v-btn @click="submitForm()" class="px-8" small outlined  :loading="progressbar1">Sign in</v-btn>
 				<!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
 			</v-card-actions>
 			</v-form>
@@ -61,18 +61,19 @@ export default {
 						'email':this.userInfo.email,
 						'password':this.userInfo.password
 						}
-					}).then(res => {
-					this.$auth.setUser(res.data)
-					this.$auth.setUserToken(res.data.access_token)
-					this.$auth.setRefreshToken('local', res.data.refresh_token);
-					// this.$store.dispatch("check_artists");
-					this.$store.dispatch("check_user_portfolio");
-					this.$store.dispatch("check_user_bio");
-					// this.$store.dispatch("check_user_journey");
-					this.$store.dispatch("check_user_teachers");
-					this.$store.dispatch("check_notifications");
-					this.progressbar1 = false;
-					this.$router.push('/')})
+					}).then(res => { 
+						console.log(res.data);
+						this.$auth.setUser(res.data)
+						this.$auth.$storage.setUniversal('user', res.data, true)
+						this.$auth.strategy.token.set(res.data.access_token)
+						// this.$auth.strategy.refreshToken.set(res.data.refresh_token)
+						this.$store.dispatch("check_user_portfolio");
+						this.$store.dispatch("check_user_bio");
+						this.$store.dispatch("check_user_teachers");
+						this.$store.dispatch("check_notifications");
+						this.progressbar1 = false;
+						this.$router.push('/')
+					})
 				}catch(error){
 					this.progressbar1 = false;
 					if(error.response.data.non_field_errors){

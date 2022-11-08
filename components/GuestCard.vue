@@ -4,23 +4,30 @@
     <v-card 
       data-view
       @click="opendialog"
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
       outlined
       :width="img_height"
       :height="img_height"
+      class="pa-0 mx-auto"
     >
-      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-        v-if = guest.photo :src = "guest.photo" 
+      <v-img  
+      v-if="guest.photo && guest.photo != 'undefined'"
+        :src = "guest.photo" 
         :height="img_height"
         :width="img_height">
+        <!-- <div class="text-center">
+          <h3 style="height:55px; overflow:hidden;" class="font-weight-medium px-2 white--text mt-15 hidden-sm-and-up" >{{guest.name}}</h3>
+          <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-medium px-6  white--text hidden-xs-only" >{{guest.name}}</h3>
+        </div> -->
       </v-img>
-      <v-img gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-         v-else
+      <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
+         v-else 
+         :src = "poster" 
         :height="img_height"
         :width="img_height">
       <div class="text-center">
-        <h4 style="height:55px; overflow:hidden;" class="font-weight-light white--text mt-md-24 mt-6 hidden-xs-only">{{guest.name}}</h4>
-        <p style="height:45px; overflow:hidden;" class="font-weight-light white--text mt-md-24 mt-7 pb-0  hidden-sm-and-up">{{guest.name}}</p>
+        <h3 style="height:55px; overflow:hidden;" class="font-weight-medium px-2 white--text mt-15 hidden-sm-and-up" >{{guest.name}}</h3>
+        <h3 style="height:55px; overflow:hidden; margin-top:120px" class="font-weight-medium px-6  white--text hidden-xs-only" >{{guest.name}}</h3>
       </div>
       </v-img>
     </v-card>
@@ -36,16 +43,17 @@
               <v-icon>mdi-close</v-icon>
           </v-btn>
           </v-row>
-        <v-img class="mt-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
-
-        <nuxt-link v-if="guest.username" :to="'/' + guest.username" class="primary text-decoration-none" > <h3 class="font-weight-light mt-2">{{guest.name}}</h3></nuxt-link>
-        <h3 v-else class="font-weight-light mt-2">{{guest.name}}</h3>
-        <h3 class="font-weight-light mt-2">{{guest.info}}</h3>
+        <v-img class="my-4 mx-auto" v-if="guest.photo"  max-height="400px" contain :src="guest.photo"></v-img>
+        <!-- {{guest}} -->
+        <nuxt-link v-if="guest.guest && typeof guest.guest == 'object'" :to="'/' + guest.guest.username" class="primary--text text-decoration-none" > <h3 class="font-weight-medium d-inline">{{guest.name}}</h3></nuxt-link>
+        <h3 v-else class="font-weight-medium  d-inline">{{guest.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'guest.country' /> </span>
+        <h4 class="font-weight-light mt-3 mt-md-5 text-pre-wrap guest_info" >{{guest.info}}</h4>
         </v-container>
     </v-dialog> 
 </div>
 </template>
 <script>
+import CountryFlag from 'vue-country-flag'
   export default {
     head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -54,9 +62,12 @@
     },
     name: 'GuestCard',
     props: {
-      guest: Object
+      guest: Object,
+      poster: String
     },
-    
+    components: {
+        CountryFlag
+      },
     data(){
       return{
         dialog: false
@@ -65,8 +76,8 @@
     computed: {
     img_height () {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 180
-        case 'sm': return 200
+        case 'xs': return 185
+        case 'sm': return 300
         case 'md': return 300
         case 'lg': return 300
         case 'xl': return 300
@@ -80,4 +91,10 @@
     }
   }
 </script>
+<style scoped>
+.guest_info{
+  max-height: 456px;
+  overflow: auto;
+}
+</style>
 

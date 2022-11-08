@@ -1,7 +1,8 @@
 <template>
   <v-app>
-    <the-header/>
-      <nuxt/>
+    <!-- <the-header/> -->
+    <dashboard/>
+      <nuxt class="mt-78"/>
     <the-footer/>
   </v-app>
 </template>
@@ -9,10 +10,12 @@
 <script>
 import TheHeader from '@/components/TheHeader'
 import TheFooter from '@/components/TheFooter'
+import Dashboard from '~/components/Dashboard.vue'
 export default {
   components:{
     TheHeader,
-    TheFooter
+    TheFooter,
+    Dashboard
   },
   head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -29,5 +32,10 @@ export default {
   } 
 }
 </script>
+<style>
+.mt-78{
+  margin-top: 78px;
+}
+</style>
 
 

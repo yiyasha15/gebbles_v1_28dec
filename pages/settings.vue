@@ -1,11 +1,10 @@
 <template>
     <v-app> 
-        <v-container style="max-width:1072px;">
-            <div :class="{'ma-0': $vuetify.breakpoint.smAndDown, 'ma-6': $vuetify.breakpoint.mdAndUp}">
-            <h2 class="my-4">Settings</h2>
-            <v-card max-width="700" class="my-6 pa-2" elevation="0" outlined>
-            <div :class="{'ma-2': $vuetify.breakpoint.smAndDown, 'ma-6': $vuetify.breakpoint.mdAndUp}">
-                <h3 :class="{'my-4': $vuetify.breakpoint.smAndDown, 'my-6': $vuetify.breakpoint.mdAndUp}">User</h3>
+        <v-container class="width mx-auto">
+            <h2 class="font-weight-medium mb-4">Settings</h2>
+            <v-card class="my-6 pa-2 width" elevation="0" outlined>
+            <div class="ma-2 ma-md-6">
+                <h3 class="font-weight-medium my-4 my-md-6">User</h3>
                 <v-form>
                     <v-text-field readonly v-model="email" label="Email" prepend-icon="mdi-account-circle" />
                     <v-text-field readonly v-model="username" label="Username" prepend-icon="mdi-account-circle" />
@@ -14,9 +13,9 @@
                 @click="save_information">Save Information</v-btn> -->
             </div>
             </v-card>
-            <v-card width="700" class="my-6 pa-2" elevation="0" outlined>
-            <div :class="{'ma-2': $vuetify.breakpoint.smAndDown, 'ma-6': $vuetify.breakpoint.mdAndUp}">
-                <h3 :class="{'my-4': $vuetify.breakpoint.smAndDown, 'my-6': $vuetify.breakpoint.mdAndUp}">Account</h3>
+            <v-card  class="my-6 pa-2 width" elevation="0" outlined>
+            <div class="ma-2 ma-md-6">
+                <h3 class="font-weight-medium my-4 my-md-6">Account</h3>
                 <v-form ref="form">
                     <v-text-field     
 					:error-messages="errorPasswordOld"
@@ -27,6 +26,7 @@
 					prepend-icon="mdi-lock"
 					:append-icon="showPasswordOld ? 'mdi-eye' : 'mdi-eye-off'"
 					@click:append="showPasswordOld = !showPasswordOld"
+                    @input="clearErrorOld"
 				    />
                     <v-text-field     
 					:error-messages="errorPassword1"
@@ -37,6 +37,7 @@
 					prepend-icon="mdi-lock"
 					:append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
 					@click:append="showPassword1 = !showPassword1"
+                    @input="clearErrorNew1"
 				    />
                     <v-text-field   
                     :error-messages="errorPassword2" 
@@ -46,21 +47,21 @@
                         prepend-icon="mdi-lock"
                         :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
                         @click:append="showPassword2 = !showPassword2"
+                        @input="clearErrorNew2"
                     />
                 </v-form>
-            <v-btn small class="text-decoration-none" outlined  color="black" dark
+            <v-btn small class="text-decoration-none" outlined  color="black" dark :loading="set_new_password_loading"
                 @click="set_new_password">Set New Password</v-btn>
             </div>
             </v-card>
-            <v-card width="700" class="my-6 pa-2" elevation="0" outlined>
-            <div :class="{'ma-2': $vuetify.breakpoint.smAndDown, 'ma-6': $vuetify.breakpoint.mdAndUp}">
-                <h3 :class="{'my-4': $vuetify.breakpoint.smAndDown, 'my-6': $vuetify.breakpoint.mdAndUp}">Delete Account</h3>
+            <v-card class="my-6 pa-2 width" elevation="0" outlined>
+            <div class="ma-2 ma-md-6">
+                <h3 class="font-weight-medium my-4 my-md-6">Delete Account</h3>
                 <p>Deleting your account will make you loose all your data.</p>
             <v-btn small class="text-decoration-none mt-2" outlined  color="error" dark
                 @click="delete_account">Delete Account</v-btn>
             </div>
             </v-card>
-            </div>
             <v-snackbar v-model="change_snackbar"> 
                 Password changed successfully.
             </v-snackbar>
@@ -77,7 +78,7 @@
     </v-app>
 </template>
 <script>
-import { refresh } from 'aos';
+import { mapGetters } from 'vuex'
 export default {
     middleware : 'check_auth',
     data() {
@@ -98,8 +99,9 @@ export default {
         showPassword1: false,
         showPassword2: false,
         hasName: false,
-        email: this.$store.state.auth.user.user.email,
-        username: this.$store.state.auth.user.user.username,
+        set_new_password_loading:false,
+        email: this.$store.state.auth.user.email,
+        username: this.$store.state.auth.user.username,
         info: {
             old_password: '',
             new_password1: '',
@@ -110,12 +112,18 @@ export default {
      mounted() {
     this.$store.dispatch("check_user_portfolio");
     },
+    computed: {
+    ...mapGetters(['loggedInUser']),
+    },
     methods: {
+        clearErrorOld(){this.errorPasswordOld=''},      
+        clearErrorNew1(){this.errorPassword1 = ''},  
+        clearErrorNew2(){this.errorPassword2 =''},           
         async save_information() {
             const config = {
                 headers: {
                     "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             try {
@@ -129,10 +137,11 @@ export default {
             
         }, 
         async set_new_password() {
+            this.set_new_password_loading = true;
             const config = {
                 headers: {
                     "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             try {
@@ -143,6 +152,7 @@ export default {
                 console.log(formPassword);
                 let res= await this.$axios.$post("/v1/auth/password/change/", formPassword, config)
                 //new password
+                this.set_new_password_loading=false;
                 this.info.old_password=''
                 this.info.new_password1=''
                 this.info.new_password2=''
@@ -154,6 +164,7 @@ export default {
                 this.change_snackbar = true;
                 // this.$router.push("/settings");
             } catch (err) {
+                this.set_new_password_loading =false
                 if(err.response.data){
                     let er = err.response.data
                     console.log(er);
@@ -177,7 +188,7 @@ export default {
             const config = {
                 headers: {
                     "content-type": "multipart/form-data",
-                    "Authorization": "Bearer " + this.$store.state.auth.user.access_token
+                    "Authorization": this.$auth.strategy.token.get()
                 }
             };
             try {
@@ -193,3 +204,14 @@ export default {
     }
 }
 </script>
+<style scoped>
+
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 420px;
+}
+}
+</style>

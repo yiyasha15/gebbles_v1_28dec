@@ -1,573 +1,266 @@
 <template>
   <v-app>
-    <!-- <v-container> -->
     <template v-if="userNotFound" >
         <the-header></the-header>
         <h4 class="mx-auto my-12">Artist portfolio not found.</h4>
     </template>
     <template v-else>
-    <v-row class="ma-0" >
-        <v-col cols="12" sm="6" >
-            <v-layout align-center>
-                <nuxt-link :to="'/'" class="text-decoration-none">
+         <v-app-bar flat fixed class="background mx-1 mx-sm-5" height="80">
+             <v-layout align-center>
+             <nuxt-link :to="'/'" class="text-decoration-none">
                 <img
-                :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
-                class="ml-1 clickable"
-                :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
-                <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center" style="max-width:fit-content; overflow:hidden;">
-                <div>
-                    <h2 v-if="artist.artist_name" class="xs12" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">{{artist.artist_name}}</h2>
-                    <h2 v-else class="xs12" style="color:black; font-family: 'Poiret One', cursive; margin-bottom:7px">{{artist.username}} </h2>
+                :height="$vuetify.breakpoint.smAndDown ? 28 : 38"
+                class="clickable"
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                </nuxt-link>
+                <nuxt-link :to="'/'+artist.username" class="text-decoration-none align-center">
+                <div> 
+                    <h2 v-if="artist.artist_name" class="xs12 artist_toolbar_name1">{{artist.artist_name}}</h2>
+                    <h2 v-else class="xs12 artist_toolbar_name1">{{artist.username}} </h2>
                 </div>
                 </nuxt-link>
-                <v-spacer></v-spacer>
-                <!-- <v-btn icon small
-                :to= "`/${artist.username}/each1teach1`"
-                class="text-decoration-none mx-1 hidden-sm-and-up">
-                <v-icon size="26" color="black" >
-                    mdi-google-circles-communities
-                </v-icon>
-            </v-btn> -->
-                <v-btn icon small v-if="isAuthenticated"
-            :to="'/'"
-            class="text-decoration-none mx-1 hidden-sm-and-up"
-            >
-            <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
-            </v-btn>
-            <v-btn icon small
-            v-if="isAuthenticated"
-            :to="'/events'"
-            class="text-decoration-none mx-1 hidden-sm-and-up"
-        >
-            <v-icon size="26" color="black" >
-                mdi-google-circles-communities
-            </v-icon>
-        </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-            <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" class="mx-1 hidden-sm-and-up"
-            v-on="on">
-        <v-icon color="black">mdi-plus-circle-outline</v-icon>
-            </div>
-            </template>
-            <v-list>
-                <!-- <v-list-item
-                :to="'/create/uploadvideo'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                <v-list-item-title>Upload a gebble</v-list-item-title>
-                </v-list-item> -->
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/events'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
-                <v-list-item-title>Create your event</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="!userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                <v-list-item-title>Create a portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                <v-list-item-title>Edit your portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/journey'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-chart-line-variant</v-icon>
-                
-                <v-list-item-title>Share journey</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/each1teach1'"
-                class="text-decoration-none pl-6 pr-12"
-                >
-                <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
-                <v-list-item-title>Give a shoutout</v-list-item-title>
-                </v-list-item>
-            </v-list>
-            </v-menu>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio  && notifications_notseen>0" icon dark color="black" class="mx-1 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
-                <v-badge color="error" overlap :content='notifications_notseen'>
-                <v-icon color="black">mdi-heart-circle-outline</v-icon>
-                </v-badge>
-                </v-btn>
-                <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mx-1 text-decoration-none  hidden-sm-and-up" :to= "`/${artist.username}/notifications`">
-                <v-icon color="black">mdi-heart-circle-outline</v-icon>
-                </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class="mx-1  hidden-sm-and-up"
-                    v-on="on">
-                    <v-btn icon small
-                v-if=" isAuthenticated  && userHasPortfolio"
-                class="text-decoration-none mr-1"
-                >
-                <v-avatar size="26" v-if="usersPortfolio.thumb">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
-                    :src = "usersPortfolio.thumb" 
-                    alt="img"
-                >
-                </v-avatar>
-                <v-avatar size="26" color="black" v-else >
-                    <v-icon dark>
-                        mdi-account-circle
-                    </v-icon>
-                </v-avatar>
-                </v-btn>
-                    </div>
-                </template>
-                <v-list>
-                    <v-list-item
-                :to="'/'+ loggedInUser.user.username"
-                class="text-decoration-none pl-5"
-                >
-                <!-- <img
-                    height="28"
-                    :src="require('@/assets/gebbleslogo.png')"
-                    alt="img"
-                > -->
-                <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
-                </v-list-item>
-                    <v-list-item
-                    :to="'/settings'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Settings</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    :to="'/logout'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign Out</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-
-            <v-menu v-else transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class="hidden-sm-and-up"
-                    v-on="on"><v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon></v-btn>
-                    </div>
-                </template>
-                <v-list>
-                    <v-list-item
-                    @click="loginDialog=true"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign In</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    @click="registerDialog=true"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign Up</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            </v-layout>
-        </v-col>
-        <v-col cols="12" sm="6" :class="{'align-center justify-center': $vuetify.breakpoint.xs, 'px-2 d-flex align-center justify-end': $vuetify.breakpoint.smAndUp}">
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium" style="text-transform: capitalize;">About</h4></v-btn>
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium" style="text-transform: capitalize;">Journey</h4></v-btn> 
-            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium" style="text-transform: capitalize;">E1T1</h4></v-btn>
-            <!-- <v-btn icon small
-                :to= "`/${artist.username}/each1teach1`"
-                class="text-decoration-none mx-1 d-none d-sm-flex">
-                <v-icon size="26" color="black" >
-                    mdi-google-circles-communities
-                </v-icon>
-            </v-btn> -->
+             </v-layout>
+            <v-spacer></v-spacer>
+            <v-btn small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium text-capitalize">About</h4></v-btn>
+            <v-btn small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium text-capitalize" >Journey</h4></v-btn> 
+            <!-- <v-btn v-if="isAuthenticated && artist.username == loggedInUser.username" small class="hidden-xs-only elevation-0 text-decoration-none mr-sm-2 mr-md-3 mx-1" :to= "`/${artist.username}/each1teach1`"><h4 class="font-weight-medium text-capitalize">E1T1</h4></v-btn> -->
             <v-btn icon small v-if="isAuthenticated"
             :to="'/'"
-            class="text-decoration-none mx-1 d-none d-sm-flex"
+            class="text-decoration-none mr-sm-2 mr-md-3 mx-1"
             >
             <v-icon size="26" color="black" >mdi-home-circle-outline</v-icon>
             </v-btn>
-            <v-btn icon small
-            v-if="isAuthenticated"
-            :to="'/events'"
-            class="text-decoration-none mx-1 d-none d-sm-flex"
-        >
-            <v-icon size="26" color="black" >
-                mdi-google-circles-communities
-            </v-icon>
-        </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
-            <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" class="mx-1 d-none d-sm-flex"
-            v-on="on">
-            <v-icon size="26" color="black">mdi-plus-circle-outline</v-icon>
-            </div>
+            <template v-if="isAuthenticated">
+            <plus-button v-if="userHasPortfolio"></plus-button>
+            <!-- {{notifications_notseen}} -->
+            <v-btn small v-if="userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
+            <v-badge color="error" overlap :content='notifications_notseen'>
+            <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
+            </v-badge>
+            </v-btn>
+            <v-btn small v-if="userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
+            <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
+            </v-btn>
+            <right-navigation></right-navigation>
             </template>
-            <v-list>
-                <!-- <v-list-item
-                :to="'/create/uploadvideo'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-tray-arrow-up</v-icon>
-                <v-list-item-title>Upload a gebble</v-list-item-title>
-                </v-list-item> -->
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/events'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-calendar-heart</v-icon>
-                <v-list-item-title>Create your event</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="!userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                <v-list-item-title>Create a portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/website'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>
-                <v-list-item-title>Edit your portfolio</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/journey'"
-                class="text-decoration-none pl-6 pr-12"
-                ><v-icon color="black" class="pr-2">mdi-chart-line-variant</v-icon>
-                
-                <v-list-item-title>Share journey</v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                v-if="userHasPortfolio"
-                :to="'/create/each1teach1'"
-                class="text-decoration-none pl-6 pr-12"
-                >
-                <v-icon color="black" class="pr-2">mdi-infinity</v-icon>
-                <v-list-item-title>Give a shoutout</v-list-item-title>
-                </v-list-item>
-            </v-list>
-            </v-menu>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mx-1 text-decoration-none d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
-                <v-badge color="error" overlap :content='notifications_notseen'>
-                <v-icon color="black">mdi-heart-circle-outline</v-icon>
-                </v-badge>
-            </v-btn>
-            <v-btn small v-if="isAuthenticated && userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mx-1 text-decoration-none  d-none d-sm-flex" :to= "`/${artist.username}/notifications`">
-            <v-icon color="black">mdi-heart-circle-outline</v-icon>
-            </v-btn>
-            <v-menu v-if="isAuthenticated" transition="slide-y-transition" open-on-hover offset-y bottom left>
+            <register-login v-else></register-login>
+            <!-- <v-btn icon small @click="drawer_right=!drawer_right" v-if="!isAuthenticated" class="mx-2">
+            <v-avatar size="26" >
+                <v-icon dark  color="black">
+                    mdi-account-circle
+                </v-icon>
+            </v-avatar>
+            </v-btn> -->
+        </v-app-bar>
+        <div class="hidden-sm-and-up">
+        <v-row class="mt-84 mb-1 mx-4 d-flex">
+            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/about`"><h4 class="font-weight-medium text-capitalize">About</h4></v-btn>
+            <v-btn small class="elevation-0 text-decoration-none mx-1" :to= "`/${artist.username}/journey`"> <h4 class="font-weight-medium text-capitalize" >Journey</h4></v-btn> 
+            <v-spacer></v-spacer>
+            <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class="mx-1  d-none d-sm-flex"
-                    v-on="on">
-                    <v-btn icon small
-                v-if="userHasPortfolio"
-                class="text-decoration-none mr-1 d-none d-sm-flex"
-                >
-                <v-avatar size="26" v-if="usersPortfolio.thumb">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 22 : 20"
-                    :src = "usersPortfolio.thumb" 
-                    alt="img"
-                >
-                </v-avatar>
-                <v-avatar size="26" color="black" v-else >
-                    <v-icon dark>
-                        mdi-account-circle
-                    </v-icon>
-                </v-avatar>
+                    <v-btn to="/create/website" small outlined
+                    elevation="0" 
+                    v-bind="attrs"
+                    v-on="on"
+                    v-if="isAuthenticated && artist.username == loggedInUser.username">
+                <v-icon>mdi-account-edit-outline</v-icon>
                 </v-btn>
-                    
-                    </div>
                 </template>
-                <v-list>
-                    <v-list-item
-                    :to="'/'+ loggedInUser.user.username"
-                    class="text-decoration-none pl-5"
-                    >
-                    <!-- <img
-                    height="28"
-                        :src="require('@/assets/gebbleslogo.png')"
-                        alt="img"
-                    > -->
-                    <v-list-item-title class="pl-1" ><h3 style="font-family: 'Poiret One', cursive;">{{loggedInUser.user.username}}</h3></v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    :to="'/settings'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Settings</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    :to="'/logout'"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign Out</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            <v-menu v-else transition="slide-y-transition" open-on-hover offset-y bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs" class=" d-none d-sm-flex"
-                    v-on="on"><v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon></v-btn>
-                    </div>
-                </template>
-                <v-list>
-                    <v-list-item
-                    @click="loginDialog=true"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign In</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                    @click="registerDialog=true"
-                    class="text-decoration-none pl-6 pr-12"
-                    >
-                    <v-list-item-title>Sign Up</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-        </v-col>
-    </v-row>
+                <span>Edit portfolio</span>
+            </v-tooltip>
+        </v-row>
+        </div>
+    <nuxt-child class="mt-78" :artist='artist' :bio='bio' />
+    </template>
     <v-dialog persistent
-            v-model="loginDialog"
-            max-width="450">
-            <center>
-            <v-card max-width="450" class="pa-2" elevation="0" outlined>
-                <div align="end">
-                <v-btn icon color="error" @click="loginDialog=false" >
-                    <v-icon >mdi-close</v-icon>
-                </v-btn>
-                </div>
-                <nuxt-link :to="'/'" class="text-decoration-none">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
-                class="clickable mt-8"
-                :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
-                <v-card-title class="justify-center">
-                    <h3 class="font-weight-medium">Sign in to gebbles</h3>
-                </v-card-title>
-                <v-form ref="loginform">
-                <v-card-text>
-                    <v-text-field 
-                        :rules=" emailRules" 
-                        :error-messages="errorEmail"
-                        v-model="userInfo.email" 
-                        label="Email" 
-                        prepend-icon="mdi-account-circle"
-                        color="#cead8f" />
-                    <v-text-field  
-                        :rules="passwordRules"
-                        :error-messages="errorPassword"    
-                        v-model="userInfo.password"
-                        :type="showPassword ? 'text' : 'password'"
-                        label="Password" 
-                        prepend-icon="mdi-lock"
-                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="showPassword = !showPassword"
-                        color="#cead8f"/>
-                </v-card-text>
-                <v-card-actions class="mb-3 justify-center">
-                    <v-btn @click="submitForm()" class="px-8 " small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
-                    <!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
-                </v-card-actions>
-                </v-form>
-                <center> <h5 class="py-4 font-weight-light"> <span @click="forgot" style="cursor:pointer; text-decoration:none; color:#3f51b5;">I forgot my password. </span></h5></center>
-                <v-divider></v-divider>
-                <center> <h5 class="py-4 font-weight-light">Don't have an account? <span @click="loginDialog=false; registerDialog=true; " style="cursor:pointer; text-decoration:none; color:#3f51b5;">Sign up. </span></h5></center>
-                <!-- <p class="text-center pa-4">gebbles is currently a community of {{img_artists}} dancers.</p> -->
-            </v-card>
-            </center>
-    </v-dialog>
-    <v-dialog persistent
-    v-model="registerDialog"
-    max-width="450">
-    <center>
-        <v-card max-width="450" class="pa-2 " elevation="0" outlined>
+        v-model="loginDialog"
+        max-width="450">
+        <center>
+        <v-card max-width="450" class="pa-2" elevation="0" outlined>
             <div align="end">
-            <v-btn icon color="error" @click="registerDialog=false" >
+            <v-btn icon color="error" @click="loginDialog=false" >
                 <v-icon >mdi-close</v-icon>
             </v-btn>
             </div>
-    <div class="mt-8"><nuxt-link :to="'/'" class="text-decoration-none">
-    <img
-    :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
-    class="clickable"
-    :src="require('@/assets/gebbleslogo.png')"/></nuxt-link>
-    </div>
-    <v-card-title class="justify-center">
-        <h3 class="font-weight-medium">Sign up to gebbles</h3>
-    </v-card-title>
-    <v-card-text>
-    <v-form ref="form" >
-        <v-text-field :maxlength="30" 
-        :rules="usernameRules" 
-        v-model="registrationInfo.username" 
-        label="Username" 
-        prepend-icon="mdi-account-circle" 
-        :error-messages="errorUsername"
-        color="#cead8f"/>
-    <v-text-field v-model="registrationInfo.email" 
-        :rules="emailRules" 
-        :error-messages="errorEmail1"
-        label="Email" 
-        prepend-icon="mdi-account-circle" 
-        autocomplete="email"
-        color="#cead8f"/>
-    <v-text-field     
-        :error-messages="errorPassword1"
-        :rules="passwordRules"   
-        v-model="registrationInfo.password1"
-        :type="showPassword1 ? 'text' : 'password'"
-        label="Password"
-        prepend-icon="mdi-lock"
-        :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append="showPassword1 = !showPassword1"
-        color="#cead8f"
-    />
-    <v-text-field   
-        :error-messages="errorPassword2" 
-        :rules="passwordRules" 
-        v-model="registrationInfo.password2"
-        :type="showPassword2 ? 'text' : 'password'"
-        label="Confirm Password"
-        prepend-icon="mdi-lock"
-        :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append="showPassword2 = !showPassword2"
-        color="#cead8f"
-    />
-    <v-select label="Representing" v-model= "registrationInfo.country"
-    :rules="countryRules" 
-        :error-messages="errorCountry" 
-        :items="countries"
-        prepend-icon="mdi-earth"
-        item-text="name"
-        item-value="code"
-        color="#cead8f"
-        required
-    ></v-select>
-    <v-radio-group v-model="registrationInfo.gender" :rules="genderRules"  :mandatory="true" row>
-        <v-radio 
-            label="Male" 
-            value="M"
-            color="#cead8f"> 
-        </v-radio>
-        <v-radio 
-            label="Female" 
-            value="F"
-            color="#cead8f">
-        </v-radio>
-        <v-radio 
-            label="Custom" 
-            value="NS"
-            color="#cead8f">
-        </v-radio>
-        <v-text-field color="#cead8f"
-        v-if="registrationInfo.gender == 'NS'"
-        label="What's your gender">
-        </v-text-field>
-    </v-radio-group>
-    <v-checkbox color="#cead8f" v-model="checkbox" :rules="checkboxRules"  :error-messages="errorCheckbox" >
-    <template v-slot:label>
-        <div class="mt-2" >
-        Do you accept the
-        <a href="#" class="text-decoration-none" @click="terms = true">terms</a>
-        and
-        <a href="#" class="text-decoration-none" @click.prevent="conditions = true">conditions?</a>
-        </div>
-    </template>
-    </v-checkbox>
-    <v-card-actions class="mb-3 justify-center">
-    <v-btn @click="registerUser(registrationInfo)" dark small class="px-8" color="black" :loading="progressbar" >Create Account</v-btn>
-    </v-card-actions>
-    </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <center class="py-4"> <h5 class=" font-weight-light d-inline">Already have an account? <span @click="registerDialog=false; loginDialog=true;" style="cursor:pointer; text-decoration:none; color:#3f51b5;">Sign in. </span></h5></center>
-    <v-dialog v-model="terms" max-width="450" persistent>
-    <v-card>
-    <v-card-title class="title">
-    Terms
-    </v-card-title>
-    <v-card-text>
-    {{ termsContent }}
-    </v-card-text>
-    <v-card-actions>
-    <!-- <v-spacer></v-spacer> -->
-    <v-btn small outlined text color="#cead8f" @click="terms = false">
-    Ok
-    </v-btn>
-    </v-card-actions>
-    </v-card>
-    </v-dialog>
-    <v-dialog persistent
-        v-model="conditions"
-        max-width="450"
-        >
-        <v-card>
-        <v-card-title class="title">
-        Conditions
-        </v-card-title>
-        <v-card-text
-        >
-        {{ conditionContent }} 
-        </v-card-text>
-        <v-card-actions>
-        <!-- <v-spacer></v-spacer> -->
-        <v-btn
-            text
-            small
-            outlined
-            color="#cead8f"
-            @click="conditions = false"
-        >
-            Ok
-        </v-btn>
-        </v-card-actions>
+            <nuxt-link :to="'/'" class="text-decoration-none">
+            <img
+            :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
+            class="clickable mt-8"
+            :src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
+            <v-card-title class="justify-center">
+                <h3 class="font-weight-medium">Sign in to gebbles</h3>
+            </v-card-title>
+            <v-form ref="loginform">
+            <v-card-text>
+                <v-text-field 
+                    :rules=" emailRules" 
+                    :error-messages="errorEmail"
+                    v-model="userInfo.email" 
+                    label="Email" 
+                    prepend-icon="mdi-account-circle"
+                    color="#cead8f" />
+                <v-text-field  
+                    :rules="passwordRules"
+                    :error-messages="errorPassword"    
+                    v-model="userInfo.password"
+                    :type="showPassword ? 'text' : 'password'"
+                    label="Password" 
+                    prepend-icon="mdi-lock"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="showPassword = !showPassword"
+                    color="#cead8f"/>
+            </v-card-text>
+            <v-card-actions class="mb-3 justify-center">
+                <v-btn @click="submitForm()" class="px-8 " small outlined color="black" dark :loading="progressbar1">Sign in</v-btn>
+                <!-- <v-btn to='/register' class="ml-4 px-4 text-decoration-none" small  color="primary" >Register first</v-btn> -->
+            </v-card-actions>
+            </v-form>
+            <center> <h5 class="py-4 font-weight-light"> <span @click="forgot" style="cursor:pointer; text-decoration:none; color:#3f51b5;">I forgot my password. </span></h5></center>
+            <v-divider></v-divider>
+            <center> <h5 class="py-4 font-weight-light">Don't have an account? <span @click="loginDialog=false; registerDialog=true; " style="cursor:pointer; text-decoration:none; color:#3f51b5;">Sign up. </span></h5></center>
+            <!-- <p class="text-center pa-4">gebbles is currently a community of {{img_artists}} dancers.</p> -->
         </v-card>
+        </center>
     </v-dialog>
     <v-dialog persistent
-    v-model="verify"
-    max-width="450"
-    >
-    <v-card>
-    <v-card-title class="py-4" >
-        <h4>Instruction is sent.</h4>
-    </v-card-title>
-    <v-divider class="mx-6"></v-divider>
-    <v-card-text class="py-4"
-    >
-    <p>Please verify your registered email <span class="font-weight-bold">{{this.tempemail}}</span>, by clicking on the link we sent you and sign in to continue.</p>
-    <!-- {{this.tempemail}} -->
-    </v-card-text>
-    <v-card-actions class="px-6 pt-0 pb-4">
-    <!-- <v-spacer></v-spacer> -->
-    <v-btn 
-        outlined small
-        color="black"
-        @click="loginDialog=true; verify=false"
-    >
-        Ok
-    </v-btn>
-    </v-card-actions>
-    </v-card>
+        v-model="registerDialog"
+        max-width="450">
+        <center>
+            <v-card max-width="450" class="pa-2 " elevation="0" outlined>
+                <div align="end">
+                <v-btn icon color="error" @click="registerDialog=false" >
+                    <v-icon >mdi-close</v-icon>
+                </v-btn>
+                </div>
+                <div class="mt-8"><nuxt-link :to="'/'" class="text-decoration-none">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
+                class="clickable"
+                :src="require('@/assets/gebbleslogo_tab.png')"/></nuxt-link>
+                </div>
+                <v-card-title class="justify-center">
+                    <h3 class="font-weight-medium">Sign up to gebbles</h3>
+                </v-card-title>
+                <v-card-text>
+                <v-form ref="form" >
+                    <v-text-field :maxlength="30" 
+                    :rules="usernameRules" 
+                    v-model="registrationInfo.username" 
+                    label="Username" 
+                    prepend-icon="mdi-account-circle" 
+                    :error-messages="errorUsername"
+                    color="#cead8f"/>
+                <v-text-field v-model="registrationInfo.email" 
+                    :rules="emailRules" 
+                    :error-messages="errorEmail1"
+                    label="Email" 
+                    prepend-icon="mdi-account-circle" 
+                    autocomplete="email"
+                    color="#cead8f"/>
+                <v-text-field     
+                    :error-messages="errorPassword1"
+                    :rules="passwordRules"   
+                    v-model="registrationInfo.password1"
+                    :type="showPassword1 ? 'text' : 'password'"
+                    label="Password"
+                    prepend-icon="mdi-lock"
+                    :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="showPassword1 = !showPassword1"
+                    color="#cead8f"
+                />
+                <v-text-field   
+                    :error-messages="errorPassword2" 
+                    :rules="passwordRules" 
+                    v-model="registrationInfo.password2"
+                    :type="showPassword2 ? 'text' : 'password'"
+                    label="Confirm Password"
+                    prepend-icon="mdi-lock"
+                    :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="showPassword2 = !showPassword2"
+                    color="#cead8f"
+                />
+                <v-autocomplete label="Representing" v-model= "registrationInfo.country"
+                :rules="countryRules" 
+                    :error-messages="errorCountry" 
+                    :items="countries"
+                    prepend-icon="mdi-earth"
+                    item-text="name"
+                    item-value="code"
+                    color="#cead8f"
+                    required
+                ></v-autocomplete>
+                <v-radio-group v-model="registrationInfo.gender" :rules="genderRules"  :mandatory="true" row>
+                    <v-radio 
+                        label="Male" 
+                        value="M"
+                        color="#cead8f"> 
+                    </v-radio>
+                    <v-radio 
+                        label="Female" 
+                        value="F"
+                        color="#cead8f">
+                    </v-radio>
+                    <v-radio 
+                        label="Custom" 
+                        value="NS"
+                        color="#cead8f">
+                    </v-radio>
+                    <v-text-field color="#cead8f"
+                    v-if="registrationInfo.gender == 'NS'"
+                    label="What's your gender">
+                    </v-text-field>
+                </v-radio-group>
+                <v-checkbox color="#cead8f" v-model="checkbox" :rules="checkboxRules"  :error-messages="errorCheckbox" >
+                <template v-slot:label>
+                    <div class="mt-2" >
+                    Do you accept the
+                    <a href="#" class="text-decoration-none" @click="terms = true">terms</a>
+                    and
+                    <a href="#" class="text-decoration-none" @click.prevent="conditions = true">conditions?</a>
+                    </div>
+                </template>
+                </v-checkbox>
+                <v-card-actions class="mb-3 justify-center">
+                <v-btn @click="registerUser(registrationInfo)" dark small class="px-8" color="black" :loading="progressbar" >Create Account</v-btn>
+                </v-card-actions>
+                </v-form>
+                </v-card-text>
+                <v-divider></v-divider>
+                <center class="py-4"> 
+                    <h5 class=" font-weight-light d-inline">Already have an account? 
+                        <span @click="registerDialog=false; loginDialog=true;" style="cursor:pointer; text-decoration:none; color:#3f51b5;">Sign in. </span>
+                    </h5>
+                </center>
+                <v-dialog persistent
+                v-model="verify"
+                max-width="450"
+                >
+                <v-card>
+                <v-card-title class="py-4" >
+                    <h4>Instruction is sent.</h4>
+                </v-card-title>
+                <v-divider class="mx-6"></v-divider>
+                <v-card-text class="py-4"
+                >
+                <p>Please verify your registered email <span class="font-weight-bold">{{this.tempemail}}</span>, by clicking on the link we sent you and sign in to continue.</p>
+                <!-- {{this.tempemail}} -->
+                </v-card-text>
+                <v-card-actions class="px-6 pt-0 pb-4">
+                <!-- <v-spacer></v-spacer> -->
+                <v-btn 
+                    outlined small
+                    color="black"
+                    @click="loginDialog=true; verify=false"
+                >
+                    Ok
+                </v-btn>
+                </v-card-actions>
+                </v-card>
+                </v-dialog>
+                </v-card>
+        </center>
     </v-dialog>
-            </v-card>
-    </center>
-    </v-dialog>
-    <!-- </v-container> -->
-    <nuxt-child :artist='artist' :bio='bio' />
-    </template>
   </v-app>
 </template>
 
@@ -575,6 +268,9 @@
 import { mapGetters } from 'vuex'
 import EventService from '@/services/EventService.js'
 import TheHeader from '@/components/TheHeader.vue'
+import RightNavigation from '~/components/RightNavigation.vue'
+import PlusButton from '~/components/PlusButton.vue'
+import RegisterLogin from '~/components/RegisterLogin.vue'
 export default {
     head() {
         return {
@@ -631,10 +327,6 @@ export default {
             ],
             showPassword1: false,
             showPassword2: false,
-            conditionContent: 'Conditions content',
-            termsContent: 'Terms content',
-            terms: false,
-            conditions: false,
             verify:false,
             checkbox: false,
             tempusername:'',
@@ -911,13 +603,13 @@ export default {
 					}
 				}).then(res => {
 				this.$auth.setUser(res.data)
-				this.$auth.setUserToken(res.data.access_token)
-				this.$auth.setRefreshToken('local', res.data.refresh_token);
-				// this.$store.dispatch("check_artists");
+				this.$auth.$storage.setUniversal('user', res.data, true)
+				this.$auth.strategy.token.set(res.data.access_token)
+                // this.$auth.strategy.refreshToken.set(res.data.refresh_token)
 				this.$store.dispatch("check_user_portfolio");
 				this.$store.dispatch("check_user_bio");
                 this.$store.dispatch("check_user_teachers");
-				// this.$store.dispatch("check_notifications",res.data.user.username);
+                this.$store.dispatch("check_notifications");
                 this.$router.push('/');
                 this.progressbar1 = false;
                 this.loginDialog = false;
@@ -1004,7 +696,7 @@ export default {
                     }
                 }
             }
-        }
+        },
 	},
     computed: {
         ...mapGetters(['isAuthenticated','usersBio', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),
@@ -1035,12 +727,43 @@ export default {
     },
     layout: 'username',
     components:{
-        TheHeader
-    }
+    TheHeader,
+    RightNavigation,
+    PlusButton,
+    RegisterLogin
+},
     
 }
 </script>
 
 <style scoped>
-
+.artist_toolbar_name1{
+    font-family: 'Poiret One', cursive; 
+    max-height: 36px; 
+    overflow: auto;
+     /* margin-bottom:8px ; */
+    margin-left: 8px;;
+}
+.artist_menubar_name{
+    font-family: 'Poiret One', cursive; 
+    overflow: auto;
+    max-width: 106px;
+}
+.v-btn:hover{
+    color:#815A44;
+}
+.v-icon:hover{
+    color: #815A44;
+}
+.mt-78{
+    margin-top: 89px;
+}
+@media only screen and (max-width: 600px){
+.mt-78{
+    margin-top: 0;
+}
+.mt-84{
+    margin-top: 84px;
+}
+}
 </style>

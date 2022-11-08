@@ -21,16 +21,6 @@
       "content": "gebbles"
     },
     {
-      "hid": "author",
-      "name": "author",
-      "content": "inmygroove"
-    },
-    {
-      "hid": "description",
-      "name": "description",
-      "content": "a thread connecting music, movement and artists."
-    },
-    {
       "hid": "og:type",
       "name": "og:type",
       "property": "og:type",
@@ -47,12 +37,6 @@
       "name": "og:site_name",
       "property": "og:site_name",
       "content": "gebbles"
-    },
-    {
-      "hid": "og:description",
-      "name": "og:description",
-      "property": "og:description",
-      "content": "a thread connecting music, movement and artists."
     }
   ],
   "link": [
@@ -69,7 +53,7 @@
     },
     {
       "rel": "manifest",
-      "href": "/_nuxt/manifest.87604d2c.json",
+      "href": "/_nuxt/manifest.65d548e7.json",
       "hid": "manifest"
     }
   ],

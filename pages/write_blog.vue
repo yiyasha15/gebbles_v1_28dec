@@ -24,16 +24,9 @@
 import BlogCard from '~/components/BlogCard.vue';
 export default {
     middleware : 'check_auth',
-    // layouts:'blogHeader'
     components: 
     { 
         BlogCard 
-    },
-    methods: {
-      onInput(event) {
-
-          //event.data contains the value of the textarea
-      }
     },
     methods:{
         post(){

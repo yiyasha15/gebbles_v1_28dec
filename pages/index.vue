@@ -1,109 +1,124 @@
 <template>
-  <v-app>
-    <!-- <div>
-      <nuxt-link to="/explore/">test</nuxt-link>
-    </div> -->
-    <div v-if="!isAuthenticated" class="home">
-      <div align="center" justify="center" class="mt-2">
-      <img src = "~/assets/home.png"  width="100%" alt="portfolio logo">
+  <!-- <v-app> -->
+    <div v-if="!isAuthenticated">
+      <v-row class="home_width mx-auto text-center mt-sm-3">
+        <v-col cols="12" md="6" align="center" justify="center">
+            <v-img
+              :lazy-src="require('@/assets/home.png')"
+              :max-width="maxwidth"
+              :src="require('@/assets/home.png')"
+            ></v-img>
+        </v-col>
+        <v-col cols="12" md="6" class="mt-md-12">
+            <center class="mt-6">
+              <v-hover
+                  v-slot="{ hover }">
+                  <v-btn icon large
+                  to="/create"
+                  class=" transition-swing my-4" 
+                  :elevation="hover ? 12 : 2" color="primary" max-width="100"
+                  v-bind="attrs"
+                  v-on="on">
+                  <img
+                  :height="$vuetify.breakpoint.smAndDown ? 18 : 28"
+                  class="clickable"
+                  :src="require('@/assets/gebbleslogo_tab.png')"/>
+                  </v-btn>
+              </v-hover>
+              <v-row style="max-width:390px; margin:0 auto">
+              <v-col cols="6">
+                <v-hover v-slot="{ hover }">
+                <v-btn min-width="150" :elevation="hover ? 12 : 2" color="secondary" class=" text-decoration-none" to="/artists/">
+                <h4 class="font-weight-medium text-capitalize primary--text" >artists</h4></v-btn>
+                </v-hover>
+              </v-col>
+              <v-col cols="6">
+                <v-hover v-slot="{ hover }">
+                <v-btn min-width="150" :elevation="hover ? 12 : 2" color="secondary" class="text-decoration-none" to="/whatiscooking/">
+                <h4 class="font-weight-medium text-capitalize primary--text" >what's cookin</h4></v-btn></v-hover>
+              </v-col>
+              </v-row>
+              <v-row  style="max-width:390px; margin:auto">
+                <v-col cols="6">
+                  <v-hover v-slot="{ hover }">
+                  <v-btn min-width="150" :elevation="hover ? 12 : 2" color="secondary" class=" text-decoration-none" to="/events/">
+                  <h4 class="font-weight-medium text-capitalize primary--text" >events</h4></v-btn></v-hover>
+                </v-col>
+                <v-col cols="6">
+                  <v-hover v-slot="{ hover }">
+                  <v-btn min-width="150" :elevation="hover ? 12 : 2" color="secondary" class=" text-decoration-none" to="/workshops/">
+                  <h4 class="font-weight-medium text-capitalize primary--text" >workshops</h4></v-btn></v-hover>
+                </v-col>
+              </v-row>
+            </center>
+        </v-col>
+      </v-row>
+      <v-row justify="center" class="mt-sm-6 px-2 mx-1" >
+      <div class="text-center display-1 font-weight-normal my-5">
+        Connecting the groove <br>
+        celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
+        -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one</span>
       </div>
-      <v-row justify="center" class="my-3" grey >
-        <!-- <h1 class="text-center font-weight-black hidden-sm-and-down " style="font-size:2em">
-          Connecting the groove, <br>
-          celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one.</span>
-        </h1>
-        <h3 class="text-center hidden-md-and-up mt-2 mx-4 font-weight-black"  style="font-size:1.5em">
-          "Connecting the groove, <br>
-          celebrating<br>
-          <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); -webkit-background-clip: text;-webkit-text-fill-color: transparent;" > Each one Teach one.</span>"
-        </h3> -->
-        <h1 class="text-center font-weight-medium mb-2 mx-4" style="font-size:0.9em">
-        at gebbles, people share the stories about <br>how you touched their lives through your art.  
-        </h1>
-        <br>
       </v-row>
-      <v-row justify="center" class="mb-2">
-        <h4 class="caption">movement + music + culture</h4>
+      <v-row justify="center" class="mt-3 mx-1" >
+      <div class="text-center">
+          <p class="grey--text">✔︎ a lifestyle canvas for the artists of the HipHop culture.</p>
+          <p class="grey--text">✔︎ connect with your community, grow together</p>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <h2 class="text-center" style="cursor:pointer;" v-bind="attrs" v-on="on">🎵 💃 🎤 🎨 </h2>
+            </template>
+            <span>✌🏽 🖤 🤝</span>
+          </v-tooltip>
+      </div>
       </v-row>
-        <center class="mt-6">
-        <v-row  style="max-width:370px; margin:auto">
-          <v-col><nuxt-link to="/artists/" class="text-decoration-none outlined"><h5 class="font-weight-light">community</h5></nuxt-link></v-col>
-          <!-- <v-col><nuxt-link to="/whatiscooking/" class="text-decoration-none "><h5 class="font-weight-light">what's cooking</h5></nuxt-link></v-col> -->
-          <v-col><nuxt-link to="/events/" class="text-decoration-none "><h5 class="font-weight-light">events</h5></nuxt-link></v-col>
-          <v-col v-if="!userHasPortfolio"><nuxt-link to="/create/" class="text-decoration-none "><h5 class="font-weight-light">get started</h5></nuxt-link></v-col>
-        </v-row>
-      </center>
     </div>
-    <v-container v-else class="pa-0" >
-    <v-row style="max-width: 670px; margin: auto;" class="hidden-sm-and-down">
-      <v-col cols="12" md="8"  class="justify-center pa-1">
-        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> 
-        <!-- / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link> -->
-      </v-col>
-      <v-col cols="12" md="4" class= "justify-end pa-1" >
-        <v-text-field
-          label="Search artists"
-          rounded
-          solo
-          prepend-inner-icon="mdi-magnify"
-          v-model="search"
-        @input="debounceSearch"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row style="max-width: 357px; margin: auto;" class="hidden-md-and-up" >
-      <v-col cols="12" md="8"  class="justify-center px-1">
-        <nuxt-link to="/" class="text-decoration-none outlined"><h3 class ="xs12 d-inline font-weight-light">Community</h3></nuxt-link> 
-        <!-- / <nuxt-link class="text-decoration-none outlined" to="/whatiscooking"><h3 class ="xs12 d-inline font-weight-light">What's cooking</h3></nuxt-link> -->
-      </v-col>
-      <v-col cols="12" md="4" class= "justify-end pa-0" >
-        <v-text-field
-          label="Search artists"
-          rounded
-          solo
-          prepend-inner-icon="mdi-magnify"
-          v-model="search"
-        @input="debounceSearch"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-layout wrap row justify-start v-if="firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
-      <div v-for="n in this.looploader" :key ="n.index">
-        <v-skeleton-loader style="margin:2px;" width="115" max-height="105" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+    <v-container v-else class="pa-0 width mx-auto" >
+      <creation-box></creation-box>
+      <!-- <information-box></information-box> -->
+      <div>
+      <h3 class ="my-2 font-weight-light px-4 px-md-0">What's cooking </h3>
+      <div v-if="firstLoad">
+      <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
+      <div align="left" justify="left" class="mb-1">
+        <v-btn icon class="mr-1">
+            <v-icon color="black" >mdi-heart</v-icon>
+        </v-btn>
+        <v-btn icon class="mx-1">
+            <v-icon color="black" >mdi-fire</v-icon>
+        </v-btn>
+        <v-btn icon  class="mx-1">
+            <v-icon color="black" >mdi-head-flash-outline</v-icon>
+        </v-btn>
       </div>
-    </v-layout>
-    <v-layout wrap row justify-start v-if="firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-      <div v-for="n in this.looploader" :key ="n.index">
-        <v-skeleton-loader style="margin:2px;"  width="215" max-height="185" :loading="loading" type="card" transition="fade-transition"></v-skeleton-loader>
+      <v-row>
+      <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+      </v-row>
       </div>
-    </v-layout>
-    <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-md-and-up" style="max-width:357px; margin:auto;" >
-      <div v-for="artist in artists" :key ="artist.index">
-        <ArtistCard :artist="artist" ></ArtistCard> 
+      <div v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
+        <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
       </div>
-    </v-layout>
-    <v-layout wrap row justify-start v-show="!firstLoad" class="hidden-sm-and-down" style="max-width: 670px; margin:auto;">
-      <div v-for="artist in artists" :key ="artist.index">
-        <artist-card-desktop :artist="artist" ></artist-card-desktop>
-      </div>
-    </v-layout>
-    <center v-if="!artists.length && !firstLoad">
-      <img
-      :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-      class="ml-2 mt-6 clickable"
-      :src="require('@/assets/gebbleslogo.png')"/>
-      <h3>No artists found. </h3>
-    </center>
-    </v-container>
+      <center v-if="!cooking.length && !firstLoad">
+        <img
+        :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+        class="ml-2 mt-6 clickable"
+        :src="require('@/assets/gebbleslogo_tab.png')"/>
+        <h3>No videos found. </h3>
+      </center>
       <v-card v-intersect="infiniteScrolling"></v-card>
-  </v-app>
+      </div>
+    </v-container>
+  <!-- </v-app> -->
 </template>
 
 <script>
-import ArtistCard from '@/components/ArtistCard.vue'
-import ArtistCardDesktop from '@/components/ArtistCardDesktop.vue'
+import CookingFeed from '@/components/CookingFeed.vue'
 import EventService from '@/services/EventService.js'
 import {mapGetters} from 'vuex'
+import CreationBox from '~/components/CreationBox.vue'
+import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
+import InformationBox from '~/components/InformationBox.vue'
+// import RegisterLogin from '~/components/RegisterLogin.vue'
 export default {
   head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -112,72 +127,93 @@ export default {
           hid: 'description', //create page overrides the description, hid helps to stop redundancy
           name: 'description',
           content: 
-              'gebbles - The thread connecting music, movement and artists.'
+              'gebbles - the thread connecting music, movement and artists.'
         }]
         }
   },
   created(){
-    this.$store.dispatch("check_notifications");
-    this.getartists();
+    this.getwhatiscooking();
+    // console.log("?", process.env.AUTH_TOKEN);
+    if(this.isAuthenticated){
+      // console.log("?");
+      this.$store.dispatch("check_user_portfolio");
+      this.$store.dispatch("check_user_bio");
+      this.$store.dispatch("check_notifications");
+    }
   },
   methods:{
-    async getartists(){
+    async getwhatiscooking(){
       try {
-      const response = await EventService.getArtists()
-      this.artists = response.data.results
+      const response = await EventService.getWhatsCooking()
+      this.cooking = response.data.results
       this.page = response.data.next
       this.firstLoad = false
-    } catch (e) {
+      } catch (e) {
         console.log(e);
         this.firstLoad = false
     }
     },
-    infiniteScrolling(entries, observer, isIntersecting) {
-        if(this.page){
-        const key = 'username';
-        this.$axios.get(this.page).then(response => {
-              this.page= response.data.next;
-              response.data.results.forEach(item => this.artists.push(item));
-              // filter array so no duplicates
-              this.artists = [...new Map(this.artists.map(item =>
-                [item[key], item])).values()];
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        }
-    },
-    debounceSearch() {
-    this.firstLoad = true
-    this.artists=[]
-      clearTimeout(this.debounce)
-      this.debounce = setTimeout(() => {
-      if(this.search){EventService.getSearchedArtist(this.search).then((value) => {
-      this.firstLoad = false
-      this.artists = value.data
-      });}
-      else{
-        this.getartists();
+    infiniteScrolling() {
+      if(this.page){
+      const key = 'id';
+      this.$axios.get(this.page).then(response => {
+        this.page= response.data.next;
+        response.data.results.forEach(item => this.cooking.push(item));
+        // filter array so no duplicates
+        this.cooking = [...new Map(this.cooking.map(item =>
+          [item[key], item])).values()];
+      })
+      .catch(err => {
+        console.log(err);
+      });
       }
-      }, 600)
     },
+    postDelete(){
+      this.cooking=[];
+      this.page =''
+      this.firstLoad = true
+      this.getwhatiscooking();
+    }
   },
   components: {
-    ArtistCard, ArtistCardDesktop
-  },
+    CookingFeed,
+    CreationBox,
+    CardSkeletonLoader,
+    InformationBox
+},
   data() {
     return {
       looploader:[1,1,1,1,1,1,1,1,1,1,1],
       loading: true,
       firstLoad: true,
       page:"",
-      artists:[],
-      search: "",
-      debounce: null
+      cooking:[],
+      dialog: false,
+        num:0,
+        items: [
+        {
+          src: require("@/assets/create_portfolio.png"),
+        },
+        {
+          src: require("@/assets/create_journey.png"),
+        },
+        {
+          src: require("@/assets/create_e1t1.png"),
+        }
+      ],
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio'])
+    ...mapGetters(['isAuthenticated', 'loggedInUser']),
+    maxwidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 300
+        case 'sm': return 300
+        case 'md': return 340
+        case 'lg': return 340
+        case 'xl': return 340
+      }
+    },
   },
 }
 //https://stackoverflow.com/questions/57800048/how-to-enable-dark-mode-with-custom-colors-in-light-theme-in-vuetify
@@ -192,16 +228,21 @@ export default {
 
 </script>
 <style scoped>
-.home{
-  max-width: 860px;
-  margin: auto;
-}
-h5:hover{
+a:hover{
   color: black;
-  text-decoration: underline;
 }
-h3:hover{
-  color: black;
-  text-decoration: underline;
+.width{
+  max-width: 670px;
+}
+.home_width{
+  max-width: 980px;
+}
+@media only screen and (max-width: 600px) {
+  .width{
+    max-width: 420px;
+  }
+}
+.ml-17{
+  margin-left: 160px;
 }
 </style>

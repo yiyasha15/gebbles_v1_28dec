@@ -18,30 +18,17 @@ const apiClient1 = axios.create({
 })
 
 export default {
-    getWhatsCooking() {
-        return apiClient1.get('/whatiscooking/list/')
+    //user api
+    getUser(){
+        return apiClient1.get('/auth/user/')
     },
-    getWhatsCookingId(uuid) {
-        return apiClient1.get('/whatiscooking/list/'+ uuid)
+    //notifications api
+    getNotificationsSharing(username,config){
+        return apiClient1.get('/notifications/e1t1/?receiver=' + username, config)
     },
-    getWhatsCookingUsername(username) {
-        return apiClient1.get('/whatiscooking/mycookings/?username='+ username)
-    },
-    getStudentsCooking(username)
-    {
-        return apiClient1.get('/whatiscooking/my-students-videos/?teacher='+ username)
-    },
-    // getSearchedCooking() {
-    //     return apiClient1.get('/whatiscooking/search/?query='+ query)
-    // },
+    //artists portfolio/journey related api
     getArtists() {
         return apiClient1.get('/artist/portfolios/list/')
-    },
-    getEvents() {
-        return apiClient1.get('/events/list')
-    },
-    getEvent(uuid) {
-        return apiClient1.get('/events/list/'+uuid)
     },
     getLegacyArtists(){
         return apiClient1.get('/artist/portfolios/legacy/list/')
@@ -50,11 +37,13 @@ export default {
         return apiClient1.get('/artist/search/?query='+ query)
     },
     getArtist(username) {
-        // return apiClient1.get('/artist/portfolios/' + username)
         return apiClient1.get('/artist/portfolios/' + username)
     },
     getBio(username){
         return apiClient1.get('/artist/bios/' + username)
+    },
+    getAllJourney() {
+        return apiClient1.get('/artist/journey/list/' )
     },
     getJourney(username,config) {
         return apiClient1.get('/artist/journey/list/?username=' + username, config)
@@ -62,12 +51,13 @@ export default {
     getFullJourney(id,config) {
         return apiClient1.get('/artist/journey/' + id, config)
     },
-    getUpcoming(username,config) {
-        return apiClient1.get('/artist/journey/upcomingevents/?username=' + username, config)
-    },
+    // getUpcoming(username,config) {
+    //     return apiClient1.get('/artist/journey/upcomingevents/?username=' + username, config)
+    // },
     getHighlights(username,config) {
         return apiClient1.get('/artist/journey/highlights/?username=' + username, config)
     },
+    //each 1 teach 1 api
     getEach1Teach1(id) {
         return apiClient1.get('/e1t1/sharing/' + id)
     },
@@ -75,13 +65,13 @@ export default {
         return apiClient1.get('/e1t1/sharing/')
     },
     getPersonalMessages(id){
-        return apiClient1.get('/chat/?shareid=' + id)
+        return apiClient1.get('/chat/list/?shareid=' + id)
     },
-    getEach1Teach1_teachers(username) {
-        return apiClient1.get('/e1t1/sharing/list/teachers/?username=' + username)
+    getEach1Teach1_teachers(config) {
+        return apiClient1.get('/e1t1/sharing/list/teachers/', config)
     },
-    getEach1Teach1_students(username) {
-        return apiClient1.get('/e1t1/sharing/list/students/?username=' + username)
+    getEach1Teach1_students(config) {
+        return apiClient1.get('/e1t1/sharing/list/students/', config)
     },
     getShareLove(id){
         return apiClient1.get('/e1t1/sharing/love/?shareidobj=' + id)
@@ -89,19 +79,95 @@ export default {
     getShareComments(id){
         return apiClient1.get('/e1t1/sharing/comments/?shareidobj=' + id)
     },
+
+
+    //cooking api
+    getWhatsCooking() {
+        return apiClient1.get('/whatiscooking/list/')
+    },
+    getWhatsCookingId(uuid) {
+        return apiClient1.get('/whatiscooking/list/'+ uuid)
+    },
+    getWhatsCookingUsername(config) {
+        return apiClient1.get('/whatiscooking/mycookings/',config)
+    },
+    getStudentsCooking(username)
+    {
+        return apiClient1.get('/whatiscooking/my-students-videos/?teacher='+ username)
+    },
+    // getSearchedCooking() {
+    //     return apiClient1.get('/whatiscooking/search/?query='+ query)
+    // },
     getCookReaction(id){
         return apiClient1.get('/whatiscooking/cooking/likes/?cookingidobj=' + id)
     },
     getCookComments(id){
         return apiClient1.get('/whatiscooking/cooking/comments/?cookingidobj=' + id)
     },
-    getNotificationsSharing(username,config){
-        return apiClient1.get('/notifications/e1t1/?receiver=' + username, config)
-    },
+
+    //learning api
     getLearnings(id){
         return apiClient1.get('/e1t1/learnings/list/?shareidobj=' + id)
     },
     getLearning(id){
         return apiClient1.get('/e1t1/learnings/' + id)
-    }
+    },
+
+     //events api
+    getAllEvents() {
+        return apiClient1.get('/events/list')
+    },
+    getEvent(uuid) {
+        return apiClient1.get('/events/list/'+uuid)
+    },
+    getIamGoingEventList(uuid){
+        return apiClient1.get('/events/iamgoing/list/?event='+uuid)
+    },
+    //search by country
+    getSearchedEventCountry(query) {
+        return apiClient1.get('/events/search/?query='+ query)
+    },
+    getSearchedEventName(query) {
+        return apiClient1.get('/events/search/?event_name='+ query)
+    },
+    getSearchedEventsThisMonth() {
+        return apiClient1.get('/events/search/?this_month='+ 'yes')
+    },
+    getMyOrganizedEvents(username) {
+        return apiClient1.get('/events/my-organized-events/?username='+ username)
+    },
+    getMyInvitedEvents(username) {
+        return apiClient1.get('/events/my-tagged-events/?guest='+ username)
+    },
+    getMyGoingEvents(username) {
+        return apiClient1.get('/events/iamgoing-events/?username='+ username)
+    },
+    //workshops api
+    getAllWorkshops(){
+        return apiClient1.get('/workshops/list')
+    },
+    getWorkshop(uuid){
+        return apiClient1.get('/workshops/'+uuid)
+    },
+    getSearchedWorkshopCountry(query) {
+        return apiClient1.get('/workshops/search/?query='+ query)
+    },
+    getSearchedWorkshopName(query) {
+        return apiClient1.get('/workshops/search/?workshop_name='+ query)
+    },
+    getSearchedWorkshopThisMonth() {
+        return apiClient1.get('/workshops/search/?this_month='+ 'yes')
+    },
+    getIamGoingWorkshopList(uuid){
+        return apiClient1.get('/workshops/iamgoing/list/?workshop='+uuid)
+    },
+    getMyOrganizedWorkshops(username) {
+        return apiClient1.get('/events/my-organized-workshops/?username='+ username)
+    },
+    getMyInvitedWorkshops(username) {
+        return apiClient1.get('/events/my-tagged-workshops/?guest='+ username)
+    },
+    getMyGoingWorkshops(username) {
+        return apiClient1.get('/events/iamgoing-workshops/?username='+ username)
+    },
 }

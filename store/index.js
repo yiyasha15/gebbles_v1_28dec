@@ -1,43 +1,34 @@
 /*just adding this index.js file inside the store directory enables vuex in nuxt */
 
 import * as Cookies from 'js-cookie'
-import createPersistedState from 'vuex-persistedstate'
 import EventService from '@/services/EventService.js'
 
 export const state = () => ({
   artists: [], //array of artists in img community
-  // learn_obj:null,
   share_obj: null, //object to edit e1t1 data
   cook_obj:null,
   editing_obj: null, //object to edit data
   editing_event_obj: null,
-  store_battle_categories:[],
-  store_categories:[],
-  store_guests:[],
+  editing_workshop_obj: null,
   portfolio: null, //store portfolio data of the logged in user
   bio: null, //store bio data of the logged in user
-  personalMessages: [],
   notifications:[],
   notifications_notseen:0,
   hasTeachers:false,
   hasPortfolio: false, //if user has portfolio data
   hasBio: false, //if user has bio data
-  personalMessagesNotifications: 0,
   share_comments_list: [],
   learning_comments_list:[],
-  share_has_love: false,
-  share_has_love_id:'',
-  cook_has_like: false,
-  cook_has_dope: false,
-  cook_has_info: false,
-  cook_has_like_id: '',
-  cook_has_dope_id: '',
-  cook_has_info_id: '',
+  // cook_has_like: false,
+  // cook_has_dope: false,
+  // cook_has_info: false,
+  // cook_has_like_id: '',
+  // cook_has_dope_id: '',
+  // cook_has_info_id: '',
   e1t1:{},
-  love: '',
-  like:'',
-  dope: '',
-  info:'',
+  // like:'',
+  // dope: '',
+  // info:'',
   learnings:[],
   // cookings:[],
   teachers:[], //e1t1 onject
@@ -45,7 +36,6 @@ export const state = () => ({
   page_learnings:'',
   // page_cookings:'',
   page_share_comment:'',
-  loadingLearning:true,
   upcoming:[],
   highlights:[],
   journey:[],
@@ -53,7 +43,6 @@ export const state = () => ({
   page_upcoming:'',
   page_highlights:'',
   journeyLoaded:true,
-  page_personal_messages:''
 })
 export const getters = {
   journeyLoaded(state){
@@ -62,33 +51,24 @@ export const getters = {
   cook_obj(state){
     return state.cook_obj
   },
-  loadingLearning(state){
-    return state.loadingLearning
-  },
-  cook_has_like(state){
-    return state.cook_has_like
-  },
-  cook_has_dope(state){
-    return state.cook_has_dope
-  },
-  cook_has_info(state){
-    return state.cook_has_info
-  },
-  cook_has_like_id(state){
-    return state.cook_has_like_id
-  },
-  cook_has_dope_id(state){
-    return state.cook_has_dope_id
-  },
-  cook_has_info_id(state){
-    return state.cook_has_info_id
-  },
-  share_has_love(state){
-    return state.share_has_love
-  },
-  share_has_love_id(state){
-    return state.share_has_love_id
-  },
+  // cook_has_like(state){
+  //   return state.cook_has_like
+  // },
+  // cook_has_dope(state){
+  //   return state.cook_has_dope
+  // },
+  // cook_has_info(state){
+  //   return state.cook_has_info
+  // },
+  // cook_has_like_id(state){
+  //   return state.cook_has_like_id
+  // },
+  // cook_has_dope_id(state){
+  //   return state.cook_has_dope_id
+  // },
+  // cook_has_info_id(state){
+  //   return state.cook_has_info_id
+  // },
   e1t1(state){
     return state.e1t1
   },
@@ -116,11 +96,11 @@ export const getters = {
   editing_event_obj(state){
     return state.editing_event_obj
   },
+  editing_workshop_obj(state){
+    return state.editing_workshop_obj
+  },
   usersTeachers(state) {
     return state.teachers
-  },
-  personalMessages(state){
-    return state.personalMessages
   },
   isAuthenticated(state) {
     return state.auth.loggedIn
@@ -143,17 +123,11 @@ export const getters = {
   userHasTeachers(state){
     return state.hasTeachers
   },
-  personalMessagesNotifications(state){
-    return state.personalMessagesNotifications
-  },
   share_comments_list(state){
     return state.share_comments_list
   },
   learning_comments_list(state){
     return state.learning_comments_list
-  },
-  love(state){
-    return state.love
   },
   like(state){
     return state.like
@@ -175,22 +149,43 @@ export const getters = {
   }
 }
 export const actions = {
+  // async nuxtServerInit({
+  //   commit
+  // }, {
+  //   req
+  // }) {
+  //   let auth = null
+  //   if (req.headers.cookie) {
+  //     // cookie found
+  //     try {
+  //       // check data user login with cookie
+  //       const {
+  //         data
+  //       } = await this.$axios.get('/user/profile')
+  //       // server return the data is cookie valid loggedIn is true
+  //       auth = data.data // set the data auth
+  //     } catch (err) {
+  //       // No valid cookie found
+  //       auth = null
+  //     }
+  //   }
+
+  //   // How we can set the user for AuthNuxt
+  //   // Source: https://auth.nuxtjs.org/api/auth
+  //   this.$auth.setUser(auth)
+  // },
   check_notifications({commit, state}){
     if(state.auth.user ){
         const config = {
         headers: {"content-type": "multipart/form-data",
-            "Authorization": "Bearer " + state.auth.user.access_token}
+            "Authorization": this.$auth.strategy.token.get()}
         };
-      EventService.getNotificationsSharing(state.auth.user.user.username,config).then(res =>
+      EventService.getNotificationsSharing(state.auth.user.username,config).then(res =>
       {
         commit('check_notifications',res.data.results)
         return;
       })
     }
-  },
-  change_love({commit})
-  {
-    commit('changeLove')
   },
   change_like({commit})
   {
@@ -204,24 +199,18 @@ export const actions = {
   {
     commit('changeInfo')
   },
-  check_share_love({commit}, id){
-    EventService.getShareLove(id).then(res =>
-      {
-        commit('check_share_love',res.data.count)
-      })
-  },
   check_share_comments({commit}, id){
     EventService.getShareComments(id).then(res =>
       {
         commit('check_share_comments',res.data)
       })
   },
-  check_cook_reactions({commit}, id){
-    EventService.getCookReaction(id).then(res =>
-      {
-        commit('check_cook_reactions',res.data)
-      })
-  },
+  // check_cook_reactions({commit}, id){
+  //   EventService.getCookReaction(id).then(res =>
+  //     {
+  //       commit('check_cook_reactions',res.data)
+  //     })
+  // },
   check_cook_comments({commit}, id){
     EventService.getCookComments(id).then(res =>
       {
@@ -248,49 +237,57 @@ export const actions = {
     commit('check_editing_event_obj', editing_event_obj)
     }
   },
-  // check_learn_obj({commit},id){
-  //   EventService.getLearning(id).then(res =>
-  //   {
-  //     commit('check_learn_obj',res.data)
-  //   })
-  // },
-  check_user_portfolio({commit, state}){
-      if(state.auth.loggedIn) {
-          EventService.getArtist(state.auth.user.user.username).then(res =>
-          {
-            commit('usersPortfolio',res.data)
-          })
-        }  
-  },
-  check_user_bio({commit, state}){
+  check_editing_workshop_obj({commit, state}, editing_workshop_obj){
     if(state.auth.loggedIn) {
-        EventService.getBio(state.auth.user.user.username).then(res =>
-        {
-          commit('usersBio',res.data)
-        })
-      }  
+    commit('check_editing_workshop_obj', editing_workshop_obj)
+    }
+  },
+  check_user_portfolio({commit,state}){
+    let getUser = localStorage.getItem('auth._token.local')
+    if(getUser)
+      {
+        // console.log(state.auth.loggedIn,state.auth.user);
+        EventService.getArtist(state.auth.user.username).then(res =>
+      {
+        // console.log("check portfolio", res.data);
+        commit('usersPortfolio',res.data)
+      }).catch(err =>{console.log(err.response.data);})}
+  },
+  check_user_bio({commit,state}){
+    let getUser = localStorage.getItem('auth._token.local')
+    if(getUser)
+    {
+    EventService.getBio(state.auth.user.username).then(res =>
+    {
+      // console.log("check bio");
+      commit('usersBio',res.data)
+    }).catch(err =>{console.log(err.response.data);})
+  }
   },
   check_user_journey({commit, state}, username){
     let config;
-    if(state.auth.loggedIn && state.auth.user.user.username == username) {
+    // console.log("check journey");
+    if(state.auth.loggedIn && state.auth.user.username == username) {
       // console.log(state.auth.loggedIn, state.auth);  
       config = {
       headers: {"content-type": "multipart/form-data",
-        "Authorization": "Bearer " + state.auth.user.access_token}
+        "Authorization": this.$auth.strategy.token.get()}
       };
     }
-      EventService.getUpcoming(username,config).then(res =>
-      {
-        commit('usersUpcoming',res.data)
-      })
-      EventService.getHighlights(username,config).then(res =>
-      {
-        commit('usersHighlights',res.data)
-      })
+      // EventService.getUpcoming(username,config).then(res =>
+      // {
+      //   commit('usersUpcoming',res.data)
+      // }).catch(err =>{console.log(err.response.data);})
+
+      // EventService.getHighlights(username,config).then(res =>
+      // {
+      //   commit('usersHighlights',res.data)
+      // }).catch(err =>{console.log(err.response.data);})
       EventService.getJourney(username,config).then(res =>
-        {
-          commit('usersJourney',res.data)
-        })
+      {
+        commit('usersJourney',res.data)
+      }).catch(err =>
+      {console.log(err.response.data);})
   },
   update_user_journey({commit, state}){
     if(state.page_journey) {
@@ -299,7 +296,7 @@ export const actions = {
       if(state.auth.loggedIn) {
         config = {
         headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + state.auth.user.access_token}
+          "Authorization": this.$auth.strategy.token.get()}
       };}
       //push the results to state.journey and update the page_journey url
       this.$axios.get(state.page_journey,config).then(res => {
@@ -310,63 +307,48 @@ export const actions = {
       });   
     }
   },
-  update_chat({commit, state}){
-    if(state.page_personal_messages) {
-      // checking if page_journey was not null then call api
-      let config;
-      if(state.auth.loggedIn) {
-        config = {
-        headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + state.auth.user.access_token}
-      };}
-      //push the results to state.journey and update the page_journey url
-      this.$axios.get(state.page_personal_messages,config).then(res => {
-        commit('updateChat',res.data)
-      })
-      .catch(err => {
-          console.log(err);
-      });   
-    }
-  },
-  update_user_upcoming({commit, state}){
-    if(state.page_upcoming) {
-      // checking if page_upcoming was not null then call api
-      let config;
-      if(state.auth.loggedIn) {
-        config = {
-        headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + state.auth.user.access_token}
-      };}
-      //push the results to state.journey and update the page_upcoming url
-      this.$axios.get(state.page_upcoming,config).then(res => {
-        commit('updateUserUpcoming',res.data)
-      })
-      .catch(err => {
-          console.log(err);
-      });   
-    }
-  },
-  update_user_highlights({commit, state}){
-    if(state.page_highlights) {
-      // checking if page_highlights was not null then call api
-      let config;
-      if(state.auth.loggedIn) {
-        config = {
-        headers: {"content-type": "multipart/form-data",
-          "Authorization": "Bearer " + state.auth.user.access_token}
-      };}
-      //push the results to state.journey and update the page_highlights url
-      this.$axios.get(state.page_highlights,config).then(res => {
-        commit('updateUserHighlights',res.data)
-      })
-      .catch(err => {
-          console.log(err);
-      });   
-    }
-  },
+  // update_user_upcoming({commit, state}){
+  //   if(state.page_upcoming) {
+  //     // checking if page_upcoming was not null then call api
+  //     let config;
+  //     if(state.auth.loggedIn) {
+  //       config = {
+  //       headers: {"content-type": "multipart/form-data",
+  //         "Authorization": this.$auth.strategy.token.get()}
+  //     };}
+  //     //push the results to state.journey and update the page_upcoming url
+  //     this.$axios.get(state.page_upcoming,config).then(res => {
+  //       commit('updateUserUpcoming',res.data)
+  //     })
+  //     .catch(err => {
+  //         console.log(err.response);
+  //     });   
+  //   }
+  // },
+  // update_user_highlights({commit, state}){
+  //   if(state.page_highlights) {
+  //     let config;
+  //     if(state.auth.loggedIn) {
+  //       config = {
+  //         headers: {"content-type": "multipart/form-data",
+  //           "Authorization": this.$auth.strategy.token.get()}
+  //       };
+  //     }
+  //    this.$axios.get(state.page_highlights,config).then(res => {
+  //       commit('updateUserHighlights',res.data)
+  //     })
+  //     .catch(err => {
+  //         console.log(err.response);
+  //     });   
+  //   }
+  // },
   check_user_teachers({commit, state}){
     if(state.auth.loggedIn) {
-        EventService.getEach1Teach1_teachers(state.auth.user.user.username).then(res =>
+        let config = {
+          headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+        EventService.getEach1Teach1_teachers(config).then(res =>
         {
           commit('usersTeachers',res.data)
         })
@@ -412,15 +394,6 @@ export const actions = {
       .catch(err => {
           console.log(err);
       });   
-    }
-  },
-  check_personal_room({commit, state}, id)
-  {
-    if(state.auth.loggedIn) {
-      EventService.getPersonalMessages(id).then(res =>
-      {
-        commit('get_personal_messages',res.data)
-      })
     }
   },
   check_learnings({commit},id){
@@ -469,12 +442,6 @@ export const actions = {
       commit('clear_cook_obj',state.cook_obj)
     }
   },
-  // remove_learn_obj({commit, state})
-  // {
-  //   if( state.learn_obj){
-  //     commit('clear_learn_obj',state.learn_obj)
-  //   }
-  // },
   remove_page({commit, state})
   {
     if(state.auth.loggedIn){
@@ -493,28 +460,21 @@ export const actions = {
       commit('clear_editing_event_obj',state.editing_event_obj)
     }
   },
+  remove_editing_workshop_obj({commit, state})
+  {
+    if(state.auth.loggedIn && state.editing_workshop_obj){
+      commit('clear_editing_workshop_obj',state.editing_workshop_obj)
+    }
+  },
   remove_cook_reactions({commit, state})
   {
-      commit('clear_cook_reactions')
+      // commit('clear_cook_reactions')
       commit('clear_cook_comments')
-  },
-  remove_love({commit, state})
-  {
-    if(state.auth.loggedIn){
-      commit('clear_love')
-      commit('clear_comments')
-    }
   },
   remove_notifications({commit, state})
   {
     if(state.auth.loggedIn){
       commit('clear_notifications')
-    }
-  },
-  remove_personal_messages({commit, state})
-  {
-    if(state.auth.loggedIn && state.personalMessages){
-      commit('clear_personal_messages',state.personalMessages)
     }
   },
   remove_learnings({commit})
@@ -528,29 +488,25 @@ export const actions = {
 }
     // Define Mutations
 export const mutations = {
-  changeLove(state){
-    state.share_has_love = !state.share_has_love;
-  },
-  changeLike(state){
-    if(state.cook_has_like)
-    {
+  // changeLike(state){
+  //   if(state.cook_has_like)
+  //   {
       
-    }
-    else
-    {
+  //   }
+  //   else
+  //   {
       
-    }
-    state.cook_has_like = !state.cook_has_like;
-  },
-  changeDope(state){
-    state.cook_has_dope = !state.cook_has_dope;
-  },
-  changeInfo(state){
-    state.cook_has_info = !state.cook_has_info;
-  },
+  //   }
+  //   state.cook_has_like = !state.cook_has_like;
+  // },
+  // changeDope(state){
+  //   state.cook_has_dope = !state.cook_has_dope;
+  // },
+  // changeInfo(state){
+  //   state.cook_has_info = !state.cook_has_info;
+  // },
   usersJourney(state, journey)
   {
-    console.log("is it checking");
     state.journey = []
     if(journey.results.length)
     {
@@ -585,10 +541,6 @@ export const mutations = {
     state.upcoming =[]
     state.highlights =[]
   },
-  // check_learn_obj(state,learn_obj){
-  //   state.loadingLearning = false;
-  //   state.learn_obj = learn_obj
-  // },
   get_e1t1(state,e1t1){
     state.e1t1 = e1t1;
   },
@@ -636,71 +588,53 @@ export const mutations = {
       state.notifications = []
       state.notifications_notseen =0
       state.notifications = notifications
-      let n = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.user.username);
+      let n = notifications.filter(notifications => notifications.is_seen == false && notifications.sender != state.auth.user.username);
       state.notifications_notseen = n.length;
-    }
-  },
-  check_share_love(state, love){
-    if(love){
-      state.love = love
-      if(state.auth.loggedIn){
-      state.share_has_love = false
-      state.share_has_love_id = ''
-      // console.log(love);
-        // let check_love = love.filter(love => love.username == state.auth.user.user.username);
-        // if(check_love[0]){
-        //   state.share_has_love_id = check_love[0].id
-        // }
-        // if(check_love.length>0){
-        //   state.share_has_love = true
-        // }
-      }
     }
   },
   check_share_comments(state, share_comments_list){
       state.share_comments_list = share_comments_list.results;
       state.page_share_comment = share_comments_list.next
   },
-  check_cook_reactions(state, react){
-    // console.log("react", react);
-    if(react){
-      state.like = react.filter(react => react.like_type == "LO");
-      state.dope = react.filter(react => react.like_type == "FI");
-      state.info = react.filter(react => react.like_type == "DE");
-      if(state.auth.loggedIn){
-        let like = state.like
-        let dope = state.dope
-        let info = state.info
-        state.cook_has_like = false
-        state.cook_has_dope = false
-        state.cook_has_info = false
-        state.cook_has_like_id = ''
-        state.cook_has_dope_id = ''
-        state.cook_has_info_id = ''
-        let check_like = like.filter(like => like.username == state.auth.user.user.username);
-        let check_dope = dope.filter(dope => dope.username == state.auth.user.user.username);
-        let check_info = info.filter(info => info.username == state.auth.user.user.username);
-        if(check_like[0]){
-          state.cook_has_like_id = check_like[0].id
-        }
-        if(check_like.length>0){
-          state.cook_has_like = true
-        }
-        if(check_dope[0]){
-          state.cook_has_dope_id = check_dope[0].id
-        }
-        if(check_dope.length>0){
-          state.cook_has_dope = true
-        }
-        if(check_info[0]){
-          state.cook_has_info_id = check_info[0].id
-        }
-        if(check_info.length>0){
-          state.cook_has_info = true
-        }
-      }
-    }
-  },
+  // check_cook_reactions(state, react){
+  //   if(react){
+  //     state.like = react.filter(react => react.like_type == "LO");
+  //     state.dope = react.filter(react => react.like_type == "FI");
+  //     state.info = react.filter(react => react.like_type == "DE");
+  //     if(state.auth.loggedIn){
+  //       let like = state.like
+  //       let dope = state.dope
+  //       let info = state.info
+  //       state.cook_has_like = false
+  //       state.cook_has_dope = false
+  //       state.cook_has_info = false
+  //       state.cook_has_like_id = ''
+  //       state.cook_has_dope_id = ''
+  //       state.cook_has_info_id = ''
+  //       let check_like = like.filter(like => like.username == state.auth.user.username);
+  //       let check_dope = dope.filter(dope => dope.username == state.auth.user.username);
+  //       let check_info = info.filter(info => info.username == state.auth.user.username);
+  //       if(check_like[0]){
+  //         state.cook_has_like_id = check_like[0].id
+  //       }
+  //       if(check_like.length>0){
+  //         state.cook_has_like = true
+  //       }
+  //       if(check_dope[0]){
+  //         state.cook_has_dope_id = check_dope[0].id
+  //       }
+  //       if(check_dope.length>0){
+  //         state.cook_has_dope = true
+  //       }
+  //       if(check_info[0]){
+  //         state.cook_has_info_id = check_info[0].id
+  //       }
+  //       if(check_info.length>0){
+  //         state.cook_has_info = true
+  //       }
+  //     }
+  //   }
+  // },
   check_cook_comments(state, learning_comments_list){
     if(learning_comments_list){
       state.learning_comments_list = learning_comments_list
@@ -718,11 +652,6 @@ export const mutations = {
       state.share_obj = share_obj
     }
   },
-  // clear_learn_obj(state, learn_obj){
-  //   if(learn_obj){
-  //     state.loadingLearning =true;
-  //     state.learn_obj = null}
-  // },
   clear_page(state){
       state.page_journey = ''
       state.page_upcoming = ''
@@ -762,6 +691,16 @@ export const mutations = {
     if(editing_event_obj){
       state.editing_event_obj = null}
   },
+  check_editing_workshop_obj(state, editing_workshop_obj){
+    if(editing_workshop_obj){
+      state.editing_workshop_obj = null
+      state.editing_workshop_obj = editing_workshop_obj
+    }
+  },
+  clear_editing_workshop_obj(state, editing_workshop_obj){
+    if(editing_workshop_obj){
+      state.editing_workshop_obj = null}
+  },
   clear_comments(state) //if user has portfolio change state to true
   {
     state.share_comments_list =[]
@@ -800,14 +739,6 @@ export const mutations = {
       state.journey = [...new Map(state.journey.map(item =>
       [item[key], item])).values()];
   },
-  updateChat(state,personal_messages){
-    state.page_personal_messages= personal_messages.next;
-    personal_messages.results.forEach(item => state.personalMessages.push(item));
-    // filter array so no duplicates
-    const key = 'id';
-    state.personalMessages = [...new Map(state.personalMessages.map(item =>
-    [item[key], item])).values()];
-},
   updateUserUpcoming(state,upcoming){
     state.page_upcoming= upcoming.next;
     upcoming.results.forEach(item => state.upcoming.push(item));
@@ -865,11 +796,6 @@ export const mutations = {
       state.page_teachers = teachers.next
     }
   },
-  get_personal_messages(state, personalMessages)
-  {
-    state.personalMessages = personalMessages.results
-    state.page_personal_messages = personalMessages.next
-  },
   clear_notifications(state){
     state.notifications =[]
     state.notifications_notseen=0
@@ -894,28 +820,18 @@ export const mutations = {
     state.teachers =[]
     state.hasTeachers = false
   },
-  clear_personal_messages(state)
-  {
-    state.personalMessages = []
-  },
-  clear_love(state)
-  {
-    state.love = ''
-    state.share_has_love = false
-    state.share_has_love_id =''
-  },
-  clear_cook_reactions(state)
-  {
-    state.like = ''
-    state.dope = ''
-    state.info = ''
-    state.cook_has_like = false
-    state.cook_has_dope= false
-    state.cook_has_info= false
-    state.cook_has_like_id= ''
-    state.cook_has_dope_id=''
-    state.cook_has_info_id= ''
-  },
+  // clear_cook_reactions(state)
+  // {
+  //   state.like = ''
+  //   state.dope = ''
+  //   state.info = ''
+  //   state.cook_has_like = false
+  //   state.cook_has_dope= false
+  //   state.cook_has_info= false
+  //   state.cook_has_like_id= ''
+  //   state.cook_has_dope_id=''
+  //   state.cook_has_info_id= ''
+  // },
   clear_cook_comments(state)
   {
     state.learning_comments_list = []

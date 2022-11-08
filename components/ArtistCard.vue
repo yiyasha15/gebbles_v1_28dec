@@ -1,35 +1,32 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card style="margin:2px;"
+    <v-card 
       data-view
       :to="'/' + artist.username" 
-      :elevation="hover ? 12 : 0"
+      :elevation="hover ? 6 : 0"
+      class="transition-swing ma-md-2 ma-1"
       outlined
-      :width="img_width" 
+      :width="card_width" 
       :max-height="card_height"
     >
       <v-img
         v-if = artist.thumb :src = "artist.thumb" 
         :lazy-src= "artist.thumb" 
         :height="img_height"
-        :width="img_width" 
+        :width="card_width" 
       />
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"
         contain
         :height="img_height"
-        :width="img_width" 
+        :width="card_width" 
       />
       <v-card-actions height="32px">
-        <div v-if="artist.artist_name" width="70" class="text-decoration-none caption" style=" height: 1.3em;
-          line-height: initial;
-          overflow: hidden">
-        <p style="max-width:78px; font-size:0.6rem!important;">{{ artist.artist_name }} </p>
+        <div v-if="artist.artist_name" class="text-decoration-none caption width">
+        <p class="event_p">{{ artist.artist_name }} </p>
         </div>
-        <div v-else width="70" class="text-decoration-none caption" style=" height: 1.3em;
-          line-height: initial;
-          overflow: hidden">
-        <p style="max-width:78px; font-size:0.6rem!important;">{{ artist.username }} </p>
+        <div v-else class="text-decoration-none caption width">
+        <p class="event_p">{{ artist.username }} </p>
         </div>
         <v-spacer></v-spacer>
         <country-flag size=small  :country= 'artist.country' />
@@ -42,7 +39,7 @@ import CountryFlag from 'vue-country-flag'
     export default {
       head() {  //head function (a property of vue-meta), returns an object
       return {
-          title: 'gebbles community',
+          title: 'gebbles - artists',
           }
       },
       name: 'ArtistCard',
@@ -62,13 +59,13 @@ import CountryFlag from 'vue-country-flag'
           case 'xl': return 134
         }
       },
-      img_width () {
+      card_width () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 115
-          case 'sm': return 115
-          case 'md': return 215
-          case 'lg': return 215
-          case 'xl': return 215
+          case 'xs': return 110
+          case 'sm': return 110
+          case 'md': return 205
+          case 'lg': return 205
+          case 'xl': return 205
         }
       },
       card_height() {
@@ -80,7 +77,29 @@ import CountryFlag from 'vue-country-flag'
           case 'xl': return 205
         }
       }
-    },
+      },
       }
 </script>
+<style scoped>
 
+.width{
+    width: 177px;
+    height: 1.7em;
+    line-height: initial;
+    overflow: hidden
+  }
+.event_p{
+  font-size:0.8rem!important;
+}
+@media only screen and (max-width: 960px) {
+  .width{
+  width: 80px;
+  height: 1.3em;
+  line-height: initial;
+  overflow: hidden
+}
+.event_p{
+   font-size:0.6rem!important;
+}
+}
+</style>
