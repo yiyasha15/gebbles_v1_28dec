@@ -88,8 +88,8 @@ export default {
     getWhatsCookingId(uuid) {
         return apiClient1.get('/whatiscooking/list/'+ uuid)
     },
-    getWhatsCookingUsername(username) {
-        return apiClient1.get('/whatiscooking/mycookings/?username='+ username)
+    getWhatsCookingUsername(config) {
+        return apiClient1.get('/whatiscooking/mycookings/',config)
     },
     getStudentsCooking(username)
     {

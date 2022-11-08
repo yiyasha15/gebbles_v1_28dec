@@ -102,8 +102,13 @@ export default {
         window.history.back();
     },
     async getwhatiscooking(){
+        console.log("sup");
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
         try {
-            const response = await EventService.getWhatsCookingUsername(this.artist.username)
+            const response = await EventService.getWhatsCookingUsername(config)
             this.cooking = response.data
             // this.page = response.data.next
             this.firstLoadY = false

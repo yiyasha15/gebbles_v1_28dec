@@ -5,16 +5,16 @@
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
             <div v-show="!journeyLoaded">
-                <div v-if=" journey.length || highlights.length"> 
+                <div v-if=" journey.length "> 
                 <!-- check if journey is available -->
-                <div v-if="highlights.length">
+                <!-- <div v-if="highlights.length">
                 <v-layout wrap row justify-start class="mx-auto width background pt-3">
                     <div v-for="journey in highlights" :key ="journey.index">
                         <journey-card :journey = "journey" ></journey-card>
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingHighlights"></v-card>
-                </div>
+                </div> -->
                 <div class="d-flex justify-end" v-if="artist.username == loggedInUser.username">
                     <v-btn icon class="elevation-0 mt-1" @click="filterJourneyByEvents" >
                     <v-icon size="20">mdi-calendar</v-icon>
@@ -192,24 +192,24 @@ export default {
         //     });
         // }
     // },
-    infiniteScrollingHighlights(entries, observer, isIntersecting) {
-        this.$store.dispatch("update_user_highlights")
-        // if(this.pageHighlights)
-        // { 
-        //     const key = 'id';
-        //     this.$axios.get(this.pageHighlights).then(response => {
-        //     this.pageHighlights= response.data.next;
-        //     response.data.results.forEach(item => this.highlights.push(item));
-        //     // filter array so no duplicates
-        //     this.highlights = [...new Map(this.highlights.map(item =>
-        //         [item[key], item])).values()];
+    // infiniteScrollingHighlights(entries, observer, isIntersecting) {
+    //     this.$store.dispatch("update_user_highlights")
+    //     // if(this.pageHighlights)
+    //     // { 
+    //     //     const key = 'id';
+    //     //     this.$axios.get(this.pageHighlights).then(response => {
+    //     //     this.pageHighlights= response.data.next;
+    //     //     response.data.results.forEach(item => this.highlights.push(item));
+    //     //     // filter array so no duplicates
+    //     //     this.highlights = [...new Map(this.highlights.map(item =>
+    //     //         [item[key], item])).values()];
             
-        // })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
-        // }
-    },
+    //     // })
+    //     //     .catch(err => {
+    //     //         console.log(err);
+    //     //     });
+    //     // }
+    // },
     goback(){
         window.history.back();
     },

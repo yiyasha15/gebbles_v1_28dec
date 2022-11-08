@@ -279,14 +279,15 @@ export const actions = {
       //   commit('usersUpcoming',res.data)
       // }).catch(err =>{console.log(err.response.data);})
 
-      EventService.getHighlights(username,config).then(res =>
-      {
-        commit('usersHighlights',res.data)
-      }).catch(err =>{console.log(err.response.data);})
+      // EventService.getHighlights(username,config).then(res =>
+      // {
+      //   commit('usersHighlights',res.data)
+      // }).catch(err =>{console.log(err.response.data);})
       EventService.getJourney(username,config).then(res =>
-        {
-          commit('usersJourney',res.data)
-        }).catch(err =>{console.log(err.response.data);})
+      {
+        commit('usersJourney',res.data)
+      }).catch(err =>
+      {console.log(err.response.data);})
   },
   update_user_journey({commit, state}){
     if(state.page_journey) {
@@ -306,43 +307,41 @@ export const actions = {
       });   
     }
   },
-  update_user_upcoming({commit, state}){
-    if(state.page_upcoming) {
-      // checking if page_upcoming was not null then call api
-      let config;
-      if(state.auth.loggedIn) {
-        config = {
-        headers: {"content-type": "multipart/form-data",
-          "Authorization": this.$auth.strategy.token.get()}
-      };}
-      //push the results to state.journey and update the page_upcoming url
-      this.$axios.get(state.page_upcoming,config).then(res => {
-        commit('updateUserUpcoming',res.data)
-      })
-      .catch(err => {
-          console.log(err.response);
-      });   
-    }
-  },
-  update_user_highlights({commit, state}){
-    if(state.page_highlights) {
-      // checking if page_highlights was not null then call api
-      let config;
-      if(state.auth.loggedIn) {
-        config = {
-          headers: {"content-type": "multipart/form-data",
-            "Authorization": this.$auth.strategy.token.get()}
-        };
-      }
-      //push the results to state.journey and update the page_highlights url
-      this.$axios.get(state.page_highlights,config).then(res => {
-        commit('updateUserHighlights',res.data)
-      })
-      .catch(err => {
-          console.log(err.response);
-      });   
-    }
-  },
+  // update_user_upcoming({commit, state}){
+  //   if(state.page_upcoming) {
+  //     // checking if page_upcoming was not null then call api
+  //     let config;
+  //     if(state.auth.loggedIn) {
+  //       config = {
+  //       headers: {"content-type": "multipart/form-data",
+  //         "Authorization": this.$auth.strategy.token.get()}
+  //     };}
+  //     //push the results to state.journey and update the page_upcoming url
+  //     this.$axios.get(state.page_upcoming,config).then(res => {
+  //       commit('updateUserUpcoming',res.data)
+  //     })
+  //     .catch(err => {
+  //         console.log(err.response);
+  //     });   
+  //   }
+  // },
+  // update_user_highlights({commit, state}){
+  //   if(state.page_highlights) {
+  //     let config;
+  //     if(state.auth.loggedIn) {
+  //       config = {
+  //         headers: {"content-type": "multipart/form-data",
+  //           "Authorization": this.$auth.strategy.token.get()}
+  //       };
+  //     }
+  //    this.$axios.get(state.page_highlights,config).then(res => {
+  //       commit('updateUserHighlights',res.data)
+  //     })
+  //     .catch(err => {
+  //         console.log(err.response);
+  //     });   
+  //   }
+  // },
   check_user_teachers({commit, state}){
     if(state.auth.loggedIn) {
         let config = {
