@@ -87,7 +87,7 @@ import CountryFlag from 'vue-country-flag'
           eventDialog:false
         }
       },
-      name: 'TaggedEventCard',
+      name: 'EventsCardGoing',
       props: {
         event: Object
       },

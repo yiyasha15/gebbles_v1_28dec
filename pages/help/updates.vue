@@ -4,6 +4,8 @@
         <h3 class="font-weight-medium">
            ✔️ Updates
         </h3>
+        *doesn't work ith certain extensions turned on.
+         - phantom
     </v-container>
 </v-app>
 </template>

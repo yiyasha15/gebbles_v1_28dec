@@ -294,17 +294,32 @@ export default {
         let check = Object.keys(this.$route.params).length === 0;
         if(!check)
         {
-            let event= this.$route.params.event;
-            this.journey.event = event.event.uuid;
-            this.fromEvent = true;
-            this.journey.joevent = event.event.name;
-            this.journey.jophoto1 = event.event.poster;
-            this.imageData1 = this.journey.jophoto1
-            if(event.photo){this.journey.jophoto2 = event.photo;
-            this.imageData2 = this.journey.jophoto2}
-            this.journey.country = event.event.country
-            let thumb = this.journey.jophoto1.substring(this.journey.jophoto1.lastIndexOf('/') + 1)
-            this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + thumb;
+            let eventorWorkshop = this.$route.params;
+            if(eventorWorkshop.event){
+                let event= this.$route.params.event;
+                this.journey.event = event.event.uuid;
+                this.fromEvent = true;
+                this.journey.joevent = event.event.name;
+                this.journey.jophoto1 = event.event.poster;
+                this.imageData1 = this.journey.jophoto1
+                if(event.photo){this.journey.jophoto2 = event.photo;
+                this.imageData2 = this.journey.jophoto2}
+                this.journey.country = event.event.country
+                let thumb = this.journey.jophoto1.substring(this.journey.jophoto1.lastIndexOf('/') + 1)
+                this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + thumb;
+            }else if(eventorWorkshop.workshop){
+                let workshop= this.$route.params.workshop;
+                this.journey.event = workshop.workshop.uuid;
+                this.fromEvent = true;
+                this.journey.joevent = workshop.workshop.title;
+                this.journey.jophoto1 = workshop.workshop.poster;
+                this.imageData1 = this.journey.jophoto1
+                if(workshop.photo){this.journey.jophoto2 = workshop.photo;
+                this.imageData2 = this.journey.jophoto2}
+                this.journey.country = workshop.workshop.country
+                let thumb = this.journey.jophoto1.substring(this.journey.jophoto1.lastIndexOf('/') + 1)
+                this.journey.jp1thumb = "https://minithumbnails.s3.us-east-2.amazonaws.com/" + thumb;
+            }
         }
         else if(this.$store.state.editing_obj)
         {
@@ -807,7 +822,7 @@ export default {
                     formData.append(data, this.journey[data]);
                 }
                 try {
-                    // console.log(this.$auth.strategy.token.get());
+                    console.log(this.$auth.strategy.token.get());
                     await this.$axios.$post("/v1/artist/journey/", formData, config).then(res =>{
                         console.log(res);
                         this.refresh();

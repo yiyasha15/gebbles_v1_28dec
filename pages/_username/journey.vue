@@ -1,5 +1,6 @@
 <template>
     <v-app>
+        <left-navigation></left-navigation>
         <v-container style="max-width:670px;" class="pa-0 background">
             <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
@@ -72,6 +73,7 @@
 import { mapGetters} from 'vuex'
 import JourneyCard from "@/components/JourneyCard.vue"
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
+import LeftNavigation from '~/components/LeftNavigation.vue'
 export default {
     head() {
         return {
@@ -88,6 +90,7 @@ export default {
     components:{
         JourneyCard,
         CardSkeletonLoader,
+        LeftNavigation,
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser',

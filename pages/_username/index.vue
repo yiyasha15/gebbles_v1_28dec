@@ -187,7 +187,6 @@ export default {
         if(url4)
         this.videoId3 = getIdFromURL(url4)
     },
-    // layout: 'username',
     props: ["artist", "bio"],
     components:{
         CountryFlag,

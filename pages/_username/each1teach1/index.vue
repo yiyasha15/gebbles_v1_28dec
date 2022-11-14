@@ -1,5 +1,6 @@
 <template>
     <v-app>
+        <left-navigation></left-navigation>
         <v-container style="max-width:670px;" class="pa-0 background">
         <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
@@ -107,6 +108,7 @@
 import EventService from '@/services/EventService.js'
 import StudentsCard from '@/components/StudentsCard.vue'
 import TeachersCard from '@/components/TeachersCard.vue'
+import LeftNavigation from '@/components/LeftNavigation.vue'
 // import CookingCardSharing from '@/components/CookingCardSharing.vue'
 import { mapGetters} from 'vuex'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
@@ -121,6 +123,7 @@ export default {
         StudentsCard,
         TeachersCard,
         CardSkeletonLoader,
+        LeftNavigation
         // CookingCardSharing,
         // CookingCard,
         // CookingFeed

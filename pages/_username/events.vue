@@ -1,5 +1,6 @@
 <template>
     <v-app>
+        <left-navigation></left-navigation>
         <v-container style="max-width:670px;" class="pa-0 background">
             <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
@@ -16,7 +17,6 @@
             </v-tab>
             <v-tab-item>
                 <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
-
                 <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
@@ -90,6 +90,7 @@ import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 import EventsCardOrganised from '~/components/EventsCardOrganised.vue'
 import EventsCardGoing from '~/components/EventsCardGoing.vue'
 import EventsCardTagged from '~/components/EventsCardTagged.vue'
+import LeftNavigation from '~/components/LeftNavigation.vue'
 export default {
     head() {
         return {
@@ -107,13 +108,15 @@ export default {
     CardSkeletonLoader,
     EventsCardOrganised,
     EventsCardGoing,
-    EventsCardTagged
+    EventsCardTagged,
+    LeftNavigation
 },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser'
      ])
     },
     props: ["artist"],
+    middleware : 'check_auth',
     created(){
         this.getMyOrganizedEvents();
         this.getTaggedEvents();
@@ -143,7 +146,11 @@ export default {
     },
     async getMyOrganizedEvents(){
         try {
-        const response = await EventService.getMyOrganizedEvents(this.artist.username);
+            const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()}
+            };
+        const response = await EventService.getMyOrganizedEvents(config);
         // console.log(response);
         const orgEvents = response.data.results
         //filter events which are duplicate
@@ -169,7 +176,11 @@ export default {
     },
     async getTaggedEvents(){
         try {
-        const response = await EventService.getMyInvitedEvents(this.artist.username);
+            const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()}
+            };
+        const response = await EventService.getMyInvitedEvents(config);
         // console.log(response);
         const taggedEvents = response.data.results
         //filter events which are duplicate
@@ -194,7 +205,11 @@ export default {
     },
     async getGoingEvents(){
         try {
-        const response = await EventService.getMyGoingEvents(this.artist.username);
+            const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()}
+            };
+        const response = await EventService.getMyGoingEvents(config);
         // console.log(response);
         const goingEvents = response.data.results
         //filter events which are duplicate

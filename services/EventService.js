@@ -133,14 +133,14 @@ export default {
     getSearchedEventsThisMonth() {
         return apiClient1.get('/events/search/?this_month='+ 'yes')
     },
-    getMyOrganizedEvents(username) {
-        return apiClient1.get('/events/my-organized-events/?username='+ username)
+    getMyOrganizedEvents(config) {
+        return apiClient1.get('/events/my-organized-events/', config)
     },
-    getMyInvitedEvents(username) {
-        return apiClient1.get('/events/my-tagged-events/?guest='+ username)
+    getMyInvitedEvents(config) {
+        return apiClient1.get('/events/my-tagged-events/', config)
     },
-    getMyGoingEvents(username) {
-        return apiClient1.get('/events/iamgoing-events/?username='+ username)
+    getMyGoingEvents(config) {
+        return apiClient1.get('/events/iamgoing-events/', config)
     },
     //workshops api
     getAllWorkshops(){
@@ -162,12 +162,12 @@ export default {
         return apiClient1.get('/workshops/iamgoing/list/?workshop='+uuid)
     },
     getMyOrganizedWorkshops(config) {
-        return apiClient1.get('/workshops/my-organized-workshops/'+ config)
+        return apiClient1.get('/workshops/workshops-organized-by-artist/', config)
     },
     getMyInvitedWorkshops(config) {
-        return apiClient1.get('/workshops/my-tagged-workshops/'+ config)
+        return apiClient1.get('/workshops/workshops-taught-by-artist/', config)
     },
     getMyGoingWorkshops(config) {
-        return apiClient1.get('/workshops/iamgoing-workshops/'+ config)
+        return apiClient1.get('/workshops/iamgoing-workshops/', config)
     },
 }
