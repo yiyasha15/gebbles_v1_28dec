@@ -13,7 +13,7 @@
                 <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
-            <v-list-item-title><nuxt-link class="text-decoration-none" to="workshop.username">{{workshop.username}}</nuxt-link></v-list-item-title>
+            <v-list-item-title><nuxt-link class="text-decoration-none" :to="'/'+workshop.username">{{workshop.username}}</nuxt-link></v-list-item-title>
             <v-list-item-subtitle> {{emoment(workshop.created)}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>

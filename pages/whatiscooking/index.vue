@@ -35,7 +35,7 @@
         <h3>No videos found. </h3>
       </center>
       </v-container>
-      <v-card v-intersect="infiniteScrolling"></v-card>
+      <!-- <v-card v-intersect="infiniteScrolling"></v-card> -->
     </v-app>
 </template>
 
@@ -65,29 +65,29 @@ export default {
     async getwhatiscooking(){
       try {
       const response = await EventService.getWhatsCooking()
-      this.cooking = response.data.results
-      this.page = response.data.next
+      this.cooking = response.data
+      // this.page = response.data.next
       this.firstLoad = false
       } catch (e) {
         console.log(e);
         this.firstLoad = false
     }
     },
-    infiniteScrolling() {
-      if(this.page){
-      const key = 'id';
-      this.$axios.get(this.page).then(response => {
-        this.page= response.data.next;
-        response.data.results.forEach(item => this.cooking.push(item));
-        // filter array so no duplicates
-        this.cooking = [...new Map(this.cooking.map(item =>
-          [item[key], item])).values()];
-      })
-      .catch(err => {
-        console.log(err);
-      });
-      }
-    },
+    // infiniteScrolling() {
+    //   if(this.page){
+    //   const key = 'id';
+    //   this.$axios.get(this.page).then(response => {
+    //     this.page= response.data.next;
+    //     response.data.results.forEach(item => this.cooking.push(item));
+    //     // filter array so no duplicates
+    //     this.cooking = [...new Map(this.cooking.map(item =>
+    //       [item[key], item])).values()];
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    //   }
+    // },
     postDelete(){
       this.cooking=[];
       this.page =''
