@@ -221,11 +221,6 @@
                     </v-stepper-step>
                     <v-stepper-content step="2" style="border-left: none;" class="ma-0">
                         <!-- <p class="caption"><v-icon small> mdi-book-outline</v-icon> Event guests can add this event to their journey.</p> -->
-                        <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
-                            <div v-for="guest in this.selectedGuests" :key ="guest.index">
-                                <guest-card-create :guest="guest"  @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
-                            </div>
-                        </v-layout>
                         <v-form ref="guest_form">
                         <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-2 rounded-lg grey_background" >
                             <v-icon class="pa-image">mdi-plus</v-icon>
@@ -366,6 +361,11 @@
                         <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
                         @click="cancel_edit_guest" >Cancel</v-btn><br>
                         </v-form>
+                        <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
+                            <div v-for="guest in this.selectedGuests" :key ="guest.index">
+                                <guest-card-create :guest="guest"  @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
+                            </div>
+                        </v-layout>
                         <v-divider class="my-3"></v-divider>
                         <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
                         <v-btn color="primary" small text @click="e6 = 1">Previous</v-btn>
