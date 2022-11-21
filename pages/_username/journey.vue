@@ -6,7 +6,7 @@
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
             <div v-show="!journeyLoaded">
-                <div v-if=" journey.length "> 
+                <div v-if=" journey.length"> 
                 <!-- check if journey is available -->
                 <!-- <div v-if="highlights.length">
                 <v-layout wrap row justify-start class="mx-auto width background pt-3">

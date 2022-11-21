@@ -151,7 +151,7 @@ export default {
       } catch (e) {
         console.log(e);
         this.firstLoad = false
-    }
+      } 
     },
     // infiniteScrolling() {
     //   if(this.page){

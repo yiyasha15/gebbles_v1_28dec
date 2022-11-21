@@ -5,7 +5,7 @@
                 <center><img src = "~/assets/home.png" :width="img_width" alt="event logo"/></center>
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-if="!editing_event_obj">Create your event page</div>
                  <div class="font-weight-medium mb-4 text-h6 text-sm-h5 text-center" v-else>Edit your event page</div>
-                 <p class="caption text-center">Share about your plan for the jam, your guests, categories and schedule.. </p>
+                 <p class="caption text-center">Share about your plan for the jam, your guests, categories and schedule. </p>
                  <gebbles-divider class="mb-5"></gebbles-divider>
                  <v-stepper v-model="e6" vertical class="elevation-0">
                     <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
@@ -75,12 +75,14 @@
                             v-model = "event.venue"
                             label= "Event venue">
                         </v-text-field>
-                        <v-text-field
+                        <!-- <v-text-field
                             prepend-icon="mdi-google-maps"
                             label= "Google Maps URL"
                             :maxlength="255">
-                        </v-text-field>
-                        <v-autocomplete label="Country*" v-model= "event.country"
+                        </v-text-field> -->
+                        <v-autocomplete 
+                            label="Country*" 
+                            v-model= "event.country"
                             prepend-icon="mdi-earth"
                             :items="countries"
                             item-text="name"
@@ -99,7 +101,7 @@
                             label= "About the event">
                         </v-textarea>
                         <v-text-field
-                        :error-messages="iglinkError"
+                            :error-messages="iglinkError"
                             :rules="instagramRules"
                             prepend-icon="mdi-instagram"
                             v-model = "event.iglink"
@@ -120,7 +122,6 @@
                         <v-text-field
                             :maxlength="200"
                             counter
-                            
                             prepend-icon="mdi-link"
                             :rules="linkRules"
                             v-model = "event.link"
@@ -135,10 +136,84 @@
                             counter
                             >
                         </v-text-field>
+                        <small class="mb-2">Add photos for a quick lookup</small>
+                        <v-slide-group
+                        min-width="2px"
+                        v-model="model"
+                        class="pb-4 ma-0"
+                        show-arrows>
+                        <v-slide-item>
+                            <div class="mr-1">
+                            <div v-if="!event.photo1" @click="onPick(6)" style="cursor:pointer;" class=" rounded-lg grey_background" >
+                                <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
+                                <input 
+                                type="file" 
+                                name = "quick_glance" 
+                                style="display:none" 
+                                ref="fileInput6" 
+                                accept="image/*"
+                                required
+                                @change="onFileChange6">
+                            </div>
+                            <div v-else class=" rounded-lg grey_background" >
+                            <v-img v-if="typeof(event.photo1) === 'string'" :src="event.photo1" :height="img_height" :width="img_height" contain>
+                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(6)">
+                                <v-icon color="black" small>mdi-close</v-icon>
+                                </v-btn>
+                            </v-img>
+                            </div>
+                            </div>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <div class="mr-1">
+                            <div v-if="!event.photo2" @click="onPick(7)" style="cursor:pointer;" class=" rounded-lg grey_background" >
+                                <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
+                                <input 
+                                type="file" 
+                                name = "quick_glance" 
+                                style="display:none" 
+                                ref="fileInput7" 
+                                accept="image/*"
+                                required
+                                @change="onFileChange7">
+                            </div>
+                            <div v-else class=" rounded-lg grey_background" >
+                            <v-img v-if="typeof(event.photo2) === 'string'" :src="event.photo2" :height="img_height" :width="img_height" contain>
+                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(7)">
+                                <v-icon color="black" small>mdi-close</v-icon>
+                                </v-btn>
+                            </v-img>
+                            </div>
+                            </div>
+                        </v-slide-item>
+                        <v-slide-item>
+                            <div >
+                            <div v-if="!event.photo3" @click="onPick(8)" style="cursor:pointer;" class=" rounded-lg grey_background" >
+                                <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
+                                <input 
+                                type="file" 
+                                name = "quick_glance" 
+                                style="display:none" 
+                                ref="fileInput8" 
+                                accept="image/*"
+                                required
+                                @change="onFileChange8">
+                            </div>
+                            <div v-else class=" rounded-lg grey_background" >
+                            <v-img v-if="typeof(event.photo3) === 'string'" :src="event.photo3" :height="img_height" :width="img_height" contain>
+                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(8)">
+                                <v-icon color="black" small>mdi-close</v-icon>
+                                </v-btn>
+                            </v-img>
+                            </div>
+                            </div>
+                        </v-slide-item>
+                        </v-slide-group>
                         </v-form>
-                        <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
+                        <v-btn v-if="event_published || editing_event_obj" outlined small class="text-decoration-none"  color="black"
                         @click="update" :loading="progressbar" >Update</v-btn>
-                        <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
+                        <v-btn color="black" text small outlined @click="saveAndAdd" :loading="publish_progressbar" v-if="!event_published && !editing_event_obj">Publish and continue</v-btn>
+                        <v-btn color="black" text small outlined @click="e6 =2" v-else>Continue</v-btn>
                     </v-stepper-content>
             
                     <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event Guests
@@ -375,202 +450,17 @@
                         </v-row>
                         <!-- <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none"  color="black"
                         @click="update" :loading="progressbar" >Update</v-btn> -->
-                        <v-btn color="black" text small outlined @click="e6 = 4">Next</v-btn>
                         <v-btn color="primary" small text @click="e6 = 2">Previous</v-btn>
-                        
-                    </v-stepper-content>
-
-                    <v-stepper-step :complete="e6 > 4" step="4" @click.native="e6 = 4" style="cursor:pointer">Event schedule
-                    <small class="pt-1">Add few photos for a quick lookup.  </small>
-                    </v-stepper-step>
-                    <v-stepper-content step="4"  style=" border-left: none;" width="100%" class="ma-0">
-                        <!-- <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
-                            <div v-for="guest in this.selectedGuests" :key ="guest.index">
-                                <guest-card-create :guest="guest" v-if="guest.category.includes(5)" @removeGuest="removeOrganiser" @editGuest="editOrganiser"></guest-card-create>
-                            </div>
-                        </v-layout>
-                        <div v-if="!organiser.photo" @click="onPick(5)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
-                            <v-icon class="pa-image">mdi-plus</v-icon>
-                            <input 
-                            type="file" 
-                            name = "poster" 
-                            style="display:none" 
-                            ref="fileInput5" 
-                            accept="image/*"
-                            required
-                            @change="onFileChange5">
-                        </div>
-                        <div v-else class="ma-4">
-                        <v-img v-if="typeof(organiser.photo) === 'string'" :src="organiser.photo" class="mx-auto" height="300px" width="352px" contain>
-                            <v-btn icon small class="float-right ma-1 white" @click="removeImage(5)">
-                            <v-icon color="black" small>mdi-close</v-icon>
-                            </v-btn>
-                        </v-img>
-                        </div>
-                        <v-text-field
-                            v-model= "organiser.name"
-                            label= "Name"
-                            :maxlength="255">
-                        </v-text-field>
-                        <v-combobox
-                            v-model="artist_obj"
-                            :items="artists"
-                            prepend-icon="mdi-account-search-outline"
-                            label="Tag your team"
-                            item-text="artist_name"
-                            item-value="username"
-                            ref="artistListComboBox2"
-                            @change="onAutoCompleteSelection"
-                            @keyup="customOnChangeHandler2"
-                            @paste="customOnChangeHandler2"
-                            @input="addSearchOrganiser"
-                            >
-                            <template v-slot:selection="data">
-                                <v-chip
-                                v-bind="data.attrs"
-                                :input-value="data.selected"
-                                close
-                                @click:close="artist_obj = null; organiser.guest = ''"
-                                >
-                                <v-avatar v-if="data.item.thumb" left>
-                                    <v-img :src="data.item.thumb"></v-img>
-                                </v-avatar>
-                                <v-avatar v-else left>
-                                    <v-icon dark>
-                                        mdi-account-circle
-                                    </v-icon>
-                                </v-avatar>
-                                <template  v-if="data.item.username" >
-                                {{ data.item.username }}
-                                </template>
-                                <template v-else >
-                                {{ data.item}}
-                                </template>
-                                </v-chip>
-                            </template>
-                            <template v-slot:item="data">
-                                <template v-if="typeof data.item !== 'object'">
-                                <v-list-item-content v-text="data.item.username"></v-list-item-content>
-                                </template>
-                                <template v-else>
-                                <v-list-item-avatar v-if="data.item.thumb">
-                                    <img :src="data.item.thumb">
-                                </v-list-item-avatar>
-                                <v-list-item-avatar v-else >
-                                    <v-icon>
-                                        mdi-account-circle
-                                    </v-icon>
-                                </v-list-item-avatar>
-                                <v-list-item-content v-if="data.item.username">
-                                    <v-list-item-title v-html="data.item.username"></v-list-item-title>
-                                    <v-list-item-subtitle v-html="data.item.country"></v-list-item-subtitle>
-                                </v-list-item-content>
-                                </template>
-                            </template>
-                        </v-combobox>
-                        <v-autocomplete
-                        prepend-icon="mdi-earth"
-                        :items="countries"
-                        item-text="name"
-                        item-value="code"
-                        v-model = "organiser.country"
-                        label= "Country"
-                        >
-                        </v-autocomplete>
-                        
-                        <v-btn outlined small class="text-decoration-none"  color="black"
-                        @click="addOrganiser" v-if="!editing_organiser_process" :loading="organiser_progressbar">Add organiser</v-btn>
-                        <v-btn v-if="editing_organiser_process" outlined small class="text-decoration-none"  color="black"
-                        @click="updateOrganiser" :loading="organiser_progressbar">Update organiser</v-btn>
-                        <v-btn v-if="editing_organiser_process" outlined small class="text-decoration-none"  color="black"
-                        @click="cancel_edit_organiser" >Cancel</v-btn><br>
-                        <v-divider class="my-3"></v-divider> -->
-                        
-                        <v-slide-group
-                        min-width="2px"
-                        v-model="model"
-                        class="pb-4 ma-0"
-                        show-arrows>
-                        <v-slide-item>
-                            <div class="mr-1">
-                            <div v-if="!event.photo1" @click="onPick(6)" style="cursor:pointer;" class=" rounded-lg grey_background" >
-                                <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
-                                <input 
-                                type="file" 
-                                name = "quick_glance" 
-                                style="display:none" 
-                                ref="fileInput6" 
-                                accept="image/*"
-                                required
-                                @change="onFileChange6">
-                            </div>
-                            <div v-else class=" rounded-lg grey_background" >
-                            <v-img v-if="typeof(event.photo1) === 'string'" :src="event.photo1" :height="img_height" :width="img_height" contain>
-                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(6)">
-                                <v-icon color="black" small>mdi-close</v-icon>
-                                </v-btn>
-                            </v-img>
-                            </div>
-                            </div>
-                        </v-slide-item>
-                        <v-slide-item>
-                            <div class="mr-1">
-                            <div v-if="!event.photo2" @click="onPick(7)" style="cursor:pointer;" class=" rounded-lg grey_background" >
-                                <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
-                                <input 
-                                type="file" 
-                                name = "quick_glance" 
-                                style="display:none" 
-                                ref="fileInput7" 
-                                accept="image/*"
-                                required
-                                @change="onFileChange7">
-                            </div>
-                            <div v-else class=" rounded-lg grey_background" >
-                            <v-img v-if="typeof(event.photo2) === 'string'" :src="event.photo2" :height="img_height" :width="img_height" contain>
-                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(7)">
-                                <v-icon color="black" small>mdi-close</v-icon>
-                                </v-btn>
-                            </v-img>
-                            </div>
-                            </div>
-                        </v-slide-item>
-                        <v-slide-item>
-                            <div >
-                            <div v-if="!event.photo3" @click="onPick(8)" style="cursor:pointer;" class=" rounded-lg grey_background" >
-                                <v-icon class="pa-9 pa-sm-16">mdi-plus</v-icon>
-                                <input 
-                                type="file" 
-                                name = "quick_glance" 
-                                style="display:none" 
-                                ref="fileInput8" 
-                                accept="image/*"
-                                required
-                                @change="onFileChange8">
-                            </div>
-                            <div v-else class=" rounded-lg grey_background" >
-                            <v-img v-if="typeof(event.photo3) === 'string'" :src="event.photo3" :height="img_height" :width="img_height" contain>
-                                <v-btn icon small class="float-right ma-1 white" @click="removeImage(8)">
-                                <v-icon color="black" small>mdi-close</v-icon>
-                                </v-btn>
-                            </v-img>
-                            </div>
-                            </div>
-                        </v-slide-item>
-                        </v-slide-group>
-                        <v-btn v-if="editing_event_obj" outlined small class="text-decoration-none mb-1"  color="black"
-                        @click="updateQuickGlance" :loading="glance_progressbar">Update</v-btn>
-                        <v-btn color="primary" small text @click="e6 = 3">Previous</v-btn>
                         
                     </v-stepper-content>
                     <div class="mx-sm-7 mx-6">
                     <!-- <p v-if="progressbar" class="caption"> Hi, we're building the page. Please wait :)</p> -->
                     <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="submit" :loading="progressbar" >Submit</v-btn>
+                    @click="submit" :loading="progressbar" >Save and View</v-btn>
                     <!-- <v-btn small color="error" text  @click="clear">Cancel</v-btn>  -->
                     </div>
                 </v-stepper>
-
+                <!-- {{this.categories}} -->
             </v-card>
         </v-container>
         <v-dialog
@@ -757,7 +647,7 @@
             class="pt-4"
             v-model="battleJudges"
             :items="selectedGuests"
-            prepend-icon="mdi-hand-heart-outline"
+            prepend-icon="mdi-account-search-outline"
             
             label="Judges"
             counter="7"
@@ -918,7 +808,7 @@
             class="pt-4"
             v-model="selectedGuest"
             :items="selectedGuests"
-            prepend-icon="mdi-hand-heart-outline"
+            prepend-icon="mdi-account-search-outline"
             
             label="Artist"
             item-text="name"
@@ -1051,7 +941,7 @@
             class="pt-4"
             v-model="selectedGuest"
             :items="selectedGuests"
-            prepend-icon="mdi-hand-heart-outline"
+            prepend-icon="mdi-account-search-outline"
             
             label="Artist"
             item-text="name"
@@ -1359,7 +1249,7 @@
             class="pt-4"
             v-model="selectedGuest"
             :items="selectedGuests"
-            prepend-icon="mdi-hand-heart-outline"
+            prepend-icon="mdi-account-search-outline"
             label="Artist"
             item-text="name"
             return-object
@@ -1575,6 +1465,9 @@
         </v-snackbar>
         <v-snackbar v-model="error_snackbar">
             {{error_text}}
+        </v-snackbar>
+        <v-snackbar v-model="publish_snackbar">
+            Event posted, you can add other details.
         </v-snackbar>
     </div>
 </template>
@@ -1811,6 +1704,7 @@ export default {
                 uuid:'',
                 username:this.$store.state.auth.user.username
             },
+            saveUuid:'',
             delete_guest_dialog:false,
             delete_organiser_dialog:false,
             deleteLoading:false,
@@ -1838,6 +1732,9 @@ export default {
             cypher_dialog:false,
             otherCategory_dialog:false,
             progressbar: false,
+            publish_progressbar: false,
+            event_published:false,
+            publish_snackbar: false,
             poster_progressbar:false,
             guest_progressbar:false,
             organiser_progressbar:false,
@@ -2513,276 +2410,258 @@ export default {
         },
         //main event submit
         async submit(){
-            // console.log(this.$refs.event_form.validate());
-            if(this.event.poster != "")
-            {
-            if(this.$refs.event_form.validate()){
-                try{
-                this.progressbar =true
-                this.event.poster = await this.putImage(this.event.poster);
-                if(this.event.photo1)
-                this.event.photo1 = await this.putImage(this.event.photo1);
-                if(this.event.photo2)
-                this.event.photo2 = await this.putImage(this.event.photo2);
-                if(this.event.photo3)
-                this.event.photo3 = await this.putImage(this.event.photo3);
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": this.$auth.strategy.token.get()}
-                };
-                let formData = new FormData();
-                for (let data in this.event) {
-                    formData.append(data, this.event[data]);
+            if(this.saveUuid){
+            try{
+            this.progressbar =true
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()}
+            };
+            // if categories are added
+            if(this.selectedGuests.length >0){
+                // console.log("guests posts");
+            //add event object to all categories
+            this.selectedGuests.forEach(guest => guest.event = this.saveUuid);
+            //put all images inside category in s3 bucket..
+            // console.log("this.selectedGuests",this.selectedGuests);
+            for (const item of this.selectedGuests) {
+                if(item.photo){
+                    item.photo = await this.putImage(item.photo)
                 }
-                let resp = await this.$axios.$post("/v1/events/create/", formData, config)
-                // console.log("event created response",resp);
-                // if categories are added
-                if(this.selectedGuests.length >0)
-                {
-                    // console.log("guests posts");
-                //add event object to all categories
-                this.selectedGuests.forEach(guest => guest.event = resp.uuid);
-                //put all images inside category in s3 bucket..
-                // console.log("this.selectedGuests",this.selectedGuests);
-                for (const item of this.selectedGuests) {
-                    if(item.photo){
-                        item.photo = await this.putImage(item.photo)
-                    }
+            }
+            let formGuestData = new FormData();
+            for (let data of this.selectedGuests) {
+                for (let data2 in data) {
+                    formGuestData.append(data2, data[data2]);
                 }
-                let formGuestData = new FormData();
-                for (let data of this.selectedGuests) {
-                    for (let data2 in data) {
-                        formGuestData.append(data2, data[data2]);
-                    }
-                    try {
-                        let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
-                        // console.log("guest posted",postGuest);
-                    } catch (error) {
-                        this.error_text = error.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
-                        this.error_snackbar = true
-                        console.log(error.response);
-                    }
-                }
-                }
-                if(this.battle_categories.length >0){
-                // console.log("battle posts");
-                //add event object to all categories
-                this.battle_categories.forEach(category => category.event = resp.uuid);
-                //put all images inside battle category in s3 bucket..
-                for (const item of this.battle_categories) {
-                    console.log(item);
-                    if(item.poster){
-                        item.poster = await this.putImage(item.poster)
-                    }
-                    
-                    if(item.photo1){
-                        item.photo1 = await this.putImage(item.photo1)
-                    }
-                    if(item.photo2){
-                        item.photo2 = await this.putImage(item.photo2)
-                    }
-                    if(item.photo3){
-                        item.photo3 = await this.putImage(item.photo3)
-                    }
-                    if(item.photo4){
-                        item.photo4 = await this.putImage(item.photo4)
-                    }
-                    if(item.photo5){
-                        item.photo5 = await this.putImage(item.photo5)
-                    }
-                    if(item.photo6){
-                        item.photo6 = await this.putImage(item.photo6)
-                    }
-                    if(item.photo7){
-                        item.photo7 = await this.putImage(item.photo7)
-                    }
-                    if(item.djphoto1){
-                        item.djphoto1 = await this.putImage(item.djphoto1)
-                    }
-                    if(item.djphoto2){
-                        item.djphoto2 = await this.putImage(item.djphoto2)
-                    }
-                    if(item.djphoto3){
-                        item.djphoto3 = await this.putImage(item.djphoto3)
-                    }
-                    if(item.mcphoto1){
-                        item.mcphoto1 = await this.putImage(item.mcphoto1)
-                    }
-                    if(item.mcphoto2){
-                        item.mcphoto2 = await this.putImage(item.mcphoto2)
-                    }
-                    if(item.mcphoto3){
-                        item.mcphoto3 = await this.putImage(item.mcphoto3)
-                    }
-                    if(item.bgphoto1){
-                        item.bgphoto1 = await this.putImage(item.bgphoto1)
-                    }
-                    if(item.bgphoto2){
-                        item.bgphoto2 = await this.putImage(item.bgphoto2)
-                    }
-                    if(item.bgphoto3){
-                        item.bgphoto3 = await this.putImage(item.bgphoto3)
-                    }
-                    // console.log("done",this.battle_categories);
-                }
-                // battle json readayyy
-
-                // console.log("this.battle_categories ready to be uploaded??",this.battle_categories);
-                let formData2 = new FormData();
-                for (let data of this.battle_categories) {
-                    for (let data2 in data) {
-                        formData2.append(data2, data[data2]);
-                    }
-                    try {
-                        let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
-                        // console.log("battle posted",postBattle);
-                    } catch (error) {
-                        this.error_text = error.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
-                        this.error_snackbar = true
-                        console.log(error.response);
-                    }
-                }
-                }
-                if(this.categories.length >0)
-                {
-                //add event object to all categories
-                this.categories.forEach(category => category.event = resp.uuid);
-                //put all images inside category in s3 bucket..
-                for (const item of this.categories) {
-                    if(item.poster){
-                        item.poster = await this.putImage(item.poster)
-                    }
-                    if(item.photo1){
-                        item.photo1 = await this.putImage(item.photo1)
-                    }
-                }
-                let formData2 = new FormData();
-                for (let data of this.categories) {
-                    for (let data2 in data) {
-                        formData2.append(data2, data[data2]);
-                    }
-                    try {
-                        let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formData2, config)
-                        // console.log("categories posted",postCategory);
-                    } catch (error) {
-                        this.error_text = error.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
-                        this.error_snackbar = true
-                        console.log(error.response);
-                    }
-                }
-                }
-                
-                this.progressbar =false;
-                this.posted_snackbar = true;
-                this.$router.push("/events/"+resp.uuid);
-                }
-                catch(error){
+                try {
+                    let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
+                    // console.log("guest posted",postGuest);
+                } catch (error) {
                     this.error_text = error.response.data;
                     if(error.response.data.detail)
                     this.error_text = error.response.data.detail;
-                    console.log(error.response.data);
-                    let er = error.response.data;
-                    for (const key in er) {
-                        if(`${key}` == 'iglink'){
-                        this.iglinkError = `${er[key]}`
-                        }
-                        if(`${key}` == 'videolink'){
-                        this.ytlinkError = `${er[key]}`
-                        }
-                        if(`${key}` == 'link'){
-                        this.linkError = `${er[key]}`
-                        }
-                        this.e6 = 1
-                    }
-                    this.progressbar = false
+                    this.error_snackbar = true
+                    console.log(error.response);
                 }
             }
             }
-            else{
+            if(this.battle_categories.length >0){
+            // console.log("battle posts");
+            //add event object to all categories
+            this.battle_categories.forEach(category => category.event = this.saveUuid);
+            //put all images inside battle category in s3 bucket..
+            for (const item of this.battle_categories) {
+                console.log(item);
+                if(item.poster){
+                    item.poster = await this.putImage(item.poster)
+                }
+                
+                if(item.photo1){
+                    item.photo1 = await this.putImage(item.photo1)
+                }
+                if(item.photo2){
+                    item.photo2 = await this.putImage(item.photo2)
+                }
+                if(item.photo3){
+                    item.photo3 = await this.putImage(item.photo3)
+                }
+                if(item.photo4){
+                    item.photo4 = await this.putImage(item.photo4)
+                }
+                if(item.photo5){
+                    item.photo5 = await this.putImage(item.photo5)
+                }
+                if(item.photo6){
+                    item.photo6 = await this.putImage(item.photo6)
+                }
+                if(item.photo7){
+                    item.photo7 = await this.putImage(item.photo7)
+                }
+                if(item.djphoto1){
+                    item.djphoto1 = await this.putImage(item.djphoto1)
+                }
+                if(item.djphoto2){
+                    item.djphoto2 = await this.putImage(item.djphoto2)
+                }
+                if(item.djphoto3){
+                    item.djphoto3 = await this.putImage(item.djphoto3)
+                }
+                if(item.mcphoto1){
+                    item.mcphoto1 = await this.putImage(item.mcphoto1)
+                }
+                if(item.mcphoto2){
+                    item.mcphoto2 = await this.putImage(item.mcphoto2)
+                }
+                if(item.mcphoto3){
+                    item.mcphoto3 = await this.putImage(item.mcphoto3)
+                }
+                if(item.bgphoto1){
+                    item.bgphoto1 = await this.putImage(item.bgphoto1)
+                }
+                if(item.bgphoto2){
+                    item.bgphoto2 = await this.putImage(item.bgphoto2)
+                }
+                if(item.bgphoto3){
+                    item.bgphoto3 = await this.putImage(item.bgphoto3)
+                }
+                // console.log("done",this.battle_categories);
+            }
+            // battle json readayyy
+
+            // console.log("this.battle_categories ready to be uploaded??",this.battle_categories);
+            let formData2 = new FormData();
+            for (let data of this.battle_categories) {
+                for (let data2 in data) {
+                    formData2.append(data2, data[data2]);
+                }
+                try {
+                    let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
+                    // console.log("battle posted",postBattle);
+                } catch (error) {
+                    this.error_text = error.response.data;
+                    if(error.response.data.detail)
+                    this.error_text = error.response.data.detail;
+                    this.error_snackbar = true
+                    console.log(error.response);
+                }
+            }
+            }
+            if(this.categories.length >0){
+            //add event object to all categories
+            this.categories.forEach(category => category.event = this.saveUuid);
+            //put all images inside category in s3 bucket..
+            for (const item of this.categories) {
+                if(item.poster){
+                    item.poster = await this.putImage(item.poster)
+                }
+                if(item.photo1){
+                    item.photo1 = await this.putImage(item.photo1)
+                }
+            }
+            let formData2 = new FormData();
+            for (let data of this.categories) {
+                for (let data2 in data) {
+                    formData2.append(data2, data[data2]);
+                }
+                try {
+                    if(data.category == 1) {
+                        console.log("post on workshops/create");
+                        await this.$axios.$post("/v1/workshops/create/", formData2, config)
+                    }
+                    else
+                    {
+                        let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formData2, config)
+                    }
+                    // console.log("categories posted",postCategory);
+                } catch (error) {
+                    this.error_text = error.response.data;
+                    if(error.response.data.detail)
+                    this.error_text = error.response.data.detail;
+                    this.error_snackbar = true
+                    console.log(error.response);
+                }
+            }
+            }
+            this.progressbar =false;
+            this.posted_snackbar = true;
+            this.$router.push("/events/"+this.saveUuid);
+            }
+            catch(error){
+            }
+            }else
+            {
+                this.e6 =1;
+                this.error_text = 'Please publish the event first.'
+                this.error_snackbar = true
+            }
+        },
+        async saveAndAdd(){
+            if(this.event.poster != ""){
+                if(this.$refs.event_form.validate()){
+                    try {
+                        this.publish_progressbar =true
+                        this.event.poster = await this.putImage(this.event.poster);
+                        if(this.event.photo1)
+                        this.event.photo1 = await this.putImage(this.event.photo1);
+                        if(this.event.photo2)
+                        this.event.photo2 = await this.putImage(this.event.photo2);
+                        if(this.event.photo3)
+                        this.event.photo3 = await this.putImage(this.event.photo3);
+                        const config = {
+                            headers: {"content-type": "multipart/form-data",
+                                "Authorization": this.$auth.strategy.token.get()}
+                        };
+                        let formData = new FormData();
+                        for (let data in this.event) {
+                            formData.append(data, this.event[data]);
+                        }
+                        let resp = await this.$axios.$post("/v1/events/create/", formData, config)
+                        this.saveUuid = resp.uuid;
+                        this.publish_progressbar =false
+                        this.publish_snackbar = true
+                        this.event_published = true
+                        this.e6 = 2 // event posted add other deatils
+                    } catch (error) {
+                        this.error_text = error.response.data;
+                        if(error.response.data.detail)
+                        this.error_text = error.response.data.detail;
+                        console.log(error.response.data);
+                        let er = error.response.data;
+                        for (const key in er) {
+                            if(`${key}` == 'iglink'){
+                            this.iglinkError = `${er[key]}`
+                            }
+                            if(`${key}` == 'videolink'){
+                            this.ytlinkError = `${er[key]}`
+                            }
+                            if(`${key}` == 'link'){
+                            this.linkError = `${er[key]}`
+                            }
+                            this.e6 = 1
+                        }
+                        this.publish_progressbar = false
+                        
+                    }
+                }
+            }else{
                 this.valid_poster_snackbar =true
             }
         },
-
-        //update poster
-        // async updatePoster(){
-        //     try {
-        //         if(this.event.poster != "" && this.event.poster != this.editing_event_obj.poster)
-        //         {
-        //             this.poster_progressbar =true
-        //             this.event.poster = await this.putImage(this.event.poster);
-        //             const config = {
-        //                 headers: {"content-type": "multipart/form-data",
-        //                     "Authorization": this.$auth.strategy.token.get()
-        //                 }
-        //             };
-        //             let formName = new FormData();
-        //             formName.append("poster", this.event.poster);
-        //             formName.append("id", this.event['id']);
-        //             await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
-        //             // console.log(res); 
-        //             this.poster_progressbar =false
-        //             this.image_update_snackbar = true;
-        //             // this.$router.push("/events/"+this.event.uuid);
-        //             })
-        //         }
-        //         else{
-        //             this.all_good_snackbar = true;
-        //             // console.log("nothing to change");
-        //         }
-                
-        //     } catch (error) {
-        //         this.error_text = error.response.data;
-        //         if(error.response.data.detail)
-        //         this.error_text = error.response.data.detail;
-        //         this.poster_progressbar =false
-        //         this.error_snackbar = true
-        //         // console.log(error);
-        //     }
-        // },
-        async updateQuickGlance(){
-            if(this.event.photo1 != this.editing_event_obj.photo1 || this.event.photo2 != this.editing_event_obj.photo2 ||this.event.photo3 != this.editing_event_obj.photo3){
+        async saveGuestsAndAdd(){
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()}
+            };
+            // if categories are added
+            if(this.selectedGuests.length >0)
+            {
+                // console.log("guests posts");
+            //add event object to all categories
+            this.selectedGuests.forEach(guest => guest.event = this.saveUuid);
+            //put all images inside category in s3 bucket..
+            // console.log("this.selectedGuests",this.selectedGuests);
+            for (const item of this.selectedGuests) {
+                if(item.photo){
+                    item.photo = await this.putImage(item.photo)
+                }
+            }
+            let formGuestData = new FormData();
+            for (let data of this.selectedGuests) {
+                for (let data2 in data) {
+                    formGuestData.append(data2, data[data2]);
+                }
                 try {
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": this.$auth.strategy.token.get()
-                    }
-                };
-                let formName = new FormData();
-                this.glance_progressbar =true
-                if(this.event.photo1 != this.editing_event_obj.photo1)
-                {this.event.photo1 = await this.putImage(this.event.photo1);
-                formName.append("photo1", this.event.photo1);}
-                if(this.event.photo2 != this.editing_event_obj.photo2)
-                {this.event.photo2 = await this.putImage(this.event.photo2);
-                formName.append("photo2", this.event.photo2);}
-                if(this.event.photo3 != this.editing_event_obj.photo3)
-                {this.event.photo3 = await this.putImage(this.event.photo3);
-                formName.append("photo3", this.event.photo3);}
-                formName.append("id", this.event['id']);
-                await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
-                // console.log(res); 
-                this.glance_progressbar =false
-                this.image_update_snackbar = true;
-                // this.$router.push("/events/"+this.event.uuid);
-                })
+                    let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
+                    // console.log("guest posted",postGuest);
                 } catch (error) {
-                    console.log(error);
                     this.error_text = error.response.data;
                     if(error.response.data.detail)
                     this.error_text = error.response.data.detail;
-                    this.glance_progressbar =false
                     this.error_snackbar = true
-                    // console.log(error);
+                    console.log(error.response);
                 }
-            }else{
-                this.error_text = 'Event schedule is upto date.';
-                this.error_snackbar = true
+            }
             }
         },
         //update event details
@@ -2795,6 +2674,12 @@ export default {
                 this.progressbar =true
                 if(this.event.poster != this.editing_event_obj.poster)
                 this.event.poster = await this.putImage(this.event.poster);
+                if(this.event.photo1 != this.editing_event_obj.photo1)
+                {this.event.photo1 = await this.putImage(this.event.photo1);}
+                if(this.event.photo2 != this.editing_event_obj.photo2)
+                {this.event.photo2 = await this.putImage(this.event.photo2);}
+                if(this.event.photo3 != this.editing_event_obj.photo3)
+                {this.event.photo3 = await this.putImage(this.event.photo3);}
                 this.formUpdate();
             }
             catch(error){
@@ -2841,14 +2726,16 @@ export default {
             let update = false; 
             try {
                 let formName = new FormData();
+            
                 for(var i=0; i<keyObj1.length; i++) { 
                     if(keyObj1[i]=='event_battles'){}
                     else if(keyObj1[i]=='event_subevents'){}
                     else if (keyObj1[i]=='event_guests'){}
+                    else if (keyObj1[i]=='event_guests'){}
                     else
                     {
                         if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                            // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                            console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
                         } 
                         else { 
                             update = true;
@@ -3139,7 +3026,7 @@ export default {
             }
         },
         updateWorkshopCheck(num){
-             switch(num) {
+            switch(num) {
                 case 1:
                     if(this.$refs.workshop_form.validate())
                     this.updateWorkshop();
@@ -3162,83 +3049,83 @@ export default {
                     break;
                 default:
                     // code block
-                }
+            }
         },
         async updateWorkshop(){
-                if(this.editing_event_obj){
-                    this.program_progressbar = true
-                    if(this.category.poster)
-                    {
-                        this.category.poster = await this.putImage(this.category.poster);
-                    }
-                    if(this.category.guest1 && typeof this.category.guest1=='object')
-                    {
-                        this.category.guest1 = this.category.guest1.username
-                        }
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": this.$auth.strategy.token.get()
-                        }
-                    };
-                    let myObj1 = this.temp_category_item;
-                    let myObj2 = this.category;
-                    // find keys 
-                    let keyObj1 = Object.keys(myObj1); 
-                    let keyObj2 = Object.keys(myObj2);
-                    // find values 
-                    let valueObj1 = Object.values(myObj1); 
-                    let valueObj2 = Object.values(myObj2); 
-                    let update = false;
-                    // now compare their keys and values  
-                    try {
-                        let formName = new FormData();
-                        for(var i=0; i<keyObj1.length; i++) {
-                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                            } 
-                            else {
-                                update = true;
-                                formName.append(keyObj1[i], valueObj2[i]);
-                            }
-                        }
-                        if(update){
-                            formName.append("id", this.event['id']);
-                            await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config)
-                            //remove from array
-                            //addGuestToSelectedGuestArray
-                            this.categories.splice(this.categories.findIndex(e => e.id === this.temp_category_item.id),1);
-                            this.updateCategoryToArray();
-                            update = false;
-                        }
-                        else{
-                            this.error_text= 'This category is upto date.'
-                            this.error_snackbar = true;
-                            this.close_category_dialog();
-                        }
-                        this.program_progressbar =false
-                    } catch (error) {
-                        this.error_text = error.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
-                        console.log("error!!!!! ",error, error.response);
-                        this.error_snackbar =true
-                        this.program_progressbar =false
-                    }
+            if(this.editing_event_obj){
+                this.program_progressbar = true
+                if(this.category.poster)
+                {
+                    this.category.poster = await this.putImage(this.category.poster);
                 }
-                else{
-                    //remove prev obj
-                    this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name),1);
-                    let clone = {...this.category}
-                    this.categories.push(clone)
-                    this.program_update_snackbar=true
-                    for (var key in this.category) {
-                        this.category[key] = '';
+                if(this.category.guest1 && typeof this.category.guest1=='object')
+                {
+                    this.category.guest1 = this.category.guest1.username
                     }
-                    this.category.username=this.loggedInUser.username
-                    this.artist_obj= null
-                    this.close_category_dialog();
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": this.$auth.strategy.token.get()
+                    }
+                };
+                let myObj1 = this.temp_category_item;
+                let myObj2 = this.category;
+                // find keys 
+                let keyObj1 = Object.keys(myObj1); 
+                let keyObj2 = Object.keys(myObj2);
+                // find values 
+                let valueObj1 = Object.values(myObj1); 
+                let valueObj2 = Object.values(myObj2); 
+                let update = false;
+                // now compare their keys and values  
+                try {
+                    let formName = new FormData();
+                    for(var i=0; i<keyObj1.length; i++) {
+                        if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                        } 
+                        else {
+                            update = true;
+                            formName.append(keyObj1[i], valueObj2[i]);
+                        }
+                    }
+                    if(update){
+                        formName.append("id", this.event['id']);
+                        await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config)
+                        //remove from array
+                        //addGuestToSelectedGuestArray
+                        this.categories.splice(this.categories.findIndex(e => e.id === this.temp_category_item.id),1);
+                        this.updateCategoryToArray();
+                        update = false;
+                    }
+                    else{
+                        this.error_text= 'This category is upto date.'
+                        this.error_snackbar = true;
+                        this.close_category_dialog();
+                    }
+                    this.program_progressbar =false
+                } catch (error) {
+                    this.error_text = error.response.data;
+                    if(error.response.data.detail)
+                    this.error_text = error.response.data.detail;
+                    console.log("error!!!!! ",error, error.response);
+                    this.error_snackbar =true
+                    this.program_progressbar =false
                 }
-                this.program_progressbar =false
-                this.editing_category_process = false
+            }
+            else{
+                //remove prev obj
+                this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name),1);
+                let clone = {...this.category}
+                this.categories.push(clone)
+                this.program_update_snackbar=true
+                for (var key in this.category) {
+                    this.category[key] = '';
+                }
+                this.category.username=this.loggedInUser.username
+                this.artist_obj= null
+                this.close_category_dialog();
+            }
+            this.program_progressbar =false
+            this.editing_category_process = false
         },
         close_category_dialog(){
             this.editing_category_process = false;
@@ -3261,52 +3148,52 @@ export default {
             this.same_day =false;
         },
         addWorkshop(num){
-                //1:workshop
-                //2:showcase
-                //3:party
-                //4:cypher
-                //5:community talk
-                switch(num) {
-                case 1:
-                    {
-                    if(this.$refs.workshop_form.validate())
-                    {
-                        this.category.category = 1
-                        this.addWorkshop2();
-                    }
-                    break;
-                    }
-                case 2:{
-                    if(this.$refs.showcase_form.validate())
-                    {
-                        this.category.category = 2
-                        this.addWorkshop2();
-                    }
-                    break;}
-                case 3:{
-                    if(this.$refs.party_form.validate())
-                    {
-                        this.category.category = 3
-                        this.addWorkshop2();
-                    }
-                    break;}
-                case 4:{
-                    if(this.$refs.cypher_form.validate())
-                    {
-                        this.category.category = 4
-                        this.addWorkshop2();
-                    }
-                break;}
-                case 5:{
-                    if(this.$refs.talk_form.validate())
-                    {
-                        this.category.category = 5
-                        this.addWorkshop2();
-                    }
-                break;}
-                default:
-                    // code block
+            //1:workshop
+            //2:showcase
+            //3:party
+            //4:cypher
+            //5:community talk
+            switch(num) {
+            case 1:
+                {
+                if(this.$refs.workshop_form.validate())
+                {
+                    this.category.category = 1
+                    this.addWorkshop2();
                 }
+                break;
+                }
+            case 2:{
+                if(this.$refs.showcase_form.validate())
+                {
+                    this.category.category = 2
+                    this.addWorkshop2();
+                }
+                break;}
+            case 3:{
+                if(this.$refs.party_form.validate())
+                {
+                    this.category.category = 3
+                    this.addWorkshop2();
+                }
+                break;}
+            case 4:{
+                if(this.$refs.cypher_form.validate())
+                {
+                    this.category.category = 4
+                    this.addWorkshop2();
+                }
+            break;}
+            case 5:{
+                if(this.$refs.talk_form.validate())
+                {
+                    this.category.category = 5
+                    this.addWorkshop2();
+                }
+            break;}
+            default:
+                // code block
+            }
         },
         addWorkshop2(){
             if(this.editing_event_obj){
