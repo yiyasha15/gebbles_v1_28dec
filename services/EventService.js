@@ -82,6 +82,12 @@ export default {
 
 
     //cooking api
+    getLatestCookings(){
+        return apiClient1.get('/whatiscooking/latest_cookings/')
+    },
+    getLatestCookingsUsername(username){
+        return apiClient1.get('/whatiscooking/latest_cookings/?username='+username)
+    },
     getWhatsCooking() {
         return apiClient1.get('/whatiscooking/list/')
     },

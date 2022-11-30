@@ -1,323 +1,304 @@
 <template>
 <div>
-    <v-hover v-slot:default="{ hover }">
-      <v-card 
-        data-view
-        @click="opendialog"
-        :elevation="hover ? 6 : 0"
-        outlined
-        :width="card_width"
+  <v-hover v-slot:default="{ hover }">
+    <v-card 
+      data-view
+      @click="opendialog"
+      :elevation="hover ? 6 : 0"
+      outlined
+      :width="card_width"
+      :height="img_height"
+      class="pa-0 mx-auto"
+    >
+      <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
+        v-if = category.poster :src = "category.poster" 
         :height="img_height"
-        class="pa-0 mx-auto"
-      >
-        <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
-          v-if = category.poster :src = "category.poster" 
-          :height="img_height"
-          :width="img_width">
-          <div class="text-center">
-            <h3 style="height:55px; overflow:hidden;" class="font-weight-medium px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
-            <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-medium px-6  white--text hidden-xs-only" >{{category.name}}</h3>
-            <h6 v-if="category.date" class="body-1 white--text mt-sm-12 mt-4">{{moment(category.date)}}</h6>
-          </div>
-        <div style="position:absolute; padding-left:2px; bottom:2px;">
-        <v-avatar size="26px" v-if="category.photo1">
-          <v-img :src="category.photo1"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.photo2">
-          <v-img :src="category.photo2"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.photo3">
-          <v-img :src="category.photo3"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.photo4">
-          <v-img :src="category.photo4"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.photo5">
-          <v-img :src="category.photo5"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.photo6">
-          <v-img :src="category.photo6"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.photo7">
-          <v-img :src="category.photo7"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.mcphoto1">
-          <v-img :src="category.mcphoto1"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.mcphoto2">
-          <v-img :src="category.mcphoto2"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.mcphoto3">
-          <v-img :src="category.mcphoto3"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.djphoto1">
-          <v-img :src="category.djphoto1"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.djphoto2">
-          <v-img :src="category.djphoto2"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.djphoto3">
-          <v-img :src="category.djphoto3"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.bgphoto1">
-          <v-img :src="category.bgphoto1"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.bgphoto2">
-          <v-img :src="category.bgphoto2"></v-img>
-        </v-avatar>
-        <v-avatar size="26px" v-if="category.bgphoto3">
-          <v-img :src="category.bgphoto3"></v-img>
-        </v-avatar>
-        </div>
-        </v-img>
-        <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
-          v-else :src = "poster" 
-          :height="img_height"
-          :width="img_width">
+        :width="img_width">
         <div class="text-center">
-          <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
-          <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-light px-6  white--text hidden-xs-only" >{{category.name}}</h3>
-          <h6 v-if="category.date" class="caption mt-sm-12 mt-4 white--text">{{moment(category.date)}}</h6>
+          <h3 style="height:55px; overflow:hidden;" class="font-weight-medium px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
+          <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-medium px-6  white--text hidden-xs-only" >{{category.name}}</h3>
+          <h6 v-if="category.date" class="body-1 white--text mt-sm-12 mt-4">{{moment(category.date)}}</h6>
         </div>
-        </v-img>
-      </v-card>
-    </v-hover>
-    <v-dialog
-      :retain-focus="false"
-      v-model="dialog"
-      width="600px"
-      persistent>
-      <v-container class="rounded-lg white pa-4">
-        <v-row align="end" justify="end" class="pa-0 ma-0" >
-        <v-btn icon color="error" class="float-right" @click="dialog=false; ">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        </v-row>
-      <v-img class="mt-4 mx-auto" max-height="400px" contain
-      v-if = category.poster :src = "category.poster" 
-      :lazy-src= "category.poster"/>
-      <h3 class="font-weight-medium mt-4">{{ category.name}}</h3>
-      <h3 class="font-weight-medium mt-4">{{ category.title}}</h3>
-      <v-chip outlined class="mr-1 pl-1 grey" x-small style="cursor:pointer;">
-      <v-icon v-if="category.category == 1" color="yellow">mdi-circle-medium</v-icon>
-      <v-icon v-if="category.category == 2" color="blue">mdi-circle-medium</v-icon>
-      <v-icon v-if="category.category == 3" color="purple">mdi-circle-medium</v-icon>
-      <v-icon v-if="category.category == 4" color="green">mdi-circle-medium</v-icon>
-      <v-icon v-if="category.category == 5" color="black">mdi-circle-medium</v-icon>
-      <v-icon v-if="category.category == 6" color="red">mdi-circle-medium</v-icon>
-      <span v-if="category.category == 1"> workshop</span>
-      <span v-if="category.category == 2"> showcase</span>
-      <span v-if="category.category == 3"> party</span>
-      <span v-if="category.category == 4"> cypher</span>
-      <span v-if="category.category == 5"> community talk</span>
-      <span v-if="category.category == 6"> battle</span>
-      </v-chip>
-      <h3 class="font-weight-light mt-2">{{category.venue}}</h3>
-      <!-- battle details -->
-      <div v-if="category.category == 6">
+      <div style="position:absolute; padding-left:2px; bottom:2px;">
+      <v-avatar size="26px" v-if="category.photo1">
+        <v-img :src="category.photo1"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo2">
+        <v-img :src="category.photo2"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo3">
+        <v-img :src="category.photo3"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo4">
+        <v-img :src="category.photo4"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo5">
+        <v-img :src="category.photo5"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo6">
+        <v-img :src="category.photo6"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.photo7">
+        <v-img :src="category.photo7"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.mcphoto1">
+        <v-img :src="category.mcphoto1"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.mcphoto2">
+        <v-img :src="category.mcphoto2"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.mcphoto3">
+        <v-img :src="category.mcphoto3"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.djphoto1">
+        <v-img :src="category.djphoto1"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.djphoto2">
+        <v-img :src="category.djphoto2"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.djphoto3">
+        <v-img :src="category.djphoto3"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.bgphoto1">
+        <v-img :src="category.bgphoto1"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.bgphoto2">
+        <v-img :src="category.bgphoto2"></v-img>
+      </v-avatar>
+      <v-avatar size="26px" v-if="category.bgphoto3">
+        <v-img :src="category.bgphoto3"></v-img>
+      </v-avatar>
+      </div>
+      </v-img>
+      <v-img gradient="to top right, rgba(129,90,68,.33), rgba(98,71,56,.7)"
+         v-else :src = "poster" 
+        :height="img_height"
+        :width="img_width">
+      <div class="text-center">
+        <h3 style="height:55px; overflow:hidden;" class="font-weight-light px-2 white--text mt-15 hidden-sm-and-up" >{{category.name}}</h3>
+        <h3 style="height:55px; overflow:hidden; margin-top:100px" class="font-weight-light px-6  white--text hidden-xs-only" >{{category.name}}</h3>
+        <h6 v-if="category.date" class="caption mt-sm-12 mt-4 white--text">{{moment(category.date)}}</h6>
+      </div>
+      </v-img>
+    </v-card>
+  </v-hover>
+  <v-dialog
+        :retain-focus="false"
+        v-model="dialog"
+        width="600px"
+        persistent>
+        <v-container class="rounded-lg white pa-4">
+          <v-row align="end" justify="end" class="pa-0 ma-0" >
+          <v-btn icon color="error" class="float-right" @click="dialog=false; ">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-row>
+        <v-img class="mt-4 mx-auto" max-height="400px" contain
+        v-if = category.poster :src = "category.poster" 
+        :lazy-src= "category.poster"  />
+        <h3 class="font-weight-medium mt-4">{{ category.name}}</h3>
+        <v-chip v-if="typeof category.category == 'number'" outlined class="mr-1 pl-1 grey" x-small style="cursor:pointer;">
+        <v-icon v-if="category.category == 1" color="yellow">mdi-circle-medium</v-icon>
+        <v-icon v-if="category.category == 3" color="purple">mdi-circle-medium</v-icon>
+        <v-icon v-if="category.category == 4" color="green">mdi-circle-medium</v-icon>
+        <v-icon v-if="category.category == 2" color="blue">mdi-circle-medium</v-icon>
+        <v-icon v-if="category.category == 5" color="black">mdi-circle-medium</v-icon>
+        <span v-if="category.category == 1"> workshop</span>
+        <span v-if="category.category == 2"> showcase</span>
+        <span v-if="category.category == 3"> party</span>
+        <span v-if="category.category == 4"> cypher</span>
+        <span v-if="category.category == 5"> community talk</span>
+        </v-chip>
+        <v-chip v-else outlined class="mr-1 pl-1" x-small style="cursor:pointer;">
+           <v-icon color="red">mdi-circle-medium</v-icon>
+           <span> battle</span>
+        </v-chip>
+        <h3 class="font-weight-light mt-2">{{category.venue}}</h3>
         <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{moment(category.date)}}</h3>
-      <h3 class=" mt-1 font-weight-light" v-if="category.date_time"> {{category.date_time}} </h3>
-      <h3 v-if="category.about" class="font-weight-light mt-2">About: {{category.about}}</h3>
-      <h3 v-if="category.rules" class="font-weight-light mt-2">Rules: {{category.rules}}</h3>
-      <h3 v-if="category.prizes" class="font-weight-light mt-2">Prizes: {{category.prizes}}</h3>
-      <h3 v-if="category.mcname1" class="font-weight-light mt-2">Emcee: </h3>
-      <v-chip v-if="category.mcname1" color="black " @click="openChipDialog('mc1')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.mcphoto1">
-            <v-img :src="category.mcphoto1"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.mcname1}}
-      </v-chip>
-      <v-chip v-if="category.mcname2" color="black " @click="openChipDialog('mc2')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.mcphoto2">
-            <v-img :src="category.mcphoto2"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.mcname2}}
-      </v-chip>
-      <v-chip v-if="category.mcname3" color="black " @click="openChipDialog('mc3')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.mcphoto3">
-            <v-img :src="category.mcphoto3"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.mcname3}}
-      </v-chip>
-      <h3 v-if="category.djname1" class="font-weight-light mt-2">DJ: </h3>
-      <v-chip v-if="category.djname1" color="black " @click="openChipDialog('dj1')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.djphoto1">
-            <v-img :src="category.djphoto1"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.djname1}}
-      </v-chip>
-      <v-chip v-if="category.djname2" color="black " @click="openChipDialog('dj2')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.djphoto2">
-            <v-img :src="category.djphoto2"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.djname2}}
-      </v-chip>
-      <v-chip v-if="category.djname3" color="black " @click="openChipDialog('dj3')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.djphoto3">
-            <v-img :src="category.djphoto3"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.djname3}}
-      </v-chip>
-      <h3 v-if="category.name1" class="font-weight-light mt-2">Judges:</h3>
-      <v-chip v-if="category.name1" color="black " @click="openChipDialog('n1')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo1">
-            <v-img :src="category.photo1"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name1}}
-      </v-chip>
-      <v-chip v-if="category.name2" color="black " @click="openChipDialog('n2')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo2">
-            <v-img :src="category.photo2"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name2}}
-      </v-chip>
-      <v-chip v-if="category.name3" color="black " @click="openChipDialog('n3')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo3">
-            <v-img :src="category.photo3"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name3}}
-      </v-chip>
-      <v-chip v-if="category.name4" color="black " @click="openChipDialog('n4')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo4">
-            <v-img :src="category.photo4"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name4}}
-      </v-chip>
-      <v-chip v-if="category.name5" color="black " @click="openChipDialog('n5')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo5">
-            <v-img :src="category.photo5"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name5}}
-      </v-chip>
-      <v-chip v-if="category.name6" color="black " @click="openChipDialog('n6')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo6">
-            <v-img :src="category.photo6"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name6}}
-      </v-chip>
-      <v-chip v-if="category.name7" color="black " @click="openChipDialog('n7')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo7">
-            <v-img :src="category.photo7"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name7}}
-      </v-chip>
-      <h3 v-if="category.bgname1" class="font-weight-light mt-2">Battle guests: </h3>
-      <v-chip v-if="category.bgname1" color="black " @click="openChipDialog('bg1')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.bgphoto1">
-            <v-img :src="category.bgphoto1"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.bgname1}}
-      </v-chip>
-      <v-chip v-if="category.bgname2" color="black " @click="openChipDialog('bg2')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.bgphoto2">
-            <v-img :src="category.bgphoto2"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.bgname2}}
-      </v-chip>
-      <v-chip v-if="category.bgname3" color="black " @click="openChipDialog('bg3')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.bgphoto3">
-            <v-img :src="category.bgphoto3"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.bgname3}}
-      </v-chip>
-      </div>
-      <div v-if="category.category == 1">
-        <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{moment(category.start_date)}}</h3>
-      <!-- <h3 v-if="category.start_date" class="red--text mt-1 font-weight-light">{{moment(category.start_date)}}</h3> -->
-      <h3 class=" mt-1 font-weight-light" v-if="category.datetime != 'undefined'"> {{category.datetime}} </h3>
-      <h3 v-if="category.content" class="font-weight-light mt-2">About: {{category.content}}</h3>
-      <h3 v-if="category.name1" class="font-weight-light mt-2">Artist:</h3>
+        <h3 class="red--text mt-1 font-weight-light" v-if="category.date_time" > {{category.date_time}} </h3>
+        <h3 v-if="category.about" class="font-weight-light mt-2">About: {{category.about}}</h3>
+        <div v-if="typeof category.category != 'number'">
+        <h3 v-if="category.rules" class="font-weight-light mt-2">Rules: {{category.rules}}</h3>
+        <h3 v-if="category.prizes" class="font-weight-light mt-2">Prizes: {{category.prizes}}</h3>
+        <h3 v-if="category.mcname1" class="font-weight-light mt-2">Emcee: </h3>
+        <v-chip v-if="category.mcname1" color="black " @click="openChipDialog('mc1')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.mcphoto1">
+              <v-img :src="category.mcphoto1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.mcname1}}
+        </v-chip>
+        <v-chip v-if="category.mcname2" color="black " @click="openChipDialog('mc2')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.mcphoto2">
+              <v-img :src="category.mcphoto2"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.mcname2}}
+        </v-chip>
+        <v-chip v-if="category.mcname3" color="black " @click="openChipDialog('mc3')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.mcphoto3">
+              <v-img :src="category.mcphoto3"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.mcname3}}
+        </v-chip>
+        <h3 v-if="category.djname1" class="font-weight-light mt-2">DJ: </h3>
+        <v-chip v-if="category.djname1" color="black " @click="openChipDialog('dj1')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.djphoto1">
+              <v-img :src="category.djphoto1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.djname1}}
+        </v-chip>
+        <v-chip v-if="category.djname2" color="black " @click="openChipDialog('dj2')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.djphoto2">
+              <v-img :src="category.djphoto2"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.djname2}}
+        </v-chip>
+        <v-chip v-if="category.djname3" color="black " @click="openChipDialog('dj3')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.djphoto3">
+              <v-img :src="category.djphoto3"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.djname3}}
+        </v-chip>
+        <h3 v-if="category.name1" class="font-weight-light mt-2">Judges:</h3>
         <v-chip v-if="category.name1" color="black " @click="openChipDialog('n1')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo1">
-            <v-img :src="category.photo1"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name1}}
-      </v-chip>
-      </div>
-      <div v-else>
-        <h3 v-if="category.date" class="red--text mt-1 font-weight-light" >{{moment(category.date)}}</h3>
-      <!-- <h3 v-if="category.start_date" class="red--text mt-1 font-weight-light">{{moment(category.start_date)}}</h3> -->
-      <h3 class=" mt-1 font-weight-light" v-if="category.date_time"> {{category.date_time}} </h3>
-      <h3 v-if="category.name1" class="font-weight-light mt-2">Artist:</h3>
-        <v-chip v-if="category.name1" color="black " @click="openChipDialog('n1')" dark outlined class="ma-1" style="cursor:pointer;">
-          <v-avatar left v-if="category.photo1">
-            <v-img :src="category.photo1"></v-img>
-          </v-avatar>
-          <v-avatar left v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{category.name1}}
-      </v-chip>
-      </div>
-      </v-container>
+            <v-avatar left v-if="category.photo1">
+              <v-img :src="category.photo1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name1}}
+        </v-chip>
+        <v-chip v-if="category.name2" color="black " @click="openChipDialog('n2')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo2">
+              <v-img :src="category.photo2"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name2}}
+        </v-chip>
+        <v-chip v-if="category.name3" color="black " @click="openChipDialog('n3')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo3">
+              <v-img :src="category.photo3"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name3}}
+        </v-chip>
+        <v-chip v-if="category.name4" color="black " @click="openChipDialog('n4')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo4">
+              <v-img :src="category.photo4"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name4}}
+        </v-chip>
+        <v-chip v-if="category.name5" color="black " @click="openChipDialog('n5')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo5">
+              <v-img :src="category.photo5"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name5}}
+        </v-chip>
+        <v-chip v-if="category.name6" color="black " @click="openChipDialog('n6')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo6">
+              <v-img :src="category.photo6"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name6}}
+        </v-chip>
+        <v-chip v-if="category.name7" color="black " @click="openChipDialog('n7')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo7">
+              <v-img :src="category.photo7"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name7}}
+        </v-chip>
+        <h3 v-if="category.bgname1" class="font-weight-light mt-2">Battle guests: </h3>
+        <v-chip v-if="category.bgname1" color="black " @click="openChipDialog('bg1')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.bgphoto1">
+              <v-img :src="category.bgphoto1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.bgname1}}
+        </v-chip>
+        <v-chip v-if="category.bgname2" color="black " @click="openChipDialog('bg2')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.bgphoto2">
+              <v-img :src="category.bgphoto2"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.bgname2}}
+        </v-chip>
+        <v-chip v-if="category.bgname3" color="black " @click="openChipDialog('bg3')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.bgphoto3">
+              <v-img :src="category.bgphoto3"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.bgname3}}
+        </v-chip>
+        </div>
+        <div v-else>
+        <h3 v-if="category.name1" class="font-weight-light mt-2">Artist:</h3>
+           <v-chip v-if="category.name1" color="black " @click="openChipDialog('n1')" dark outlined class="ma-1" style="cursor:pointer;">
+            <v-avatar left v-if="category.photo1">
+              <v-img :src="category.photo1"></v-img>
+            </v-avatar>
+            <v-avatar left v-else>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+            {{category.name1}}
+        </v-chip>
+        </div>
+        </v-container>
     </v-dialog>  
     <v-dialog
-      :retain-focus="false"
-      v-model="chipDialog"
-      width="480px" 
-      persistent>
-      <v-container class="rounded-lg white pa-4">
-        <v-row align="end" justify="end" class="pa-0 ma-0" >
-        <v-btn icon  color="error" class="float-right" @click="chipDialog =false; temp.name='';temp.photo =''; temp.info=''">
-            <v-icon>mdi-close</v-icon>
-        </v-btn>
-        </v-row>
-        <v-img class="my-4 mx-auto" v-if="temp.photo"  max-height="400px" contain :src="temp.photo"></v-img>
-      <nuxt-link v-if="temp.guest && typeof temp.guest == 'object'" :to="'/' + temp.guest" class="primary--text text-decoration-none" > <h3 class="font-weight-medium d-inline">{{temp.guest}}</h3></nuxt-link>
-      <h3 v-else class="font-weight-medium  d-inline">{{temp.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'temp.country' /> </span>
-      <h4 class="font-weight-light mt-3 mt-md-5" >{{temp.info}}</h4>
-      </v-container>
+        :retain-focus="false"
+        v-model="chipDialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white pa-4">
+          <v-row align="end" justify="end" class="pa-0 ma-0" >
+          <v-btn icon  color="error" class="float-right" @click="chipDialog =false; temp.name='';temp.photo =''; temp.info=''">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-row>
+          <v-img class="my-4 mx-auto" v-if="temp.photo"  max-height="400px" contain :src="temp.photo"></v-img>
+        <nuxt-link v-if="temp.guest && typeof temp.guest == 'object'" :to="'/' + temp.guest" class="primary--text text-decoration-none" > <h3 class="font-weight-medium d-inline">{{temp.guest}}</h3></nuxt-link>
+        <h3 v-else class="font-weight-medium  d-inline">{{temp.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'temp.country' /> </span>
+        <h4 class="font-weight-light mt-3 mt-md-5" >{{temp.info}}</h4>
+        </v-container>
     </v-dialog> 
 </div>
 </template>

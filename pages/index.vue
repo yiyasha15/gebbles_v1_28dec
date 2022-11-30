@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-app> -->
     <div v-if="!isAuthenticated">
       <v-row class="home_width mx-auto text-center mt-sm-3">
         <v-col cols="12" md="6" align="center" justify="center">
@@ -16,9 +15,7 @@
                   <v-btn icon large
                   to="/create"
                   class=" transition-swing my-4" 
-                  :elevation="hover ? 12 : 2" color="primary" max-width="100"
-                  v-bind="attrs"
-                  v-on="on">
+                  :elevation="hover ? 12 : 2" color="primary" max-width="100">
                   <img
                   :height="$vuetify.breakpoint.smAndDown ? 18 : 28"
                   class="clickable"
@@ -105,20 +102,15 @@
         :src="require('@/assets/gebbleslogo_tab.png')"/>
         <h3>No videos found. </h3>
       </center>
-      <v-card v-intersect="infiniteScrolling"></v-card>
+      <!-- <v-card v-intersect="infiniteScrolling"></v-card> -->
       </div>
     </v-container>
-  <!-- </v-app> -->
 </template>
 
 <script>
-import CookingFeed from '@/components/CookingFeed.vue'
-import EventService from '@/services/EventService.js'
 import {mapGetters} from 'vuex'
 import CreationBox from '~/components/CreationBox.vue'
-import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
-import InformationBox from '~/components/InformationBox.vue'
-// import RegisterLogin from '~/components/RegisterLogin.vue'
+import LearnShare from '~/components/LearnShare.vue';
 export default {
   head() {  //head function (a property of vue-meta), returns an object
     return {
@@ -132,10 +124,7 @@ export default {
         }
   },
   created(){
-    this.getwhatiscooking();
-    // console.log("?", process.env.AUTH_TOKEN);
     if(this.isAuthenticated){
-      // console.log("?");
       this.$store.dispatch("check_user_portfolio");
       this.$store.dispatch("check_user_bio");
       this.$store.dispatch("check_notifications");
@@ -144,30 +133,30 @@ export default {
   methods:{
     async getwhatiscooking(){
       try {
-      const response = await EventService.getLatestCookings()
-      this.cooking = response.data.results
-      this.page = response.data.next
+      const response = await EventService.getWhatsCooking()
+      this.cooking = response.data
+      // this.page = response.data.next
       this.firstLoad = false
       } catch (e) {
         console.log(e);
         this.firstLoad = false
       } 
     },
-    infiniteScrolling() {
-      if(this.page){
-      const key = 'id';
-      this.$axios.get(this.page).then(response => {
-        this.page= response.data.next;
-        response.data.results.forEach(item => this.cooking.push(item));
-        // filter array so no duplicates
-        this.cooking = [...new Map(this.cooking.map(item =>
-          [item[key], item])).values()];
-      })
-      .catch(err => {
-        console.log(err);
-      });
-      }
-    },
+    // infiniteScrolling() {
+    //   if(this.page){
+    //   const key = 'id';
+    //   this.$axios.get(this.page).then(response => {
+    //     this.page= response.data.next;
+    //     response.data.results.forEach(item => this.cooking.push(item));
+    //     // filter array so no duplicates
+    //     this.cooking = [...new Map(this.cooking.map(item =>
+    //       [item[key], item])).values()];
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    //   }
+    // },
     postDelete(){
       this.cooking=[];
       this.page =''
@@ -176,18 +165,11 @@ export default {
     }
   },
   components: {
-    CookingFeed,
     CreationBox,
-    CardSkeletonLoader,
-    InformationBox
+    LearnShare
 },
   data() {
     return {
-      looploader:[1,1,1,1,1,1,1,1,1,1,1],
-      loading: true,
-      firstLoad: true,
-      page:"",
-      cooking:[],
       dialog: false,
         num:0,
         items: [

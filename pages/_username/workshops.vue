@@ -46,7 +46,7 @@
                 </v-layout>
                 <v-layout wrap justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
                     <div v-for="workshop in taggedWorkshops" :key ="workshop.index">
-                        <workshop-card-tagged :workshop="workshop"></workshop-card-tagged>
+                        {{workshop}}
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingTaggedWorkshops"></v-card>
@@ -89,7 +89,6 @@ import EventService from '@/services/EventService.js'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 import LeftNavigation from '~/components/LeftNavigation.vue'
 import WorkshopCardGoing from '~/components/WorkshopCardGoing.vue'
-import WorkshopCardTagged from '~/components/WorkshopCardTagged.vue'
 import WorkshopCardOrganised from '~/components/WorkshopCardOrganised.vue'
 export default {
     head() {
@@ -109,8 +108,7 @@ export default {
     components:{
     CardSkeletonLoader, LeftNavigation,
     WorkshopCardGoing,
-        WorkshopCardOrganised,
-        WorkshopCardTagged
+        WorkshopCardOrganised
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser'

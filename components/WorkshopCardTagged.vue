@@ -10,8 +10,8 @@
         @click="workshopDialog=true"
       >
         <v-img
-          v-if = workshop.poster :src = "workshop.poster" 
-          :lazy-src= "workshop.poster" 
+          v-if = workshop.workshop.poster :src = "workshop.workshop.poster" 
+          :lazy-src= "workshop.workshop.poster" 
           :height="img_height"
           :width="card_width">
           <v-btn icon small class="float-right ma-1 white" 
@@ -41,11 +41,11 @@
           </v-btn>
         </v-img>
         <v-card-actions height="32px">
-          <div v-if="workshop.title" class="text-decoration-none caption width">
-          <p class="workshop_p" >{{ workshop.title }} </p>
+          <div v-if="workshop.workshop.name" class="text-decoration-none caption width">
+          <p class="workshop_p" >{{ workshop.workshop.name }} </p>
           </div>
           <v-spacer></v-spacer>
-          <country-flag size=small  :country= 'workshop.country' />
+          <country-flag size=small  :country= 'workshop.workshop.country' />
         </v-card-actions>
         <v-dialog
           :retain-focus="false"
@@ -58,8 +58,8 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
             </v-row>
-          <div v-if="workshop" >
-          <v-img class="my-4 mx-auto" v-if="workshop.poster" max-height="400px" contain :src="workshop.poster">
+          <div v-if="workshop.workshop" >
+          <v-img class="my-4 mx-auto" v-if="workshop.workshop.poster" max-height="400px" contain :src="workshop.workshop.poster">
             <v-btn icon small class="float-right ma-2 ml-0 white" 
             @click.stop="goToWorkshop">
             <v-icon color="black" small>mdi-calendar-heart</v-icon>
@@ -69,7 +69,7 @@
             <v-icon color="black" small>mdi-plus</v-icon>
             </v-btn>
           </v-img>
-          <h3 class="font-weight-medium  d-inline">{{workshop.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'workshop.country' /> </span>
+          <h3 class="font-weight-medium  d-inline">{{workshop.workshop.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'workshop.workshop.country' /> </span>
           </div>
           <!-- <v-img class="my-4 mx-auto" v-if="workshop.photo" max-height="400px" contain :src="workshop.photo"></v-img>
            <h3 class="font-weight-medium  d-inline">{{workshop.guest}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'workshop.country' /> </span>
@@ -138,7 +138,7 @@
               });
           },
           goToWorkshop(){
-            this.$router.push('/workshops/'+ this.workshop.uuid);
+            this.$router.push('/workshops/'+ this.workshop.workshop.uuid);
           }
         }
         }
