@@ -237,6 +237,26 @@ export const actions = {
     commit('check_editing_event_obj', editing_event_obj)
     }
   },
+  add_guest_to_events({commit, state}, guest){
+    if(state.auth.loggedIn) {
+    commit('addGuestToEvents', guest)
+    }
+  },
+  add_subevent_to_events({commit, state}, category){
+    if(state.auth.loggedIn) {
+    commit('addSubeventToEvents', category)
+    }
+  },
+  add_workshop_to_events({commit, state}, workshop){
+    if(state.auth.loggedIn) {
+    commit('addWorkshopToEvents', workshop)
+    }
+  },
+  add_battle_to_events({commit, state}, battle){
+    if(state.auth.loggedIn) {
+    commit('addBattleToEvents', battle)
+    }
+  },
   check_editing_workshop_obj({commit, state}, editing_workshop_obj){
     if(state.auth.loggedIn) {
     commit('check_editing_workshop_obj', editing_workshop_obj)
@@ -458,6 +478,30 @@ export const actions = {
   {
     if(state.auth.loggedIn && state.editing_event_obj){
       commit('clear_editing_event_obj',state.editing_event_obj)
+    }
+  },
+  remove_guest_from_events({commit, state},guest)
+  {
+    if(state.auth.loggedIn && state.editing_event_obj){
+      commit('removeGuestFromEvents',guest)
+    }
+  },
+  remove_subevent_from_events({commit, state},category)
+  {
+    if(state.auth.loggedIn && state.editing_event_obj){
+      commit('removeSubeventFromEvents',category)
+    }
+  },
+  remove_workshop_from_events({commit, state},workshop)
+  {
+    if(state.auth.loggedIn && state.editing_event_obj){
+      commit('removeWorkshopFromEvents', workshop)
+    }
+  },
+  remove_battle_from_events({commit, state}, battle)
+  {
+    if(state.auth.loggedIn && state.editing_event_obj){
+      commit('removeBattleFromEvents',battle)
     }
   },
   remove_editing_workshop_obj({commit, state})
@@ -687,6 +731,48 @@ export const mutations = {
       state.editing_event_obj = editing_event_obj
     }
   },
+  addGuestToEvents(state, guest){
+    if(guest){
+      state.editing_event_obj.event_guests.push(guest)
+    }
+  },
+  removeGuestFromEvents(state, guest){
+    if(guest){
+      state.editing_event_obj.event_guests.splice(state.editing_event_obj.event_guests.findIndex(e => e.id === guest.id),1);
+    }
+  },
+
+  addSubeventToEvents(state, category){
+    if(category){
+      state.editing_event_obj.event_subevents.push(category)
+    }
+  },
+  addWorkshopToEvents(state, workshop){
+    if(workshop){
+      state.editing_event_obj.event_workshops.push(workshop)
+    }
+  },
+  removeSubeventFromEvents(state, category){
+    if(category){
+      state.editing_event_obj.event_subevents.splice(state.editing_event_obj.event_subevents.findIndex(e => e.id === category.id),1);
+    }
+  },
+  removeWorkshopFromEvents(state, workshop){
+    if(workshop){
+      state.editing_event_obj.event_workshops.splice(state.editing_event_obj.event_workshops.findIndex(e => e.id === workshop.id),1);
+    }
+  },
+  addBattleToEvents(state, battle){
+    if(battle){
+      state.editing_event_obj.event_battles.push(battle)
+    }
+  },
+  removeBattleFromEvents(state, battle){
+    if(battle){
+      state.editing_event_obj.event_battles.splice(state.editing_event_obj.event_battles.findIndex(e => e.id === battle.id),1);
+    }
+  },
+
   clear_editing_event_obj(state, editing_event_obj){
     if(editing_event_obj){
       state.editing_event_obj = null}

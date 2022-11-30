@@ -10,7 +10,6 @@
                  <v-stepper v-model="e6" vertical class="elevation-0">
                     <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
                     *Event details
-                    <!-- <small>Summarize if needed</small> -->
                     </v-stepper-step>
                     <v-stepper-content step="1" style="border-left: none;" class="ma-0"> 
                         <v-form ref="event_form">
@@ -75,11 +74,6 @@
                             v-model = "event.venue"
                             label= "Event venue">
                         </v-text-field>
-                        <!-- <v-text-field
-                            prepend-icon="mdi-google-maps"
-                            label= "Google Maps URL"
-                            :maxlength="255">
-                        </v-text-field> -->
                         <v-autocomplete 
                             label="Country*" 
                             v-model= "event.country"
@@ -136,11 +130,11 @@
                             counter
                             >
                         </v-text-field>
-                        <small class="mb-2">Add photos for a quick lookup</small>
+                        <small>Add photos for a quick lookup (event schedule, etc)</small>
                         <v-slide-group
                         min-width="2px"
                         v-model="model"
-                        class="pb-4 ma-0"
+                        class="py-4 ma-0"
                         show-arrows>
                         <v-slide-item>
                             <div class="mr-1">
@@ -217,7 +211,7 @@
                     </v-stepper-content>
             
                     <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Event Guests
-                       <small class="mt-1"> <v-icon small> mdi-book-outline</v-icon> Event guests will be notified and can add this event to their journey.</small>
+                    <small class="mt-1"> <v-icon small> mdi-book-outline</v-icon> Event guests will be notified and can add this event to their journey.</small>
                     </v-stepper-step>
                     <v-stepper-content step="2" style="border-left: none;" class="ma-0">
                         <!-- <p class="caption"><v-icon small> mdi-book-outline</v-icon> Event guests can add this event to their journey.</p> -->
@@ -312,70 +306,35 @@
                         >
                         </v-autocomplete>
                         <v-textarea
-                            
                             prepend-icon="mdi-information-outline"
                             v-model = "guest.info"
                             label= "Info">
                         </v-textarea>
-                        <!-- <v-checkbox
-                            value="6"
-                            v-model="isGuest"
-                            :label="`Deejay`"
-                        ></v-checkbox>
-                        <v-checkbox
-                            value="7"
-                            v-model="isGuest"
-                            :label="`Emcee`"
-                        ></v-checkbox>
-                        <v-checkbox
-                            value="1"
-                            v-model="isGuest"
-                            :label="`Workshop`"
-                        ></v-checkbox>
-                        <v-checkbox
-                            value="2"
-                            v-model="isGuest"
-                            :label="`Showcase`"
-                        ></v-checkbox>
-                        <v-checkbox
-                            value="3"
-                            v-model="isGuest"
-                            :label="`Judge`"
-                        ></v-checkbox>
-                        <v-checkbox
-                            value="4"
-                            v-model="isGuest"
-                            :label="`Battle guest`"
-                        ></v-checkbox>
-                        <v-checkbox
-                            value="5"
-                            v-model="isGuest"
-                            :label="`Discuss/Talk`"
-                        ></v-checkbox> -->
                         <v-btn outlined small class="text-decoration-none"  color="black"
                         @click="addGuests()" v-if="!editing_guest_process" :loading="guest_progressbar">Add guest</v-btn>
-                        <!-- <v-btn outlined small class="text-decoration-none mb-3"  color="black"
-                        @click="removeGuestFromForm" v-if="this.guest.name" >Remove guest</v-btn> -->
                         <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
                         @click="updateGuests" :loading="guest_progressbar">Update guest</v-btn>
                         <v-btn v-if="editing_guest_process" outlined small class="text-decoration-none"  color="black"
                         @click="cancel_edit_guest" >Cancel</v-btn><br>
                         </v-form>
-                        <v-layout v-if="this.selectedGuests.length>0" wrap row justify-start  style="max-width:340px; margin:auto;" >
+                        <v-layout v-if="this.selectedGuests" wrap row justify-start class="mt-2" style="max-width:340px; margin:auto;" >
                             <div v-for="guest in this.selectedGuests" :key ="guest.index">
                                 <guest-card-create :guest="guest"  @removeGuest="removeGuest" @editGuest="editGuest"></guest-card-create>
                             </div>
                         </v-layout>
                         <v-divider class="my-3"></v-divider>
-                        <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
+                        <v-btn color="black" text small outlined @click="e6 = 3">Continue</v-btn>
                         <v-btn color="primary" small text @click="e6 = 1">Previous</v-btn>
                         
                     </v-stepper-content>
             
                     <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Event categories</v-stepper-step>
                     <v-stepper-content step="3" class="ma-0" style=" border-left: none; max-width:400px; margin:auto !important">
-                        <v-layout v-if="this.categories.length>0 || this.battle_categories.length>0" wrap row justify-start   style="max-width:340px; margin:auto;" >
+                        <v-layout v-if="this.categories || this.battle_categories" wrap row justify-start   style="max-width:340px; margin:auto;" >
                             <div v-for="category in this.categories"  :key ="category.index">
+                                <category-card-create :category="category" @removeCategory="removeCategory" @editCategory="editCategory"></category-card-create>
+                            </div>
+                            <div v-for="category in this.workshop_categories"  :key ="category.index">
                                 <category-card-create :category="category" @removeCategory="removeCategory" @editCategory="editCategory"></category-card-create>
                             </div>
                             <div v-for="category in this.battle_categories"  :key ="category.index">
@@ -455,9 +414,9 @@
                     </v-stepper-content>
                     <div class="mx-sm-7 mx-6">
                     <!-- <p v-if="progressbar" class="caption"> Hi, we're building the page. Please wait :)</p> -->
-                    <v-btn v-if="!editing_event_obj" outlined small class="text-decoration-none"  color="black"
-                    @click="submit" :loading="progressbar" >Save and View</v-btn>
-                    <!-- <v-btn small color="error" text  @click="clear">Cancel</v-btn>  -->
+                    <v-btn outlined small class="text-decoration-none"  color="black"
+                    @click="viewPage" :loading="viewpage_progressbar" >View Page</v-btn>
+                    <v-btn small color="error" text  @click="clear">Cancel</v-btn> 
                     </div>
                 </v-stepper>
                 <!-- {{this.categories}} -->
@@ -769,9 +728,9 @@
         <v-btn outlined small class="text-decoration-none" 
         v-if="!editing_category_process" 
         color="black" :loading="program_progressbar"
-        @click="addBattle()" >Add</v-btn>
+        @click="addBattle()" >Add battle</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateBattle()" >Update </v-btn>
+        @click="updateBattle()" >Update battle</v-btn>
         </v-container>
         </v-dialog> 
         <v-dialog
@@ -785,35 +744,42 @@
         </v-btn>
         <h3>Workshops</h3>
         <v-form ref="workshop_form">
-        <div v-if="!category.poster" @click="onPick(3)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
+            <div v-if="!workshop_category.poster" @click="onPick(9)" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
             <v-icon class="pa-image">mdi-plus</v-icon>
             <input 
             type="file" 
             name = "poster" 
             style="display:none" 
-            ref="fileInput3" 
+            ref="fileInput9" 
             accept="image/*"
             required
-            @change="onFileChange3">
-        </div>
-        <div v-else class="ma-4">
-        <v-img v-if="typeof(category.poster) === 'string'" :src="category.poster" class="mx-auto" height="300px" width="352px" contain>
-            <v-btn icon small class="float-right ma-1 white" @click="removeImage(3)">
-            <v-icon color="black" small>mdi-close</v-icon>
-            </v-btn>
-        </v-img>
-        </div>
-        <small class="grey--text text--darken-2">Mention the artist in the guests section to tag them here.</small>
-        <v-autocomplete
+            @change="onFileChange9">
+            </div>
+            <div v-else class="ma-4">
+            <v-img v-if="typeof(workshop_category.poster) === 'string'" :src="workshop_category.poster" class="mx-auto" height="300px" width="352px" contain>
+                <v-btn style="background:white" icon small class="float-right ma-1" @click="removeImage(9)">
+                <v-icon color="black" small>mdi-close</v-icon>
+                </v-btn>
+            </v-img>
+            </div>
+            <!-- <v-card class="pa-4" outlined elevation="0">
+            <p class="caption">About the artist</p> -->
+            <v-text-field
+                v-model= "workshop_category.title"
+                label= "Title*"
+                :maxlength="255"
+                counter
+                :rules="nameRules">
+            </v-text-field>
+            <v-autocomplete
             class="pt-4"
             v-model="selectedGuest"
             :items="selectedGuests"
             prepend-icon="mdi-account-search-outline"
-            
             label="Artist"
             item-text="name"
             return-object
-            @input="addGuestToCategory()"
+            @input="addGuestToWorkshop()"
             >
             <template v-slot:selection="data">
                 <v-chip
@@ -849,62 +815,92 @@
                 </v-list-item-content>
                 </template>
             </template>
-        </v-autocomplete>
-         <v-text-field
-            v-model= "category.name"
-            label= "Title"
-            :maxlength="255"
-            counter
-            
-            :rules="nameRules">
-        </v-text-field>
-        <v-checkbox color="primary" v-model="same_day" label="Same day event"></v-checkbox>
-        <v-menu
-            ref="menu2"
-            :close-on-content-click="false"
-            :return-value.sync="date"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-            >
-            <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                
-                    v-model="category.date"
-                    label="Date"
-                    prepend-icon="mdi-calendar"
-                    readonly 
-                    v-bind="attrs"
-                    v-on="on"
-                ></v-text-field>
-            </template>
-            <v-date-picker
-                v-model="category.date"
-                :active-picker.sync="activePicker"
-                @change="save(category.date,3)"
+            </v-autocomplete>
+            <v-text-field
+                v-model= "workshop_category.name1"
+                label= "Artist's name"
+                :maxlength="255"
+                counter>
+            </v-text-field>
+            <!-- </v-card> -->
+            <v-checkbox color="primary" v-model="workshop_same_day" label="Same day event"></v-checkbox>
+            <v-menu
+                ref="menu2"
+                :close-on-content-click="false"
+                :return-value.sync="date"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+                >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                    :rules="dateRules"
+                        v-model="workshop_category.start_date"
+                        label="Date*"
+                        prepend-icon="mdi-calendar"
+                        readonly 
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                </template>
+                <v-date-picker
+                    v-model="workshop_category.start_date"
+                    :active-picker.sync="activePicker"
+                    @change="save(workshop_category.start_date,3)"
                 ></v-date-picker>
-        </v-menu>
-        <v-text-field
-            v-model = "category.date_time"
-            label= "Time"
-            prepend-icon="mdi-clock-time-four-outline"
-            :maxlength="255"
-            counter>
-        </v-text-field>
-        <v-text-field prepend-icon="mdi-map-marker-outline"
-            
-            v-model = "category.venue"
-            label= "Venue"
-            :maxlength="255"
-            counter>
-        </v-text-field>
-        </v-form>
-        <v-btn outlined small class="text-decoration-none" 
+            </v-menu>
+            <v-text-field
+                v-model = "workshop_category.datetime"
+                label= "Time"
+                prepend-icon="mdi-clock-time-four-outline"
+                :maxlength="255"
+                counter>
+            </v-text-field>
+            <v-text-field prepend-icon="mdi-map-marker-outline"
+                v-model = "workshop_category.venue"
+                label= "Venue"
+                :maxlength="255"
+                counter>
+            </v-text-field>
+            <!-- <v-autocomplete label="Country*" 
+                :rules="countryRules"
+                v-model= "workshop_category.country" 
+                prepend-icon="mdi-earth"
+                :items="countries"
+                item-text="name"
+                item-value="code"
+            ></v-autocomplete> -->
+            <v-textarea prepend-icon="mdi-information-outline"
+                v-model = "workshop_category.content"
+                label= "Info"
+                :maxlength="255"
+                counter>
+            </v-textarea>
+            <!-- <v-text-field prepend-icon="mdi-instagram"
+                v-model = "workshop_category.iglink"
+                label= "Instagram link"
+                :maxlength="255"
+                counter>
+            </v-text-field>
+            <v-text-field prepend-icon="mdi-youtube"
+                v-model = "workshop_category.videolink"
+                label= "Youtube link"
+                :maxlength="255"
+                counter>
+            </v-text-field>
+            <v-text-field prepend-icon="mdi-email"
+                v-model = "workshop_category.contact_email"
+                label= "Email ID"
+                :maxlength="255"
+                counter>
+            </v-text-field> -->
+            <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
-            @click="addWorkshop(1)" >Add</v-btn>
-        <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshopCheck(1)" >Update </v-btn>
+            @click="createWorkshop" >Add Workshop</v-btn>
+            <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
+            @click="updateWorkshop2" >Update Workshop</v-btn>
+        </v-form>
         </v-container>
         </v-dialog> 
         <v-dialog
@@ -1034,9 +1030,9 @@
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
-            @click="addWorkshop(2)" >Add</v-btn>
+            @click="createCategory(2)" >Add Showcase</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshopCheck(2)" >Update </v-btn>
+        @click="updateWorkshopCheck(2)" >Update Showcase</v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1119,9 +1115,9 @@
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
-            @click="addWorkshop(3)" >Add</v-btn>
+            @click="createCategory(3)" >Add Party</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshopCheck(3)" >Update </v-btn>
+        @click="updateWorkshopCheck(3)" >Update Party </v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1210,9 +1206,9 @@
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
-            @click="addWorkshop(4)" >Add</v-btn>
+            @click="createCategory(4)" >Add Cypher Session</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshopCheck(4)" >Update </v-btn>
+        @click="updateWorkshopCheck(4)" >Update Cypher Session</v-btn>
         </v-container>
         </v-dialog>
         <v-dialog
@@ -1340,9 +1336,9 @@
         <v-btn outlined small class="text-decoration-none" 
             v-if="!editing_category_process" 
             color="black" :loading="program_progressbar"
-            @click="addWorkshop(5)" >Add</v-btn>
+            @click="createCategory(5)" >Add Community Talk</v-btn>
         <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="program_progressbar"
-        @click="updateWorkshopCheck(5)" >Update </v-btn>
+        @click="updateWorkshopCheck(5)" >Update Community Talk</v-btn>
         </v-container>
         </v-dialog>
         <v-dialog v-model="delete_guest_dialog" width="500">    
@@ -1379,6 +1375,19 @@
             <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
                 @click="deleteCategory">Delete</v-btn>
             <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="delete_category_dialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
+        <v-dialog v-model="delete_workshop_category_dialog" width="500">    
+        <v-card class="pa-4">
+            <p>Are you sure you want to delete this workshop?</p>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
+                @click="deleteWorkshopCategory">Delete</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="delete_workshop_category_dialog = false">
                 Cancel
             </v-btn>
             </v-card-actions>
@@ -1466,6 +1475,9 @@
         <v-snackbar v-model="error_snackbar">
             {{error_text}}
         </v-snackbar>
+        <v-snackbar v-model="success_snackbar">
+            {{success_text}}
+        </v-snackbar>
         <v-snackbar v-model="publish_snackbar">
             Event posted, you can add other details.
         </v-snackbar>
@@ -1493,32 +1505,33 @@ export default {
         GuestCardCreate 
     },
     created (){
-        // let image ="https://mediumthumbnails.s3.us-east-2.amazonaws.com/";
-        // let image2="https://minithumbnais.s3.us-east-2.amazonaws.com/"
-        // console.log(image.includes("minithumbnails.s3"), image.includes("mediumthumbnails.s3"));
-        // if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3")){
-        //     console.log("s3ed mini");
-        // }
-        // if(image2.includes("minithumbnails.s3")||image2.includes("mediumthumbnails.s3")){
-        //     console.log("s3ed");
-        // }
-        // console.log(this.$store.state.editing_event_obj.event_battles);
-        // const newArr = arr1.map(obj => {
-        // if (obj.id === 1) {
-        //     return {...obj, name: 'Alfred'};
-        // }
-        // return obj;
-        // });
         if(this.$store.state.editing_event_obj)
         {
+            this.saveUuid = this.$store.getters.editing_event_obj.uuid;
             this.event = Object.assign({}, this.$store.getters.editing_event_obj);
-            this.battle_categories = this.$store.getters.editing_event_obj.event_battles.map(a => Object.assign({}, a));
-            this.categories = this.$store.getters.editing_event_obj.event_subevents.map(a => Object.assign({}, a));
-            this.selectedGuests = this.$store.getters.editing_event_obj.event_guests.map(a => Object.assign({}, a));
+            // this.battle_categories = this.$store.getters.editing_event_obj.event_battles.map(a => Object.assign({}, a));
+            // this.categories = this.$store.getters.editing_event_obj.event_subevents.map(a => Object.assign({}, a));
+            // this.selectedGuests = this.$store.getters.editing_event_obj.event_guests.map(a => Object.assign({}, a));
         }
     },
     computed: {
         ...mapGetters(['editing_event_obj','loggedInUser']),
+        selectedGuests(){ 
+            if(this.$store.getters.editing_event_obj)
+            return this.$store.getters.editing_event_obj.event_guests
+        },
+        categories(){ 
+            if(this.$store.getters.editing_event_obj)
+            return this.$store.getters.editing_event_obj.event_subevents
+        },
+        workshop_categories(){
+            if(this.$store.getters.editing_event_obj)
+            return this.$store.getters.editing_event_obj.event_workshops
+        },
+        battle_categories(){ 
+            if(this.$store.getters.editing_event_obj)
+            return this.$store.getters.editing_event_obj.event_battles
+        },
         img_height () {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 96
@@ -1665,6 +1678,27 @@ export default {
                 bgcountry3:'',
                 bginfo3:'',
             },
+            workshop_category:{
+                username:this.$store.state.auth.user.username,
+                title:'', // # must
+                poster:'', // # must
+                start_date:null, // # must
+                datetime:null,
+                country:null,
+                city:'',
+                venue:'',
+                content:'', 
+                iglink:'',
+                videolink:'',
+                contact_email:'',
+                name1:'',
+                photo1:'',
+                videolink1:'',
+                country1:'',
+                info1:'',
+                event:'',
+                teacher1:''
+            },
             category:{
                 event:'', // # must
                 category:'',//
@@ -1710,9 +1744,10 @@ export default {
             deleteLoading:false,
             deleteLoadingOrg:false,
             delete_category_dialog:false,
+            delete_workshop_category_dialog:false,
             delete_battle_category_dialog:false,
-            battle_categories:[],
-            categories:[],
+            // battle_categories:[],
+            // categories:[],
             battleJudges:[],
             battleEmcee:[],
             battleGuests:[],
@@ -1739,7 +1774,7 @@ export default {
             guest_progressbar:false,
             organiser_progressbar:false,
             program_progressbar:false,
-            glance_progressbar:false,
+            viewpage_progressbar:false,
             date:null,
             slide: null,
             e6: 1,
@@ -2020,7 +2055,7 @@ export default {
             all_good_snackbar:false,
             artist_obj:null,
             artists:[],
-            selectedGuests:[],
+            // selectedGuests:[],
             selectedGuest:{},
             debounce: null,
             comboBoxModel: null,
@@ -2031,6 +2066,7 @@ export default {
             temp_guest_item:{},
             temp_organiser_item:{},
             temp_category_item:{},
+            temp_workshop_item:{},
 
             //errors
             guest_error:'',
@@ -2038,7 +2074,9 @@ export default {
             iglinkError:'',
             ytlinkError:'',
             error_text:"",
+            success_text:"",
             error_snackbar:false,
+            success_snackbar:false,
             nameRules: [
                 v => !!v || 'Name is required',
                 v => (v && v.length <= 255) || 'Must be less than 255 characters',
@@ -2072,7 +2110,8 @@ export default {
                 // v => (v && v.length <= 200) || 'Must be less than 200 characters',
             ],
             same_day:false,
-            battle_same_day:false
+            battle_same_day:false,
+            workshop_same_day:false
         }
     },
     watch: {
@@ -2134,6 +2173,19 @@ export default {
                 this.battle_category.venue = ''
             }
         },
+        workshop_same_day () {
+            if(this.workshop_same_day)
+            {
+                this.workshop_category.start_date = this.event.start_date
+                this.workshop_category.datetime = this.event.date_time
+                this.workshop_category.venue = this.event.venue
+            }
+            else{
+                this.workshop_category.date =''
+                this.workshop_category.date_time = ''
+                this.workshop_category.venue = ''
+            }
+        },
     },
     methods: {
         //global
@@ -2165,10 +2217,10 @@ export default {
                     // code block
                 }
         },
-        // clear(){
-        //     this.$store.dispatch("remove_editing_event_obj")
-        //     this.$forceUpdate();
-        // },
+        clear(){
+            this.$store.dispatch("remove_editing_event_obj")
+            window.history.back();
+        },
         onPick(num) //changing the click from button to input using refs
         {
             switch(num) {
@@ -2195,6 +2247,9 @@ export default {
                 break; 
                 case 8:
                 this.$refs.fileInput8.click()
+                break; 
+                case 9:
+                this.$refs.fileInput9.click()
                 break; 
                 default:
                     // code block
@@ -2226,6 +2281,9 @@ export default {
                 break;}
                 case 8:{
                     this.event.photo3 = "";
+                break;}
+                case 9:{
+                    this.workshop_category.poster = "";
                 break;}
                 default:
                     // code block
@@ -2319,6 +2377,17 @@ export default {
             this.event.photo3 = files[0];
             }
         },
+        onFileChange9(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (files[0]) {
+            const fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                this.workshop_category.poster = e.target.result;
+            }
+            fileReader.readAsDataURL(files[0]);
+            this.workshop_category.poster = files[0];
+            }
+        },
         dataURLtoFile(dataurl, filename) {
             // console.log( dataurl, filename);
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
@@ -2329,6 +2398,9 @@ export default {
         return new File([u8arr], filename, {type:mime});
         },
         async putImage(image){
+            if(image == ''){
+                return image
+            }
             if(image.includes("minithumbnails.s3")|| image.includes("mediumthumbnails.s3"))
             {
             // console.log("already s3ed",image);
@@ -2392,183 +2464,30 @@ export default {
                 // this.category.name1 = this.artist_obj
             }
         },
-        addSearchOrganiser(){
-            let t_name = typeof this.artist_obj;
-            if(this.artist_obj && t_name == 'object') //if teacher exists then changing the value of teacher to username 
-            {
-                this.organiser.guest = this.artist_obj.username
-                this.organiser.country = this.artist_obj.country
-                if(this.organiser.photo =='' && this.artist_obj.thumb!='')
-                this.organiser.photo = this.artist_obj.thumb
-                if(this.organiser.name =='' && this.artist_obj.artist_name!='')
-                this.organiser.name = this.artist_obj.artist_name
-            }
-            else
-            {
-                // this.category.name1 = this.artist_obj
-            }
-        },
-        //main event submit
-        async submit(){
+        // addSearchOrganiser(){
+        //     let t_name = typeof this.artist_obj;
+        //     if(this.artist_obj && t_name == 'object') //if teacher exists then changing the value of teacher to username 
+        //     {
+        //         this.organiser.guest = this.artist_obj.username
+        //         this.organiser.country = this.artist_obj.country
+        //         if(this.organiser.photo =='' && this.artist_obj.thumb!='')
+        //         this.organiser.photo = this.artist_obj.thumb
+        //         if(this.organiser.name =='' && this.artist_obj.artist_name!='')
+        //         this.organiser.name = this.artist_obj.artist_name
+        //     }
+        //     else
+        //     {
+        //         // this.category.name1 = this.artist_obj
+        //     }
+        // },
+        async viewPage(){
             if(this.saveUuid){
-            try{
-            this.progressbar =true
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": this.$auth.strategy.token.get()}
-            };
-            // if categories are added
-            if(this.selectedGuests.length >0){
-                // console.log("guests posts");
-            //add event object to all categories
-            this.selectedGuests.forEach(guest => guest.event = this.saveUuid);
-            //put all images inside category in s3 bucket..
-            // console.log("this.selectedGuests",this.selectedGuests);
-            for (const item of this.selectedGuests) {
-                if(item.photo){
-                    item.photo = await this.putImage(item.photo)
-                }
-            }
-            let formGuestData = new FormData();
-            for (let data of this.selectedGuests) {
-                for (let data2 in data) {
-                    formGuestData.append(data2, data[data2]);
-                }
-                try {
-                    let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
-                    // console.log("guest posted",postGuest);
-                } catch (error) {
-                    this.error_text = error.response.data;
-                    if(error.response.data.detail)
-                    this.error_text = error.response.data.detail;
-                    this.error_snackbar = true
-                    console.log(error.response);
-                }
-            }
-            }
-            if(this.battle_categories.length >0){
-            // console.log("battle posts");
-            //add event object to all categories
-            this.battle_categories.forEach(category => category.event = this.saveUuid);
-            //put all images inside battle category in s3 bucket..
-            for (const item of this.battle_categories) {
-                console.log(item);
-                if(item.poster){
-                    item.poster = await this.putImage(item.poster)
-                }
-                
-                if(item.photo1){
-                    item.photo1 = await this.putImage(item.photo1)
-                }
-                if(item.photo2){
-                    item.photo2 = await this.putImage(item.photo2)
-                }
-                if(item.photo3){
-                    item.photo3 = await this.putImage(item.photo3)
-                }
-                if(item.photo4){
-                    item.photo4 = await this.putImage(item.photo4)
-                }
-                if(item.photo5){
-                    item.photo5 = await this.putImage(item.photo5)
-                }
-                if(item.photo6){
-                    item.photo6 = await this.putImage(item.photo6)
-                }
-                if(item.photo7){
-                    item.photo7 = await this.putImage(item.photo7)
-                }
-                if(item.djphoto1){
-                    item.djphoto1 = await this.putImage(item.djphoto1)
-                }
-                if(item.djphoto2){
-                    item.djphoto2 = await this.putImage(item.djphoto2)
-                }
-                if(item.djphoto3){
-                    item.djphoto3 = await this.putImage(item.djphoto3)
-                }
-                if(item.mcphoto1){
-                    item.mcphoto1 = await this.putImage(item.mcphoto1)
-                }
-                if(item.mcphoto2){
-                    item.mcphoto2 = await this.putImage(item.mcphoto2)
-                }
-                if(item.mcphoto3){
-                    item.mcphoto3 = await this.putImage(item.mcphoto3)
-                }
-                if(item.bgphoto1){
-                    item.bgphoto1 = await this.putImage(item.bgphoto1)
-                }
-                if(item.bgphoto2){
-                    item.bgphoto2 = await this.putImage(item.bgphoto2)
-                }
-                if(item.bgphoto3){
-                    item.bgphoto3 = await this.putImage(item.bgphoto3)
-                }
-                // console.log("done",this.battle_categories);
-            }
-            // battle json readayyy
-
-            // console.log("this.battle_categories ready to be uploaded??",this.battle_categories);
-            let formData2 = new FormData();
-            for (let data of this.battle_categories) {
-                for (let data2 in data) {
-                    formData2.append(data2, data[data2]);
-                }
-                try {
-                    let postBattle = await this.$axios.$post("/v1/events/battles/create/", formData2, config)
-                    // console.log("battle posted",postBattle);
-                } catch (error) {
-                    this.error_text = error.response.data;
-                    if(error.response.data.detail)
-                    this.error_text = error.response.data.detail;
-                    this.error_snackbar = true
-                    console.log(error.response);
-                }
-            }
-            }
-            if(this.categories.length >0){
-            //add event object to all categories
-            this.categories.forEach(category => category.event = this.saveUuid);
-            //put all images inside category in s3 bucket..
-            for (const item of this.categories) {
-                if(item.poster){
-                    item.poster = await this.putImage(item.poster)
-                }
-                if(item.photo1){
-                    item.photo1 = await this.putImage(item.photo1)
-                }
-            }
-            let formData2 = new FormData();
-            for (let data of this.categories) {
-                for (let data2 in data) {
-                    formData2.append(data2, data[data2]);
-                }
-                try {
-                    if(data.category == 1) {
-                        console.log("post on workshops/create");
-                        await this.$axios.$post("/v1/workshops/create/", formData2, config)
-                    }
-                    else
-                    {
-                        let postCategory= await this.$axios.$post("/v1/events/workshops/create/", formData2, config)
-                    }
-                    // console.log("categories posted",postCategory);
-                } catch (error) {
-                    this.error_text = error.response.data;
-                    if(error.response.data.detail)
-                    this.error_text = error.response.data.detail;
-                    this.error_snackbar = true
-                    console.log(error.response);
-                }
-            }
-            }
-            this.progressbar =false;
-            this.posted_snackbar = true;
-            this.$router.push("/events/"+this.saveUuid);
-            }
-            catch(error){
-            }
+                console.log("load");
+                this.viewpage_progressbar = true
+                //clear store
+                this.$store.dispatch("remove_editing_event_obj")
+                this.$router.push("/events/"+this.saveUuid);
+                this.viewpage_progressbar = false
             }else
             {
                 this.e6 =1;
@@ -2597,6 +2516,7 @@ export default {
                             formData.append(data, this.event[data]);
                         }
                         let resp = await this.$axios.$post("/v1/events/create/", formData, config)
+                        this.$store.dispatch("check_editing_event_obj", resp);
                         this.saveUuid = resp.uuid;
                         this.publish_progressbar =false
                         this.publish_snackbar = true
@@ -2628,42 +2548,6 @@ export default {
                 this.valid_poster_snackbar =true
             }
         },
-        async saveGuestsAndAdd(){
-            const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": this.$auth.strategy.token.get()}
-            };
-            // if categories are added
-            if(this.selectedGuests.length >0)
-            {
-                // console.log("guests posts");
-            //add event object to all categories
-            this.selectedGuests.forEach(guest => guest.event = this.saveUuid);
-            //put all images inside category in s3 bucket..
-            // console.log("this.selectedGuests",this.selectedGuests);
-            for (const item of this.selectedGuests) {
-                if(item.photo){
-                    item.photo = await this.putImage(item.photo)
-                }
-            }
-            let formGuestData = new FormData();
-            for (let data of this.selectedGuests) {
-                for (let data2 in data) {
-                    formGuestData.append(data2, data[data2]);
-                }
-                try {
-                    let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
-                    // console.log("guest posted",postGuest);
-                } catch (error) {
-                    this.error_text = error.response.data;
-                    if(error.response.data.detail)
-                    this.error_text = error.response.data.detail;
-                    this.error_snackbar = true
-                    console.log(error.response);
-                }
-            }
-            }
-        },
         //update event details
         async update(){
             if(this.event.poster != "")
@@ -2678,6 +2562,7 @@ export default {
                 {this.event.photo1 = await this.putImage(this.event.photo1);}
                 if(this.event.photo2 != this.editing_event_obj.photo2)
                 {this.event.photo2 = await this.putImage(this.event.photo2);}
+                console.log(this.event.photo3,this.editing_event_obj.photo3);
                 if(this.event.photo3 != this.editing_event_obj.photo3)
                 {this.event.photo3 = await this.putImage(this.event.photo3);}
                 this.formUpdate();
@@ -2731,7 +2616,7 @@ export default {
                     if(keyObj1[i]=='event_battles'){}
                     else if(keyObj1[i]=='event_subevents'){}
                     else if (keyObj1[i]=='event_guests'){}
-                    else if (keyObj1[i]=='event_guests'){}
+                    else if (keyObj1[i]=='event_workshops'){}
                     else
                     {
                         if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
@@ -2747,9 +2632,10 @@ export default {
                 }
                 if(update)
                 {
-                    formName.append("id", this.event['id']);
-                    await this.$axios.$patch("/v1/events/"+this.event.uuid, formName, config).then(res => {
+                    formName.append("id", this.editing_event_obj['id']);
+                    await this.$axios.$patch("/v1/events/"+this.editing_event_obj.uuid, formName, config).then(res => {
                         // console.log(res," changed"); 
+                        this.$store.dispatch("check_editing_event_obj", res)
                         this.detail_update_snackbar = true;
                         update = false;
                     })
@@ -2772,34 +2658,33 @@ export default {
         },
         //update guests
         async addGuests(){
-            if(this.$refs.guest_form.validate()){
-                if(this.editing_event_obj){
+            if(this.saveUuid){
+                if(this.$refs.guest_form.validate()){
                     this.guest_progressbar =true
                     const config = {
                         headers: {"content-type": "multipart/form-data",
                             "Authorization": this.$auth.strategy.token.get()
                         }
                     }
-                    this.guest.event = this.editing_event_obj.uuid;
+                    this.guest.event = this.saveUuid;
                     if(this.guest.guest && typeof this.guest.guest=='object')
                     {this.guest.guest = this.guest.guest.username}
                     if(this.guest.photo)
                     {this.guest.photo = await this.putImage(this.guest.photo)}
                     let formGuestData = new FormData();
                     for (let data in this.guest) {
-                        
                         formGuestData.append(data, this.guest[data]);
                     }
                     try {
-                        
-                        for (const pair of formGuestData.entries()) {
-                        console.log(`${pair[0]}, ${pair[1]}`);
-                        }
+                        // for (const pair of formGuestData.entries()) {
+                        // console.log(`${pair[0]}, ${pair[1]}`);
+                        // }
                         let postGuest= await this.$axios.$post("/v1/events/guests/create/", formGuestData, config)
                         console.log("guest posted",postGuest);
                         this.guest = {...postGuest}
                         this.guest_added_snackbar=true
                         this.guest_progressbar =false
+                        //add to store
                         this.addGuestToSelectedGuestArray();
                     } catch (error) {
                         if(error.response.data.detail)
@@ -2808,90 +2693,77 @@ export default {
                         // this.error_snackbar = true;
                         this.guest_progressbar =false
                     }
+
                 }
-                else
-                {
-                    this.addGuestToSelectedGuestArray();
-                }
+            }
+            else
+            {
+                this.error_text = 'Please publish the event first.'
+                this.error_snackbar = true
             }
         },   
         async updateGuests(){
             if(this.$refs.guest_form.validate())
             {
-                if(this.editing_event_obj){
-                    this.guest_progressbar = true
-                    if(this.guest.photo)
-                    {
-                        this.guest.photo = await this.putImage(this.guest.photo);
-                    }
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": this.$auth.strategy.token.get()
-                        }
-                    };
-                    let myObj1 = this.selectedGuest 
-                    let myObj2 = this.guest
-                    // find keys 
-                    let keyObj1 = Object.keys(myObj1); 
-                    let keyObj2 = Object.keys(myObj2);
-                        
-                    // find values 
-                    let valueObj1 = Object.values(myObj1); 
-                    let valueObj2 = Object.values(myObj2); 
-                    let update = false;
-                    // now compare their keys and values  
-                    try {
-                        let formName = new FormData();
-                        for(var i=0; i<keyObj1.length; i++) {
-                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 	 
-                            } 
-                            else { 
-                                update = true;
-                                formName.append(keyObj1[i], valueObj2[i]);
-                            }
-                        }
-                        if(update)
-                        {
-                            formName.append("id", this.event['id']); 
-                            await this.$axios.$patch("/v1/events/guests/"+this.selectedGuest.uuid, formName, config)
-                            this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.id === this.selectedGuest.id),1);
-                            this.addGuestToSelectedGuestArray();
-                            this.guest_update_snackbar = true;
-                            update = false;
-                        }else{
-                            this.error_text = 'Guest is upto date.'
-                            this.error_snackbar=true;
-                            this.clearGuestForm();
-                        }
-                        this.guest_progressbar =false;
-                    } catch (error) {
-                        this.error_text = error.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
-                        console.log("error!!!!! ",error, error.response);
-                        this.error_snackbar =true
-                        this.guest_progressbar =false
-                    }
+                this.guest_progressbar = true
+                if(this.guest.photo)
+                {
+                    this.guest.photo = await this.putImage(this.guest.photo);
                 }
-                else{
-                    //remove prev obj
-                    this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.selectedGuest.name),1);
-                    let clone = {...this.guest}
-                    this.selectedGuests.push(clone)
-                    this.guest_update_snackbar=true
-                    for (var key in this.guest) {
-                        this.guest[key] = '';
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": this.$auth.strategy.token.get()
                     }
-                    this.guest.username=this.loggedInUser.username
-                    this.artist_obj= null
-                    this.$refs.guest_form.resetValidation()
+                };
+                let myObj1 = this.selectedGuest 
+                let myObj2 = this.guest
+                // find keys 
+                let keyObj1 = Object.keys(myObj1); 
+                let keyObj2 = Object.keys(myObj2);
+                    
+                // find values 
+                let valueObj1 = Object.values(myObj1); 
+                let valueObj2 = Object.values(myObj2); 
+                let update = false;
+                // now compare their keys and values  
+                try {
+                    let formName = new FormData();
+                    for(var i=0; i<keyObj1.length; i++) {
+                        if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 	 
+                        } 
+                        else { 
+                            update = true;
+                            formName.append(keyObj1[i], valueObj2[i]);
+                        }
+                    }
+                    if(update)
+                    {
+                        formName.append("id", this.event['id']); 
+                        await this.$axios.$patch("/v1/events/guests/"+this.selectedGuest.uuid, formName, config)
+                        this.$store.dispatch("remove_guest_from_events",this.selectedGuest)
+                        this.addGuestToSelectedGuestArray();
+                        this.guest_update_snackbar = true;
+                        update = false;
+                    }else{
+                        this.error_text = 'Guest is upto date.'
+                        this.error_snackbar=true;
+                        this.clearGuestForm();
+                    }
+                    this.guest_progressbar =false;
+                } catch (error) {
+                    this.error_text = error.response.data;
+                    if(error.response.data.detail)
+                    this.error_text = error.response.data.detail;
+                    console.log("error!!!!! ",error, error.response);
+                    this.error_snackbar =true
+                    this.guest_progressbar =false
                 }
                 this.editing_guest_process = false
             }
         },
         addGuestToSelectedGuestArray(){
             let clone = {...this.guest}
-            this.selectedGuests.push(clone)
+            this.$store.dispatch("add_guest_to_events", clone);
             this.guest_added_snackbar=true
             this.clearGuestForm();
         },
@@ -2911,38 +2783,29 @@ export default {
             this.delete_guest_dialog = true
         },
         async deleteGuest(){
-            console.log(this.temp_guest_item);
-            if(this.editing_event_obj)
-            {
-                this.deleteLoading = true
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": this.$auth.strategy.token.get()
-                    }
-                };
-                try {
-                    let response = await this.$axios.$delete("/v1/events/guests/"+ this.temp_guest_item.uuid, config)
-                    // console.log(response);
-                    this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
-                    this.delete_guest_dialog = false
-                    this.deleteLoading = false
-                    this.temp_guest_item = {}
-                    this.guest_delete_snackbar =true
-                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
-                    //guest removed
-                } catch (e) {
-                    this.error_text = e.response.data;
-                        if(e.response.data.detail)
-                        this.error_text = e.response.data.detail;
-                    this.deleteLoading = false
-                    this.error_snackbar = true
-                    console.log(e,e.response);
+            this.deleteLoading = true
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
                 }
-                //remove from api too
-            }else{
-                this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === this.temp_guest_item.name),1);
+            };
+            try {
+                let response = await this.$axios.$delete("/v1/events/guests/"+ this.temp_guest_item.uuid, config)
+                // console.log(response);
+                this.$store.dispatch("remove_guest_from_events", this.temp_guest_item);
                 this.delete_guest_dialog = false
-
+                this.deleteLoading = false
+                this.temp_guest_item = {}
+                this.guest_delete_snackbar =true
+                // this.$store.dispatch("check_share_comments", comment.shareidobj)
+                //guest removed
+            } catch (e) {
+                this.error_text = e.response.data;
+                    if(e.response.data.detail)
+                    this.error_text = e.response.data.detail;
+                this.deleteLoading = false
+                this.error_snackbar = true
+                console.log(e,e.response);
             }
             this.cancel_edit_guest();
         },
@@ -2950,21 +2813,11 @@ export default {
             if(!this.editing_guest_process)
             {this.editing_guest_process =true
             this.selectedGuest = Object.assign({}, item);
-            // this.selectedGuests.splice(this.selectedGuests.findIndex(e => e.name === item.name),1);
             this.guest= Object.assign({}, item);
-            // console.log(this.guest,item );
-            // this.guest.name = item.name;
-            // this.guest.photo = item.photo;
-            // this.guest.videolink = item.videolink;
-            // this.guest.country = item.country;
-            // this.guest.event = this.event.uuid;
-            // this.guest.info = item.info;
             if(typeof item.guest == 'object')
             {
-                // this.guest.guest = item.guest.username
                 this.artist_obj = item.guest
             }else if (item.guest && typeof item.guest == 'string'){
-                // this.guest.guest = item.guest
                 console.log(item.guest, typeof item.guest);
                 EventService.getArtist(item.guest).then((value) => {
                 this.artist_obj = value.data;});
@@ -2973,52 +2826,201 @@ export default {
             }
         },
         cancel_edit_guest(){
-            // let clone = {...this.selectedGuest}
-            // this.selectedGuests.push(clone)
             for (var key in this.guest) {
                 this.guest[key] = '';
             }
-            
             this.$refs.guest_form.resetValidation()
             this.guest.username=this.loggedInUser.username
             this.artist_obj= null
             this.selectedGuest = {}
             this.editing_guest_process = false
         },
+
+
+        //update workshop
+        async createWorkshop(){
+            if(this.saveUuid){
+                if(this.workshop_category.poster)
+                { 
+                    if(this.$refs.workshop_form.validate())
+                    {
+                        this.program_progressbar =true
+                        this.workshop_category.event = this.saveUuid
+                        this.workshop_category.country = this.editing_event_obj.country
+                        console.log(this.workshop_category);
+                        const config = {
+                            headers: {"content-type": "multipart/form-data",
+                                "Authorization": this.$auth.strategy.token.get()
+                            }
+                        }
+                        if(this.workshop_category.poster)
+                        {this.workshop_category.poster = await this.putImage(this.workshop_category.poster)}
+                        let formWorkshopData = new FormData();
+                        for (let data in this.workshop_category) {
+                            formWorkshopData.append(data, this.workshop_category[data]);
+                        }
+                        console.log(this.workshop_category);
+                        try {
+                            let res= await this.$axios.$post("/v1/workshops/create/", formWorkshopData, config)
+                            console.log(res);
+                            this.$refs.workshop_form.reset();
+                            this.workshop_category = {...res};
+                            this.success_text= "Workshop is added."
+                            this.success_snackbar=true
+                            this.program_progressbar =false
+                            this.addCategoryToArray(1);
+                        } catch (error) {
+                            console.log(error,error.response);
+                            this.program_progressbar =false
+                        }
+                    }
+                }
+                else{
+                    this.error_text = "Image is required."
+                    this.error_snackbar = true
+                    // console.log("image is req");
+                }
+            }
+            else
+            {
+                this.error_text = 'Please publish the event first.'
+                this.error_snackbar = true
+            }
+        },
+        async updateWorkshop2(){
+            if(this.workshop_category.poster){
+            if(this.$refs.workshop_form.validate())
+            {
+            try{
+                this.program_progressbar =true
+                if(this.workshop_category.poster != this.temp_category_item.poster)
+                this.workshop_category.poster = await this.putImage(this.workshop_category.poster);
+                this.formUpdateWorkshop();
+            }
+            catch(error){
+                console.log(error.response.data);
+                this.program_progressbar = false
+            }
+            }
+            }else{
+                this.error_text = "Image is required."
+                this.error_snackbar = true
+            }
+        },
+        async formUpdateWorkshop(){
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            };
+            let myObj1 = this.temp_category_item 
+            let myObj2 = this.workshop_category
+            // find keys 
+            let keyObj1 = Object.keys(myObj1); 
+            let keyObj2 = Object.keys(myObj2);
+                
+            // find values 
+            let valueObj1 = Object.values(myObj1); 
+            let valueObj2 = Object.values(myObj2); 
+            
+            // now compare their keys and values 
+            let update = false; 
+            try {
+                let formName = new FormData();
+                for(var i=0; i<keyObj1.length; i++) { 
+                    if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                        // console.log(" value not changed for: ",keyObj1[i]+' -> '+valueObj2[i]);	 
+                    } 
+                    else { 
+                        update = true;
+                        // it prints keys have different values 
+                        formName.append(keyObj1[i], valueObj2[i]);
+                        console.log( valueObj2[i] ," gonna change"); 
+                    }
+                }
+                if(update)
+                {
+                    formName.append("id", this.workshop_category['id']);
+                    await this.$axios.$patch("/v1/workshops/"+this.workshop_category.uuid, formName, config).then(res => {
+                    console.log(res," changed"); 
+                    this.$store.dispatch("remove_workshop_from_events",this.temp_category_item)
+                    this.updateCategoryToArray(1);
+                    this.$refs.workshop_form.reset();
+                    update = false;
+                    })
+                }else{
+                    this.text="Workshop upto date.";
+                    this.snackbar = true;
+                }
+                this.program_progressbar =false
+            } catch (error) {
+                console.log(error, error.response);
+                this.text="Some error occured. "+error.response.data
+                this.error_snackbar =true
+                this.progressbar =false
+            }
+        },
+        async deleteWorkshopCategory(){
+            this.deleteLoading = true
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            };
+            try {
+                let response = await this.$axios.$delete("/v1/workshops/"+ this.temp_category_item.uuid, config)
+                console.log("deleted: ",response);
+                this.$store.dispatch("remove_workshop_from_events", this.temp_category_item)
+                this.delete_workshop_category_dialog = false
+                this.deleteLoading = false
+                this.temp_category_item = {}
+                this.program_delete_snackbar = true
+                // this.$store.dispatch("check_share_comments", comment.shareidobj)
+                //guest removed
+            } catch (e) {
+                this.error_text = e.response.data;
+                if(e.response.data.detail)
+                this.error_text = e.response.data.detail;
+                this.deleteLoading = false
+                this.error_snackbar = true
+                console.log(e,e.response);
+            }
+        },
+
+
         //update category
         editCategory(item){
             if(!this.editing_category_process)
             {
                 this.editing_category_process = true
-                this.category = Object.assign({}, item);
                 this.temp_category_item = Object.assign({}, item);
-                //find object from guests -> name1 == item.name1
-                // that object is selectedGuest 
                 this.selectedGuest = this.selectedGuests.find(guest => guest.name === item.name1)
-                //1:workshop
-                //2:showcase
-                //3:party
-                //4:cypher
-                //5:community talk
-                let num = item.category;
-                switch(num) {
-                case 1:
-                    {
+                if(item.category == 1)
+                {
+                    this.workshop_category = Object.assign({}, item);
                     this.workshop_dialog=true
+                    
+                }
+                else
+                {
+                    this.category = Object.assign({}, item);
+                    let num = item.category;
+                    switch(num) {
+                    case 2:{
+                        this.showcase_dialog=true
+                        break;}
+                    case 3:{
+                        this.party_dialog= true
+                        break;}
+                    case 4:{
+                        this.cypher_dialog =true
                     break;}
-                case 2:{
-                    this.showcase_dialog=true
+                    case 5:{
+                        this.otherCategory_dialog = true
                     break;}
-                case 3:{
-                    this.party_dialog= true
-                    break;}
-                case 4:{
-                    this.cypher_dialog =true
-                break;}
-                case 5:{
-                    this.otherCategory_dialog = true
-                break;}
-                default:{}
+                    default:{}
+                    }
+
                 }
             }
             else{
@@ -3027,110 +3029,95 @@ export default {
         },
         updateWorkshopCheck(num){
             switch(num) {
-                case 1:
-                    if(this.$refs.workshop_form.validate())
-                    this.updateWorkshop();
-                    break;
                 case 2:
                     if(this.$refs.showcase_form.validate())
-                    this.updateWorkshop();
+                    this.updateCategory();
                     break;
                 case 3:
                     if(this.$refs.party_form.validate())
-                    this.updateWorkshop();
+                    this.updateCategory();
                     break;
                 case 4:
                     if(this.$refs.cypher_form.validate())
-                    this.updateWorkshop();
+                    this.updateCategory();
                     break;
                 case 5:
                     if(this.$refs.talk_form.validate())
-                    this.updateWorkshop();
+                    this.updateCategory();
                     break;
                 default:
                     // code block
             }
         },
-        async updateWorkshop(){
-            if(this.editing_event_obj){
-                this.program_progressbar = true
-                if(this.category.poster)
-                {
-                    this.category.poster = await this.putImage(this.category.poster);
-                }
-                if(this.category.guest1 && typeof this.category.guest1=='object')
-                {
-                    this.category.guest1 = this.category.guest1.username
-                    }
-                const config = {
-                    headers: {"content-type": "multipart/form-data",
-                        "Authorization": this.$auth.strategy.token.get()
-                    }
-                };
-                let myObj1 = this.temp_category_item;
-                let myObj2 = this.category;
-                // find keys 
-                let keyObj1 = Object.keys(myObj1); 
-                let keyObj2 = Object.keys(myObj2);
-                // find values 
-                let valueObj1 = Object.values(myObj1); 
-                let valueObj2 = Object.values(myObj2); 
-                let update = false;
-                // now compare their keys and values  
-                try {
-                    let formName = new FormData();
-                    for(var i=0; i<keyObj1.length; i++) {
-                        if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
-                        } 
-                        else {
-                            update = true;
-                            formName.append(keyObj1[i], valueObj2[i]);
-                        }
-                    }
-                    if(update){
-                        formName.append("id", this.event['id']);
-                        await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config)
-                        //remove from array
-                        //addGuestToSelectedGuestArray
-                        this.categories.splice(this.categories.findIndex(e => e.id === this.temp_category_item.id),1);
-                        this.updateCategoryToArray();
-                        update = false;
-                    }
-                    else{
-                        this.error_text= 'This category is upto date.'
-                        this.error_snackbar = true;
-                        this.close_category_dialog();
-                    }
-                    this.program_progressbar =false
-                } catch (error) {
-                    this.error_text = error.response.data;
-                    if(error.response.data.detail)
-                    this.error_text = error.response.data.detail;
-                    console.log("error!!!!! ",error, error.response);
-                    this.error_snackbar =true
-                    this.program_progressbar =false
-                }
+        async updateCategory(){
+            this.program_progressbar = true
+            if(this.category.poster)
+            {
+                this.category.poster = await this.putImage(this.category.poster);
             }
-            else{
-                //remove prev obj
-                this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name),1);
-                let clone = {...this.category}
-                this.categories.push(clone)
-                this.program_update_snackbar=true
-                for (var key in this.category) {
-                    this.category[key] = '';
+            if(this.category.guest1 && typeof this.category.guest1=='object')
+            {
+                this.category.guest1 = this.category.guest1.username
+            }
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
                 }
-                this.category.username=this.loggedInUser.username
-                this.artist_obj= null
-                this.close_category_dialog();
+            };
+            let myObj1 = this.temp_category_item;
+            let myObj2 = this.category;
+            // find keys 
+            let keyObj1 = Object.keys(myObj1); 
+            let keyObj2 = Object.keys(myObj2);
+            // find values 
+            let valueObj1 = Object.values(myObj1); 
+            let valueObj2 = Object.values(myObj2); 
+            let update = false;
+            // now compare their keys and values  
+            try {
+                let formName = new FormData();
+                for(var i=0; i<keyObj1.length; i++) {
+                    if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) { 
+                    } 
+                    else {
+                        update = true;
+                        formName.append(keyObj1[i], valueObj2[i]);
+                    }
+                }
+                if(update){
+                    formName.append("id", this.event['id']);
+                    await this.$axios.$patch("/v1/events/workshops/"+this.temp_category_item.uuid, formName, config)
+                    //remove from array
+                    //addGuestToSelectedGuestArray
+                    this.$store.dispatch("remove_subevent_from_events",this.temp_category_item)
+                    this.updateCategoryToArray(2);
+                    update = false;
+                }
+                else{
+                    this.error_text= 'This category is upto date.'
+                    this.error_snackbar = true;
+                    this.close_category_dialog();
+                }
+                this.program_progressbar =false
+            } catch (error) {
+                this.error_text = error.response.data;
+                if(error.response.data.detail)
+                this.error_text = error.response.data.detail;
+                console.log("error!!!!! ",error, error.response);
+                this.error_snackbar =true
+                this.program_progressbar =false
             }
             this.program_progressbar =false
             this.editing_category_process = false
         },
+
         close_category_dialog(){
             this.editing_category_process = false;
             for (var key in this.category) {
                 this.category[key] = '';
+            }
+            for (var key in this.workshop_category) {
+                this.workshop_category[key] = '';
             }
             if(this.$refs.workshop_form)this.$refs.workshop_form.resetValidation()
             if(this.$refs.showcase_form)this.$refs.showcase_form.resetValidation()
@@ -3140,6 +3127,7 @@ export default {
             this.artist_obj= null
             this.selectedGuest={}
             this.category.username = this.loggedInUser.username
+            this.workshop_category.username = this.loggedInUser.username
             this.workshop_dialog=false;
             this.party_dialog=false;
             this.showcase_dialog=false;
@@ -3147,63 +3135,49 @@ export default {
             this.otherCategory_dialog=false;
             this.same_day =false;
         },
-        addWorkshop(num){
-            //1:workshop
-            //2:showcase
-            //3:party
-            //4:cypher
-            //5:community talk
-            switch(num) {
-            case 1:
-                {
-                if(this.$refs.workshop_form.validate())
-                {
-                    this.category.category = 1
-                    this.addWorkshop2();
-                }
-                break;
-                }
-            case 2:{
-                if(this.$refs.showcase_form.validate())
-                {
-                    this.category.category = 2
-                    this.addWorkshop2();
-                }
+        createCategory(num){
+            if(this.saveUuid){
+                switch(num) {
+                case 2:{
+                    if(this.$refs.showcase_form.validate())
+                    {
+                        this.category.category = 2
+                        this.postCategoryApi();
+                    }
+                    break;}
+                case 3:{
+                    if(this.$refs.party_form.validate())
+                    {
+                        this.category.category = 3
+                        this.postCategoryApi();
+                    }
+                    break;}
+                case 4:{
+                    if(this.$refs.cypher_form.validate())
+                    {
+                        this.category.category = 4
+                        this.postCategoryApi();
+                    }
                 break;}
-            case 3:{
-                if(this.$refs.party_form.validate())
-                {
-                    this.category.category = 3
-                    this.addWorkshop2();
-                }
+                case 5:{
+                    if(this.$refs.talk_form.validate())
+                    {
+                        this.category.category = 5
+                        this.postCategoryApi();
+                    }
                 break;}
-            case 4:{
-                if(this.$refs.cypher_form.validate())
-                {
-                    this.category.category = 4
-                    this.addWorkshop2();
+                default:
+                    // code block
                 }
-            break;}
-            case 5:{
-                if(this.$refs.talk_form.validate())
-                {
-                    this.category.category = 5
-                    this.addWorkshop2();
-                }
-            break;}
-            default:
-                // code block
-            }
-        },
-        addWorkshop2(){
-            if(this.editing_event_obj){
-                this.postCategoryApi();
             }
             else
             {
-                this.addCategoryToArray();
+                this.error_text = 'Please publish the event first.'
+                this.error_snackbar = true
             }
+            
         },
+
         async postCategoryApi(){
             this.program_progressbar =true
             const config = {
@@ -3211,13 +3185,10 @@ export default {
                     "Authorization": this.$auth.strategy.token.get()
                 }
             }
-            this.category.event = this.editing_event_obj.uuid;
+            this.category.event = this.saveUuid;
             if(this.category.poster)
             {this.category.poster = await this.putImage(this.category.poster)}
-            if(this.category.guest1 && typeof this.category.guest1=='object')
-            {
-                this.category.guest1 = this.category.guest1.username
-            }
+            console.log(this.category);
             let formCategoryData = new FormData();
             for (let data in this.category) {
                 formCategoryData.append(data, this.category[data]);
@@ -3229,7 +3200,7 @@ export default {
                 // console.log(this.category);
                 this.category_added_snackbar=true
                 this.program_progressbar =false
-                this.addCategoryToArray();
+                this.addCategoryToArray(2);
             } catch (error) {
                 this.error_text = error.response.data;
                 console.log(error,error.response);
@@ -3237,22 +3208,41 @@ export default {
                 this.program_progressbar =false
             }
         },
-        addCategoryToArray(){
-            let clone = {...this.category}
-            this.categories.push(clone)
+        addCategoryToArray(num){
+            let clone;
+            if(num == 1)
+            {clone = {...this.workshop_category}
+            this.$store.dispatch("add_workshop_to_events",clone)
+            }
+            else
+            {clone = {...this.category}
+            this.$store.dispatch("add_subevent_to_events",clone)}
             this.category_added_snackbar=true
             this.close_category_dialog();
         },
-        updateCategoryToArray(){
-            let clone = {...this.category}
-            this.categories.push(clone)
+        updateCategoryToArray(num){
+            let clone;
+            if(num == 1)
+            {clone = {...this.workshop_category}
+            //add to event_subevents
+            this.$store.dispatch("add_workshop_to_events",clone)}
+            else
+            {clone = {...this.category}
+            //add to event_subevents
+            this.$store.dispatch("add_subevent_to_events",clone)}
             this.program_update_snackbar = true;
             this.close_category_dialog();
         },
         addGuestToCategory(){
             if(this.selectedGuest){
                 this.category.name1 = this.selectedGuest.name
-                if(this.selectedGuest.guest)this.category.guest1 = this.selectedGuest.guest
+                if(this.selectedGuest.guest)
+                {
+                    if(typeof this.selectedGuest.guest == 'object')
+                    this.category.guest1 = this.selectedGuest.guest.username
+                    else
+                    this.category.guest1 = this.selectedGuest.guest
+                }
                 this.category.photo1 = this.selectedGuest.photo
                 this.category.country1 = this.selectedGuest.country
                 this.category.info1 = this.selectedGuest.info}
@@ -3263,88 +3253,105 @@ export default {
                 this.category.info1 = ''
             }
         },
+        addGuestToWorkshop(){
+            if(this.selectedGuest){
+                console.log(this.selectedGuest);
+                this.workshop_category.name1 = this.selectedGuest.name
+                if(this.selectedGuest.guest)
+                {
+                    if(typeof this.selectedGuest.guest == 'object')
+                    this.workshop_category.teacher1 = this.selectedGuest.guest.username
+                    else
+                    this.workshop_category.teacher1 = this.selectedGuest.guest
+                }
+                this.workshop_category.photo1 = this.selectedGuest.photo
+                this.workshop_category.country1 = this.selectedGuest.country
+                this.workshop_category.info1 = this.selectedGuest.info}
+            else{this.workshop_category.name1 = ''
+                this.workshop_category.guest1 = ''
+                this.workshop_category.photo1 = ''
+                this.workshop_category.country1 = ''
+                this.workshop_category.info1 = ''
+            }
+        },
         removeCategory(item){
             this.temp_category_item = item
+            if(item.category == 1)
+            this.delete_workshop_category_dialog = true
+            else
             this.delete_category_dialog = true
-            // this.categories.splice(this.categories.findIndex(e => e.name === item.name && e.category === item.category),1);
         },
         async deleteCategory(){
-            if(this.editing_event_obj)
-            {
-                this.deleteLoading = true
+            this.deleteLoading = true
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            };
+            try {
+                let response = await this.$axios.$delete("/v1/events/workshops/"+ this.temp_category_item.uuid, config)
+                console.log("deleted: ",response);
+                this.$store.dispatch("remove_subevent_from_events", this.temp_category_item)
+                this.delete_category_dialog = false
+                this.deleteLoading = false
+                this.temp_category_item = {}
+                this.program_delete_snackbar = true
+                // this.$store.dispatch("check_share_comments", comment.shareidobj)
+                //guest removed
+            } catch (e) {
+                this.error_text = e.response.data;
+                    if(error.response.data.detail)
+                    this.error_text = e.response.data.detail;
+                this.deleteLoading = false
+                this.error_snackbar = true
+                console.log(e,e.response);
+            }
+        },
+
+
+        //add batttle
+        async addBattle(){
+            if(this.saveUuid){
+                if(this.$refs.battle_form.validate()){
+                this.battleGuestArrayToJson();
+                this.program_progressbar =true
                 const config = {
                     headers: {"content-type": "multipart/form-data",
                         "Authorization": this.$auth.strategy.token.get()
                     }
-                };
+                }
+                this.battle_category.event = this.saveUuid;
+                if(this.battle_category.poster)
+                {this.battle_category.poster = await this.putImage(this.battle_category.poster)}
+                let formBattleCategoryData = new FormData();
+                for (let data in this.battle_category) {
+                    formBattleCategoryData.append(data, this.battle_category[data]);
+                }
                 try {
-                    let response = await this.$axios.$delete("/v1/events/workshops/"+ this.temp_category_item.uuid, config)
-                    console.log("deleted: ",response);
-                    this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
-                    this.delete_category_dialog = false
-                    this.deleteLoading = false
-                    this.temp_category_item = {}
-                    this.program_delete_snackbar = true
-                    // this.$store.dispatch("check_share_comments", comment.shareidobj)
-                    //guest removed
-                } catch (e) {
-                    this.error_text = e.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = e.response.data.detail;
-                    this.deleteLoading = false
-                    this.error_snackbar = true
-                    console.log(e,e.response);
-                }
-                //remove from api too
-            }else{
-                console.log(this.temp_category_item);
-                this.categories.splice(this.categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
-                this.delete_category_dialog = false
-
-            }
-        },
-        //add batttle
-        async addBattle(){
-            if(this.$refs.battle_form.validate()){
-                this.battleGuestArrayToJson();
-                if(this.editing_event_obj){
-                    this.program_progressbar =true
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": this.$auth.strategy.token.get()
-                        }
-                    }
-                    this.battle_category.event = this.editing_event_obj.uuid;
-                    if(this.battle_category.poster)
-                    {this.battle_category.poster = await this.putImage(this.battle_category.poster)}
-                    let formBattleCategoryData = new FormData();
-                    for (let data in this.battle_category) {
-                        formBattleCategoryData.append(data, this.battle_category[data]);
-                    }
-                    try {
-                        let postBattleCategory= await this.$axios.$post("/v1/events/battles/create/", formBattleCategoryData, config)
-                        // console.log("battle_category posted",postBattleCategory);
-                        this.battle_category = {...postBattleCategory}
-                        // console.log(this.battle_category);
-                        this.category_added_snackbar=true
-                        this.program_progressbar =false
-                        this.addBattleToArray();
-                    } catch (error) {
-                        this.error_text = error.response.data;
-                        if(error.response.data.detail)
-                        this.error_text = error.response.data.detail;
-                        console.log(error,error.response);
-                        this.error_snackbar = true;
-                        this.program_progressbar =false
-                    }
-                }
-                else
-                {
+                    let postBattleCategory= await this.$axios.$post("/v1/events/battles/create/", formBattleCategoryData, config)
+                    // console.log("battle_category posted",postBattleCategory);
+                    this.battle_category = {...postBattleCategory}
+                    // console.log(this.battle_category);
+                    this.category_added_snackbar=true
+                    this.program_progressbar =false
                     this.addBattleToArray();
+                } catch (error) {
+                    this.error_text = error.response.data;
+                    if(error.response.data.detail)
+                    this.error_text = error.response.data.detail;
+                    console.log(error,error.response);
+                    this.error_snackbar = true;
+                    this.program_progressbar =false
                 }
             }
             else{
                 this.error_text = 'Name is required'
+            }
+            }
+            else
+            {
+                this.error_text = 'Please publish the event first.'
+                this.error_snackbar = true
             }
         },
         battleGuestArrayToJson(){
@@ -3528,7 +3535,7 @@ export default {
         },
         addBattleToArray(){
             let clone = {...this.battle_category}
-            this.battle_categories.push(clone)
+            this.$store.dispatch("add_battle_to_events",clone)
             this.category_added_snackbar=true
             this.close_battle_dialog()
         },
@@ -3537,55 +3544,53 @@ export default {
             if(this.$refs.battle_form.validate())
             {
                 this.updateBattleGuests();
-                // console.log("json updated", this.battle_category);
-                if(this.editing_event_obj){
-                    this.program_progressbar = true
-                    if(this.battle_category.poster )
-                    {
-                        this.battle_category.poster = await this.putImage(this.battle_category.poster);
+                this.program_progressbar = true
+                if(this.battle_category.poster )
+                {
+                    this.battle_category.poster = await this.putImage(this.battle_category.poster);
+                }
+                const config = {
+                    headers: {"content-type": "multipart/form-data",
+                        "Authorization": this.$auth.strategy.token.get()
                     }
-                    const config = {
-                        headers: {"content-type": "multipart/form-data",
-                            "Authorization": this.$auth.strategy.token.get()
+                };
+                let myObj1 = this.temp_category_item;
+                let myObj2 = this.battle_category;
+                // find keys 
+                let keyObj1 = Object.keys(myObj1); 
+                let keyObj2 = Object.keys(myObj2);
+                // find values 
+                let valueObj1 = Object.values(myObj1); 
+                let valueObj2 = Object.values(myObj2); 
+                
+                // now compare their keys and values  
+                let update = false;
+                try {
+                    let formName = new FormData();
+                    for(var i=0; i<keyObj1.length; i++) {
+                        if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {
+                        } 
+                        else {
+                            console.log(keyObj1[i], valueObj2[i]);
+                            update = true;
+                            formName.append(keyObj1[i], valueObj2[i]);
                         }
-                    };
-                    let myObj1 = this.temp_category_item;
-                    let myObj2 = this.battle_category;
-                    // find keys 
-                    let keyObj1 = Object.keys(myObj1); 
-                    let keyObj2 = Object.keys(myObj2);
-                    // find values 
-                    let valueObj1 = Object.values(myObj1); 
-                    let valueObj2 = Object.values(myObj2); 
-                    
-                    // now compare their keys and values  
-                    let update = false;
-                    try {
-                        let formName = new FormData();
-                        for(var i=0; i<keyObj1.length; i++) {
-                            if(keyObj1[i] == keyObj2[i] && valueObj1[i] == valueObj2[i]) {
-                            } 
-                            else {
-                                console.log(keyObj1[i], valueObj2[i]);
-                                update = true;
-                                formName.append(keyObj1[i], valueObj2[i]);
-                            }
-                        }
-                        if(update)
-                        {
-                            formName.append("id", this.event['id']);
-                            await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config)
-                            this.battle_categories.splice(this.battle_categories.findIndex(e => e.id === this.temp_category_item.id),1);
-                            this.updateBattleToArray();
-                            update = false;
-                            // console.log(myObj1,myObj2);
-                        }else{
-                            this.error_text = 'Battle category is upto date.'
-                            this.error_snackbar=true;
-                            this.close_battle_dialog();
-                        }
+                    }
+                    if(update)
+                    {
+                        formName.append("id", this.event['id']);
+                        await this.$axios.$patch("/v1/events/battles/"+this.temp_category_item.uuid, formName, config)
+                        this.$store.dispatch("remove_battle_from_events",this.temp_category_item)
+                        this.updateBattleToArray();
+                        update = false;
+                        // console.log(myObj1,myObj2);
+                    }else{
+                        this.error_text = 'Battle category is upto date.'
+                        this.error_snackbar=true;
+                        this.close_battle_dialog();
+                    }
 
-                        this.program_progressbar =false
+                    this.program_progressbar =false
 
                     } catch (error) {
                         this.error_text = error.response.data;
@@ -3595,20 +3600,7 @@ export default {
                         this.error_snackbar =true
                         this.program_progressbar =false
                     }
-                }
-                else{
-                    //remove prev obj
-                    this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name),1);
-                    let clone = {...this.battle_category}
-                    this.battle_categories.push(clone)
-                    this.program_update_snackbar=true
-                    for (var key in this.battle_category) {
-                        this.battle_category[key] = '';
-                    }
-                    this.battle_category.username=this.loggedInUser.username
-                    this.artist_obj= null
-                    this.close_battle_dialog();
-                }
+                
                 this.program_progressbar =false
                  this.editing_category_process = false
             }
@@ -3717,14 +3709,15 @@ export default {
                 this.battle_category.bginfo3='';
                 this.battleGuestArrayToJson();
         },
-        
+
         updateBattleToArray(){
             let clone = {...this.battle_category}
-            this.battle_categories.push(clone)
+            this.$store.dispatch("add_battle_to_events",clone)
             this.program_update_snackbar = true;
             this.close_battle_dialog();
         },
         editBattleCategory(item){
+            console.log("battle", item);
             if(!this.editing_category_process)
             {
                 this.editing_category_process= true
@@ -3826,8 +3819,6 @@ export default {
             // this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.category === item.category),1);
         },
         async deleteBattleCategory(){
-            if(this.editing_event_obj)
-            {
                 this.deleteLoading = true
                 const config = {
                     headers: {"content-type": "multipart/form-data",
@@ -3837,7 +3828,7 @@ export default {
                 try {
                     let response = await this.$axios.$delete("/v1/events/battles/"+ this.temp_category_item.uuid, config)
                     // console.log(response);
-                    this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
+                    this.$store.dispatch("remove_battle_from_events",this.temp_category_item)
                     this.delete_battle_category_dialog = false
                     this.deleteLoading = false
                     this.temp_category_item = {}
@@ -3852,13 +3843,6 @@ export default {
                     this.error_snackbar = true
                     console.log(e,e.response);
                 }
-                //remove from api too
-            }else{
-                // this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === item.name && e.category === item.category),1);
-                this.battle_categories.splice(this.battle_categories.findIndex(e => e.name === this.temp_category_item.name && e.category === this.temp_category_item.category),1);
-                this.delete_battle_category_dialog = false
-
-            }
         },
         //update organisers
         // editOrganiser(item){

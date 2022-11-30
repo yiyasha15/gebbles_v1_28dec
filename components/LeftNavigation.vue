@@ -60,6 +60,14 @@
                     <v-list-item-title> Artists</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-item to="/whatiscooking">
+                    <v-list-item-icon>
+                    <v-icon>mdi-play-circle-outline</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                    <v-list-item-title>What's cookin</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
                 <v-list-item to="/events">
                     <v-list-item-icon>
                     <v-icon>mdi-calendar-heart</v-icon>

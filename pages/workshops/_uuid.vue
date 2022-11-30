@@ -88,6 +88,7 @@
             <p v-if="goingList && goingList.length>0" class="hover font-weight-medium mt-4 mb-0" @click="showGoingList =true">{{goingList.length}}<span v-if="goingList.length==1"> person</span> <span v-else> people</span> joining</p>
 
             </div>
+            <nuxt-link :to='"/events/"+ workshop.event' class="text-decoration-none"><v-icon class="mr-2" >mdi-calendar</v-icon></nuxt-link>
             <v-dialog
                 :retain-focus="false"
                 v-model="showGoingList"
