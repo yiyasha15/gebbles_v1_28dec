@@ -1,52 +1,57 @@
 <template>
     <v-app>
+        <left-navigation></left-navigation>
         <v-container style="max-width:670px;" class="pa-0 background">
-        <v-tabs class="width mx-auto background" centered>
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Your videos</p>
-        </v-tab>
-        <v-tab>
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Mentioned videos</p>
-        </v-tab>
-        <v-tab-item class="background">
-        <v-layout wrap row justify-start v-show="firstLoadY"  >
-            <div v-for="n in this.looploader" :key ="n.index">
-            <card-skeleton-loader class="ma-md-2 ma-1"></card-skeleton-loader>
-            </div>
-        </v-layout>
-        <v-layout wrap row justify-start v-show="!firstLoadY" >
-            <div v-for="cook in cooking" :key ="cook.index">
-            <cooking-card :cook="cook" @postDelete="postDelete"></cooking-card>
-            </div>
-        </v-layout>
-        <center v-if="!cooking.length && !firstLoadY">
-            <img
-            :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-            class="ml-2 mt-6 clickable"
-            :src="require('@/assets/gebbleslogo_tab.png')"/>
-            <h3>No videos found. </h3>
-        </center>
-        </v-tab-item>
-        <v-tab-item class="background">
-        <v-layout wrap row justify-start v-show="firstLoadM" >
-            <div v-for="n in this.looploader" :key ="n.index">
-            <card-skeleton-loader class="ma-md-2 ma-1"></card-skeleton-loader>
-            </div>
-        </v-layout>
-        <v-layout wrap row justify-start v-show="!firstLoadM" >
-            <div v-for="cook in cooking_mentioned" :key ="cook.index">
-                <cooking-card-sharing :cook="cook" ></cooking-card-sharing> 
-            </div>
-        </v-layout>
-        <center v-if="!cooking_mentioned.length && !firstLoadM">
-            <img
-            :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-            class="ml-2 mt-6 clickable"
-            :src="require('@/assets/gebbleslogo_tab.png')"/>
-            <h3>No videos found. </h3>
-        </center>
-        </v-tab-item>
-        </v-tabs>
+            <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+                <v-icon class="float-left">mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-tabs class="width mx-auto background" centered>
+            <v-tab>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Your videos</p>
+            </v-tab>
+            <v-tab>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Mentioned videos</p>
+            </v-tab>
+            <v-tab-item class="background">
+            <div class="ml-1 py-2"></div>
+            <v-layout wrap row justify-start v-show="firstLoadY"  >
+                <div v-for="n in this.looploader" :key ="n.index">
+                <card-skeleton-loader class="ma-md-2 ma-1"></card-skeleton-loader>
+                </div>
+            </v-layout>
+            <v-layout wrap row justify-start v-show="!firstLoadY" >
+                <div v-for="cook in cooking" :key ="cook.index">
+                <cooking-card :cook="cook" @postDelete="postDelete"></cooking-card>
+                </div>
+            </v-layout>
+            <center v-if="!cooking.length && !firstLoadY">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                <h3>No videos found. </h3>
+            </center>
+            </v-tab-item>
+            <v-tab-item class="background">
+            <v-layout wrap row justify-start v-show="firstLoadM" >
+                <div v-for="n in this.looploader" :key ="n.index">
+                <card-skeleton-loader class="ma-md-2 ma-1"></card-skeleton-loader>
+                </div>
+            </v-layout>
+            <v-layout wrap row justify-start v-show="!firstLoadM" >
+                <div v-for="cook in cooking_mentioned" :key ="cook.index">
+                    <cooking-card-sharing :cook="cook" ></cooking-card-sharing> 
+                </div>
+            </v-layout>
+            <center v-if="!cooking_mentioned.length && !firstLoadM">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                <h3>No videos found. </h3>
+            </center>
+            </v-tab-item>
+            </v-tabs>
         </v-container>
     </v-app>
 </template>
@@ -57,6 +62,7 @@ import CookingCardSharing from '~/components/CookingCardSharing.vue'
 import { mapGetters} from 'vuex'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 import CookingCard from '~/components/CookingCard.vue'
+import LeftNavigation from '~/components/LeftNavigation.vue'
 // import CookingFeed from '~/components/CookingFeed.vue'
 
 export default {
@@ -65,7 +71,8 @@ export default {
     components: {
         CardSkeletonLoader,
         CookingCardSharing,
-        CookingCard
+        CookingCard,
+        LeftNavigation
     }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
@@ -89,6 +96,7 @@ export default {
     data() {
     return {
         cooking_mentioned_page:"", 
+        cooking_page:'',
         cooking:[],
         cooking_mentioned:[],
         looploader:[1,1,1,1,1,1,1,1,1],
@@ -108,9 +116,9 @@ export default {
             "Authorization": this.$auth.strategy.token.get()}
         };
         try {
-            // const response = await EventService.getWhatsCookingUsername(config)
-            // this.cooking = response.data
-            // this.page = response.data.next
+            const response = await EventService.getWhatsCookingUsername(config)
+            this.cooking = response.data.results
+            this.cooking_page = response.data.next
             this.firstLoadY = false
         } catch (e) {
             console.log(e);

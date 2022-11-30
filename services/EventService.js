@@ -82,6 +82,12 @@ export default {
 
 
     //cooking api
+    getLatestCookings(){
+        return apiClient1.get('/whatiscooking/latest_cookings/')
+    },
+    getLatestCookingsUsername(username){
+        return apiClient1.get('/whatiscooking/latest_cookings/?username='+username)
+    },
     getWhatsCooking() {
         return apiClient1.get('/whatiscooking/list/')
     },
@@ -133,14 +139,14 @@ export default {
     getSearchedEventsThisMonth() {
         return apiClient1.get('/events/search/?this_month='+ 'yes')
     },
-    getMyOrganizedEvents(username) {
-        return apiClient1.get('/events/my-organized-events/?username='+ username)
+    getMyOrganizedEvents(config) {
+        return apiClient1.get('/events/my-organized-events/', config)
     },
-    getMyInvitedEvents(username) {
-        return apiClient1.get('/events/my-tagged-events/?guest='+ username)
+    getMyInvitedEvents(config) {
+        return apiClient1.get('/events/my-tagged-events/', config)
     },
-    getMyGoingEvents(username) {
-        return apiClient1.get('/events/iamgoing-events/?username='+ username)
+    getMyGoingEvents(config) {
+        return apiClient1.get('/events/iamgoing-events/', config)
     },
     //workshops api
     getAllWorkshops(){
@@ -161,13 +167,13 @@ export default {
     getIamGoingWorkshopList(uuid){
         return apiClient1.get('/workshops/iamgoing/list/?workshop='+uuid)
     },
-    getMyOrganizedWorkshops(username) {
-        return apiClient1.get('/events/my-organized-workshops/?username='+ username)
+    getMyOrganizedWorkshops(config) {
+        return apiClient1.get('/workshops/workshops-organized-by-artist/', config)
     },
-    getMyInvitedWorkshops(username) {
-        return apiClient1.get('/events/my-tagged-workshops/?guest='+ username)
+    getMyInvitedWorkshops(config) {
+        return apiClient1.get('/workshops/workshops-taught-by-artist/', config)
     },
-    getMyGoingWorkshops(username) {
-        return apiClient1.get('/events/iamgoing-workshops/?username='+ username)
+    getMyGoingWorkshops(config) {
+        return apiClient1.get('/workshops/iamgoing-workshops/', config)
     },
 }

@@ -114,6 +114,7 @@
 </template>
 <script>
 export default {
+    middleware : 'check_auth',
     data(){
         return{
             dialog: false,

@@ -1,5 +1,6 @@
 <template>
     <v-app>
+        <left-navigation></left-navigation>
         <v-container style="max-width:670px;" class="pa-0 background">
             <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
@@ -21,8 +22,9 @@
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
                 </v-layout>
-                <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
-                    <div v-for="event in goingWorkshops" :key ="event.index">
+                <v-layout wrap justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
+                    <div v-for="workshop in goingWorkshops" :key ="workshop.index">
+                        <workshop-card-going :workshop="workshop" ></workshop-card-going>
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingGoingWorkshops"></v-card>
@@ -42,9 +44,9 @@
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
                 </v-layout>
-                <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
-                    <div v-for="event in taggedWorkshops" :key ="event.index">
-                        
+                <v-layout wrap justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
+                    <div v-for="workshop in taggedWorkshops" :key ="workshop.index">
+                        <workshop-card-tagged :workshop="workshop"></workshop-card-tagged>
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingTaggedWorkshops"></v-card>
@@ -57,14 +59,15 @@
                 </center>
             </v-tab-item>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center">all the workshops you organised</div>
+                <div class="ml-1 py-2 grey--text caption text-center">all the workshops you organised..</div>
             <v-layout wrap row justify-start v-if="firstLoadOrg" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
                 </v-layout>
-                <v-layout wrap row justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
-                    <div v-for="event in orgWorkshops" :key ="event.index">
+                <v-layout wrap justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
+                    <div v-for="workshop in orgWorkshops" :key ="workshop.index">
+                        <workshop-card-organised :workshop="workshop"></workshop-card-organised>
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingOrgWorkshops"></v-card>
@@ -84,6 +87,10 @@
 import { mapGetters} from 'vuex'
 import EventService from '@/services/EventService.js'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
+import LeftNavigation from '~/components/LeftNavigation.vue'
+import WorkshopCardGoing from '~/components/WorkshopCardGoing.vue'
+import WorkshopCardTagged from '~/components/WorkshopCardTagged.vue'
+import WorkshopCardOrganised from '~/components/WorkshopCardOrganised.vue'
 export default {
     head() {
         return {
@@ -98,8 +105,11 @@ export default {
         }
     },
     props: ["artist"],
+    middleware : 'check_auth',
     components:{
-    CardSkeletonLoader
+    CardSkeletonLoader, LeftNavigation,
+    WorkshopCardGoing,
+    WorkshopCardOrganised, WorkshopCardTagged
     },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser'
@@ -134,23 +144,27 @@ export default {
     },
     async getMyOrganizedWorkshops(){
         try {
-        const response = await EventService.getMyOrganizedWorkshops(this.artist.username);
+            const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()}
+            };
+        const response = await EventService.getMyOrganizedWorkshops(config);
         // console.log(response);
         const orgWorkshops = response.data.results
         //filter Workshops which are duplicate
-            // a Set to track seen Workshops
-            // const seen = new Set();
-            this.orgWorkshops = orgWorkshops.filter(event => {
-            // check if the current event is a duplicate
-            let isDuplicate;
-            if(event.event){
-                isDuplicate= this.seen3.has(event.event.uuid);
-            // add the current event to the Set
-            this.seen3.add(event.event.uuid);}
-            // filter() returns the event when isDuplicate is false
-            return !isDuplicate;
-            });
-            // console.log(filtered);
+        // a Set to track seen Workshops
+        // const seen = new Set();
+        this.orgWorkshops = orgWorkshops.filter(event => {
+        // check if the current event is a duplicate
+        let isDuplicate;
+        if(event.event){
+            isDuplicate= this.seen3.has(event.event.uuid);
+        // add the current event to the Set
+        this.seen3.add(event.event.uuid);}
+        // filter() returns the event when isDuplicate is false
+        return !isDuplicate;
+        });
+        // console.log(filtered);
         this.pageOrg = response.data.next
         this.firstLoadOrg = false
         } catch (e) {
@@ -160,23 +174,27 @@ export default {
     },
     async getTaggedWorkshops(){
         try {
-        const response = await EventService.getMyInvitedWorkshops(this.artist.username);
+            const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()}
+            };
+        const response = await EventService.getMyInvitedWorkshops(config);
         // console.log(response);
         const taggedWorkshops = response.data.results
         //filter Workshops which are duplicate
-            // a Set to track seen Workshops
-            // const seen = new Set();
-            this.taggedWorkshops = taggedWorkshops.filter(event => {
-            // check if the current event is a duplicate
-            let isDuplicate;
-            if(event.event){isDuplicate= this.seen.has(event.event.uuid);
-            // add the current event to the Set
-            this.seen.add(event.event.uuid);}
-            // filter() returns the event when isDuplicate is false
-            return !isDuplicate;
-            });
-            // console.log(filtered);
-        this.page = response.data.next
+        // a Set to track seen Workshops
+        // const seen = new Set();
+        this.taggedWorkshops = taggedWorkshops.filter(event => {
+        // check if the current event is a duplicate
+        let isDuplicate;
+        if(event.event){isDuplicate= this.seen.has(event.event.uuid);
+        // add the current event to the Set
+        this.seen.add(event.event.uuid);}
+        // filter() returns the event when isDuplicate is false
+        return !isDuplicate;
+        });
+        // console.log(filtered);
+    this.page = response.data.next
         this.firstLoadTagged = false
         } catch (e) {
             console.log(e);
@@ -185,7 +203,11 @@ export default {
     },
     async getGoingWorkshops(){
         try {
-        const response = await EventService.getMyGoingWorkshops(this.artist.username);
+            const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()}
+            };
+        const response = await EventService.getMyGoingWorkshops(config);
         // console.log(response);
         const goingWorkshops = response.data.results
         //filter Workshops which are duplicate

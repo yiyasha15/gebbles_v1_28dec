@@ -64,7 +64,7 @@ export default {
   methods:{
     async getwhatiscooking(){
       try {
-      const response = await EventService.getWhatsCooking()
+      const response = await EventService.getLatestCookings()
       this.cooking = response.data.results
       this.page = response.data.next
       this.firstLoad = false

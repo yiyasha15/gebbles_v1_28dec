@@ -18,7 +18,7 @@ export default {
     created(){
         this.$router.push('/'+ this.$props.artist.username)
     },
-    // layout: 'username',
+    layout: 'username',
     props: ["artist"],
     
     

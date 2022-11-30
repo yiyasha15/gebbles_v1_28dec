@@ -21,6 +21,19 @@
                     </template>
                     <span>Edit portfolio</span>
                 </v-tooltip>
+                <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn @click="openPayToArtistDialog" small outlined
+                      class="mx-3 my-sm-3"
+                        elevation="0" 
+                        v-bind="attrs"
+                        v-on="on"
+                        v-if="isAuthenticated && artist.username != loggedInUser.username && hasPaymentInfo">
+                    <v-icon size="22">mdi-hand-heart-outline</v-icon>
+                    </v-btn>
+                    </template>
+                    <span>Support {{artist.username}}</span>
+                </v-tooltip>
             </v-row>
             <v-row class="mt-0">
                 <v-col cols="12" md="6">
@@ -121,6 +134,28 @@
                 <h5>{{artist.username}} has not updated the portfolio yet. </h5>
             </center>   
         </div>
+        <v-dialog v-model="payToArtistDialog" width="450">
+            <v-card class="pa-8 text-center">
+                <img
+                    :height="$vuetify.breakpoint.smAndDown ? 38 : 48"
+                    class="clickable mt-8"
+                    :src="require('@/assets/gebbleslogo_tab.png')"/>
+                    <v-card-title class="justify-center">
+                        <h3 class="font-weight-medium">Support {{artist.artist_name}}</h3>
+                    </v-card-title>
+                    <v-text-field outlined color="primary" v-if="!togglePay"
+                    prepend-icon="mdi-currency-usd"
+                            v-model="supportAmount"
+                    ></v-text-field>
+                    <p v-else>Pay {{supportAmount}} to {{artist.artist_name}}</p>
+                    <!-- <v-spacer></v-spacer> -->
+                    <v-btn class="px-4 text-decoration-none" small color="primary" dark 
+                        @click="payAmount()">Pay</v-btn>
+                    <v-btn color="black" class="px-4 text-decoration-none" small outlined  @click="payToArtistDialog = false">
+                        Cancel
+                    </v-btn>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 <script>
@@ -169,7 +204,11 @@ export default {
             videoId1:'',
             videoId2:'',
             videoId3:'',
-            style:''
+            style:'',
+            supportAmount:10,
+            hasPaymentInfo:true,
+            payToArtistDialog:false,
+            togglePay:false
       }
     },
     created(){
@@ -187,13 +226,20 @@ export default {
         if(url4)
         this.videoId3 = getIdFromURL(url4)
     },
-    // layout: 'username',
     props: ["artist", "bio"],
     components:{
         CountryFlag,
         Youtube
     },
     methods:{
+        openPayToArtistDialog(){
+            //save PayTo details
+            this.payToArtistDialog = true
+        },
+        payAmount(){
+            this.togglePay = !this.togglePay;
+            console.log("pay to artist", this.supportAmount);
+        },
         goback(){
             window.history.back();
         },

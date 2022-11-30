@@ -169,7 +169,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"API_KEY":"1234","AUTH_TOKEN":"hmm not really"}
+      env: {}
     }
     // Only set once
     if (!process.static && context.req) {

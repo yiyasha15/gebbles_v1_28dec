@@ -21,7 +21,7 @@
                 <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
-            <v-list-item-title><nuxt-link class="text-decoration-none" to="e1t1.username">{{e1t1.username}}</nuxt-link></v-list-item-title>
+            <v-list-item-title><nuxt-link class="text-decoration-none" :to="'/'+e1t1.username">{{e1t1.username}}</nuxt-link></v-list-item-title>
             <v-list-item-subtitle>{{emoment(e1t1.created)}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action v-show="loggedInUser.username == e1t1.username">
@@ -192,11 +192,12 @@
                     <h4 class="font-weight-medium" style="text-transform: capitalize;">Upload a video</h4><v-icon small class="pl-1">mdi-play-circle-outline</v-icon>
                 </v-btn>
             </v-col>
+            <!-- {{cookingsfiltered}} -->
             <v-col cols="12">
                 <div v-if="cookingLoaded">
                     <v-layout class="pa-2" v-if="cookingsfiltered.length>0" wrap row justify-start>
                     <div v-for="learn in cookingsfiltered" :key ="learn.index">
-                    <cooking-card :cook= "learn"></cooking-card>
+                    <cooking-card :cook= "learn" @postDelete="postDelete"></cooking-card>
                     </div>   
                     </v-layout>
                 </div>
@@ -276,7 +277,7 @@ export default {
         let videoId = getIdFromURL(url1) //getting id from video url
         this.videoId = videoId //assigning the id to <youtube> video id
         } 
-        this.get_cookings_filtered(this.e1t1.username,this.e1t1.id);
+        this.get_cookings_filtered(this.e1t1.id);
     },
     mounted() {
         if(this.isAuthenticated)
@@ -379,16 +380,23 @@ export default {
         emoment(date){
            return moment(date).fromNow()
         },
-        get_cookings_filtered(username,id){
+        postDelete(){
+        this.cookings=[];
+        this.cookingsfiltered=[];
+        // this.page =''
+        this.firstLoad = true
+        this.get_cookings_filtered(this.e1t1.id);
+        },
+        get_cookings_filtered(id){
             // console.log("filtering..",username,id);
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": this.$auth.strategy.token.get()}
             };
-            EventService.getWhatsCookingUsername(config).then(res =>
+            EventService.getWhatsCooking(config).then(res =>
             {
                 this.cookings = res.data
-                // console.log(this.cookings);
+                console.log(this.cookings);
                 if(this.cookings.length>0)
                 {
                 let taggedteacherpresent = this.cookings.filter(obj => obj.taggedteachers.length>0)

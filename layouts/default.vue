@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import TheHeader from '@/components/TheHeader'
+// import TheHeader from '@/components/TheHeader'
 import TheFooter from '@/components/TheFooter'
 import Dashboard from '~/components/Dashboard.vue'
 export default {
   components:{
-    TheHeader,
+    // TheHeader,
     TheFooter,
     Dashboard
   },
