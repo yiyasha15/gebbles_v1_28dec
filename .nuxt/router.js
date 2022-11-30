@@ -4,57 +4,57 @@ import { normalizeURL, decode } from '@nuxt/ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _5332840a = () => interopDefault(import('..\\pages\\artists\\index.vue' /* webpackChunkName: "pages/artists/index" */))
-const _7ecd0efd = () => interopDefault(import('..\\pages\\blogs.vue' /* webpackChunkName: "pages/blogs" */))
-const _c5deb066 = () => interopDefault(import('..\\pages\\blogs.vue\\index.vue' /* webpackChunkName: "pages/blogs.vue/index" */))
-const _7494ace8 = () => interopDefault(import('..\\pages\\contact.vue' /* webpackChunkName: "pages/contact" */))
-const _5fe5a442 = () => interopDefault(import('..\\pages\\create\\index.vue' /* webpackChunkName: "pages/create/index" */))
-const _748d8382 = () => interopDefault(import('..\\pages\\dashboard\\index.vue' /* webpackChunkName: "pages/dashboard/index" */))
-const _06f10716 = () => interopDefault(import('..\\pages\\e1t1\\index.vue' /* webpackChunkName: "pages/e1t1/index" */))
-const _6b7b2005 = () => interopDefault(import('..\\pages\\events\\index.vue' /* webpackChunkName: "pages/events/index" */))
-const _5bc62ddd = () => interopDefault(import('..\\pages\\help\\index.vue' /* webpackChunkName: "pages/help/index" */))
-const _68c3e177 = () => interopDefault(import('..\\pages\\journeys.vue' /* webpackChunkName: "pages/journeys" */))
-const _45e36556 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages/login" */))
-const _11cc65ce = () => interopDefault(import('..\\pages\\logout.vue' /* webpackChunkName: "pages/logout" */))
-const _b282e8c6 = () => interopDefault(import('..\\pages\\mypayments.vue' /* webpackChunkName: "pages/mypayments" */))
-const _66d09fdf = () => interopDefault(import('..\\pages\\onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
-const _7048263e = () => interopDefault(import('..\\pages\\passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
-const _1ce1b4f4 = () => interopDefault(import('..\\pages\\privacy.vue' /* webpackChunkName: "pages/privacy" */))
-const _41aa4f67 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
-const _53ed39e9 = () => interopDefault(import('..\\pages\\setpassword.vue' /* webpackChunkName: "pages/setpassword" */))
-const _7163c632 = () => interopDefault(import('..\\pages\\settings.vue' /* webpackChunkName: "pages/settings" */))
-const _56ca123e = () => interopDefault(import('..\\pages\\subscription.vue' /* webpackChunkName: "pages/subscription" */))
-const _85372f1a = () => interopDefault(import('..\\pages\\terms.vue' /* webpackChunkName: "pages/terms" */))
-const _8801a7ac = () => interopDefault(import('..\\pages\\whatiscooking\\index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
-const _eefe096c = () => interopDefault(import('..\\pages\\workshops\\index.vue' /* webpackChunkName: "pages/workshops/index" */))
-const _22567b74 = () => interopDefault(import('..\\pages\\write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
-const _0471277e = () => interopDefault(import('..\\pages\\artists\\legacy.vue' /* webpackChunkName: "pages/artists/legacy" */))
-const _5f50251c = () => interopDefault(import('..\\pages\\create\\each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
-const _dc326bec = () => interopDefault(import('..\\pages\\create\\event.vue' /* webpackChunkName: "pages/create/event" */))
-const _1bc623a0 = () => interopDefault(import('..\\pages\\create\\journey.vue' /* webpackChunkName: "pages/create/journey" */))
-const _7ae616ec = () => interopDefault(import('..\\pages\\create\\uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
-const _6da8398b = () => interopDefault(import('..\\pages\\create\\website.vue' /* webpackChunkName: "pages/create/website" */))
-const _635457c7 = () => interopDefault(import('..\\pages\\create\\workshop.vue' /* webpackChunkName: "pages/create/workshop" */))
-const _e594fc4c = () => interopDefault(import('..\\pages\\help\\admin.vue' /* webpackChunkName: "pages/help/admin" */))
-const _50897c5e = () => interopDefault(import('..\\pages\\help\\getting_started.vue' /* webpackChunkName: "pages/help/getting_started" */))
-const _eebf8a82 = () => interopDefault(import('..\\pages\\help\\thoughts.vue' /* webpackChunkName: "pages/help/thoughts" */))
-const _50b01915 = () => interopDefault(import('..\\pages\\help\\updates.vue' /* webpackChunkName: "pages/help/updates" */))
-const _40503975 = () => interopDefault(import('..\\pages\\blogs.vue\\_id.vue' /* webpackChunkName: "pages/blogs.vue/_id" */))
-const _dbf24786 = () => interopDefault(import('..\\pages\\e1t1\\_uuid.vue' /* webpackChunkName: "pages/e1t1/_uuid" */))
-const _00fa7fcd = () => interopDefault(import('..\\pages\\events\\_uuid.vue' /* webpackChunkName: "pages/events/_uuid" */))
-const _517e8bf2 = () => interopDefault(import('..\\pages\\whatiscooking\\_uuid.vue' /* webpackChunkName: "pages/whatiscooking/_uuid" */))
-const _1e005b12 = () => interopDefault(import('..\\pages\\workshops\\_uuid.vue' /* webpackChunkName: "pages/workshops/_uuid" */))
-const _1366aa3e = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
-const _07ccc821 = () => interopDefault(import('..\\pages\\_username.vue' /* webpackChunkName: "pages/_username" */))
-const _2c1b5541 = () => interopDefault(import('..\\pages\\_username\\index.vue' /* webpackChunkName: "pages/_username/index" */))
-const _0c637a7c = () => interopDefault(import('..\\pages\\_username\\about.vue' /* webpackChunkName: "pages/_username/about" */))
-const _ccd8c572 = () => interopDefault(import('..\\pages\\_username\\each1teach1\\index.vue' /* webpackChunkName: "pages/_username/each1teach1/index" */))
-const _691e873a = () => interopDefault(import('..\\pages\\_username\\events.vue' /* webpackChunkName: "pages/_username/events" */))
-const _f0ab4922 = () => interopDefault(import('..\\pages\\_username\\journey.vue' /* webpackChunkName: "pages/_username/journey" */))
-const _2b658369 = () => interopDefault(import('..\\pages\\_username\\myhood.vue' /* webpackChunkName: "pages/_username/myhood" */))
-const _96840152 = () => interopDefault(import('..\\pages\\_username\\notifications.vue' /* webpackChunkName: "pages/_username/notifications" */))
-const _63f82c0e = () => interopDefault(import('..\\pages\\_username\\videos.vue' /* webpackChunkName: "pages/_username/videos" */))
-const _72c95bbb = () => interopDefault(import('..\\pages\\_username\\workshops.vue' /* webpackChunkName: "pages/_username/workshops" */))
+const _4b70d026 = () => interopDefault(import('../pages/artists/index.vue' /* webpackChunkName: "pages/artists/index" */))
+const _f0e017b0 = () => interopDefault(import('../pages/blogs.vue' /* webpackChunkName: "pages/blogs" */))
+const _ef986d7a = () => interopDefault(import('../pages/blogs.vue/index.vue' /* webpackChunkName: "pages/blogs.vue/index" */))
+const _ad582012 = () => interopDefault(import('../pages/contact.vue' /* webpackChunkName: "pages/contact" */))
+const _6ba44338 = () => interopDefault(import('../pages/create/index.vue' /* webpackChunkName: "pages/create/index" */))
+const _0afbba24 = () => interopDefault(import('../pages/dashboard/index.vue' /* webpackChunkName: "pages/dashboard/index" */))
+const _74cdb1e5 = () => interopDefault(import('../pages/e1t1/index.vue' /* webpackChunkName: "pages/e1t1/index" */))
+const _514279d6 = () => interopDefault(import('../pages/events/index.vue' /* webpackChunkName: "pages/events/index" */))
+const _18819906 = () => interopDefault(import('../pages/help/index.vue' /* webpackChunkName: "pages/help/index" */))
+const _0e232f28 = () => interopDefault(import('../pages/journeys.vue' /* webpackChunkName: "pages/journeys" */))
+const _345d9b00 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
+const _21662603 = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
+const _5339ad5c = () => interopDefault(import('../pages/mypayments.vue' /* webpackChunkName: "pages/mypayments" */))
+const _d31584d8 = () => interopDefault(import('../pages/onboarding.vue' /* webpackChunkName: "pages/onboarding" */))
+const _94569f2e = () => interopDefault(import('../pages/passwordrenew.vue' /* webpackChunkName: "pages/passwordrenew" */))
+const _007ffb5f = () => interopDefault(import('../pages/privacy.vue' /* webpackChunkName: "pages/privacy" */))
+const _5c565348 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
+const _18dc52d4 = () => interopDefault(import('../pages/setpassword.vue' /* webpackChunkName: "pages/setpassword" */))
+const _5778a3dc = () => interopDefault(import('../pages/settings.vue' /* webpackChunkName: "pages/settings" */))
+const _a4e20954 = () => interopDefault(import('../pages/subscription.vue' /* webpackChunkName: "pages/subscription" */))
+const _73b164c4 = () => interopDefault(import('../pages/terms.vue' /* webpackChunkName: "pages/terms" */))
+const _25fb17c6 = () => interopDefault(import('../pages/whatiscooking/index.vue' /* webpackChunkName: "pages/whatiscooking/index" */))
+const _5c46dbb4 = () => interopDefault(import('../pages/workshops/index.vue' /* webpackChunkName: "pages/workshops/index" */))
+const _1e795ffb = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
+const _0d52a3a5 = () => interopDefault(import('../pages/artists/legacy.vue' /* webpackChunkName: "pages/artists/legacy" */))
+const _125d3392 = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
+const _c4b52e00 = () => interopDefault(import('../pages/create/event.vue' /* webpackChunkName: "pages/create/event" */))
+const _08afa7a6 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
+const _759a0300 = () => interopDefault(import('../pages/create/uploadvideo.vue' /* webpackChunkName: "pages/create/uploadvideo" */))
+const _f78a19fe = () => interopDefault(import('../pages/create/website.vue' /* webpackChunkName: "pages/create/website" */))
+const _1f18cd11 = () => interopDefault(import('../pages/create/workshop.vue' /* webpackChunkName: "pages/create/workshop" */))
+const _252e877a = () => interopDefault(import('../pages/help/admin.vue' /* webpackChunkName: "pages/help/admin" */))
+const _12e1bf71 = () => interopDefault(import('../pages/help/getting_started.vue' /* webpackChunkName: "pages/help/getting_started" */))
+const _76d45dc2 = () => interopDefault(import('../pages/help/thoughts.vue' /* webpackChunkName: "pages/help/thoughts" */))
+const _63039296 = () => interopDefault(import('../pages/help/updates.vue' /* webpackChunkName: "pages/help/updates" */))
+const _5999406b = () => interopDefault(import('../pages/blogs.vue/_id.vue' /* webpackChunkName: "pages/blogs.vue/_id" */))
+const _0a4d11ad = () => interopDefault(import('../pages/e1t1/_uuid.vue' /* webpackChunkName: "pages/e1t1/_uuid" */))
+const _6cde22dd = () => interopDefault(import('../pages/events/_uuid.vue' /* webpackChunkName: "pages/events/_uuid" */))
+const _890b10e4 = () => interopDefault(import('../pages/whatiscooking/_uuid.vue' /* webpackChunkName: "pages/whatiscooking/_uuid" */))
+const _675bf1ee = () => interopDefault(import('../pages/workshops/_uuid.vue' /* webpackChunkName: "pages/workshops/_uuid" */))
+const _1c298f69 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _7cf31fcc = () => interopDefault(import('../pages/_username.vue' /* webpackChunkName: "pages/_username" */))
+const _51b8c562 = () => interopDefault(import('../pages/_username/index.vue' /* webpackChunkName: "pages/_username/index" */))
+const _91287aec = () => interopDefault(import('../pages/_username/about.vue' /* webpackChunkName: "pages/_username/about" */))
+const _4ed997a8 = () => interopDefault(import('../pages/_username/each1teach1/index.vue' /* webpackChunkName: "pages/_username/each1teach1/index" */))
+const _1f1f40ec = () => interopDefault(import('../pages/_username/events.vue' /* webpackChunkName: "pages/_username/events" */))
+const _dc7e5006 = () => interopDefault(import('../pages/_username/journey.vue' /* webpackChunkName: "pages/_username/journey" */))
+const _3d3385ca = () => interopDefault(import('../pages/_username/myhood.vue' /* webpackChunkName: "pages/_username/myhood" */))
+const _32bc5965 = () => interopDefault(import('../pages/_username/notifications.vue' /* webpackChunkName: "pages/_username/notifications" */))
+const _f7f6b8aa = () => interopDefault(import('../pages/_username/videos.vue' /* webpackChunkName: "pages/_username/videos" */))
+const _5132ecc9 = () => interopDefault(import('../pages/_username/workshops.vue' /* webpackChunkName: "pages/_username/workshops" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -74,206 +74,206 @@ export const routerOptions = {
 
   routes: [{
     path: "/artists",
-    component: _5332840a,
+    component: _4b70d026,
     name: "artists"
   }, {
     path: "/blogs",
-    component: _7ecd0efd,
+    component: _f0e017b0,
     name: "blogs"
   }, {
     path: "/blogs.vue",
-    component: _c5deb066,
+    component: _ef986d7a,
     name: "blogs.vue"
   }, {
     path: "/contact",
-    component: _7494ace8,
+    component: _ad582012,
     name: "contact"
   }, {
     path: "/create",
-    component: _5fe5a442,
+    component: _6ba44338,
     name: "create"
   }, {
     path: "/dashboard",
-    component: _748d8382,
+    component: _0afbba24,
     name: "dashboard"
   }, {
     path: "/e1t1",
-    component: _06f10716,
+    component: _74cdb1e5,
     name: "e1t1"
   }, {
     path: "/events",
-    component: _6b7b2005,
+    component: _514279d6,
     name: "events"
   }, {
     path: "/help",
-    component: _5bc62ddd,
+    component: _18819906,
     name: "help"
   }, {
     path: "/journeys",
-    component: _68c3e177,
+    component: _0e232f28,
     name: "journeys"
   }, {
     path: "/login",
-    component: _45e36556,
+    component: _345d9b00,
     name: "login"
   }, {
     path: "/logout",
-    component: _11cc65ce,
+    component: _21662603,
     name: "logout"
   }, {
     path: "/mypayments",
-    component: _b282e8c6,
+    component: _5339ad5c,
     name: "mypayments"
   }, {
     path: "/onboarding",
-    component: _66d09fdf,
+    component: _d31584d8,
     name: "onboarding"
   }, {
     path: "/passwordrenew",
-    component: _7048263e,
+    component: _94569f2e,
     name: "passwordrenew"
   }, {
     path: "/privacy",
-    component: _1ce1b4f4,
+    component: _007ffb5f,
     name: "privacy"
   }, {
     path: "/register",
-    component: _41aa4f67,
+    component: _5c565348,
     name: "register"
   }, {
     path: "/setpassword",
-    component: _53ed39e9,
+    component: _18dc52d4,
     name: "setpassword"
   }, {
     path: "/settings",
-    component: _7163c632,
+    component: _5778a3dc,
     name: "settings"
   }, {
     path: "/subscription",
-    component: _56ca123e,
+    component: _a4e20954,
     name: "subscription"
   }, {
     path: "/terms",
-    component: _85372f1a,
+    component: _73b164c4,
     name: "terms"
   }, {
     path: "/whatiscooking",
-    component: _8801a7ac,
+    component: _25fb17c6,
     name: "whatiscooking"
   }, {
     path: "/workshops",
-    component: _eefe096c,
+    component: _5c46dbb4,
     name: "workshops"
   }, {
     path: "/write_blog",
-    component: _22567b74,
+    component: _1e795ffb,
     name: "write_blog"
   }, {
     path: "/artists/legacy",
-    component: _0471277e,
+    component: _0d52a3a5,
     name: "artists-legacy"
   }, {
     path: "/create/each1teach1",
-    component: _5f50251c,
+    component: _125d3392,
     name: "create-each1teach1"
   }, {
     path: "/create/event",
-    component: _dc326bec,
+    component: _c4b52e00,
     name: "create-event"
   }, {
     path: "/create/journey",
-    component: _1bc623a0,
+    component: _08afa7a6,
     name: "create-journey"
   }, {
     path: "/create/uploadvideo",
-    component: _7ae616ec,
+    component: _759a0300,
     name: "create-uploadvideo"
   }, {
     path: "/create/website",
-    component: _6da8398b,
+    component: _f78a19fe,
     name: "create-website"
   }, {
     path: "/create/workshop",
-    component: _635457c7,
+    component: _1f18cd11,
     name: "create-workshop"
   }, {
     path: "/help/admin",
-    component: _e594fc4c,
+    component: _252e877a,
     name: "help-admin"
   }, {
     path: "/help/getting_started",
-    component: _50897c5e,
+    component: _12e1bf71,
     name: "help-getting_started"
   }, {
     path: "/help/thoughts",
-    component: _eebf8a82,
+    component: _76d45dc2,
     name: "help-thoughts"
   }, {
     path: "/help/updates",
-    component: _50b01915,
+    component: _63039296,
     name: "help-updates"
   }, {
     path: "/blogs.vue/:id",
-    component: _40503975,
+    component: _5999406b,
     name: "blogs.vue-id"
   }, {
     path: "/e1t1/:uuid",
-    component: _dbf24786,
+    component: _0a4d11ad,
     name: "e1t1-uuid"
   }, {
     path: "/events/:uuid",
-    component: _00fa7fcd,
+    component: _6cde22dd,
     name: "events-uuid"
   }, {
     path: "/whatiscooking/:uuid",
-    component: _517e8bf2,
+    component: _890b10e4,
     name: "whatiscooking-uuid"
   }, {
     path: "/workshops/:uuid",
-    component: _1e005b12,
+    component: _675bf1ee,
     name: "workshops-uuid"
   }, {
     path: "/",
-    component: _1366aa3e,
+    component: _1c298f69,
     name: "index"
   }, {
     path: "/:username",
-    component: _07ccc821,
+    component: _7cf31fcc,
     children: [{
       path: "",
-      component: _2c1b5541,
+      component: _51b8c562,
       name: "username"
     }, {
       path: "about",
-      component: _0c637a7c,
+      component: _91287aec,
       name: "username-about"
     }, {
       path: "each1teach1",
-      component: _ccd8c572,
+      component: _4ed997a8,
       name: "username-each1teach1"
     }, {
       path: "events",
-      component: _691e873a,
+      component: _1f1f40ec,
       name: "username-events"
     }, {
       path: "journey",
-      component: _f0ab4922,
+      component: _dc7e5006,
       name: "username-journey"
     }, {
       path: "myhood",
-      component: _2b658369,
+      component: _3d3385ca,
       name: "username-myhood"
     }, {
       path: "notifications",
-      component: _96840152,
+      component: _32bc5965,
       name: "username-notifications"
     }, {
       path: "videos",
-      component: _63f82c0e,
+      component: _f7f6b8aa,
       name: "username-videos"
     }, {
       path: "workshops",
-      component: _72c95bbb,
+      component: _5132ecc9,
       name: "username-workshops"
     }]
   }],
