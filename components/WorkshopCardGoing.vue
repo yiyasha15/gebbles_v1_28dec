@@ -9,9 +9,10 @@
         :max-height="card_height"
         @click="workshopDialog=true"
       >
-        <v-img
-          v-if = workshop.workshop.poster :src = "workshop.workshop.poster" 
-          :lazy-src= "workshop.workshop.poster" 
+      {{workshop}}
+        <!-- <v-img
+          v-if = workshop.workshop.poster 
+          :src = "workshop.workshop.poster" 
           :height="img_height"
           :width="card_width">
           <v-btn icon small class="float-right ma-1 white" 
@@ -43,12 +44,13 @@
           </div>
           <v-spacer></v-spacer>
           <country-flag size=small  :country= 'workshop.workshop.country' />
-        </v-card-actions>
+        </v-card-actions> -->
         <v-dialog
           :retain-focus="false"
           v-model="workshopDialog"
           width="480px" 
           persistent>
+          {{workshop}}
           <v-container class="rounded-lg white pa-4">
             <v-row align="end" justify="end" class="pa-0 ma-0" >
             <v-btn icon  color="error" class="float-right" @click="workshopDialog =false; ">

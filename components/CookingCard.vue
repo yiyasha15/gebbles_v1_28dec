@@ -7,6 +7,7 @@
       outlined
       :width="card_width" 
       :max-height="card_height">
+      <!-- <youtube :width="card_width" :height="img_height" :video-id= 'videoId' v-if="videoId"></youtube> -->
     <v-img v-if="cook.thumbjs"
       :src="cook.thumbjs"
       :height="img_height"
@@ -33,7 +34,9 @@
   </v-hover>
 </template>
 <script>
+import { Youtube } from 'vue-youtube';
 import CookingFeed from '@/components/CookingFeed.vue'
+import { getIdFromURL } from 'vue-youtube-embed'
     export default {
         head() {  
         return {
@@ -45,18 +48,22 @@ import CookingFeed from '@/components/CookingFeed.vue'
             cook: Object
         },
         components: {
-          CookingFeed
+          CookingFeed, Youtube
         },
         created(){
           let yt_re =/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/
           let url =this.$props.cook.video 
+          console.log(url);
           if(yt_re.test(url))
           {
             this.youtube_thumb = this.getThumb(url);
+            this.videoId = getIdFromURL(url) 
           }
+          
         },
         data() {
           return {
+            videoId:'',
             dialog:false,
             youtube_thumb:''
           }
@@ -97,11 +104,15 @@ import CookingFeed from '@/components/CookingFeed.vue'
             this.$emit("postDelete");
           },
           getThumb(url){
+            // const videoId = url.split("v=")[1]; 
             let results = url.match('[\\?&]v=([^&#]*)');
             let video   = (results === null) ? url : results[1];
-            let big_thumb ='http://img.youtube.com/vi/' + video + '/0.jpg';
-            let thumb = 'http://img.youtube.com/vi/' + video + '/2.jpg';
-            return big_thumb;
+
+            const imageURL = `https://img.youtube.com/vi/${video}/hqdefault.jpg`; 
+            // let big_thumb ='http://img.youtube.com/vi/' + video + '/0.jpg';
+            // let thumb = 'http://img.youtube.com/vi/' + video + '/2.jpg';
+            // console.log(big_thumb, thumb);
+            return imageURL;
           }
         }
     }

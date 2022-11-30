@@ -85,6 +85,9 @@ export default {
     getWhatsCooking() {
         return apiClient1.get('/whatiscooking/list/')
     },
+    getLatestCookings(){
+        return apiClient1.get('/whatiscooking/latest_cookings/')
+    },
     getWhatsCookingId(uuid) {
         return apiClient1.get('/whatiscooking/list/'+ uuid)
     },
