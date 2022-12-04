@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[26],{939:function(n,t,e){"use strict";e.r(t);var l=e(20),o=e(22),r=e.n(o),c=e(452),component=Object(l.a)({},(function(){var n=this.$createElement,t=this._self._c||n;return t("v-container",[t("h1",[this._v("Blog title")])])}),[],!1,null,null,null);t.default=component.exports;r()(component,{VContainer:c.a})}}]);
