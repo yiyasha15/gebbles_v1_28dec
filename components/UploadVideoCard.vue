@@ -162,6 +162,7 @@ methods:{
             for (let data in this.cookingForm) {
                 formData.append(data, this.cookingForm[data]);
             }
+            //if shorts make default videos
             this.$axios.$post("/v1/whatiscooking/cooking/", formData, config).then((res) => {
                 if(this.selectedTeachers.length){
                     for (let data of this.selectedTeachers){
@@ -170,10 +171,7 @@ methods:{
                     formData.append("cookingidobj",res.id)
                     formData.append("shareidobj",data)
                     formData.append("idea",data)
-                    this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
-
-                        this.progressbar = false
-                    })
+                    this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config)
                 }
                 }else console.log("no teachers");
                 this.progressbar = false
@@ -260,9 +258,14 @@ methods:{
                     formData.append("cookingidobj", this.cook_obj.id)
                     formData.append("shareidobj",newArray[i])
                     formData.append("idea",newArray[i])
-                    await this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
+                    try {
+                        await this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
                         console.log("added teacher",res);
                     })
+                    } catch (error) {
+                        console.log(error);
+                        
+                    }
                 }
 
             }

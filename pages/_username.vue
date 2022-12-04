@@ -33,14 +33,30 @@
             <template v-if="isAuthenticated">
             <plus-button v-if="userHasPortfolio"></plus-button>
             <!-- {{notifications_notseen}} -->
-            <v-btn small v-if="userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
+            <!-- <v-btn small v-if="userHasPortfolio && notifications_notseen>0" icon dark color="black" class="mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
             <v-badge color="error" overlap :content='notifications_notseen'>
             <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
             </v-badge>
             </v-btn>
             <v-btn small v-if="userHasPortfolio && notifications_notseen==0" icon dark color="black" class="mr-sm-2 mr-md-3 mx-1 text-decoration-none" :to= "`/${loggedInUser.username}/notifications`">
             <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
-            </v-btn>
+            </v-btn> -->
+            <v-menu transition="slide-y-transition" offset-y bottom left>
+                <template v-slot:activator="{ on, attrs }">
+                <div v-bind="attrs"
+                v-on="on">
+                <v-btn small v-if="userHasPortfolio && notifications_notseen>0" icon dark color="black" class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none">
+                <v-badge color="error" overlap :content='notifications_notseen'>
+                <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
+                </v-badge>
+                </v-btn>
+                <v-btn small v-if="userHasPortfolio && notifications_notseen==0" icon dark color="black" class=" mr-sm-2 mr-md-3 mx-1 text-decoration-none">
+                <v-icon size="26" color="black">mdi-heart-circle-outline</v-icon>
+                </v-btn>
+                </div>
+                </template>
+                <NotificationBox></NotificationBox>
+            </v-menu>
             <right-navigation></right-navigation>
             </template>
             <register-login v-else></register-login>
@@ -271,6 +287,7 @@ import TheHeader from '@/components/TheHeader.vue'
 import RightNavigation from '~/components/RightNavigation.vue'
 import PlusButton from '~/components/PlusButton.vue'
 import RegisterLogin from '~/components/RegisterLogin.vue'
+import NotificationBox from '~/components/NotificationBox.vue'
 export default {
     head() {
         return {
@@ -730,7 +747,8 @@ export default {
     TheHeader,
     RightNavigation,
     PlusButton,
-    RegisterLogin
+    RegisterLogin,
+    NotificationBox
 },
     
 }
