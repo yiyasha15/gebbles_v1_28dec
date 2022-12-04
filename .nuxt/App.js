@@ -2,16 +2,11 @@ import Vue from 'vue'
 
 import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch, promisify, globalHandleError, urlJoin, sanitizeComponent } from './utils'
 import NuxtError from '../layouts/error.vue'
-import NuxtError from '../layouts/error.vue'
 import NuxtLoading from './components/nuxt-loading.vue'
 
 import '../assets/style.css'
-import '../assets/style.css'
 
 import '../layouts/global.css'
-import '../layouts/global.css'
-
-import '../node_modules/vuetify/dist/vuetify.css'
 
 import _6f6c098b from '../layouts/default.vue'
 import _ee76a6e4 from '../layouts/signup.vue'
