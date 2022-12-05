@@ -66,18 +66,26 @@
             <v-col cols="12" sm="6" align="center" justify="center" class="d-flex align-content-center flex-wrap">
                 <v-img :src = "workshop.poster" class="black" maxHeight="540px" contain ></v-img>
             </v-col>
-            <v-col cols="12" sm="6" justify="center" > 
+
+            <v-col cols="12" sm="6" justify="center" >
+                <!-- {{workshop.created}} -->
             <!-- <h5 class="caption font-weight-light">{{moment(workshop.created)}} </h5> -->
             <h1 class="font-weight-medium display-1">{{workshop.title}}</h1>
             <h4 v-if="workshop.start_date" class="red--text mt-2 font-weight-medium " > 
-                <v-icon class="mr-2" >mdi-calendar</v-icon> {{moment(workshop.start_date)}}
+                <nuxt-link :to='"/events/"+ workshop.event' class="text-decoration-none"><v-icon class="mr-2" >mdi-calendar</v-icon></nuxt-link> {{moment(workshop.start_date)}}
             </h4>
             <h4 v-if="workshop.datetime" class="red--text font-weight-medium mt-2"> 
                 <v-icon class="mr-2" >mdi-clock-outline</v-icon> {{workshop.datetime}}</h4>
-            <h4 v-if=" workshop.venue || workshop.country" class="mr-2 mt-2 font-weight-medium " >
+
+            <h4 v-if=" workshop.venue || workshop.country" class="mr-2 mt-2 font-weight-medium" >
                 <v-icon class="mr-2">mdi-map-marker-outline</v-icon>
                 {{workshop.venue}}<span v-if="workshop.venue && workshop.country">, 
                     </span> {{countryIs(workshop.country)}}</h4>
+            <div @click="dialog=true" v-if="workshop.teacher1" class="text-decoration-none cursor">
+                <h4 v-if="workshop.name1" class="mr-2 mt-2 font-weight-medium"><v-icon class="mr-2" >mdi-account-outline</v-icon>{{workshop.name1}}</h4>
+            </div>
+            <h4 v-else class="mr-2 mt-2 font-weight-medium"><v-icon class="mr-2" >mdi-account-outline</v-icon>{{workshop.name1}}</h4>
+            
             <div class="py-4 py-md-6">
             <v-btn v-if="!imgoing" small class="elevation-0 text-decoration-none " color="#815A44" outlined @click="imgoingApi">
                 <h4 class="font-weight-medium" style="text-transform: capitalize;"> <v-icon small class="pr-2">mdi-hand-back-left-outline</v-icon>Going</h4>
@@ -88,36 +96,7 @@
             <p v-if="goingList && goingList.length>0" class="hover font-weight-medium mt-4 mb-0" @click="showGoingList =true">{{goingList.length}}<span v-if="goingList.length==1"> person</span> <span v-else> people</span> joining</p>
 
             </div>
-            <nuxt-link :to='"/events/"+ workshop.event' class="text-decoration-none"><v-icon class="mr-2" >mdi-calendar</v-icon></nuxt-link>
-            <v-dialog
-                :retain-focus="false"
-                v-model="showGoingList"
-                width="480px" 
-                persistent>
-                <v-container class="rounded-lg white pa-4">
-                <v-row align="end" justify="end" class="pa-0 ma-0" >
-                <v-btn icon  color="error" class="float-right" @click="showGoingList =false;">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-                </v-row>
-                <p class="px-2">People attending</p>
-                <v-text-field label="check em out" v-model= "search" solo rounded class="px-2"
-                prepend-inner-icon="mdi-magnify"
-                ></v-text-field>
-                <div v-for="people in filterPeople" :key="people.uuid" class="mb-2 mb-md-4 px-2">
-                    <nuxt-link v-if="people.artist && people.artist.username" :to="'/'+people.artist.username" class="text-decoration-none"><v-avatar size="26px" v-if="people.artist && people.artist.thumb">
-                        <v-img :src="people.artist.thumb"></v-img>
-                    </v-avatar>
-                    <span class="pl-2">{{people.artist.artist_name}}</span></nuxt-link>
-                    <p v-else>{{people.username}} </p>
-                </div>
-                </v-container>
-            </v-dialog> 
-            <nuxt-link :to="'/' + workshop.teacher1" v-if=" workshop.teacher1" class="text-decoration-none">
-                <h3 v-if="workshop.name1" class="font-weight-light ">{{workshop.name1}}</h3>
-            </nuxt-link>
-            <h3 v-else class="font-weight-light ">{{workshop.name1}}</h3>
-                <p v-if="workshop.content" class="font-weight-light text-pre-wrap about_content ">{{workshop.content}}</p>
+            <h4 v-if="workshop.content" class="font-weight-light text-pre-wrap about_content ">{{workshop.content}}</h4>
             </v-col>
         </v-row>
         <div v-if="videoId" class="mt-md-10 mt-4">
@@ -138,6 +117,47 @@
             </v-btn>
         </v-row>
         </v-container>
+        <v-dialog
+        :retain-focus="false"
+        v-model="dialog"
+        width="480px" 
+        persistent>
+        <v-container class="rounded-lg white pa-4">
+          <v-row align="end" justify="end" class="pa-0 ma-0" >
+          <v-btn icon  color="error" class="float-right" @click="dialog =false; ">
+              <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-row>
+        <v-img class="my-4 mx-auto" v-if="workshop.profile_photo"  max-height="400px" contain :src="workshop.profile_photo"></v-img>
+        <nuxt-link v-if="workshop.teacher1 && typeof workshop.teacher1 == 'object'" :to="'/' + workshop.teacher1" class="primary--text text-decoration-none" > <h3 class="font-weight-medium d-inline">{{guest.name}}</h3></nuxt-link>
+        <h3 v-else class="font-weight-medium  d-inline">{{workshop.name1}}</h3><span class="d-inline float-right "> <country-flag size='normal' :country= 'workshop.country1' /> </span>
+        <h4 class="font-weight-light mt-3 mt-md-5 text-pre-wrap guest_info" >{{workshop.info1}}</h4>
+        </v-container>
+        </v-dialog> 
+        <v-dialog
+            :retain-focus="false"
+            v-model="showGoingList"
+            width="480px" 
+            persistent>
+            <v-container class="rounded-lg white pa-4">
+            <v-row align="end" justify="end" class="pa-0 ma-0" >
+            <v-btn icon  color="error" class="float-right" @click="showGoingList =false;">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+            </v-row>
+            <p class="px-2">People attending</p>
+            <v-text-field label="check em out" v-model= "search" solo rounded class="px-2"
+            prepend-inner-icon="mdi-magnify"
+            ></v-text-field>
+            <div v-for="people in filterPeople" :key="people.uuid" class="mb-2 mb-md-4 px-2">
+                <nuxt-link v-if="people.artist && people.artist.username" :to="'/'+people.artist.username" class="text-decoration-none"><v-avatar size="26px" v-if="people.artist && people.artist.thumb">
+                    <v-img :src="people.artist.thumb"></v-img>
+                </v-avatar>
+                <span class="pl-2">{{people.artist.artist_name}}</span></nuxt-link>
+                <p v-else>{{people.username}} </p>
+            </div>
+            </v-container>
+        </v-dialog> 
         <v-snackbar v-model="going_snackbar">
             Great, see you there.
         </v-snackbar>
@@ -154,6 +174,7 @@
 </template>
 
 <script>
+import CountryFlag from 'vue-country-flag'
 import EventService from '@/services/EventService.js'
 import { mapGetters } from 'vuex'
 import { Youtube } from 'vue-youtube';
@@ -187,11 +208,13 @@ export default {
     },
     components:{
         Youtube,
-        GuestCard
+        GuestCard,
+        CountryFlag
     },
     data(){
           return {
                 search:'',
+                dialog:false,
                 deletedialog:false,
                 deleteLoading:false,
                 looploader:[1,1,1,1,1,1],
