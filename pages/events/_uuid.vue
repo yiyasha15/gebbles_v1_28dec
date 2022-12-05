@@ -34,6 +34,15 @@
                     <v-list>
                         <v-list-item
                         class="text-decoration-none pl-5 pr-8"
+                        @click="winnerDialog=true"
+                        >
+                        <v-list-item-icon>
+                        <v-icon>mdi-trophy-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Add winners</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item
+                        class="text-decoration-none pl-5 pr-8"
                         @click="editEvent(event)"
                         >
                         <v-list-item-icon>
@@ -151,7 +160,11 @@
             <category-card :category="category" :poster="event.poster"></category-card>
             </v-col>
         </v-row>
-        <h2 class="my-6">Social handles</h2>
+        <!-- <h2 class="my-6 font-weight-medium">Winners</h2>
+        <v-row class="mb-md-12 mb-6" >
+            
+        </v-row> -->
+        <h2 class="my-6 font-weight-medium">Social handles</h2>
         <v-row class="mb-md-12 mb-6" >
             <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
@@ -177,7 +190,7 @@
                 <span>{{event.contact_email}}</span>
             </v-tooltip>
         </v-row>
-        <h2 v-if="event_guests_team.length>0" class="my-6">Team</h2>
+        <h2 v-if="event_guests_team.length>0" class="my-6 font-weight-medium">Team</h2>
         <v-row class="ma-0" >
             <v-col cols="6" sm="4" v-for="guest in event_guests_team" :key ="guest.index" class="pa-1">
             <guest-card :guest="guest" :poster="event.poster"></guest-card>
@@ -235,6 +248,19 @@
                     </div>
                 </Slider>
                 </client-only>
+            </v-row>
+            </div>
+        </v-dialog>
+        <v-dialog
+            max-width="800"
+            v-model="winnerDialog"
+            persistent
+            class="ma-12 ma-md-24 overflow-hidden">
+            <div class="rounded-lg white" max-width="800"> 
+            <v-row align="end" justify="end" class="pt-3 px-2 ma-0 " >
+            <v-btn icon color="error" @click="winnerDialog = false"  align="end" justify="end" >
+                <v-icon >mdi-close</v-icon>
+            </v-btn>
             </v-row>
             </div>
         </v-dialog>
@@ -314,6 +340,16 @@ export default {
             goingForm:{
                 username: "",
                 event:""
+            },
+            winner:{
+                name:'',
+                guest:'',
+                photo:'',
+                country:'',
+                info:'',
+                event:'',
+                uuid:'',
+                username:this.$store.state.auth.user.username
             },
             event:{},
             goingList:[],
@@ -566,6 +602,7 @@ export default {
             {"name": "Zambia", "code": "ZM"},
             {"name": "Zimbabwe", "code": "ZW"}
             ],
+            winnerDialog:false
         }
     },
 	computed: {

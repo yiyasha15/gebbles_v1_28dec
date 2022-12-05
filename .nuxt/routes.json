@@ -2,359 +2,359 @@
   {
     "name": "artists",
     "path": "/artists",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/artists/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\artists\\\\index.vue",
     "chunkName": "pages/artists/index",
-    "_name": "_5a668f6c"
+    "_name": "_5332840a"
   },
   {
     "name": "blogs",
     "path": "/blogs",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/blogs.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\blogs.vue",
     "chunkName": "pages/blogs",
-    "_name": "_2c58404c"
+    "_name": "_7ecd0efd"
   },
   {
     "name": "blogs.vue",
     "path": "/blogs.vue",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/blogs.vue/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\blogs.vue\\\\index.vue",
     "chunkName": "pages/blogs.vue/index",
-    "_name": "_af938f32"
+    "_name": "_c5deb066"
   },
   {
     "name": "contact",
     "path": "/contact",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/contact.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\contact.vue",
     "chunkName": "pages/contact",
-    "_name": "_3d39c31b"
+    "_name": "_7494ace8"
   },
   {
     "name": "create",
     "path": "/create",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\index.vue",
     "chunkName": "pages/create/index",
-    "_name": "_6a4e72d8"
+    "_name": "_5fe5a442"
   },
   {
     "name": "dashboard",
     "path": "/dashboard",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/dashboard/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\dashboard\\\\index.vue",
     "chunkName": "pages/dashboard/index",
-    "_name": "_1a849212"
+    "_name": "_748d8382"
   },
   {
     "name": "e1t1",
     "path": "/e1t1",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/e1t1/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\e1t1\\\\index.vue",
     "chunkName": "pages/e1t1/index",
-    "_name": "_7ac35c41"
+    "_name": "_06f10716"
   },
   {
     "name": "events",
     "path": "/events",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/events/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\events\\\\index.vue",
     "chunkName": "pages/events/index",
-    "_name": "_36934671"
+    "_name": "_6b7b2005"
   },
   {
     "name": "help",
     "path": "/help",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\index.vue",
     "chunkName": "pages/help/index",
-    "_name": "_0c96444e"
+    "_name": "_5bc62ddd"
   },
   {
     "name": "journeys",
     "path": "/journeys",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/journeys.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\journeys.vue",
     "chunkName": "pages/journeys",
-    "_name": "_3c7a0c70"
+    "_name": "_68c3e177"
   },
   {
     "name": "login",
     "path": "/login",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/login.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\login.vue",
     "chunkName": "pages/login",
-    "_name": "_eacd02b8"
+    "_name": "_45e36556"
   },
   {
     "name": "logout",
     "path": "/logout",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/logout.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\logout.vue",
     "chunkName": "pages/logout",
-    "_name": "_15a75e5f"
+    "_name": "_11cc65ce"
   },
   {
     "name": "mypayments",
     "path": "/mypayments",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/mypayments.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\mypayments.vue",
     "chunkName": "pages/mypayments",
-    "_name": "_474e58a4"
+    "_name": "_b282e8c6"
   },
   {
     "name": "onboarding",
     "path": "/onboarding",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/onboarding.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\onboarding.vue",
     "chunkName": "pages/onboarding",
-    "_name": "_c72a3020"
+    "_name": "_66d09fdf"
   },
   {
     "name": "passwordrenew",
     "path": "/passwordrenew",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/passwordrenew.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\passwordrenew.vue",
     "chunkName": "pages/passwordrenew",
-    "_name": "_3d30988d"
+    "_name": "_7048263e"
   },
   {
     "name": "privacy",
     "path": "/privacy",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/privacy.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\privacy.vue",
     "chunkName": "pages/privacy",
-    "_name": "_d73462fa"
+    "_name": "_1ce1b4f4"
   },
   {
     "name": "register",
     "path": "/register",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/register.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\register.vue",
     "chunkName": "pages/register",
-    "_name": "_8aad3090"
+    "_name": "_41aa4f67"
   },
   {
     "name": "setpassword",
     "path": "/setpassword",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/setpassword.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\setpassword.vue",
     "chunkName": "pages/setpassword",
-    "_name": "_5cc81810"
+    "_name": "_53ed39e9"
   },
   {
     "name": "settings",
     "path": "/settings",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/settings.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\settings.vue",
     "chunkName": "pages/settings",
-    "_name": "_404d3538"
+    "_name": "_7163c632"
   },
   {
     "name": "subscription",
     "path": "/subscription",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/subscription.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\subscription.vue",
     "chunkName": "pages/subscription",
-    "_name": "_0cc37eb2"
+    "_name": "_56ca123e"
   },
   {
     "name": "terms",
     "path": "/terms",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/terms.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\terms.vue",
     "chunkName": "pages/terms",
-    "_name": "_6aef99c2"
+    "_name": "_85372f1a"
   },
   {
     "name": "whatiscooking",
     "path": "/whatiscooking",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/whatiscooking/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\whatiscooking\\\\index.vue",
     "chunkName": "pages/whatiscooking/index",
-    "_name": "_d9ad562c"
+    "_name": "_8801a7ac"
   },
   {
     "name": "workshops",
     "path": "/workshops",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/workshops/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\workshops\\\\index.vue",
     "chunkName": "pages/workshops/index",
-    "_name": "_1c41fd6c"
+    "_name": "_eefe096c"
   },
   {
     "name": "write_blog",
     "path": "/write_blog",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/write_blog.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\write_blog.vue",
     "chunkName": "pages/write_blog",
-    "_name": "_246f0a57"
+    "_name": "_22567b74"
   },
   {
     "name": "artists-legacy",
     "path": "/artists/legacy",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/artists/legacy.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\artists\\\\legacy.vue",
     "chunkName": "pages/artists/legacy",
-    "_name": "_7173c001"
+    "_name": "_0471277e"
   },
   {
     "name": "create-each1teach1",
     "path": "/create/each1teach1",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/each1teach1.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\each1teach1.vue",
     "chunkName": "pages/create/each1teach1",
-    "_name": "_0da0c1ee"
+    "_name": "_5f50251c"
   },
   {
     "name": "create-event",
     "path": "/create/event",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/event.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\event.vue",
     "chunkName": "pages/create/event",
-    "_name": "_064c2748"
+    "_name": "_dc326bec"
   },
   {
     "name": "create-journey",
     "path": "/create/journey",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/journey.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\journey.vue",
     "chunkName": "pages/create/journey",
-    "_name": "_6cd0c402"
+    "_name": "_1bc623a0"
   },
   {
     "name": "create-uploadvideo",
     "path": "/create/uploadvideo",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/uploadvideo.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\uploadvideo.vue",
     "chunkName": "pages/create/uploadvideo",
-    "_name": "_70dd915c"
+    "_name": "_7ae616ec"
   },
   {
     "name": "create-website",
     "path": "/create/website",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/website.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\website.vue",
     "chunkName": "pages/create/website",
-    "_name": "_2f47e146"
+    "_name": "_6da8398b"
   },
   {
     "name": "create-workshop",
     "path": "/create/workshop",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/workshop.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\workshop.vue",
     "chunkName": "pages/create/workshop",
-    "_name": "_3f1b3c35"
+    "_name": "_635457c7"
   },
   {
     "name": "help-admin",
     "path": "/help/admin",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/admin.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\admin.vue",
     "chunkName": "pages/help/admin",
-    "_name": "_2b2431d6"
+    "_name": "_e594fc4c"
   },
   {
     "name": "help-getting_started",
     "path": "/help/getting_started",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/getting_started.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\getting_started.vue",
     "chunkName": "pages/help/getting_started",
-    "_name": "_4b7b26cd"
+    "_name": "_50897c5e"
   },
   {
     "name": "help-thoughts",
     "path": "/help/thoughts",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/thoughts.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\thoughts.vue",
     "chunkName": "pages/help/thoughts",
-    "_name": "_4bf1b943"
+    "_name": "_eebf8a82"
   },
   {
     "name": "help-updates",
     "path": "/help/updates",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/updates.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\updates.vue",
     "chunkName": "pages/help/updates",
-    "_name": "_2db2ba11"
+    "_name": "_50b01915"
   },
   {
     "name": "blogs.vue-id",
     "path": "/blogs.vue/:id",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/blogs.vue/_id.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\blogs.vue\\\\_id.vue",
     "chunkName": "pages/blogs.vue/_id",
-    "_name": "_3e15aee2"
+    "_name": "_40503975"
   },
   {
     "name": "e1t1-uuid",
     "path": "/e1t1/:uuid",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/e1t1/_uuid.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\e1t1\\\\_uuid.vue",
     "chunkName": "pages/e1t1/_uuid",
-    "_name": "_1042bc09"
+    "_name": "_dbf24786"
   },
   {
     "name": "events-uuid",
     "path": "/events/:uuid",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/events/_uuid.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\events\\\\_uuid.vue",
     "chunkName": "pages/events/_uuid",
-    "_name": "_67dab38e"
+    "_name": "_00fa7fcd"
   },
   {
     "name": "whatiscooking-uuid",
     "path": "/whatiscooking/:uuid",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/whatiscooking/_uuid.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\whatiscooking\\\\_uuid.vue",
     "chunkName": "pages/whatiscooking/_uuid",
-    "_name": "_28a8b4b2"
+    "_name": "_517e8bf2"
   },
   {
     "name": "workshops-uuid",
     "path": "/workshops/:uuid",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/workshops/_uuid.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\workshops\\\\_uuid.vue",
     "chunkName": "pages/workshops/_uuid",
-    "_name": "_f1433ddc"
+    "_name": "_1e005b12"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/index.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_7e1c48e6"
+    "_name": "_1366aa3e"
   },
   {
     "path": "/:username",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/_username.vue",
+    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username.vue",
     "chunkName": "pages/_username",
     "children": [
       {
         "name": "username",
         "path": "",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/index.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\index.vue",
         "chunkName": "pages/_username/index",
-        "_name": "_11b3e71a"
+        "_name": "_2c1b5541"
       },
       {
         "name": "username-about",
         "path": "about",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/about.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\about.vue",
         "chunkName": "pages/_username/about",
-        "_name": "_51239ca4"
+        "_name": "_0c637a7c"
       },
       {
         "name": "username-each1teach1",
         "path": "each1teach1",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/each1teach1/index.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\each1teach1\\\\index.vue",
         "chunkName": "pages/_username/each1teach1/index",
-        "_name": "_5fd40d50"
+        "_name": "_ccd8c572"
       },
       {
         "name": "username-events",
         "path": "events",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/events.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\events.vue",
         "chunkName": "pages/_username/events",
-        "_name": "_012a9370"
+        "_name": "_691e873a"
       },
       {
         "name": "username-journey",
         "path": "journey",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/journey.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\journey.vue",
         "chunkName": "pages/_username/journey",
-        "_name": "_8a37e3be"
+        "_name": "_f0ab4922"
       },
       {
         "name": "username-myhood",
         "path": "myhood",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/myhood.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\myhood.vue",
         "chunkName": "pages/_username/myhood",
-        "_name": "_7c9c9b12"
+        "_name": "_2b658369"
       },
       {
         "name": "username-notifications",
         "path": "notifications",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/notifications.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\notifications.vue",
         "chunkName": "pages/_username/notifications",
-        "_name": "_930136ee"
+        "_name": "_96840152"
       },
       {
         "name": "username-videos",
         "path": "videos",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/videos.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\videos.vue",
         "chunkName": "pages/_username/videos",
-        "_name": "_64501907"
+        "_name": "_63f82c0e"
       },
       {
         "name": "username-workshops",
         "path": "workshops",
-        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/workshops.vue",
+        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\workshops.vue",
         "chunkName": "pages/_username/workshops",
-        "_name": "_833dac26"
+        "_name": "_72c95bbb"
       }
     ],
-    "_name": "_a29e8c20"
+    "_name": "_07ccc821"
   }
 ]

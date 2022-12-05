@@ -1,18 +1,18 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card class="transition-swing ma-md-2 ma-1"
+    <v-card class="transition-swing ma-md-2 ma-1 rounded-sm"
       data-view
       @click="dialog=true"
       :elevation="hover ? 6 : 0"
-      outlined
+      outlined 
       :width="card_width" 
       :max-height="card_height">
       <!-- <youtube :width="card_width" :height="img_height" :video-id= 'videoId' v-if="videoId"></youtube> -->
-    <v-img v-if="cook.thumbjs"
+    <v-img v-if="cook.thumbjs" class="rounded-sm"
       :src="cook.thumbjs"
       :height="img_height"
       :width="card_width" />
-    <v-img v-else
+    <v-img v-else class="rounded-sm"
       :src="youtube_thumb"
       :height="img_height"
       :width="card_width" />
@@ -71,11 +71,11 @@ import { getIdFromURL } from 'vue-youtube-embed'
         computed:{
         img_height () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 73
-          case 'sm': return 73
-          case 'md': return 134
-          case 'lg': return 134
-          case 'xl': return 134
+          case 'xs': return 83
+          case 'sm': return 83
+          case 'md': return 144
+          case 'lg': return 144
+          case 'xl': return 144
         }
         },
         card_width () {
@@ -89,8 +89,8 @@ import { getIdFromURL } from 'vue-youtube-embed'
         },
         card_height() {
           switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 105
-            case 'sm': return 105
+            case 'xs': return 115
+            case 'sm': return 115
             case 'md': return 205
             case 'lg': return 205
             case 'xl': return 205
