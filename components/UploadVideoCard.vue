@@ -150,6 +150,10 @@ methods:{
         this.refresh();
         // this.$router.push("/");
     },
+    youTubeGetID(url){
+    url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+    return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+    },
     async submitCooking(){
         if(this.$refs.cooking_form.validate()){
         this.progressbar =true;
@@ -158,11 +162,18 @@ methods:{
                 headers: {"content-type": "multipart/form-data",
                 "Authorization": this.$auth.strategy.token.get()}
             };
+            let isShorts = this.cookingForm.video.includes("shorts");
+            let videoId;
+            if(isShorts){
+                let shortId = this.cookingForm.video.split("/").pop(); //get last string
+                this.cookingForm.video = "https://www.youtube.com/watch?v="+shortId
+            }
+                videoId = this.youTubeGetID(this.cookingForm.video)
+                this.cookingForm.thumbjs = 'http://img.youtube.com/vi/' + videoId + '/2.jpg';
             let formData = new FormData();
             for (let data in this.cookingForm) {
                 formData.append(data, this.cookingForm[data]);
             }
-            //if shorts make default videos
             this.$axios.$post("/v1/whatiscooking/cooking/", formData, config).then((res) => {
                 if(this.selectedTeachers.length){
                     for (let data of this.selectedTeachers){
@@ -171,7 +182,10 @@ methods:{
                     formData.append("cookingidobj",res.id)
                     formData.append("shareidobj",data)
                     formData.append("idea",data)
-                    this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config)
+                    this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
+
+                        this.progressbar = false
+                    })
                 }
                 }else console.log("no teachers");
                 this.progressbar = false
@@ -181,7 +195,7 @@ methods:{
             })
             } 
             catch (error) {
-                console.log("unsuccess",error.response);
+                console.log("unsuccess",error, error.response);
                 this.progressbar =false
             }
         }
@@ -202,8 +216,20 @@ methods:{
             {formName.append("lesson", this.cookingForm.lesson);
             update = true;}
             if(this.cook_obj.video != this.cookingForm.video)
-            {formName.append("video", this.cookingForm.video);
-            update = true;}
+            {
+                let isShorts = this.cookingForm.video.includes("shorts");
+                let videoId;
+                if(isShorts){
+                    let shortId = this.cookingForm.video.split("/").pop(); //get last string
+                    this.cookingForm.video = "https://www.youtube.com/watch?v="+shortId
+                }
+                videoId = this.youTubeGetID(this.cookingForm.video)
+                this.cookingForm.thumbjs = 'http://img.youtube.com/vi/' + videoId + '/2.jpg';
+                console.log(this.cookingForm.video,this.cookingForm.thumbjs);
+                formName.append("video", this.cookingForm.video);
+                formName.append("thumbjs", this.cookingForm.thumbjs);
+                update = true;
+            }
             if(update)
             {let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);}
             //for tagged teachers
@@ -258,14 +284,9 @@ methods:{
                     formData.append("cookingidobj", this.cook_obj.id)
                     formData.append("shareidobj",newArray[i])
                     formData.append("idea",newArray[i])
-                    try {
-                        await this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
+                    await this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
                         console.log("added teacher",res);
                     })
-                    } catch (error) {
-                        console.log(error);
-                        
-                    }
                 }
 
             }
