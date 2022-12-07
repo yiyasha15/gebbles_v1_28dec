@@ -7,13 +7,13 @@
             </v-btn>
             <v-tabs class="width mx-auto background" centered>
             <v-tab>
-                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending Workshops</p>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending</p>
             </v-tab>
             <v-tab>
-                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited Workshops</p>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited</p>
             </v-tab>
             <v-tab>
-                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised Workshops</p>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised</p>
             </v-tab>
             <v-tab-item>
                 <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended workshops to your journey</div>
