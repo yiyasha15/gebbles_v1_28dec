@@ -12,14 +12,11 @@
           <center class="mt-6">
             <v-hover
                 v-slot="{ hover }">
-                <v-btn icon large
-                to="/create"
+                <v-btn 
+                to="/create" min-width="150"
                 class=" transition-swing my-4" 
                 :elevation="hover ? 12 : 2" color="primary" max-width="100">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 18 : 28"
-                class="clickable"
-                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                <h4 class="font-weight-medium text-capitalize secondary--text">get started</h4>
                 </v-btn>
             </v-hover>
             <v-row style="max-width:390px; margin:0 auto">

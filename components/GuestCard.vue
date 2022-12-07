@@ -6,7 +6,7 @@
       @click="opendialog"
       :elevation="hover ? 6 : 0"
       outlined
-      :width="img_height"
+      :width="img_width"
       :height="img_height"
       class="pa-0 mx-auto"
     >
@@ -81,6 +81,15 @@ import CountryFlag from 'vue-country-flag'
         case 'md': return 300
         case 'lg': return 300
         case 'xl': return 300
+      }
+    },
+    img_width () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '-webkit-fill-available'
+        case 'sm': return '-webkit-fill-available'
+        case 'md': return '-webkit-fill-available'
+        case 'lg': return '-webkit-fill-available'
+        case 'xl': return '-webkit-fill-available'
       }
     }
   },

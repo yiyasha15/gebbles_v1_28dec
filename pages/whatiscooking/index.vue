@@ -4,7 +4,7 @@
         <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
           <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
-        <h2 class ="mb-4 font-weight-medium pl-2">What's cooking </h2>
+        <h2 class ="mb-4 font-weight-medium pl-2">What's cookin </h2>
        <div class="mx-auto width" v-if="firstLoad" >
       <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
       <div align="left" justify="left">

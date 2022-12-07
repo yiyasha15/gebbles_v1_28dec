@@ -2,24 +2,25 @@
     <v-app>
         <left-navigation></left-navigation>
         <v-container style="max-width:670px;" class="pa-0 background">
-            <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+            <v-btn icon class="elevation-0 mt-1 " @click="goback()" >
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
             <v-tabs class="width mx-auto background" centered>
             <v-tab>
-                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Your videos</p>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Yours<v-icon size="small" class="pl-2">mdi-lock</v-icon></p>
             </v-tab>
             <v-tab>
-                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Mentioned videos</p>
+                <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Mentioned</p>
             </v-tab>
             <v-tab-item class="background">
-            <div class="ml-1 py-2"></div>
-            <v-layout wrap row justify-start v-show="firstLoadY"  >
+                <div class="py-2 grey--text caption text-center">all your videos are private, except your last post</div>
+            <!-- <div class="ml-1 py-2"></div> -->
+            <v-layout wrap justify-start v-show="firstLoadY"  >
                 <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader class="ma-md-2 ma-1"></card-skeleton-loader>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadY" >
+            <v-layout wrap justify-start v-show="!firstLoadY" >
                 <div v-for="cook in cooking" :key ="cook.index">
                 <cooking-card :cook="cook" @postDelete="postDelete"></cooking-card>
                 </div>
@@ -33,12 +34,13 @@
             </center>
             </v-tab-item>
             <v-tab-item class="background">
-            <v-layout wrap row justify-start v-show="firstLoadM" >
+                <div class="py-2 grey--text caption text-center">all the videos where you are mentioned</div>
+            <v-layout wrap justify-start v-show="firstLoadM" >
                 <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader class="ma-md-2 ma-1"></card-skeleton-loader>
                 </div>
             </v-layout>
-            <v-layout wrap row justify-start v-show="!firstLoadM" >
+            <v-layout wrap justify-start v-show="!firstLoadM" >
                 <div v-for="cook in cooking_mentioned" :key ="cook.index">
                     <cooking-card-sharing :cook="cook" ></cooking-card-sharing> 
                 </div>

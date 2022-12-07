@@ -239,7 +239,7 @@
                                     :value="false"
                                 ></v-radio>
                             </v-radio-group>
-                            <h4 class="font-weight-light" v-if="!fromEvent">Is this journey post from an event?</h4>
+                            <h4 class="font-weight-light" v-if="!fromEvent">Add to your events list?</h4>
                             <v-radio-group v-if="!fromEvent"
                                 v-model="journey.event"
                                 row
@@ -250,14 +250,14 @@
                                 ></v-radio>
                                 <v-radio
                                     label="No"
-                                    :value=null
+                                    :value="false"
                                 ></v-radio>
                             </v-radio-group>
                         <v-btn color="primary" small text @click="e6 = 2">Previous</v-btn>
                     </v-stepper-content>
                     <div class="mx-sm-7 mx-6">
                         <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
-                        @click="submit" :loading="progressbar" >Post Journey</v-btn>
+                        @click="submit" :loading="progressbar" >Post</v-btn>
                         <v-btn v-else outlined small class="text-decoration-none"  color="black"
                         @click="update" :loading="progressbar">Update</v-btn>
                         <!-- <v-btn text @click="clear" small color="error">Cancel</v-btn> -->
