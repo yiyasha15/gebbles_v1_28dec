@@ -113,7 +113,7 @@
                 </v-btn>
                 </v-card-actions>
             </v-card>
-            </v-dialog>
+        </v-dialog>
         <v-row>
             <v-col cols="12" sm="6" align="center" justify="center">
                 <v-img :src = "e1t1.image"  maxHeight="380px" contain></v-img>
