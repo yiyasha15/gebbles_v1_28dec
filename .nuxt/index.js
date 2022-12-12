@@ -5,7 +5,7 @@ import ClientOnly from 'vue-client-only'
 import NoSsr from 'vue-no-ssr'
 import { createRouter } from './router.js'
 import NuxtChild from './components/nuxt-child.js'
-import NuxtError from '..\\layouts\\error.vue'
+import NuxtError from '../layouts/error.vue'
 import Nuxt from './components/nuxt.js'
 import App from './App.js'
 import { setContext, getLocation, getRouteData, normalizeError } from './utils'
@@ -13,13 +13,13 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_8083967e from 'nuxt_plugin_plugin_8083967e' // Source: .\\vuetify\\plugin.js (mode: 'all')
-import nuxt_plugin_workbox_1bff9052 from 'nuxt_plugin_workbox_1bff9052' // Source: .\\workbox.js (mode: 'client')
-import nuxt_plugin_metaplugin_364612d2 from 'nuxt_plugin_metaplugin_364612d2' // Source: .\\pwa\\meta.plugin.js (mode: 'all')
-import nuxt_plugin_iconplugin_3aedb846 from 'nuxt_plugin_iconplugin_3aedb846' // Source: .\\pwa\\icon.plugin.js (mode: 'all')
-import nuxt_plugin_axios_1a8870b6 from 'nuxt_plugin_axios_1a8870b6' // Source: .\\axios.js (mode: 'all')
-import nuxt_plugin_vuexpersist_13f465a2 from 'nuxt_plugin_vuexpersist_13f465a2' // Source: ..\\plugins\\vuex-persist (mode: 'client')
-import nuxt_plugin_auth_28616c8c from 'nuxt_plugin_auth_28616c8c' // Source: .\\auth.js (mode: 'all')
+import nuxt_plugin_plugin_6dc982f3 from 'nuxt_plugin_plugin_6dc982f3' // Source: ./vuetify/plugin.js (mode: 'all')
+import nuxt_plugin_workbox_d532c166 from 'nuxt_plugin_workbox_d532c166' // Source: ./workbox.js (mode: 'client')
+import nuxt_plugin_metaplugin_ab736d40 from 'nuxt_plugin_metaplugin_ab736d40' // Source: ./pwa/meta.plugin.js (mode: 'all')
+import nuxt_plugin_iconplugin_a2242258 from 'nuxt_plugin_iconplugin_a2242258' // Source: ./pwa/icon.plugin.js (mode: 'all')
+import nuxt_plugin_axios_da65fb1e from 'nuxt_plugin_axios_da65fb1e' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_vuexpersist_13f465a2 from 'nuxt_plugin_vuexpersist_13f465a2' // Source: ../plugins/vuex-persist (mode: 'client')
+import nuxt_plugin_auth_83b7d6c2 from 'nuxt_plugin_auth_83b7d6c2' // Source: ./auth.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -205,32 +205,32 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_8083967e === 'function') {
-    await nuxt_plugin_plugin_8083967e(app.context, inject)
+  if (typeof nuxt_plugin_plugin_6dc982f3 === 'function') {
+    await nuxt_plugin_plugin_6dc982f3(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_workbox_1bff9052 === 'function') {
-    await nuxt_plugin_workbox_1bff9052(app.context, inject)
+  if (process.client && typeof nuxt_plugin_workbox_d532c166 === 'function') {
+    await nuxt_plugin_workbox_d532c166(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_metaplugin_364612d2 === 'function') {
-    await nuxt_plugin_metaplugin_364612d2(app.context, inject)
+  if (typeof nuxt_plugin_metaplugin_ab736d40 === 'function') {
+    await nuxt_plugin_metaplugin_ab736d40(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_iconplugin_3aedb846 === 'function') {
-    await nuxt_plugin_iconplugin_3aedb846(app.context, inject)
+  if (typeof nuxt_plugin_iconplugin_a2242258 === 'function') {
+    await nuxt_plugin_iconplugin_a2242258(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_1a8870b6 === 'function') {
-    await nuxt_plugin_axios_1a8870b6(app.context, inject)
+  if (typeof nuxt_plugin_axios_da65fb1e === 'function') {
+    await nuxt_plugin_axios_da65fb1e(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_vuexpersist_13f465a2 === 'function') {
     await nuxt_plugin_vuexpersist_13f465a2(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_auth_28616c8c === 'function') {
-    await nuxt_plugin_auth_28616c8c(app.context, inject)
+  if (typeof nuxt_plugin_auth_83b7d6c2 === 'function') {
+    await nuxt_plugin_auth_83b7d6c2(app.context, inject)
   }
 
   // Lock enablePreview in context
