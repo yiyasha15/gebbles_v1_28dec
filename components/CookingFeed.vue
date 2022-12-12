@@ -323,7 +323,7 @@ export default {
             this.$store.dispatch("remove_cook_obj")
             this.$store.dispatch("remove_cook_reactions")
             try {
-                this.$axios.$delete("/v1/whatiscooking/cooking/"+this.cook.uuid, config).then(res=>{
+                this.$axios.$delete("/v1/whatiscooking/cooking/"+this.cook.id, config).then(res=>{
                 console.log("cooking deleted",res);
                 this.deleteLoading = false;
                 this.dialog =false;

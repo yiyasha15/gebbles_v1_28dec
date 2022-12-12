@@ -8,17 +8,9 @@
             :src="require('@/assets/home.png')"
           ></v-img>
       </v-col>
-      <v-col cols="12" md="6" class="mt-md-12">
+      <v-col cols="12" md="6" class="mt-md-16">
           <center class="mt-6">
-            <v-hover
-                v-slot="{ hover }">
-                <v-btn 
-                to="/create" min-width="150"
-                class=" transition-swing my-4" 
-                :elevation="hover ? 12 : 2" color="primary" max-width="100">
-                <h4 class="font-weight-medium text-capitalize secondary--text">get started</h4>
-                </v-btn>
-            </v-hover>
+            
             <v-row style="max-width:390px; margin:0 auto">
             <v-col cols="6">
               <v-hover v-slot="{ hover }">
@@ -64,6 +56,15 @@
           </template>
           <span>🖤 ✌🏽 🤝</span>
         </v-tooltip>
+        <v-hover
+            v-slot="{ hover }">
+            <v-btn 
+            to="/create" min-width="150"
+            class=" transition-swing my-4" 
+            :elevation="hover ? 12 : 2" color="primary" max-width="100">
+            <h4 class="font-weight-medium text-capitalize secondary--text">get started</h4>
+            </v-btn>
+        </v-hover>
     </div>
     </v-row>
   </div>

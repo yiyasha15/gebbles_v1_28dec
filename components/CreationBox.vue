@@ -117,6 +117,9 @@
                 <v-icon color="dark_primary">mdi-calendar-heart</v-icon>
             </v-btn>
             </div>
+            <!-- <center>
+                <img src = "~/assets/e1t111.jpeg" :width="img_width" alt="e1t1 logo">
+            </center> -->
         <div class="pa-2 pa-md-3 title font-weight-medium my-3 "> Connecting the Groove</div>
         <center>
         <v-divider width="360" />
@@ -211,6 +214,15 @@ export default {
             case 'lg': return true
             case 'xl': return true
           }
+        },
+        img_width () {
+            switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 80
+            case 'sm': return 80
+            case 'md': return 140
+            case 'lg': return 160
+            case 'xl': return 200
+            }
         },
     ...mapGetters(['loggedInUser'])
 },

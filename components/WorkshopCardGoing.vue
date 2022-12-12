@@ -1,53 +1,50 @@
 <template>
-  <div>
-    <v-hover v-slot:default="{ hover }">
-      <v-card 
-        data-view v-if="workshop.workshop"
-        :elevation="hover ? 6 : 0"
-        class="transition-swing ma-md-2 ma-1"
-        outlined
-        :width="card_width" 
-        :max-height="card_height"
-        @click="workshopDialog=true"
-      >
-        <v-img
-          v-if = workshop.workshop.poster :src = "workshop.workshop.poster" 
-          :lazy-src= "workshop.workshop.poster" 
-          :height="img_height"
-          :width="card_width">
-          <v-btn icon small class="float-right ma-1 white" 
-          @click.stop="goToWorkshop">
-          <v-icon color="black" small>mdi-calendar-heart</v-icon>
-          </v-btn>
-          <v-btn v-if="isAuthenticated && workshop.username == loggedInUser.username" icon small class="float-right ma-1 white" 
-          @click.stop="addToJourney">
-          <v-icon color="black" small>mdi-plus</v-icon>
-          </v-btn>
-          </v-img>
-        <v-img
-          v-else :src="require('@/assets/gebbleslogo3.png')"
-          contain
-          :height="img_height"
-          :width="card_width">
-          <v-btn icon small class="float-right ma-1 white" 
-          @click.stop="goToWorkshop">
-          <v-icon color="black" small>mdi-calendar-heart</v-icon>
-          </v-btn>
-          <v-btn v-if="isAuthenticated && workshop.username == loggedInUser.username" icon small class="float-right ma-1 white" 
-          @click.stop="addToJourney">
-          <v-icon color="black" small>mdi-plus</v-icon>
-          </v-btn>
-        </v-img>
-        <v-card-actions height="32px">
-          <div v-if="workshop.workshop.title" class="text-decoration-none caption width">
-          <p class="event_p" >{{ workshop.workshop.title }} </p>
-          </div>
-          <v-spacer></v-spacer>
-          <country-flag size=small  :country= 'workshop.workshop.country' />
-        </v-card-actions>
-      </v-card>
-    </v-hover>
-    <v-dialog
+  <v-hover v-slot:default="{ hover }">
+    <v-card 
+      data-view v-if="workshop.workshop"
+      :elevation="hover ? 6 : 0"
+      class="transition-swing ma-md-2 ma-1"
+      outlined
+      :width="card_width" 
+      :max-height="card_height"
+      @click="workshopDialog=true"
+    >
+      <v-img
+        v-if = workshop.workshop.poster :src = "workshop.workshop.poster" 
+        :lazy-src= "workshop.workshop.poster" 
+        :height="img_height"
+        :width="card_width">
+        <v-btn icon small class="float-right ma-1 white" 
+        @click.stop="goToWorkshop">
+        <v-icon color="black" small>mdi-calendar-heart</v-icon>
+        </v-btn>
+        <v-btn v-if="isAuthenticated && workshop.username == loggedInUser.username" icon small class="float-right ma-1 white" 
+        @click.stop="addToJourney">
+        <v-icon color="black" small>mdi-plus</v-icon>
+        </v-btn>
+      </v-img>
+      <v-img
+        v-else :src="require('@/assets/gebbleslogo3.png')"
+        contain
+        :height="img_height"
+        :width="card_width">
+        <v-btn icon small class="float-right ma-1 white" 
+        @click.stop="goToWorkshop">
+        <v-icon color="black" small>mdi-calendar-heart</v-icon>
+        </v-btn>
+        <v-btn v-if="isAuthenticated && workshop.username == loggedInUser.username" icon small class="float-right ma-1 white" 
+        @click.stop="addToJourney">
+        <v-icon color="black" small>mdi-plus</v-icon>
+        </v-btn>
+      </v-img>
+      <v-card-actions height="32px">
+        <div v-if="workshop.workshop.title" class="text-decoration-none caption width">
+        <p class="event_p" >{{ workshop.workshop.title }} </p>
+        </div>
+        <v-spacer></v-spacer>
+        <country-flag size=small  :country= 'workshop.workshop.country' />
+      </v-card-actions>
+      <v-dialog
       :retain-focus="false"
       v-model="workshopDialog"
       width="480px" 
@@ -72,8 +69,9 @@
       <h3 class="font-weight-medium d-inline">{{workshop.workshop.title}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'workshop.workshop.country' /> </span>
       </div>
       </v-container>
-  </v-dialog> 
-  </div>
+      </v-dialog> 
+    </v-card>
+  </v-hover>
 </template>
 <script>
 import { mapGetters } from 'vuex'

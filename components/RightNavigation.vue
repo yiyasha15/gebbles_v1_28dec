@@ -87,6 +87,14 @@
                 v-model="explore"
                 color="primary"
             >
+            <v-list-item to="/">
+                    <v-list-item-icon>
+                    <v-icon>mdi-home-outline</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                    <v-list-item-title>Home</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
             <v-list-item to="/artists">
                 <!-- Explore -->
                 <v-list-item-icon >
@@ -146,6 +154,14 @@
             </v-list-item-icon>
             <v-list-item-content>
             <v-list-item-title>Journey</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item :to="'/' +loggedInUser.username+ '/videos/'">
+            <v-list-item-icon>
+                <v-icon>mdi-play-circle-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+            <v-list-item-title>Videos</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
         <v-list-item :to="'/' +loggedInUser.username+ '/each1teach1/'">
