@@ -74,7 +74,7 @@
                             @click="submitCooking" :loading="progressbar">Submit</v-btn>
                             <v-btn v-else outlined small class="text-decoration-none"  color="black" dark
                             @click="updateCooking" :loading="progressbar">Update</v-btn>
-                            <!-- <v-btn small color="error" text  @click="clear">Cancel</v-btn>  -->
+                            <v-btn small color="error" text  @click="clear">Cancel</v-btn> 
                         </v-col>
                     </v-row>
                 </v-form>

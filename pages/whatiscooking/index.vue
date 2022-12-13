@@ -1,28 +1,64 @@
 <template>
     <v-app>
       <v-container class="mx-auto width pa-0">
-        <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
-          <v-icon class="float-left">mdi-arrow-left</v-icon>
-        </v-btn>
-        <h2 class ="mb-4 font-weight-medium pl-2">What's cookin </h2>
-       <div class="mx-auto width" v-if="firstLoad" >
-      <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
-      <div align="left" justify="left">
-      <div class="mb-1">
-        <v-btn icon class="mr-1">
-            <v-icon color="black" >mdi-heart</v-icon>
-        </v-btn>
-        <v-btn icon class="mx-1">
-            <v-icon color="black" >mdi-fire</v-icon>
-        </v-btn>
-        <v-btn icon  class="mx-1">
-            <v-icon color="black" >mdi-head-flash-outline</v-icon>
-        </v-btn>
-      </div>
-      </div>
-      <v-row >
-      <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
-      </v-row>
+      <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+        <v-icon class="float-left">mdi-arrow-left</v-icon>
+      </v-btn>
+      <h2 class ="mb-4 font-weight-medium pl-2">What's cookin </h2>
+      <div class="mx-auto width" v-if="firstLoad" >
+        <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
+        <div align="left" justify="left">
+        <div class="mb-1">
+          <v-btn icon class="mr-1">
+              <v-icon color="black" >mdi-heart</v-icon>
+          </v-btn>
+          <v-btn icon class="mx-1">
+              <v-icon color="black" >mdi-fire</v-icon>
+          </v-btn>
+          <v-btn icon  class="mx-1">
+              <v-icon color="black" >mdi-head-flash-outline</v-icon>
+          </v-btn>
+        </div>
+        </div>
+        <v-row class="mb-3">
+        <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+        </v-row>
+
+        <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
+        <div align="left" justify="left">
+        <div class="mb-1">
+          <v-btn icon class="mr-1">
+              <v-icon color="black" >mdi-heart</v-icon>
+          </v-btn>
+          <v-btn icon class="mx-1">
+              <v-icon color="black" >mdi-fire</v-icon>
+          </v-btn>
+          <v-btn icon  class="mx-1">
+              <v-icon color="black" >mdi-head-flash-outline</v-icon>
+          </v-btn>
+        </div>
+        </div>
+        <v-row class="mb-3">
+        <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+        </v-row>
+
+          <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
+        <div align="left" justify="left">
+        <div class="mb-1">
+          <v-btn icon class="mr-1">
+              <v-icon color="black" >mdi-heart</v-icon>
+          </v-btn>
+          <v-btn icon class="mx-1">
+              <v-icon color="black" >mdi-fire</v-icon>
+          </v-btn>
+          <v-btn icon  class="mx-1">
+              <v-icon color="black" >mdi-head-flash-outline</v-icon>
+          </v-btn>
+        </div>
+        </div>
+        <v-row class="mb-3">
+        <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
+        </v-row>
       </div>
       <div class="mx-auto width" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
         <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>

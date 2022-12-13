@@ -236,6 +236,7 @@ export default {
         else{
             //show prev video
         }
+        console.log(this.cook);
         this.cook_reaction();
         this.cook_comments();
     },

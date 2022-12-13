@@ -13,7 +13,7 @@
         <v-icon>mdi-message-outline</v-icon>
     </v-btn>
     </v-badge>
-    <v-btn class="ml-4" @click="personalDialog=true" icon v-else>
+    <v-btn class="ml-4" @click="openMessages" icon v-else>
         <v-icon>mdi-message-outline</v-icon>
     </v-btn>
     <v-dialog
@@ -34,7 +34,17 @@
           </v-col>
       </v-row> 
       <post-message-section @message_posted="message_posted" :e1t1="e1t1"></post-message-section>
-      <v-container >
+      <v-container v-if="loading">
+        <v-row>
+          <v-col v-for="n in 3" :key="n"
+            cols="12" class="pa-0">
+            <v-skeleton-loader
+              type="list-item-avatar-three-line"
+            ></v-skeleton-loader>
+          </v-col>
+        </v-row>
+      </v-container>
+      <v-container v-else>
           <section>
           <div v-for="(message, i) in personalMessages" :key="i" class="d-flex align-start">
               <nuxt-link :to="'/'+ message.username" class="text-decoration-none">
@@ -99,11 +109,12 @@ import PostMessageSection from './PostMessageSection.vue'
     props: {
       e1t1: Object,
     },
-    created(){
-      this.get_messages();
-    },
+    // created(){
+    //   this.get_messages();
+    // },
     data() {
       return {
+        loading:true,
         value: new Date(),
         show: false,
         delete_snackbar :false,
@@ -111,6 +122,7 @@ import PostMessageSection from './PostMessageSection.vue'
         personalDialog:false,
         personalMessages:[],
         personalMessages_page:'',
+        opened:false,
         }
     },
     components: {
@@ -143,12 +155,17 @@ import PostMessageSection from './PostMessageSection.vue'
         }
       },
       get_messages(){
+        this.loading = true;
         EventService.getPersonalMessages(this.e1t1.id).then(res =>
         {
+          console.log("hello");
             this.personalMessages = res.data.results;
             this.personalMessages_page = res.data.next;
+            this.loading = false
             this.new_messages = this.personalMessages.filter(item => item.is_seen == false && item.username != this.loggedInUser.username)
+            // this.loading = false
         }).catch(error =>{
+          this.loading = false
             console.log("error",error);
         })
       },
@@ -190,6 +207,12 @@ import PostMessageSection from './PostMessageSection.vue'
         } catch (error) {
             console.log("error..",error,error.response);
         }
+      },
+      openMessages(){
+        if(!this.opened) //call api only the first time.
+        this.get_messages();
+        this.personalDialog=true
+        this.opened = true
       }
     }
   }

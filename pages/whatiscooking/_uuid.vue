@@ -8,7 +8,9 @@
         <p class ="pt-1 pl-1">What's cooking </p>
       </v-row>
        <div class="mx-auto width" v-if="firstLoad" >
-      <v-skeleton-loader width="100%"   :loading="loading" type="card" ></v-skeleton-loader>
+
+      <v-skeleton-loader width="100%" :loading="loading" type="card"></v-skeleton-loader>
+
       <div align="left" justify="left">
       <div class="mb-1">
         <v-btn icon class="mr-1">
