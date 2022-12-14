@@ -2,306 +2,306 @@
   {
     "name": "artists",
     "path": "/artists",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\artists\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/artists/index.vue",
     "chunkName": "pages/artists/index"
   },
   {
     "name": "blogs",
     "path": "/blogs",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\blogs.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/blogs.vue",
     "chunkName": "pages/blogs"
   },
   {
     "name": "blogs.vue",
     "path": "/blogs.vue",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\blogs.vue\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/blogs.vue/index.vue",
     "chunkName": "pages/blogs.vue/index"
   },
   {
     "name": "contact",
     "path": "/contact",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\contact.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/contact.vue",
     "chunkName": "pages/contact"
   },
   {
     "name": "create",
     "path": "/create",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/index.vue",
     "chunkName": "pages/create/index"
   },
   {
     "name": "dashboard",
     "path": "/dashboard",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\dashboard\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/dashboard/index.vue",
     "chunkName": "pages/dashboard/index"
   },
   {
     "name": "e1t1",
     "path": "/e1t1",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\e1t1\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/e1t1/index.vue",
     "chunkName": "pages/e1t1/index"
   },
   {
     "name": "events",
     "path": "/events",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\events\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/events/index.vue",
     "chunkName": "pages/events/index"
   },
   {
     "name": "help",
     "path": "/help",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/index.vue",
     "chunkName": "pages/help/index"
   },
   {
     "name": "journeys",
     "path": "/journeys",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\journeys.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/journeys.vue",
     "chunkName": "pages/journeys"
   },
   {
     "name": "login",
     "path": "/login",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\login.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/login.vue",
     "chunkName": "pages/login"
   },
   {
     "name": "logout",
     "path": "/logout",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\logout.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/logout.vue",
     "chunkName": "pages/logout"
   },
   {
     "name": "mypayments",
     "path": "/mypayments",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\mypayments.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/mypayments.vue",
     "chunkName": "pages/mypayments"
   },
   {
     "name": "onboarding",
     "path": "/onboarding",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\onboarding.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/onboarding.vue",
     "chunkName": "pages/onboarding"
   },
   {
     "name": "passwordrenew",
     "path": "/passwordrenew",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\passwordrenew.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/passwordrenew.vue",
     "chunkName": "pages/passwordrenew"
   },
   {
     "name": "privacy",
     "path": "/privacy",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\privacy.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/privacy.vue",
     "chunkName": "pages/privacy"
   },
   {
     "name": "register",
     "path": "/register",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\register.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/register.vue",
     "chunkName": "pages/register"
   },
   {
     "name": "setpassword",
     "path": "/setpassword",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\setpassword.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/setpassword.vue",
     "chunkName": "pages/setpassword"
   },
   {
     "name": "settings",
     "path": "/settings",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\settings.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/settings.vue",
     "chunkName": "pages/settings"
   },
   {
     "name": "subscription",
     "path": "/subscription",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\subscription.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/subscription.vue",
     "chunkName": "pages/subscription"
   },
   {
     "name": "terms",
     "path": "/terms",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\terms.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/terms.vue",
     "chunkName": "pages/terms"
   },
   {
     "name": "whatiscooking",
     "path": "/whatiscooking",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\whatiscooking\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/whatiscooking/index.vue",
     "chunkName": "pages/whatiscooking/index"
   },
   {
     "name": "workshops",
     "path": "/workshops",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\workshops\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/workshops/index.vue",
     "chunkName": "pages/workshops/index"
   },
   {
     "name": "write_blog",
     "path": "/write_blog",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\write_blog.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/write_blog.vue",
     "chunkName": "pages/write_blog"
   },
   {
     "name": "artists-legacy",
     "path": "/artists/legacy",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\artists\\\\legacy.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/artists/legacy.vue",
     "chunkName": "pages/artists/legacy"
   },
   {
     "name": "create-each1teach1",
     "path": "/create/each1teach1",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\each1teach1.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/each1teach1.vue",
     "chunkName": "pages/create/each1teach1"
   },
   {
     "name": "create-event",
     "path": "/create/event",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\event.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/event.vue",
     "chunkName": "pages/create/event"
   },
   {
     "name": "create-journey",
     "path": "/create/journey",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\journey.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/journey.vue",
     "chunkName": "pages/create/journey"
   },
   {
     "name": "create-uploadvideo",
     "path": "/create/uploadvideo",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\uploadvideo.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/uploadvideo.vue",
     "chunkName": "pages/create/uploadvideo"
   },
   {
     "name": "create-website",
     "path": "/create/website",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\website.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/website.vue",
     "chunkName": "pages/create/website"
   },
   {
     "name": "create-workshop",
     "path": "/create/workshop",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\create\\\\workshop.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/create/workshop.vue",
     "chunkName": "pages/create/workshop"
   },
   {
     "name": "help-admin",
     "path": "/help/admin",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\admin.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/admin.vue",
     "chunkName": "pages/help/admin"
   },
   {
     "name": "help-getting_started",
     "path": "/help/getting_started",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\getting_started.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/getting_started.vue",
     "chunkName": "pages/help/getting_started"
   },
   {
     "name": "help-thoughts",
     "path": "/help/thoughts",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\thoughts.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/thoughts.vue",
     "chunkName": "pages/help/thoughts"
   },
   {
     "name": "help-updates",
     "path": "/help/updates",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\help\\\\updates.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/help/updates.vue",
     "chunkName": "pages/help/updates"
   },
   {
     "name": "blogs.vue-id",
     "path": "/blogs.vue/:id",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\blogs.vue\\\\_id.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/blogs.vue/_id.vue",
     "chunkName": "pages/blogs.vue/_id"
   },
   {
     "name": "e1t1-uuid",
     "path": "/e1t1/:uuid",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\e1t1\\\\_uuid.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/e1t1/_uuid.vue",
     "chunkName": "pages/e1t1/_uuid"
   },
   {
     "name": "events-uuid",
     "path": "/events/:uuid",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\events\\\\_uuid.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/events/_uuid.vue",
     "chunkName": "pages/events/_uuid"
   },
   {
     "name": "whatiscooking-uuid",
     "path": "/whatiscooking/:uuid",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\whatiscooking\\\\_uuid.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/whatiscooking/_uuid.vue",
     "chunkName": "pages/whatiscooking/_uuid"
   },
   {
     "name": "workshops-uuid",
     "path": "/workshops/:uuid",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\workshops\\\\_uuid.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/workshops/_uuid.vue",
     "chunkName": "pages/workshops/_uuid"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\index.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/index.vue",
     "chunkName": "pages/index"
   },
   {
     "path": "/:username",
-    "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username.vue",
+    "component": "/Users/yiyasha/Documents/inmygroove/pages/_username.vue",
     "chunkName": "pages/_username",
     "children": [
       {
         "name": "username",
         "path": "",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\index.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/index.vue",
         "chunkName": "pages/_username/index"
       },
       {
         "name": "username-about",
         "path": "about",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\about.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/about.vue",
         "chunkName": "pages/_username/about"
       },
       {
         "name": "username-each1teach1",
         "path": "each1teach1",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\each1teach1\\\\index.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/each1teach1/index.vue",
         "chunkName": "pages/_username/each1teach1/index"
       },
       {
         "name": "username-events",
         "path": "events",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\events.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/events.vue",
         "chunkName": "pages/_username/events"
       },
       {
         "name": "username-journey",
         "path": "journey",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\journey.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/journey.vue",
         "chunkName": "pages/_username/journey"
       },
       {
         "name": "username-myhood",
         "path": "myhood",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\myhood.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/myhood.vue",
         "chunkName": "pages/_username/myhood"
       },
       {
         "name": "username-notifications",
         "path": "notifications",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\notifications.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/notifications.vue",
         "chunkName": "pages/_username/notifications"
       },
       {
         "name": "username-videos",
         "path": "videos",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\videos.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/videos.vue",
         "chunkName": "pages/_username/videos"
       },
       {
         "name": "username-workshops",
         "path": "workshops",
-        "component": "C:\\\\Users\\\\candy\\\\Desktop\\\\inmygroove\\\\gebbles_v1_28dec\\\\pages\\\\_username\\\\workshops.vue",
+        "component": "/Users/yiyasha/Documents/inmygroove/pages/_username/workshops.vue",
         "chunkName": "pages/_username/workshops"
       }
     ]
