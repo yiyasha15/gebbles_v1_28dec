@@ -12,7 +12,7 @@
         <v-img v-if = e1t1.image_mini :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" :height="img_height" :width="card_width">
           <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="e1t1.latest_cooking_uuid"
             @click.stop="showCooking()"> 
-            <v-icon v-if="!latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
+            <v-icon v-if="!e1t1.latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
             <v-icon v-else color="black">mdi-play-circle-outline</v-icon>
           </v-btn>
         </v-img>
