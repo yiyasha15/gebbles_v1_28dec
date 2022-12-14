@@ -29,18 +29,29 @@ font-family: 'Poppins',  cursive sans-serif !important;
 }
 #app{
   overflow-x: hidden;
+  background-color: #f0e9da;
 }
 .v-btn__content{
   text-transform: capitalize;
 }
+.v-tabs ,.v-tabs-bar, .v-tabs-items, .v-card, 
+.v-skeleton-loader__list-item-avatar-three-line, 
+.v-skeleton-loader__card-heading , .v-skeleton-loader__article,
+ .v-input__slot, .v-list, .v-navigation-drawer, .v-stepper{
+  background-color: #f0e9da !important;
+}
+.borders{
+  border: 1px solid grey !important;
+}
 .v-tab {
   letter-spacing: 0 !important;
-padding: 0px 8px !important;}
+  padding: 0px 8px !important;}
 .v-tabs:not(.v-tabs--vertical):not(.v-tabs--right) > .v-slide-group--is-overflowing.v-tabs-bar--is-mobile:not(.v-slide-group--has-affixes) .v-slide-group__prev {
-  display: none !important ;}
-  .v-stepper--vertical .v-stepper__content {
-     padding: 24px !important;
-  }
-  .v-toolbar__content, .v-toolbar__extension {
-    padding: 16px !important;
+  display: none !important ;
+}
+.v-stepper--vertical .v-stepper__content {
+    padding: 24px !important;
+}
+.v-toolbar__content, .v-toolbar__extension {
+  padding: 16px !important;
 }

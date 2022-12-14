@@ -81,7 +81,9 @@ import CountryFlag from 'vue-country-flag'
       }
 </script>
 <style scoped>
-
+.border{
+  border-color: #815A44 !important;
+}
 .width{
     width: 177px;
     height: 1.7em;

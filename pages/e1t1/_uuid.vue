@@ -24,13 +24,13 @@
             <v-list-item-title><nuxt-link class="text-decoration-none" :to="'/'+e1t1.username">{{e1t1.username}}</nuxt-link></v-list-item-title>
             <v-list-item-subtitle>{{emoment(e1t1.created)}}</v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-action v-show="loggedInUser.username == e1t1.username">
+            <!-- <v-list-item-action v-show="loggedInUser.username == e1t1.username">
                 <v-btn icon
                     @click="cardDialog = true"
                     >
                     <v-icon>mdi-card-account-details-outline</v-icon>
                     </v-btn>
-            </v-list-item-action>
+            </v-list-item-action> -->
             <v-list-item-action v-show="e1t1.username == loggedInUser.username || e1t1.teacher == loggedInUser.username">
                 <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
@@ -67,7 +67,7 @@
             </v-list-item-action>
         </v-list-item>
         </v-list>
-        <v-dialog
+        <!-- <v-dialog
             :retain-focus="false"
             v-model="cardDialog"
             width="500px"
@@ -100,7 +100,7 @@
             </v-row>
             </v-col>
             </v-container>
-        </v-dialog> 
+        </v-dialog>  -->
         <v-dialog v-model="deletedialog" width="500" persistent>
             <v-card class="pa-4">
                 <p>Are you sure you want to delete the shoutout?</p>

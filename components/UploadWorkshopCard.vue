@@ -8,7 +8,7 @@
                  <p class="caption text-center">Share about your (or any artists) regular classes, workshops..</p>
                  <gebbles-divider class="mb-5"></gebbles-divider>
                  <v-form ref="workshop_form">
-                    <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  max-width:274px;" class=" mx-auto my-4 rounded-lg grey_background" >
+                    <div v-if="!workshop.poster" @click="onPick()" style="cursor:pointer;  max-width:274px;" class= "mx-auto my-4 borders rounded-lg grey_background" >
                     <v-icon class="pa-image">mdi-plus</v-icon>
                     <input 
                     type="file" 

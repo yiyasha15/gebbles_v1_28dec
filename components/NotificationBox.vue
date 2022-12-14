@@ -108,7 +108,9 @@
         </div>
         <div v-else>
             <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader  class="ma-1" :loading="loading" type="list-item-avatar" ></v-skeleton-loader>
+                <v-skeleton-loader
+                type="list-item-avatar-three-line"
+                ></v-skeleton-loader>
             </div>
         </div>
     </v-container>

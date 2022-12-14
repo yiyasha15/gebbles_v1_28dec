@@ -130,7 +130,7 @@
                     </v-text-field>
                     <v-btn v-if="isAuthenticated && userHasPortfolio && comments.comment"
                         small class="text-decoration-none mt-2" 
-                        @click="post_comment(cook.id)"
+                        @click="post_comment(cook.cooking)"
                          dark >Post
                     </v-btn>
                 </v-row>
@@ -245,10 +245,10 @@ export default {
            return moment(date).format("ll")
         },
         async cook_comments(){
-            EventService.getCookComments(this.cook.id).then(res =>  this.comment_array=res.data.results)
+            EventService.getCookComments(this.cook.cooking).then(res =>  this.comment_array=res.data.results)
         },
         async cook_reaction(){
-            EventService.getCookReaction(this.cook.id).then(res => {
+            EventService.getCookReaction(this.cook.cooking).then(res => {
             if(res.data){
                 let react = res.data
                 let like_arr = react.filter(react => react.like_type == "LO");
@@ -338,7 +338,8 @@ export default {
         async react_like(){
           if(this.isAuthenticated){
           this.reactForm.username = this.loggedInUser.username;
-          this.reactForm.cookingidobj = this.cook.id
+        //   console.log("this.reactForm.cookingidobj = this.cook.cooking", this.cook.id, );
+          this.reactForm.cookingidobj = this.cook.cooking
           this.reactForm.like_type = 'LO'
           console.log(this.reactForm);
           if(this.cook_has_like){
@@ -388,7 +389,7 @@ export default {
         async react_dope(){
             if(this.isAuthenticated){
             this.reactForm.username = this.loggedInUser.username;
-            this.reactForm.cookingidobj = this.cook.id
+            this.reactForm.cookingidobj = this.cook.cooking
             this.reactForm.like_type = 'FI'
             if(this.cook_has_dope){
                 this.cook_has_dope = !this.cook_has_dope
@@ -432,7 +433,7 @@ export default {
         async react_info(){
             if(this.isAuthenticated){
             this.reactForm.username = this.loggedInUser.username;
-            this.reactForm.cookingidobj = this.cook.id
+            this.reactForm.cookingidobj = this.cook.cooking
             this.reactForm.like_type = 'DE'
             if(this.cook_has_info){
                 this.cook_has_info = !this.cook_has_info

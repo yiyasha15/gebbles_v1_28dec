@@ -231,7 +231,7 @@ methods:{
                 update = true;
             }
             if(update)
-            {let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.id, formName, config);}
+            {let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);}
             //for tagged teachers
             this.updateTeachers();
         } 

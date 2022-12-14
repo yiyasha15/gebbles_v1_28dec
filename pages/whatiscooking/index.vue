@@ -6,8 +6,8 @@
       </v-btn>
       <h2 class ="mb-4 font-weight-medium pl-2">What's cookin </h2>
       <div class="mx-auto width" v-if="firstLoad" >
-        <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
-        <div align="left" justify="left">
+        <v-skeleton-loader width="100%" :loading="loading" type="card" class="mb-4" ></v-skeleton-loader>
+        <div align="left" justify="left" class="mb-4" >
         <div class="mb-1">
           <v-btn icon class="mr-1">
               <v-icon color="black" >mdi-heart</v-icon>
@@ -20,12 +20,10 @@
           </v-btn>
         </div>
         </div>
-        <v-row class="mb-3">
-        <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
-        </v-row>
+        <v-skeleton-loader width="100%" :loading="loading" type="article" class="mb-4" ></v-skeleton-loader>
 
-        <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
-        <div align="left" justify="left">
+        <v-skeleton-loader width="100%" :loading="loading" type="card" class="mb-4" ></v-skeleton-loader>
+        <div align="left" justify="left" class="mb-4" >
         <div class="mb-1">
           <v-btn icon class="mr-1">
               <v-icon color="black" >mdi-heart</v-icon>
@@ -38,30 +36,11 @@
           </v-btn>
         </div>
         </div>
-        <v-row class="mb-3">
-        <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
-        </v-row>
-
-          <v-skeleton-loader width="100%" :loading="loading" type="card" ></v-skeleton-loader>
-        <div align="left" justify="left">
-        <div class="mb-1">
-          <v-btn icon class="mr-1">
-              <v-icon color="black" >mdi-heart</v-icon>
-          </v-btn>
-          <v-btn icon class="mx-1">
-              <v-icon color="black" >mdi-fire</v-icon>
-          </v-btn>
-          <v-btn icon  class="mx-1">
-              <v-icon color="black" >mdi-head-flash-outline</v-icon>
-          </v-btn>
-        </div>
-        </div>
-        <v-row class="mb-3">
-        <v-skeleton-loader width="100%" :loading="loading" type="article" ></v-skeleton-loader>
-        </v-row>
+        <v-skeleton-loader width="100%" :loading="loading" type="article" class="mb-4" ></v-skeleton-loader>
       </div>
       <div class="mx-auto width" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
-        <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed>
+        <!-- <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed> -->
+        <LatestCookingFeed :cook="cook" @postDelete="postDelete"></LatestCookingFeed>
       </div>
       <center v-if="!cooking.length && !firstLoad">
         <img
@@ -76,9 +55,9 @@
 </template>
 
 <script>
-import CookingFeed from '@/components/CookingFeed.vue'
 import EventService from '@/services/EventService.js'
 import { mapGetters} from 'vuex'
+import LatestCookingFeed from '~/components/LatestCookingFeed.vue'
 export default {
   scrollToTop: true,
   head() {  
@@ -101,6 +80,7 @@ export default {
     async getwhatiscooking(){
       try {
       const response = await EventService.getLatestCookings()
+      console.log(response.data);
       this.cooking = response.data.results
       this.page = response.data.next
       this.firstLoad = false
@@ -136,8 +116,8 @@ export default {
 
   },
   components: {
-    CookingFeed
-  },
+    LatestCookingFeed
+},
   data() {
     return {
       looploader:[1,1,1,1,1,1,1,1,1,1,1],

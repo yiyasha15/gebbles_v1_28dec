@@ -71,15 +71,16 @@ export default {
         },
         light: {
           // background-color: '#ece0c7',
-          background: '#fff' ,
-          grey_background:'#F5F5F5',
+          background: '#f0e9da' ,
+          grey_background:'#f0e9da',
           primary: '#815A44',
+          //  #967259
           dark_primary:'#815A44',
-          secondary: '#e3c8b6',
+          secondary: '#dbc1ac',
           accent: '#815A44',
           error: '#af2f2f',
           black: '#000000',
-          white: '#ffffff',
+          white: '#f0e9da',
           teak:'#B48C6C',
           pearl:'#E7DBD3'
         },
