@@ -1,8 +1,8 @@
 <template>
     <v-app>
         <left-navigation></left-navigation>
-        <v-container style="max-width:670px;" class="pa-0 background">
-            <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+        <v-container class="pa-0 background mx-auto width">
+            <v-btn icon class="elevation-0 mt-1 " @click="goback()">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
             <v-tabs class="width mx-auto background" centered>

@@ -110,7 +110,7 @@
                 v-model="showGoingList"
                 width="480px" 
                 persistent>
-                <v-container class="rounded-lg white pa-4">
+                <v-container class="rounded-lg background pa-4">
                 <v-row align="end" justify="end" class="pa-0 ma-0" >
                 <v-btn icon  color="error" class="float-right" @click="showGoingList =false;">
                     <v-icon>mdi-close</v-icon>
@@ -202,7 +202,7 @@
             v-model="glance_dialog"
             persistent
             class="ma-12 ma-md-24 overflow-hidden">
-            <div class="rounded-lg white" max-width="800"> 
+            <div class="rounded-lg background" max-width="800"> 
             <v-row align="end" justify="end" class="pt-3 px-2 ma-0 " >
             <v-btn icon color="error" @click="glance_dialog = false"  align="end" justify="end" >
                 <v-icon >mdi-close</v-icon>
@@ -256,7 +256,7 @@
             v-model="winnerDialog"
             persistent
             class="ma-12 ma-md-24 overflow-hidden">
-            <div class="rounded-lg white" max-width="800"> 
+            <div class="rounded-lg background" max-width="800"> 
             <v-row align="end" justify="end" class="pt-3 px-2 ma-0 " >
             <v-btn icon color="error" @click="winnerDialog = false" align="end" justify="end" >
                 <v-icon >mdi-close</v-icon>

@@ -101,7 +101,6 @@ import CookingFeed from './CookingFeed.vue';
           this.$axios.$patch("/v1/e1t1/sharing/"+this.e1t1.uuid, formName, config).then(res=>{
             console.log(res);
           })
-
         }).catch(error=>{
           this.loadingCooking = false
           console.log(error);
