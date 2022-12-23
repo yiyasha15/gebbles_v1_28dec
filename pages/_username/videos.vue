@@ -119,6 +119,7 @@ export default {
         };
         try {
             const response = await EventService.getWhatsCookingUsername(config)
+            console.log(response);
             this.cooking = response.data.results
             this.cooking_page = response.data.next
             this.firstLoadY = false

@@ -53,22 +53,48 @@
             </video>
             <div class="px-4 px-md-0 my-1">
                 <!-- {{cook.taggedteachers}} -->
-                <span v-for="obj in cook.taggedteachers" :key="obj.id">
-                <nuxt-link class="text-decoration-none" v-if="obj.shareidobj" :to="'/e1t1/'+ obj.shareidobj.uuid">
+                <nuxt-link class="text-decoration-none" v-if="cook.mention1" :to="'/e1t1/'+ cook.mention1.uuid">
                     <v-chip color="black grey" dark outlined class="mr-1 mb-1 " style="cursor:pointer;">
-                    <v-avatar left v-if="obj.shareidobj.teacher">
-                        <v-img :src="obj.shareidobj.teacher.artist_metadata.thumb"></v-img>
+                    <v-avatar left v-if="cook.mention1.teacher">
+                        <v-img :src="cook.mention1.teacher.artist_metadata.thumb"></v-img>
                     </v-avatar>
-                    <v-avatar left v-else-if="obj.shareidobj.s_photo">
-                        <v-img :src="obj.shareidobj.s_photo"></v-img>
+                    <v-avatar left v-else-if="cook.mention1.s_photo">
+                        <v-img :src="cook.mention1.s_photo"></v-img>
                     </v-avatar>
                     <v-avatar left v-else>
                         <v-icon>mdi-account-circle</v-icon>
                     </v-avatar>
-                    {{obj.shareidobj.s_teacher_name}}
+                    {{cook.mention1.s_teacher_name}}
                     </v-chip>
                 </nuxt-link>
-                </span>
+                <nuxt-link class="text-decoration-none" v-if="cook.mention2" :to="'/e1t1/'+ cook.mention2.uuid">
+                    <v-chip color="black grey" dark outlined class="mr-1 mb-1 " style="cursor:pointer;">
+                    <v-avatar left v-if="cook.mention2.teacher">
+                        <v-img :src="cook.mention2.teacher.artist_metadata.thumb"></v-img>
+                    </v-avatar>
+                    <v-avatar left v-else-if="cook.mention2.s_photo">
+                        <v-img :src="cook.mention2.s_photo"></v-img>
+                    </v-avatar>
+                    <v-avatar left v-else>
+                        <v-icon>mdi-account-circle</v-icon>
+                    </v-avatar>
+                    {{cook.mention2.s_teacher_name}}
+                    </v-chip>
+                </nuxt-link>
+                <nuxt-link class="text-decoration-none" v-if="cook.mention3" :to="'/e1t1/'+ cook.mention3.uuid">
+                    <v-chip color="black grey" dark outlined class="mr-1 mb-1 " style="cursor:pointer;">
+                    <v-avatar left v-if="cook.mention3.teacher">
+                        <v-img :src="cook.mention3.teacher.artist_metadata.thumb"></v-img>
+                    </v-avatar>
+                    <v-avatar left v-else-if="cook.mention3.s_photo">
+                        <v-img :src="cook.mention3.s_photo"></v-img>
+                    </v-avatar>
+                    <v-avatar left v-else>
+                        <v-icon>mdi-account-circle</v-icon>
+                    </v-avatar>
+                    {{cook.mention3.s_teacher_name}}
+                    </v-chip>
+                </nuxt-link>
             </div>
             <div :class="{'px-3': $vuetify.breakpoint.smAndDown}" align="left" justify="left">
             <div class="my-2 my-sm-3">
@@ -145,7 +171,9 @@
                 </div>
             </div>
             </div>
+            
         </div>
+        
         <v-divider class="my-4"></v-divider>
         <v-snackbar v-model="valid_snackbar">
         Write something to post.

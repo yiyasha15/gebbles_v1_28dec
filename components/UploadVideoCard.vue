@@ -32,6 +32,7 @@
                                 item-text="s_teacher_name"
                                 item-value="id"
                                 multiple
+                                counter="3"
                                 @input="teacherchange"
                                 >
                                 <template v-slot:selection="data">
@@ -80,6 +81,7 @@
                 </v-form>
             </v-card>
         </v-container>
+        {{selectedTeachers}}
         <v-snackbar v-model="updated">
             Post updated.
         </v-snackbar>
@@ -104,10 +106,13 @@ created(){
         this.cookingForm.video = this.cook_obj.video
         this.cookingForm.lesson = this.cook_obj.lesson
         // console.log("this.cook_obj",this.cook_obj);
-        if(this.cook_obj.taggedteachers)for(let i =0 ;i <this.cook_obj.taggedteachers.length ; i++)
-        {
-            this.selectedTeachers.push(this.cook_obj.taggedteachers[i].shareidobj)
-        }
+        if(this.cook_obj.mention1)
+        this.selectedTeachers.push(this.cook_obj.mention1)
+        if(this.cook_obj.mention2)
+        this.selectedTeachers.push(this.cook_obj.mention2)
+        if(this.cook_obj.mention3)
+        this.selectedTeachers.push(this.cook_obj.mention3)
+        console.log(this.cook_obj.mention1);
     }
 },
 data(){
@@ -118,7 +123,10 @@ data(){
             username:this.$store.state.auth.user.username,
             lesson: "",
             video: "",
-            thumbjs:"",
+            thumbjs: "",
+            mention1: "",
+            mention2: "",
+            mention3: "",
         },
         progressbar: false,
         selectedTeachers: [],
@@ -162,32 +170,28 @@ methods:{
                 headers: {"content-type": "multipart/form-data",
                 "Authorization": this.$auth.strategy.token.get()}
             };
+            //change shorts to video id
             let isShorts = this.cookingForm.video.includes("shorts");
             let videoId;
             if(isShorts){
                 let shortId = this.cookingForm.video.split("/").pop(); //get last string
                 this.cookingForm.video = "https://www.youtube.com/watch?v="+shortId
             }
-                videoId = this.youTubeGetID(this.cookingForm.video)
-                this.cookingForm.thumbjs = 'http://img.youtube.com/vi/' + videoId + '/2.jpg';
+            videoId = this.youTubeGetID(this.cookingForm.video)
+            this.cookingForm.thumbjs = 'http://img.youtube.com/vi/' + videoId + '/2.jpg';
+
+            //add selectedteachers to form
+            if(this.selectedTeachers[0])
+            this.cookingForm.mention1 = this.selectedTeachers[0]
+            if(this.selectedTeachers[1])
+            this.cookingForm.mention2 = this.selectedTeachers[1]
+            if(this.selectedTeachers[2])
+            this.cookingForm.mention3 = this.selectedTeachers[2]
             let formData = new FormData();
             for (let data in this.cookingForm) {
                 formData.append(data, this.cookingForm[data]);
             }
             this.$axios.$post("/v1/whatiscooking/cooking/", formData, config).then((res) => {
-                if(this.selectedTeachers.length){
-                    for (let data of this.selectedTeachers){
-                    let formData = new FormData();
-                    formData.append("username", this.loggedInUser.username);
-                    formData.append("cookingidobj",res.id)
-                    formData.append("shareidobj",data)
-                    formData.append("idea",data)
-                    this.$axios.$post("/v1/whatiscooking/taggedteachers/", formData, config).then((res) => {
-
-                        this.progressbar = false
-                    })
-                }
-                }else console.log("no teachers");
                 this.progressbar = false
                 this.$store.dispatch("check_user_teachers");
                 this.refresh();
@@ -211,7 +215,53 @@ methods:{
             }
             };
             let update=false;
-            let formName = new FormData();
+            let formName = new FormData(); //for tagged teacher
+            if(this.selectedTeachers[0])
+            this.cookingForm.mention1 = this.selectedTeachers[0]
+            else
+            this.cookingForm.mention1 = ""
+
+            if(this.selectedTeachers[1])
+            this.cookingForm.mention2 = this.selectedTeachers[1]
+            else
+            this.cookingForm.mention2 = ""
+            
+            if(this.selectedTeachers[2])
+            this.cookingForm.mention3 = this.selectedTeachers[2]
+            else
+            this.cookingForm.mention3 = ""
+
+            if(this.cook_obj.mention1 != this.cookingForm.mention1)
+            {
+                if(typeof this.cookingForm.mention1 == 'number')
+                formName.append("mention1", this.cookingForm.mention1);
+                else if(typeof this.cookingForm.mention1 == 'object')
+                formName.append("mention1", this.cookingForm.mention1.id);
+                else
+                formName.append("mention1", "");
+                update = true;
+            }
+            if(this.cook_obj.mention2 != this.cookingForm.mention2)
+            {
+                if(typeof this.cookingForm.mention2 == 'number')
+                formName.append("mention2", this.cookingForm.mention2);
+                else if(typeof this.cookingForm.mention2 == 'object')
+                formName.append("mention2", this.cookingForm.mention2.id);
+                else
+                formName.append("mention2", "");
+                update = true;
+                }
+            if(this.cook_obj.mention3 != this.cookingForm.mention3)
+            {
+                if(typeof this.cookingForm.mention3 == 'number')
+                formName.append("mention3", this.cookingForm.mention3);
+                else if(typeof this.cookingForm.mention3 == 'object')
+                formName.append("mention3", this.cookingForm.mention3.id);
+                else
+                formName.append("mention3", "");
+                update = true;
+            }
+            console.log(this.cookingForm);
             if(this.cook_obj.lesson != this.cookingForm.lesson)
             {formName.append("lesson", this.cookingForm.lesson);
             update = true;}
@@ -233,10 +283,15 @@ methods:{
             if(update)
             {let response= await this.$axios.$patch("/v1/whatiscooking/cooking/"+this.cook_obj.uuid, formName, config);}
             //for tagged teachers
-            this.updateTeachers();
+            // this.updateTeachers();
+            this.progressbar =false
+            this.updated = true;
+            this.refresh();
+            this.$router.push("/whatiscooking/"+this.cook_obj.uuid);
+            this.$store.dispatch("remove_cook_obj");
         } 
         catch (error) {
-            console.log("error",error);
+            console.log("error",error, error.response);
             this.progressbar =false
         }
     },
