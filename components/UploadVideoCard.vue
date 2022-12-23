@@ -81,7 +81,7 @@
                 </v-form>
             </v-card>
         </v-container>
-        {{selectedTeachers}}
+        <!-- {{selectedTeachers}}s -->
         <v-snackbar v-model="updated">
             Post updated.
         </v-snackbar>
