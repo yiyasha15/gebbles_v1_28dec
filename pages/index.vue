@@ -1,14 +1,14 @@
 <template>
   <div v-if="!isAuthenticated">
     <v-row class="home_width mx-auto text-center mt-sm-3">
-      <v-col cols="12" md="6" align="center" justify="center">
+      <v-col cols="6" align="center" justify="center">
           <v-img
             :lazy-src="require('@/assets/home.png')"
             :max-width="maxwidth"
             :src="require('@/assets/home.png')"
           ></v-img>
       </v-col>
-      <v-col cols="12" md="6" class="mt-md-16">
+      <!-- <v-col cols="12" md="6" class="mt-md-16">
           <center class="mt-6">
             
             <v-row style="max-width:390px; margin:0 auto">
@@ -37,7 +37,7 @@
               </v-col>
             </v-row>
           </center>
-      </v-col>
+      </v-col> -->
     </v-row>
     <v-row justify="center" class="mt-sm-6 px-2 mx-1" >
     <div class="text-center display-1 font-weight-normal my-5">
