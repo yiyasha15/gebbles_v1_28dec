@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isAuthenticated">
     <v-row class="home_width mx-auto text-center mt-sm-3">
-      <v-col cols="6" align="center" justify="center">
+      <v-col cols="12" align="center" justify="center">
           <v-img
             :lazy-src="require('@/assets/home.png')"
             :max-width="maxwidth"
@@ -42,7 +42,8 @@
     <v-row justify="center" class="mt-sm-6 px-2 mx-1" >
     <div class="text-center display-1 font-weight-normal my-5">
       Connecting the groove <br>
-      celebrating<span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
+      celebrating <br class="hidden-sm-and-up">
+      <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
       -webkit-background-clip: text;-webkit-text-fill-color: transparent;"> Each one Teach one</span>
     </div>
     </v-row>

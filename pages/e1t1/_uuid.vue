@@ -12,7 +12,7 @@
             </v-col>
         </v-row> -->
         <!-- {{this.$vuetify.theme.dark}} -->
-        {{e1t1}}
+        <!-- {{e1t1}} -->
         <v-list two-line class="pa-0 background">
         <v-list-item class="pa-0">
             <v-list-item-avatar v-if="e1t1.profile_photo">

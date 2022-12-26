@@ -63,87 +63,98 @@
 
 <script>
 import CountryFlag from 'vue-country-flag'
-import { mapGetters } from 'vuex'
-import CookingCard from './CookingCard.vue'
-    export default {
-      name: 'SharingsCard',
-      props: {
-        //artist: Object,
-        share: Object
-      },
-      data(){
-      return{
-        dialog:false,
-        videoId:'',
-        cook:{},
-        loadingCooking:false
-      }
-    },
-      components:{
-        CountryFlag,
-        CookingCard
-      },
-      computed: {
-        ...mapGetters([ 'userHasPortfolio']),
-        img_height () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 73
-          case 'sm': return 73
-          case 'md': return 134
-          case 'lg': return 134
-          case 'xl': return 134
-        }
-      },
-      card_width () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 110
-          case 'sm': return 110
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
-        }
-      },
-      card_height() {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
-        }
-      }
-      },
-      methods:{
-      showCooking(){
-        this.loadingCooking = true
-        this.videoId = getIdFromURL(this.share.st_latest_cooking_yt_link) 
-        this.dialog = true
-        const config = {
-          headers: {"content-type": "multipart/form-data",
-              "Authorization": this.$auth.strategy.token.get()
-          }
-        };
-        EventService.getWhatsCookingId(this.share.st_latest_cooking_uuid).then(res => {
-          this.loadingCooking = false
-          this.cook = res.data
-          // patch video watched
-          let formName = new FormData();
-          formName.append("st_latest_cooking_watched", true);
-          formName.append("id", this.share['id']);
-          this.$axios.$patch("/v1/e1t1/sharing/"+this.share.uuid, formName, config).then(res=>{
-            console.log(res);
-          })
-        }).catch(error=>{
-          this.loadingCooking = false
-          console.log(error);
-        })
-      },
-      goToE1t1(uuid){
-        this.$router.push('/e1t1/'+uuid)
-      }
-      }
-      
+import { Youtube } from 'vue-youtube';
+import { getIdFromURL } from 'vue-youtube-embed'
+import EventService from '@/services/EventService.js'
+import CookingFeed from './CookingFeed.vue';
+
+export default {
+  name: 'StudentsCard',
+  props: {
+    //artist: Object,
+    share: Object
+  },
+  data(){
+    return{
+      dialog:false,
+      videoId:'',
+      cook:{},
+      loadingCooking:false
     }
+  },
+  components:{
+    CountryFlag,
+    Youtube,
+    CookingFeed
+  },
+  computed: {
+  img_height () {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return 73
+      case 'sm': return 73
+      case 'md': return 134
+      case 'lg': return 134
+      case 'xl': return 134
+    }
+  },
+  card_width () {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return 110
+      case 'sm': return 110
+      case 'md': return 205
+      case 'lg': return 205
+      case 'xl': return 205
+    }
+  },
+  card_height() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return 105
+      case 'sm': return 105
+      case 'md': return 205
+      case 'lg': return 205
+      case 'xl': return 205
+    }
+  },
+  height () {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return 220
+      case 'sm': return 410
+      case 'md': return 410
+      case 'lg': return 410
+      case 'xl': return 410
+    }
+  },
+  },
+  methods:{
+  showCooking(){
+    this.loadingCooking = true
+    this.videoId = getIdFromURL(this.share.st_latest_cooking_yt_link) 
+    this.dialog = true
+    const config = {
+      headers: {"content-type": "multipart/form-data",
+          "Authorization": this.$auth.strategy.token.get()
+      }
+    };
+    EventService.getWhatsCookingId(this.share.st_latest_cooking_uuid).then(res => {
+      this.loadingCooking = false
+      this.cook = res.data
+      // patch video watched
+      let formName = new FormData();
+      formName.append("st_latest_cooking_watched", true);
+      formName.append("id", this.share['id']);
+      this.$axios.$patch("/v1/e1t1/sharing/"+this.share.uuid, formName, config).then(res=>{
+        console.log(res);
+      })
+    }).catch(error=>{
+      this.loadingCooking = false
+      console.log(error);
+    })
+  },
+  goToE1t1(uuid){
+    this.$router.push('/e1t1/'+uuid)
+  }
+  }
+}
 </script>
 <style scoped>
 

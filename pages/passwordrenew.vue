@@ -12,7 +12,7 @@
             </v-card-actions>
 	    </v-card>
             <v-snackbar v-model="snackbar"> 
-                Password reset instructions sent.
+                Password reset instructions sent. Please check your email and follow the instructions.
             </v-snackbar>
         </v-container>
     </v-app>
@@ -39,7 +39,7 @@ export default {
                 this.snackbar = true;
                 this.email=''
                 this.progressbar = false
-                this.$router.push('/');
+                // this.$router.push('/');
             } catch (err) {
                 if(err.response.data){
                     let er = err.response.data
