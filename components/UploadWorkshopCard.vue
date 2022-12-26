@@ -178,7 +178,7 @@
                     @click="addWorkshop()" >Create workshop</v-btn>
                     <v-btn v-else outlined small class="text-decoration-none"  color="black" :loading="progressbar"
                     @click="updateWorkshop()" >Update workshop</v-btn>
-                    <!-- <v-btn text @click="clear" small color="error">Cancel</v-btn> -->
+                    <v-btn text @click="clear" small color="error">Cancel</v-btn>
                 </v-form>
             </v-card>
         </v-container>
@@ -598,6 +598,7 @@ export default {
     clear(){
         this.workshop.poster ='';
         this.$refs.workshop_form.reset();
+        this.$store.dispatch("remove_editing_workshop_obj");
     },
     searchArtists(){
         this.artists=[]

@@ -10,16 +10,17 @@
         :width="card_width" 
         :max-height="card_height">
         <v-img v-if = e1t1.image_mini :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" :height="img_height" :width="card_width">
-          <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="e1t1.latest_cooking_uuid"
+          <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="e1t1.te_latest_cooking_uuid"
             @click.stop="showCooking()"> 
-            <v-icon v-if="!e1t1.latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
+            <v-icon v-if="!e1t1.te_latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
             <v-icon v-else color="black">mdi-play-circle-outline</v-icon>
           </v-btn>
         </v-img>
         <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"  :width="card_width" contain>
-        <v-btn icon small class="float-right ma-1 white" 
-          @click.stop="showCooking()">
-          <v-icon color="red" small>mdi-calendar-heart</v-icon>
+        <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="e1t1.te_latest_cooking_uuid"
+            @click.stop="showCooking()"> 
+            <v-icon v-if="!e1t1.te_latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
+            <v-icon v-else color="black">mdi-play-circle-outline</v-icon>
           </v-btn>
         </v-img>
         <v-card-actions height="32px">
@@ -84,19 +85,19 @@ import CookingFeed from './CookingFeed.vue';
     methods:{
       showCooking(){
         this.loadingCooking = true
-        this.videoId = getIdFromURL(this.e1t1.latest_cooking_yt_link) 
+        this.videoId = getIdFromURL(this.e1t1.te_latest_cooking_yt_link) 
         this.dialog = true
         const config = {
           headers: {"content-type": "multipart/form-data",
               "Authorization": this.$auth.strategy.token.get()
           }
         };
-        EventService.getWhatsCookingId(this.e1t1.latest_cooking_uuid).then(res => {
+        EventService.getWhatsCookingId(this.e1t1.te_latest_cooking_uuid).then(res => {
           this.loadingCooking = false
           this.cook = res.data
           // patch video watched
           let formName = new FormData();
-          formName.append("latest_cooking_watched", true);
+          formName.append("te_latest_cooking_watched", true);
           formName.append("id", this.e1t1['id']);
           this.$axios.$patch("/v1/e1t1/sharing/"+this.e1t1.uuid, formName, config).then(res=>{
             console.log(res);
