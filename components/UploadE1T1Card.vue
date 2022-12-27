@@ -3,7 +3,7 @@
         <v-container class="mx-auto pa-0" fluid style="max-width:550px" >
             <v-card class="px-1 pt-3" color="background" elevation=0 >
                 <center>
-                    <img src = "~/assets/e1t111.jpeg" :width="img_width" alt="e1t1 logo">
+                    <img src = "~/assets/e1t1.png" :width="img_width" alt="e1t1 logo">
                 </center>
                 <div class="font-weight-medium mb-4 text-h6 text-sm-h5" align="center" justify="center" v-if="!share_obj">Give a shoutout<br>
                     <span style="background: -webkit-linear-gradient(315deg,#CDA88E 30%,#815A44); 
@@ -122,7 +122,7 @@
                         counter
                             v-model = "sharing.s_appreciation"
                             prepend-icon="mdi-account-heart-outline"
-                            label= "*Share what you remember the most about them."
+                            label= "*Share about your experience with them."
                             >
                         </v-textarea>
                         <v-text-field 
@@ -230,11 +230,11 @@ export default {
         ...mapGetters([ 'share_obj','usersPortfolio','loggedInUser']),
         img_width () {
             switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 180
-            case 'sm': return 180
-            case 'md': return 240
-            case 'lg': return 260
-            case 'xl': return 300
+            case 'xs': return 320
+            case 'sm': return 320
+            case 'md': return 390
+            case 'lg': return 390
+            case 'xl': return 390
             }
         },
         videoId(){

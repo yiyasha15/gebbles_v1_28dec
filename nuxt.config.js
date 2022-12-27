@@ -72,7 +72,7 @@ export default {
         light: {
           // background-color: '#ece0c7',
           background: '#f0e9da' ,
-          grey_background:'#f0e9da',
+          grey_background:'#e2dbcb',
           primary: '#815A44',
           //  #967259
           dark_primary:'#815A44',

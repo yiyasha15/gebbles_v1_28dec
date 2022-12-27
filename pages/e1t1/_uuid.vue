@@ -188,12 +188,11 @@
                     <youtube width="100%" :height="ytheight" :video-id= 'videoId'></youtube>
                 </center>
             </v-col>
-            <v-col cols="12">
+            <!-- <v-col cols="12">
                 <v-btn class="mt-4" small outlined color="black" @click="upload_video = true" v-if="loggedInUser.username == e1t1.username">
                     <h4 class="font-weight-medium" style="text-transform: capitalize;">Upload a video</h4><v-icon small class="pl-1">mdi-play-circle-outline</v-icon>
                 </v-btn>
             </v-col>
-            <!-- {{cookingsfiltered}} -->
             <v-col cols="12">
                 <div v-if="cookingLoaded">
                     <v-layout class="pa-2" v-if="cookingsfiltered.length>0" wrap row justify-start>
@@ -209,7 +208,7 @@
                     </div>
                     </v-layout>
                 </div>
-            </v-col>
+            </v-col> -->
         </v-row>
         <v-card v-intersect="infiniteScrollingCooking"></v-card>
     </v-container>  
@@ -278,7 +277,7 @@ export default {
         let videoId = getIdFromURL(url1) //getting id from video url
         this.videoId = videoId //assigning the id to <youtube> video id
         } 
-        this.get_cookings_filtered(this.e1t1.id);
+        // this.get_cookings_filtered(this.e1t1.id);
     },
     mounted() {
         if(this.isAuthenticated)

@@ -139,12 +139,15 @@ export default {
       this.loadingCooking = false
       this.cook = res.data
       // patch video watched
-      let formName = new FormData();
-      formName.append("st_latest_cooking_watched", true);
-      formName.append("id", this.share['id']);
-      this.$axios.$patch("/v1/e1t1/sharing/"+this.share.uuid, formName, config).then(res=>{
+      if(!this.share.st_latest_cooking_watched){
+        let formName = new FormData();
+        formName.append("st_latest_cooking_watched", true);
+        formName.append("id", this.share['id']);
+        this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.share.uuid, formName, config).then(res=>{
         console.log(res);
+        this.share.st_latest_cooking_watched = !this.share.st_latest_cooking_watched;
       })
+      }
     }).catch(error=>{
       this.loadingCooking = false
       console.log(error);

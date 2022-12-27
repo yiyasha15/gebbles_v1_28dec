@@ -18,9 +18,9 @@
                                 v-model = "cookingForm.lesson"
                                 label= "Share what you're exploring..">
                             </v-textarea>
-                            <p class ="font-weight-light body-1 xs12">Let's share about other fellow artists and mention them if they inspired you to work on your craft. </p>
-                            <p class="body-2"><b>Give a shoutout to add them here.</b></p>
-                            <p class="body-2">This will be added in their sharing page and they will be notified.</p> 
+                            <p class ="body-1 font-weight-bold xs12">Let's share about other fellow artists and mention them if they inspired you to work on your craft. </p>
+                            <p class="font-weight-light body-2"> <nuxt-link to="/create/each1teach1/" class="text-decoration-none"> Give a shoutout </nuxt-link> first, to add them here. This will be added in their sharing page and they will be notified. </p>
+                            <!-- <p class="font-weight-light body-2">This will be added in their sharing page and they will be notified.</p>  -->
                             <v-autocomplete
                                 class="pt-2"
                                 v-model="selectedTeachers"
@@ -71,8 +71,8 @@
                                     </template>
                                 </template>
                             </v-autocomplete>  
-                            <p class ="font-weight-light body-1 xs12">Video Privacy </p>
-                            <p class="body-2"><b>Choose who can see your video.</b></p>
+                            <p class ="font-weight-bold body-1 xs12">Video Privacy </p>
+                            <p class="body-2 font-weight-light "> Choose who can see your video. </p>
                             <v-radio-group
                                 v-model="cookingForm.access"
                                 row

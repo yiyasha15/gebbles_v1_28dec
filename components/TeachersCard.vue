@@ -96,12 +96,14 @@ import CookingFeed from './CookingFeed.vue';
           this.loadingCooking = false
           this.cook = res.data
           // patch video watched
-          let formName = new FormData();
-          formName.append("te_latest_cooking_watched", true);
-          formName.append("id", this.e1t1['id']);
-          this.$axios.$patch("/v1/e1t1/sharing/"+this.e1t1.uuid, formName, config).then(res=>{
+          if(!this.e1t1.te_latest_cooking_watched){
+            let formName = new FormData();
+            formName.append("te_latest_cooking_watched", true);
+            formName.append("id", this.e1t1['id']);
+            this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.e1t1.uuid, formName, config).then(res=>{
             console.log(res);
-          })
+            this.e1t1.te_latest_cooking_watched = !this.e1t1.te_latest_cooking_watched
+          })}
         }).catch(error=>{
           this.loadingCooking = false
           console.log(error);
