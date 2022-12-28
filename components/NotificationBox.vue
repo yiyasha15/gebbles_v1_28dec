@@ -263,12 +263,12 @@ export default {
 }
 .width{
 min-width: 432px;
-max-height: 600px;
+max-height: 80vh;
 }
 @media only screen and (max-width: 600px) {
 .width{
   min-width: 300px;
-max-height: 400px;
+max-height: 80vh;
 }
 }
 </style>

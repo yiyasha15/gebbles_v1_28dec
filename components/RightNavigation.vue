@@ -15,7 +15,7 @@
             </v-icon>
         </v-avatar>
     </v-btn>
-    <v-navigation-drawer height="90.2vh"
+    <v-navigation-drawer :height="drawer_height"
         clipped-right temporary
         class="ml-md-4 mt-16 pa-3 rounded-lg" 
         app
@@ -251,6 +251,15 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters(['isAuthenticated', 'loggedInUser', 'userHasPortfolio','usersPortfolio']),
+        drawer_height() {
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return '80vh'
+            case 'sm': return '80vh'
+            case 'md': return '80vh'
+            case 'lg': return '80vh'
+            case 'xl': return '80vh'
+          }
+        },
     },
     methods:{
         toggleTheme() {

@@ -4,7 +4,7 @@
             mobile-breakpoint="1190"
             floating
             clipped
-            class="ml-md-4 mt-16"
+            class="ml-md-4 mt-16 mb-8"
             app
             left 
             hide-overlay
