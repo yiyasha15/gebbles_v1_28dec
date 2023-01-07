@@ -38,6 +38,7 @@
         </div>
         <v-skeleton-loader width="100%" :loading="loading" type="article" class="mb-4" ></v-skeleton-loader>
       </div>
+    <!-- {{cooking}} -->
       <div class="mx-auto width" v-show="!firstLoad" v-for="cook in cooking" :key ="cook.index">
         <!-- <cooking-feed :cook="cook" @postDelete="postDelete"></cooking-feed> -->
         <LatestCookingFeed :cook="cook" @postDelete="postDelete"></LatestCookingFeed>

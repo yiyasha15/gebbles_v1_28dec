@@ -22,7 +22,7 @@
                 <div v-if="journey.length && showJourney">
                     <v-layout wrap row justify-start class="mx-auto width background pt-3">
                         <div v-for="journey in journey" :key ="journey.index">
-                            <journey-card :journey = "journey" v-if="!journey.ishighlight" ></journey-card>
+                            <journey-card :journey = "journey"></journey-card>
                         </div>
                     </v-layout>
                 <v-card v-intersect="infiniteScrollingJourney"></v-card>
@@ -38,7 +38,7 @@
                 <div v-if="showEventsJourney">
                     <v-layout wrap row justify-start class="mx-auto width background pt-3">
                         <div v-for="journey in journey" :key ="journey.index">
-                            <journey-card :journey = "journey" v-if="journey.event" ></journey-card>
+                            <journey-card :journey = "journey" v-if="journey.event!= 'false'&& journey.event" ></journey-card>
                         </div>
                     </v-layout>
                 <v-card v-intersect="infiniteScrollingJourney"></v-card>
@@ -123,7 +123,7 @@ export default {
         this.showJourney = this.showEventsJourney 
         this.showPrivate = false
         this.showEventsJourney = !this.showEventsJourney
-        this.filteredJourneyByEventArray = this.journey.filter(journey => journey.event !="" && journey.event != null);
+        this.filteredJourneyByEventArray = this.journey.filter(journey => journey.event != "" && journey.event != null && journey.event != 'false');
     },
     filterPrivate(){
         this.showJourney = this.showPrivate

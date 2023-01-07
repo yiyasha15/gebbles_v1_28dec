@@ -164,7 +164,7 @@
                         <v-btn v-else outlined small class="text-decoration-none"  color="black"
                         :loading="progressbar" 
                         @click="update">Update</v-btn>
-                        <!-- <v-btn color="error" small text @click="clear">Cancel</v-btn> -->
+                        <v-btn color="error" small text @click="clear">Cancel</v-btn>
                     </div>
                 </v-stepper>
             </v-card>

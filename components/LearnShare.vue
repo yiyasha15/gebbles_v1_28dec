@@ -1,5 +1,5 @@
 <template>
-    <v-tabs class="width mx-auto background" centered>
+    <v-tabs v-if="accessAllowed" class="width mx-auto background" centered>
         <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learning</p>
             <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p>
@@ -9,7 +9,7 @@
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
         <v-tab-item v-if="!firstLoad" class="background">
-            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{loggedInUser.username}}</b> gave a shoutout to</div>
+            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
             <div v-if="teachers.length">
             <v-layout wrap justify-start class="py-2 background" >
                 <div v-for="share in teachers" :key ="share.index">
@@ -27,7 +27,7 @@
             <v-card v-intersect="infiniteScrollingTeacher" class="background"></v-card>
         </v-tab-item>
         <v-tab-item v-else class="background">
-            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{loggedInUser.username}}</b> gave a shoutout to</div>
+            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
             <v-layout wrap row justify-start class="py-2 background">
             <div v-for="n in this.looploader" :key ="n.index">
                 <card-skeleton-loader></card-skeleton-loader>
@@ -35,7 +35,7 @@
             </v-layout>
         </v-tab-item>
         <v-tab-item v-if="!firstLoad" class="background">
-            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{loggedInUser.username}}</b> a shoutout</div>
+            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
             <div v-if="students.length">
             <v-layout wrap  justify-start class="py-2 background">
                 <div v-for="share in students" :key ="share.index">
@@ -53,7 +53,7 @@
             <v-card v-intersect="infiniteScrollingStudents" class="background"></v-card>
         </v-tab-item>
         <v-tab-item v-else class="background">
-            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{loggedInUser.username}}</b> a shoutout</div>
+            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
             <v-layout wrap row justify-start class="py-2 background">
             <div v-for="n in this.looploader" :key ="n.index">
                 <v-skeleton-loader></v-skeleton-loader>
@@ -61,6 +61,13 @@
             </v-layout>
         </v-tab-item>
     </v-tabs>
+    <div v-else>
+        <center>
+            <v-icon>mdi-lock</v-icon>
+            Access is not allowed.<br>
+            To view the content, you need to give a shoutout.
+        </center>
+    </div>
 </template>
 <script>
 import EventService from '@/services/EventService.js'
@@ -71,6 +78,7 @@ import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 
 export default {
     middleware : 'check_auth',
+    props: ['artist'],
     components: {
         StudentsCard,
         TeachersCard,
@@ -81,6 +89,7 @@ export default {
     },
     methods:{
         async getsharing(){
+            this.accessAllowed= true
             const key = 'id';
             const config = {
                 headers: {
@@ -101,6 +110,7 @@ export default {
                 this.firstLoad = false
             }
         },
+        getOtherSharing(){},
         infiniteScrollingTeacher(entries, observer, isIntersecting) {
             if(this.teachers_page)
             {
@@ -133,7 +143,10 @@ export default {
         },
     },
     created(){
+        if(this.artist.username == this.loggedInUser.username)
         this.getsharing();
+        else
+        this.getOtherSharing();
     },
     data() {
     return {
@@ -144,6 +157,7 @@ export default {
         looploader:[1,1,1,1,1,1,1,1,1],
         loading: true,
         firstLoad: true,
+        accessAllowed:false
     }
   },
 }

@@ -5,7 +5,7 @@
         <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
-        <LearnShare></LearnShare>
+        <LearnShare :artist="artist"></LearnShare>
         </v-container>
     </v-app>
 </template>

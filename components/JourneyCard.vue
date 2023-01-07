@@ -22,7 +22,7 @@
         </div>
         <v-spacer></v-spacer>
          <v-icon v-if="journey.ishighlight" class=" float-right" color="orange" x-small>mdi-star</v-icon>
-        <v-icon v-if="journey.event" class="pl-1 float-right" color="black" x-small>mdi-calendar-heart</v-icon>
+        <v-icon v-if="journey.event!= 'false'&& journey.event " class="pl-1 float-right" color="black" x-small>mdi-calendar-heart</v-icon>
         <v-icon v-if="journey.isprivate" class="pl-1 float-right" x-small>mdi-lock</v-icon>
       </v-card-actions>
       <v-dialog
@@ -154,7 +154,7 @@
                 <v-btn v-if="fullJourney.jolink" icon @click="openlink">
                   <v-icon class="pl-1 float-right" small>mdi-link</v-icon>
                 </v-btn>
-                <v-tooltip v-if="fullJourney.event" top>
+                <v-tooltip v-if="fullJourney.event && fullJourney.event !='false'" top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs"  @click="goToEvent"
                         v-on="on">

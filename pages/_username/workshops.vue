@@ -37,7 +37,7 @@
                 </center>
             </v-tab-item>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited workshops to your portfolio journey</div>
+                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited workshops to your journey</div>
                 <!-- tagged Workshops -->
                 <v-layout wrap row justify-start v-if="firstLoadTagged" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">

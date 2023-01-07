@@ -21,7 +21,7 @@
                     </template>
                     <span>Edit portfolio</span>
                 </v-tooltip>
-                <v-tooltip top>
+                <!-- <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn @click="openPayToArtistDialog" small outlined
                       class="mx-3 my-sm-3"
@@ -33,7 +33,7 @@
                     </v-btn>
                     </template>
                     <span>Support {{artist.username}}</span>
-                </v-tooltip>
+                </v-tooltip> -->
             </v-row>
             <v-row class="mt-0">
                 <v-col cols="12" md="6">

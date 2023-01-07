@@ -49,7 +49,8 @@
             <register-login v-else></register-login>
             <right-navigation></right-navigation>
         </v-app-bar>
-    </div>
+
+        </div>
     <!-- password tooltip -->
     <!-- Your password must be must be at least 8 characters, and contain at least one number and one special character. -->
 </template>

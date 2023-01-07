@@ -8,14 +8,23 @@
                 <gebbles-divider class="mb-5"></gebbles-divider>
                 <v-stepper v-model="e6" vertical class="elevation-0">
                     <v-stepper-step :complete="e6 > 1" step="1" @click.native="e6 = 1" style="cursor:pointer">
-                    *Share photos from your events, sessions.. <small v-if=" editing_obj && journey.event" class="mt-1">Add this event to your journey</small>
+                    *Share about your experience <small v-if=" editing_obj && journey.event" class="mt-1">Add this event to your journey</small>
                     </v-stepper-step>
                     <v-stepper-content style="border-left: none;" step="1" width="100%" class="ma-0 px-sm-5 px-2"> 
+                        <v-form ref="journey_form">
+                        <v-text-field
+                            v-model = "journey.joevent"
+                            label= "*Title"
+                            :rules="titleRules"
+                            :maxlength="255"
+                            counter
+                            >
+                        </v-text-field>
                         <v-slide-group
                         mobile-breakpoint="400"
                         min-width="2px"
                         v-model="model"
-                        class="pb-4 ma-0"
+                        class="my-6 mx-0"
                         show-arrows>
                         <v-slide-item>
                             <div class="mr-1">
@@ -122,21 +131,6 @@
                             </div>
                         </v-slide-item> -->
                         </v-slide-group>
-                    <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
-                    <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->
-                    </v-stepper-content>
-            
-                    <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">*Your experience</v-stepper-step>
-                    <v-stepper-content step="2" class="ma-0" style="border-left: none;">
-                        <v-form ref="journey_form">
-                        <v-text-field
-                            v-model = "journey.joevent"
-                            label= "*Title"
-                            :rules="titleRules"
-                            :maxlength="255"
-                            counter
-                            >
-                        </v-text-field>
                         <v-text-field
                             prepend-icon="mdi-map-marker-outline" 
                             v-model = "journey.city"
@@ -205,12 +199,12 @@
                             :rules="urlRules">
                         </v-text-field>
                         </v-form>
-                        <v-btn color="black" text small outlined @click="e6 = 3">Next</v-btn>
-                        <v-btn color="primary" text small @click="e6 = 1">Previous</v-btn>
+                    <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
+                    <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->
                     </v-stepper-content>
             
-                    <v-stepper-step :complete="e6 > 3" step="3" @click.native="e6 = 3" style="cursor:pointer">Highlights and Privacy</v-stepper-step>
-                    <v-stepper-content step="3" class="ma-0" style="border-left: none;">
+                    <v-stepper-step :complete="e6 > 2" step="2" @click.native="e6 = 2" style="cursor:pointer">Highlights and Privacy</v-stepper-step>
+                    <v-stepper-content step="2" class="ma-0" style="border-left: none;">
                         <h4 class="font-weight-light">Add to highlights</h4>
                             <v-radio-group
                                 v-model="journey.ishighlight"
@@ -253,15 +247,16 @@
                                     :value="false"
                                 ></v-radio>
                             </v-radio-group>
-                        <v-btn color="primary" small text @click="e6 = 2">Previous</v-btn>
+                        <v-btn color="primary" outlined text small @click="e6 = 1">Previous</v-btn>
+                        
                     </v-stepper-content>
                     <div class="mx-sm-7 mx-6">
-                        <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
-                        @click="submit" :loading="progressbar" >Post</v-btn>
-                        <v-btn v-else outlined small class="text-decoration-none"  color="black"
-                        @click="update" :loading="progressbar">Update</v-btn>
-                        <!-- <v-btn text @click="clear" small color="error">Cancel</v-btn> -->
-                    </div>
+                            <v-btn v-if="!editing_obj" outlined small class="text-decoration-none"  color="black"
+                            @click="submit" :loading="progressbar" >Post</v-btn>
+                            <v-btn v-else outlined small class="text-decoration-none"  color="black"
+                            @click="update" :loading="progressbar">Update</v-btn>
+                            <v-btn text @click="clear" small color="error">Cancel</v-btn>
+                        </div>
                 </v-stepper>
             </v-card>
         </v-container>
