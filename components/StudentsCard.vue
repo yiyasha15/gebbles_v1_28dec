@@ -12,6 +12,10 @@
         <v-img v-if="share.image_mini"
             :src = "share.image_mini"
             :height="img_height" :width="card_width">
+            <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="!share.is_approved"
+              @click.stop="approveDialog = true"> 
+              <v-icon color="red">mdi-check-circle-outline</v-icon>
+            </v-btn>
             <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="share.st_latest_cooking_uuid"
               @click.stop="showCooking()"> 
               <v-icon v-if="!share.st_latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
@@ -19,6 +23,10 @@
             </v-btn>
         </v-img>
         <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height" :width="card_width" contain>
+          <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="!share.is_approved"
+              @click.stop="approveDialog = true"> 
+              <v-icon color="red">mdi-check-circle-outline</v-icon>
+            </v-btn>
           <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="share.st_latest_cooking_uuid"
             @click.stop="showCooking()"> 
             <v-icon v-if="!share.st_latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
@@ -57,7 +65,20 @@
         </div>
         <CookingFeed v-else :cook="cook"></CookingFeed>
       </v-container>
-    </v-dialog> 
+    </v-dialog>
+    <v-dialog v-model="approveDialog" width="500" persistent>
+        <v-card class="pa-6">
+            <p>Do you want to approve this shoutout?</p><small>Approving the shoutout will give them access to view your Each one Teach one posts.</small>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="approveLoading"
+                @click="approveAsStudent">Approve</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="approveDialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -77,9 +98,11 @@ export default {
   data(){
     return{
       dialog:false,
+      approveDialog:false,
       videoId:'',
       cook:{},
-      loadingCooking:false
+      loadingCooking:false,
+      approveLoading:false
     }
   },
   components:{
@@ -155,6 +178,30 @@ export default {
   },
   goToE1t1(uuid){
     this.$router.push('/e1t1/'+uuid)
+  },
+  async approveAsStudent(){
+    this.approveLoading = true
+    const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()
+        }
+    };
+    try {
+      let formName = new FormData();
+        formName.append("is_approved", true);
+        formName.append("id", this.share['id']);
+        this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.share.uuid, formName, config).then(res=>{
+        console.log(res);
+        this.approveDialog = false
+        this.approveLoading = false
+        this.share.is_approved = !this.share.is_approved;
+      })
+        
+    } catch (e) {
+        this.approveDialog = false
+        this.approveLoading = false
+        console.log(e.response);
+    }
   }
   }
 }

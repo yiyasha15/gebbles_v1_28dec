@@ -146,7 +146,7 @@ computed: {
       case 'xl': return 340
     }
   },
-},
+}
 }
 //https://stackoverflow.com/questions/57800048/how-to-enable-dark-mode-with-custom-colors-in-light-theme-in-vuetify
 //You know that you have a groove that no other dancer has in this 

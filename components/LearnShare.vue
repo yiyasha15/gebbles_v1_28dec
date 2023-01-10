@@ -4,7 +4,7 @@
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learning</p>
             <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p>
         </v-tab>
-        <v-tab>
+        <v-tab v-if="!studentAccess">
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Sharing</p>
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
@@ -64,8 +64,8 @@
     <div v-else>
         <center>
             <v-icon>mdi-lock</v-icon>
-            Access is not allowed.<br>
-            To view the content, you need to give a shoutout.
+            Access is not allowed.<br><br>
+            To view their each 1 teach 1, you need to give a shoutout and wait for approval.
         </center>
     </div>
 </template>
@@ -97,6 +97,7 @@ export default {
                     "Authorization": this.$auth.strategy.token.get()
                 }
             };
+            console.log("get sharing",this.$auth.strategy.token.get());
             try {
             const teachers_response = await EventService.getEach1Teach1_teachers(config)
             const students_response = await EventService.getEach1Teach1_students(config)
@@ -110,7 +111,30 @@ export default {
                 this.firstLoad = false
             }
         },
-        getOtherSharing(){},
+        async getOtherSharing(){
+            this.accessAllowed= true
+            const config = {
+                headers: {
+                    "content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            };
+            try {
+            const teachers_response = await EventService.getOthersSharing(this.artist.username, config)
+            // const students_response = await EventService.getEach1Teach1_students(config)
+            this.teachers = teachers_response.data.results
+            // this.students = students_response.data.results
+            this.teachers_page = teachers_response.data.next
+            // this.students_page = students_response.data.next
+            this.studentAccess = true
+            this.firstLoad = false
+            } catch (e) {
+                console.log(e.response);
+                if(e.response.data.detail == 'Authentication credentials were not provided.')
+                this.accessAllowed= false
+                this.firstLoad = false
+            }
+        },
         infiniteScrollingTeacher(entries, observer, isIntersecting) {
             if(this.teachers_page)
             {
@@ -143,6 +167,22 @@ export default {
         },
     },
     created(){
+        if(!this.$auth.strategy.token.get()){
+			console.log("logged out");
+			this.$store.dispatch("remove_portfolio")
+			this.$store.dispatch("remove_bio")
+			this.$store.dispatch("remove_teachers")
+			this.$store.dispatch("remove_share_obj")
+			this.$store.dispatch("remove_editing_obj")
+			this.$store.dispatch("remove_learnings")
+			this.$store.dispatch("remove_notifications")
+			this.$store.dispatch("remove_cook_reactions")
+			this.$store.dispatch("remove_journey")
+			this.$store.dispatch("remove_page")
+			localStorage.clear()
+			this.$auth.strategy.token.reset();
+			this.$auth.logout();
+        }
         if(this.artist.username == this.loggedInUser.username)
         this.getsharing();
         else
@@ -157,7 +197,8 @@ export default {
         looploader:[1,1,1,1,1,1,1,1,1],
         loading: true,
         firstLoad: true,
-        accessAllowed:false
+        accessAllowed:false,
+        studentAccess:false
     }
   },
 }

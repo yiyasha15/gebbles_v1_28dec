@@ -79,7 +79,9 @@ export default {
     getShareComments(id){
         return apiClient1.get('/e1t1/sharing/comments/?shareidobj=' + id)
     },
-
+    getOthersSharing(username,config){
+        return apiClient1.get('/e1t1/sharing/list/teachers/withoutcookingattr/?whose_e1t1=' + username, config)
+    },
 
     //cooking api
     getCooking(uuid,config){

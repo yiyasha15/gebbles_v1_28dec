@@ -4,6 +4,7 @@
         <v-btn icon class="elevation-0  " @click="goback()" >
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
+        <!-- {{ e1t1 }} -->
         <!-- <v-row>
             <v-col class="py-0">
             <h5 class="caption font-weight-light" >
@@ -32,6 +33,14 @@
                     <v-icon>mdi-card-account-details-outline</v-icon>
                     </v-btn>
             </v-list-item-action> -->
+            <v-list-item-action v-show="loggedInUser.username == e1t1.teacher">
+                <v-btn icon
+                    @click="approveDialog = true"
+                    >
+                    <v-icon v-if="!e1t1.is_approved" color="red">mdi-check-circle-outline</v-icon>
+                    <v-icon v-else>mdi-check-circle-outline</v-icon>
+                    </v-btn>
+            </v-list-item-action>
             <v-list-item-action v-show="e1t1.username == loggedInUser.username || e1t1.teacher == loggedInUser.username">
                 <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
@@ -215,7 +224,7 @@
     <center>
         <v-hover
             v-slot="{ hover }">
-            <v-btn icon @click="react_love" large class="my-2 mb-6 transition-swing "
+            <v-btn icon @click="react_love" large class="my-6 transition-swing "
             :elevation="hover ? 2 : 12">
                 <v-icon v-if="!share_has_love">mdi-heart-outline</v-icon>
                 <v-icon v-else color="red">mdi-heart</v-icon>
@@ -232,7 +241,33 @@
           </v-row>
         <upload-video-card></upload-video-card>
         </v-container>
-        </v-dialog>
+    </v-dialog>
+    <v-dialog v-model="approveDialog" width="500" persistent>
+        <v-card v-if="e1t1.is_approved" class="pa-6">
+            <p>Do you want to unapprove this shoutout?</p>
+            <small>Unapproving the shoutout will remove their access to view your Each one Teach one posts.</small>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="approveLoading"
+                @click="removeAsStudent">Unapprove</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="approveDialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        <v-card v-else class="pa-6">
+            <p>Do you want to approve this shoutout?</p>
+            <small>Approving the shoutout will give them access to view your Each one Teach one posts.</small>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="approveLoading"
+                @click="approveAsStudent">Approve</v-btn>
+            <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="approveDialog = false">
+                Cancel
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
     <v-snackbar v-model="login_snackbar">
         Please sign in first.
     </v-snackbar>
@@ -329,6 +364,8 @@ export default {
             love:0,
             share_has_love:false,
             share_has_love_id:'',
+            approveDialog:false,
+             approveLoading:false
             }
     },
 	computed: {
@@ -553,6 +590,54 @@ export default {
                 this.login_snackbar = true
             }
         },
+        async approveAsStudent(){
+            this.approveLoading = true
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            };
+            try {
+            let formName = new FormData();
+                formName.append("is_approved", true);
+                formName.append("id", this.e1t1['id']);
+                this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.e1t1.uuid, formName, config).then(res=>{
+                console.log(res);
+                this.approveDialog = false
+                this.approveLoading = false
+                this.e1t1.is_approved = !this.e1t1.is_approved;
+            })
+                
+            } catch (e) {
+                this.approveDialog = false
+                this.approveLoading = false
+                console.log(e.response);
+            }
+        },
+        async removeAsStudent(){
+            this.approveLoading = true
+            const config = {
+                headers: {"content-type": "multipart/form-data",
+                    "Authorization": this.$auth.strategy.token.get()
+                }
+            };
+            try {
+            let formName = new FormData();
+                formName.append("is_approved", false);
+                formName.append("id", this.e1t1['id']);
+                this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.e1t1.uuid, formName, config).then(res=>{
+                console.log(res);
+                this.approveDialog = false
+                this.approveLoading = false
+                this.e1t1.is_approved = !this.e1t1.is_approved;
+            })
+                
+            } catch (e) {
+                this.approveDialog = false
+                this.approveLoading = false
+                console.log(e.response);
+            }
+        }
         // async post_comment() {
         //     if(this.isAuthenticated){
         //     if(this.comments.comment != "" )
