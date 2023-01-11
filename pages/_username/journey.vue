@@ -1,12 +1,12 @@
 <template>
     <v-app>
         <left-navigation></left-navigation>
-        <v-container style="max-width:670px;" class="pa-0 background">
+        <v-container class="pa-0 width background">
+            <v-btn icon class="elevation-0 my-2" @click="goback()" style="margin-left:-6px">
+                <v-icon class="float-left">mdi-arrow-left</v-icon>
+            </v-btn>
             <div v-show="!journeyLoaded">
-                <div v-if=" journey.length"> 
-                <!-- <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
-                    <v-icon class="float-left">mdi-arrow-left</v-icon>
-                </v-btn> -->
+                <div v-if=" journey.length">
                 <div class="d-flex mx-3" v-if="artist.username == loggedInUser.username">
                     <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
                         <v-icon class="float-left">mdi-arrow-left</v-icon>

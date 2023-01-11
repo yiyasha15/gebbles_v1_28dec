@@ -3,29 +3,29 @@
     <v-hover v-slot:default="{ hover }">
       <v-card
         data-view
-        @click="goToE1t1(e1t1.uuid)"
         :elevation="hover ? 6 : 0"
         class="transition-swing ma-md-2 ma-1"
         outlined
         :width="card_width" 
         :max-height="card_height">
-        <v-img v-if = e1t1.image_mini :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" :height="img_height" :width="card_width">
-          <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="e1t1.te_latest_cooking_uuid"
+        <v-img @click="goToE1t1(e1t1.uuid)" class="pointer" v-if = e1t1.image_mini :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" :height="img_height" :width="card_width">
+          <v-btn elevation="4" icon small class="float-right ma-1 white"
+           v-if="e1t1.te_latest_cooking_uuid "
             @click.stop="showCooking()"> 
-            <v-icon v-if="!e1t1.te_latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
-            <v-icon v-else color="black">mdi-play-circle-outline</v-icon>
+            <v-icon color="red" v-if="!e1t1.te_latest_cooking_watched">mdi-play-circle-outline</v-icon>
+            <v-icon color="black" v-else>mdi-play-circle-outline</v-icon>
           </v-btn>
         </v-img>
-        <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"  :width="card_width" contain>
-        <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="e1t1.te_latest_cooking_uuid"
+        <v-img @click="goToE1t1(e1t1.uuid)" class="pointer" v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"  :width="card_width" contain>
+        <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="e1t1.te_latest_cooking_uuid && !e1t1.te_latest_cooking_watched"
             @click.stop="showCooking()"> 
-            <v-icon v-if="!e1t1.te_latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
-            <v-icon v-else color="black">mdi-play-circle-outline</v-icon>
+            <v-icon color="red">mdi-play-circle-outline</v-icon>
           </v-btn>
         </v-img>
         <v-card-actions height="32px">
-          <div class="text-decoration-none caption width">
-          <p class="event_p">{{e1t1.s_teacher_name}} </p>
+          <div class="caption width">
+          <nuxt-link :to="'/'+ e1t1.s_teacher_name" class="text-decoration-none" v-if="e1t1.teacher"><p class="event_p">{{e1t1.s_teacher_name}} </p></nuxt-link>
+          <p class="event_p" v-else>{{e1t1.s_teacher_name}} </p>
           </div>
           <v-spacer></v-spacer>
             <country-flag :country= 'e1t1.s_teacher_country' size='small'/>
@@ -48,7 +48,9 @@
           <v-skeleton-loader
             type="list-item-avatar-three-line"
           ></v-skeleton-loader>
-          <youtube width="100%" :height="height" :video-id= 'videoId' v-if="videoId"></youtube>
+          <v-skeleton-loader
+            type="card" width="100%" 
+          ></v-skeleton-loader>
           <v-skeleton-loader
               type="list-item-avatar-three-line"
             ></v-skeleton-loader>
@@ -164,6 +166,9 @@ import CookingFeed from './CookingFeed.vue';
 .event_p{
   max-width:177px; 
   font-size:0.8rem!important;
+}
+.pointer{
+  cursor: pointer;
 }
 @media only screen and (max-width: 960px) {
   .width{

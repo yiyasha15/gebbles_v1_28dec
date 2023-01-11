@@ -3,13 +3,13 @@
     <v-hover v-slot:default="{ hover }">
       <v-card
         data-views
-        @click="goToE1t1(share.uuid)"
         :elevation="hover ? 6 : 0"
         class="transition-swing ma-md-2 ma-1"
         outlined
         :width="card_width" 
         :max-height="card_height">
         <v-img v-if="share.image_mini"
+        @click="goToE1t1(share.uuid)"
             :src = "share.image_mini"
             :height="img_height" :width="card_width">
             <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="!share.is_approved"
@@ -22,20 +22,22 @@
               <v-icon v-else color="black">mdi-play-circle-outline</v-icon>
             </v-btn>
         </v-img>
-        <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height" :width="card_width" contain>
+        <v-img 
+        @click="goToE1t1(share.uuid)"
+        v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height" :width="card_width" contain>
           <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="!share.is_approved"
               @click.stop="approveDialog = true"> 
               <v-icon color="red">mdi-check-circle-outline</v-icon>
             </v-btn>
-          <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="share.st_latest_cooking_uuid"
+          <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="share.st_latest_cooking_uuid && !share.st_latest_cooking_watched"
             @click.stop="showCooking()"> 
-            <v-icon v-if="!share.st_latest_cooking_watched" color="red">mdi-play-circle-outline</v-icon>
-            <v-icon v-else color="black">mdi-play-circle-outline</v-icon>
+            <v-icon color="red">mdi-play-circle-outline</v-icon>
           </v-btn>
         </v-img>
         <v-card-actions height="32px">
-          <div class="text-decoration-none caption width" >
-          <p class="event_p">{{share.username}}</p>
+          <div class="caption width">
+          <nuxt-link :to="'/'+ share.username" class="text-decoration-none" v-if="share.username"><p class="event_p">{{share.username}} </p></nuxt-link>
+          <p class="event_p" v-else>{{share.username}} </p>
           </div>
           <v-spacer></v-spacer>
             <country-flag :country= 'share.s_student_country' size='small'/>
@@ -58,7 +60,9 @@
           <v-skeleton-loader
             type="list-item-avatar-three-line"
           ></v-skeleton-loader>
-          <youtube width="100%" :height="height" :video-id= 'videoId' v-if="videoId"></youtube>
+          <v-skeleton-loader
+            type="card" width="100%" 
+          ></v-skeleton-loader>
           <v-skeleton-loader
               type="list-item-avatar-three-line"
             ></v-skeleton-loader>

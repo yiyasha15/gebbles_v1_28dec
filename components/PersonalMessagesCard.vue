@@ -9,12 +9,12 @@
         :content="new_messages.length"
         v-if="new_messages.length"
     >
-    <v-btn class="ml-4" @click="make_is_seen_true" icon>
-        <v-icon>mdi-message-outline</v-icon>
+    <v-btn @click="make_is_seen_true" icon>
+        <v-icon size="22">mdi-message-outline</v-icon>
     </v-btn>
     </v-badge>
-    <v-btn class="ml-4" @click="openMessages" icon v-else>
-        <v-icon>mdi-message-outline</v-icon>
+    <v-btn @click="openMessages" icon v-else>
+        <v-icon size="22">mdi-message-outline</v-icon>
     </v-btn>
     <v-dialog
       :retain-focus="false"
@@ -30,7 +30,7 @@
       <v-col cols="12" class="pa-0 pa-md-2">
       <v-row class="mt-3 mx-0">
           <v-col cols="12" class="justify-center ">
-              <h4 class ="font-weight-medium">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}}) </h4>
+              <h4 class ="font-weight-medium grey--text text--darken-1">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}}) </h4>
           </v-col>
       </v-row> 
       <post-message-section @message_posted="message_posted" :e1t1="e1t1"></post-message-section>

@@ -16,67 +16,67 @@
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised</p>
             </v-tab>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
-                <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
+                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
+                <v-layout wrap justify-start v-if="firstLoadGoing" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
                 </v-layout>
-                <v-layout wrap row justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
+                <v-layout wrap justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
                     <div v-for="event in goingEvents" :key ="event.index">
                         <events-card-going v-if="event.event" :event="event"></events-card-going>
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingGoingEvents"></v-card>
-                <center v-if="!goingEvents.length && !firstLoadGoing" class="background">
+                <center v-if="!goingEvents.length && !firstLoadGoing" class="background mt-4">
                     <img
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
                     :src="require('@/assets/gebbleslogo_tab.png')"/>
-                    <h3>No events found. </h3>
+                    <p class="grey--text mt-4">No events found. </p>
                 </center>
             </v-tab-item>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited events to your journey</div>
+                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited events to your journey</div>
                 <!-- tagged events -->
-                <v-layout wrap row justify-start v-if="firstLoadTagged" class="pt-2 background">
+                <v-layout wrap  justify-start v-if="firstLoadTagged" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
                 </v-layout>
-                <v-layout wrap row justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
+                <v-layout wrap justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
                     <div v-for="event in taggedEvents" :key ="event.index">
                         <events-card-tagged v-if="event.event" :event="event"></events-card-tagged>
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingTaggedEvents"></v-card>
-                <center v-if="!taggedEvents.length && !firstLoadTagged" class="background">
+                <center v-if="!taggedEvents.length && !firstLoadTagged" class="mt-4 background">
                     <img
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
                     :src="require('@/assets/gebbleslogo_tab.png')"/>
-                    <h3>No events found. </h3>
+                    <p class="grey--text mt-4">No events found. </p>
                 </center>
             </v-tab-item>
             <v-tab-item>
                 <div class="ml-1 py-2 grey--text caption text-center">all the events you organised</div>
-            <v-layout wrap row justify-start v-if="firstLoadOrg" class="pt-2 background">
+                <v-layout wrap justify-start v-if="firstLoadOrg" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
                 </v-layout>
-                <v-layout wrap row justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
+                <v-layout wrap justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
                     <div v-for="event in orgEvents" :key ="event.index">
                         <events-card-organised :event="event"></events-card-organised>
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingOrgEvents"></v-card>
-                <center v-if="!orgEvents.length && !firstLoadOrg" class="background">
+                <center v-if="!orgEvents.length && !firstLoadOrg" class="background mt-4">
                     <img
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
                     :src="require('@/assets/gebbleslogo_tab.png')"/>
-                    <h3>No events found. </h3>
+                    <p class="grey--text mt-4">No events found. </p>
                 </center>
             </v-tab-item>
             </v-tabs>
@@ -235,8 +235,12 @@ export default {
     },
     infiniteScrollingTaggedEvents(entries, observer, isIntersecting) {
         if(this.page){
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
         const key = 'uuid';
-        this.$axios.get(this.page).then(response => {
+        this.$axios.get(this.page, config).then(response => {
             this.page= response.data.next;
 
             let res = response.data.results
@@ -265,7 +269,11 @@ export default {
     infiniteScrollingGoingEvents(entries, observer, isIntersecting) {
         if(this.pageGoing){
         const key = 'uuid';
-        this.$axios.get(this.pageGoing).then(response => {
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+        this.$axios.get(this.pageGoing, config).then(response => {
             this.pageGoing= response.data.next;
 
             let res = response.data.results
@@ -294,7 +302,11 @@ export default {
     infiniteScrollingOrgEvents(entries, observer, isIntersecting) {
         if(this.pageOrg){
         const key = 'uuid';
-        this.$axios.get(this.pageOrg).then(response => {
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+        this.$axios.get(this.pageOrg, config).then(response => {
             this.pageOrg= response.data.next;
 
             let res = response.data.results
@@ -316,7 +328,7 @@ export default {
             [item[key], item])).values()];
           })
           .catch(err => {
-            console.log(err);
+            console.log(err, err.response);
           });
         }
     },

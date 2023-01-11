@@ -9,16 +9,16 @@
         to="/create/website">
           <v-icon color="black" class="pr-2">mdi-account-edit-outline</v-icon>Create your portfolio
         </v-btn>
-        <h3 v-else class="font-weight-light mb-6">
+        <h3 v-else class=" mb-6 grey--text text--darken-1">
           {{artist}}
           {{notfound}}
         </h3>
       </div>
-      <h2 v-else-if="error.statusCode === 404" class="font-weight-light">
+      <h2 v-else-if="error.statusCode === 404" class="font-weight-light grey--text text--darken-1">
         {{ pageNotFound }}
         <img src="@/assets/vivi.png" width="90px">
       </h2>
-      <h2 v-else class="font-weight-light">
+      <h2 v-else class="font-weight-light grey--text text--darken-1">
         {{ otherError }}
         <img src="@/assets/vivi.png"  width="90px">
       </h2>

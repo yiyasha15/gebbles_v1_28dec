@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <left-navigation></left-navigation>
-        <v-container style="max-width:670px;" class="pa-0 background">
+        <v-container class="pa-0 width background">
         <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
@@ -40,3 +40,13 @@ export default {
     },
 }
 </script>
+<style scoped>
+.width{
+    max-width: 670px;
+  }
+@media only screen and (max-width: 960px) {
+  .width{
+  max-width: 357px;
+}
+}
+</style>

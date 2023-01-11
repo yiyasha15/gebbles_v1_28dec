@@ -1,5 +1,5 @@
 <template>
-    <v-tabs v-if="accessAllowed" class="width mx-auto background" centered>
+    <v-tabs v-if="!firstLoad" class="width mx-auto background" centered>
         <v-tab>
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learning</p>
             <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p>
@@ -8,11 +8,13 @@
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Sharing</p>
             <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p>
         </v-tab>
-        <v-tab-item v-if="!firstLoad" class="background">
+        <v-tab-item class="background">
             <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
+            <div v-if="accessAllowed">
             <div v-if="teachers.length">
             <v-layout wrap justify-start class="py-2 background" >
                 <div v-for="share in teachers" :key ="share.index">
+                    <!-- {{ share }} -->
                     <TeachersCard :e1t1="share" ></TeachersCard>
                 </div>
             </v-layout>
@@ -25,16 +27,15 @@
                 <h4>No posts yet. </h4>
             </center>
             <v-card v-intersect="infiniteScrollingTeacher" class="background"></v-card>
-        </v-tab-item>
-        <v-tab-item v-else class="background">
-            <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
-            <v-layout wrap row justify-start class="py-2 background">
-            <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader></card-skeleton-loader>
             </div>
-            </v-layout>
+            <center v-else>
+                <p class="grey--text text-center mt-12"><v-icon>mdi-lock</v-icon>
+                    Access is not allowed.</p><p class="grey--text text-center">
+                    To view their each 1 teach 1, you need to give a shoutout and wait for approval.
+                </p>
+            </center>
         </v-tab-item>
-        <v-tab-item v-if="!firstLoad" class="background">
+        <v-tab-item class="background">
             <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
             <div v-if="students.length">
             <v-layout wrap  justify-start class="py-2 background">
@@ -52,21 +53,13 @@
             </center>
             <v-card v-intersect="infiniteScrollingStudents" class="background"></v-card>
         </v-tab-item>
-        <v-tab-item v-else class="background">
-            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
-            <v-layout wrap row justify-start class="py-2 background">
-            <div v-for="n in this.looploader" :key ="n.index">
-                <v-skeleton-loader></v-skeleton-loader>
-            </div>
-            </v-layout>
-        </v-tab-item>
     </v-tabs>
     <div v-else>
-        <center>
-            <v-icon>mdi-lock</v-icon>
-            Access is not allowed.<br><br>
-            To view their each 1 teach 1, you need to give a shoutout and wait for approval.
-        </center>
+        <v-layout wrap row justify-start class="mx-auto width background" style="margin:8px 0px;">
+        <div v-for="n in this.looploader" :key ="n.index">
+            <card-skeleton-loader></card-skeleton-loader>
+        </div>
+        </v-layout>
     </div>
 </template>
 <script>
@@ -97,7 +90,6 @@ export default {
                     "Authorization": this.$auth.strategy.token.get()
                 }
             };
-            console.log("get sharing",this.$auth.strategy.token.get());
             try {
             const teachers_response = await EventService.getEach1Teach1_teachers(config)
             const students_response = await EventService.getEach1Teach1_students(config)
@@ -130,8 +122,9 @@ export default {
             this.firstLoad = false
             } catch (e) {
                 console.log(e.response);
-                if(e.response.data.detail == 'Authentication credentials were not provided.')
+                if(e.response.data.detail == 'Authentication credentials were not provided.' || e.response.data.detail =='You do not have permission to perform this action.')
                 this.accessAllowed= false
+                this.studentAccess = true
                 this.firstLoad = false
             }
         },

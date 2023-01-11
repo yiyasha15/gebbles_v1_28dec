@@ -16,8 +16,8 @@
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised</p>
             </v-tab>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended workshops to your journey</div>
-                <v-layout wrap row justify-start v-if="firstLoadGoing" class="pt-2 background">
+                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended workshops to your journey</div>
+                <v-layout wrap justify-start v-if="firstLoadGoing" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
@@ -33,13 +33,13 @@
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
                     :src="require('@/assets/gebbleslogo_tab.png')"/>
-                    <h3>No workshops found. </h3>
+                    <p class="grey--text mt-4">No workshops found. </p>
                 </center>
             </v-tab-item>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited workshops to your journey</div>
+                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited workshops to your journey</div>
                 <!-- tagged Workshops -->
-                <v-layout wrap row justify-start v-if="firstLoadTagged" class="pt-2 background">
+                <v-layout wrap justify-start v-if="firstLoadTagged" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
@@ -50,17 +50,17 @@
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingTaggedWorkshops"></v-card>
-                <center v-if="!taggedWorkshops.length && !firstLoadTagged" class="background">
+                <center v-if="!taggedWorkshops.length && !firstLoadTagged" class="background mt-4">
                     <img
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
                     :src="require('@/assets/gebbleslogo_tab.png')"/>
-                    <h3>No workshops found. </h3>
+                    <p class="grey--text mt-4">No workshops found. </p>
                 </center>
             </v-tab-item>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center">all the workshops you organised..</div>
-            <v-layout wrap row justify-start v-if="firstLoadOrg" class="pt-2 background">
+                <div class="ml-1 py-2 grey--text caption text-center">all the workshops you organised</div>
+            <v-layout wrap justify-start v-if="firstLoadOrg" class="pt-2 background">
                     <div v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
                     </div>
@@ -71,12 +71,12 @@
                     </div>
                 </v-layout>
                 <v-card v-intersect="infiniteScrollingOrgWorkshops"></v-card>
-                <center v-if="!orgWorkshops.length && !firstLoadOrg" class="background">
+                <center v-if="!orgWorkshops.length && !firstLoadOrg" class="background mt-4">
                     <img
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
                     :src="require('@/assets/gebbleslogo_tab.png')"/>
-                    <h3>No workshops found. </h3>
+                    <p class="grey--text mt-4">No workshops found. </p>
                 </center>
             </v-tab-item>
             </v-tabs>
@@ -144,10 +144,10 @@ export default {
     },
     async getMyOrganizedWorkshops(){
         try {
-            const config = {
-            headers: {"content-type": "multipart/form-data",
-                "Authorization": this.$auth.strategy.token.get()}
-            };
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
         const response = await EventService.getMyOrganizedWorkshops(config);
         // console.log(response);
         const orgWorkshops = response.data.results
@@ -234,7 +234,11 @@ export default {
     infiniteScrollingTaggedWorkshops(entries, observer, isIntersecting) {
         if(this.page){
         const key = 'uuid';
-        this.$axios.get(this.page).then(response => {
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+        this.$axios.get(this.page, config).then(response => {
             this.page= response.data.next;
 
             let res = response.data.results
@@ -263,7 +267,11 @@ export default {
     infiniteScrollingGoingWorkshops(entries, observer, isIntersecting) {
         if(this.pageGoing){
         const key = 'uuid';
-        this.$axios.get(this.pageGoing).then(response => {
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+        this.$axios.get(this.pageGoing,config).then(response => {
             this.pageGoing= response.data.next;
 
             let res = response.data.results
@@ -292,7 +300,11 @@ export default {
     infiniteScrollingOrgWorkshops(entries, observer, isIntersecting) {
         if(this.pageOrg){
         const key = 'uuid';
-        this.$axios.get(this.pageOrg).then(response => {
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+        this.$axios.get(this.pageOrg, config).then(response => {
             this.pageOrg= response.data.next;
 
             let res = response.data.results

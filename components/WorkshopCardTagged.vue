@@ -69,11 +69,11 @@
           <v-icon color="black" small>mdi-plus</v-icon>
           </v-btn>
         </v-img>
-        <h3 class="font-weight-medium  d-inline">{{workshop.title}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'workshop.country' /> </span>
+        <h3 class="font-weight-medium d-inline">{{workshop.title}}</h3><span class="d-inline float-right"> <country-flag size='normal'  :country= 'workshop.country' /> </span>
         </div>
-        <v-img class="my-4 mx-auto" v-if="workshop.photo" max-height="400px" contain :src="workshop.photo"></v-img>
+        <!-- <v-img class="my-4 mx-auto" v-if="workshop.photo" max-height="400px" contain :src="workshop.photo"></v-img>
          <h3 class="font-weight-medium  d-inline">{{workshop.guest}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'workshop.country' /> </span>
-         <h4 class="font-weight-light mt-3 mt-md-5" >{{workshop.info}}</h4>
+         <h4 class="font-weight-light mt-3 mt-md-5" >{{workshop.info}}</h4> -->
         </v-container>
     </v-dialog> 
     </v-card>

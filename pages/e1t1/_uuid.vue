@@ -33,18 +33,22 @@
                     <v-icon>mdi-card-account-details-outline</v-icon>
                     </v-btn>
             </v-list-item-action> -->
+            <!-- <v-list-item-action v-show="e1t1.username == loggedInUser.username || e1t1.teacher == loggedInUser.username">
+                <v-btn icon @click="cookingDialog = true" >
+                    <v-icon v-if="e1t1.username == loggedInUser.username">mdi-play-circle-outline</v-icon>
+                    <v-icon v-if="e1t1.teacher == loggedInUser.username">mdi-play-circle-outline</v-icon>
+                </v-btn>
+            </v-list-item-action> -->
             <v-list-item-action v-show="loggedInUser.username == e1t1.teacher">
-                <v-btn icon
-                    @click="approveDialog = true"
-                    >
+                <v-btn icon @click="approveDialog = true" >
                     <v-icon v-if="!e1t1.is_approved" color="red">mdi-check-circle-outline</v-icon>
                     <v-icon v-else>mdi-check-circle-outline</v-icon>
-                    </v-btn>
+                </v-btn>
             </v-list-item-action>
             <v-list-item-action v-show="e1t1.username == loggedInUser.username || e1t1.teacher == loggedInUser.username">
                 <personal-messages-card :e1t1="e1t1"></personal-messages-card>
             </v-list-item-action>
-            <v-list-item-action class="ml-2" v-show="loggedInUser.username == e1t1.username" >
+            <v-list-item-action class="ml-0" v-show="loggedInUser.username == e1t1.username" >
                 <v-menu
                     transition="slide-y-transition" open-on-hover offset-y bottom left>
                     <template v-slot:activator="{ on, attrs }">

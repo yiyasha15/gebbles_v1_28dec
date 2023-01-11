@@ -69,11 +69,13 @@
           <v-icon color="black" small>mdi-plus</v-icon>
           </v-btn>
         </v-img>
-        <h3 class="font-weight-medium  d-inline">{{event.event.name}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'event.event.country' /> </span>
+        <h3 class="font-weight-medium  d-inline">{{event.event.name}}</h3>
+        <span class="d-inline float-right "> <country-flag size='normal'  :country= 'event.event.country' /> </span>
         </div>
-        <v-img class="my-4 mx-auto" v-if="event.photo" max-height="400px" contain :src="event.photo"></v-img>
-         <h3 class="font-weight-medium  d-inline">{{event.guest}}</h3><span class="d-inline float-right "> <country-flag size='normal'  :country= 'event.country' /> </span>
-         <h4 class="font-weight-light mt-3 mt-md-5" >{{event.info}}</h4>
+        <!-- <v-img class="my-4 mx-auto" v-if="event.photo" max-height="400px" contain :src="event.photo"></v-img>
+         <p class="font-weight-medium d-inline" v-if="event.guest">{{event.guest}}</p>
+         <span class="d-inline float-right " v-if="event.guest"> <country-flag size='normal' :country= 'event.country' /> </span>
+         <p class="font-weight-light mt-3 mt-md-5" v-if="event.guest" >{{event.info}}</p> -->
         </v-container>
     </v-dialog> 
     </v-card>

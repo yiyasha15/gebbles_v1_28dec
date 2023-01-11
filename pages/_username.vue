@@ -2,7 +2,7 @@
   <v-app>
     <template v-if="userNotFound" >
         <the-header></the-header>
-        <h4 class="mx-auto my-12">Artist portfolio not found.</h4>
+        <h4 class="mx-auto my-12 grey--text">Artist portfolio not found.</h4>
     </template>
     <template v-else>
          <v-app-bar flat fixed class="background mx-1 mx-sm-5" height="80">

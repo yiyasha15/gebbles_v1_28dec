@@ -30,7 +30,7 @@
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
                 :src="require('@/assets/gebbleslogo_tab.png')"/>
-                <h3>No videos found. </h3>
+                <p class="grey--text mt-4">No videos found. </p>
             </center>
             </v-tab-item>
             <v-tab-item class="background">
@@ -50,7 +50,7 @@
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                 class="ml-2 mt-6 clickable"
                 :src="require('@/assets/gebbleslogo_tab.png')"/>
-                <h3>No videos found. </h3>
+                <p class="grey--text mt-4">No videos found. </p>
             </center>
             </v-tab-item>
             </v-tabs>
@@ -112,14 +112,14 @@ export default {
         window.history.back();
     },
     async getwhatiscooking(){
-        console.log("sup");
+        // console.log("sup");
         const config = {
         headers: {"content-type": "multipart/form-data",
             "Authorization": this.$auth.strategy.token.get()}
         };
         try {
             const response = await EventService.getWhatsCookingUsername(config)
-            console.log(response);
+            // console.log(response); 
             this.cooking = response.data.results
             this.cooking_page = response.data.next
             this.firstLoadY = false
@@ -130,7 +130,12 @@ export default {
     },
     async getwhatiscookingmentioned(){
       try {
-        const response = await EventService.getStudentsCooking(this.artist.username)
+        const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+        const response = await EventService.getStudentsCooking(this.artist.username, config)
+        // console.log(response);
         this.cooking_mentioned = response.data.results
         this.cooking_mentioned_page = response.data.next
         this.firstLoadM = false
@@ -142,7 +147,11 @@ export default {
     infiniteScrolling() {
       if(this.cooking_mentioned_page){
       const key = 'id';
-      this.$axios.get(this.cooking_mentioned_page).then(response => {
+      const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+      this.$axios.get(this.cooking_mentioned_page, config).then(response => {
         this.cooking_mentioned_page= response.data.next;
         response.data.results.forEach(item => this.cooking_mentioned.push(item));
         // filter array so no duplicates

@@ -2,7 +2,6 @@
   <v-hover v-slot:default="{ hover }">
     <v-card
       data-view
-      :to="'/whatiscooking/'+cook.cookingidobj.uuid" 
       :elevation="hover ? 6 : 0"
       class="transition-swing ma-md-2 ma-1"
       outlined
@@ -10,15 +9,21 @@
       :max-height="card_height"
     >
     <v-img v-if="cook.cookingidobj.thumbjs"
+    class="pointer"
+      @click="goToCook(cook.cookingidobj.uuid)"
         :src="cook.cookingidobj.thumbjs"
         :height="img_height"
         :width="card_width" 
       />
       <v-img v-else-if="cook.cookingidobj.video"
+      class="pointer"
+      @click="goToCook(cook.cookingidobj.uuid)"
       :src="youtube_thumb"
       :height="img_height"
       :width="card_width" />
       <v-img v-else
+      class="pointer"
+      @click="goToCook(cook.cookingidobj.uuid)"
         :src="require('@/assets/gebbleslogo3.png')"
         contain
         :height="img_height"
@@ -26,7 +31,8 @@
       />
       <v-card-actions>
         <div class="text-decoration-none caption width">
-        <p class="event_p">{{cook.username}} </p>
+        <nuxt-link :to="'/'+ cook.username" class="text-decoration-none" >
+          <p class="event_p">{{cook.username}} </p></nuxt-link>
         </div>
       </v-card-actions>
     </v-card>
@@ -92,12 +98,17 @@
             let big_thumb ='http://img.youtube.com/vi/' + video + '/0.jpg';
             let thumb = 'http://img.youtube.com/vi/' + video + '/2.jpg';
             return big_thumb;
-          }
+          },
+          goToCook(uuid){
+          this.$router.push('/whatiscooking/'+uuid)
+        }
         }
     }
 </script>
 <style scoped>
-
+.pointer{
+  cursor: pointer;
+}
 .width{
     width: 177px;
     height: 1.7em;
