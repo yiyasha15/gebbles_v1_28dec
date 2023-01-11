@@ -13,6 +13,7 @@
             </v-layout>
             </nuxt-link>
             <v-spacer></v-spacer>
+           
             <template v-if="isAuthenticated">
             <v-btn icon small
             :to="'/'"
@@ -47,10 +48,15 @@
                 <NotificationBox></NotificationBox>
             </v-menu>
             </template>
+            
             <register-login v-else></register-login>
+            
             <right-navigation></right-navigation>
         </v-app-bar>
         <left-navigation></left-navigation>
+        <v-snackbar color="error" v-model="isOnline">
+            No internet connection.
+        </v-snackbar>
     </div>
     <!-- password tooltip -->
     <!-- Your password must be must be at least 8 characters, and contain at least one number and one special character. -->
@@ -89,7 +95,8 @@ export default {
           events:1,
           workshop:1,
           account:1,
-          whatiscooking:1
+          whatiscooking:1,
+          isOnline: false
       }
     },
     mounted(){
@@ -99,6 +106,7 @@ export default {
             this.$vuetify.theme.dark = true;
         } else this.$vuetify.theme.dark = false;
         }
+        this.isOnline = !navigator.onLine
     },
 }
 </script>
