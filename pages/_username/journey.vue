@@ -1,13 +1,13 @@
 <template>
     <v-app>
         <left-navigation></left-navigation>
-        <v-container class="pa-0 width background">
-            <v-btn icon class="elevation-0 my-2" @click="goback()" style="margin-left:-6px">
+        <v-container class="width background">
+            <v-btn icon class="elevation-0 my-2" @click="goback()" style="margin-left:-6px" v-if="artist.username != loggedInUser.username">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
             <div v-show="!journeyLoaded">
                 <div v-if=" journey.length">
-                <div class="d-flex mx-3" v-if="artist.username == loggedInUser.username">
+                <div class="d-flex mx-3 mb-3" v-if="artist.username == loggedInUser.username">
                     <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
                         <v-icon class="float-left">mdi-arrow-left</v-icon>
                     </v-btn>
@@ -20,27 +20,27 @@
                     </v-btn>
                 </div>
                 <div v-if="journey.length && showJourney">
-                    <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                        <div v-for="journey in journey" :key ="journey.index">
+                    <v-row>
+                        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="journey in journey" :key ="journey.index">
                             <journey-card :journey = "journey"></journey-card>
-                        </div>
-                    </v-layout>
+                        </v-col>
+                    </v-row>
                 <v-card v-intersect="infiniteScrollingJourney"></v-card>
                 </div>
                 <div v-if="showPrivate">
-                    <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                        <div v-for="journey in journey" :key ="journey.index">
-                            <journey-card :journey = "journey" v-if="journey.isprivate" ></journey-card>
-                        </div>
-                    </v-layout>
+                    <v-row>
+                        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="journey in filterPri" :key ="journey.index">
+                            <journey-card :journey = "journey"></journey-card>
+                        </v-col>
+                    </v-row>
                 <v-card v-intersect="infiniteScrollingJourney"></v-card>
                 </div>
                 <div v-if="showEventsJourney">
-                    <v-layout wrap row justify-start class="mx-auto width background pt-3">
-                        <div v-for="journey in journey" :key ="journey.index">
-                            <journey-card :journey = "journey" v-if="journey.event!= 'false'&& journey.event" ></journey-card>
-                        </div>
-                    </v-layout>
+                    <v-row>
+                        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="journey in filterEve" :key ="journey.index">
+                            <journey-card :journey = "journey"></journey-card>
+                        </v-col>
+                    </v-row>
                 <v-card v-intersect="infiniteScrollingJourney"></v-card>
                 </div>
                 </div>
@@ -50,17 +50,15 @@
                         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                         class="ml-2 mt-6 clickable"
                         :src="require('@/assets/gebbleslogo_tab.png')"/>
-                        <h3>No posts yet. </h3>
+                        <p class="grey--text mt-4">No posts found. </p>
                     </center>
                 </div>
             </div>
-            <div v-if="journeyLoaded">
-                <v-layout wrap row justify-start class="mx-auto width background" style="margin:8px 0px;">
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <card-skeleton-loader></card-skeleton-loader>
-                </div>
-                </v-layout>
-            </div>
+            <v-row v-show="journeyLoaded">
+            <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+            <card-skeleton-loader></card-skeleton-loader>
+            </v-col>
+        </v-row>
         </v-container>
     </v-app>
 </template>
@@ -91,7 +89,17 @@ export default {
     ...mapGetters(['isAuthenticated', 'loggedInUser',
      'journey','highlights', 
      'journeyLoaded'
-     ])
+     ]),
+    filterPri: function(){
+        return this.journey.filter((jour) => {
+        return jour.isprivate;
+        });
+    },
+    filterEve: function(){
+      return this.journey.filter((jour) => {
+        return jour.event!= 'false' && jour.event;
+      });
+    }
     },
     props: ["artist"],
     created(){
@@ -215,13 +223,12 @@ export default {
 }
 </script>
 <style scoped>
-
 .width{
-    max-width: 670px;
+    max-width: 1070px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1900px) {
   .width{
-  max-width: 357px;
+  max-width: 670px;
 }
 }
 </style>

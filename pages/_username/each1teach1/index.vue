@@ -41,12 +41,13 @@ export default {
 }
 </script>
 <style scoped>
+
 .width{
-    max-width: 670px;
+    max-width: 1070px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1900px) {
   .width{
-  max-width: 357px;
+  max-width: 670px;
 }
 }
 </style>

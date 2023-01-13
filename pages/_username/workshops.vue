@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <left-navigation></left-navigation>
-        <v-container style="max-width:670px;" class="pa-0 background">
+        <v-container class="width mx-auto pa-0 background">
             <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
@@ -17,16 +17,16 @@
             </v-tab>
             <v-tab-item>
                 <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended workshops to your journey</div>
-                <v-layout wrap justify-start v-if="firstLoadGoing" class="pt-2 background">
-                    <div v-for="n in this.looploader" :key ="n.index">
-                    <card-skeleton-loader></card-skeleton-loader>
-                    </div>
-                </v-layout>
-                <v-layout wrap justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
-                    <div v-for="workshop in goingWorkshops" :key ="workshop.index">
+                <v-row class="ma-0" v-if="firstLoadGoing">
+                        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+                        <card-skeleton-loader></card-skeleton-loader>
+                        </v-col>
+                    </v-row>
+                    <v-row class="ma-0" v-show="!firstLoadGoing">
+                        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="workshop in goingWork" :key ="workshop.index">
                         <workshop-card-going :workshop="workshop" ></workshop-card-going>
-                    </div>
-                </v-layout>
+                        </v-col>
+                    </v-row>
                 <v-card v-intersect="infiniteScrollingGoingWorkshops"></v-card>
                 <center v-if="!goingWorkshops.length && !firstLoadGoing" class="background">
                     <img
@@ -39,16 +39,16 @@
             <v-tab-item>
                 <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited workshops to your journey</div>
                 <!-- tagged Workshops -->
-                <v-layout wrap justify-start v-if="firstLoadTagged" class="pt-2 background">
-                    <div v-for="n in this.looploader" :key ="n.index">
+                <v-row class="ma-0" v-if="firstLoadTagged">
+                    <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
-                    </div>
-                </v-layout>
-                <v-layout wrap justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
-                    <div v-for="workshop in taggedWorkshops" :key ="workshop.index">
+                    </v-col>
+                </v-row>
+                <v-row class="ma-0" v-show="!firstLoadTagged">
+                    <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="workshop in taggedWorkshops" :key ="workshop.index">
                         <workshop-card-tagged :workshop="workshop"></workshop-card-tagged>
-                    </div>
-                </v-layout>
+                    </v-col>
+                </v-row>
                 <v-card v-intersect="infiniteScrollingTaggedWorkshops"></v-card>
                 <center v-if="!taggedWorkshops.length && !firstLoadTagged" class="background mt-4">
                     <img
@@ -60,16 +60,16 @@
             </v-tab-item>
             <v-tab-item>
                 <div class="ml-1 py-2 grey--text caption text-center">all the workshops you organised</div>
-            <v-layout wrap justify-start v-if="firstLoadOrg" class="pt-2 background">
-                    <div v-for="n in this.looploader" :key ="n.index">
+                <v-row class="ma-0" v-if="firstLoadOrg">
+                    <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
-                    </div>
-                </v-layout>
-                <v-layout wrap justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
-                    <div v-for="workshop in orgWorkshops" :key ="workshop.index">
+                    </v-col>
+                </v-row>
+                <v-row class="ma-0" v-show="!firstLoadOrg">
+                    <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="workshop in orgWorkshops" :key ="workshop.index">
                         <workshop-card-organised :workshop="workshop"></workshop-card-organised>
-                    </div>
-                </v-layout>
+                    </v-col>
+                </v-row>
                 <v-card v-intersect="infiniteScrollingOrgWorkshops"></v-card>
                 <center v-if="!orgWorkshops.length && !firstLoadOrg" class="background mt-4">
                     <img
@@ -112,8 +112,12 @@ export default {
     WorkshopCardOrganised, WorkshopCardTagged
     },
     computed: {
-    ...mapGetters(['isAuthenticated', 'loggedInUser'
-     ])
+    ...mapGetters(['isAuthenticated', 'loggedInUser']),
+    goingWork: function(){
+    return this.goingWorkshops.filter((work) => {
+    return work.workshop;
+    });
+    }
     },
     data() {
         return {
@@ -336,11 +340,11 @@ export default {
 <style scoped>
 
 .width{
-    max-width: 670px;
+    max-width: 1070px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1900px) {
   .width{
-  max-width: 357px;
+  max-width: 670px;
 }
 }
 </style>

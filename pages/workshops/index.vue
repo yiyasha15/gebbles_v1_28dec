@@ -144,16 +144,16 @@
           </v-text-field>
         </v-col>
       </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" >
-        <div v-for="n in this.looploader" :key ="n.index">
+      <v-row v-show="firstLoad">
+        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
           <card-skeleton-loader></card-skeleton-loader>
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" >
-        <div v-for="workshop in workshops" :key ="workshop.index">
+        </v-col>
+      </v-row>
+      <v-row v-show="!firstLoad">
+        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="workshop in workshops" :key ="workshop.index">
             <workshop-card :workshop="workshop" ></workshop-card>
-        </div>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-card v-intersect="infiniteScrolling"></v-card>
       <center v-if="!workshops.length && !firstLoad">
         <img
@@ -283,7 +283,6 @@ export default {
   components: {
     WorkshopCard,
     CardSkeletonLoader
-
   },
   data() {
     return {
@@ -557,11 +556,11 @@ export default {
 <style scoped>
 
 .width{
-    max-width: 670px;
+    max-width: 1070px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1900px) {
   .width{
-  max-width: 357px;
+  max-width: 670px;
 }
 }
 </style>

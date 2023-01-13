@@ -4,18 +4,15 @@
       data-view
       :elevation="hover ? 6 : 0"
       @click="openDialog(journey.id)" 
-      class="transition-swing ma-md-2 ma-1"
-      outlined
-      :width="card_width"
-       :max-height="card_height">
+      class="transition-swing"
+      outlined>
       <v-img
         v-if = journey.jp1thumb :src = "journey.jp1thumb" 
         :lazy-src= "journey.jp1thumb" 
         class="grey_background white--text"
-        :height="img_height"
-        :width="card_width"/>
+        :height="img_height"/>
       <v-img v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"
-        :width="card_width" contain/>
+         contain/>
       <v-card-actions height="32px">
         <div class="text-decoration-none caption width" >
         <p class="event_p">{{ journey.joevent }} </p>
@@ -294,29 +291,11 @@ export default {
         ...mapGetters(['loggedInUser','isAuthenticated']),
        img_height () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 73
-          case 'sm': return 73
+          case 'xs': return 104
+          case 'sm': return 134
           case 'md': return 134
           case 'lg': return 134
-          case 'xl': return 134
-        }
-      },
-      card_width () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 110
-          case 'sm': return 110
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
-        }
-      },
-      card_height() {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
+          case 'xl': return 184
         }
       },
       sliderheight(){

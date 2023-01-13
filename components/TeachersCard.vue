@@ -4,11 +4,10 @@
       <v-card
         data-view
         :elevation="hover ? 6 : 0"
-        class="transition-swing ma-md-2 ma-1"
-        outlined
-        :width="card_width" 
-        :max-height="card_height">
-        <v-img @click="goToE1t1(e1t1.uuid)" class="pointer" v-if = e1t1.image_mini :src = "e1t1.image_mini" :lazy-src= "e1t1.image_mini" :height="img_height" :width="card_width">
+        class="transition-swing"
+        outlined>
+        <v-img @click="goToE1t1(e1t1.uuid)" class="pointer" v-if = e1t1.image_mini :src = "e1t1.image_mini"
+         :lazy-src= "e1t1.image_mini" :height="img_height">
           <v-btn elevation="4" icon small class="float-right ma-1 white"
            v-if="e1t1.te_latest_cooking_uuid "
             @click.stop="showCooking()"> 
@@ -16,7 +15,7 @@
             <v-icon color="black" v-else>mdi-play-circle-outline</v-icon>
           </v-btn>
         </v-img>
-        <v-img @click="goToE1t1(e1t1.uuid)" class="pointer" v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height"  :width="card_width" contain>
+        <v-img @click="goToE1t1(e1t1.uuid)" class="pointer" v-else :src="require('@/assets/gebbleslogo3.png')" :height="img_height" contain>
         <v-btn elevation="4" icon small class="float-right ma-1 white" v-if="e1t1.te_latest_cooking_uuid && !e1t1.te_latest_cooking_watched"
             @click.stop="showCooking()"> 
             <v-icon color="red">mdi-play-circle-outline</v-icon>
@@ -42,9 +41,34 @@
         <v-btn icon color="error" @click="dialog=false; ">
             <v-icon>mdi-close</v-icon>
         </v-btn>
-        </v-row> 
-        <!-- {{e1t1}} -->
-        <div v-if="loadingCooking">
+        </v-row>
+        <v-list-item two-line class="px-md-0">
+            <v-list-item-avatar v-if="e1t1.image_mini">
+              <v-img :src="e1t1.image_mini"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-avatar v-else>
+            <v-icon size="36" class="ma-0">mdi-account-circle</v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content>
+                <v-list-item-title><nuxt-link :to="'/'+ e1t1.s_teacher_name" v-if="e1t1.s_teacher_name" class="text-decoration-none">
+                    {{e1t1.s_teacher_name}}
+                </nuxt-link></v-list-item-title>
+                <v-list-item-subtitle>{{moment(this.e1t1.te_created_cooking)}}</v-list-item-subtitle>
+            </v-list-item-content>
+            <!-- <v-list-item-action>
+                <v-btn icon :to="'/whatiscooking/' + e1t1.te_latest_cooking_uuid">
+                  <v-icon>mdi-arrow-top-right-thin-circle-outline</v-icon>
+                </v-btn>
+            </v-list-item-action> -->
+        </v-list-item>
+        <div class="body-1 feed_content mb-2 mb-md-5 px-md-0 px-4">{{e1t1.te_lesson}}</div>
+        <youtube width="100%" :height="height" :video-id= 'videoId' v-if="videoId"></youtube>
+        <center class="my-4">
+          <v-btn icon @click="sendLove">
+            <v-icon size="26">mdi-heart-circle-outline</v-icon>
+          </v-btn>
+        </center>
+        <!-- <div v-if="loadingCooking">
           <v-skeleton-loader
             type="list-item-avatar-three-line"
           ></v-skeleton-loader>
@@ -55,7 +79,7 @@
               type="list-item-avatar-three-line"
             ></v-skeleton-loader>
         </div>
-        <CookingFeed v-else :cook="cook"></CookingFeed>
+        <CookingFeed v-else :cook="cook"></CookingFeed> -->
       </v-container>
     </v-dialog> 
   </div>
@@ -66,6 +90,7 @@ import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 import EventService from '@/services/EventService.js'
 import CookingFeed from './CookingFeed.vue';
+import moment from 'moment'
   export default {
     name: 'TeachersCard',
     props: {
@@ -85,31 +110,35 @@ import CookingFeed from './CookingFeed.vue';
     CookingFeed
 },
     methods:{
+      moment(date){
+          return moment(date).format("ll")
+      },
+      sendLove(){
+        console.log("love sent to teacher");
+      },
       showCooking(){
-        this.loadingCooking = true
         this.videoId = getIdFromURL(this.e1t1.te_latest_cooking_yt_link) 
         this.dialog = true
-        const config = {
-          headers: {"content-type": "multipart/form-data",
-              "Authorization": this.$auth.strategy.token.get()
-          }
-        };
-        EventService.getWhatsCookingId(this.e1t1.te_latest_cooking_uuid).then(res => {
-          this.loadingCooking = false
-          this.cook = res.data
-          // patch video watched
-          if(!this.e1t1.te_latest_cooking_watched){
-            let formName = new FormData();
-            formName.append("te_latest_cooking_watched", true);
-            formName.append("id", this.e1t1['id']);
-            this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.e1t1.uuid, formName, config).then(res=>{
-            console.log(res);
-            this.e1t1.te_latest_cooking_watched = !this.e1t1.te_latest_cooking_watched
-          })}
-        }).catch(error=>{
-          this.loadingCooking = false
-          console.log(error);
-        })
+        // const config = {
+        //   headers: {"content-type": "multipart/form-data",
+        //       "Authorization": this.$auth.strategy.token.get()
+        //   }
+        // };
+        // EventService.getWhatsCookingId(this.e1t1.te_latest_cooking_uuid).then(res => {
+        //   this.loadingCooking = false
+        //   this.cook = res.data
+        //   if(!this.e1t1.te_latest_cooking_watched){
+        //     let formName = new FormData();
+        //     formName.append("te_latest_cooking_watched", true);
+        //     formName.append("id", this.e1t1['id']);
+        //     this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.e1t1.uuid, formName, config).then(res=>{
+        //     console.log(res);
+        //     this.e1t1.te_latest_cooking_watched = !this.e1t1.te_latest_cooking_watched
+        //   })}
+        // }).catch(error=>{
+        //   this.loadingCooking = false
+        //   console.log(error);
+        // })
       },
       goToE1t1(uuid){
         this.$router.push('/e1t1/'+uuid)
@@ -118,30 +147,12 @@ import CookingFeed from './CookingFeed.vue';
     computed: {
       img_height () {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 73
-        case 'sm': return 73
+        case 'xs': return 104
+        case 'sm': return 134
         case 'md': return 134
         case 'lg': return 134
         case 'xl': return 134
       }
-      },
-      card_width () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 110
-          case 'sm': return 110
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
-        }
-      },
-      card_height() {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
-        }
       },
       height () {
         switch (this.$vuetify.breakpoint.name) {

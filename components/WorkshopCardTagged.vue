@@ -3,17 +3,14 @@
     <v-card 
       data-view v-show="workshop"
       :elevation="hover ? 6 : 0"
-      class="transition-swing ma-md-2 ma-1"
+      class="transition-swing"
       outlined
-      :width="card_width" 
-      :max-height="card_height"
       @click="workshopDialog=true"
     >
       <v-img
         v-if = workshop.poster :src = "workshop.poster" 
         :lazy-src= "workshop.poster" 
-        :height="img_height"
-        :width="card_width">
+        :height="img_height">
         <v-btn icon small class="float-right ma-1 white" 
         @click.stop="goToWorkshop">
         <v-icon color="black" small>mdi-calendar-heart</v-icon>
@@ -29,8 +26,7 @@
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"
         contain
-        :height="img_height"
-        :width="card_width">
+        :height="img_height">
         <v-btn  icon small class="float-right ma-1 white" 
         @click.stop="goToWorkshop">
         <v-icon color="black" small>mdi-calendar-heart</v-icon>
@@ -104,31 +100,14 @@ import CountryFlag from 'vue-country-flag'
         ...mapGetters(['loggedInUser' ,'isAuthenticated']),
         img_height () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 73
-          case 'sm': return 73
+          case 'xs': return 104
+          case 'sm': return 134
           case 'md': return 134
           case 'lg': return 134
-          case 'xl': return 134
+          case 'xl': return 184
         }
         },
-        card_width () {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 110
-            case 'sm': return 110
-            case 'md': return 205
-            case 'lg': return 205
-            case 'xl': return 205
-          }
-        },
-        card_height() {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 105
-            case 'sm': return 105
-            case 'md': return 205
-            case 'lg': return 205
-            case 'xl': return 205
-          }
-        }
+        
       },
       methods:{
         addToJourney(){
@@ -155,7 +134,7 @@ import CountryFlag from 'vue-country-flag'
   max-width:177px; 
   font-size:0.8rem!important;
 }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 420px) {
   .width{
   width: 80px;
   height: 1.3em;

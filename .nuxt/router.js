@@ -13,7 +13,6 @@ const _1a849212 = () => interopDefault(import('../pages/dashboard/index.vue' /* 
 const _7ac35c41 = () => interopDefault(import('../pages/e1t1/index.vue' /* webpackChunkName: "pages/e1t1/index" */))
 const _36934671 = () => interopDefault(import('../pages/events/index.vue' /* webpackChunkName: "pages/events/index" */))
 const _0c96444e = () => interopDefault(import('../pages/help/index.vue' /* webpackChunkName: "pages/help/index" */))
-const _3c7a0c70 = () => interopDefault(import('../pages/journeys.vue' /* webpackChunkName: "pages/journeys" */))
 const _eacd02b8 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _15a75e5f = () => interopDefault(import('../pages/logout.vue' /* webpackChunkName: "pages/logout" */))
 const _474e58a4 = () => interopDefault(import('../pages/mypayments.vue' /* webpackChunkName: "pages/mypayments" */))
@@ -29,7 +28,6 @@ const _d9ad562c = () => interopDefault(import('../pages/whatiscooking/index.vue'
 const _1c41fd6c = () => interopDefault(import('../pages/workshops/index.vue' /* webpackChunkName: "pages/workshops/index" */))
 const _246f0a57 = () => interopDefault(import('../pages/write_blog.vue' /* webpackChunkName: "pages/write_blog" */))
 const _7173c001 = () => interopDefault(import('../pages/artists/legacy.vue' /* webpackChunkName: "pages/artists/legacy" */))
-const _3ab7fa88 = () => interopDefault(import('../pages/artists/testing.vue' /* webpackChunkName: "pages/artists/testing" */))
 const _0da0c1ee = () => interopDefault(import('../pages/create/each1teach1.vue' /* webpackChunkName: "pages/create/each1teach1" */))
 const _064c2748 = () => interopDefault(import('../pages/create/event.vue' /* webpackChunkName: "pages/create/event" */))
 const _6cd0c402 = () => interopDefault(import('../pages/create/journey.vue' /* webpackChunkName: "pages/create/journey" */))
@@ -110,10 +108,6 @@ export const routerOptions = {
     component: _0c96444e,
     name: "help"
   }, {
-    path: "/journeys",
-    component: _3c7a0c70,
-    name: "journeys"
-  }, {
     path: "/login",
     component: _eacd02b8,
     name: "login"
@@ -173,10 +167,6 @@ export const routerOptions = {
     path: "/artists/legacy",
     component: _7173c001,
     name: "artists-legacy"
-  }, {
-    path: "/artists/testing",
-    component: _3ab7fa88,
-    name: "artists-testing"
   }, {
     path: "/create/each1teach1",
     component: _0da0c1ee,

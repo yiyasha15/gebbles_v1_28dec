@@ -1,6 +1,6 @@
 <template>
     <v-card elevation="0" color="background" class="mx-2 mx-sm-0 pa-md-4 pa-2 text-center" rounded="lg">
-            <!-- <v-icon size="26" color="secondary" class="mb-4">mdi-brush-outline</v-icon> -->
+        <!-- <v-icon size="26" color="secondary" class="mb-4">mdi-brush-outline</v-icon> -->
         <!-- <h3 class="pa-2 pa-md-3 font-weight-light text-left"> Share your story... </h3> -->
         <div class="pa-2">
             <div top v-if="desktop">

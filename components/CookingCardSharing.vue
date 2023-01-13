@@ -3,31 +3,26 @@
     <v-card
       data-view
       :elevation="hover ? 6 : 0"
-      class="transition-swing ma-md-2 ma-1"
+      class="transition-swing"
       outlined
-      :width="card_width" 
-      :max-height="card_height"
     >
     <v-img v-if="cook.cookingidobj.thumbjs"
     class="pointer"
       @click="goToCook(cook.cookingidobj.uuid)"
         :src="cook.cookingidobj.thumbjs"
         :height="img_height"
-        :width="card_width" 
       />
       <v-img v-else-if="cook.cookingidobj.video"
       class="pointer"
       @click="goToCook(cook.cookingidobj.uuid)"
       :src="youtube_thumb"
-      :height="img_height"
-      :width="card_width" />
+      :height="img_height" />
       <v-img v-else
       class="pointer"
       @click="goToCook(cook.cookingidobj.uuid)"
         :src="require('@/assets/gebbleslogo3.png')"
         contain
         :height="img_height"
-        :width="card_width" 
       />
       <v-card-actions>
         <div class="text-decoration-none caption width">
@@ -65,29 +60,11 @@
         computed:{
           img_height () {
           switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 73
-            case 'sm': return 73
+            case 'xs': return 104
+            case 'sm': return 134
             case 'md': return 134
             case 'lg': return 134
-            case 'xl': return 134
-          }
-        },
-        card_width () {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 110
-            case 'sm': return 110
-            case 'md': return 205
-            case 'lg': return 205
-            case 'xl': return 205
-          }
-        },
-        card_height() {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 105
-            case 'sm': return 105
-            case 'md': return 205
-            case 'lg': return 205
-            case 'xl': return 205
+            case 'xl': return 184
           }
         }
         },

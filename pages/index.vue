@@ -169,11 +169,6 @@ max-width: 670px;
 .home_width{
 max-width: 980px;
 }
-@media only screen and (max-width: 960px) {
-.width{
-  max-width: 357px;
-}
-}
 .ml-17{
 margin-left: 160px;
 }

@@ -54,12 +54,6 @@
     "chunkName": "pages/help/index"
   },
   {
-    "name": "journeys",
-    "path": "/journeys",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/journeys.vue",
-    "chunkName": "pages/journeys"
-  },
-  {
     "name": "login",
     "path": "/login",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/login.vue",
@@ -148,12 +142,6 @@
     "path": "/artists/legacy",
     "component": "/Users/yiyasha/Documents/inmygroove/pages/artists/legacy.vue",
     "chunkName": "pages/artists/legacy"
-  },
-  {
-    "name": "artists-testing",
-    "path": "/artists/testing",
-    "component": "/Users/yiyasha/Documents/inmygroove/pages/artists/testing.vue",
-    "chunkName": "pages/artists/testing"
   },
   {
     "name": "create-each1teach1",

@@ -1,21 +1,17 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card class="transition-swing ma-md-2 ma-1 rounded-sm"
+    <v-card class="transition-swing rounded-sm"
       data-view
       @click="dialog=true"
       :elevation="hover ? 6 : 0"
-      outlined 
-      :width="card_width" 
-      :max-height="card_height">
+      outlined >
       <!-- <youtube :width="card_width" :height="img_height" :video-id= 'videoId' v-if="videoId"></youtube> -->
     <v-img v-if="cook.thumbjs" class="rounded-sm"
       :src="cook.thumbjs"
-      :height="img_height"
-      :width="card_width" />
+      :height="img_height"/>
     <v-img v-else class="rounded-sm"
       :src="youtube_thumb"
-      :height="img_height"
-      :width="card_width" />
+      :height="img_height"/>
       <v-dialog
         :retain-focus="false"
         v-model="dialog"
@@ -71,30 +67,12 @@ import { getIdFromURL } from 'vue-youtube-embed'
         computed:{
         img_height () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 83
-          case 'sm': return 83
+          case 'xs': return 104
+          case 'sm': return 144
           case 'md': return 144
           case 'lg': return 144
-          case 'xl': return 144
+          case 'xl': return 184
         }
-        },
-        card_width () {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 110
-            case 'sm': return 110
-            case 'md': return 205
-            case 'lg': return 205
-            case 'xl': return 205
-          }
-        },
-        card_height() {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 115
-            case 'sm': return 115
-            case 'md': return 205
-            case 'lg': return 205
-            case 'xl': return 205
-          }
         },
         },
         methods:{

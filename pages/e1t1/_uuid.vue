@@ -4,7 +4,6 @@
         <v-btn icon class="elevation-0  " @click="goback()" >
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
-        <!-- {{ e1t1 }} -->
         <!-- <v-row>
             <v-col class="py-0">
             <h5 class="caption font-weight-light" >

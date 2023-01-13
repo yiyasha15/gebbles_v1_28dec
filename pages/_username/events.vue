@@ -16,17 +16,18 @@
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised</p>
             </v-tab>
             <v-tab-item>
-                <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
-                <v-layout wrap justify-start v-if="firstLoadGoing" class="pt-2 background">
-                    <div v-for="n in this.looploader" :key ="n.index">
-                    <card-skeleton-loader></card-skeleton-loader>
-                    </div>
-                </v-layout>
-                <v-layout wrap justify-start v-show="!firstLoadGoing" class=" mx-auto width pt-2 background" >
-                    <div v-for="event in goingEvents" :key ="event.index">
-                        <events-card-going v-if="event.event" :event="event"></events-card-going>
-                    </div>
-                </v-layout>
+                <div class="ml-1 py-2 grey--text caption text-center">
+                    <v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn> to add the attended events to your journey</div>
+                    <v-row class="ma-0" v-if="firstLoadGoing">
+                        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+                        <card-skeleton-loader></card-skeleton-loader>
+                        </v-col>
+                    </v-row>
+                    <v-row class="ma-0" v-show="!firstLoadGoing">
+                        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="event in goingEve" :key ="event.index">
+                            <events-card-going :event="event"></events-card-going>
+                        </v-col>
+                    </v-row>
                 <v-card v-intersect="infiniteScrollingGoingEvents"></v-card>
                 <center v-if="!goingEvents.length && !firstLoadGoing" class="background mt-4">
                     <img
@@ -39,16 +40,16 @@
             <v-tab-item>
                 <div class="ml-1 py-2 grey--text caption text-center"><v-btn icon x-small outlined class="mr-1"><v-icon x-small>mdi-plus</v-icon> </v-btn>  to add the invited events to your journey</div>
                 <!-- tagged events -->
-                <v-layout wrap  justify-start v-if="firstLoadTagged" class="pt-2 background">
-                    <div v-for="n in this.looploader" :key ="n.index">
+                <v-row class="ma-0" v-if="firstLoadTagged">
+                    <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
-                    </div>
-                </v-layout>
-                <v-layout wrap justify-start v-show="!firstLoadTagged" class=" mx-auto width pt-2 background" >
-                    <div v-for="event in taggedEvents" :key ="event.index">
-                        <events-card-tagged v-if="event.event" :event="event"></events-card-tagged>
-                    </div>
-                </v-layout>
+                    </v-col>
+                </v-row>
+                <v-row class="ma-0" v-show="!firstLoadTagged">
+                    <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="event in taggedEve" :key ="event.index">
+                        <events-card-tagged :event="event"></events-card-tagged>
+                    </v-col>
+                </v-row>
                 <v-card v-intersect="infiniteScrollingTaggedEvents"></v-card>
                 <center v-if="!taggedEvents.length && !firstLoadTagged" class="mt-4 background">
                     <img
@@ -60,16 +61,16 @@
             </v-tab-item>
             <v-tab-item>
                 <div class="ml-1 py-2 grey--text caption text-center">all the events you organised</div>
-                <v-layout wrap justify-start v-if="firstLoadOrg" class="pt-2 background">
-                    <div v-for="n in this.looploader" :key ="n.index">
+                <v-row class="ma-0" v-if="firstLoadOrg">
+                    <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
                     <card-skeleton-loader></card-skeleton-loader>
-                    </div>
-                </v-layout>
-                <v-layout wrap justify-start v-show="!firstLoadOrg" class=" mx-auto width pt-2 background" >
-                    <div v-for="event in orgEvents" :key ="event.index">
+                    </v-col>
+                </v-row>
+                <v-row class="ma-0" xl="3" v-show="!firstLoadOrg">
+                    <v-col cols="4" class="pa-1 pa-sm-2" v-for="event in orgEvents" :key ="event.index">
                         <events-card-organised :event="event"></events-card-organised>
-                    </div>
-                </v-layout>
+                    </v-col>
+                </v-row>
                 <v-card v-intersect="infiniteScrollingOrgEvents"></v-card>
                 <center v-if="!orgEvents.length && !firstLoadOrg" class="background mt-4">
                     <img
@@ -113,7 +114,17 @@ export default {
 },
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser'
-     ])
+     ]),
+    taggedEve: function(){
+    return this.taggedEvents.filter((eve) => {
+    return eve.event;
+    });
+    },
+    goingEve: function(){
+    return this.goingEvents.filter((eve) => {
+    return eve.event;
+    });
+    }
     },
     props: ["artist"],
     middleware : 'check_auth',
@@ -338,11 +349,11 @@ export default {
 <style scoped>
 
 .width{
-    max-width: 670px;
+    max-width: 1070px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1900px) {
   .width{
-  max-width: 357px;
+  max-width: 670px;
 }
 }
 </style>

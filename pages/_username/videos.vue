@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <left-navigation></left-navigation>
-        <v-container style="max-width:670px;" class="pa-0 background">
+        <v-container class="pa-0 width mx-auto background">
             <v-btn icon class="elevation-0 mt-1 " @click="goback()" >
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
@@ -13,18 +13,17 @@
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Mentioned</p>
             </v-tab>
             <v-tab-item class="background">
-                <div class="py-2 grey--text caption text-center">all your videos are private, except your last post</div>
-            <!-- <div class="ml-1 py-2"></div> -->
-            <v-layout wrap justify-start v-show="firstLoadY"  >
-                <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader class="ma-md-2 ma-1"></card-skeleton-loader>
-                </div>
-            </v-layout>
-            <v-layout wrap justify-start v-show="!firstLoadY" >
-                <div v-for="cook in cooking" :key ="cook.index">
+            <div class="py-2 grey--text caption text-center">all your videos are private, except your last post</div>
+            <v-row class="ma-0" v-show="firstLoadY" >
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+                <card-skeleton-loader></card-skeleton-loader>
+                </v-col>
+            </v-row>
+            <v-row class="ma-0" v-show="!firstLoadY" >
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="cook in cooking" :key ="cook.index">
                 <cooking-card :cook="cook" @postDelete="postDelete"></cooking-card>
-                </div>
-            </v-layout>
+                </v-col>
+            </v-row>
             <center v-if="!cooking.length && !firstLoadY">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -34,17 +33,17 @@
             </center>
             </v-tab-item>
             <v-tab-item class="background">
-                <div class="py-2 grey--text caption text-center">all the videos where you are mentioned</div>
-            <v-layout wrap justify-start v-show="firstLoadM" >
-                <div v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader class="ma-md-2 ma-1"></card-skeleton-loader>
-                </div>
-            </v-layout>
-            <v-layout wrap justify-start v-show="!firstLoadM" >
-                <div v-for="cook in cooking_mentioned" :key ="cook.index">
+            <div class="py-2 grey--text caption text-center">all the videos where you are mentioned</div>
+            <v-row class="ma-0" v-show="firstLoadM" >
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+                <card-skeleton-loader></card-skeleton-loader>
+                </v-col>
+            </v-row>
+            <v-row class="ma-0" v-show="!firstLoadM" >
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="cook in cooking_mentioned" :key ="cook.index">
                     <cooking-card-sharing :cook="cook" ></cooking-card-sharing> 
-                </div>
-            </v-layout>
+                </v-col>
+            </v-row>
             <center v-if="!cooking_mentioned.length && !firstLoadM">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -172,13 +171,12 @@ export default {
 }
 </script>
 <style scoped>
-
 .width{
-    max-width: 670px;
+    max-width: 1070px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1900px) {
   .width{
-  max-width: 357px;
+  max-width: 670px;
 }
 }
 </style>

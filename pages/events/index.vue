@@ -144,23 +144,23 @@
           </v-text-field>
         </v-col>
       </v-row>
-      <v-layout wrap row justify-start v-if="firstLoad" >
-        <div v-for="n in this.looploader" :key ="n.index">
+      <v-row v-show="firstLoad">
+        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
           <card-skeleton-loader></card-skeleton-loader>
-        </div>
-      </v-layout>
-      <v-layout wrap row justify-start v-show="!firstLoad" >
-        <div v-for="event in events" :key ="event.index">
+        </v-col>
+      </v-row>
+      <v-row v-show="!firstLoad">
+        <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="event in events" :key ="event.index">
           <events-card :event="event" ></events-card> 
-        </div>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-card v-intersect="infiniteScrolling"></v-card>
       <center v-if="!events.length && !firstLoad">
         <img
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
         :src="require('@/assets/gebbleslogo_tab.png')"/>
-        <h3>No events found. </h3>
+        <p class="grey--text mt-4">No events found. </p>
       </center>
       </v-container>
     </v-app>
@@ -554,11 +554,11 @@ export default {
 </script>
 <style scoped>
 .width{
-    max-width: 670px;
+    max-width: 1070px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1900px) {
   .width{
-  max-width: 357px;
+  max-width: 670px;
 }
 }
 </style>

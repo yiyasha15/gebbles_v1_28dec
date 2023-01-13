@@ -4,28 +4,26 @@
             <h3 style="text-transform: capitalize;">Each one Teach one</h3>
             <div v-if="!firstLoad">
                 <div v-if="teachers.length">
-                <v-layout wrap justify-start class="my-2" >
-                    <div v-for="share in teachers" :key ="share.index">
+                    <v-row v-show="!firstLoad" >
+                    <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="share in teachers" :key ="share.index">
                         <TeachersCard :e1t1="share" ></TeachersCard>
-                    </div>
-                </v-layout>
+                    </v-col>
+                    </v-row>
                 </div>
                 <center v-else>
                     <img
                     :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
                     class="ml-2 mt-6 clickable"
                     :src="require('@/assets/gebbleslogo_tab.png')"/>
-                    <h4>No each one teach one yet. </h4>
+                        <p class="grey--text mt-4">No posts found. </p>
                 </center>
                 <v-card v-intersect="infiniteScrollingTeacher"></v-card>
             </div>
-            <div v-else>
-                <v-layout wrap row justify-start class="my-2">
-                <div v-for="n in this.looploader" :key ="n.index">
-                    <card-skeleton-loader></card-skeleton-loader>
-                </div>
-            </v-layout>
-            </div>
+            <v-row v-else>
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+                <card-skeleton-loader></card-skeleton-loader>
+                </v-col>
+            </v-row>
         </v-container>
     </v-app>
 </template>
@@ -112,13 +110,12 @@ export default {
 }
 </script>
 <style scoped>
-
 .width{
-    max-width: 670px;
+    max-width: 1070px;
   }
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1900px) {
   .width{
-  max-width: 357px;
+  max-width: 670px;
 }
 }
 </style>

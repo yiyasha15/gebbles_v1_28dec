@@ -189,7 +189,7 @@ export default {
           case 'sm': return 410
           case 'md': return 410
           case 'lg': return 410
-          case 'xl': return 410
+          case 'xl': return 510
         }
       },
     },

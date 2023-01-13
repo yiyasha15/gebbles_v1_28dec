@@ -1,24 +1,20 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card class="transition-swing ma-md-2 ma-1"
+    <v-card class="transition-swing"
       data-view
       :to="'/events/' + event.uuid" 
       :elevation="hover ? 6 : 0"
       outlined
-      :width="cardwidth" 
-      :max-height="cardheight"
     >
       <v-img
         v-if = event.poster :src = "event.poster" 
         :lazy-src= "event.poster" 
         :height="img_height"
-        :width="cardwidth"
       />
       <v-img
         v-else :src="require('@/assets/gebbleslogo3.png')"
         contain
         :height="img_height"
-        :width="cardwidth"
       />
       <v-card-actions height="32px">
         <div class="text-decoration-none caption width">
@@ -46,31 +42,13 @@ import CountryFlag from 'vue-country-flag'
         CountryFlag
       },
       computed:{
-        cardheight () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 105
-          case 'sm': return 105
-          case 'md': return 205
-          case 'lg': return 205
-          case 'xl': return 205
-        }
-        },
-        cardwidth () {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 110
-            case 'sm': return 110
-            case 'md': return 205
-            case 'lg': return 205
-            case 'xl': return 205
-          }
-        },
         img_height () {
           switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 73
-            case 'sm': return 73
+            case 'xs': return 104
+            case 'sm': return 134
             case 'md': return 134
             case 'lg': return 134
-            case 'xl': return 134
+            case 'xl': return 184
           }
         },
       }
