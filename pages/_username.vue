@@ -719,7 +719,7 @@ export default {
     computed: {
         ...mapGetters(['isAuthenticated','usersBio', 'loggedInUser', 'userHasPortfolio','usersPortfolio', 'notifications', 'notifications_notseen']),
     },
-    async asyncData({error, params}) {
+    async asyncData({ params}) {
         //save api call for loggged in page
         // if(store.state.auth.loggedIn && params.username == store.state.portfolio.username) 
         // {
@@ -729,18 +729,15 @@ export default {
         //     }
         // }
         // else{}
-          try {
-          let artist_response = await EventService.getArtist(params.username)
-          let bio_response = await EventService.getBio(params.username)
+        try {
+        let artist_response = await EventService.getArtist(params.username)
+        let bio_response = await EventService.getBio(params.username)
         return {
             artist: artist_response.data,
             bio: bio_response.data,
-        }} catch (err) {
-            error('userNotFound');
-            if(err.response.status=='404')
-            {
-                console.log("user doesn't exist");
-            }
+        }
+        } catch (err) {
+            console.log(err, err.response);
         }
     },
     layout: 'username',

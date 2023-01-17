@@ -72,7 +72,7 @@
                         </v-slide-item>
                         <v-slide-item>
                             <div>
-                            <div v-if="!imageData3 " @click="onPick(3)" style="cursor:pointer;" class="rounded-lg grey_background pa-9 pa-sm-16" >
+                            <div v-if="!imageData3" @click="onPick(3)" style="cursor:pointer;" class="rounded-lg grey_background pa-9 pa-sm-16" >
                                 <v-icon>mdi-plus</v-icon>
                                 <input 
                                 type="file" 
@@ -198,6 +198,7 @@
                             :maxlength="255"
                             :rules="urlRules">
                         </v-text-field>
+                        <youtube width="100%" :video-id= 'videoId'></youtube>
                         </v-form>
                     <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
                     <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->
@@ -276,12 +277,16 @@ import { Slider, SliderItem } from "vue-easy-slider";
 import { mapGetters } from 'vuex'
 import CountryFlag from 'vue-country-flag'
 import GebblesDivider from '@/components/GebblesDivider.vue'
+import { Youtube } from 'vue-youtube';
+import { getIdFromURL } from 'vue-youtube-embed'
+
 export default {
     components: {
         Slider,
         SliderItem,
         CountryFlag,
         GebblesDivider,
+        Youtube
     },
     created (){
         // console.log(this.$route.params, Object.keys(this.$route.params).length === 0);
@@ -355,6 +360,9 @@ export default {
             case 'xl': return 400
             }
         },
+        videoId(){
+            return getIdFromURL(this.journey.joytlink)
+        }
     },
     data(){
         return {

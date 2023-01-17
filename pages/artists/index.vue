@@ -45,7 +45,7 @@
       :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
       class="ml-2 mt-6 clickable"
       :src="require('@/assets/gebbleslogo_tab.png')"/>
-      <h3>No artists found. </h3>
+        <p class="grey--text mt-4">No artist found. </p>
     </center>
     </v-container>
   </v-app>
@@ -101,7 +101,7 @@ methods:{
     this.page = response.data.next
     this.firstLoad = false
   } catch (e) {
-      console.log(e);
+      console.log(e, e.response);
       this.firstLoad = false
   }
   },

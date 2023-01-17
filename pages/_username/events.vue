@@ -9,10 +9,10 @@
             <v-tab>
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending</p>
             </v-tab>
-            <v-tab>
+            <v-tab @click="getTaggedEvents">
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited</p>
             </v-tab>
-            <v-tab>
+            <v-tab @click="getMyOrganizedEvents" >
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised</p>
             </v-tab>
             <v-tab-item>
@@ -129,8 +129,8 @@ export default {
     props: ["artist"],
     middleware : 'check_auth',
     created(){
-        this.getMyOrganizedEvents();
-        this.getTaggedEvents();
+        // this.getMyOrganizedEvents();
+        // this.getTaggedEvents();
         this.getGoingEvents();
     },
     data() {
@@ -156,15 +156,16 @@ export default {
         window.history.back();
     },
     async getMyOrganizedEvents(){
+        if(this.firstLoadOrg){
         try {
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": this.$auth.strategy.token.get()}
             };
-        const response = await EventService.getMyOrganizedEvents(config);
-        // console.log(response);
-        const orgEvents = response.data.results
-        //filter events which are duplicate
+            const response = await EventService.getMyOrganizedEvents(config);
+            console.log(response);
+            const orgEvents = response.data.results
+            //filter events which are duplicate
             // a Set to track seen events
             // const seen = new Set();
             this.orgEvents = orgEvents.filter(event => {
@@ -178,21 +179,21 @@ export default {
             return !isDuplicate;
             });
             // console.log(filtered);
-        this.pageOrg = response.data.next
-        this.firstLoadOrg = false
+            this.pageOrg = response.data.next
+            this.firstLoadOrg = false
         } catch (e) {
             console.log(e);
             this.firstLoadOrg = false
-        }
+        }}
     },
     async getTaggedEvents(){
-        try {
+        if(this.firstLoadTagged){try {
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": this.$auth.strategy.token.get()}
             };
         const response = await EventService.getMyInvitedEvents(config);
-        // console.log(response);
+        console.log(response);
         const taggedEvents = response.data.results
         //filter events which are duplicate
             // a Set to track seen events
@@ -212,7 +213,7 @@ export default {
         } catch (e) {
             console.log(e);
             this.firstLoadTagged = false
-        }
+        }}
     },
     async getGoingEvents(){
         try {
@@ -221,7 +222,7 @@ export default {
                 "Authorization": this.$auth.strategy.token.get()}
             };
         const response = await EventService.getMyGoingEvents(config);
-        // console.log(response);
+        console.log(response);
         const goingEvents = response.data.results
         //filter events which are duplicate
             // a Set to track seen events

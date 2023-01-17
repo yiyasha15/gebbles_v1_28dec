@@ -86,7 +86,7 @@
       Daylight</a></div>
     </center> -->
     <creation-box></creation-box>
-    <LearnShare :artist="loggedInUser" class="width mx-auto" ></LearnShare>
+    <LearnShareCreate :artist="loggedInUser" ></LearnShareCreate>
   </div>
 
 </template>
@@ -94,7 +94,7 @@
 <script>
 import {mapGetters} from 'vuex'
 import CreationBox from '~/components/CreationBox.vue'
-import LearnShare from '~/components/LearnShare.vue';
+import LearnShareCreate from '~/components/LearnShareCreate.vue';
 export default {
 head() {  //head function (a property of vue-meta), returns an object
   return {
@@ -115,8 +115,8 @@ created(){
   }
 },
 components: {
-  CreationBox,
-  LearnShare
+    CreationBox,
+    LearnShareCreate
 },
 data() {
   return {
@@ -162,9 +162,6 @@ computed: {
 <style scoped>
 a:hover{
 color: black;
-}
-.width{
-max-width: 670px;
 }
 .home_width{
 max-width: 980px;

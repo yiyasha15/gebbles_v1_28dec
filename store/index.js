@@ -307,7 +307,7 @@ export const actions = {
       {
         commit('usersJourney',res.data)
       }).catch(err =>
-      {console.log(err.response.data);})
+      {console.log("jourrr",err.response,err.response.data);})
   },
   update_user_journey({commit, state}){
     if(state.page_journey) {

@@ -9,7 +9,7 @@
             <v-tab>
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Yours<v-icon size="small" class="pl-2">mdi-lock</v-icon></p>
             </v-tab>
-            <v-tab>
+            <v-tab @click="getwhatiscookingmentioned">
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Mentioned</p>
             </v-tab>
             <v-tab-item class="background">
@@ -92,7 +92,6 @@ export default {
     },
     created(){
         this.getwhatiscooking();
-        this.getwhatiscookingmentioned();
     },
     data() {
     return {
@@ -118,7 +117,7 @@ export default {
         };
         try {
             const response = await EventService.getWhatsCookingUsername(config)
-            // console.log(response); 
+            console.log(response); 
             this.cooking = response.data.results
             this.cooking_page = response.data.next
             this.firstLoadY = false
@@ -128,20 +127,21 @@ export default {
         }
     },
     async getwhatiscookingmentioned(){
-      try {
+        if(this.firstLoadM)
+        {try {
         const config = {
         headers: {"content-type": "multipart/form-data",
             "Authorization": this.$auth.strategy.token.get()}
         };
         const response = await EventService.getStudentsCooking(this.artist.username, config)
-        // console.log(response);
+        console.log(response);
         this.cooking_mentioned = response.data.results
         this.cooking_mentioned_page = response.data.next
         this.firstLoadM = false
         } catch (e) {
         console.log(e);
         this.firstLoadM = false
-    }
+        }}
     },
     infiniteScrolling() {
       if(this.cooking_mentioned_page){

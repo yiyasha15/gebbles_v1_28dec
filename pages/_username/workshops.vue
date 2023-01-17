@@ -9,10 +9,10 @@
             <v-tab>
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Attending</p>
             </v-tab>
-            <v-tab>
+            <v-tab @click="getTaggedWorkshops">
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Invited</p>
             </v-tab>
-            <v-tab>
+            <v-tab @click="getMyOrganizedWorkshops">
                 <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Organised</p>
             </v-tab>
             <v-tab-item>
@@ -138,8 +138,8 @@ export default {
         }
     },
     created(){
-        this.getMyOrganizedWorkshops();
-        this.getTaggedWorkshops();
+        // this.getMyOrganizedWorkshops();
+        // this.getTaggedWorkshops();
         this.getGoingWorkshops();
     },
     methods: {
@@ -147,13 +147,14 @@ export default {
         window.history.back();
     },
     async getMyOrganizedWorkshops(){
-        try {
+        if(this.firstLoadOrg)
+        {try {
         const config = {
         headers: {"content-type": "multipart/form-data",
             "Authorization": this.$auth.strategy.token.get()}
         };
         const response = await EventService.getMyOrganizedWorkshops(config);
-        // console.log(response);
+        console.log(response);
         const orgWorkshops = response.data.results
         //filter Workshops which are duplicate
         // a Set to track seen Workshops
@@ -174,16 +175,17 @@ export default {
         } catch (e) {
             console.log(e);
             this.firstLoadOrg = false
-        }
+        }}
     },
     async getTaggedWorkshops(){
-        try {
+        if(this.firstLoadTagged)
+        {try {
             const config = {
             headers: {"content-type": "multipart/form-data",
                 "Authorization": this.$auth.strategy.token.get()}
             };
         const response = await EventService.getMyInvitedWorkshops(config);
-        // console.log(response);
+        console.log(response);
         const taggedWorkshops = response.data.results
         //filter Workshops which are duplicate
         // a Set to track seen Workshops
@@ -203,7 +205,7 @@ export default {
         } catch (e) {
             console.log(e);
             this.firstLoadTagged = false
-        }
+        }}
     },
     async getGoingWorkshops(){
         try {
@@ -212,7 +214,7 @@ export default {
                 "Authorization": this.$auth.strategy.token.get()}
             };
         const response = await EventService.getMyGoingWorkshops(config);
-        // console.log(response);
+        console.log(response);
         const goingWorkshops = response.data.results
         //filter Workshops which are duplicate
             // a Set to track seen Workshops

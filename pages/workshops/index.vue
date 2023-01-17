@@ -160,7 +160,7 @@
         :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
         class="ml-2 mt-6 clickable"
         :src="require('@/assets/gebbleslogo_tab.png')"/>
-        <h3>No workshops found. </h3>
+        <p class="grey--text mt-4">No workshops found. </p>
       </center>
       </v-container>
     </v-app>
