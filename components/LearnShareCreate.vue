@@ -5,12 +5,12 @@
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learn</p>
             <!-- <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p> -->
         </v-tab>
-        <v-tab v-if="!studentAccess" @click="getShare">
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Share</p>
-            <!-- <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p> -->
-        </v-tab>
         <v-tab v-if="!studentAccess" @click="getCreate">
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Create</p>
+            <!-- <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p> -->
+        </v-tab>
+        <v-tab v-if="!studentAccess" @click="getShare">
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Share</p>
             <!-- <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p> -->
         </v-tab>
         <v-tab-item class="background">
@@ -42,27 +42,6 @@
             </center>
         </v-tab-item>
         <v-tab-item class="background">
-            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
-            <v-row class="ma-0" v-if="students.length && !firstLoadS">
-                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="share in students" :key ="share.index">
-                    <StudentsCard :share="share" ></StudentsCard>
-                </v-col>
-            </v-row>
-            <v-row class="ma-0" v-if="firstLoadS">
-                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
-                <card-skeleton-loader></card-skeleton-loader>
-                </v-col>
-            </v-row>
-            <center v-if="!students.length && !firstLoadS">
-                <img
-                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
-                class="ml-2 mt-6 clickable"
-                :src="require('@/assets/gebbleslogo_tab.png')"/>
-                <p class="grey--text mt-4">No posts found. </p>
-            </center>
-            <v-card v-intersect="infiniteScrollingStudents" class="background"></v-card>
-        </v-tab-item>
-        <v-tab-item class="background">
             <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-play-outline</v-icon> artists that mentioned you</div>
             <v-row class="ma-0" v-if="cooking_mentioned.length && !firstLoadC">
                 <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="cook in cooking_mentioned" :key ="cook.index">
@@ -82,6 +61,27 @@
                 <p class="grey--text mt-4">No posts found. </p>
             </center>
             <v-card v-intersect="infiniteScrollingMentioned" class="background"></v-card>
+        </v-tab-item>
+        <v-tab-item class="background">
+            <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
+            <v-row class="ma-0" v-if="students.length && !firstLoadS">
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="share in students" :key ="share.index">
+                    <StudentsCard :share="share" ></StudentsCard>
+                </v-col>
+            </v-row>
+            <v-row class="ma-0" v-if="firstLoadS">
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+                <card-skeleton-loader></card-skeleton-loader>
+                </v-col>
+            </v-row>
+            <center v-if="!students.length && !firstLoadS">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                <p class="grey--text mt-4">No posts found. </p>
+            </center>
+            <v-card v-intersect="infiniteScrollingStudents" class="background"></v-card>
         </v-tab-item>
     </v-tabs>
     <div v-else class="width mx-auto background">

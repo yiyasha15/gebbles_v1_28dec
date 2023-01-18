@@ -198,7 +198,9 @@
                             :maxlength="255"
                             :rules="urlRules">
                         </v-text-field>
-                        <youtube width="100%" :video-id= 'videoId'></youtube>
+                        <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
+                            <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
+                        </v-row>
                         </v-form>
                     <v-btn color="black" text small outlined @click="e6 = 2">Next</v-btn>
                     <!-- <v-btn color="black" text @click="e6 = 1">Previous</v-btn> -->

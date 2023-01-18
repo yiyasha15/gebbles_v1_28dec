@@ -206,7 +206,7 @@
                         </v-form>
                         <v-btn v-if="event_published || editing_event_obj" outlined small class="text-decoration-none"  color="black"
                         @click="update" :loading="progressbar" >Update</v-btn>
-                        <v-btn color="black" text small outlined @click="saveAndAdd" :loading="publish_progressbar" v-if="!event_published && !editing_event_obj">Publish and continue</v-btn>
+                        <v-btn color="black" text small outlined @click="saveAndAdd" :loading="publish_progressbar" v-if="!event_published && !editing_event_obj">Publish to continue</v-btn>
                         <v-btn color="black" text small outlined @click="e6 =2" v-else>Continue</v-btn>
                     </v-stepper-content>
             
@@ -216,6 +216,8 @@
                     <v-stepper-content step="2" style="border-left: none;" class="ma-0">
                         <!-- <p class="caption"><v-icon small> mdi-book-outline</v-icon> Event guests can add this event to their journey.</p> -->
                         <v-form ref="guest_form">
+
+                    <v-btn outlined small class="text-decoration-none"  color="black" v-if="!ownTags" @click="ownTagging">Own Workshop</v-btn>
                         <div v-if="!guest.photo" @click="onPick(4)" style="cursor:pointer; max-width:274px;" class=" mx-auto my-2 rounded-lg grey_background" >
                             <v-icon class="pa-image">mdi-plus</v-icon>
                             <input 
@@ -255,10 +257,13 @@
                                 v-bind="data.attrs"
                                 :input-value="data.selected"
                                 close
-                                @click:close="artist_obj = null; guest.guest = ''; guest_error=''"
+                                @click:close="artist_obj = null; guest.guest = ''; guest.name = '';guest.country = '';guest.photo = ''; guest_error=''; ownTags=!ownTags"
                                 >
                                 <v-avatar v-if="data.item.thumb" left>
                                     <v-img :src="data.item.thumb"></v-img>
+                                </v-avatar>
+                                <v-avatar v-else-if="data.item.profile_photo" left>
+                                    <v-img :src="data.item.profile_photo"></v-img>
                                 </v-avatar>
                                 <v-avatar v-else left>
                                     <v-icon dark>
@@ -1495,6 +1500,8 @@ import "vue-croppa/dist/vue-croppa.css";
 import GuestCardCreate from '~/components/GuestCardCreate.vue';
 Vue.use(Croppa);
 import GebblesDivider from './GebblesDivider.vue';
+import { Youtube } from 'vue-youtube';
+import { getIdFromURL } from 'vue-youtube-embed'
 export default {
     components: { 
         GebblesDivider,
@@ -1502,7 +1509,8 @@ export default {
         SliderItem,
         CountryFlag,
         CategoryCardCreate,
-        GuestCardCreate 
+        GuestCardCreate,
+        Youtube
     },
     created (){
         if(this.$store.state.editing_event_obj)
@@ -1550,6 +1558,9 @@ export default {
             case 'xl': return 300
             }
         },
+        videoId(){
+            return getIdFromURL(this.event.videolink)
+        }
     },
     data(){
         return {
@@ -1738,6 +1749,7 @@ export default {
                 uuid:'',
                 username:this.$store.state.auth.user.username
             },
+            ownTags:false,
             saveUuid:'',
             delete_guest_dialog:false,
             delete_organiser_dialog:false,
@@ -2656,7 +2668,17 @@ export default {
             }
             // this.$router.push("/events/"+this.event.uuid);
         },
-        //update guests
+        
+
+        ownTagging(){
+            this.ownTags = !this.ownTags
+            this.artist_obj = this.loggedInUser
+            this.guest.guest = this.loggedInUser.username
+            this.guest.country = this.loggedInUser.country
+            this.guest.photo = this.loggedInUser.profile_photo
+            this.guest.name = this.loggedInUser.username
+        },
+
         async addGuests(){
             if(this.saveUuid){
                 if(this.$refs.guest_form.validate()){

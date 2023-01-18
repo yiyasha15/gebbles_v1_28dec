@@ -35,6 +35,7 @@
                         counter
                         :rules="nameRules">
                     </v-text-field>
+                    <v-btn outlined small class="text-decoration-none"  color="black" v-if="!ownTags" @click="ownTagging">Own Workshop</v-btn>
                     <v-combobox
                         v-model="artist_obj"
                         :items="artists"
@@ -55,10 +56,13 @@
                             v-bind="data.attrs"
                             :input-value="data.selected"
                             close
-                            @click:close="artist_obj = null; workshop.teacher1 = '';"
+                            @click:close="artist_obj = null; workshop.teacher1 = ''; workshop.name1 = ''; workshop.country1 = ''; workshop.photo1 = ''; ownTags = !ownTags"
                             >
                             <v-avatar v-if="data.item.thumb" left>
                                 <v-img :src="data.item.thumb"></v-img>
+                            </v-avatar>
+                            <v-avatar v-else-if=" data.item.profile_photo" left>
+                                <v-img :src="data.item.profile_photo"></v-img>
                             </v-avatar>
                             <v-avatar v-else left>
                                 <v-icon dark>
@@ -166,6 +170,9 @@
                         :maxlength="255"
                         counter>
                     </v-text-field>
+                    <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
+                        <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
+                    </v-row>
                     <v-text-field prepend-icon="mdi-email"
                         v-model = "workshop.contact_email"
                         label= "Email ID"
@@ -203,13 +210,15 @@ import Vue from "vue";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 import VueTimepicker from 'vue2-timepicker'
+import { Youtube } from 'vue-youtube';
+import { getIdFromURL } from 'vue-youtube-embed'
 
 // CSS
 import 'vue2-timepicker/dist/VueTimepicker.css'
 Vue.use(Croppa);
 import GebblesDivider from './GebblesDivider.vue';
 export default {
-    components: { GebblesDivider, VueTimepicker },
+    components: { GebblesDivider, VueTimepicker, Youtube },
     created (){
         if(this.$store.state.editing_workshop_obj)
         {
@@ -244,6 +253,11 @@ export default {
             case 'xl': return 300
             }
         },
+        videoId(){
+            if(this.workshop.videolink){
+                return getIdFromURL(this.workshop.videolink)
+            }
+        }
     },
     data(){
         return {
@@ -280,6 +294,7 @@ export default {
             image_snackbar:false,
             error_snackbar:false,
             text:'',
+            ownTags:false,
             countries: [
                 {"name": "Afghanistan", "code": "AF"},
                 {"name": "Åland Islands", "code": "AX"},
@@ -751,6 +766,14 @@ export default {
             this.progressbar =false
         }
     },
+    ownTagging(){
+        this.ownTags = !this.ownTags
+        this.artist_obj = this.loggedInUser
+        this.workshop.teacher1 = this.loggedInUser.username
+        this.workshop.country1 = this.loggedInUser.country
+        this.workshop.photo1 = this.loggedInUser.profile_photo
+        this.workshop.name1 = this.loggedInUser.username
+    }
     }
 }
 </script>

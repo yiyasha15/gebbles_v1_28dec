@@ -14,6 +14,9 @@
                                 v-model = "cookingForm.video"
                                 label= "*Youtube link">
                             </v-text-field>
+                            <v-row v-if="videoId" class=" justify-center text-center mt-2 mb-4">
+                                <youtube width="auto" height="100%"  :video-id= 'videoId'></youtube>
+                            </v-row>
                             <v-textarea
                                 v-model = "cookingForm.lesson"
                                 label= "Share what you're exploring..">
@@ -116,8 +119,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import GebblesDivider from './GebblesDivider.vue';
+import { Youtube } from 'vue-youtube';
+import { getIdFromURL } from 'vue-youtube-embed'
 export default {
-    components: { GebblesDivider },
+    components: { GebblesDivider, Youtube },
     created(){
         this.$store.dispatch("check_user_teachers");
         this.usersTeacher= this.usersTeachers
@@ -164,14 +169,17 @@ export default {
     computed: {
         ...mapGetters(['isAuthenticated','loggedInUser', 'usersTeachers','cook_obj']),
         img_width () {
-                switch (this.$vuetify.breakpoint.name) {
-                case 'xs': return 240
-                case 'sm': return 240
-                case 'md': return 280
-                case 'lg': return 300
-                case 'xl': return 350
-                }
-            },
+            switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return 240
+            case 'sm': return 240
+            case 'md': return 280
+            case 'lg': return 300
+            case 'xl': return 350
+            }
+        },
+        videoId(){
+            return getIdFromURL(this.cookingForm.video)
+        }
     },
     methods:{
         clear(){

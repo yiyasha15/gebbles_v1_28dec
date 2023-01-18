@@ -24,6 +24,8 @@
                 <cooking-card :cook="cook" @postDelete="postDelete"></cooking-card>
                 </v-col>
             </v-row>
+
+            <v-card v-intersect="infiniteScrollingYours"></v-card>
             <center v-if="!cooking.length && !firstLoadY">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -44,6 +46,7 @@
                     <cooking-card-sharing :cook="cook" ></cooking-card-sharing> 
                 </v-col>
             </v-row>
+            <v-card v-intersect="infiniteScrolling"></v-card>
             <center v-if="!cooking_mentioned.length && !firstLoadM">
                 <img
                 :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
@@ -155,6 +158,25 @@ export default {
         response.data.results.forEach(item => this.cooking_mentioned.push(item));
         // filter array so no duplicates
         this.cooking_mentioned = [...new Map(this.cooking_mentioned.map(item =>
+          [item[key], item])).values()];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      }
+    },
+    infiniteScrollingYours() {
+      if(this.cooking_page){
+      const key = 'id';
+      const config = {
+        headers: {"content-type": "multipart/form-data",
+            "Authorization": this.$auth.strategy.token.get()}
+        };
+      this.$axios.get(this.cooking_page, config).then(response => {
+        this.cooking_page= response.data.next;
+        response.data.results.forEach(item => this.cooking.push(item));
+        // filter array so no duplicates
+        this.cooking = [...new Map(this.cooking.map(item =>
           [item[key], item])).values()];
       })
       .catch(err => {

@@ -74,6 +74,12 @@
                                 </template>
                             </template>
                         </v-combobox>
+                        <v-text-field 
+                            prepend-icon="mdi-account-outline"
+                            v-model = "sharing.s_teacher_name"
+                            label= "Artist's name"
+                            :maxlength="255" >
+                        </v-text-field>
                         <v-autocomplete
                         prepend-icon="mdi-earth"
                         :items="countries"
@@ -139,12 +145,13 @@
                             label= "Share about what you learnt from them."
                             >
                         </v-textarea>
+                        <small>You can upload a video of your shared memories or some of your learnings on youtube and share the link.</small>
                         <v-text-field
                             :error-messages="ytLinkError" 
                             :maxlength="255"
                             counter
                             v-model= "sharing.s_teacher_video"
-                            label="Youtube link"
+                            label="YouTube link"
                             prepend-icon="mdi-youtube"
                             
                             :rules="youtubeRules"
@@ -532,6 +539,7 @@ export default {
         }else{
             this.sharing.s_teacher_name = ""
             this.sharing.teacher = "" 
+            this.sharing.s_teacher_country = ""
             console.log(this.sharing);
         }
       }
@@ -566,7 +574,7 @@ export default {
             if(t_name == 'object') //if teacher exists then changing the value of teacher to username 
             {
                 this.sharing.teacher = this.teacher_obj.username
-                this.sharing.s_teacher_name = this.teacher_obj.username 
+                this.sharing.s_teacher_name = this.teacher_obj.artist_name 
                 this.sharing.s_teacher_country = this.teacher_obj.country
             }
             else

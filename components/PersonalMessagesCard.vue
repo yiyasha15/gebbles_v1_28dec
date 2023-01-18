@@ -23,13 +23,26 @@
       persistent>
       <v-container class="rounded-lg white pa-2">
       <!-- <v-col cols="12" align="end" justify="end"> -->
-      <v-btn icon color="error" class="float-right" @click="personalDialog=false">
+        <v-btn icon color="error" class="float-right" @click="personalDialog=false">
           <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-btn icon class="float-right" >
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+              <span v-bind="attrs"
+              v-on="on" class="caption">
+              <v-icon size="20">mdi-lock</v-icon></span>
+          </template>
+          <span>Messages are unencrypted.</span>
+        </v-tooltip>
       </v-btn>
       <!-- </v-col> -->
       <v-col cols="12" class="pa-0 pa-md-2">
-      <v-row class="mt-3 mx-0">
-          <v-col cols="12" class="justify-center ">
+      <v-row class="mt-3 mx-0" >
+        <!-- <v-btn icon class="float-right" @click="personalDialog=false">
+            <v-icon>mdi-lock</v-icon>
+        </v-btn> -->
+          <v-col cols="12">
               <h4 class ="font-weight-medium grey--text text--darken-1">Chat room ({{e1t1.s_teacher_name}}, {{e1t1.username}}) </h4>
           </v-col>
       </v-row> 
