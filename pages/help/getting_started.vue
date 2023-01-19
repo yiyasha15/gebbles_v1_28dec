@@ -7,6 +7,10 @@
         <h3 class="font-weight-medium d-inline">
            <v-icon size="36">mdi-flag-checkered</v-icon> Getting started
         </h3>
+        <p class="grey--text text--darken-1 mt-3">
+            Hello, what's up everybody.
+            Before starting out .. 
+        </p>
     </v-container>
 </v-app>
 </template>

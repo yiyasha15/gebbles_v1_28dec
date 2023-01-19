@@ -2,7 +2,7 @@
     <v-app>
         <left-navigation></left-navigation>
         <v-container class="pa-0 background mx-auto width">
-            <v-btn icon class="elevation-0 mt-1 " @click="goback()">
+            <v-btn icon class="elevation-0 mt-1 " @click="goback()" >
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
             <v-tabs class="width mx-auto background" centered>

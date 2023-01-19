@@ -2,12 +2,12 @@
     <v-app>
         <left-navigation></left-navigation>
         <v-container class="width background">
-            <v-btn icon class="elevation-0 my-2" @click="goback()" style="margin-left:-6px" v-if="artist.username != loggedInUser.username">
+            <v-btn icon class="elevation-0 mb-3" @click="goback()" style="margin-left:-6px" v-if="artist.username != loggedInUser.username">
                 <v-icon class="float-left">mdi-arrow-left</v-icon>
             </v-btn>
             <div v-show="!journeyLoaded">
                 <div v-if=" journey.length">
-                <div class="d-flex mx-3 mb-3" v-if="artist.username == loggedInUser.username">
+                <div class="d-flex mb-3" v-if="artist.username == loggedInUser.username">
                     <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
                         <v-icon class="float-left">mdi-arrow-left</v-icon>
                     </v-btn>
@@ -102,8 +102,12 @@ export default {
     }
     },
     props: ["artist"],
-    created(){
-        this.getJourneyApi(this.artist.username);
+    // created(){
+    //     this.getJourneyApi(params.username);
+    // },
+    async asyncData({ params, store}) {
+        store.dispatch("remove_journey");
+        store.dispatch("check_user_journey", params.username)
     },
     data() {
         return {

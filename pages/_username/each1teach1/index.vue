@@ -2,7 +2,7 @@
     <v-app>
         <left-navigation></left-navigation>
         <v-container class="pa-0 width background">
-        <v-btn icon class="elevation-0 mt-1 " @click="goback()" style="margin-left:-6px">
+        <v-btn icon class="elevation-0 mx-3 mt-3 " @click="goback()" >
             <v-icon class="float-left">mdi-arrow-left</v-icon>
         </v-btn>
         <LearnShare :artist="artist"></LearnShare>
@@ -15,7 +15,7 @@ import LeftNavigation from '@/components/LeftNavigation.vue'
 import LearnShare from '~/components/LearnShare.vue'
 
 export default {
-    middleware : 'check_auth',
+    // middleware : 'check_auth',
     props: ['artist'],
     components: {
     LeftNavigation,

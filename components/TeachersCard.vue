@@ -23,7 +23,7 @@
         </v-img>
         <v-card-actions height="32px">
           <div class="caption width">
-          <nuxt-link :to="'/'+ e1t1.s_teacher_name" class="text-decoration-none" v-if="e1t1.teacher"><p class="event_p">{{e1t1.s_teacher_name}} </p></nuxt-link>
+          <nuxt-link :to="'/'+ e1t1.teacher" class="text-decoration-none" v-if="e1t1.teacher"><p class="event_p">{{e1t1.s_teacher_name}} </p></nuxt-link>
           <p class="event_p" v-else>{{e1t1.s_teacher_name}} </p>
           </div>
           <v-spacer></v-spacer>

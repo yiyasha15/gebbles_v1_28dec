@@ -5,7 +5,7 @@
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learn</p>
             <!-- <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p> -->
         </v-tab>
-        <v-tab v-if="!studentAccess" @click="getCreate">
+        <v-tab v-if="!studentAccess" @click="getYours">
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Create</p>
             <!-- <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p> -->
         </v-tab>
@@ -42,6 +42,29 @@
             </center>
         </v-tab-item>
         <v-tab-item class="background">
+            <div class="py-2 grey--text caption text-center">all your videos are private, except your last post</div>
+            <v-row class="ma-0" v-show="firstLoadY" >
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+                <card-skeleton-loader></card-skeleton-loader>
+                </v-col>
+            </v-row>
+            <!-- {{ cooking }} -->
+            <v-row class="ma-0" v-show="!firstLoadY" >
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="cook in cooking" :key ="cook.index">
+                <cooking-card :cook="cook" @postDelete="postDelete"></cooking-card>
+                </v-col>
+            </v-row>
+
+            <v-card v-intersect="infiniteScrollingYours"></v-card>
+            <center v-if="!cooking.length && !firstLoadY">
+                <img
+                :height="$vuetify.breakpoint.smAndDown ? 42 : 62"
+                class="ml-2 mt-6 clickable"
+                :src="require('@/assets/gebbleslogo_tab.png')"/>
+                <p class="grey--text mt-4">No videos found. </p>
+            </center>
+            </v-tab-item>
+        <!-- <v-tab-item class="background">
             <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-play-outline</v-icon> artists that mentioned you</div>
             <v-row class="ma-0" v-if="cooking_mentioned.length && !firstLoadC">
                 <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="cook in cooking_mentioned" :key ="cook.index">
@@ -61,7 +84,7 @@
                 <p class="grey--text mt-4">No posts found. </p>
             </center>
             <v-card v-intersect="infiniteScrollingMentioned" class="background"></v-card>
-        </v-tab-item>
+        </v-tab-item> -->
         <v-tab-item class="background">
             <div class="ml-1 py-2 grey--text text-center caption"> <v-icon small>mdi-all-inclusive</v-icon> artists that gave <b>{{artist.username}}</b> a shoutout</div>
             <v-row class="ma-0" v-if="students.length && !firstLoadS">
@@ -99,6 +122,7 @@ import TeachersCard from '@/components/TeachersCard.vue'
 import { mapGetters} from 'vuex'
 import CardSkeletonLoader from '~/components/CardSkeletonLoader.vue'
 import CookingCardSharing from './CookingCardSharing.vue'
+import CookingCard from './CookingCard.vue'
 
 export default {
     middleware : 'check_auth',
@@ -107,7 +131,8 @@ export default {
     StudentsCard,
     TeachersCard,
     CardSkeletonLoader,
-    CookingCardSharing
+    CookingCardSharing,
+    CookingCard
 }, 
     computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser','usersTeachers','userHasTeachers'])
@@ -195,6 +220,30 @@ export default {
             }
         }
         },
+        async getYours(){
+        // console.log("sup");
+        if(this.firstLoadY){
+            const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()}
+            };
+            try {
+                const response = await EventService.getWhatsCookingUsername(config)
+                console.log(response); 
+                this.cooking = response.data.results
+                this.cooking_page = response.data.next
+                this.firstLoadY = false
+            } catch (e) {
+                console.log(e);
+                this.firstLoadY = false
+            }
+        }
+        },
+        postDelete(){
+        this.cooking=[];
+        this.firstLoadY = true
+        this.getYours();
+        },
         infiniteScrollingTeacher(entries, observer, isIntersecting) {
             if(this.teachers_page)
             {
@@ -256,6 +305,25 @@ export default {
             });
         }
         },
+        infiniteScrollingYours() {
+        if(this.cooking_page){
+        const key = 'id';
+        const config = {
+            headers: {"content-type": "multipart/form-data",
+                "Authorization": this.$auth.strategy.token.get()}
+            };
+        this.$axios.get(this.cooking_page, config).then(response => {
+            this.cooking_page= response.data.next;
+            response.data.results.forEach(item => this.cooking.push(item));
+            // filter array so no duplicates
+            this.cooking = [...new Map(this.cooking.map(item =>
+            [item[key], item])).values()];
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        }
+        },
     },
     created(){
         if(!this.$auth.strategy.token.get()){
@@ -297,8 +365,11 @@ export default {
         studentAccess:false,
         cooking_mentioned_page:"",
         cooking_mentioned:[],
+        cooking_page:'',
+        cooking:[],
         firstLoadC: true,
-        firstLoadS:true
+        firstLoadS:true,
+        firstLoadY:true
     }
   },
 }

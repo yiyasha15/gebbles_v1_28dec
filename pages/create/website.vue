@@ -6,10 +6,11 @@
             <h2 class="font-weight-medium" align="center" justify="center" v-if="!userHasBio && !userHasPortfolio">Create your portfolio</h2>
             <h2 class="font-weight-medium" align="center" justify="center" v-if="userHasBio && userHasPortfolio">Edit your portfolio</h2>
         <!-- <v-divider class="mx-4" ></v-divider> -->
-            <v-row  class="mt-md-8 mt-5">
+        <v-row  class="mt-md-8 mt-5">
                 <!-- hidden-sm-and-down -->
             <v-col cols="12" md="6" sm="7" >
                 <v-row class="pb-3 justify-center text-center">
+                    <!-- <v-img :src="initialImage"></v-img> -->
                     <croppa
                         :accept="'image/*'"
                         v-model="cropImage"
@@ -262,6 +263,7 @@
                 </v-row>
             </v-col> -->
         </v-row>
+        {{ usersPortfolio }}
         <v-snackbar v-model="snackbar" >
             Changes saved successfully.
         </v-snackbar>
