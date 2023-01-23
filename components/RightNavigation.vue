@@ -156,12 +156,12 @@
             <v-list-item-title>Journey</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
-        <v-list-item :to="'/' +loggedInUser.username+ '/videos/'">
+        <v-list-item :to="'/' +loggedInUser.username+ '/mentions/'">
             <v-list-item-icon>
                 <v-icon>mdi-play-circle-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-            <v-list-item-title>Videos</v-list-item-title>
+            <v-list-item-title>Mentions</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
         <v-list-item :to="'/' +loggedInUser.username+ '/each1teach1/'">

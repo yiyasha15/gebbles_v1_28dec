@@ -117,19 +117,19 @@
                         <span class="caption" v-if="info">{{info}}</span>
                     </v-col>
                 </v-row>
-            <v-dialog v-model="dialog" width="500">
-                <v-card class="pa-4">
-                    <p>Are you sure you want to delete the video?</p>
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
-                        @click="deleted">Delete</v-btn>
-                    <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="dialog = false">
-                        Cancel
-                    </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
+                <v-dialog v-model="dialog" width="500">
+                    <v-card class="pa-4">
+                        <p>Are you sure you want to delete the video?</p>
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn small class="px-4 text-decoration-none" color="error" dark :loading="deleteLoading"
+                            @click="deleted">Delete</v-btn>
+                        <v-btn small color="black" class="px-4text-decoration-none" outlined  @click="dialog = false">
+                            Cancel
+                        </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
                 <v-row no-gutters class="mt-5">
                     <v-avatar size="36" v-if="isAuthenticated && userHasPortfolio && usersPortfolio.thumb" >
                     <img

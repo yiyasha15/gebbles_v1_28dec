@@ -224,16 +224,16 @@
         </v-row>
         <v-card v-intersect="infiniteScrollingCooking"></v-card>
     </v-container>  
-    <!-- <center>
+    <center>
         <v-hover
             v-slot="{ hover }">
             <v-btn icon @click="react_love" large class="my-6 transition-swing "
-            :elevation="hover ? 2 : 12">
+            :elevation="hover ? 2 : 6">
                 <v-icon v-if="!share_has_love">mdi-heart-outline</v-icon>
                 <v-icon v-else color="red">mdi-heart</v-icon>
             </v-btn>
         </v-hover>
-    </center> -->
+    </center>
     <v-dialog max-width="550" 
         v-model="upload_video">
         <v-container class="rounded-lg white px-4">
@@ -342,7 +342,7 @@ export default {
             loading: true,
             cardDialog:false,
             gebbles_card_url:'',
-            deleteLoading:false,
+            deleteLoading: false,
             love_id:'',
             videoId:'',
             addDedicated:false,

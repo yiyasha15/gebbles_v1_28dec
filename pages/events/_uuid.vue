@@ -307,6 +307,7 @@ export default {
         // if(this.event.event_guests.length>0)
         // {this.event_guests_team = this.event.event_guests.filter(item => item.category.includes('5'))
         // this.event.event_guests = this.event.event_guests.filter(item => !item.category.includes('5'))}
+        if(this.isAuthenticated)
         this.checkGoing();
     },
     mounted(){
@@ -349,7 +350,7 @@ export default {
                 info:'',
                 event:'',
                 uuid:'',
-                username:this.$store.state.auth.user.username
+                username:''
             },
             event:{},
             goingList:[],

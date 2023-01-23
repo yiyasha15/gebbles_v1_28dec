@@ -74,11 +74,7 @@
         </v-list-item>
         <div class="body-1 feed_content mb-2 mb-md-5 px-md-0 px-4">{{share.st_lesson}}</div>
         <youtube width="100%" :height="height" :video-id= 'videoId' v-if="videoId"></youtube>
-        <center class="my-4">
-          <v-btn icon @click="sendLove">
-            <v-icon size="26">mdi-heart-circle-outline</v-icon>
-          </v-btn>
-        </center>
+        <LikeAndComment :cookuuid="share.st_latest_cooking_uuid"></LikeAndComment>
       </v-container>
     </v-dialog>
     <v-dialog v-model="approveDialog" width="500" persistent>
@@ -103,6 +99,7 @@ import { Youtube } from 'vue-youtube';
 import { getIdFromURL } from 'vue-youtube-embed'
 
 import moment from 'moment'
+import LikeAndComment from './LikeAndComment.vue';
 export default {
   name: 'StudentsCard',
   props: {
@@ -119,8 +116,9 @@ export default {
   },
   components:{
     CountryFlag,
-    Youtube
-  },
+    Youtube,
+    LikeAndComment
+},
   computed: {
   img_height () {
     switch (this.$vuetify.breakpoint.name) {
@@ -151,11 +149,20 @@ export default {
   showCooking(){
     this.videoId = getIdFromURL(this.share.st_latest_cooking_yt_link) 
     this.dialog = true
-    // const config = {
-    //   headers: {"content-type": "multipart/form-data",
-    //       "Authorization": this.$auth.strategy.token.get()
+    const config = {
+      headers: {"content-type": "multipart/form-data",
+          "Authorization": this.$auth.strategy.token.get()
+      }
+    };
+     //   if(!this.share.st_latest_cooking_watched){
+    //     let formName = new FormData();
+    //     formName.append("st_latest_cooking_watched", true);
+    //     formName.append("id", this.share['id']);
+    //     this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.share.uuid, formName, config).then(res=>{
+    //     console.log(res);
+    //     this.share.st_latest_cooking_watched = !this.share.st_latest_cooking_watched;
+    //   })
     //   }
-    // };
     // EventService.getWhatsCookingId(this.share.st_latest_cooking_uuid).then(res => {
     //   this.loadingCooking = false
     //   this.cook = res.data

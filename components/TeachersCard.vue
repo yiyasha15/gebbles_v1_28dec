@@ -61,13 +61,10 @@
                 </v-btn>
             </v-list-item-action> -->
         </v-list-item>
+        <!-- {{ e1t1 }} -->
         <div class="body-1 feed_content mb-2 mb-md-5 px-md-0 px-4">{{e1t1.te_lesson}}</div>
         <youtube width="100%" :height="height" :video-id= 'videoId' v-if="videoId"></youtube>
-        <center class="my-4">
-          <v-btn icon @click="sendLove">
-            <v-icon size="26">mdi-heart-circle-outline</v-icon>
-          </v-btn>
-        </center>
+        <LikeAndComment :cookuuid="e1t1.te_latest_cooking_uuid"></LikeAndComment>
         <!-- <div v-if="loadingCooking">
           <v-skeleton-loader
             type="list-item-avatar-three-line"
@@ -91,6 +88,7 @@ import { getIdFromURL } from 'vue-youtube-embed'
 import EventService from '@/services/EventService.js'
 import CookingFeed from './CookingFeed.vue';
 import moment from 'moment'
+import LikeAndComment from './LikeAndComment.vue';
   export default {
     name: 'TeachersCard',
     props: {
@@ -107,7 +105,8 @@ import moment from 'moment'
     components:{
     CountryFlag,
     Youtube,
-    CookingFeed
+    CookingFeed,
+    LikeAndComment
 },
     methods:{
       moment(date){
@@ -119,6 +118,19 @@ import moment from 'moment'
       showCooking(){
         this.videoId = getIdFromURL(this.e1t1.te_latest_cooking_yt_link) 
         this.dialog = true
+        const config = {
+          headers: {"content-type": "multipart/form-data",
+              "Authorization": this.$auth.strategy.token.get()
+          }
+        };
+           if(!this.e1t1.te_latest_cooking_watched){
+            this.e1t1.te_latest_cooking_watched = !this.e1t1.te_latest_cooking_watched
+            let formName = new FormData();
+            formName.append("te_latest_cooking_watched", true);
+            formName.append("id", this.e1t1['id']);
+            this.$axios.$patch("/v1/e1t1/sharing/watched/"+this.e1t1.uuid, formName, config).then(res=>{
+            console.log(res);
+          })}
         // const config = {
         //   headers: {"content-type": "multipart/form-data",
         //       "Authorization": this.$auth.strategy.token.get()

@@ -196,6 +196,7 @@ export default {
     },
     layout:'simple',
     created(){
+        if(this.isAuthenticated)
         this.checkGoing();
     },
     mounted(){
@@ -522,15 +523,12 @@ export default {
         checkGoing(){
             EventService.getIamGoingWorkshopList(this.workshop.uuid).then(res=>{
             this.goingList = res.data.results;
-            
-            if(this.isAuthenticated){
-                let isGoing = this.goingList.find(artist => artist.username == this.loggedInUser.username);
-                if(isGoing != undefined)
-                {
-                    //change color of button
-                    this.imgoing = true;
-                    this.imgoingId = isGoing.uuid;
-                }
+            let isGoing = this.goingList.find(artist => artist.username == this.loggedInUser.username);
+            if(isGoing != undefined)
+            {
+                //change color of button
+                this.imgoing = true;
+                this.imgoingId = isGoing.uuid;
             }
         })
         },

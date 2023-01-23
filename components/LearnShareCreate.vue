@@ -1,23 +1,25 @@
 <template>
     <!-- {{ firstLoadL }} {{ firstLoadC }} {{ firstLoadS }} -->
-    <v-tabs v-if="!firstLoadL" class="width mx-auto background" centered>
-        <v-tab >
+    <v-tabs v-model="active_tab" v-if="!firstLoadY" class="width mx-auto background" centered>
+        <v-tab @click="getLearn">
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Learn</p>
             <!-- <p class="font-weight-light ma-0" style="font-size:10px; text-transform: lowercase;">(each one)</p> -->
         </v-tab>
-        <v-tab v-if="!studentAccess" @click="getYours">
-            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Create</p>
+        <v-tab>
+            <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Create<v-icon size="small" class="pl-2">mdi-lock</v-icon></p>
             <!-- <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p> -->
         </v-tab>
-        <v-tab v-if="!studentAccess" @click="getShare">
+        <v-tab @click="getShare">
             <p class="font-weight-light pl-2 mb-0" style="text-transform: capitalize; font-size:14px">Share</p>
             <!-- <p class="font-weight-light  ma-0" style="text-transform: lowercase; font-size:10px">(teach one)</p> -->
         </v-tab>
         <v-tab-item class="background">
-            <!-- {{ accessAllowed }}
-            {{ studentAccess }} -->
             <div class="ml-1 py-2 grey--text text-center caption"><v-icon small>mdi-all-inclusive</v-icon> artists <b>{{artist.username}}</b> gave a shoutout to</div>
-            <div v-if="accessAllowed">
+            <v-row class="ma-0" v-show="firstLoadL" >
+                <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="n in this.looploader" :key ="n.index">
+                <card-skeleton-loader></card-skeleton-loader>
+                </v-col>
+            </v-row>
             <div v-if="teachers.length && !firstLoadL">
             <v-row class="ma-0">
                 <v-col cols="4" xl="3" class="pa-1 pa-sm-2" v-for="share in teachers" :key ="share.index">
@@ -33,13 +35,6 @@
                 <p class="grey--text mt-4">No posts found. </p>
             </center>
             <v-card v-intersect="infiniteScrollingTeacher" class="background"></v-card>
-            </div>
-            <center v-else>
-                <p class="grey--text text-center mt-12"><v-icon>mdi-lock</v-icon>
-                    Access is not allowed.</p><p class="grey--text text-center">
-                    To view their each 1 teach 1, you need to give a shoutout and wait for approval.
-                </p>
-            </center>
         </v-tab-item>
         <v-tab-item class="background">
             <div class="py-2 grey--text caption text-center">all your videos are private, except your last post</div>
@@ -177,49 +172,6 @@ export default {
             }
         }
         },
-        async getOthersLearn(){
-            this.studentAccess = true
-            const config = {
-                headers: {
-                    "content-type": "multipart/form-data",
-                    "Authorization": this.$auth.strategy.token.get()
-                }
-            };
-            try {
-            const teachers_response = await EventService.getOthersSharing(this.artist.username, config)
-            console.log("is students",teachers_response);
-            this.teachers = teachers_response.data.results
-            this.teachers_page = teachers_response.data.next
-            this.accessAllowed = true
-            this.firstLoadL = false
-            } catch (e) {
-                this.firstLoadL = false
-                console.log(e.response);
-                if(e.response.data.detail == 'Authentication credentials were not provided.' || e.response.data.detail =='You do not have permission to perform this action.')
-                {
-                    this.accessAllowed= false
-                }
-            }
-        },
-        async getCreate(){
-        if(this.firstLoadC)
-        {
-            try {
-                const config = {
-                headers: {"content-type": "multipart/form-data",
-                    "Authorization": this.$auth.strategy.token.get()}
-                };
-                const response = await EventService.getStudentsCooking(this.artist.username, config)
-                console.log(response);
-                this.cooking_mentioned = response.data.results
-                this.cooking_mentioned_page = response.data.next
-                this.firstLoadC = false
-            } catch (e) {
-                console.log(e);
-                this.firstLoadC = false
-            }
-        }
-        },
         async getYours(){
         // console.log("sup");
         if(this.firstLoadY){
@@ -342,15 +294,7 @@ export default {
 			this.$auth.strategy.token.reset();
 			this.$auth.logout();
         }
-        if(this.artist.username == this.loggedInUser.username)
-        {
-            this.accessAllowed= true;
-            this.getLearn();
-        }
-        else
-        {
-            this.getOthersLearn();
-        }
+        this.getYours();
     },
     data() {
     return {
@@ -361,15 +305,14 @@ export default {
         looploader:[1,1,1,1,1,1,1,1,1],
         loading: true,
         firstLoadL: true,
-        accessAllowed:false,
-        studentAccess:false,
         cooking_mentioned_page:"",
         cooking_mentioned:[],
         cooking_page:'',
         cooking:[],
         firstLoadC: true,
         firstLoadS:true,
-        firstLoadY:true
+        firstLoadY:true,
+        active_tab:1
     }
   },
 }

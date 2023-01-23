@@ -50,9 +50,9 @@ const _51239ca4 = () => interopDefault(import('../pages/_username/about.vue' /* 
 const _5fd40d50 = () => interopDefault(import('../pages/_username/each1teach1/index.vue' /* webpackChunkName: "pages/_username/each1teach1/index" */))
 const _012a9370 = () => interopDefault(import('../pages/_username/events.vue' /* webpackChunkName: "pages/_username/events" */))
 const _8a37e3be = () => interopDefault(import('../pages/_username/journey.vue' /* webpackChunkName: "pages/_username/journey" */))
+const _5cc93338 = () => interopDefault(import('../pages/_username/mentions.vue' /* webpackChunkName: "pages/_username/mentions" */))
 const _7c9c9b12 = () => interopDefault(import('../pages/_username/myhood.vue' /* webpackChunkName: "pages/_username/myhood" */))
 const _930136ee = () => interopDefault(import('../pages/_username/notifications.vue' /* webpackChunkName: "pages/_username/notifications" */))
-const _64501907 = () => interopDefault(import('../pages/_username/videos.vue' /* webpackChunkName: "pages/_username/videos" */))
 const _833dac26 = () => interopDefault(import('../pages/_username/workshops.vue' /* webpackChunkName: "pages/_username/workshops" */))
 
 // TODO: remove in Nuxt 3
@@ -255,6 +255,10 @@ export const routerOptions = {
       component: _8a37e3be,
       name: "username-journey"
     }, {
+      path: "mentions",
+      component: _5cc93338,
+      name: "username-mentions"
+    }, {
       path: "myhood",
       component: _7c9c9b12,
       name: "username-myhood"
@@ -262,10 +266,6 @@ export const routerOptions = {
       path: "notifications",
       component: _930136ee,
       name: "username-notifications"
-    }, {
-      path: "videos",
-      component: _64501907,
-      name: "username-videos"
     }, {
       path: "workshops",
       component: _833dac26,

@@ -193,7 +193,9 @@ export default {
         },
     },
     created(){
-        if(!this.$auth.strategy.token.get()){
+        if(this.isAuthenticated)
+        {
+            if(!this.$auth.strategy.token.get()){
 			console.log("logged out");
 			this.$store.dispatch("remove_portfolio")
 			this.$store.dispatch("remove_bio")
@@ -208,15 +210,20 @@ export default {
 			localStorage.clear()
 			this.$auth.strategy.token.reset();
 			this.$auth.logout();
-        }
-        if(this.artist.username == this.loggedInUser.username)
-        {
-            this.accessAllowed= true;
-            this.getLearn();
-        }
-        else
-        {
-            this.getOthersLearn();
+            }
+            if(this.artist.username == this.loggedInUser.username)
+            {
+                this.accessAllowed= true;
+                this.getLearn();
+            }
+            else
+            {
+                this.getOthersLearn();
+            }
+        }else{
+            this.accessAllowed= false
+            this.firstLoadL = false
+            this.studentAccess = true
         }
     },
     data() {

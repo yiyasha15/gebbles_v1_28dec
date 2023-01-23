@@ -81,6 +81,10 @@
                                 row
                                 >
                                 <v-radio
+                                    label="Private"
+                                    :value="1"
+                                ></v-radio>
+                                <v-radio
                                     label="Tagged Artists"
                                     :value="3"
                                 ></v-radio>
@@ -88,10 +92,10 @@
                                     label="Community"
                                     :value="5"
                                 ></v-radio>
-                                <v-radio
+                                <!-- <v-radio
                                     label="Public"
                                     :value="6"
-                                ></v-radio>
+                                ></v-radio> -->
                             </v-radio-group>
                             <br>
                             <v-btn class="text-decoration-none" small color="black" dark outlined v-if="!cook_obj"
